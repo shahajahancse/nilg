@@ -1,0 +1,213 @@
+<?php
+include 'classes/BanglaConverter.php';
+
+class Backend_Controller extends MY_Controller
+{
+	function __construct()
+	{
+		parent::__construct();
+
+		$this->lang->load('auth');
+		$this->load->model('Common_model');
+
+		// $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
+		$this->form_validation->set_error_delimiters('<div class="alert alert-warning"> <i class="fa fa-warning"></i> ', '</div>');
+		// dd($this->session->all_userdata());
+		$this->userID = $this->session->userdata('user_id');
+		$this->data['request_trainee_no'] = 0;
+		// $this->data['request_trainer_no'] = 0;
+		$this->data['request_training_application_no'] = 0;
+		$this->data['request_staff_no'] = 0;
+		$this->data['request_stor_no'] = 0;
+		$this->data['Joint_director_no'] = 0;
+		$this->data['director_general_no'] = 0;
+		$this->data['pre_exam_notify'] = 0;
+		$this->data['post_exam_notify'] = 0;
+		$this->data['module_exam_notify'] = 0;
+		$this->data['leave_notify'] = 0;
+		$this->data['un_available_item_notify'] = 0;
+
+		if ($this->ion_auth->logged_in()) {
+			// Get User Details
+			$this->data['userDetails'] = $this->Common_model->get_office_info_by_session();
+			$userDetails = $this->data['userDetails'];
+			// dd($this->data['userDetails']);
+			// dd($this->session->all_userdata());
+
+			// Get Groups
+			$users_groups = $this->ion_auth_model->get_users_groups()->result();
+			// dd($users_groups);
+			$groups_array = array();
+			foreach ($users_groups as $group) {
+				$groups_array[$group->id] = $group->description;
+			}
+			$this->data['userGroups'] = implode(',', $groups_array);
+			// dd($this->data['userGroups']);
+			// dd($this->session->all_userdata()); 
+
+			// If not complete yet application submit
+			// if($this->data['userDetails']->is_verify == 0 && $this->data['userDetails']->is_applied == 0){
+			// echo 'Hello'; exit;
+			// Redirct 
+			// redirect('registration/information_form');
+			// header('Location: '.base_url('registration/information_form'));
+			// exit(); 
+
+			// dd($this->data['userDetails']->is_applied);				
+			// }
+
+
+			// Count Request
+			if ($this->ion_auth->in_group('up')) {
+				$office = $this->Common_model->get_office_info_by_session();
+				// dd($office);
+
+				// New trainee request
+				// $this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->div_id, $office->dis_id, $office->upa_id, $office->union_id);
+
+				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->crrnt_office_id);
+				// dd($this->data['request_trainee_no']);
+
+			} elseif ($this->ion_auth->in_group('paura')) {
+				$office = $this->Common_model->get_office_info_by_session();
+				// dd($office);
+
+				// New trainee request
+				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->crrnt_office_id);				
+				// dd($this->data['request_no']);
+
+			} elseif ($this->ion_auth->in_group('uz')) {
+				$office = $this->Common_model->get_office_info_by_session();
+				// dd($office);
+
+				// New trainee request
+				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->crrnt_office_id);				
+				// dd($this->data['request_no']);
+
+				// New training application notification
+				$this->data['request_training_application_no'] = $this->Common_model->get_training_applicaiton_by_office_count($office->crrnt_office_id);
+
+			} elseif ($this->ion_auth->in_group('zp')) {
+				$office = $this->Common_model->get_office_info_by_session();
+				// dd($office);
+
+				// New trainee request
+				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->crrnt_office_id);				
+				// dd($this->data['request_no']);
+
+			} elseif ($this->ion_auth->in_group('ddlg')) {
+				$office = $this->Common_model->get_office_info_by_session();
+				// dd($office);
+
+				// New trainee request
+				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->crrnt_office_id);				
+				// dd($this->data['request_no']);
+
+				// New training application notification
+				$this->data['request_training_application_no'] = $this->Common_model->get_training_applicaiton_by_office_count($office->crrnt_office_id);
+
+			} elseif ($this->ion_auth->in_group('city')) {
+				$office = $this->Common_model->get_office_info_by_session();
+				// dd($office);
+
+				// New trainee request
+				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->crrnt_office_id);				
+				// dd($this->data['request_no']);
+
+			} elseif ($this->ion_auth->in_group('partner')) {
+				$office = $this->Common_model->get_office_info_by_session();
+				// dd($office);
+
+				// New trainee request
+				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->crrnt_office_id);				
+				// dd($this->data['request_no']);			
+
+			//} elseif ($this->ion_auth->in_group('ddlg')) {
+				// exit('o1');
+				//$office = $this->Common_model->get_office_info_by_session();
+				// dd($office);
+
+				// New trainee request
+				// $this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->div_id, $office->dis_id, $office->upa_id, $office->union_id); 				
+				// dd($this->data['request_no']);
+
+			} elseif (func_nilg_auth($userDetails->office_type,$userDetails->crrnt_desig_id)=='sk' && $this->ion_auth->in_group('trainee')) {
+				// nilg stor manager Notification
+				// exit('o5');
+				$this->data['request_stor_no'] = $this->Common_model->get_stor_manager_notify_count();
+				// echo "<pre>"; print_r($this->data['request_stor_no']); exit;		
+
+			} elseif (func_nilg_auth($userDetails->office_type,$userDetails->crrnt_desig_id)=='jd' && $this->ion_auth->in_group('trainee')) {
+				// nilg joint director Notification
+				// exit('o6');
+				$this->data['Joint_director_no'] = $this->Common_model->get_joint_director_notify_count();
+
+			} elseif (func_nilg_auth($userDetails->office_type,$userDetails->crrnt_desig_id)=='dg' && $this->ion_auth->in_group('trainee')) {
+				// nilg director general Notification
+				// exit('o7');
+				$this->data['director_general_no'] = $this->Common_model->get_director_general_notify_count();
+
+			} elseif (func_nilg_auth($userDetails->office_type) == 'employee' && $this->ion_auth->in_group('trainee')) {
+				// exit('o4');
+				// nilg staff Notification
+				$this->data['request_staff_no'] = $this->Common_model->get_nilg_staff_notify_count();
+				$this->data['un_available_item_notify']  = $this->Common_model->get_un_available_item_notify_count();
+
+			} elseif ($this->ion_auth->in_group('trainee')) {
+				// exit('o2');
+				// $office = $this->Common_model->get_office_info_by_session();
+				// dd($office);
+
+				// $take_exam = $this->Common_model->get_my_exam_participant_count();
+				// dd($take_exam);
+
+				// Pre Exam Notification
+				$this->data['pre_exam_notify'] = $this->Common_model->get_my_exam_notify_count(1);
+				$this->data['post_exam_notify'] = $this->Common_model->get_my_exam_notify_count(2);
+				$this->data['module_exam_notify'] = $this->Common_model->get_my_exam_notify_count(3);
+
+			} elseif ($this->ion_auth->in_group('nilg')) {
+				// exit('ok');
+				$office = $this->Common_model->get_office_info_by_session();
+				// dd($office);
+
+				// New trainee request
+				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count();
+				// New trainer request
+				// $this->data['request_trainer_no'] = $this->Common_model->get_applicaiton_trainer_request_count();
+				// NILG employee pending leave count
+				$this->data['leave_notify'] = $this->Common_model->get_employee_leave_count();			
+				// dd($this->data['request_no']);
+
+				// New training application notification
+				$this->data['request_training_application_no'] = $this->Common_model->get_training_applicaiton_by_office_count($office->crrnt_office_id);
+
+			} elseif ($this->ion_auth->is_admin()) {
+				// exit('o3');
+				$office = $this->Common_model->get_office_info_by_session();
+				// dd($office);
+
+				// New trainee request
+				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count();
+				// $this->data['request_trainer_no'] = $this->Common_model->get_applicaiton_trainer_request_count();
+				// dd($this->data['request_no']);
+				// dd($this->data['request_trainer_no']); 
+
+				// New training application notification
+				$this->data['request_training_application_no'] = $this->Common_model->get_training_applicaiton_by_office_count();
+
+			} else {
+				// exit('o8');
+				$office = $this->Common_model->get_office_info_by_session();
+				// New trainer request
+				// $this->data['request_trainer_no'] = $this->Common_model->get_applicaiton_trainer_request_count();
+			}
+			// exit('o9');
+		}
+		// exit('10');
+
+		// Default Value
+		$this->data['meta_title'] = 'জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি)';
+		$this->data['domain_title'] = 'এনআইএলজি - ইআরপি';
+	}
+}

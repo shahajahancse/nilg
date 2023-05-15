@@ -1,0 +1,98 @@
+<div class="page-content">     
+   <div class="content">  
+      <ul class="breadcrumb" style="margin-bottom: 20px;">
+         <li> <a href="<?=base_url('dashboard')?>" class="active"> ড্যাশবোর্ড </a> </li>
+         <li> <a href="<?=base_url('inventory')?>" class="active"> <?=$module_name; ?> </a></li>
+         <li><?=$meta_title; ?> </li>
+      </ul>
+
+      <div class="row-fluid">
+         <div class="span12">
+            <div class="grid simple ">
+               <div class="grid-title">
+                  <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
+                  <div class="pull-right">                
+                     <a href="<?=base_url('inventory/item_create')?>" class="btn btn-blueviolet btn-xs btn-mini">আইটেম এন্ট্রি করুন</a>  
+                  </div>
+               </div>
+
+               <div class="grid-body ">
+                  <div id="infoMessage"><?php //echo $message;?></div>            
+                  <?php if($this->session->flashdata('success')):?>
+                     <div class="alert alert-success">
+                        <?php echo $this->session->flashdata('success');?>
+                     </div>
+                  <?php endif; ?>
+
+                  <table class="table table-hover table-condensed" id="examples">
+                     <thead>
+                        <tr>
+                           <th style="width:2%"> ক্রম </th>
+                           <th style="width:12%">ক্যাটেগরি</th>
+                           <th style="width:12%">সাব ক্যাটেগরি</th>
+                           <th style="width:20%">আইটেম নাম</th>
+                           <th style="width:8%">ইউনিট</th>
+                           <th style="width:8%">কুয়ান্টিটি</th>
+                           <th style="width:10%">অরডার লেভেল</th>
+                           <th style="width:8%">স্ট্যাটাস</th>
+                           <th style="width:12%" class="text-center">অ্যাকশন</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <?php 
+                        $sl = $pagination['current_page'];
+                        foreach ($results as $row) {
+                           $sl++;
+                           if($row->status == 1){
+                              $status = 'এনাবল';
+                           }else{
+                              $status = 'ডিজাবল';
+                           }
+                           ?>
+                           <tr>
+                              <td class="v-align-middle"><?= eng2bng($sl).'.'?></td>
+                              <td class="v-align-middle"><?=$row->category_name?></td>
+                              <td class="v-align-middle"><?=$row->sub_cate_name?></td>
+                              <td class="v-align-middle"><strong><?=$row->item_name?></strong></td>
+                              <td class="v-align-middle"><?=$row->unit_name?></td>
+                              <td class="v-align-middle"><strong><?= eng2bng($row->quantity); ?></strong></td>
+                              <td class="v-align-middle"><?= eng2bng($row->order_level); ?></td>
+                              <td class="v-align-middle"><?=$status?></td>
+                              <td align="right">
+                                 <div class="btn-group">
+                                   <button class="btn btn-mini btn-primary">অ্যাকশন</button>
+                                   <button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
+                                    <ul class="dropdown-menu pull-right">
+                                       <li><a href="<?php echo base_url('inventory/item_edit/'.encrypt_url($row->id))?>" target="_blank"><i class="fa fa-pencil-square"></i> এডিট </a></li>
+                                       <?php if($this->ion_auth->is_admin()){ ?> 
+                                       <li><a href="<?php echo base_url('inventory/item_delete/'.$row->id)?>" target="_blank"><i class="fa fa-pencil-square"></i> ডিলেট </a></li>
+                                       <?php } ?>
+                                    </ul>
+                                 </div>
+                              </td>
+                           </tr>
+                        <?php } ?>
+                     </tbody>
+                  </table>
+
+                  <div class="row">
+                     <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> সর্বমোট <span style="color: green; font-weight: bold;"><?php echo eng2bng($total_rows); ?> ইটেম </span></div>
+                     <div class="col-sm-8 col-md-8 text-right">
+                        <?php echo $pagination['links']; ?>
+                     </div>
+                  </div>
+
+               </div>
+            </div>
+         </div>
+      </div> <!-- END ROW -->
+   </div>
+</div>
+
+<script type="text/javascript">
+   /*$(document).ready(function() {
+      $('#examples').DataTable( {
+         "aaSorting": []
+      });
+   });*/
+</script>

@@ -1,0 +1,7 @@
+
+Count user NILG Trainig Course
+> CREATE VIEW `view_user_count_nilg_training` AS SELECT c.id, c.`course_title`, COUNT(`t`.`data_id`) AS user_count FROM `per_nilg_training` AS t RIGHT JOIN course AS c ON c.`id` = t.`nilg_course_id` GROUP BY `t`.`nilg_course_id` ORDER BY c.id ASC
+
+
+Office wise user count only PR and Employee
+> CREATE VIEW `view_user_count_office_type` AS SELECT `users`.`office_type`, `office_type`.`office_type_name`, COUNT(`users`.`id`) AS user_count FROM `users` LEFT JOIN office_type ON `office_type`.`id` = `users`.`office_type` WHERE `users`.`employee_type` IS NOT NULL AND `users`.`is_verify` = 1 GROUP BY `users`.`office_type`
