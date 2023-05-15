@@ -29,7 +29,7 @@ $config['modules_locations'] = array(
 //$config['base_url'] = '';
 
 if($_SERVER['HTTP_HOST'] === 'localhost'){
-    $config['base_url'] = 'http://localhost/nilg-erp/';
+    $config['base_url'] = 'http://localhost/nilg/';
 }else{
     $config['base_url'] = '';
 }

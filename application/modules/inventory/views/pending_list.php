@@ -61,12 +61,15 @@
                               <div class="btn-group">
                                 <button class="btn btn-mini btn-primary">অ্যাকশন</button>
                                 <button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
+
                                 <ul class="dropdown-menu pull-right">
-                                 <?php if(func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id) == 'sk'){ ?>
+                                 <?php //if(func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id) == 'sk'){ ?>
+                                 <?php if ($this->ion_auth->in_group(array('admin','sm','asm'))) { ?>
                                   <li><a href="<?php echo base_url('inventory/change_requisition_status/'.encrypt_url($row->id))?>"><i class="fa fa-user"></i> Approval Status </a></li>
                                   <?php } ?>
                                   <li><a href="<?php echo base_url('inventory/requisition_details/'.encrypt_url($row->id))?>" target="_blank"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
                                 </ul>
+
                               </div>
                            </td>
                         </tr>
