@@ -55,6 +55,7 @@
                 <th class="tg-71hr" width="50" align="center">ক্রম</th>
                 <th class="tg-71hr">আলোচনার বিষয়</th>
                 <th class="tg-71hr" width="150">প্রশিক্ষকের নাম</th>
+                <th class="tg-71hr" width="150">পদবী</th>
                 <th class="tg-71hr" width="100">অ্যাকশন</td>
                 </tr>
 
@@ -67,6 +68,7 @@
                     <td class="tg-031e" align="center"><?=eng2bng($sl)?>।</td>
                     <td class="tg-031e"><?=$row->topic?></td>
                     <td class="tg-031e"><strong><?=$row->name_bn?></strong><br></td>
+                    <td class="tg-031e"><strong><?=$row->desig_name?></strong><br></td>
                     <td class="tg-031e" align="center">                       
                       <?php //if($this->Evaluation_model->is_answerd_trainer_evaluation($row->id)['count'] > 0){
                         if($row->is_answared){

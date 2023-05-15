@@ -617,9 +617,10 @@ class Evaluation_model extends CI_Model {
 
     public function get_training_schedule_with_trainer($trainingID) {
         // result query
-        $this->db->select('t.*, u.name_bn' );
+        $this->db->select('t.*, u.name_bn, dg.desig_name');
         $this->db->from('training_schedule t');  
-        $this->db->join('users u', 'u.id = t.trainer_id', 'LEFT');   
+        $this->db->join('users u', 'u.id = t.trainer_id', 'LEFT');          
+        $this->db->join('designations dg', 'dg.id = u.crrnt_desig_id', 'LEFT'); 
         $this->db->where('t.training_id', $trainingID);
         $this->db->where('t.trainer_id !=', 0);
         $this->db->order_by('id', 'ASC');
