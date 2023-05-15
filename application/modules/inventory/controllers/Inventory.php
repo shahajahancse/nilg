@@ -237,7 +237,7 @@ class Inventory extends Backend_Controller {
       $this->data['userDetails'] = $this->Common_model->get_office_info_by_session();
       $userDetails = $this->data['userDetails'];
 
-      if(!(func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id) == 'sk')){
+      if(!$this->ion_auth->in_group(array('sm','asm'))){
           redirect('dashboard');
       }
 
@@ -467,7 +467,7 @@ class Inventory extends Backend_Controller {
     $this->load->model('Common_model');
     $this->data['userDetails'] = $this->Common_model->get_office_info_by_session();
     $userDetails = $this->data['userDetails'];
-    if(!(func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id) == 'sk')){
+    if(!$this->ion_auth->in_group(array('sm','asm'))){
        redirect('dashboard');
     }
 
