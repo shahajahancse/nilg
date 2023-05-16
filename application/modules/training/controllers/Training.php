@@ -1751,35 +1751,35 @@ class Training extends Backend_Controller {
 
                         $this->upload->initialize($this->set_upload_options($file_name, $this->handbook_path));
 
-                        $this->form_validation->set_rules('userfile', '', 'callback_file_check');
-                        if ($this->form_validation->run() == true){
-                            if($this->upload->do_upload('userfile')) {
-                                $uploadData = $this->upload->data();
+                        // $this->form_validation->set_rules('userfile', '', 'callback_file_check');
+                        // if ($this->form_validation->run() == true){
+                        if($this->upload->do_upload('userfile')) {
+                            $uploadData = $this->upload->data();
 
-                                // print_r($uploadData);
-                                // DB fields
-                                $uploadedFile = $uploadData['file_name'];
-                                $handbook = $this->db->where('id', $lastID)->get('training')->row()->handbook;
+                            // print_r($uploadData);
+                            // DB fields
+                            $uploadedFile = $uploadData['file_name'];
+                            $handbook = $this->db->where('id', $lastID)->get('training')->row()->handbook;
 
-                                if ($handbook != '' && $handbook != null) {
-                                    if (is_array(json_decode($handbook))) {
-                                        $user_data = json_decode($handbook);
-                                        array_push($user_data, $uploadedFile);
+                            if ($handbook != '' && $handbook != null) {
+                                if (is_array(json_decode($handbook))) {
+                                    $user_data = json_decode($handbook);
+                                    array_push($user_data, $uploadedFile);
 
-                                    } else {
-                                        $user_data = array($handbook, $uploadedFile);
-                                    }
                                 } else {
-                                    $user_data  = array($uploadedFile);
+                                    $user_data = array($handbook, $uploadedFile);
                                 }
-                                
-                                $file_data['handbook'] = json_encode($user_data);
-
-                                $this->db->where('id', $lastID)->update('training', $file_data);
-                            }else{
-                                $this->data['message'] = $this->upload->display_errors();
+                            } else {
+                                $user_data  = array($uploadedFile);
                             }
+                            
+                            $file_data['handbook'] = json_encode($user_data);
+
+                            $this->db->where('id', $lastID)->update('training', $file_data);
+                        }else{
+                            $this->data['message'] = $this->upload->display_errors();
                         }
+                        // }
                     }
                 }
 
@@ -2040,35 +2040,35 @@ class Training extends Backend_Controller {
 
                         $this->upload->initialize($this->set_upload_options($file_name, $this->handbook_path));
 
-                        $this->form_validation->set_rules('userfile', '', 'callback_file_check');
-                        if ($this->form_validation->run() == true){
-                            if($this->upload->do_upload('userfile')) {
-                                $uploadData = $this->upload->data();
+                        // $this->form_validation->set_rules('userfile', '', 'callback_file_check');
+                        // if ($this->form_validation->run() == true){
+                        if($this->upload->do_upload('userfile')) {
+                            $uploadData = $this->upload->data();
 
-                                // print_r($uploadData);
-                                // DB fields
-                                $uploadedFile = $uploadData['file_name'];
-                                $handbook = $this->db->where('id', $id)->get('training')->row()->handbook;
+                            // print_r($uploadData);
+                            // DB fields
+                            $uploadedFile = $uploadData['file_name'];
+                            $handbook = $this->db->where('id', $id)->get('training')->row()->handbook;
 
-                                if ($handbook != '' && $handbook != null) {
-                                    if (is_array(json_decode($handbook))) {
-                                        $user_data = json_decode($handbook);
-                                        array_push($user_data, $uploadedFile);
+                            if ($handbook != '' && $handbook != null) {
+                                if (is_array(json_decode($handbook))) {
+                                    $user_data = json_decode($handbook);
+                                    array_push($user_data, $uploadedFile);
 
-                                    } else {
-                                        $user_data = array($handbook, $uploadedFile);
-                                    }
                                 } else {
-                                    $user_data  = array($uploadedFile);
+                                    $user_data = array($handbook, $uploadedFile);
                                 }
-                                
-                                $file_data['handbook'] = json_encode($user_data);
-
-                                $this->db->where('id', $id)->update('training', $file_data);
-                            }else{
-                                $this->data['message'] = $this->upload->display_errors();
+                            } else {
+                                $user_data  = array($uploadedFile);
                             }
+                            
+                            $file_data['handbook'] = json_encode($user_data);
+
+                            $this->db->where('id', $id)->update('training', $file_data);
+                        }else{
+                            $this->data['message'] = $this->upload->display_errors();
                         }
+                    // }
                     }
                 }
 
