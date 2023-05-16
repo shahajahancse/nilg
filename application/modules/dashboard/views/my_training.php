@@ -81,7 +81,13 @@
 																		<!-- foreach (json_decode($row->handbook) as $key => $row):
 																		$path = base_url('uploads/handbook/'.$row); -->
 																<li><a href="path" target="_blank" class="btn btn-primary btn-xs btn-mini">নোট</a></li>
-																<form class="form" id="noteForm">
+															<?php
+
+
+															
+															$attributes = array( 'autcomplete' => 'off');
+                                                                  echo form_open_multipart("dashboard/uplodenote", $attributes); ?>
+																  <input type="hidden" name="triningid" value="<?=$row->training_id?>">
 																	<div class="row form-row">
 																		<div class="col-md-12">
 																			<div class="form-group">
@@ -99,14 +105,14 @@
 																					</div>
 																				</div>
 																				<div class="col-sm-11 savebtn">
-																					<button style="margin-left: -18px;" class="btn btn-primary btn-mini note-upload">
+																					<button type="submit" style="margin-left: -18px;" class="btn btn-primary btn-mini note-upload">
 																						<span class="fa fa-upload"></span>
 																					</button>
 																				</div>
 																			</div>
 																		</div>
 																	</div>
-																</form>
+																	<?php echo form_close(); ?>
 
 
 															</ul>
@@ -175,35 +181,7 @@
       $(this).closest(".userfile").remove();
       return false;
     })
-    .on("click", ".note-upload", function(e) {
-      e.preventDefault();
-
-							// retrieve form data
-							var formData = $('#noteForm').serializeArray();
-							
-
-						// // define the URL for the server-side PHP script that will handle the AJAX request
-						 var url = "<?php echo base_url('training/uplodenote');?>";
-
-						// send an AJAX request to the server-side PHP script
-						$.ajax({
-						url: url, // specify the URL of the PHP script
-						type: 'POST', // specify the HTTP method (POST in this case)
-						data: formData, // include the form data in the request
-						success: function(response) { // define a function to handle the response from the server
-							console.log(formData);
-						}
-						});
-
-    
-
-
-
-
-
-
-
-    });
+  
 
 	$(document).ready(function(){
 	  $('.dropdown-submenu a.test').on("click", function(e){
