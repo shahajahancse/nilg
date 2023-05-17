@@ -118,9 +118,9 @@
 																							</div>
 																						</div>
 																					</div>
-																					<div class="col-sm-11 savebtn">
-																						<button type="submit" style="margin-left: -18px;" class="btn btn-primary btn-mini note-upload">
-																							<span class="fa fa-upload"></span>
+																					<div class="col-sm-12 ">
+																						<button type="submit"  class="btn btn-primary col-md-12 btn-mini note-upload">
+																							Upload
 																						</button>
 																					</div>
 																				</div>
