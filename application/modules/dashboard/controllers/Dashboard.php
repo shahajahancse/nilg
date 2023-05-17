@@ -13,7 +13,8 @@ class Dashboard extends Backend_Controller
 		// dd($this->session->all_userdata());		
 		$this->userID = $this->session->userdata('user_id');
 		$this->load->model('Dashboard_model');
-		$this->load->model('training/Training_model');		
+		$this->load->model('training/Training_model');	
+		$this->note_path = realpath(APPPATH . '../uploads/note');	
 	}	
 
 	public function index()
@@ -576,7 +577,23 @@ class Dashboard extends Backend_Controller
      	$this->load->view('backend/_layout_main', $this->data);
     }
 
+	// uplode config
+	private function set_upload_options($file_name, $path)
+    {   
+        //upload an image options
+        $config = array();
+        $config['allowed_types']= 'jpg|png|jpeg|pdf|xlsx|xls';
+        $config['upload_path']  = $path;
+        $config['file_name']    = $file_name;
+        // $config['max_size']     = '104857600';
+        $config['max_size'] = '1000000';
+        $config['max_width']  = '1024000';
+        $config['max_height']  = '768000';
+        $config['overwrite']     = FALSE;
 
+        return $config;
+    }
+	
 
 
 

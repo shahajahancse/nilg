@@ -23,6 +23,8 @@ class Training extends Backend_Controller {
         $this->voucher_path = realpath(APPPATH . '../uploads/voucher');
         $this->video_path = realpath(APPPATH . '../uploads/video');
         $this->training_docs_path = realpath(APPPATH . '../uploads/training_docs');
+        $this->note_path = realpath(APPPATH . '../uploads/note');	
+
 
         // auto off training schedule after 7 day
         training_participant_auto_off();
@@ -79,6 +81,7 @@ class Training extends Backend_Controller {
         $this->data['subview'] = 'index';
         $this->load->view('backend/_layout_main', $this->data);
     }
+
 
     public function ajax_training_list($offset=0)
     {
@@ -2194,13 +2197,14 @@ class Training extends Backend_Controller {
         $this->data['subview'] = 'edit';
         $this->load->view('backend/_layout_main', $this->data);
     }
+    
 
     //upload an image options
     private function set_upload_options($file_name, $path)
     {   
         //upload an image options
         $config = array();
-        $config['allowed_types']= 'jpg|png|jpeg|pdf';
+        $config['allowed_types']= 'jpg|png|jpeg|pdf|xlsx|xls';
         $config['upload_path']  = $path;
         $config['file_name']    = $file_name;
         // $config['max_size']     = '104857600';
@@ -2915,4 +2919,127 @@ class Training extends Backend_Controller {
 
     */
 
+    public function uplodenote(){
+		$lastID=$this->input->post('triningid');
+		// dd($this->userID);
+		
+       
+		if($_FILES['userfile']['size'][0] > 0){
+
+			$this->load->library('upload');
+			$files = $_FILES;
+			$cpt = count($_FILES['userfile']['name']);
+           
+			for($i=0; $i<$cpt; $i++)
+			{           
+				$_FILES['userfile']['name']= $files['userfile']['name'][$i];
+				$_FILES['userfile']['type']= $files['userfile']['type'][$i];
+				$_FILES['userfile']['tmp_name']= $files['userfile']['tmp_name'][$i];
+				$_FILES['userfile']['error']= $files['userfile']['error'][$i];
+				$_FILES['userfile']['size']= $files['userfile']['size'][$i]; 
+
+				$file_name = time().$i.'-'.$lastID;  
+				
+
+				$this->upload->initialize($this->set_upload_options($file_name, $this->note_path));
+
+				if($this->upload->do_upload('userfile')) {
+					$uploadData = $this->upload->data();
+					
+					
+
+					// print_r($uploadData);
+					// DB fields
+					$uploadedFile = $uploadData['file_name'];
+
+
+					// this is working
+
+					$note = $this->db
+					->where('training_id', $lastID)
+					->where('app_user_id', $this->userID)
+					->get('training_participant')
+					->row()
+					->note;
+				
+
+					if ($note != '' && $note != null) {
+						if (is_array(json_decode($note))) {
+							$user_data = json_decode($note);
+							array_push($user_data, $uploadedFile);
+
+						} else {
+							$user_data = array($note, $uploadedFile);
+						}
+					} else {
+						$user_data  = array($uploadedFile);
+					}
+					
+					$file_data['note'] = json_encode($user_data);
+
+					$this->db->where('training_id', $lastID)->where('app_user_id', $this->userID)->update('training_participant', $file_data);
+					$this->session->set_flashdata('success', 'নোট ডাটাবেজে সংরক্ষণ করা হয়েছে');
+			        
+			 
+				}else{
+					$this->session->set_flashdata('error', $this->upload->display_errors());
+			       redirect('dashboard/my_training', 'refresh');
+			 
+				
+				}
+				// }
+			}
+            redirect('dashboard/my_training', 'refresh');
+			
+			
+			
+		}
+
+ 
+ 
+	}
+
+
+    public function dellet_note($notename,$triningid){
+
+        $note = $this->db
+        ->where('training_id', $triningid)
+        ->where('app_user_id', $this->userID)
+        ->get('training_participant')
+        ->row()
+        ->note;
+        if($note){
+         
+
+            $note_array=json_decode($note);
+            $key = array_search($notename, $note_array);
+
+                if ($key !== false) {
+                    unset($note_array[$key]);
+                    $baseUrl = base_url();
+                    $fileToDelete = FCPATH . 'uploads/note/' . $notename;         
+                               if(unlink($fileToDelete)){
+                                    $file_data['note'] = json_encode(array_values($note_array));
+                                    $this->db->where('training_id', $triningid)->where('app_user_id', $this->userID)->update('training_participant', $file_data);
+                                    $this->session->set_flashdata('success', 'নোট ডাটাবেজ থেকে মুছে ফেলা হয়েছে');
+                                    redirect('dashboard/my_training', 'refresh');
+                                }else{
+
+                                    $this->session->set_flashdata('success', 'নোট ডাটাবেজে ডাটাবেজ থেকে মুছে ফেলা সম্ভব হয়নি');
+                                    redirect('dashboard/my_training', 'refresh');
+                                }
+                }else{
+                    $this->session->set_flashdata('success', 'নোট ডাটাবেজে নেই');
+                                    redirect('dashboard/my_training', 'refresh');
+
+
+                }
+              
+               
+                   
+
+        }
+
+        
+    }
 }
