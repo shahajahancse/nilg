@@ -114,8 +114,49 @@
                             <td class="tg-031e font-opensans"><?=$row->mobile_no?></td>
                             <td class="tg-031e font-opensans"><?=$row->so?></td>
                             <td class="tg-031e">
-                              <a href="<?=base_url('training/participant_edit/'.$row->id)?>" class="btn btn-primary btn-mini mini-btn-padding"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </a>
-                              <a href="<?=base_url('training/participant_delete/'.$row->id)?>" class="btn btn-danger btn-mini mini-btn-padding" onclick="return confirm('Are you sure you want to delete this data?');"> <i class="fa fa-trash-o" aria-hidden="true"></i> </a>
+                             
+                              <div style="position: absolute;margin-top: -20px;">
+                                <a class="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">অ্যাকশন</a>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="border: 1px solid #8dc641;">
+                                  <li>
+                                  <a href="<?=base_url('training/participant_edit/'.$row->id)?>" class="btn btn-primary btn-mini mini-btn-padding" style="background-color: #8dc641;"> সংশোধন </a>
+                                  <a href="<?=base_url('training/participant_delete/'.$row->id)?>" class="btn btn-danger btn-mini mini-btn-padding" style="background-color: #ff0000;color: aliceblue;" onclick="return confirm('Are you sure you want to delete this data?');">ডিলিট</a>
+
+                                  
+                                  </li>
+                                  <?php
+                                         $note = $this->db
+                                         ->where('training_id', $row->training_id)
+                                         ->where('app_user_id', $row->app_user_id)
+                                         ->get('training_participant')
+                                         ->row()
+                                         ->note;
+                                         if($note){
+                                          $note_array=json_decode($note);
+                                        
+                                         ?>
+                                  <li class="dropdown dropend">
+                                    <a style="background-color: #68308F;color: white;" class="dropdown-item dropdown-toggle"id="multilevelDropdownMenu1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">নোট</a>
+                                    <ul style="border: 1px solid #68308f;" class="dropdown-menu" aria-labelledby="multilevelDropdownMenu1">
+                                  <?php     
+                                    foreach($note_array as $key => $value){
+                                    ?>
+                                     
+
+                                         <li style="border: 1px solid #971ff3;padding: 0px;margin: 4px;"><a class="dropdown-item" href="<?=base_url('uploads/note/'. $value)?>">নোট  <?=$key+1?></a></li>
+                                      <?php }?>
+                                    </ul>
+                                  </li>
+                                  <?php
+                                  }
+                                  ?>
+                                </ul>
+                              </div>
+                         
+                                    
+                           
+                           
+                           
                             </td>
                           </tr>
                           <?php } ?>
@@ -136,9 +177,23 @@
 
     </div>
   </div>
+  <script>
 
+let dropdowns = document.querySelectorAll('.dropdown-toggle')
+dropdowns.forEach((dd)=>{
+    dd.addEventListener('click', function (e) {
+        var el = this.nextElementSibling
+        el.style.display = el.style.display==='block'?'none':'block'
+    })
+})
+
+
+</script>
 
   <script type="text/javascript">
+
+
+
 
 
     // Datatable

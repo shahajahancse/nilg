@@ -148,6 +148,7 @@ class Training extends Backend_Controller {
         $this->data['training'] = $this->Training_model->get_training_info($id);
         // dd($this->data['info']); exit();
         $this->data['results'] = $this->Training_model->get_participant_list($id);
+        
 
         // Load Page
         $this->data['meta_title'] = 'অংশগ্রহণকারী তালিকা';
