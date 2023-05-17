@@ -25,6 +25,31 @@
     margin: 7px;
 
 }
+
+	.input-file{
+    margin-left: 10px !important;
+    height: 25px !important;
+    line-height: 1 !important;
+	}
+
+	.input-file::file-selector-button{
+	    border: none;
+	    border-radius: 0px;
+	    color: white;
+	    background-color: #fff;
+	    border: 0px;
+	    height: 0;
+	    width: 0;
+	    font-size: 0px;
+	    cursor: pointer;
+	    transition: all .25s ease-in;
+	    cursor: pointer;
+	}
+	.input-file::file-selector-button:hover{
+	    background-color: #fff;
+	    color: #fff;
+	    transition: all .25s ease-in;
+	}
 </style>
 
 
@@ -65,6 +90,7 @@
 									$sl = 0;
 									foreach ($results as $row){
 										$sl++;
+										$note = $this->db->where('training_id', $row->training_id)->where('app_user_id', $this->userID)->get('training_participant')->row()->note;
 										?>
 										<tr>
 											<td class="tg-ywa99"><?=eng2bng($sl).'.'?></td>
@@ -79,16 +105,9 @@
 															<a class="test" tabindex="-1">নোট <span class="caret"></span></a>
 																<ul style="display: none;border: 1px solid #683091;padding: 7px;" class="dropdown-menu">
 																	<?php 
-																	
-																	$note = $this->db
-																	->where('training_id', $row->training_id)
-																	->where('app_user_id', $this->userID)
-																	->get('training_participant')
-																	->row()
-																	->note;
 																	if ($note) {
-																	$notearray=json_decode($note);
-																	foreach($notearray as $key=>$data){?>
+																	$notearray = json_decode($note);
+																	foreach($notearray as $key => $data){?>
 																		<li style="display: flex;">
 																			<a style="background-color: #8dc641;" href='<?=base_url('uploads/note/'.$data)?>' target='_blank' class='btn btn-primary btn-xs btn-mini col-md-9'>নোট <?= $key+1?></a>
 																			<a href='<?=base_url('training/dellet_note/'.$data.'/'.$row->training_id)?>'  class='btn btn-primary btn-xs btn-mini col-md-3' style="padding: 0;padding-left: 7px;"><img style="width: 20px;height: 20px;" src="<?=base_url('uploads/delete.png')?>" alt="Dellet"></a>
@@ -100,7 +119,7 @@
 
 																<?php
 																$attributes = array( 'autcomplete' => 'off', 'id' => 'notedata');
-																	echo form_open_multipart("Training/uplodenote", $attributes); ?>
+																	echo form_open_multipart("training/uplodenote/$row->training_id", $attributes); ?>
 																	<input type="hidden" name="triningid" value="<?=$row->training_id?>">
 																		<div class="row form-row">
 																			<div class="col-md-12">
@@ -109,7 +128,7 @@
 																					<div class="row">
 																						<div class="form-group userfile">
 																							<div style="margin-left: -11px;" class="col-sm-10">
-																								<input style="margin-left:3px;" class="form-control input-sm" type="file" name="userfile[]">
+																								<input style="height: 25px !important" class="form-control input-file" type="file" name="userfile[]">
 																							</div>
 																							<div class="col-sm-2">
 																								<button style="margin-left: -18px;" class="btn btn-success btn-mini handbook-add">

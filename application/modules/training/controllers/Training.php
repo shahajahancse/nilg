@@ -2920,11 +2920,8 @@ class Training extends Backend_Controller {
 
     */
 
-    public function uplodenote(){
-		$lastID=$this->input->post('triningid');
-		// dd($this->userID);
-		
-       
+    public function uplodenote($id){
+
 		if($_FILES['userfile']['size'][0] > 0){
 
 			$this->load->library('upload');
@@ -2939,14 +2936,13 @@ class Training extends Backend_Controller {
 				$_FILES['userfile']['error']= $files['userfile']['error'][$i];
 				$_FILES['userfile']['size']= $files['userfile']['size'][$i]; 
 
-				$file_name = time().$i.'-'.$lastID;  
+				$file_name = time().$i.'-'.$id;  
 				
 
 				$this->upload->initialize($this->set_upload_options($file_name, $this->note_path));
 
 				if($this->upload->do_upload('userfile')) {
 					$uploadData = $this->upload->data();
-					
 					
 
 					// print_r($uploadData);
@@ -2956,12 +2952,7 @@ class Training extends Backend_Controller {
 
 					// this is working
 
-					$note = $this->db
-					->where('training_id', $lastID)
-					->where('app_user_id', $this->userID)
-					->get('training_participant')
-					->row()
-					->note;
+					$note = $this->db->where('training_id', $id)->where('app_user_id', $this->userID)->get('training_participant')->row()->note;
 				
 
 					if ($note != '' && $note != null) {
@@ -2978,15 +2969,13 @@ class Training extends Backend_Controller {
 					
 					$file_data['note'] = json_encode($user_data);
 
-					$this->db->where('training_id', $lastID)->where('app_user_id', $this->userID)->update('training_participant', $file_data);
+					$this->db->where('training_id', $id)->where('app_user_id', $this->userID)->update('training_participant', $file_data);
 					$this->session->set_flashdata('success', 'নোট ডাটাবেজে সংরক্ষণ করা হয়েছে');
 			        
 			 
 				}else{
 					$this->session->set_flashdata('error', $this->upload->display_errors());
 			       redirect('dashboard/my_training', 'refresh');
-			 
-				
 				}
 				// }
 			}
