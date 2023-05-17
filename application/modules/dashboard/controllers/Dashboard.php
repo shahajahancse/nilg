@@ -582,7 +582,7 @@ class Dashboard extends Backend_Controller
     {   
         //upload an image options
         $config = array();
-        $config['allowed_types']= 'pdf|xml';
+        $config['allowed_types']= 'jpg|png|jpeg|pdf|xlsx|xls';
         $config['upload_path']  = $path;
         $config['file_name']    = $file_name;
         // $config['max_size']     = '104857600';
@@ -593,66 +593,7 @@ class Dashboard extends Backend_Controller
 
         return $config;
     }
-	public function uplodenote(){
-		$lastID=$this->input->post('triningid');
-		
-       
-		if($_FILES['userfile']['size'][0] > 0){
-
-			$this->load->library('upload');
-			$files = $_FILES;
-			$cpt = count($_FILES['userfile']['name']);
-			for($i=0; $i<$cpt; $i++)
-			{           
-				$_FILES['userfile']['name']= $files['userfile']['name'][$i];
-				$_FILES['userfile']['type']= $files['userfile']['type'][$i];
-				$_FILES['userfile']['tmp_name']= $files['userfile']['tmp_name'][$i];
-				$_FILES['userfile']['error']= $files['userfile']['error'][$i];
-				$_FILES['userfile']['size']= $files['userfile']['size'][$i]; 
-
-				$file_name = time().$i.'-'.$lastID;  
-				
-
-				$this->upload->initialize($this->set_upload_options($file_name, $this->note_path));
-
-				if($this->upload->do_upload('userfile')) {
-					$uploadData = $this->upload->data();
-					
-					
-
-					// print_r($uploadData);
-					// DB fields
-					$uploadedFile = $uploadData['file_name'];
-
-
-					// this is working
-
-					$handbook = $this->db->where('id', $lastID)->get('training')->row()->handbook;
-
-					if ($handbook != '' && $handbook != null) {
-						if (is_array(json_decode($handbook))) {
-							$user_data = json_decode($handbook);
-							array_push($user_data, $uploadedFile);
-
-						} else {
-							$user_data = array($handbook, $uploadedFile);
-						}
-					} else {
-						$user_data  = array($uploadedFile);
-					}
-					
-					$file_data['handbook'] = json_encode($user_data);
-
-					$this->db->where('id', $lastID)->update('training', $file_data);
-				}else{
-					$this->data['message'] = $this->upload->display_errors();
-				}
-				// }
-			}
-		}
- 
- 
-	 }
+	
 
 
 
