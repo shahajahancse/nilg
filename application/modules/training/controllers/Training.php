@@ -2194,6 +2194,7 @@ class Training extends Backend_Controller {
         $this->data['subview'] = 'edit';
         $this->load->view('backend/_layout_main', $this->data);
     }
+    
 
     //upload an image options
     private function set_upload_options($file_name, $path)

@@ -14,6 +14,17 @@
 	display: block !important;
 	left: -85px !important;
 }
+.form{
+	border: 1px solid #0aa699
+
+}
+.savebtn{
+	align-items: flex-end;
+    display: flex;
+    flex-direction: column-reverse;
+    margin: 7px;
+
+}
 </style>
 
 
@@ -64,6 +75,51 @@
 												<a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="dropdown"> অ্যাকশন <span class="caret"></span> </a>
 												<ul class="dropdown-menu">
 													<li><?=anchor("dashboard/my_training_schedule/".encrypt_url($row->training_id), 'প্রশিক্ষণ কর্মসূচী')?></li>
+													<li class="dropdown-submenu">
+													    <a class="test" tabindex="-1">নোট <span class="caret"></span></a>
+														    <ul class="dropdown-menu">
+																		<!-- foreach (json_decode($row->handbook) as $key => $row):
+																		$path = base_url('uploads/handbook/'.$row); -->
+																<li><a href="path" target="_blank" class="btn btn-primary btn-xs btn-mini">নোট</a></li>
+															<?php
+
+
+															
+															$attributes = array( 'autcomplete' => 'off');
+                                                                  echo form_open_multipart("dashboard/uplodenote", $attributes); ?>
+																  <input type="hidden" name="triningid" value="<?=$row->training_id?>">
+																	<div class="row form-row">
+																		<div class="col-md-12">
+																			<div class="form-group">
+																				<label class="form-label">নোট আপলোড</label>
+																				<div class="row">
+																					<div class="form-group userfile">
+																						<div class="col-sm-9">
+																							<input style="margin-left:4px;" class="form-control input-sm" type="file" name="userfile[]">
+																						</div>
+																						<div class="col-sm-2">
+																							<button style="margin-left: -18px;" class="btn btn-success btn-mini handbook-add">
+																								<span class="fa fa-plus"></span>
+																							</button>
+																						</div>
+																					</div>
+																				</div>
+																				<div class="col-sm-11 savebtn">
+																					<button type="submit" style="margin-left: -18px;" class="btn btn-primary btn-mini note-upload">
+																						<span class="fa fa-upload"></span>
+																					</button>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<?php echo form_close(); ?>
+
+
+															</ul>
+													</li>
+													
+													
+													
 													<?php 
 													if($row->handbook != null && $row->handbook !=''){
 										                if (is_array(json_decode($row->handbook))) { ?>
@@ -103,6 +159,30 @@
 	</div>
 
 <script>
+
+
+
+// Multiple handbook Upload
+  $(document)
+    .on("click", ".userfile .handbook-add", function(e) {
+      e.preventDefault();
+      var current_obj = $(this).closest(".userfile");
+      var cloned_obj = $(current_obj.clone()).insertAfter(current_obj).find('input[type="file"]').val("");
+
+      current_obj.find(".fa-plus").removeClass("fa-plus").addClass("fa-minus");
+
+      current_obj.find(".btn-success").removeClass("btn-success").addClass("btn-danger");
+
+      current_obj.find(".handbook-add").removeClass("handbook-add").addClass("handbook-del");
+    })
+
+    .on("click", ".handbook-del", function(e) {
+      e.preventDefault();
+      $(this).closest(".userfile").remove();
+      return false;
+    })
+  
+
 	$(document).ready(function(){
 	  $('.dropdown-submenu a.test').on("click", function(e){
 	    $(this).next('ul').toggle();
