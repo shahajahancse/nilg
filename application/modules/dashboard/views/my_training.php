@@ -77,16 +77,30 @@
 													<li><?=anchor("dashboard/my_training_schedule/".encrypt_url($row->training_id), 'প্রশিক্ষণ কর্মসূচী')?></li>
 													<li class="dropdown-submenu">
 													    <a class="test" tabindex="-1">নোট <span class="caret"></span></a>
-														    <ul class="dropdown-menu">
-																		<!-- foreach (json_decode($row->handbook) as $key => $row):
-																		$path = base_url('uploads/handbook/'.$row); -->
-																<li><a href="path" target="_blank" class="btn btn-primary btn-xs btn-mini">নোট</a></li>
+														    <ul style="display: none;border: 1px solid #683091;padding: 7px;" class="dropdown-menu">
+																<?php 
+																
+																$note = $this->db
+																->where('training_id', $row->training_id)
+																->where('app_user_id', $this->userID)
+																->get('training_participant')
+																->row()
+																->note;
+																if ($note) {
+																$notearray=json_decode($note);
+																foreach($notearray as $key=>$data){?>
+																	<li style="display: flex;">
+																		<a style="background-color: #8dc641;" href='<?=base_url('uploads/note/'.$data)?>' target='_blank' class='btn btn-primary btn-xs btn-mini col-md-9'>নোট <?= $key+1?></a>
+																		<a href='<?=base_url('training/dellet_note/'.$data.'/'.$row->training_id)?>'  class='btn btn-primary btn-xs btn-mini col-md-3' style="padding: 0;padding-left: 7px;"><img style="width: 20px;height: 20px;" src="<?=base_url('uploads/delete.png')?>" alt="Dellet"></a>
+																	</li>
+																
+																<?php }}
+																?>
+																
+
 															<?php
-
-
-															
-															$attributes = array( 'autcomplete' => 'off');
-                                                                  echo form_open_multipart("dashboard/uplodenote", $attributes); ?>
+															$attributes = array( 'autcomplete' => 'off', 'id' => 'notedata');
+                                                                  echo form_open_multipart("Training/uplodenote", $attributes); ?>
 																  <input type="hidden" name="triningid" value="<?=$row->training_id?>">
 																	<div class="row form-row">
 																		<div class="col-md-12">
@@ -124,7 +138,7 @@
 													if($row->handbook != null && $row->handbook !=''){
 										                if (is_array(json_decode($row->handbook))) { ?>
 													      	<li class="dropdown-submenu">
-													        	<a class="test" tabindex="-1" href="#">ট্রেনিং হ্যান্ডবুক ডাউনলোড  <span class="caret"></span></a>
+													        	<a class="test" tabindex="-1" >ট্রেনিং হ্যান্ডবুক ডাউনলোড  <span class="caret"></span></a>
 														        <ul class="dropdown-menu">
 															    	<?php  
 															    	foreach (json_decode($row->handbook) as $key => $row):
@@ -159,7 +173,6 @@
 	</div>
 
 <script>
-
 
 
 // Multiple handbook Upload
