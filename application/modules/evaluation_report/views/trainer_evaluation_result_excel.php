@@ -40,6 +40,7 @@
 
 		<br><br>
           <div class="grid-body">
+            <div class="row">.</div>
             <?php 
               if (is_string($results)) { ?>
               	Records Not Found .
@@ -50,9 +51,9 @@
               <div>
                 <div class="row">
                   <div class="col-md-12">
-                    <p class="training-title"><?=func_training_title($info->id)?></p>
-                    <p class="training-date"><?=func_training_date($info->start_date, $info->end_date)?></p>
-                    <p class="training-date"> আলোচক মূল্যায়ন </p>
+                    <div class="training-title"><?=func_training_title($info->id)?></div>
+                    <div class="training-date"><?=func_training_date($info->start_date, $info->end_date)?></div>
+                    <div class="training-date"> আলোচক মূল্যায়ন </div>
                   </div>     
                 </div>  
                 <!-- <br> -->

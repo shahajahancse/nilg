@@ -386,7 +386,7 @@ class Reports extends Backend_Controller {
                 $mpdf->WriteHtml($html);
                 $mpdf->output();
 
-            }elseif($this->input->post('btnsubmit') == 'pdf_rep_list_union') {
+            } elseif ($this->input->post('btnsubmit') == 'pdf_rep_list_union') {
                 $this->data['results'] = $this->Reports_model->get_list_pr(1, NULL, NULL, NULL, $union_id);
                 // $this->data['results'] = $this->Reports_model->get_list_personal_data(1, 1, NULL, NULL, NULL, $union_id);
 
@@ -402,6 +402,29 @@ class Reports extends Backend_Controller {
                 $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
                 $mpdf->WriteHtml($html);
                 $mpdf->output();
+
+            } elseif($this->input->post('btnsubmit') == 'pdf_untrained_repo_list') {
+                $this->data['results'] = $this->Reports_model->get_untrained_repo_list($division_id);
+              
+                $this->data['headding'] = 'অপ্রশিক্ষিত ব্যক্তির রিপোর্ট';
+                $html = $this->load->view('pdf_untrained_repo_list', $this->data, true);
+
+                //Generate PDF
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
+
+            } elseif($this->input->post('btnsubmit') == 'pdf_trained_repo_list') {
+                $this->data['results'] = $this->Reports_model->get_untrained_repo_list($division_id);
+              
+                $this->data['headding'] = 'অপ্রশিক্ষিত ব্যক্তির রিপোর্ট';
+                $html = $this->load->view('pdf_trained_repo_list', $this->data, true);
+
+                //Generate PDF
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
+
             }
 
         }

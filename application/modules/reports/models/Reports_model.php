@@ -518,6 +518,29 @@ class Reports_model extends CI_Model {
         return $query;
     }
 
+    // get trained and untrained public representative
+    public function get_untrained_repo_list($division)
+    {
+        $this->db->select('u.id, u.name_bn, u.nid, u.mobile_no, d.desig_name, o.office_name, COUNT(p.app_user_id) as total');
+        $this->db->from('users u');
+        $this->db->from('training_participant p');
+        $this->db->from('office o');
+        $this->db->from('designations d');
+
+        $this->db->where('u.id = p.app_user_id');   
+        $this->db->where('o.id = u.crrnt_office_id');   
+        $this->db->where('d.id = u.crrnt_desig_id');   
+        $this->db->where('u.employee_type', 1);
+        $this->db->where('u.div_id', $division);
+
+        $this->db->group_by('p.app_user_id');
+        $this->db->order_by('u.id', 'ASC');
+        $query = $this->db->get()->result();
+
+        // echo $this->db->last_query(); exit;        
+        return $query;
+    }
+
     /*public function get_list_personal_data($dataType, $officeType, $division=NULL, $district=NULL, $upazila=NULL, $union=NULL) {
         $this->db->select('pd.national_id, pd.name_bangla, pd.telephone_mobile, o.org_name, dg.desig_name');
         $this->db->from('personal_datas pd');
