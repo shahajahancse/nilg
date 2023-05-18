@@ -116,7 +116,7 @@
                             <td class="tg-031e">
                              
                               <div style="position: absolute;margin-top: -20px;">
-                                <a class="btn btn-primary dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">অ্যাকশন</a>
+                                <a class="btn btn-primary btn-mini dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">অ্যাকশন</a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="border: 1px solid #8dc641;">
                                   <li>
                                   <a href="<?=base_url('training/participant_edit/'.$row->id)?>" class="btn btn-primary btn-mini mini-btn-padding" style="background-color: #8dc641;"> সংশোধন </a>
