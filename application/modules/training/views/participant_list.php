@@ -1,4 +1,10 @@
 <style type="text/css">
+  .small-ul {
+  font-size: 12px; /* Decrease the font size */
+  padding: 4px; /* Decrease the padding around each menu item */
+  min-width: auto; /* Remove any minimum width set */
+}
+
   .tg  {border-collapse:collapse;border-spacing:0;font-family: 'Kalpurush', Arial, sans-serif; border: 0px solid red; width: 100%}
   .tg td{font-family: 'Kalpurush', Arial, sans-serif;font-size:14px;padding:5px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#bbb;color:#00000;background-color:#E0FFEB; vertical-align: middle;}
   .tg th{font-family: 'Kalpurush', Arial, sans-serif;font-size:14px;font-weight:bold;padding:3px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#bbb;color:#493F3F;background-color:#bce2c5;text-align: center;}
@@ -115,12 +121,12 @@
                             <td class="tg-031e font-opensans"><?=$row->so?></td>
                             <td class="tg-031e">
                              
-                              <div style="position: absolute;margin-top: -20px;">
-                                <a class="btn btn-primary btn-mini dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">অ্যাকশন</a>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="border: 1px solid #8dc641;">
+                            <div style="position: absolute;margin-top: -20px;">
+                                <a class="btn btn-primary btn-mini dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">অ্যাকশন <span class="glyphicon glyphicon-chevron-down"></span></a>
+                                <ul class="dropdown-menu small-ul" aria-labelledby="dropdownMenuLink">
                                   <li>
-                                  <a href="<?=base_url('training/participant_edit/'.$row->id)?>" class="btn btn-primary btn-mini mini-btn-padding" style="background-color: #8dc641;"> সংশোধন </a>
-                                  <a href="<?=base_url('training/participant_delete/'.$row->id)?>" class="btn btn-danger btn-mini mini-btn-padding" style="background-color: #ff0000;color: aliceblue;" onclick="return confirm('Are you sure you want to delete this data?');">ডিলিট</a>
+                                    <a href="<?=base_url('training/participant_edit/'.$row->id)?>" class="btn btn-primary btn-mini mini-btn-padding" style="background-color: #8dc641;"> সংশোধন <span class="glyphicon glyphicon-edit"></span> </a>
+                                    <a href="<?=base_url('training/participant_delete/'.$row->id)?>" class="btn btn-danger btn-mini mini-btn-padding" style="background-color: #ff0000;color: aliceblue;" onclick="return confirm('Are you sure you want to delete this data?');">ডিলিট <span class="glyphicon glyphicon-trash"></span></a>
 
                                   
                                   </li>
@@ -135,15 +141,15 @@
                                           $note_array=json_decode($note);
                                         
                                          ?>
-                                  <li class="dropdown dropend">
-                                    <a style="background-color: #68308F;color: white;" class="dropdown-item dropdown-toggle"id="multilevelDropdownMenu1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">নোট</a>
-                                    <ul style="border: 1px solid #68308f;" class="dropdown-menu" aria-labelledby="multilevelDropdownMenu1">
+                                  <li class="dropdown dropend ">
+                                    <a style="background-color: #68308F;color: white;" class="dropdown-item dropdown-toggle"id="multilevelDropdownMenu1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">নোট <span class="glyphicon glyphicon-chevron-down"></span></a>
+                                    <ul style="border: 1px solid #68308f;" class="dropdown-menu small-ul" aria-labelledby="multilevelDropdownMenu1">
                                   <?php     
                                     foreach($note_array as $key => $value){
                                     ?>
                                      
 
-                                         <li style="border: 1px solid #971ff3;padding: 0px;margin: 4px;"><a class="dropdown-item" href="<?=base_url('uploads/note/'. $value)?>">নোট  <?=$key+1?></a></li>
+                                         <li style="border: 1px solid #971ff3;padding: 0px;width: 92px;margin: -3px;height: 37px;border-radius: 10px;"><a class="dropdown-item" href="<?=base_url('uploads/note/'. $value)?>">নোট  <?=$key+1?></a></li>
                                       <?php }?>
                                     </ul>
                                   </li>
