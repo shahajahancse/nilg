@@ -518,8 +518,49 @@ class Reports_model extends CI_Model {
         return $query;
     }
 
-    // get trained and untrained public representative
-    public function get_untrained_repo_list($division)
+    // get untrained public representative and employee list
+    public function get_untrained_repo_emp_list($type, $division, $district)
+    {
+        // first get trained person
+        $result = array();
+        $this->db->select('p.app_user_id');
+        $this->db->from('users u');
+        $this->db->from('training_participant p');
+        $this->db->where('u.id = p.app_user_id');   
+        $this->db->where('u.employee_type', $type);
+        $this->db->where('u.div_id', $division);
+        $this->db->where('u.dis_id', $district);        
+        $this->db->group_by('p.app_user_id');
+        $query1 = $this->db->get()->result();
+
+        foreach ($query1 as $key => $element) {
+          $result[$key] = $element->app_user_id;
+        }
+
+        // second get untrained person
+        $this->db->select('u.id, u.name_bn, u.nid, u.mobile_no, d.desig_name, o.office_name');
+        $this->db->from('users u');
+        $this->db->from('office o');
+        $this->db->from('designations d');
+ 
+        $this->db->where('o.id = u.crrnt_office_id');   
+        $this->db->where('d.id = u.crrnt_desig_id'); 
+        if(!empty($result)){
+            $this->db->where_not_in('u.id', $result);
+        } 
+        $this->db->where('u.employee_type', $type);
+        $this->db->where('u.div_id', $division);
+        $this->db->where('u.dis_id', $district);
+
+        $this->db->group_by('u.id');
+        $this->db->order_by('u.id', 'ASC');
+        $query = $this->db->get()->result();
+        // echo $this->db->last_query(); exit;        
+        return $query;
+    }
+
+     // get trained public representative and employee list
+    public function get_trained_repo_emp_list($type, $division, $district)
     {
         $this->db->select('u.id, u.name_bn, u.nid, u.mobile_no, d.desig_name, o.office_name, COUNT(p.app_user_id) as total');
         $this->db->from('users u');
@@ -530,8 +571,9 @@ class Reports_model extends CI_Model {
         $this->db->where('u.id = p.app_user_id');   
         $this->db->where('o.id = u.crrnt_office_id');   
         $this->db->where('d.id = u.crrnt_desig_id');   
-        $this->db->where('u.employee_type', 1);
+        $this->db->where('u.employee_type', $type);
         $this->db->where('u.div_id', $division);
+        $this->db->where('u.dis_id', $district);
 
         $this->db->group_by('p.app_user_id');
         $this->db->order_by('u.id', 'ASC');

@@ -15,6 +15,8 @@ class Reports extends Backend_Controller {
         $this->load->model('Common_model');
         $this->load->model('general_setting/General_setting_model');
         $this->load->model('exam_names/Exam_names_model');
+        set_time_limit(0) ;
+        ini_set("memory_limit","-1M");
     }
 
     public function index(){
@@ -403,22 +405,24 @@ class Reports extends Backend_Controller {
                 $mpdf->WriteHtml($html);
                 $mpdf->output();
 
-            } elseif($this->input->post('btnsubmit') == 'pdf_untrained_repo_list') {
-                $this->data['results'] = $this->Reports_model->get_untrained_repo_list($division_id);
+            } elseif($this->input->post('btnsubmit') == 'pdf_untrained_list') {
+
+                $this->data['results'] = $this->Reports_model->get_untrained_repo_emp_list(1, $division_id, $district_id);
               
-                $this->data['headding'] = 'অপ্রশিক্ষিত ব্যক্তির রিপোর্ট';
-                $html = $this->load->view('pdf_untrained_repo_list', $this->data, true);
+                $this->data['headding'] = 'জেলাওয়ারী অপ্রশিক্ষিত জনপ্রতিনিধির রিপোর্ট';
+                $html = $this->load->view('pdf_untrained_list', $this->data, true);
 
                 //Generate PDF
                 $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
                 $mpdf->WriteHtml($html);
                 $mpdf->output();
 
-            } elseif($this->input->post('btnsubmit') == 'pdf_trained_repo_list') {
-                $this->data['results'] = $this->Reports_model->get_untrained_repo_list($division_id);
+            } elseif($this->input->post('btnsubmit') == 'pdf_trained_list') {
+
+                $this->data['results'] = $this->Reports_model->get_trained_repo_emp_list(1, $division_id, $district_id);
               
-                $this->data['headding'] = 'অপ্রশিক্ষিত ব্যক্তির রিপোর্ট';
-                $html = $this->load->view('pdf_trained_repo_list', $this->data, true);
+                $this->data['headding'] = 'জেলাওয়ারী প্রশিক্ষিত জনপ্রতিনিধির রিপোর্ট';
+                $html = $this->load->view('pdf_trained_list', $this->data, true);
 
                 //Generate PDF
                 $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
@@ -950,8 +954,43 @@ class Reports extends Backend_Controller {
                 $mpdf->WriteHtml($html);
                 $mpdf->output();
 
-            }else{
-                // echo 'hello'; 
+            } elseif($this->input->post('btnsubmit') == 'pdf_untrained_list') {
+
+                if($data_sheet_type == 2){
+                    $this->data['type_details'] = ' কর্মকর্তার';
+                }elseif($data_sheet_type == 3){
+                    $this->data['type_details'] = ' কর্মচারীর';
+                }
+                $this->data['data_status'] = $status;
+
+                $this->data['results'] = $this->Reports_model->get_untrained_repo_emp_list($data_sheet_type, $division_id, $district_id);
+              
+                $this->data['headding'] = 'জেলাওয়ারী অপ্রশিক্ষিত '.$this->data['type_details'].' রিপোর্ট';
+                $html = $this->load->view('pdf_untrained_list', $this->data, true);
+
+                //Generate PDF
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
+
+            } elseif($this->input->post('btnsubmit') == 'pdf_trained_list') {
+
+                if($data_sheet_type == 2){
+                    $this->data['type_details'] = ' কর্মকর্তার';
+                }elseif($data_sheet_type == 3){
+                    $this->data['type_details'] = ' কর্মচারীর';
+                }
+                $this->data['data_status'] = $status;
+
+                $this->data['results'] = $this->Reports_model->get_trained_repo_emp_list($data_sheet_type, $division_id, $district_id);
+              
+                $this->data['headding'] = 'জেলাওয়ারী প্রশিক্ষিত '.$this->data['type_details'].' রিপোর্ট';
+                $html = $this->load->view('pdf_trained_list', $this->data, true);
+
+                //Generate PDF
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
 
             }
         }

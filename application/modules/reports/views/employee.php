@@ -149,8 +149,8 @@
 
                     <button type="submit" name="btnsubmit" value="pdf_emp_list_district" onclick="return validFunc1()" class="btn btn-info btn-cons margin-top"> জেলা পরিষদের রিপোর্ট</button>
 
-                    <button type="submit" name="btnsubmit" value="pdf_untrained_emp_list" onclick="return validFunc2()" class="btn btn-info btn-cons margin-top"> অপ্রশিক্ষিত ব্যক্তির রিপোর্ট</button>
-                    <button type="submit" name="btnsubmit" value="pdf_trained_emp_list" onclick="return validFunc2()" class="btn btn-info btn-cons margin-top"> প্রশিক্ষিত ব্যক্তির রিপোর্ট</button>
+                    <button type="submit" name="btnsubmit" value="pdf_untrained_list" onclick="return validFunc6()" class="btn btn-info btn-cons margin-top"> অপ্রশিক্ষিত ব্যক্তির রিপোর্ট</button>
+                    <button type="submit" name="btnsubmit" value="pdf_trained_list" onclick="return validFunc6()" class="btn btn-info btn-cons margin-top"> প্রশিক্ষিত ব্যক্তির রিপোর্ট</button>
                   </div>
                 </div>
               </div> <!-- /col-md-8 -->
