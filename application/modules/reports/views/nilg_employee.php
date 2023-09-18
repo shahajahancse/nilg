@@ -222,8 +222,6 @@
       if (submitOK == "false") {
         $("#error").show();
         return false;
-      }else{
-        $("#validate").submit();
       }
     }
 
@@ -245,8 +243,6 @@
       if (submitOK == "false") {
         $("#error").show();
         return false;
-      }else{
-        $("#validate").submit();
       }
     }
 

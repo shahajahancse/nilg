@@ -42,7 +42,8 @@
                                 <td width="80">ব্যাচ নং</td>
                                 <td>ট্রেনিং শুরুর তারিখ</td>
                                 <td>ট্রেনিং শেষের তারিখ</td>
-                                <td width="100"> <a href="javascript:void();" id="addRowNilgTraining" class="label label-success"> <i  class="fa fa-plus-circle"></i> যোগ করুন</a> </td>
+                                <td width="100"> <a href="javascript:void();" class="label label-success"> <i  class="fa fa-plus-circle"></i> অ্যাকশান</a> </td>
+                                <!-- <td width="100"> <a href="javascript:void();" id="addRowNilgTraining" class="label label-success"> <i  class="fa fa-plus-circle"></i> যোগ করুন</a> </td> -->
                             </tr>
                             <?php if (!empty($nilg_training)) {
                                     // dd($experience);
@@ -51,19 +52,20 @@
                                     <td><select name="nilg_course_id[]" class="select-h-siz form-control input-sm">
                                         <option value="">--নির্বাচন করুন--</option>
                                         <?php foreach ($courses as $key => $course){ $course = (object) $course; ?>
-                                        <option value="<?=$course->id?>" <?php echo ($course->id == $row->nilg_course_id)? "selected":"" ?>><?=$course->course_title?></option>
+                                        <option value="<?=$course->id?>" <?php echo ($course->id == $row->course_id)? "selected":"" ?>><?=$course->course_title?></option>
                                         <?php } ?>
                                     </select></td>
                                     <td><select name="nilg_desig_id[]" class="designationSelect2 form-control input-sm">
                                         <option value="">--নির্বাচন করুন--</option>
                                         <option value="<?=$row->nilg_desig_id?>" <?php echo $row->nilg_desig_id? "selected":"" ?>><?=$row->desig_name?></option>
                                     </select></td>
-                                    <td><input name="nilg_batch_no[]" type="number" value="<?=$row->nilg_batch_no?>" class="form-control input-sm"></td>
-                                    <td><input type="text" class="form-control input-sm datetime" value="<?=$row->nilg_training_start?>" name="nilg_training_start[]"></td>
-                                    <td><input type="text" class="form-control input-sm datetime" value="<?=$row->nilg_training_end?>" name="nilg_training_end[]"></td>
+                                    <td><input name="batch_no[]" type="number" value="<?=$row->batch_no?>" class="form-control input-sm" ></td>
+                                    <td><input class="form-control input-sm datetime" value="<?=$row->start_date?>" name="start_date[]" ></td>
+                                    <td><input class="form-control input-sm datetime" value="<?=$row->end_date?>" name="end_date[]" ></td>
 
                                     <td width="100"> <a href="javascript:void();" data-id="<?=$row->id?>" onclick="removeRowNILGFunc(this)" class="label label-important"> <i class="fa fa-minus-circle"></i> মুছে ফেলুন</a> </td>
                                     <input type="hidden" name="hide_row_id[]" value="<?=$row->id?>">
+                                    <input type="hidden" name="hide_training_id[]" value="<?=$row->training_id?>">
                                 </tr>
                                 <?php } } ?>
                             </table>

@@ -65,7 +65,7 @@
                                 <ul class="dropdown-menu pull-right">
                                  <?php //if(func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id) == 'sk'){ ?>
                                  <?php if ($this->ion_auth->in_group(array('admin','sm','asm'))) { ?>
-                                  <li><a href="<?php echo base_url('inventory/change_requisition_status/'.encrypt_url($row->id))?>"><i class="fa fa-user"></i> Approval Status </a></li>
+                                  <li><a href="<?php echo base_url('inventory/change_requisition_status/'.encrypt_url($row->id))?>"><i class="fa fa-user"></i>  রিকুয়েস্ট অ্যাপ্রোভ  </a></li>
                                   <?php } ?>
                                   <li><a href="<?php echo base_url('inventory/requisition_details/'.encrypt_url($row->id))?>" target="_blank"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
                                 </ul>

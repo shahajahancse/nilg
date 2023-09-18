@@ -47,7 +47,7 @@
               <div class="col-md-12 text-center">
                 <?php if($this->session->flashdata('success')):?>
                   <div class="alert alert-success">
-                    <?php echo $this->session->flashdata('success');;?>
+                    <?php echo $this->session->flashdata('success');?>
                   </div>
                 <?php endif; ?>
                 <span class="training-title"><?=func_training_title($training->id)?></span>

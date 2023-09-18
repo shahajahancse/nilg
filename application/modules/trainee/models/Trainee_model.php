@@ -272,8 +272,10 @@ class Trainee_model extends CI_Model {
                 nt.id, 
                 nt.training_id, 
                 nt.app_user_id, 
+                nt.nilg_desig_id,
                 c.course_title,
                 d.desig_name, 
+                t.course_id,
                 t.participant_name,
                 t.batch_no, 
                 t.start_date, 
@@ -288,6 +290,7 @@ class Trainee_model extends CI_Model {
         $this->db->where('nt.app_user_id', $id);
         $this->db->where('nt.is_complete', 1);
         $query['nilg_training'] = $this->db->get()->result();
+        // dd($query['nilg_training']);
         
 
         // Local Training in Bangladesh

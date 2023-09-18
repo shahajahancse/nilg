@@ -74,11 +74,11 @@
             <thead class="headding">
                <tr>
                   <th class="" width="20">ক্রম</th>
-                  <th class="text-left" width="150">আইটেম নাম</th>
-                  <th class="text-right" width="100">কুয়ান্টিটি</th>
-                  <th class="text-left" width="80">ইউনিট</th>     
-                  <th class="" width="100">অর্ডার লেভেল</th>     
+                  <th class="text-left" width="150">মালামালের নাম</th>
                   <th class="text-left" width="150">ক্যাটাগরি</th>            
+                  <th class="text-right" width="100">পরিমাণ</th>
+                  <th class="text-left" width="80">একক</th>     
+                  <th class="" width="100">অর্ডার লেভেল</th>     
                </tr>
             </thead>
 
@@ -90,21 +90,21 @@
                   $total += $row->quantity;
                   ?>
                   <tr>
-                     <td class="text-center"><?=$i?>.</td>
+                     <td class="text-center"><?=eng2bng($i)?>.</td>
                      <td class="text-left"><?=$row->item_name?></td>                 
-                     <td class="text-right"><?=eng2bng($row->quantity);?></td>                 
-                     <td class="text-left"><?=$row->unit_name?></td>
-                     <td class="text-center"><?=$row->order_level?></td>
                      <td class="text-left"><?=$row->category_name?></td>
+                     <td class="text-right"><?=eng2bng((int)$row->quantity);?></td>                 
+                     <td class="text-left"><?=$row->unit_name?></td>
+                     <td class="text-center"><?=eng2bng((int)$row->order_level)?></td>
                   </tr>
                <?php } ?>
             </tbody>
 
             <tfoot class="headding">
                <tr>
-                  <th class="text-right" colspan="2">সর্বমোট কুয়ান্টিটি</th>
-                  <th class="text-right"><?= eng2bng(number_format($total,2)); ?></th>
-                  <th class="text-right" colspan="3"></th>
+                  <th class="text-right" colspan="3">সর্বমোট পরিমাণ</th>
+                  <th class="text-left" colspan="3"><?= eng2bng((int)$total); ?></th>
+                  <!-- <th class="text-right" ></th> -->
                </tr>
             </tfoot>
          </table>      

@@ -70,6 +70,7 @@
                                 <ul class="dropdown-menu pull-right">
                                   <li><a href="<?php echo base_url('inventory/delivery_product/'.encrypt_url($row->id))?>" target="_blank"><i class="fa fa-user"></i> ডেলিভেরি </a></li>
                                   <li><a href="<?php echo base_url('inventory/requisition_details/'.encrypt_url($row->id))?>" target="_blank"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
+                                  <li><a class="btn btn-mini" href="<?php echo base_url('inventory/my_requisition_print/'.encrypt_url($row->id))?>" target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট করুন </a></li>
                                 </ul>
                               </div>
                            </td>

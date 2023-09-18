@@ -30,6 +30,7 @@
                            <th style="width:150px;">ডিপার্টমেন্ট</th>
                            <!-- <th style="width:150px;">Reqisiton Title</th> -->
                            <th style="width:100px;">তারিখ</th>
+                           <th style="width:50px;">বর্তমান ডেস্ক</th>
                            <th style="width:100px;">আপডেট তারিখ</th>
                            <th style="width:20px;">স্ট্যাটাস</th>
                            <th style="width:50px;">ডেলিভারি</th>
@@ -59,13 +60,29 @@
                         }else{
                            $delivered = '<span class="label label-important">না</span>';
                         }
+
+                        if ($row->current_desk == 1 && $row->status == 1) {
+                           $desk = '<span class="label label-info">স্টোর কীপার রিভিউ</span>';
+                        }else if ($row->current_desk == 2 && $row->status == 2) {
+                           $desk = '<span class="label label-primary">যুগ্মপরিচালক রিভিউ</span>';
+                        }else if ($row->current_desk == 3 && $row->status == 2) {
+                           $desk = '<span class="label label-primary">মহাপরিচালক রিভিউ</span>';
+                        }else if ($row->current_desk == 4 && $row->status == 5) {
+                           $desk = '<span class="label label-success">আইটেম ডেলিভারড</span>';
+                        } else {
+                              $desk = '<span class="label">রিজেক্ট</span>';
+                        }
                         ?>
                         <tr>
                            <td class="v-align-middle"><?=eng2bng($sl).'.'?></td>
                            <td class="v-align-middle"><?=$row->name_bn; ?></td>
                            <td class="v-align-middle"><strong><?=$row->dept_name; ?></strong></td>
                            <!-- <td class="v-align-middle"><?=$row->title; ?></td> -->
-                           <td class="v-align-middle"><?= date_bangla_calender_format($row->created); ?></td>
+                           <td class="v-align-middle"><?= date_bangla_calender_format($row->created); ?></td><?php if ($row->current_desk == 4 && $row->status == 4) { ?>
+                           <td><a class="btn btn-success btn-mini">স্টোর কীপার রিভিউ</a> 
+                           <?php } else {?>
+                           <td> <?=$desk?></td>
+                           <?php } ?>
                            <td class="v-align-middle"><?= date_bangla_calender_format($row->updated); ?></td>
                            <td> <?=$status?></td>
                            <td> <?=$delivered?></td>

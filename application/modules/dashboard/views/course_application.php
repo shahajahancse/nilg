@@ -31,7 +31,7 @@
 						<div class="row">
 							<div class="col-md-4  col-md-offset-4">
 								<fieldset>
-									<legend>পিন নম্বর দিন</legend>
+									<legend>কোর্স কোড দিন</legend>
 
 									<div class="row">
 										<div class="col-md-12">												
@@ -49,7 +49,7 @@
 													<?php } ?>    
 
 													<div class="form-group">
-														<label class="form-label">পিন নম্বর <span class="required">*</span></label>
+														<label class="form-label">কোর্স কোড <span class="required">*</span></label>
 														<?php echo form_error('pin'); ?>
 														<input name="pin" type="text" value="<?=set_value('pin')?>" class="form-control input-sm font-opensans" style="text-transform: uppercase;">
 													</div>

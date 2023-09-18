@@ -9,7 +9,7 @@
          <style type="text/css">
             .tg  {border-collapse:collapse;border-spacing:0; border: 0px solid red;}
             .tg td{font-size:14px;padding:5px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#bbb;color:#00000;background-color:#E0FFEB; vertical-align: middle;}
-            .tg th{font-size:14px;font-weight:bold;padding:3px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#bbb;color:#493F3F;background-color:#bce2c5;text-align: center;}
+            .tg th{font-size:14px;font-weight:bold;padding:3px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#bbb;color:#493F3F;background-color:#bce2c5;}
             .tg .tg-khup{background-color:#efefef;vertical-align:top; color: black; text-align: right; width: 150px;}
             .tg .tg-ywa9{background-color:#ffffff;vertical-align:top; color: black;}
          </style>  
@@ -58,19 +58,19 @@
                                  <div class="col-md-12">
                                     <table class="tg" width="100%">
                                        <tr>
-                                          <th class="tg-khup"> Applicant Name </th>
+                                          <th class="tg-khup"> আবেদনকারীর নাম: </th>
                                           <td class="tg-ywa9"><?=$info->name_bn?></td>
-                                          <th class="tg-khup"> Designation </th>
+                                          <th class="tg-khup"> পদবীর নাম: </th>
                                           <td class="tg-ywa9"><?=$info->desig_name?></td>
-                                          <th class="tg-khup"> Department </th>
+                                          <th class="tg-khup"> ডিপার্টমেন্ট নাম: </th>
                                           <td class="tg-ywa9"><?=$info->dept_name?></td>
                                        </tr>
                                        <tr>
-                                          <th class="tg-khup"> Created </th>
-                                          <td class="tg-ywa9"><?=date('d M, Y h:i A', strtotime($info->created)); ?></td>
-                                          <th class="tg-khup"> Updated </th>
-                                          <td class="tg-ywa9"><?=date('d M, Y h:i A', strtotime($info->updated)); ?></td>
-                                          <th class="tg-khup">Status</th>
+                                          <th class="tg-khup"> তারিখ </th>
+                                          <td class="tg-ywa9"><?=date_bangla_calender_format($info->created); ?></td>
+                                          <th class="tg-khup"> আপডেট তারিখ </th>
+                                          <td class="tg-ywa9"><?=date_bangla_calender_format($info->updated); ?></td>
+                                          <th class="tg-khup">স্ট্যাটাস</th>
                                           <td class="tg-ywa9"><?php echo $status; ?></td>
                                        </tr> 
                                     </table>
@@ -86,15 +86,15 @@
                               <legend style="margin: 0px 0px 10px 0px !important;">রিকুইজিশন তালিকা</legend>
                               <style type="text/css">
                                  #appRowDiv td{padding: 5px; border-color: #ccc;}
-                                 #appRowDiv th{padding: 5px;text-align:center;border-color: #ccc; color: black;}
+                                 #appRowDiv th{padding: 5px;border-color: #ccc; color: black;}
                               </style>                              
                               <div id="msgPerson"> </div>
                               <table width="100%" border="1" id="appRowDiv">
                                  <tr>
-                                    <th width="20%">Item Name <span class="required">*</span></th>
-                                    <th width="20%">Qty. Request</th>
-                                    <th width="20%"> Qty. Approve </th>
-                                    <th width="20%">Remark</th>
+                                    <th>আইটেম নাম (ইউনিট)</th>
+                                    <th>রিকুয়েস্ট কোয়ান্টিটি</th>
+                                    <th>অ্যাপ্রভ কোয়ান্টিটি</th>
+                                    <th>রিমার্ক</th>
                                  </tr>
                                  <?php foreach($items as $item){ ?>
                                  <tr>
@@ -113,7 +113,7 @@
 
                      <div class="row">
                         <fieldset>      
-                           <legend style="margin: 0px 0px 10px 0px !important;">Comments:</legend>
+                           <legend style="margin: 0px 0px 10px 0px !important;">মন্তব্য:</legend>
                            <div class="row form-row">
                               <div class="col-md-10 ">
                                  <textarea class="form-control" name="comment" required="true"></textarea>

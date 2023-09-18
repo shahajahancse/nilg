@@ -12,7 +12,7 @@
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">                
-                     <a href="<?=base_url('inventory/item_create')?>" class="btn btn-blueviolet btn-xs btn-mini">আইটেম এন্ট্রি করুন</a>  
+                     <a href="<?=base_url('inventory/item_create')?>" class="btn btn-blueviolet btn-xs btn-mini">মালামাল এন্ট্রি করুন</a>  
                   </div>
                </div>
 
@@ -30,9 +30,9 @@
                            <th style="width:2%"> ক্রম </th>
                            <th style="width:12%">ক্যাটেগরি</th>
                            <th style="width:12%">সাব ক্যাটেগরি</th>
-                           <th style="width:20%">আইটেম নাম</th>
-                           <th style="width:8%">ইউনিট</th>
-                           <th style="width:8%">কুয়ান্টিটি</th>
+                           <th style="width:20%">মালামালের নাম</th>
+                           <th style="width:8%">একক</th>
+                           <th style="width:8%">পরিমাণ</th>
                            <th style="width:10%">অরডার লেভেল</th>
                            <th style="width:8%">স্ট্যাটাস</th>
                            <th style="width:12%" class="text-center">অ্যাকশন</th>
@@ -55,8 +55,8 @@
                               <td class="v-align-middle"><?=$row->sub_cate_name?></td>
                               <td class="v-align-middle"><strong><?=$row->item_name?></strong></td>
                               <td class="v-align-middle"><?=$row->unit_name?></td>
-                              <td class="v-align-middle"><strong><?= eng2bng($row->quantity); ?></strong></td>
-                              <td class="v-align-middle"><?= eng2bng($row->order_level); ?></td>
+                              <td class="v-align-middle"><strong><?= eng2bng((int)$row->quantity); ?></strong></td>
+                              <td class="v-align-middle"><?= eng2bng((int)$row->order_level); ?></td>
                               <td class="v-align-middle"><?=$status?></td>
                               <td align="right">
                                  <div class="btn-group">

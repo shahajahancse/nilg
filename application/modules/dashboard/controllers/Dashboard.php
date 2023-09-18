@@ -13,9 +13,8 @@ class Dashboard extends Backend_Controller
 		// dd($this->session->all_userdata());		
 		$this->userID = $this->session->userdata('user_id');
 		$this->load->model('Dashboard_model');
-		$this->load->model('training/Training_model');	
-		$this->note_path = realpath(APPPATH . '../uploads/note');	
-	}	
+		$this->load->model('training/Training_model');		
+	}
 
 	public function index()
 	{
@@ -37,7 +36,6 @@ class Dashboard extends Backend_Controller
 			$this->data['meta_title'] = 'গেস্ট ইউজারের ড্যাশবোর্ড';
 			$this->data['subview'] = $page;
 			$this->load->view('backend/_layout_main', $this->data);
-
 
 		} elseif ($this->ion_auth->in_group('trainee')) { // Trainee (10) Dashboard 
 			// echo 'Hello'; exit;
@@ -71,7 +69,7 @@ class Dashboard extends Backend_Controller
 			$this->load->view('backend/_layout_main', $this->data);
 
 
-		} elseif ($this->ion_auth->in_group('up')) {
+		} elseif ($this->ion_auth->in_group('up')) { 
 			/*
 			@Group ID:		7
 			@Group Name:	up		
@@ -85,7 +83,6 @@ class Dashboard extends Backend_Controller
 			$this->data['meta_title'] = 'ইউনিয়ন পরিষদের ড্যাশবোর্ড';
 			$this->data['subview'] = 'up_dashboard';
 			$this->load->view('backend/_layout_main', $this->data);
-
 
 		} elseif ($this->ion_auth->in_group('paura')) {	// Paurashava (6) Dashboard 
 
@@ -179,7 +176,6 @@ class Dashboard extends Backend_Controller
 			$this->data['subview'] = 'urt_dashboard';
 			$this->load->view('backend/_layout_main', $this->data);
 		*/
-
 
 		} elseif ($this->ion_auth->is_admin()) { // Admin (1) Dashboard
 			// dd($this->data['courseStatistics']);
@@ -334,7 +330,6 @@ class Dashboard extends Backend_Controller
 			$this->data['subview'] = 'superadmin_dashboard';
 			$this->load->view('backend/_layout_main', $this->data);		
 
-
 		} else {		
 
 			//Load page       
@@ -342,45 +337,7 @@ class Dashboard extends Backend_Controller
 			$this->data['subview'] = 'member_dashboard';
 			$this->load->view('backend/_layout_main', $this->data);
 		}
-	}	
-
-	// Google Bar Chart Example
-	public function user_count_by_office_type() 
-	{ 
-		$data = $this->Dashboard_model->get_user_count_by_office_type(); 
-
-      //data to json 
-		$responce->cols[] = array( 
-			"id" => "", 
-			"label" => "Topping", 
-			"pattern" => "", 
-			"type" => "string" 
-			); 
-		$responce->cols[] = array( 
-			"id" => "", 
-			"label" => "Total", 
-			"pattern" => "", 
-			"type" => "number" 
-			); 
-
-		foreach($data as $row) 
-		{ 
-			$responce->rows[]["c"] = array( 
-				array( 
-					"v" => "$row->office_type_name", 
-					"f" => null 
-					) , 
-				array( 
-					"v" => (int)$row->user_count, 
-					"f" => null 
-					) 
-				); 
-		} 
-
-		echo json_encode($responce); 
-	} 
-
-
+	}
 
 
 	public function search($offset = 0){
@@ -439,7 +396,7 @@ class Dashboard extends Backend_Controller
 		$this->load->view('backend/_layout_main', $this->data);
 	}
 
-	/*public function my_training_schedule($id)
+	public function my_training_schedule($id)
 	{
 		// Check Auth
 		if(!$this->ion_auth->in_group(array('trainee'))){
@@ -493,14 +450,14 @@ class Dashboard extends Backend_Controller
 	public function course_registration()
 	{
 		// Results
-     	$this->data['results'] = $this->Dashboard_model->get_training_circular();
+		$this->data['results'] = $this->Dashboard_model->get_training_circular();
 		// dd($this->data['results']);
 
 		// View
-     	$this->data['meta_title'] = 'কোর্স রেজিস্ট্রেশন';
-     	$this->data['subview'] = 'course_registration';
-     	$this->load->view('backend/_layout_main', $this->data);
-     }*/
+		$this->data['meta_title'] = 'কোর্স রেজিস্ট্রেশন';
+		$this->data['subview'] = 'course_registration';
+		$this->load->view('backend/_layout_main', $this->data);
+	}
 
 	public function course_application($id)
 	{
@@ -577,23 +534,7 @@ class Dashboard extends Backend_Controller
      	$this->load->view('backend/_layout_main', $this->data);
     }
 
-	// uplode config
-	private function set_upload_options($file_name, $path)
-    {   
-        //upload an image options
-        $config = array();
-        $config['allowed_types']= 'jpg|png|jpeg|pdf|xlsx|xls';
-        $config['upload_path']  = $path;
-        $config['file_name']    = $file_name;
-        // $config['max_size']     = '104857600';
-        $config['max_size'] = '1000000';
-        $config['max_width']  = '1024000';
-        $config['max_height']  = '768000';
-        $config['overwrite']     = FALSE;
 
-        return $config;
-    }
-	
 
 
 
@@ -665,16 +606,22 @@ class Dashboard extends Backend_Controller
 
 	
 
-	/*public function pdf_training_material($id)
+	public function pdf_training_material($id)
 	{
 
 		// View
 		$this->data['meta_title'] = 'কোর্স রেজিস্ট্রেশনের জন্য আবেদন ফরম';
 		$this->data['subview'] = 'course_application';
 		$this->load->view('backend/_layout_main', $this->data);
-	}*/
+	}
 
-	
+	public function course_application_success()
+	{
+		// View
+		$this->data['meta_title'] = 'কোর্সের আবেদন সফলভাবে সম্পন্ন হয়েছে';
+		$this->data['subview'] = 'course_application_success';
+		$this->load->view('backend/_layout_main', $this->data);
+	}
 
 	/******************************* Edit Form ************************/
 	/******************************************************************/

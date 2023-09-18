@@ -10,6 +10,65 @@ class Reports_model extends CI_Model {
         $this->load->dbforge();
     }
 
+
+    public function get_emp_pre_data($status=NULL, $division=NULL, $district=NULL, $upazila=NULL, $union=NULL, $start_date=NULL, $end_date=NULL){
+
+        $this->db->select('
+                u.name_bn as name_bangla, 
+                u.crrnt_attend_date as dob, 
+                u.crrnt_attend_date as curr_attend_date, 
+                u.nid as national_id, 
+                u.mobile_no as telephone_mobile, 
+                u.created_on, 
+                u.status, 
+                o.office_name,
+                uz.upa_name_bn, 
+                ds.dis_name_bn, 
+                dg.desig_name,
+            ');
+
+        $this->db->from('users u');        
+        $this->db->join('office o', 'o.id = u.crrnt_office_id', 'LEFT');
+        $this->db->join('upazilas uz', 'uz.id=u.per_upa_id', 'LEFT');
+        $this->db->join('districts ds', 'ds.id=u.per_dis_id', 'LEFT');
+        $this->db->join('designations dg', 'dg.id=u.crrnt_desig_id', 'LEFT');
+        $this->db->where('u.is_verify', 1);
+
+        /*if(!empty($employee_type)){
+            $this->db->where('u.employee_type', $employee_type);
+        }
+        if(!empty($officeType)){
+            $this->db->where('u.office_type', $officeType);
+        }*/
+
+        if(!empty($status)){
+            $this->db->where('u.status', $status);
+        }
+
+        if(!empty($division)){
+            $this->db->where('u.div_id', $division);
+        }
+        if(!empty($district)){
+            $this->db->where('u.dis_id', $district);
+        }
+        if(!empty($upazila)){
+            $this->db->where('u.upa_id', $upazila);
+        }
+        if(!empty($union)){
+            $this->db->where('u.union_id', $union);
+        }
+        
+        if(!empty($start_date) && !empty($end_date)){
+            $start_date = strtotime($start_date);
+            $end_date = strtotime($end_date);
+            $this->db->where("u.created_on BETWEEN '$start_date' AND '$end_date'");
+        }
+
+        $query = $this->db->get()->result();
+        // dd($query);
+        return $query;
+    }
+
     public function get_completed_training_list($financing_id = NULL, $startDate = NULL, $endDate = NULL) {
         // result query
         $this->db->select('t.*, tc.course_title, f.finance_name');
@@ -33,14 +92,14 @@ class Reports_model extends CI_Model {
         return $query;
     }
 
-    public function get_pr_by_division($status=NULL, $division=NULL) {
+    public function get_pr_by_division($et=null, $status=NULL, $division=NULL, $start_date=NULL, $end_date=NULL) {
         $this->db->select('d.id, d.dis_name_bn, d.dis_div_id as div_id'); 
         $this->db->from('districts as d');
         $this->db->where('d.dis_div_id', $division);
         $results = $this->db->get()->result();
 
         foreach ($results as &$value) {
-            $value->count = $this->get_pr_count($status, $value->div_id, $value->id);
+            $value->count = $this->get_pr_count($et, $status, $value->div_id, $value->id, NULL, NULL, $start_date, $end_date);
         }
         return $results;
     }
@@ -53,7 +112,7 @@ class Reports_model extends CI_Model {
         // dd($results);
 
         foreach ($results as &$value) {
-            $value->count = $this->get_pr_count($status, $value->div_id, $district, $value->id);
+            $value->count = $this->get_pr_count(1, $status, $value->div_id, $district, $value->id);
         }
         // dd($results);
         return $results;
@@ -67,13 +126,13 @@ class Reports_model extends CI_Model {
         // dd($results);
 
         foreach ($results as &$value) {
-            $value->count = $this->get_pr_count($status, $value->div_id, $value->dis_id, $upazila, $value->id);
+            $value->count = $this->get_pr_count(1, $status, $value->div_id, $value->dis_id, $upazila, $value->id);
         }
         // dd($results);
         return $results;
     }
 
-    public function get_pr_count($status=NULL, $division=NULL, $district=NULL, $upazila=NULL, $union=NULL) {
+    public function get_pr_count($et=NULL, $status=NULL, $division=NULL, $district=NULL, $upazila=NULL, $union=NULL, $start_date=NULL, $end_date=NULL) {
         $this->db->select('
                     SUM(CASE WHEN office_type = 5 THEN 1 ELSE 0 END ) AS city_c, 
                     SUM(CASE WHEN office_type = 4 THEN 1 ELSE 0 END ) AS zila_p,
@@ -81,12 +140,16 @@ class Reports_model extends CI_Model {
                     SUM(CASE WHEN office_type = 2 THEN 1 ELSE 0 END ) AS pourasava,
                     SUM(CASE WHEN office_type = 1 THEN 1 ELSE 0 END ) AS union_p,
                 ');
-        $this->db->where('employee_type', 1);
+        // $this->db->where('employee_type', $et);
         // $this->db->where('office_type', $officeType);
         // $this->db->where('data_sheet_type', $dataType);
         // $this->db->where('office_type_id', $officeType);
+        $this->db->where('is_verify', 1);
 
         
+        if(!empty($et)){
+            $this->db->where('employee_type', $et);
+        }
         if(!empty($status)){
             $this->db->where('status', $status);
         }
@@ -103,6 +166,12 @@ class Reports_model extends CI_Model {
         if(!empty($union)){
             $this->db->where('union_id', $union);
         }
+
+        /*if(!empty($start_date) && !empty($end_date)){
+            $start_date = strtotime($start_date);
+            $end_date = strtotime($end_date);
+            $this->db->where("created_on BETWEEN '$start_date' AND '$end_date'");
+        }*/
 
         return $tmp = $this->db->get('users')->result();
         // echo $this->db->last_query(); exit;        
@@ -308,12 +377,14 @@ class Reports_model extends CI_Model {
                 uz.upa_name_bn, 
                 ds.dis_name_bn, 
                 dg.desig_name,
+                o.office_name,
             ');
 
         $this->db->from('users u');        
         $this->db->join('upazilas uz', 'uz.id=u.per_upa_id', 'LEFT');
         $this->db->join('districts ds', 'ds.id=u.per_dis_id', 'LEFT');
         $this->db->join('designations dg', 'dg.id=u.crrnt_desig_id', 'LEFT');
+        $this->db->join('office o', 'o.id = u.crrnt_office_id', 'LEFT');
 
         if(!empty($employee_type)){
             $this->db->where('u.employee_type', $employee_type);
@@ -337,6 +408,10 @@ class Reports_model extends CI_Model {
         }
         if(!empty($union)){
             $this->db->where('u.union_id', $union);
+        }
+        
+        if(!empty($officeType) && $officeType == 7){
+            $this->db->order_by('u.order_no', 'ASC');
         }
 
         $query = $this->db->get()->result();
@@ -643,17 +718,23 @@ class Reports_model extends CI_Model {
         return $ret;
     }*/
 
-    public function get_count_age($dataType, $age) {
+    public function get_count_age($dataType, $age, $office_type = null) {
         $ret = 0;
+        $this->db->select('COUNT(id) as total, dob, YEAR(CURDATE()) - YEAR(dob) AS age');
+        $this->db->from('users');
 
-        $query = $this->db->query("SELECT id, employee_type, name_bn, dob, YEAR(CURDATE()) - YEAR(dob) AS age, COUNT(id) as total FROM users WHERE employee_type = '$dataType' GROUP BY age HAVING age = '$age'");
-        // echo $this->db->last_query(); exit;     
-
-        if($query->num_rows() > 0){
-            $row = $query->result_array();
-            $ret = $row[0]['total']; //exit;
+        $this->db->where('employee_type', $dataType);
+        if(!empty($office_type)){
+            $this->db->where('office_type', $office_type);
         }   
-        // print_r($ret); exit;
+        $this->db->group_by("age");
+        $this->db->having("age", $age);
+        $tmp = $this->db->get();
+
+        if($tmp->num_rows() > 0){
+            $row = $tmp->result_array(); //exit;
+            $ret = $row[0]['total'];
+        }   
         return $ret;
     }
 
@@ -740,7 +821,8 @@ class Reports_model extends CI_Model {
         $this->db->where('u.employee_type', $dataType);   
         $this->db->where('nt.nilg_course_id', $course_id);
         if(!empty($officeType)){
-            $this->db->where('office_type', $officeType);
+            $this->db->where('u.office_type', $officeType);
+            $this->db->order_by('u.order_no', 'ASC');
         } 
         $query = $this->db->get()->result();
 
@@ -813,15 +895,96 @@ class Reports_model extends CI_Model {
     }*/
 
 
+    public function designation_count_by_mf($designation, $start_date=NULL, $end_date=NULL) {
+        $this->db->select('d.id, d.desig_name,
+                SUM(CASE WHEN u.gender = "Male" THEN 1 ELSE 0 END ) AS male,
+                SUM(CASE WHEN u.gender = "Female" THEN 1 ELSE 0 END ) AS female
+            ');
+
+        $this->db->join('designations d', 'd.id = u.crrnt_desig_id', 'LEFT');
+        $this->db->where_in('u.crrnt_desig_id', $designation); 
+        $this->db->where('u.is_verify', 1);
+
+        if(!empty($officeType)){
+            $this->db->where('u.office_type', $officeType);
+        }   
+        if(!empty($division)){
+            $this->db->where('u.div_id', $division);
+        }
+
+        if(!empty($start_date) && !empty($end_date)){
+            $start_date = strtotime($start_date);
+            $end_date = strtotime($end_date);
+            $this->db->where("u.created_on BETWEEN '$start_date' AND '$end_date'");
+        }
+
+        $this->db->group_by("u.crrnt_desig_id");
+        $tmp = $this->db->get('users as u')->result();
+        return $tmp;
+    }
 
 
+    public function pdf_organization_report($division, $start_date=NULL, $end_date=NULL) {
+        $this->db->select('
+                u.name_bn as name_bangla, 
+                u.crrnt_attend_date as dob, 
+                u.nid as national_id, 
+                u.mobile_no, 
+                u.created_on, 
+                u.status, 
+                dg.desig_name,
+                o.office_name,
+            ');
 
-    public function get_count_by_designation($id, $officeType=NULL) {
+        $this->db->from('users u');        
+        $this->db->join('office o', 'o.id = u.crrnt_office_id', 'LEFT');
+        $this->db->join('designations dg', 'dg.id=u.crrnt_desig_id', 'LEFT');
+        $this->db->where('u.is_verify', 1);
+
+
+        if(!empty($division)){
+            $this->db->where('u.div_id', $division);
+        }
+
+        if(!empty($start_date) && !empty($end_date)){
+            $start_date = strtotime($start_date);
+            $end_date = strtotime($end_date);
+            $this->db->where("u.created_on BETWEEN '$start_date' AND '$end_date'");
+        }
+
+        $this->db->group_by("u.crrnt_desig_id");
+        $tmp = $this->db->get()->result();
+        return $tmp;
+    }
+
+
+    public function get_count_by_designation($id, $officeType=NULL,$division=NULL, $start_date=NULL, $end_date=NULL) {
         $this->db->select('COUNT(*) as count');
         $this->db->where('crrnt_desig_id', $id); 
+        $this->db->where('is_verify', 1);
+
         if(!empty($officeType)){
             $this->db->where('office_type', $officeType);
-        }       
+        }   
+        if(!empty($division)){
+            $this->db->where('div_id', $division);
+        }
+        /*if(!empty($district)){
+            $this->db->where('dis_id', $district);
+        }
+        if(!empty($upazila)){
+            $this->db->where('upa_id', $upazila);
+        }
+        if(!empty($union)){
+            $this->db->where('union_id', $union);
+        }*/
+
+        if(!empty($start_date) && !empty($end_date)){
+            $start_date = strtotime($start_date);
+            $end_date = strtotime($end_date);
+            $this->db->where("created_on BETWEEN '$start_date' AND '$end_date'");
+        }
+ 
         $tmp = $this->db->get('users')->result();
         // echo $this->db->last_query(); exit;        
         $ret['count'] = $tmp[0]->count;
@@ -833,291 +996,291 @@ class Reports_model extends CI_Model {
       ->where($field, $id)
       ->get()->row();
       return $query;
-  } 
+    } 
 
-  public function get_data($table, $id=NULL, $field=NULL, $district_id=NULL) {
-    $this->db->from($table);
-    if(!empty($id)){
-        $this->db->where($field, $id);
-    }
-    if(!empty($district_id)){
-        $this->db->where('id', $district_id);
-    }
-    $query=$this->db->get()->result();
-    return $query;
-}
-
-public function get_divisions($division_id=NULL) {
-    $this->db->select('*');        
-    if(!empty($division_id)){
-        $this->db->where('id', $division_id);
-    }
-    $this->db->order_by('sort_order', 'ASC');
-    $query =  $this->db->get('divisions');
-
-    return $query->result();
-}
-
-public function get_edu_qualification() {
-    $this->db->select('id, exam_name');        
-    $this->db->order_by('exam_name', 'ASC');
-    $query =  $this->db->get('exam_names');
-
-    return $query->result();
-}
-
-
-public function get_info($id) {
-        // result query 
-    $query = array();
-
-    $this->db->select('pd.*, ms.marital_status_name, ds.dis_name_bn, ut.upa_name_bn,
-        o1.org_name AS first_org_name, o2.org_name AS current_org_name,
-        dg1.desig_name AS first_desig_name, dg2.desig_name AS current_desig_name
-        ');
-    $this->db->from('personal_datas pd');        
-
-    $this->db->join('districts ds', 'ds.id = pd.district_id', 'LEFT');
-    $this->db->join('upazilas ut', 'ut.id = pd.upa_tha_id', 'LEFT');
-    $this->db->join('organizations o1', 'o1.id = pd.first_org_id', 'LEFT');
-    $this->db->join('organizations o2', 'o2.id = pd.curr_org_id', 'LEFT');
-    $this->db->join('designation dg1', 'dg1.id = pd.first_desig_id', 'LEFT');
-    $this->db->join('designation dg2', 'dg2.id = pd.curr_desig_id', 'LEFT');
-    $this->db->join('marital_status ms', 'ms.id=pd.marital_status_id');
-
-    $this->db->where('pd.id', $id);                
-
-    $query['info'] = $this->db->get()->row();
-
-        //Experience
-    $this->db->select('e.*, o.org_name AS exp_org_name, dg.desig_name AS exp_desig_name');
-    $this->db->from('per_experience e');        
-    $this->db->join('organizations o', 'o.id = e.exp_org_id', 'LEFT');
-    $this->db->join('designation dg', 'dg.id = e.exp_desig_id', 'LEFT');        
-    $this->db->where('e.data_id', $id);                
-    $query['experience'] = $this->db->get()->result();
-
-        //Promotion
-    $this->db->select('p.*, o.org_name AS pro_org_name, dg.desig_name AS pro_desig_name');
-    $this->db->from('per_promotion p');        
-    $this->db->join('organizations o', 'o.id = p.promo_org_id', 'LEFT');
-    $this->db->join('designation dg', 'dg.id = p.promo_desig_id', 'LEFT');        
-    $this->db->where('p.data_id', $id);                
-    $query['promotion'] = $this->db->get()->result();
-
-        //Education
-    $this->db->select('ed.*, ex.exam_name, s.sub_name, b.board_name');
-    $this->db->from('per_education ed');
-    $this->db->join('exam_names ex', 'ex.id = ed.edu_exam_id', 'LEFT');
-    $this->db->join('subjects s', 's.id = ed.edu_subject_id', 'LEFT');        
-    $this->db->join('boards b', 'b.id = ed.edu_board_id', 'LEFT');        
-    $this->db->where('ed.data_id', $id);                
-    $query['education'] = $this->db->get()->result();
-
-        // NILG Training
-    $this->db->select('nt.*, n.course_name, dg.desig_name AS nilg_training_desig_name');
-    $this->db->from('per_nilg_training nt');        
-    $this->db->join('nilg_trainings n', 'n.id = nt.nilg_course_id', 'LEFT');
-    $this->db->join('designation dg', 'dg.id = nt.nilg_desig_id', 'LEFT');        
-    $this->db->where('nt.data_id', $id);                
-    $query['nilg_training'] = $this->db->get()->result();
-
-        // Local Training
-    $this->db->select('lot.*, n.course_name AS local_course_name');
-    $this->db->from('per_local_org_training lot');        
-    $this->db->join('nilg_trainings n', 'n.id = lot.local_course_id', 'LEFT');
-    $this->db->where('lot.data_id', $id);                
-    $query['local_training'] = $this->db->get()->result();
-
-        // Local Training
-    $this->db->select('fot.*, n.course_name AS foreign_course_name');
-    $this->db->from('per_foreign_org_training fot');        
-    $this->db->join('nilg_trainings n', 'n.id = fot.foreign_course_id', 'LEFT');
-    $this->db->where('fot.data_id', $id);                
-    $query['foreign_training'] = $this->db->get()->result();
-
-        // echo $this->db->last_query(); exit;
-    return $query;
-}
-
-// , array $search
-public function get_all_data_sheet($typeID) {
-
-        // result query        
-    $this->db->select('pd.*, ds.dis_name_bn, ut.upa_name_bn, o.org_name, dg.desig_name, TIMESTAMPDIFF(YEAR,pd.date_of_birth,CURDATE()) AS age');
-    $this->db->from('personal_datas pd');        
-    $this->db->join('districts ds', 'ds.id=pd.district_id', 'LEFT');
-    $this->db->join('upazilas ut', 'ut.id=pd.upa_tha_id', 'LEFT');
-    $this->db->join('organizations o', 'o.id=pd.curr_org_id', 'LEFT');
-    $this->db->join('designation dg', 'dg.id=pd.curr_desig_id', 'LEFT');
-    $this->db->where('pd.data_sheet_type', $typeID);   
-    $this->db->where('pd.status', 1);
-
-    if($this->input->get('national_id') != NULL){
-        $this->db->where('pd.national_id', $this->input->get('national_id'));     
+    public function get_data($table, $id=NULL, $field=NULL, $district_id=NULL) {
+        $this->db->from($table);
+        if(!empty($id)){
+            $this->db->where($field, $id);
+        }
+        if(!empty($district_id)){
+            $this->db->where('id', $district_id);
+        }
+        $query=$this->db->get()->result();
+        return $query;
     }
 
-    if($this->input->get('district') != NULL){
-        $this->db->where('pd.district_id', $this->input->get('district'));     
+    public function get_divisions($division_id=NULL) {
+        $this->db->select('*');        
+        if(!empty($division_id)){
+            $this->db->where('id', $division_id);
+        }
+        $this->db->order_by('sort_order', 'ASC');
+        $query =  $this->db->get('divisions');
+
+        return $query->result();
     }
 
-    if($this->input->get('upazilas') > '0'){
-        $this->db->where('pd.upa_tha_id', $this->input->get('upazilas'));     
+    public function get_edu_qualification() {
+        $this->db->select('id, exam_name');        
+        $this->db->order_by('exam_name', 'ASC');
+        $query =  $this->db->get('exam_names');
+
+        return $query->result();
     }
 
-    if($this->input->get('designation') != NULL){
-        $this->db->where('pd.curr_desig_id', $this->input->get('designation'));     
+
+    public function get_info($id) {
+            // result query 
+        $query = array();
+
+        $this->db->select('pd.*, ms.marital_status_name, ds.dis_name_bn, ut.upa_name_bn,
+            o1.org_name AS first_org_name, o2.org_name AS current_org_name,
+            dg1.desig_name AS first_desig_name, dg2.desig_name AS current_desig_name
+            ');
+        $this->db->from('personal_datas pd');        
+
+        $this->db->join('districts ds', 'ds.id = pd.district_id', 'LEFT');
+        $this->db->join('upazilas ut', 'ut.id = pd.upa_tha_id', 'LEFT');
+        $this->db->join('organizations o1', 'o1.id = pd.first_org_id', 'LEFT');
+        $this->db->join('organizations o2', 'o2.id = pd.curr_org_id', 'LEFT');
+        $this->db->join('designation dg1', 'dg1.id = pd.first_desig_id', 'LEFT');
+        $this->db->join('designation dg2', 'dg2.id = pd.curr_desig_id', 'LEFT');
+        $this->db->join('marital_status ms', 'ms.id=pd.marital_status_id');
+
+        $this->db->where('pd.id', $id);                
+
+        $query['info'] = $this->db->get()->row();
+
+            //Experience
+        $this->db->select('e.*, o.org_name AS exp_org_name, dg.desig_name AS exp_desig_name');
+        $this->db->from('per_experience e');        
+        $this->db->join('organizations o', 'o.id = e.exp_org_id', 'LEFT');
+        $this->db->join('designation dg', 'dg.id = e.exp_desig_id', 'LEFT');        
+        $this->db->where('e.data_id', $id);                
+        $query['experience'] = $this->db->get()->result();
+
+            //Promotion
+        $this->db->select('p.*, o.org_name AS pro_org_name, dg.desig_name AS pro_desig_name');
+        $this->db->from('per_promotion p');        
+        $this->db->join('organizations o', 'o.id = p.promo_org_id', 'LEFT');
+        $this->db->join('designation dg', 'dg.id = p.promo_desig_id', 'LEFT');        
+        $this->db->where('p.data_id', $id);                
+        $query['promotion'] = $this->db->get()->result();
+
+            //Education
+        $this->db->select('ed.*, ex.exam_name, s.sub_name, b.board_name');
+        $this->db->from('per_education ed');
+        $this->db->join('exam_names ex', 'ex.id = ed.edu_exam_id', 'LEFT');
+        $this->db->join('subjects s', 's.id = ed.edu_subject_id', 'LEFT');        
+        $this->db->join('boards b', 'b.id = ed.edu_board_id', 'LEFT');        
+        $this->db->where('ed.data_id', $id);                
+        $query['education'] = $this->db->get()->result();
+
+            // NILG Training
+        $this->db->select('nt.*, n.course_name, dg.desig_name AS nilg_training_desig_name');
+        $this->db->from('per_nilg_training nt');        
+        $this->db->join('nilg_trainings n', 'n.id = nt.nilg_course_id', 'LEFT');
+        $this->db->join('designation dg', 'dg.id = nt.nilg_desig_id', 'LEFT');        
+        $this->db->where('nt.data_id', $id);                
+        $query['nilg_training'] = $this->db->get()->result();
+
+            // Local Training
+        $this->db->select('lot.*, n.course_name AS local_course_name');
+        $this->db->from('per_local_org_training lot');        
+        $this->db->join('nilg_trainings n', 'n.id = lot.local_course_id', 'LEFT');
+        $this->db->where('lot.data_id', $id);                
+        $query['local_training'] = $this->db->get()->result();
+
+            // Local Training
+        $this->db->select('fot.*, n.course_name AS foreign_course_name');
+        $this->db->from('per_foreign_org_training fot');        
+        $this->db->join('nilg_trainings n', 'n.id = fot.foreign_course_id', 'LEFT');
+        $this->db->where('fot.data_id', $id);                
+        $query['foreign_training'] = $this->db->get()->result();
+
+            // echo $this->db->last_query(); exit;
+        return $query;
     }
 
-    if($this->input->get('gender') != NULL){
-        $this->db->where('pd.gender', $this->input->get('gender'));     
+    // , array $search
+    public function get_all_data_sheet($typeID) {
+
+            // result query        
+        $this->db->select('pd.*, ds.dis_name_bn, ut.upa_name_bn, o.org_name, dg.desig_name, TIMESTAMPDIFF(YEAR,pd.date_of_birth,CURDATE()) AS age');
+        $this->db->from('personal_datas pd');        
+        $this->db->join('districts ds', 'ds.id=pd.district_id', 'LEFT');
+        $this->db->join('upazilas ut', 'ut.id=pd.upa_tha_id', 'LEFT');
+        $this->db->join('organizations o', 'o.id=pd.curr_org_id', 'LEFT');
+        $this->db->join('designation dg', 'dg.id=pd.curr_desig_id', 'LEFT');
+        $this->db->where('pd.data_sheet_type', $typeID);   
+        $this->db->where('pd.status', 1);
+
+        if($this->input->get('national_id') != NULL){
+            $this->db->where('pd.national_id', $this->input->get('national_id'));     
+        }
+
+        if($this->input->get('district') != NULL){
+            $this->db->where('pd.district_id', $this->input->get('district'));     
+        }
+
+        if($this->input->get('upazilas') > '0'){
+            $this->db->where('pd.upa_tha_id', $this->input->get('upazilas'));     
+        }
+
+        if($this->input->get('designation') != NULL){
+            $this->db->where('pd.curr_desig_id', $this->input->get('designation'));     
+        }
+
+        if($this->input->get('gender') != NULL){
+            $this->db->where('pd.gender', $this->input->get('gender'));     
+        }
+
+        $query = $this->db->get()->result_array();
+        return $query;
     }
 
-    $query = $this->db->get()->result_array();
-    return $query;
-}
+    public function get_all_data_by_org_type($typeID, $org_type_id) {
 
-public function get_all_data_by_org_type($typeID, $org_type_id) {
+            // result query        
+            // $this->db->select('pd.id, pd.data_sheet_type, pd.name_bangla, pd.national_id, o.org_name, o.org_type_id, ot.type_name, dg.desig_name');
+        $this->db->select('COUNT(*) as org_count');
+        $this->db->from('personal_datas pd');
+        $this->db->join('organizations o', 'o.id=pd.curr_org_id', 'LEFT');
+        $this->db->join('organization_type ot', 'ot.id=o.org_type_id', 'LEFT');
+        $this->db->join('designation dg', 'dg.id=pd.curr_desig_id', 'LEFT');
+        $this->db->where('pd.data_sheet_type', $typeID); 
+        $this->db->where('o.org_type_id', $org_type_id); 
+        $this->db->where('pd.status', 1);
 
-        // result query        
-        // $this->db->select('pd.id, pd.data_sheet_type, pd.name_bangla, pd.national_id, o.org_name, o.org_type_id, ot.type_name, dg.desig_name');
-    $this->db->select('COUNT(*) as org_count');
-    $this->db->from('personal_datas pd');
-    $this->db->join('organizations o', 'o.id=pd.curr_org_id', 'LEFT');
-    $this->db->join('organization_type ot', 'ot.id=o.org_type_id', 'LEFT');
-    $this->db->join('designation dg', 'dg.id=pd.curr_desig_id', 'LEFT');
-    $this->db->where('pd.data_sheet_type', $typeID); 
-    $this->db->where('o.org_type_id', $org_type_id); 
-    $this->db->where('pd.status', 1);
-
-    $query = $this->db->get()->result_array();
-        // echo $this->db->last_query(); exit;
-    return $query;
-}
-
-public function get_not_yet_training() {
-
-
-        // result query        
-    $this->db->select('pd.id, pd.name_bangla, pd.national_id, pd.present_add, pd.gender, ds.dis_name_bn, ut.upa_name_bn, o.org_name, dg.desig_name');
-    $this->db->from('personal_datas pd');        
-    $this->db->join('districts ds', 'ds.id=pd.district_id', 'LEFT');
-    $this->db->join('upazilas ut', 'ut.id=pd.upa_tha_id', 'LEFT');
-    $this->db->join('organizations o', 'o.id=pd.curr_org_id', 'LEFT');
-    $this->db->join('designation dg', 'dg.id=pd.curr_desig_id', 'LEFT');
-    $this->db->where('pd.id not in (SELECT data_sheet_id FROM `trainers` GROUP BY data_sheet_id)', NULL, FALSE);
-    $this->db->where('pd.status', 1);
-    
-    if($this->input->get('national_id') != NULL){
-        $this->db->where('pd.national_id', $this->input->get('national_id'));     
+        $query = $this->db->get()->result_array();
+            // echo $this->db->last_query(); exit;
+        return $query;
     }
 
-    if($this->input->get('district') != NULL){
-        $this->db->where('pd.district_id', $this->input->get('district'));     
+    public function get_not_yet_training() {
+
+
+            // result query        
+        $this->db->select('pd.id, pd.name_bangla, pd.national_id, pd.present_add, pd.gender, ds.dis_name_bn, ut.upa_name_bn, o.org_name, dg.desig_name');
+        $this->db->from('personal_datas pd');        
+        $this->db->join('districts ds', 'ds.id=pd.district_id', 'LEFT');
+        $this->db->join('upazilas ut', 'ut.id=pd.upa_tha_id', 'LEFT');
+        $this->db->join('organizations o', 'o.id=pd.curr_org_id', 'LEFT');
+        $this->db->join('designation dg', 'dg.id=pd.curr_desig_id', 'LEFT');
+        $this->db->where('pd.id not in (SELECT data_sheet_id FROM `trainers` GROUP BY data_sheet_id)', NULL, FALSE);
+        $this->db->where('pd.status', 1);
+        
+        if($this->input->get('national_id') != NULL){
+            $this->db->where('pd.national_id', $this->input->get('national_id'));     
+        }
+
+        if($this->input->get('district') != NULL){
+            $this->db->where('pd.district_id', $this->input->get('district'));     
+        }
+
+        if($this->input->get('upazilas') > '0'){
+            $this->db->where('pd.upa_tha_id', $this->input->get('upazilas'));     
+        }
+
+        if($this->input->get('designation') != NULL){
+            $this->db->where('pd.curr_desig_id', $this->input->get('designation'));     
+        }
+
+        if($this->input->get('gender') != NULL){
+            $this->db->where('pd.gender', $this->input->get('gender'));     
+        }
+
+        $query = $this->db->get()->result_array();
+            //echo $this->db->last_query(); exit;
+        return $query;
+    }
+    public function got_training() {
+
+
+            // result query        
+        $this->db->select('pd.id, pd.name_bangla, pd.national_id, pd.present_add, pd.gender, ds.dis_name_bn, ut.upa_name_bn, o.org_name, dg.desig_name');
+        $this->db->from('personal_datas pd');        
+        $this->db->join('districts ds', 'ds.id=pd.district_id', 'LEFT');
+        $this->db->join('upazilas ut', 'ut.id=pd.upa_tha_id', 'LEFT');
+        $this->db->join('organizations o', 'o.id=pd.curr_org_id', 'LEFT');
+        $this->db->join('designation dg', 'dg.id=pd.curr_desig_id', 'LEFT');
+        $this->db->where('pd.id in (SELECT data_sheet_id FROM `trainers` GROUP BY data_sheet_id)', NULL, FALSE);
+
+        if($this->input->get('national_id') != NULL){
+            $this->db->where('pd.national_id', $this->input->get('national_id'));     
+        }
+
+        if($this->input->get('district') != NULL){
+            $this->db->where('pd.district_id', $this->input->get('district'));     
+        }
+
+        if($this->input->get('upazilas') > '0'){
+            $this->db->where('pd.upa_tha_id', $this->input->get('upazilas'));     
+        }
+
+        if($this->input->get('designation') != NULL){
+            $this->db->where('pd.curr_desig_id', $this->input->get('designation'));     
+        }
+
+        if($this->input->get('gender') != NULL){
+            $this->db->where('pd.gender', $this->input->get('gender'));     
+        }
+
+        $query = $this->db->get()->result_array();
+            //echo $this->db->last_query(); exit;
+        return $query;
     }
 
-    if($this->input->get('upazilas') > '0'){
-        $this->db->where('pd.upa_tha_id', $this->input->get('upazilas'));     
+    public function exam_count($id){
+        $this->db->select('COUNT(*) as cnt');
+        $this->db->from('per_education');
+        $this->db->where('edu_exam_id', $id);
+        $query = $this->db->get()->row();
+        return $query->cnt;
     }
 
-    if($this->input->get('designation') != NULL){
-        $this->db->where('pd.curr_desig_id', $this->input->get('designation'));     
+    public function exam_cnt(){
+           // $query = $this->db->query('SELECT COUNT(id) as data_cnt, `edu_exam_id` FROM `per_education` WHERE 1 GROUP by edu_exam_id');   
+        $this->db->select('COUNT(per_education.id) as data_cnt, per_education.edu_exam_id, exam_names.exam_name');
+        $this->db->from('per_education');     
+        $this->db->join('exam_names', 'exam_names.id = per_education.edu_exam_id', 'LEFT');
+        $this->db->group_by('per_education.edu_exam_id');
+        $query = $this->db->get()->result();
+        return $query;
+            // return $query;
     }
 
-    if($this->input->get('gender') != NULL){
-        $this->db->where('pd.gender', $this->input->get('gender'));     
+
+    public function get_all($select,$from,$where){
+        $sql = "SELECT $select FROM $from where $where";
+
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+           return $query->result_array();
+       }
     }
+    public function get_cur_all($id, $from){
 
-    $query = $this->db->get()->result_array();
-        //echo $this->db->last_query(); exit;
-    return $query;
-}
-public function got_training() {
-
-
-        // result query        
-    $this->db->select('pd.id, pd.name_bangla, pd.national_id, pd.present_add, pd.gender, ds.dis_name_bn, ut.upa_name_bn, o.org_name, dg.desig_name');
-    $this->db->from('personal_datas pd');        
-    $this->db->join('districts ds', 'ds.id=pd.district_id', 'LEFT');
-    $this->db->join('upazilas ut', 'ut.id=pd.upa_tha_id', 'LEFT');
-    $this->db->join('organizations o', 'o.id=pd.curr_org_id', 'LEFT');
-    $this->db->join('designation dg', 'dg.id=pd.curr_desig_id', 'LEFT');
-    $this->db->where('pd.id in (SELECT data_sheet_id FROM `trainers` GROUP BY data_sheet_id)', NULL, FALSE);
-
-    if($this->input->get('national_id') != NULL){
-        $this->db->where('pd.national_id', $this->input->get('national_id'));     
+      $dt=$this->get_all('*',$from,'id='.$id);
+      return $dt;
     }
+    public function getcolumnlist(){
+      $sql = "SHOW COLUMNS FROM personal_datas";
 
-    if($this->input->get('district') != NULL){
-        $this->db->where('pd.district_id', $this->input->get('district'));     
-    }
-
-    if($this->input->get('upazilas') > '0'){
-        $this->db->where('pd.upa_tha_id', $this->input->get('upazilas'));     
-    }
-
-    if($this->input->get('designation') != NULL){
-        $this->db->where('pd.curr_desig_id', $this->input->get('designation'));     
-    }
-
-    if($this->input->get('gender') != NULL){
-        $this->db->where('pd.gender', $this->input->get('gender'));     
-    }
-
-    $query = $this->db->get()->result_array();
-        //echo $this->db->last_query(); exit;
-    return $query;
-}
-
-public function exam_count($id){
-    $this->db->select('COUNT(*) as cnt');
-    $this->db->from('per_education');
-    $this->db->where('edu_exam_id', $id);
-    $query = $this->db->get()->row();
-    return $query->cnt;
-}
-
-public function exam_cnt(){
-       // $query = $this->db->query('SELECT COUNT(id) as data_cnt, `edu_exam_id` FROM `per_education` WHERE 1 GROUP by edu_exam_id');   
-    $this->db->select('COUNT(per_education.id) as data_cnt, per_education.edu_exam_id, exam_names.exam_name');
-    $this->db->from('per_education');     
-    $this->db->join('exam_names', 'exam_names.id = per_education.edu_exam_id', 'LEFT');
-    $this->db->group_by('per_education.edu_exam_id');
-    $query = $this->db->get()->result();
-    return $query;
-        // return $query;
-}
-
-
-public function get_all($select,$from,$where){
-    $sql = "SELECT $select FROM $from where $where";
-
-    $query = $this->db->query($sql);
-    if ($query->num_rows() > 0) {
+      $query = $this->db->query($sql);
+      if ($query->num_rows() > 0) {
        return $query->result_array();
-   }
-}
-public function get_cur_all($id, $from){
+    }
+    }
+    public function get_districts_by_divisions(){
+        $sql = "SELECT *, GROUP_CONCAT(id) as distids, GROUP_CONCAT(name_bn) as distnames FROM `districts` group by division_id ";
 
-  $dt=$this->get_all('*',$from,'id='.$id);
-  return $dt;
-}
-public function getcolumnlist(){
-  $sql = "SHOW COLUMNS FROM personal_datas";
-
-  $query = $this->db->query($sql);
-  if ($query->num_rows() > 0) {
-   return $query->result_array();
-}
-}
-public function get_districts_by_divisions(){
-    $sql = "SELECT *, GROUP_CONCAT(id) as distids, GROUP_CONCAT(name_bn) as distnames FROM `districts` group by division_id ";
-
-    $query = $this->db->query($sql);
-    if ($query->num_rows() > 0) {
-       return $query->result_array();
-   }
-}
+        $query = $this->db->query($sql);
+        if ($query->num_rows() > 0) {
+           return $query->result_array();
+       }
+    }
 
     // public function get_district_by_div_id($id){
     //     $data['0'] = 'Select District';

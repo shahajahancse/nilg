@@ -438,7 +438,8 @@ class Training extends Backend_Controller {
 
         // dd($this->data['info']); exit();
         // $this->data['trainer_list'] = $this->Training_model->get_trainer_list();
-        $this->data['results'] = $this->Training_model->get_schedule($id);
+        $this->data['results'] = $this->Training_model->count_schedule_by_date($id);
+        // dd($this->data['results']);
 
         //Load Page
         $this->data['meta_title'] = 'প্রশিক্ষণ কর্মসূচীর তালিকা';
@@ -539,7 +540,11 @@ class Training extends Backend_Controller {
         }
 
         $this->data['training'] = $this->Training_model->get_training_info($id);
-        $this->data['results'] = $this->Training_model->get_schedule($id);
+        // dd($this->data['info']); exit();
+        // $this->data['trainer_list'] = $this->Training_model->get_trainer_list();
+        $this->data['results'] = $this->Training_model->count_schedule_by_date($id);
+        // dd($this->data['results']);
+
 
         // print_r($this->data['results']); exit;
         $this->data['headding'] = 'প্রশিক্ষণ কর্মসূচী';
@@ -867,7 +872,7 @@ class Training extends Backend_Controller {
         $this->data['results'] = $this->Training_model->get_participant_list($id);
         $this->data['subjects'] = $this->Training_model->get_training_mark($id);
         $this->data['totalMark'] = $this->Training_model->get_training_mark_total($id);
-        // dd($this->data['results']);
+        // dd($this->data['totalMark']);
 
         //Load Page
         $this->data['meta_title'] = 'প্রশিক্ষণার্থীর মার্কশীট';
@@ -1894,7 +1899,7 @@ class Training extends Backend_Controller {
         $this->load->view('backend/_layout_main', $this->data);
     }
 
-    public function edit($id)
+    public function edit($id, $offset = null)
     {
         ini_set( 'memory_limit', '500M' );
         ini_set('upload_max_filesize', '500M');  
@@ -1905,6 +1910,8 @@ class Training extends Backend_Controller {
         if(!$this->ion_auth->in_group(array('admin', 'uz', 'ddlg', 'nilg', 'cc'))){
             redirect('dashboard');
         }
+
+        $offset = (int) decrypt_url($offset);
 
         // Get data
         $this->data['training'] = $this->Training_model->get_info($id);
@@ -2175,6 +2182,9 @@ class Training extends Backend_Controller {
 
                 // Redirct and success message                
                 $this->session->set_flashdata('success', 'প্রশিক্ষণের তথ্য সংশোধন করা হয়েছে');
+                if($offset != 0) {
+                    redirect('training/index/'.$offset);
+                }
                 redirect('training');
             }
         }

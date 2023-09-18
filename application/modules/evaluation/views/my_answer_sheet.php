@@ -71,8 +71,11 @@
                   }
                   ?>
                   <div>
-                    <h5 class="semi-bold"><?=eng2bng($sl)?>। <?=$value->question_title?></h5>
+                    <h5 class="semi-bold pull-left"><?=eng2bng($sl)?>। <?=$value->question_title?></h5>
+                    <h5 class="semi-bold pull-right" <?=$rightAnswer?>><?=eng2bng($value->answer_mark)?></h5>
                     <input type="hidden" name="hideid[]" value="<?=$value->id?>">
+                    <div style="clear: both;"></div>
+
 
                     <?php if($value->que_type == 1){ // Text Question ?>
                     <em><b>প্রদত্ত উত্তরঃ</b></em> <?=$value->answer?><br>

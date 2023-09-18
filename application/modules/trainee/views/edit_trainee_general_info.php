@@ -68,7 +68,7 @@
 
                                                             <?php if($this->ion_auth->is_admin()){ ?>
                                                                 <?php echo form_error('dob'); ?>
-                                                                <input name="dob" type="text" value="<?= set_value('dob', $info->dob) ?>" class="form-control input-sm" placeholder="">
+                                                                <input name="dob" type="text" value="<?= set_value('dob', $info->dob) ?>" class="form-control input-sm datetime" placeholder="">
                                                             <?php } else { ?>
                                                                 <span class="font-big-bold"><?= eng2bng($info->dob) ?></span>
                                                             <?php } ?>

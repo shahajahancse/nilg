@@ -72,7 +72,7 @@
         <thead class="headding">
           <tr>
             <td class="text-center" width="20">ক্রম</td>
-            <td class="text-center" width="100">নাম</td>
+            <td class="text-left" width="100">নাম</td>
             <td class="text-left" width="150">ডিপার্টমেন্ট</td>            
             <td class="text-left" width="100">পদবি</td>     
             <td class="text-left" width="80">তারিখ</td>     
@@ -84,7 +84,7 @@
         foreach ($results['summary'] as $key => $row) { 
           $i++;  ?>
           <tr>
-           <td class="text-center"><?=$i?>.</td>
+           <td class="text-center"><?=eng2bng($i)?>.</td>
            <td class="text-left"><?=$row->first_name?></td>
            <td class="text-left"><?=$row->dept_name?></td>
            <td class="text-left"><?=$row->desig_name?></td>

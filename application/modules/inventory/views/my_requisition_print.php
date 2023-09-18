@@ -159,7 +159,8 @@
         ?>
 
         <div><img src="<?=$url?>" style="width:160; height: 50px; display: block;"></div>
-        <div><span class="border-top" style="margin-right: 20px">গ্রহণকারীর পূর্ণ নাম ও পদবী </span></div>
+        <div><span class="border-top" style="margin-right: 20px">গ্রহণকারীর স্বাক্ষর ও সীল </span></div>
+        <!-- <div><span class="border-top" style="margin-right: 20px">গ্রহণকারীর পূর্ণ নাম ও পদবী </span></div> -->
     </div>
     <br>
     <div class="col-4"> 

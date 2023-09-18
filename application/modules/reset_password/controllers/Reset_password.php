@@ -3,7 +3,8 @@
 class Reset_password extends Backend_Controller {
 
 	public function __construct(){
-		parent::__construct();			
+		parent::__construct();		
+		$this->load->model('ion_auth_model');	
 	}	
 
 	// reset password - final step for forgotten password
@@ -69,10 +70,11 @@ class Reset_password extends Backend_Controller {
 					show_error($this->lang->line('error_csrf'));
 
 				} else {
-					// finally change the password
-					$identity = $user->{$this->config->item('identity', 'ion_auth')};
 
-					$change = $this->ion_auth->reset_password($identity, $this->input->post('new'));
+					// finally change the password
+					$identity = $user->id;
+
+					$change = $this->ion_auth_model->reset_password($identity, $this->input->post('new'));
 
 					if ($change){
 						// if the password was successfully changed

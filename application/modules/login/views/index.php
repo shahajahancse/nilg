@@ -24,7 +24,7 @@
                </span>
                <input type="password" name="password" class="form-control" placeholder="পাসওয়ার্ড">
             </div>
-            <br>
+            <label style="text-align: right; margin-right: 5px; font-size: 14px;"><a href="<?=base_url('forgot_password')?>"><u style="color: #3333e5;">ফরগেট পাসওয়ার্ড</u></a></label>
 
             <div class="input-group">               
                <div class="pull-left">

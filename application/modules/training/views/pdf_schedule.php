@@ -84,41 +84,47 @@
 						<!-- <th class="text-left" width="30">সম্মানী ভাতা</th> -->
 					</tr>
 				</thead>
+                <tbody>
+                    <?php foreach ($results as $value) { 
+                      $datas = $this->Training_model->get_schedule($value->training_id, $value->program_date); 
+                      // dd($datas);
+                    ?>
+                    <tr>
+                        <td rowspan="<?= $value->total + 1 ?>" class="tg-031e"><?=date_bangla_calender_format($value->program_date)?></td>
 
-				<tbody>
-					<?php 
-					$i=0;					
-					foreach ($results as $row) { 
-						$i++;
-						$itme = date('h:i a', strtotime($row->time_start)).' - '.date('h:i a', strtotime($row->time_end))
-						?>
-						<tr style="line-height: 100px;">
-							<td class="text-center"><?=date_bangla_calender_format($row->program_date)?></td>
-							<td class="text-center"><?=eng2bng($itme)?></td>
+	                    <?php foreach ($datas as $key => $row) { 
+	                        $itme = date('h:i a', strtotime($row->time_start)).' - '.date('h:i a', strtotime($row->time_end))
+	                    ?>   
+	                    <tr>  
+	                        <td class="tg-031e"><?=eng2bng($itme)?></td>
+	                        <td class="tg-031e" align="center"><?=eng2bng($row->session_no)?></td>
+	                        <td class="tg-031e"><?=$row->topic?></td>                        
+	                        <td class="tg-031e">
+	                        <?php                          
+	                            if($row->speakers != NULL){
+	                              echo nl2br($row->speakers).'<br>';
+	                            }else{
+	                              echo nl2br($row->speakers);
+	                            } 
+	                            if (empty($row->desig_name)) {
+	                              $desig_name = '';
+	                            } else {
+	                              $desig_name = ' ('.$row->desig_name.')';
+	                            }
 
-							<td class="text-center"><?=eng2bng($row->session_no)?></td>
-							<td class="text-left"><?=$row->topic?></td>
-							<td class="text-left">
-		                        <?php                          
-		                          if($row->speakers != NULL){
-		                            echo nl2br($row->speakers).'<br>';
-		                          }else{
-		                            echo nl2br($row->speakers);
-		                          } 
-		                          if($row->trainer_id != ''){
-		                            echo $row->name_bn.' ('.$row->desig_name.')';
-		                          }
-		                        ?>
-							</td>
-						</tr>
-						<?php } ?>
-					</tbody>
-				</table>			
-			</div>
-
+	                            if($row->trainer_id != ''){
+	                              echo $row->name_bn.$desig_name;
+	                            }
+	                        ?>
+	                        </td>
+	                    <?php } ?>
+	                </tr>
+                    <?php } ?>
+                </tbody>
+            </table>			
 		</div>
-
-	</body>
-	</html>
+	</div>
+</body>
+</html>
 
 

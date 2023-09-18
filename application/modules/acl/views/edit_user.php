@@ -49,7 +49,7 @@
                                  </script>
                               </div>
                            </div>
-                           <div class="col-md-4">
+                           <div class="col-md-3">
                               <div class="form-group">
                                  <label class="form-label">মোবাইল নম্বর </label>
                                  <?php //echo form_error('mobile_no'); ?>
@@ -63,7 +63,14 @@
                                  <input type="text" name="password" class="form-control input-sm font-opensans" value="<?=set_value('password')?>">
                               </div>
                            </div>
-                           <div class="col-md-4">
+                           <div class="col-md-2">
+                              <div class="form-group">
+                                 <label class="form-label">ক্রম নম্বর </label>
+                                 <?php //echo form_error('password'); ?>
+                                 <input type="number" name="order_no" class="form-control input-sm font-opensans" value="<?=set_value('order_no')?>">
+                              </div>
+                           </div>
+                           <div class="col-md-3">
                               <label class="form-label">ইউজার স্ট্যাটাস</label>
                               <?php //echo form_error('active'); ?>
                               <input type="radio" name="active" value="0" <?=set_value('active', $user->active)==0?'checked':'';?>> ডিজেবল

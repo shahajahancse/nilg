@@ -7,7 +7,7 @@
       </ul>
 
       <div class="row">
-         <div class="col-md-8">
+         <div class="col-md-10">
             <div class="grid simple horizontal red">
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
@@ -28,15 +28,22 @@
                   echo form_open_multipart("general_setting/sub_category_edit/$rows->id", $attributes);?>
 
                   <div class="row form-row">
-                     <div class="col-md-6">
+                     <div class="col-md-4">
                         <label class="form-label">ক্যাটেগরি নির্বাচন করুন</label>
                         <?php echo form_error('cate_id'); ?>
                         <?php echo form_dropdown('cate_id',$categories, $rows->cate_id, 'class="form-control input-sm"');?>
                      </div>
-                     <div class="col-md-6">
+                     <div class="col-md-5">
                         <label class="form-label">সাব ক্যাটেগরি নাম </label>
                         <?php echo form_error('sub_cate_name'); ?>
                         <input name="sub_cate_name" type="text" value="<?=$rows->sub_cate_name;?>" class="form-control input-sm" placeholder="">
+                     </div>                     
+                     <div class="col-md-3">
+                        <label class="form-label">স্ট্যাটাস</label>
+                        <select name="status" class="form-control input-sm">
+                           <option value="1"  <?= ($rows->status == '1')? 'selected':'' ?>>এনাবল</option>
+                           <option value="2"  <?= ($rows->status == '2')? 'selected':'' ?>>ডিজাবল</option>
+                        </select>
                      </div>
                   </div>
 

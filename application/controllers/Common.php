@@ -199,7 +199,7 @@ class Common extends Backend_Controller {
 
     function ajax_nilg_training_del($id)
     {
-        $this->Common_model->delete('per_nilg_training', 'id', $id);
+        $this->Common_model->delete('training_participant', 'id', $id);
         echo 'এই তথ্যটি ডাটাবেজ থেকে সম্পূর্ণভাবে মুছে ফেলা হয়েছে।';
     }
 

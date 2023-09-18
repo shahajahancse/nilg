@@ -139,9 +139,8 @@ class Ion_auth
 		if ( $this->ion_auth_model->forgotten_password($identity) )   //changed
 		{
 			// Get user information
-      $identifier = $this->ion_auth_model->identity_column; // use model identity column, so it can be overridden in a controller
-      $user = $this->where($identifier, $identity)->where('active', 1)->users()->row();  // changed to get_user_by_identity from email
-
+	        $identifier = $this->ion_auth_model->identity_column; // use model identity column, so it can be overridden in a controller
+	        $user = $this->where($identifier, $identity)->where('active', 1)->users()->row();  // changed to get_user_by_identity from email
 			if ($user)
 			{
 				$data = array(
@@ -156,7 +155,11 @@ class Ion_auth
 				}
 				else
 				{
-					$message = $this->load->view($this->config->item('email_templates', 'ion_auth').$this->config->item('email_forgot_password', 'ion_auth'), $data, true);
+					// $message = $this->load->view($this->config->item('email_templates', 'ion_auth').$this->config->item('email_forgot_password', 'ion_auth'), $data, true);
+
+					$message = "Hello [ $user->name_bn ], You recently requested to reset the password for your [ এনআইএলজি | ইআরপি ] account. Click the button below to proceed. If you did not request a password reset, please ignore this email or reply to let us know. <br> <br>";
+					$message .= "Please click this link to <a href='".base_url('reset_password/index/'.$user->forgotten_password_code)."' >Reset Your Password</a>";
+
 					$this->email->clear();
 					$this->email->from($this->config->item('admin_email', 'ion_auth'), $this->config->item('site_title', 'ion_auth'));
 					$this->email->to($user->email);

@@ -41,31 +41,43 @@ class Forgot_password extends Backend_Controller {
 	    	$this->load->view('login/_layout_main', $this->data);
 		
 		} else {
+
 			$identity_column = $this->config->item('identity','ion_auth');
-			$identity = $this->ion_auth->where($identity_column, $this->input->post('identity'))->users()->row();
+
+			$identity = $this->ion_auth->where('email', $this->input->post('identity'))->users()->row();
 
 			if(empty($identity)) {
-
-        		if($this->config->item('identity', 'ion_auth') != 'email'){
+        		/*if($this->config->item('identity', 'ion_auth') != 'email'){
             		$this->ion_auth->set_error('forgot_password_identity_not_found');
             	}else{
             	   $this->ion_auth->set_error('forgot_password_email_not_found');
-            	}
+            	}*/
+            	
+        	    $this->ion_auth->set_error('forgot_password_email_not_found');
 
                 $this->session->set_flashdata('message', $this->ion_auth->errors());
-        		$this->load->view('forgot_password');
+        		// $this->load->view('forgot_password');
+        		redirect("forgot_password");
     		}
 
+
 			// run the forgotten password method to email an activation code to the user
-			$forgotten = $this->ion_auth->forgotten_password($identity->{$this->config->item('identity', 'ion_auth')});
+			$forgotten = $this->ion_auth->forgotten_password($identity->email);
+			// dd($forgotten);
 
 			if ($forgotten){
+				/*$msg = "First line of text\nSecond line of text";
+				// use wordwrap() if lines are longer than 70 characters
+				$msg = wordwrap($msg,70);
+				// send email
+				mail("msa.mysoftheaven@gmail.com","My subject",$msg);*/
+				
 				// if there were no errors
 				$this->session->set_flashdata('message', $this->ion_auth->messages());
 				redirect("login"); //we should display a confirmation page here instead of the login page
 			}else{
 				$this->session->set_flashdata('message', $this->ion_auth->errors());
-				redirect("index");
+				redirect("forgot_password");
 			}
 		}
 	}

@@ -131,18 +131,18 @@ class Backend_Controller extends MY_Controller
 				// $this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->div_id, $office->dis_id, $office->upa_id, $office->union_id); 				
 				// dd($this->data['request_no']);
 
-			} elseif (func_nilg_auth($userDetails->office_type,$userDetails->crrnt_desig_id)=='sk' && $this->ion_auth->in_group('trainee')) {
+			} elseif ($this->ion_auth->in_group('sm')) {
 				// nilg stor manager Notification
 				// exit('o5');
 				$this->data['request_stor_no'] = $this->Common_model->get_stor_manager_notify_count();
 				// echo "<pre>"; print_r($this->data['request_stor_no']); exit;		
 
-			} elseif (func_nilg_auth($userDetails->office_type,$userDetails->crrnt_desig_id)=='jd' && $this->ion_auth->in_group('trainee')) {
+			} elseif ($this->ion_auth->in_group('jd')) {
 				// nilg joint director Notification
 				// exit('o6');
 				$this->data['Joint_director_no'] = $this->Common_model->get_joint_director_notify_count();
 
-			} elseif (func_nilg_auth($userDetails->office_type,$userDetails->crrnt_desig_id)=='dg' && $this->ion_auth->in_group('trainee')) {
+			} elseif ($this->ion_auth->in_group('dg')) {
 				// nilg director general Notification
 				// exit('o7');
 				$this->data['director_general_no'] = $this->Common_model->get_director_general_notify_count();
@@ -192,6 +192,10 @@ class Backend_Controller extends MY_Controller
 				// $this->data['request_trainer_no'] = $this->Common_model->get_applicaiton_trainer_request_count();
 				// dd($this->data['request_no']);
 				// dd($this->data['request_trainer_no']); 
+
+				$this->data['request_stor_no'] = $this->Common_model->get_stor_manager_notify_count();
+				$this->data['Joint_director_no'] = $this->Common_model->get_joint_director_notify_count();
+				$this->data['director_general_no'] = $this->Common_model->get_director_general_notify_count();
 
 				// New training application notification
 				$this->data['request_training_application_no'] = $this->Common_model->get_training_applicaiton_by_office_count();

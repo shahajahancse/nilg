@@ -35,6 +35,8 @@ class Evaluation extends Backend_Controller {
             redirect('evaluation/pre_exam');
          } else if ($type == 2) {
             redirect('evaluation/post_exam');
+         }  else if ($type == 3) {
+            redirect('evaluation/module_exam');
          } else {
             redirect('evaluation');
          }
@@ -757,6 +759,9 @@ class Evaluation extends Backend_Controller {
       // Validation
       $this->form_validation->set_rules('training_id', 'কোর্সের নাম', 'required');
       $this->form_validation->set_rules('training_mark_id', 'মূল্যায়নের বিষয়', 'required');
+      $this->form_validation->set_rules('exam_date', 'পরীক্ষার তারিখ', 'required');
+      $this->form_validation->set_rules('exam_start_time', 'পরীক্ষা শুরু', 'required');
+      $this->form_validation->set_rules('exam_duration', 'পরীক্ষার সময়', 'required');
 
       if ($this->form_validation->run() == true){
          $courseID = $this->Evaluation_model->get_course_from_training($this->input->post('training_id'));
@@ -766,8 +771,11 @@ class Evaluation extends Backend_Controller {
             'course_id'          => $courseID->course_id,
             'training_mark_id'   => $this->input->post('training_mark_id'),
             'is_published'       => 0,
+            'exam_date'       => $this->input->post('exam_date'),
+            'exam_start_time' => $this->input->post('exam_start_time'),
+            'exam_duration'   => $this->input->post('exam_duration'),
             'created'            => date('Y-m-d H:i:s')                
-            );
+         );
          // dd($form_data);
 
          // Insert to DB            
@@ -780,7 +788,8 @@ class Evaluation extends Backend_Controller {
                $data_array = array(
                   'evaluation_id' => $lastID,                        
                   'question_id' => $_POST['hideid'][$i],
-                  );
+                  'qnumber' => $_POST['hidenumber'][$i],
+               );
                $this->Common_model->save('evaluation_question', $data_array);
             }
 
@@ -812,6 +821,9 @@ class Evaluation extends Backend_Controller {
       // Validation
       $this->form_validation->set_rules('training_id', 'কোর্সের নাম', 'required');
       $this->form_validation->set_rules('training_mark_id', 'মূল্যায়নের বিষয়', 'required');
+      $this->form_validation->set_rules('exam_date', 'পরীক্ষার তারিখ', 'required');
+      $this->form_validation->set_rules('exam_start_time', 'পরীক্ষা শুরু', 'required');
+      $this->form_validation->set_rules('exam_duration', 'পরীক্ষার সময়', 'required');
 
       if ($this->form_validation->run() == true){
          $courseID = $this->Evaluation_model->get_course_from_training($this->input->post('training_id'));
@@ -822,22 +834,30 @@ class Evaluation extends Backend_Controller {
             'course_id'          => $courseID->course_id,
             'training_mark_id'   => $this->input->post('training_mark_id'),
             'is_published'       => $this->input->post('is_published'),
+            'exam_date'       => $this->input->post('exam_date'),
+            'exam_start_time' => $this->input->post('exam_start_time'),
+            'exam_duration'   => $this->input->post('exam_duration'),
             'updated'            => date('Y-m-d H:i:s')                
-            );
-            // dd($form_data);
+         );
 
          // Insert to DB            
          if($this->Common_model->edit('evaluation', $id, 'id', $form_data)){
-            // Last insert id
-            // $lastID = $this->db->insert_id(); 
 
             // Question 
             for ($i = 0; $i < sizeof($_POST['hideid']); $i++) {
+               $check = $this->db->where('evaluation_id', $id)->where('question_id', $_POST['hideid'][$i])->get('evaluation_question')->row();
                $data_array = array(
                   'evaluation_id' => $id,                        
                   'question_id' => $_POST['hideid'][$i],
-                  );
-               $this->Common_model->save('evaluation_question', $data_array);
+                  'qnumber' => $_POST['hidenumber'][$i],
+               );
+
+               if (!empty($check)) {
+                  $this->db->where('evaluation_id', $id)->where('question_id', $_POST['hideid'][$i]);
+                  $this->db->update('evaluation_question', $data_array);
+               } else {
+                  $this->Common_model->save('evaluation_question', $data_array);
+               }
             }
 
             $this->session->set_flashdata('success', 'প্রশিক্ষণপূর্ব মূল্যায়ন সম্পাদন করা হয়েছে');
@@ -937,6 +957,9 @@ class Evaluation extends Backend_Controller {
       // Validation
       $this->form_validation->set_rules('training_id', 'কোর্সের নাম', 'required');
       $this->form_validation->set_rules('training_mark_id', 'মূল্যায়নের বিষয়', 'required');
+      $this->form_validation->set_rules('exam_date', 'পরীক্ষার তারিখ', 'required');
+      $this->form_validation->set_rules('exam_start_time', 'পরীক্ষা শুরু', 'required');
+      $this->form_validation->set_rules('exam_duration', 'পরীক্ষার সময়', 'required');
 
       if ($this->form_validation->run() == true){
          $courseID = $this->Evaluation_model->get_course_from_training($this->input->post('training_id'));
@@ -947,8 +970,11 @@ class Evaluation extends Backend_Controller {
             'course_id'        => $courseID->course_id,
             'training_mark_id' => $this->input->post('training_mark_id'),
             'is_published'     => 0,
+            'exam_date'       => $this->input->post('exam_date'),
+            'exam_start_time' => $this->input->post('exam_start_time'),
+            'exam_duration'   => $this->input->post('exam_duration'),
             'created'          => date('Y-m-d H:i:s')                
-            );
+         );
             // dd($form_data);
 
          // Insert to DB            
@@ -961,7 +987,8 @@ class Evaluation extends Backend_Controller {
                $data_array = array(
                   'evaluation_id' => $lastID,                        
                   'question_id' => $_POST['hideid'][$i],
-                  );
+                  'qnumber' => $_POST['hidenumber'][$i],
+               );
                $this->Common_model->save('evaluation_question', $data_array);
             }
 
@@ -990,6 +1017,9 @@ class Evaluation extends Backend_Controller {
       // Validation
       $this->form_validation->set_rules('training_id', 'কোর্সের নাম', 'required');
       $this->form_validation->set_rules('training_mark_id', 'মূল্যায়নের বিষয়', 'required');
+      $this->form_validation->set_rules('exam_date', 'পরীক্ষার তারিখ', 'required');
+      $this->form_validation->set_rules('exam_start_time', 'পরীক্ষা শুরু', 'required');
+      $this->form_validation->set_rules('exam_duration', 'পরীক্ষার সময়', 'required');
 
       if ($this->form_validation->run() == true){
          $courseID = $this->Evaluation_model->get_course_from_training($this->input->post('training_id'));
@@ -1000,8 +1030,11 @@ class Evaluation extends Backend_Controller {
             'course_id'       => $courseID->course_id,
             'training_mark_id'=> $this->input->post('training_mark_id'),
             'is_published'    => $this->input->post('is_published'),
+            'exam_date'       => $this->input->post('exam_date'),
+            'exam_start_time' => $this->input->post('exam_start_time'),
+            'exam_duration'   => $this->input->post('exam_duration'),
             'updated'         => date('Y-m-d H:i:s')                
-            );
+         );
             // dd($form_data);
 
          // Insert to DB            
@@ -1011,11 +1044,18 @@ class Evaluation extends Backend_Controller {
 
             // Question 
             for ($i = 0; $i < sizeof($_POST['hideid']); $i++) {
+               $check = $this->db->where('evaluation_id', $id)->where('question_id', $_POST['hideid'][$i])->get('evaluation_question')->row();
                $data_array = array(
                   'evaluation_id' => $id,                        
                   'question_id' => $_POST['hideid'][$i],
-                  );
-               $this->Common_model->save('evaluation_question', $data_array);
+                  'qnumber' => $_POST['hidenumber'][$i],
+               );
+               if (!empty($check)) {
+                  $this->db->where('evaluation_id', $id)->where('question_id', $_POST['hideid'][$i]);
+                  $this->db->update('evaluation_question', $data_array);
+               } else {
+                  $this->Common_model->save('evaluation_question', $data_array);
+               }
             }
 
             $this->session->set_flashdata('success', 'প্রশিক্ষণপূর্ব মূল্যায়ন সম্পাদন করা হয়েছে');
@@ -1153,6 +1193,9 @@ class Evaluation extends Backend_Controller {
       // Validation
       $this->form_validation->set_rules('training_id', 'কোর্সের নাম', 'required');
       $this->form_validation->set_rules('training_mark_id', 'মূল্যায়নের বিষয়', 'required');
+      $this->form_validation->set_rules('exam_date', 'পরীক্ষার তারিখ', 'required');
+      $this->form_validation->set_rules('exam_start_time', 'পরীক্ষা শুরু', 'required');
+      $this->form_validation->set_rules('exam_duration', 'পরীক্ষার সময়', 'required');
 
       if ($this->form_validation->run() == true){
          $courseID = $this->Evaluation_model->get_course_from_training($this->input->post('training_id'));
@@ -1163,8 +1206,11 @@ class Evaluation extends Backend_Controller {
             'course_id'        => $courseID->course_id,
             'training_mark_id' => $this->input->post('training_mark_id'),
             'is_published'     => 0,
+            'exam_date'       => $this->input->post('exam_date'),
+            'exam_start_time' => $this->input->post('exam_start_time'),
+            'exam_duration'   => $this->input->post('exam_duration'),
             'created'          => date('Y-m-d H:i:s')                
-            );
+         );
          // dd($form_data);
 
          // Insert to DB            
@@ -1177,7 +1223,8 @@ class Evaluation extends Backend_Controller {
                $data_array = array(
                   'evaluation_id' => $lastID,                        
                   'question_id' => $_POST['hideid'][$i],
-                  );
+                  'qnumber' => $_POST['hidenumber'][$i],
+               );
                $this->Common_model->save('evaluation_question', $data_array);
             }
 
@@ -1209,6 +1256,9 @@ class Evaluation extends Backend_Controller {
       // Validation
       $this->form_validation->set_rules('training_id', 'কোর্সের নাম', 'required');
       $this->form_validation->set_rules('training_mark_id', 'মূল্যায়নের বিষয়', 'required');
+      $this->form_validation->set_rules('exam_date', 'পরীক্ষার তারিখ', 'required');
+      $this->form_validation->set_rules('exam_start_time', 'পরীক্ষা শুরু', 'required');
+      $this->form_validation->set_rules('exam_duration', 'পরীক্ষার সময়', 'required');
 
       if ($this->form_validation->run() == true){
          $courseID = $this->Evaluation_model->get_course_from_training($this->input->post('training_id'));
@@ -1219,8 +1269,11 @@ class Evaluation extends Backend_Controller {
             'course_id'       => $courseID->course_id,
             'training_mark_id'=> $this->input->post('training_mark_id'),
             'is_published'    => $this->input->post('is_published'),
+            'exam_date'       => $this->input->post('exam_date'),
+            'exam_start_time' => $this->input->post('exam_start_time'),
+            'exam_duration'   => $this->input->post('exam_duration'),
             'updated'         => date('Y-m-d H:i:s')                
-            );
+         );
          // dd($form_data);
 
          // Insert to DB            
@@ -1230,11 +1283,19 @@ class Evaluation extends Backend_Controller {
 
             // Question 
             for ($i = 0; $i < sizeof($_POST['hideid']); $i++) {
+
+               $check = $this->db->where('evaluation_id', $id)->where('question_id', $_POST['hideid'][$i])->get('evaluation_question')->row();
                $data_array = array(
                   'evaluation_id' => $id,                        
                   'question_id' => $_POST['hideid'][$i],
-                  );
-               $this->Common_model->save('evaluation_question', $data_array);
+                  'qnumber' => $_POST['hidenumber'][$i],
+               );
+               if (!empty($check)) {
+                  $this->db->where('evaluation_id', $id)->where('question_id', $_POST['hideid'][$i]);
+                  $this->db->update('evaluation_question', $data_array);
+               } else {
+                  $this->Common_model->save('evaluation_question', $data_array);
+               }
             }
 
             $this->session->set_flashdata('success', 'প্রশিক্ষণপূর্ব মূল্যায়ন সম্পাদন করা হয়েছে');
@@ -1289,6 +1350,7 @@ class Evaluation extends Backend_Controller {
             $data_array = array(
                'evaluation_id' => $lastID,                        
                'question_id' => $q->question_id,
+               'qnumber' => $q->qnumber,
             );
             $this->Common_model->save('evaluation_question', $data_array);
          }
@@ -1350,12 +1412,10 @@ class Evaluation extends Backend_Controller {
       }
       $dataArr = [];
       // echo $this->auto_answer_examine(36, 13);
-      // exit('hello');
 
       // Get Result
       $this->data['info'] = $this->Evaluation_model->get_evaluation_details($dataID);
       $this->data['questions'] = $this->Evaluation_model->get_question_by_evaluation($dataID);
-      // dd($this->data['info']);
 
       $trainingID = $this->data['info']->training_id;
       $tmID = $this->data['info']->training_mark_id;
@@ -1366,93 +1426,130 @@ class Evaluation extends Backend_Controller {
          $inputTextarea = $this->input->post('input_textarea');
          $inputRadio = $this->input->post('input_radio');
          $inputCheck = $this->input->post('input_check');
-         // dd($this->input->post());
+         $answer_mark = $this->input->post('answer_mark');
+         $question_type = $this->input->post('question_type');
+
+         $hideid       = $this->input->post('hideid');
+         $keysText     = array();
+         $keysTextarea = array();
+         $keysRadio    = array();
+         $keysCheck    = array();
+
 
          // Insert Text Input | Type 1
          if(!empty($inputText)){
+            $keysText = array_keys($inputText);
             foreach ($inputText as $key => $value) {
                if($value != NULL){ 
                   $dataArr[] = array(
                      'eva_id' => $dataID,
                      'que_id' => $key,
                      'que_type' => 1,
-                     'answer' => $value[0],
+                     'answer' => $value,
+                     'question_mark' => $answer_mark[$key],
+                     'answer_mark' => 0,
                      'user_id' => $this->userSessID,
                      'created' => date('Y-m-d H:i:s')
-                     );
+                  );
                      // $this->Common_model->save('evaluation_question_answer', $dataArr);    
                }             
             }
+            $this->db->insert_batch('evaluation_question_answer', $dataArr);
          }
 
          // Insert Textarea Input | Type 2
          if(!empty($inputTextarea)){
+            $keysTextarea = array_keys($inputTextarea);
             foreach ($inputTextarea as $key => $value) {
                if($value != NULL){ 
                   $dataArr[] = array(
                      'eva_id' => $dataID,
                      'que_id' => $key,
                      'que_type' => 2,
-                     'answer' => $value[0],
+                     'answer' => $value,
+                     'question_mark' => $answer_mark[$key],
+                     'answer_mark' => 0,
                      'user_id' => $this->userSessID,
                      'created' => date('Y-m-d H:i:s')
-                     );
+                  );
                      // $this->Common_model->save('evaluation_question_answer', $dataArr);    
                }             
             }
+            $this->db->insert_batch('evaluation_question_answer', $dataArr);
          }
 
          // Insert Radio Input | Type 3
-         if(!empty($inputRadio)){
-            // dd($inputRasdio);             
+         if(!empty($inputRadio)){          
+            $keysRadio = array_keys($inputRadio);
             foreach ($inputRadio as $key => $value) {
-               // $data['k'][] = $key;
-               // $data[$key] = $value;
-               // dd($value[0]);
+               $is_right = $this->auto_answer_examine($key, $value);  // return '1', '0'
                if($value != NULL){ 
                   $dataArr[] = array(
-                     'eva_id' => $dataID,
-                     'que_id' => $key,
-                     'que_type' => 3,
-                     'answer' => $value[0],
-                     'is_right' => $this->auto_answer_examine($key, $value[0]), // return '1', '0'
-                     'user_id' => $this->userSessID,
-                     'created' => date('Y-m-d H:i:s')
-                     );
+                     'eva_id'      => $dataID,
+                     'que_id'      => $key,
+                     'que_type'    => 3,
+                     'answer'      => $value,
+                     'question_mark' => $answer_mark[$key],
+                     'is_right'    => $is_right, 
+                     'answer_mark' => ($is_right == 1)? $answer_mark[$key]:0,
+                     'user_id'     => $this->userSessID,
+                     'created'     => date('Y-m-d H:i:s')
+                  );
                   // $this->Common_model->save('evaluation_question_answer', $dataArr);    
                }             
             }
+            $this->db->insert_batch('evaluation_question_answer', $dataArr);
          }
 
          // Insert Checkbox Input | Type 4
          if(!empty($inputCheck)){
-            // Use implode() function to join
-            // comma in the array
-            // dd($inputCheck);
+            $keysCheck = array_keys($inputCheck);
             foreach ($inputCheck as $key => $value) {
-               $imp = implode(',', (array) $value);
-               // dd($imp);     
+               $imp = implode(',', (array) $value);   
+               $is_right = $this->auto_answer_examine($key, $imp);  // return '1', '0'
                if($value != NULL){ 
                   $dataArr[] = array(
                      'eva_id' => $dataID,
                      'que_id' => $key,
                      'que_type' => 4,
                      'answer' => $imp,
-                     'is_right' => $this->auto_answer_examine($key, $imp), // return '1', '0'
+                     'question_mark' => $answer_mark[$key],
+                     'is_right'    => $is_right, 
+                     'answer_mark' => ($is_right == 1)? $answer_mark[$key]:0,
                      'user_id' => $this->userSessID,
                      'created' => date('Y-m-d H:i:s')
-                     );
-                     // dd($data);
+                  );
                      // $this->Common_model->save('evaluation_question_answer', $dataArr);    
                }                    
             }
+            $this->db->insert_batch('evaluation_question_answer', $dataArr);
          }
-         // dd($dataArr);
 
          // Insert to Answer Sheet Table
-         // dd($dataArr); 
-         for ($i=0; $i<sizeof($dataArr); $i++) {                
+         /*for ($i=0; $i<sizeof($dataArr); $i++) {                
             $this->Common_model->save('evaluation_question_answer', $dataArr[$i]);    
+         }*/
+         $diff_arr1 = array_diff($hideid, $keysText);
+         $diff_arr2 = array_diff($diff_arr1, $keysTextarea);
+         $diff_arr3 = array_diff($diff_arr2, $keysRadio);
+         $diff_arr  = array_diff($diff_arr3, $keysCheck);
+         // Insert not answer question
+         if(!empty($diff_arr)){
+            foreach ($diff_arr as $key => $value) {
+               $dataArrs[] = array(
+                  'eva_id' => $dataID,
+                  'que_id' => $value,
+                  'que_type' => $question_type[$value],
+                  'answer' => NULL,
+                  'is_right' => 3,
+                  'question_mark' => $answer_mark[$value],
+                  'answer_mark' => 0,
+                  'user_id' => $this->userSessID,
+                  'created' => date('Y-m-d H:i:s')
+               );
+               // $this->Common_model->save('evaluation_question_answer', $dataArr);                
+            }
+            $this->db->insert_batch('evaluation_question_answer', $dataArrs);
          }
 
          // Mark Insert to Makrsheet Table
@@ -1510,105 +1607,141 @@ class Evaluation extends Backend_Controller {
       // Get Result
       $this->data['info'] = $this->Evaluation_model->get_evaluation_details($dataID);
       $this->data['questions'] = $this->Evaluation_model->get_question_by_evaluation($dataID);
-      // dd($this->data['info']);
 
       $trainingID = $this->data['info']->training_id;
       $tmID = $this->data['info']->training_mark_id;
 
       // Get Info
       if($this->input->post('submit')){
-
          $inputText = $this->input->post('input_text');
          $inputTextarea = $this->input->post('input_textarea');
          $inputRadio = $this->input->post('input_radio');
          $inputCheck = $this->input->post('input_check');
-         // dd($this->input->post());
+         $answer_mark = $this->input->post('answer_mark');
+         $question_type = $this->input->post('question_type');
+
+         $hideid       = $this->input->post('hideid');
+         $keysText     = array();
+         $keysTextarea = array();
+         $keysRadio    = array();
+         $keysCheck    = array();
+
 
          // Insert Text Input | Type 1
          if(!empty($inputText)){
+            $keysText = array_keys($inputText);
             foreach ($inputText as $key => $value) {
                if($value != NULL){ 
                   $dataArr[] = array(
                      'eva_id' => $dataID,
                      'que_id' => $key,
                      'que_type' => 1,
-                     'answer' => $value[0],
+                     'answer' => $value,
+                     'question_mark' => $answer_mark[$key],
+                     'answer_mark' => 0,
                      'user_id' => $this->userSessID,
                      'created' => date('Y-m-d H:i:s')
-                     );
-                  // $this->Common_model->save('evaluation_question_answer', $dataArr);    
+                  );
+                     // $this->Common_model->save('evaluation_question_answer', $dataArr);    
                }             
             }
+            $this->db->insert_batch('evaluation_question_answer', $dataArr);
          }
 
          // Insert Textarea Input | Type 2
          if(!empty($inputTextarea)){
+            $keysTextarea = array_keys($inputTextarea);
             foreach ($inputTextarea as $key => $value) {
                if($value != NULL){ 
                   $dataArr[] = array(
                      'eva_id' => $dataID,
                      'que_id' => $key,
                      'que_type' => 2,
-                     'answer' => $value[0],
+                     'answer' => $value,
+                     'question_mark' => $answer_mark[$key],
+                     'answer_mark' => 0,
                      'user_id' => $this->userSessID,
                      'created' => date('Y-m-d H:i:s')
-                     );
+                  );
                      // $this->Common_model->save('evaluation_question_answer', $dataArr);    
                }             
             }
+            $this->db->insert_batch('evaluation_question_answer', $dataArr);
          }
 
          // Insert Radio Input | Type 3
-         if(!empty($inputRadio)){
-            // dd($inputRasdio);             
+         if(!empty($inputRadio)){          
+            $keysRadio = array_keys($inputRadio);
             foreach ($inputRadio as $key => $value) {
-               // $data['k'][] = $key;
-               // $data[$key] = $value;
-               // dd($value[0]);
+               $is_right = $this->auto_answer_examine($key, $value);  // return '1', '0'
                if($value != NULL){ 
                   $dataArr[] = array(
-                     'eva_id' => $dataID,
-                     'que_id' => $key,
-                     'que_type' => 3,
-                     'answer' => $value[0],
-                     'is_right' => $this->auto_answer_examine($key, $value[0]), // return '1', '0'
-                     'user_id' => $this->userSessID,
-                     'created' => date('Y-m-d H:i:s')
-                     );
-                     // $this->Common_model->save('evaluation_question_answer', $dataArr);    
+                     'eva_id'      => $dataID,
+                     'que_id'      => $key,
+                     'que_type'    => 3,
+                     'answer'      => $value,
+                     'question_mark' => $answer_mark[$key],
+                     'is_right'    => $is_right, 
+                     'answer_mark' => ($is_right == 1)? $answer_mark[$key]:0,
+                     'user_id'     => $this->userSessID,
+                     'created'     => date('Y-m-d H:i:s')
+                  );
+                  // $this->Common_model->save('evaluation_question_answer', $dataArr);    
                }             
             }
+            $this->db->insert_batch('evaluation_question_answer', $dataArr);
          }
 
          // Insert Checkbox Input | Type 4
          if(!empty($inputCheck)){
-            // Use implode() function to join
-            // comma in the array
-            // dd($inputCheck);
+            $keysCheck = array_keys($inputCheck);
             foreach ($inputCheck as $key => $value) {
-               $imp = implode(',', (array) $value);
-               // dd($imp);     
+               $imp = implode(',', (array) $value);   
+               $is_right = $this->auto_answer_examine($key, $imp);  // return '1', '0'
                if($value != NULL){ 
                   $dataArr[] = array(
                      'eva_id' => $dataID,
                      'que_id' => $key,
                      'que_type' => 4,
                      'answer' => $imp,
-                     'is_right' => $this->auto_answer_examine($key, $imp), // return '1', '0'
+                     'question_mark' => $answer_mark[$key],
+                     'is_right'    => $is_right, 
+                     'answer_mark' => ($is_right == 1)? $answer_mark[$key]:0,
                      'user_id' => $this->userSessID,
                      'created' => date('Y-m-d H:i:s')
-                     );
-                     // dd($data);
+                  );
                      // $this->Common_model->save('evaluation_question_answer', $dataArr);    
                }                    
             }
+            $this->db->insert_batch('evaluation_question_answer', $dataArr);
          }
 
-         // dd($dataArr);
          // Insert to Answer Sheet Table
-         for ($i=0; $i<sizeof($dataArr); $i++) {                
+         /*for ($i=0; $i<sizeof($dataArr); $i++) {                
             $this->Common_model->save('evaluation_question_answer', $dataArr[$i]);    
-         }      
+         } */     
+         $diff_arr1 = array_diff($hideid, $keysText);
+         $diff_arr2 = array_diff($diff_arr1, $keysTextarea);
+         $diff_arr3 = array_diff($diff_arr2, $keysRadio);
+         $diff_arr  = array_diff($diff_arr3, $keysCheck);
+         // Insert not answer question
+         if(!empty($diff_arr)){
+            foreach ($diff_arr as $key => $value) {
+               $dataArrs[] = array(
+                  'eva_id' => $dataID,
+                  'que_id' => $value,
+                  'que_type' => $question_type[$value],
+                  'answer' => NULL,
+                  'is_right' => 3,
+                  'question_mark' => $answer_mark[$value],
+                  'answer_mark' => 0,
+                  'user_id' => $this->userSessID,
+                  'created' => date('Y-m-d H:i:s')
+               );
+               // $this->Common_model->save('evaluation_question_answer', $dataArr);                
+            }
+            $this->db->insert_batch('evaluation_question_answer', $dataArrs);
+         }
 
          // Mark Insert to Makrsheet Table
          if($this->save_mark($trainingID, $dataID, $tmID, $this->userSessID)){
@@ -1645,7 +1778,7 @@ class Evaluation extends Backend_Controller {
 
    public function my_module_exam_form($evaID){
       // Check Auth
-      if(!$this->ion_auth->in_group(array('trainee'))){
+      if(!$this->ion_auth->in_group(array('trainee')) || empty($evaID)){
          redirect('dashboard');
       }
       
@@ -1668,107 +1801,145 @@ class Evaluation extends Backend_Controller {
       $tmID = $this->data['info']->training_mark_id;
 
       // Get Info
+      // Get Info
       if($this->input->post('submit')){
-
          $inputText = $this->input->post('input_text');
          $inputTextarea = $this->input->post('input_textarea');
          $inputRadio = $this->input->post('input_radio');
          $inputCheck = $this->input->post('input_check');
-         // dd($this->input->post());
+         $answer_mark = $this->input->post('answer_mark');
+         $question_type = $this->input->post('question_type');
+
+         $hideid       = $this->input->post('hideid');
+         $keysText     = array();
+         $keysTextarea = array();
+         $keysRadio    = array();
+         $keysCheck    = array();
+
 
          // Insert Text Input | Type 1
          if(!empty($inputText)){
+            $keysText = array_keys($inputText);
             foreach ($inputText as $key => $value) {
                if($value != NULL){ 
                   $dataArr[] = array(
                      'eva_id' => $dataID,
                      'que_id' => $key,
                      'que_type' => 1,
-                     'answer' => $value[0],
+                     'answer' => $value,
+                     'question_mark' => $answer_mark[$key],
+                     'answer_mark' => 0,
                      'user_id' => $this->userSessID,
                      'created' => date('Y-m-d H:i:s')
-                     );
+                  );
                      // $this->Common_model->save('evaluation_question_answer', $dataArr);    
                }             
             }
+            $this->db->insert_batch('evaluation_question_answer', $dataArr);
          }
 
          // Insert Textarea Input | Type 2
          if(!empty($inputTextarea)){
+            $keysTextarea = array_keys($inputTextarea);
             foreach ($inputTextarea as $key => $value) {
                if($value != NULL){ 
                   $dataArr[] = array(
                      'eva_id' => $dataID,
                      'que_id' => $key,
                      'que_type' => 2,
-                     'answer' => $value[0],
+                     'answer' => $value,
+                     'question_mark' => $answer_mark[$key],
+                     'answer_mark' => 0,
                      'user_id' => $this->userSessID,
                      'created' => date('Y-m-d H:i:s')
-                     );
+                  );
                      // $this->Common_model->save('evaluation_question_answer', $dataArr);    
                }             
             }
+            $this->db->insert_batch('evaluation_question_answer', $dataArr);
          }
 
          // Insert Radio Input | Type 3
-         if(!empty($inputRadio)){
-            // dd($inputRasdio);             
+         if(!empty($inputRadio)){          
+            $keysRadio = array_keys($inputRadio);
             foreach ($inputRadio as $key => $value) {
-               // $data['k'][] = $key;
-               // $data[$key] = $value;
-               // dd($value[0]);
+               $is_right = $this->auto_answer_examine($key, $value);  // return '1', '0'
                if($value != NULL){ 
                   $dataArr[] = array(
-                     'eva_id' => $dataID,
-                     'que_id' => $key,
-                     'que_type' => 3,
-                     'answer' => $value[0],
-                     'is_right' => $this->auto_answer_examine($key, $value[0]), // return '1', '0'
-                     'user_id' => $this->userSessID,
-                     'created' => date('Y-m-d H:i:s')
-                     );
+                     'eva_id'      => $dataID,
+                     'que_id'      => $key,
+                     'que_type'    => 3,
+                     'answer'      => $value,
+                     'question_mark' => $answer_mark[$key],
+                     'is_right'    => $is_right, 
+                     'answer_mark' => ($is_right == 1)? $answer_mark[$key]:0,
+                     'user_id'     => $this->userSessID,
+                     'created'     => date('Y-m-d H:i:s')
+                  );
                   // $this->Common_model->save('evaluation_question_answer', $dataArr);    
                }             
             }
+            $this->db->insert_batch('evaluation_question_answer', $dataArr);
          }
 
          // Insert Checkbox Input | Type 4
          if(!empty($inputCheck)){
-            // Use implode() function to join
-            // comma in the array
-            // dd($inputCheck);
+            $keysCheck = array_keys($inputCheck);
             foreach ($inputCheck as $key => $value) {
-               $imp = implode(',', (array) $value);
-               // dd($imp);     
+               $imp = implode(',', (array) $value);   
+               $is_right = $this->auto_answer_examine($key, $imp);  // return '1', '0'
                if($value != NULL){ 
                   $dataArr[] = array(
                      'eva_id' => $dataID,
                      'que_id' => $key,
                      'que_type' => 4,
                      'answer' => $imp,
-                     'is_right' => $this->auto_answer_examine($key, $imp), // return '1', '0'
+                     'question_mark' => $answer_mark[$key],
+                     'is_right'    => $is_right, 
+                     'answer_mark' => ($is_right == 1)? $answer_mark[$key]:0,
                      'user_id' => $this->userSessID,
                      'created' => date('Y-m-d H:i:s')
-                     );
-                  // dd($data);
-                  // $this->Common_model->save('evaluation_question_answer', $dataArr);    
+                  );
+                     // $this->Common_model->save('evaluation_question_answer', $dataArr);    
                }                    
             }
+            $this->db->insert_batch('evaluation_question_answer', $dataArr);
          }
 
-         // dd($dataArr);
          // Insert to Answer Sheet Table
-         for ($i=0; $i<sizeof($dataArr); $i++) {                
+         /*for ($i=0; $i<sizeof($dataArr); $i++) {                
             $this->Common_model->save('evaluation_question_answer', $dataArr[$i]);    
-         }       
+         } */     
+         $diff_arr1 = array_diff($hideid, $keysText);
+         $diff_arr2 = array_diff($diff_arr1, $keysTextarea);
+         $diff_arr3 = array_diff($diff_arr2, $keysRadio);
+         $diff_arr  = array_diff($diff_arr3, $keysCheck);
+         // Insert not answer question
+         if(!empty($diff_arr)){
+            foreach ($diff_arr as $key => $value) {
+               $dataArrs[] = array(
+                  'eva_id' => $dataID,
+                  'que_id' => $value,
+                  'que_type' => $question_type[$value],
+                  'answer' => NULL,
+                  'is_right' => 3,
+                  'question_mark' => $answer_mark[$value],
+                  'answer_mark' => 0,
+                  'user_id' => $this->userSessID,
+                  'created' => date('Y-m-d H:i:s')
+               );
+               // $this->Common_model->save('evaluation_question_answer', $dataArr);                
+            }
+            $this->db->insert_batch('evaluation_question_answer', $dataArrs);
+         }
 
          // Mark Insert to Makrsheet Table
          if($this->save_mark($trainingID, $dataID, $tmID, $this->userSessID)){
             $this->session->set_flashdata('success', 'প্রশ্নের উত্তর ডাটাবেজে সংরক্ষণ করা হয়েছে');
             // Redirect 
-            redirect('evaluation/my_module_exam');
-         }
-      }      
+            redirect('evaluation/my_post_exam');
+         }        
+      }   
 
       // Load Page
       $this->data['meta_title'] = 'মডিউল ভিত্তিক মূল্যায়ন প্রশ্নপত্রের ফরম';
@@ -1820,11 +1991,11 @@ class Evaluation extends Backend_Controller {
       $this->data['que_ans_list'] = $this->Evaluation_model->get_answer_sheet_by_user($evaluationID, $userID);
 
       // Evaluation Result
-      $this->data['result_right'] = $this->Evaluation_model->get_question_answer_by_user($evaluationID, $userID, 1);
-      $this->data['result_wrong'] = $this->Evaluation_model->get_question_answer_by_user($evaluationID, $userID, 2);
-      $this->data['result_not_examin'] = $this->Evaluation_model->get_question_answer_by_user($evaluationID, $userID);
-
-      // dd($this->data['que_ans_list']);
+      $evas = $this->Evaluation_model->get_question_answer_by_user($evaluationID, $userID);
+      $this->data['que_ans']      = count($this->data['que_ans_list']);
+      $this->data['result_right'] = $evas->is_right;
+      $this->data['result_wrong'] = $evas->is_wrong;
+      $this->data['result_not_examin'] = $this->data['que_ans'] - $evas->is_right - $evas->is_wrong;
 
       // Load Page
       $this->data['meta_title'] = 'প্রশিক্ষণ মূল্যায়নের উত্তরপত্র';
@@ -1832,7 +2003,7 @@ class Evaluation extends Backend_Controller {
       $this->load->view('backend/_layout_main', $this->data);
    }
 
-   public function examine_answer($evaluationID, $userID){
+   public function examine_answer($evaluationID, $type, $userID){
       // $results = $this->Evaluation_model->get_evaluation_details($id);
       $this->data['info'] = $this->Evaluation_model->get_evaluation_details($evaluationID);
       $this->data['que_ans_list'] = $this->Evaluation_model->get_answer_sheet_by_user($evaluationID, $userID);
@@ -1848,31 +2019,42 @@ class Evaluation extends Backend_Controller {
 
       if ($this->form_validation->run() == true){
          $inputRadio = $this->input->post('is_right');
+         $answer_mark = $this->input->post('answer_mark');
          // $inputCheck = $this->input->post('input_check');
 
          // Insert Text Input
          if(!empty($inputRadio)){
             foreach ($inputRadio as $key => $value) {
-               // dd($value);
-               // if($value != NULL){ 
                $dataArr = array(
-                  'is_right' => $value
-                  );
+                  'is_right' => $value,
+                  'answer_mark' => $answer_mark[$key]
+               );
                $this->Common_model->edit('evaluation_question_answer', $key, 'id', $dataArr);
-               // $this->Common_model->save('evaluation_question_answer', $dataArr);    
-               // }
             }
          }
 
          // Check Marksheet Data Exists by Training ID, User ID and Training Mark ID
          $marksheet = $this->Evaluation_model->exists_marksheet_info($trainingID, $userID, $tmID);
          // dd($marksheet);
-         if($marksheet === false){
+         if($type == 1) {
+            $url = 'evaluation/pre_exam_participant/'.$evaluationID;
+         } elseif ($type == 2) {
+            $url = 'evaluation/post_exam_participant/'.$evaluationID;
+         } else {
+            $url = 'evaluation/module_exam_participant/'.$evaluationID;
+         }
+
+         if($this->save_mark($trainingID, $evaluationID, $tmID, $userID)){
+            $this->session->set_flashdata('success', 'প্রশ্নপত্রের উত্তর যাচাই করে প্রাপ্ত নম্বর ডাটাবেজে সংরক্ষন করা হয়েছে');
+            redirect($url);
+         }
+
+         /*if($marksheet === false){
             // Insert New Row into Marsheet Table
             if($this->save_mark($trainingID, $evaluationID, $tmID, $userID)){
                $this->session->set_flashdata('success', 'প্রশ্নপত্রের উত্তর যাচাই করে প্রাপ্ত নম্বর ডাটাবেজে সংরক্ষন করা হয়েছে');
                // Redirect 
-               redirect('evaluation/exam_participant/'.$evaluationID);
+               redirect($url);
             }
          }else{
             // Update Marksheet Table Row 
@@ -1880,10 +2062,9 @@ class Evaluation extends Backend_Controller {
             if($this->update_mark($marksheet->id, $evaluationID, $userID)){            
                $this->session->set_flashdata('success', 'প্রশ্নপত্রের উত্তর যাচাই করে প্রাপ্ত নম্বর ডাটাবেজে সংরক্ষন করা হয়েছে');
                // Redirect 
-               redirect('evaluation/exam_participant/'.$evaluationID);
+               redirect($url);
             }
-         }
-
+         }*/
       }
 
       //Load Page
@@ -1969,8 +2150,9 @@ class Evaluation extends Backend_Controller {
       foreach ($questions as $value) { 
          //$sl++;
          $data .= '<li class="list-group-item grab">
-         <h6 class="semi-bold"><i class="fa fa-arrows" aria-hidden="true"></i> '.$value->question_title.'</h6>';
+         <h6 class="semi-bold"><i class="fa fa-arrows" aria-hidden="true"></i> '.$value->question_title.'<span style="color:blue; margin-left:5px;">  '  .eng2bng($value->qnumber). '</span></h6>';
          $data .= '<input type="hidden" name="hideid[]" value="'.$value->id.'">';
+         $data .= '<input type="hidden" name="hidenumber[]" value="'.$value->qnumber.'">';
 
          /*
          if($value->question_type == 1){
@@ -2010,17 +2192,25 @@ class Evaluation extends Backend_Controller {
    }
 
    public function save_mark($trainingID, $evaID, $tmID, $userID){
+      $row = $this->Evaluation_model->get_question_answer_by_user($evaID, $userID);
       $form_data = array(
-         'training_id'  => $trainingID,
-         'user_id'      => $userID,
-         'tm_id'        => $tmID,
-         'es_id'        => $this->Evaluation_model->get_subject_id($tmID),
-         'mark'         => $this->Evaluation_model->get_question_answer_by_user($evaID, $userID, 1)
-         );
+         'training_id'   => $trainingID,
+         'user_id'       => $userID,
+         'tm_id'         => $tmID,
+         'es_id'         => $this->Evaluation_model->get_subject_id($tmID),
+         'question_mark' => $row->question_mark,
+         'answer_mark'   => $row->answer_mark,
+         'mark'          => $row->is_right,
+         'pre_question'  => 2,
+      );
       // dd($form_data);
-      if($this->Common_model->save('marksheet', $form_data)){
-         return true;
+      $check = $this->db->where('training_id', $trainingID)->where('user_id', $userID)->where('tm_id', $tmID)->get('marksheet')->row();
+      if(empty($check)) {
+         $this->Common_model->save('marksheet', $form_data);
+      } else {
+         $this->db->where('training_id', $trainingID)->where('user_id', $userID)->where('tm_id', $tmID)->update('marksheet', $form_data);
       }
+      return true;
    }
 
    public function update_mark($id, $evaID, $userID){

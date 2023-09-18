@@ -69,8 +69,9 @@ class Qbank extends Backend_Controller {
             $form_data = array(
                 'office_type'    => $this->input->post('office_type'),
                 'question_title' => $this->input->post('question'),
-                'question_type'  => $this->input->post('question_type')
-                );
+                'question_type'  => $this->input->post('question_type'),
+                'qnumber'        => $this->input->post('qnumber'),
+            );
             // print_r($form_data); exit;
             if($this->Common_model->save('qbank', $form_data)){
                 // Last insert ID
@@ -139,8 +140,9 @@ class Qbank extends Backend_Controller {
 
             $form_data = array(
                 'office_type' => $this->input->post('office_type'),
-                'question_title' => $this->input->post('question')
-                );                
+                'question_title' => $this->input->post('question'),
+                'qnumber' => $this->input->post('qnumber'),
+            );                
             // dd($form_data); exit;
             
             if($this->Common_model->edit('qbank', $id, 'id', $form_data)){
@@ -210,6 +212,30 @@ class Qbank extends Backend_Controller {
     }
 
 
+   public function qbank_pdf($offset = 0)
+   {    
+      // Get Result
+        $results = $this->Qbank_model->get_data(1000, $offset);
+        $this->data['results'] = $results['rows'];
+        $this->data['total_rows'] = $results['num_rows'];
+      // dd($this->data['info']);
+
+      // Load View
+      $this->data['headding'] = 'প্রশ্নের তালিকা';
+      $html = $this->load->view('qbank/qbank_pdf', $this->data, true);
+      // $html= $this->load->view('pdf_number_elected_representative', $this->data, true);
+
+        // Generate PDF
+      $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+      // $mpdf->useFixedNormalLineHeight = true;
+      // $mpdf->useFixedTextBaseline = true;
+      // $mpdf->adjustFontDescLineheight = 2.14;
+      $mpdf->WriteHtml($html);
+      $mpdf->output('Pre-Exam-'.time().rand().'.pdf', 'I');
+   }
+
+
+
     //*******************************************************************************************//
     // Setup Answer
     //*******************************************************************************************//
@@ -244,7 +270,10 @@ class Qbank extends Backend_Controller {
 
         // Validate and Insert to DB
         if ($this->form_validation->run() == true) {
-            $form_data = array('answer' => $answer);                
+            $form_data = array(
+                'answer' => $answer,
+                'qnumber' => $this->input->post('qnumber'),  // question number update or set   
+            );   
             // dd($form_data); exit;
 
             if($this->Common_model->edit('qbank', $id, 'id', $form_data)){

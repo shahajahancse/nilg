@@ -38,7 +38,7 @@
                            $sl++;
                         ?>
                         <tr>
-                           <td class="v-align-middle"><?=$sl.'.'?></td>
+                           <td class="v-align-middle"><?=eng2bng($sl).'.'?></td>
                            <td class="v-align-middle"><?=$row->supplier_name; ?></td>
                            <td class="v-align-middle"><?= date_bangla_calender_format($row->created); ?>
                            </td>

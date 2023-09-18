@@ -19,6 +19,8 @@
       <li><?=$meta_title; ?> </li>
     </ul>
 
+    <?php $ofset = encrypt_url($this->uri->segment(3, 0)); ?>
+
     <div class="row">
       <div class="col-md-12">
         <div class="grid simple horizontal green">
@@ -92,7 +94,7 @@
                        <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> অ্যাকশন <span class="caret"></span> </a>
                        <ul class="dropdown-menu">
                         <li><?=anchor("training/details/".$row->id, lang('common_details'))?></li>
-                        <li><?=anchor("training/edit/".$row->id, lang('common_edit'))?></li>
+                        <li><?=anchor("training/edit/".$row->id."/".$ofset, lang('common_edit'))?></li>
                         <li><?=anchor("training/participant_list/".$row->id, 'অংশগ্রহণকারী তালিকা')?></li>
                         <li><?=anchor("training/schedule/".$row->id, 'প্রশিক্ষণ কর্মসূচী')?></li>
                         <li><?=anchor("training/allowance/".$row->id, 'প্রশিক্ষণ ভাতা')?></li>
@@ -109,7 +111,7 @@
                         <li><?=anchor("training/honorarium/".$row->id, 'সম্মানী ভাতার তালিকা')?></li>
                         <li><?=anchor("training/marksheet/".$row->id, 'প্রশিক্ষণার্থীর মার্কশীট')?></li>
                         <li><?=anchor("training/generate_certificate/".$row->id, 'জেনারেট সার্টিফিকেট')?></li>
-                        <li><?=anchor("training/duplicate/".$row->id, 'ডুপ্লিকেট', 'onclick="return confirm(\'আপনি কি এই ট্রেনিংটি কপি করতে চান? কপি করার পর প্রয়োজনীয় তথ্য সংশোধন করে নিন।\');"')?></li>  
+                        <li><?=anchor("training/duplicate/".$row->id, 'ক্লন করুন', 'onclick="return confirm(\'আপনি কি এই ট্রেনিংটি কপি করতে চান? কপি করার পর প্রয়োজনীয় তথ্য সংশোধন করে নিন।\');"')?></li>  
 
                         <?php if($this->ion_auth->is_admin()){ ?>
                         <li class="divider"></li>

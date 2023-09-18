@@ -18,7 +18,7 @@
             <?php //} ?>
           </div>
 
-          <div class="grid-body ">
+          <div class="grid-body" id="refresh_head">
             <div id="infoMessage"><?php echo $message;?></div>   
             <?php if($this->session->flashdata('success')):?>
               <div class="alert alert-success">
@@ -34,61 +34,68 @@
                 <?php echo form_submit('submit', 'অনুসন্ধান', "class='btn btn-primary btn-cons'"); ?>
               </div>
             </form> <br><br><br> -->    
+            <div id="refresh_id">
+              <table class="table table-hover table-bordered  table-flip-scroll cf">
+                <thead class="cf">
+                  <tr>
+                    <th>ক্রম</th>
+                    <th width="100">মডিউলের নাম</th>
+                    <th>প্রশিক্ষণের শিরোনাম</th>
+                    <th>কোর্স শুরু ও শেষের তারিখ</th>
+                    <th width="70">অ্যাকশন</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php  $sl = $pagination['current_page'];
+                  foreach ($results as $row):
+                      $sl++;
+                    $published = $row->is_published == 1?"<span class='label label-success'>এনাবল</span>":"<span class='label label-danger'>ডিজেবল</span>";
+                    ?>
+                    <tr>
+                      <td><?=eng2bng($sl).'.'?></td>
+                      <td><?=$row->subject_name?></td>
+                      <td><strong><?=func_training_title($row->training_id)?></strong></td>
+                      <td><?=date_bangla_calender_format($row->start_date)?> হতে <?=date_bangla_calender_format($row->end_date)?></td>
+                      <td>
+                        <?php if(strtotime($row->exam_date .' '. $row->exam_start_time) > strtotime(date('Y-m-d H:i:s'))){?>
+                          <a data-toggle="tooltip" title="<?=date_bangla_calender_format($row->exam_date) .' '. bangla_time_format($row->exam_start_time)?> টায় পরীক্ষা শুরু হবে" class="btn btn-info btn-mini">প্রশ্নপত্র</a>
+                        <?php } else if($this->Evaluation_model->is_answer($row->id)['count'] > 0){?>
+                          <a href="<?=base_url('evaluation/my_answer_sheet/'.encrypt_url($row->id));?>" class="btn btn-blueviolet btn-mini">উত্তরপত্র</a>
+                        <?php }else{ ?>
+                          <?=anchor("evaluation/my_module_exam_form/".encrypt_url($row->id), 'প্রশ্নপত্র', 'class="btn btn-primary dropdown-toggle btn-mini"')?>
+                        <?php } ?>
+                      </td>
+                    </tr>
+                  <?php endforeach;?>
+                </tbody>
+              </table>
 
-            <table class="table table-hover table-bordered  table-flip-scroll cf">
-              <thead class="cf">
-                <tr>
-                  <th>ক্রম</th>
-                  <th width="100">মডিউলের নাম</th>
-                  <th>প্রশিক্ষণের শিরোনাম</th>
-                  <th>কোর্স শুরু ও শেষের তারিখ</th>
-                  <th width="70">অ্যাকশন</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php 
-                $sl = $pagination['current_page'];
-                foreach ($results as $row):
-                  $sl++;
-                $published = $row->is_published == 1?"<span class='label label-success'>এনাবল</span>":"<span class='label label-danger'>ডিজেবল</span>";
-                ?>
-                <tr>
-                  <td><?=eng2bng($sl).'.'?></td>
-                  <td><?=$row->subject_name?></td>
-                  <td><strong><?=func_training_title($row->training_id)?></strong></td>
-                  <td><?=date_bangla_calender_format($row->start_date)?> হতে <?=date_bangla_calender_format($row->end_date)?></td>
-                  <td>
-                    <?php if($this->Evaluation_model->is_answer($row->id)['count'] > 0){?>
-                    <a href="<?=base_url('evaluation/my_answer_sheet/'.encrypt_url($row->id));?>" class="btn btn-blueviolet btn-mini">উত্তরপত্র</a>
-                    <?php }else{ ?>
-                    <?=anchor("evaluation/my_module_exam_form/".encrypt_url($row->id), 'প্রশ্নপত্র', 'class="btn btn-primary dropdown-toggle btn-mini"')?>
-                    <?php } ?>
-                    <!-- <div class="btn-group pull-right">
-                     <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> অ্যাকশন <span class="caret"></span> </a>
-                     <ul class="dropdown-menu">
-                      <li></li>
-                    </ul>
-                  </div>  -->
-                </td>
-              </tr>
-            <?php endforeach;?>
-          </tbody>
-        </table>
+              <div class="row">
+                <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> <span style="color: green; font-weight: bold;"> মোট <?=eng2bng($total_rows)?>টি প্রশ্নপত্র </span></div>
+                <div class="col-sm-8 col-md-8 text-right">
+                  <?php echo $pagination['links']; ?>
+                </div>
+              </div>
+            </div>
 
-        <div class="row">
-          <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> <span style="color: green; font-weight: bold;"> মোট <?=eng2bng($total_rows)?>টি প্রশ্নপত্র </span></div>
-          <div class="col-sm-8 col-md-8 text-right">
-            <?php echo $pagination['links']; ?>
           </div>
         </div>
-
       </div>
-
     </div>
-  </div>
-</div>
 
-</div> <!-- END ROW -->
+  </div> <!-- END ROW -->
 
 </div>
-</div>
+
+
+
+
+<script>
+  $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+
+    setInterval(function(){
+      $("#refresh_head").load(location.href + " #refresh_id");
+    }, 1000); 
+  });
+</script>

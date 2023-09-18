@@ -7,7 +7,7 @@
       </ul>
 
       <div class="row">
-         <div class="col-md-8">
+         <div class="col-md-10">
             <div class="grid simple horizontal red">
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
@@ -31,15 +31,22 @@
                   echo form_open_multipart("general_setting/sub_category_add", $attributes);?>
 
                   <div class="row form-row">
-                     <div class="col-md-6">
+                     <div class="col-md-4">
                         <label class="form-label">ক্যাটাগরি নির্বাচন করুন</label>
                         <?php echo form_error('cate_id'); ?>
-                        <?php echo form_dropdown('cate_id',$categories, set_value('cate_id'), 'class="form-control input-sm"');?>
+                        <?php echo form_dropdown('cate_id',$categories, set_value('cate_id'), 'class="form-control input-sm" id="cate_id" ');?>
                      </div>
-                     <div class="col-md-6">
+                     <div class="col-md-5">
                         <label class="form-label">সাব ক্যাটাগরি নাম </label>
                         <?php echo form_error('sub_cate_name'); ?>
-                        <input name="sub_cate_name" type="text" value="<?=set_value('sub_cate_name')?>" class="form-control input-sm" placeholder="">
+                        <input name="sub_cate_name" type="text" value="<?=set_value('sub_cate_name')?>" class="form-control input-sm" autocomplete="off">
+                     </div>
+                     <div class="col-md-3">
+                        <label class="form-label">স্ট্যাটাস</label>
+                        <select name="status" class="form-control input-sm">
+                           <option value="1">এনাবল</option>
+                           <option value="2">ডিজাবল</option>
+                        </select>
                      </div>
                   </div>
 
@@ -63,17 +70,40 @@
 <script type="text/javascript">
    $(document).ready(function() {
       $('#jsvalidate').validate({
-      // focusInvalid: false, 
-      ignore: "",
-      rules: {
-      	cate_id: {
-            required: true
-         },
-         sub_cate_name: {
-            required: true
-         }         
-      }
-   });
+         // focusInvalid: false, 
+         ignore: "",
+         rules: {
+         	cate_id: {
+               required: true
+            },
+            sub_cate_name: {
+               required: true
+            }         
+         }
+      });
+
+      /*$('#cate_id').change(function(){
+         var id = $(this).val();
+       
+         $.ajax({
+            type: "GET",
+            url: hostname +"general_setting/ajax_get_sub_category/" + id,
+            success: function(func_data)
+            {
+               if (func_data.length != 0) {
+                  $.each(func_data, function(index,value) {
+                     console.log(value.sub_cate_name);
+                     var opt = $('<option />');
+                     opt.val(value.id);
+                     opt.text(value.sub_cate_name);
+                     $('.district_val').append(opt);
+                  });
+               } else {
+                  $('.district_val').append('<option> -- নির্বাচন করুন -- <option />');
+               }
+            }
+         });
+      });*/
 
    });   
 </script>

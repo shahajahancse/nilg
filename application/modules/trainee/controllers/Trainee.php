@@ -1190,7 +1190,22 @@ class Trainee extends Backend_Controller
 
         // Validate and Insert Data
         if ($this->form_validation->run() == true) {
+            if($this->ion_auth->is_admin()){
+                $officeInfo     = $this->Common_model->get_office_info($results['info']->crrnt_office_id);
+                $officeType     = $officeInfo->office_type;
+                $officeID       = $officeInfo->id;
+                $divisionID     = $officeInfo->division_id;
+                $districtID     = $officeInfo->district_id;
+                $upazilaID      = $officeInfo->upazila_id;
+                $unionID        = $officeInfo->union_id;
+            }
+
             $form_data = array(
+                'div_id'            => $divisionID != NULL ? $divisionID : NULL,
+                'dis_id'            => $districtID != NULL ? $districtID : NULL,
+                'upa_id'            => $upazilaID != NULL ? $upazilaID : NULL,
+                'union_id'          => $unionID != NULL ? $unionID : NULL,
+
                 'name_bn'               => $this->input->post('name_bn'),
                 'name_en'               => strtoupper($this->input->post('name_en')),
                 'father_name'           => $this->input->post('father_name'),
@@ -1213,7 +1228,7 @@ class Trainee extends Backend_Controller
                 'religion_id'           => $this->input->post('religion_id'),
                 'status'                => $this->input->post('status'),
                 'modified'              => date('Y-m-d H:i:s')
-                );
+            );
 
             if($this->ion_auth->is_admin()){
                 $form_data['username'] = $this->input->post('nid');
@@ -1419,6 +1434,17 @@ class Trainee extends Backend_Controller
     // Employee Official Info
     public function edit_employee_official($userID)
     {
+       /* $results = $this->db->where('data_id !=', NULL)->where('exp_office_id', 0)->get('per_experience')->result();
+        foreach ($results as $key => $row) {
+            $data = array(
+                'exp_office_id' => $row->exp_org_id,
+                'exp_design_id' => $row->exp_desig_id,
+            );
+            $this->Common_model->edit('per_experience', $row->id, 'id', $data);
+        }
+        dd($results);*/
+
+
         // Check Auth
         if(!$this->ion_auth->in_group(array('admin', 'nilg', 'city', 'zp', 'ddlg', 'uz', 'paura', 'up', 'partner', 'cc'))){
             redirect('dashboard');
@@ -1466,7 +1492,7 @@ class Trainee extends Backend_Controller
                 'prl_date'              => $this->input->post('prl_date'),
                 'retirement_date'       => $this->input->post('retirement_date'),
                 'modified'              => date('Y-m-d H:i:s')
-                );
+            );
 
             if($this->ion_auth->is_admin()){
                 $form_data['crrnt_office_id'] = $officeID;
@@ -1488,7 +1514,7 @@ class Trainee extends Backend_Controller
                             'exp_office_id' => $_POST['exp_office_id'][$i],
                             'exp_design_id' => $_POST['exp_design_id'][$i],
                             'exp_duration'  => $_POST['exp_duration'][$i],
-                            );
+                        );
                         $this->Common_model->edit('per_experience', $_POST['hide_exp_id'][$i], 'id', $data);
                     } else {
                         $experienceData = array(
@@ -1496,7 +1522,7 @@ class Trainee extends Backend_Controller
                             'exp_office_id' => $_POST['exp_office_id'][$i],
                             'exp_design_id' => $_POST['exp_design_id'][$i],
                             'exp_duration'  => $_POST['exp_duration'][$i],
-                            );
+                        );
                         $this->Common_model->save('per_experience', $experienceData);
                     }
                 }
@@ -1616,29 +1642,33 @@ class Trainee extends Backend_Controller
         $get_user_type = $results['info']->employee_type;
 
         // Data Updata and Insert to DB
-        if (isset($_POST['nilg_course_id'])) {
-            for ($i = 0; $i < sizeof($_POST['nilg_course_id']); $i++) {
+        if (isset($_POST['hide_row_id'])) {
+            for ($i = 0; $i < sizeof($_POST['hide_row_id']); $i++) {
                 //check exists data
-                @$data_exists = $this->Common_model->exists('per_nilg_training', 'id', $_POST['hide_row_id'][$i]);
+                @$data_exists = $this->Common_model->exists('training_participant', 'id', $_POST['hide_row_id'][$i]);
                 if ($data_exists) {
                     $data = array(
-                        'nilg_course_id' => $_POST['nilg_course_id'][$i],
+                        'training_id' => $_POST['hide_training_id'][$i],
                         'nilg_desig_id' => $_POST['nilg_desig_id'][$i],
-                        'nilg_batch_no' => $_POST['nilg_batch_no'][$i] != NULL ? $_POST['nilg_batch_no'][$i] : NULL,
-                        'nilg_training_start' => $_POST['nilg_training_start'][$i] != NULL ? $_POST['nilg_training_start'][$i] : NULL,
-                        'nilg_training_end' => $_POST['nilg_training_end'][$i] != NULL ? $_POST['nilg_training_end'][$i] : NULL,
-                        );
-                    $this->Common_model->edit('per_nilg_training', $_POST['hide_row_id'][$i], 'id', $data);
+                    );
+                    $this->Common_model->edit('training_participant', $_POST['hide_row_id'][$i], 'id', $data);
                 } else {
                     $data = array(
-                        'data_id' => $dataID,
-                        'nilg_course_id' => $_POST['nilg_course_id'][$i],
+                        'app_user_id' => $dataID,
+                        'training_id' => $_POST['hide_training_id'][$i],
                         'nilg_desig_id' => $_POST['nilg_desig_id'][$i],
-                        'nilg_batch_no' => $_POST['nilg_batch_no'][$i] != NULL ? $_POST['nilg_batch_no'][$i] : NULL,
-                        'nilg_training_start' => $_POST['nilg_training_start'][$i] != NULL ? $_POST['nilg_training_start'][$i] : NULL,
-                        'nilg_training_end' => $_POST['nilg_training_end'][$i] != NULL ? $_POST['nilg_training_end'][$i] : NULL,
-                        );
-                    $this->Common_model->save('per_nilg_training', $data);
+                    );
+                    $this->Common_model->save('training_participant', $data);
+                }
+
+                if (!empty($_POST['hide_training_id'][$i])) {
+                    $data = array(
+                        'course_id' => $_POST['nilg_course_id'][$i],
+                        'batch_no' => $_POST['batch_no'][$i],
+                        'start_date' => $_POST['start_date'][$i],
+                        'end_date' => $_POST['end_date'][$i],
+                    );
+                    $this->Common_model->edit('training', $_POST['hide_training_id'][$i], 'id', $data);
                 }
             }
 
@@ -2045,11 +2075,7 @@ class Trainee extends Backend_Controller
                 }
                 
                 // Redirect
-                if ($userType == 1) {
-                    redirect('trainee/all_pr');
-                } else {
-                    redirect('trainee/all_employee');
-                }
+                redirect('trainee/request');
             }
         }
 
@@ -2089,6 +2115,8 @@ class Trainee extends Backend_Controller
         $this->form_validation->set_rules('transfer_join_date', 'transfer joining date', 'required|trim');
         if ($this->form_validation->run() == true){
             // new data
+            $end_date = date('Y-m-d', strtotime('-1 days', strtotime($this->input->post('transfer_join_date'))));
+
             $crrnt_office_id = $this->input->post('crrnt_office_id');
             $row = $this->db->select('*')->from('office')->where('id', $crrnt_office_id)->get()->row();
 
@@ -2102,19 +2130,31 @@ class Trainee extends Backend_Controller
                 'created_date'        => date('Y-m-d'),
                 );
 
+            $this->Common_model->save('per_transfer', $transfer_data);
             $last_id = $this->db->insert_id();
 
             // Make Array Data
             $office_type = $this->db->where('id', $this->input->post('crrnt_office_id'))->get('office')->row();
             $user_data = array(
                 'office_type'       => $office_type->office_type,
+                'crrnt_attend_date' => $this->input->post('transfer_join_date'),
                 'crrnt_office_id'   => $this->input->post('crrnt_office_id'),
                 'div_id'            => $row->div_id != NULL ? $row->div_id : NULL,
                 'dis_id'            => $row->dis_id != NULL ? $row->dis_id : NULL,
                 'upa_id'            => $row->upa_id != NULL ? $row->upa_id : NULL,
                 'union_id'          => $row->union_id != NULL ? $row->union_id : NULL,
-                );
+            );
             $this->Common_model->edit('users', $dataID, 'id', $user_data);
+
+
+            $experienceData = array(
+                'data_id'       => $dataID,
+                'exp_office_id' => $results['info']->crrnt_office_id,
+                'exp_design_id' => $results['info']->crrnt_desig_id,
+                'exp_duration' => $results['info']->crrnt_attend_date.' - '.$end_date,
+            );
+            $this->Common_model->save('per_experience', $experienceData);
+
 
             // order Upload
             if(!empty($_FILES['transfer_order_file']) && $_FILES['transfer_order_file']['size'] > 0){
@@ -2250,11 +2290,12 @@ class Trainee extends Backend_Controller
 
         //validation
         $this->form_validation->set_rules('new', $this->lang->line('reset_password_validation_new_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[new_confirm]');
+
         $this->form_validation->set_rules('new_confirm', $this->lang->line('reset_password_validation_new_password_confirm_label'), 'required');
 
         if ($this->form_validation->run() === TRUE){
             // finally change the password
-            $identity = $this->data['info']->{$this->config->item('identity', 'ion_auth')}; //exit;
+            $identity = $this->data['info']->id; //exit;
 
             $change = $this->ion_auth->reset_password($identity, $this->input->post('new'));
             if ($change){

@@ -59,10 +59,37 @@
                   <!-- <option value="">-- Select One --</option> -->
                 </select>
               </div> 
+            </div>
 
-              
+            <div class="row form-row"> 
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="form-label">পরীক্ষার তারিখ <span class="required">*</span></label>
+                  <?php echo form_error('exam_date');?>
+                  <input name="exam_date" type="date" value="<?=set_value('exam_date')?>" class="form-control input-sm" required>
+                </div>
+              </div> 
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="form-label">পরীক্ষা শুরু <span class="required">*</span></label>
+                  <?php echo form_error('exam_start_time');?>
+                  <input name="exam_start_time" type="time" value="<?=set_value('exam_start_time')?>" class="form-control input-sm" required>
+                </div>
+              </div>  
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="form-label">পরীক্ষার সময় <span class="required">*</span></label>
+                  <?php echo form_error('exam_duration');?>
+                  <input name="exam_duration" type="number" value="<?=set_value('exam_duration')?>" class="form-control input-sm" placeholder="ex. 45 minute" required>
+                </div>
+              </div>  
+            </div>
+
+            <div class="row form-row">  
               <div class="col-md-12">
-                <label class="form-label">প্রশ্নপত্র তৈরি করুন</label>
+                <label style="float: left;" class="form-label">প্রশ্নপত্র তৈরি করুন</label>
+                <label style="float: right;" class="form-label">প্রশ্ন সংখ্যা : <span id="qnumber">0</span></label>
+                <div style="clear: both; padding-bottom: 10px;"></div>
                 <ul id="list2" class="list-group"></ul>
               </div>
             </div>
@@ -138,6 +165,9 @@
       rules: {
         training_id: { required: true},
         exam_set: { required: true},
+        exam_date: { required: true},
+        exam_start_time: { required: true},
+        exam_duration: { required: true},
         training_mark_id: { required: true}
       },
       message: {
@@ -204,23 +234,65 @@
     $('.evaluation_val').addClass('form-control input-sm');
     $(".evaluation_val > option").remove();
     var id = $('#training_id').val();
-      // Traing Marking Type
-      // 1=pre_exam, 2=post_exam, 3=module, 4=manual
+    // Traing Marking Type
+    // 1=pre_exam, 2=post_exam, 3=module, 4=manual
 
-      $.ajax({
-        type: "POST",
-        url: hostname + "evaluation/ajax_training_mark_by_training_id/" + id + "/2", 
-        success: function(func_data)
+    $.ajax({
+      type: "POST",
+      url: hostname + "evaluation/ajax_training_mark_by_training_id/" + id + "/2", 
+      success: function(func_data)
+      {
+        $.each(func_data,function(id,name)
         {
-          $.each(func_data,function(id,name)
-          {
-            var opt = $('<option />');
-            opt.val(id);
-            opt.text(name);
-            $('.evaluation_val').append(opt);
-          });
-        }
-      });
+          var opt = $('<option />');
+          opt.val(id);
+          opt.text(name);
+          $('.evaluation_val').append(opt);
+        });
+      }
     });
-  </script>
+  });
+</script>
+
+
+<script type="text/javascript">
+  $('#list').change(function(){
+    ul = document.getElementById("list2");
+    li = ul.getElementsByTagName('li');
+    total = li.length;
+    document.getElementById("qnumber").innerHTML = replaceNumbers(total.toString());
+  });
+
+  $('#list2').change(function(){
+    ul = document.getElementById("list2");
+    li = ul.getElementsByTagName('li');
+    total = li.length;
+    document.getElementById("qnumber").innerHTML = replaceNumbers(total.toString());
+  });
+
+  function replaceNumbers(input) {
+    var numbers = {
+      0:'০',
+      1:'১',
+      2:'২',
+      3:'৩',
+      4:'৪',
+      5:'৫',
+      6:'৬',
+      7:'৭',
+      8:'৮',
+      9:'৯'
+    };
+
+    var output = [];
+    for (var i = 0; i < input.length; ++i) {
+      if (numbers.hasOwnProperty(input[i])) {
+        output.push(numbers[input[i]]);
+      } else {
+        output.push(input[i]);
+      }
+    }
+    return output.join('');
+  }
+</script>
 

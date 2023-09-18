@@ -70,9 +70,11 @@ class My_profile_model extends CI_Model {
                 nt.id, 
                 nt.training_id, 
                 nt.app_user_id, 
+                nt.nilg_desig_id, 
                 c.course_title,
                 d.desig_name, 
                 t.participant_name,
+                t.course_id,
                 t.batch_no, 
                 t.start_date, 
                 t.end_date

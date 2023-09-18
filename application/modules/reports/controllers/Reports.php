@@ -60,7 +60,7 @@ class Reports extends Backend_Controller {
             $this->data['union_info'] = $this->Common_model->get_info('unions', $union_id);    
 
             if($this->input->post('btnsubmit') == 'pdf_rep_number_divisional') {
-                $this->data['result_data'] = $this->Reports_model->get_pr_by_division($status, $division_id);
+                $this->data['result_data'] = $this->Reports_model->get_pr_by_division(1, $status, $division_id);
 
                 // 01/02/2023
                 /*if(!empty($division_id)){
@@ -168,7 +168,7 @@ class Reports extends Backend_Controller {
                 $mpdf->WriteHtml($html);
                 $mpdf->output();
 
-            }elseif($this->input->post('btnsubmit') == 'pdf_rep_number_upazila') {
+            } elseif($this->input->post('btnsubmit') == 'pdf_rep_number_upazila') {
                 $this->data['result_data'] = $this->Reports_model->get_pr_by_upazila($status, $upazila_id);
                 // 06/02/2023
                 /*$data_arr = [];
@@ -480,7 +480,7 @@ class Reports extends Backend_Controller {
     public function employee(){        
         $this->data['division'] = $this->Common_model->get_division();
         // $this->data['designations'] = $this->Common_model->get_data('designation');
-        $this->data['course_list'] = $this->Common_model->get_nilg_course(); 
+        // $this->data['course_list'] = $this->Common_model->get_nilg_course(); 
         $this->data['designations'] = $this->Common_model->get_designation_by_employee_type('employee');
         // dd($this->data['designations']);
         $this->data['course_list'] = $this->Common_model->get_course(); 
@@ -737,11 +737,16 @@ class Reports extends Backend_Controller {
 
             }elseif($this->input->post('btnsubmit') == 'pdf_nilg_employee_excel') {
 
-                $data['results'] = $this->Reports_model->get_data_emp_pre($data_sheet_type, NULL, $status, $division_id, $district_id, $upazila_id, $union_id);
+                $this->data['results'] = $this->Reports_model->get_data_emp_pre($data_sheet_type, NULL, $status, $division_id, $district_id, $upazila_id, $union_id);
                 // dd($data['results']);
 
-                $data['headding'] = 'কর্মকর্তা/কর্মচারী রিপোর্ট';
-                $this->load->view('pdf_nilg_employee_excel', $data);
+                if($data_sheet_type == 2){
+                    $this->data['type_details'] = 'কর্মকর্তা';
+                }elseif($data_sheet_type == 3){
+                    $this->data['type_details'] = 'কর্মচারী';
+                }
+                $this->data['headding'] = 'কর্মকর্তা/কর্মচারী রিপোর্ট';
+                $this->load->view('pdf_nilg_employee_excel', $this->data);
 
             }elseif($this->input->post('btnsubmit') == 'pdf_nilg_number_designation') {
                 $data_arr = []; 
@@ -999,8 +1004,9 @@ class Reports extends Backend_Controller {
     public function nilg_employee(){
         // $this->data['division'] = $this->Common_model->get_division();
         $this->data['data_type'] = array(''=>'-ডাটার ধরণ নির্বাচন করুন-', '2' => 'এনআইএলজি কর্মকর্তা', '3' => 'এনআইএলজি কর্মচারী');
-        $this->data['designations'] = $this->Common_model->get_data('designation');
-        $this->data['course_list'] = $this->Common_model->get_nilg_course(); 
+        $this->data['designations'] = $this->Common_model->get_data('designations');
+        // $this->data['course_list'] = $this->Common_model->get_nilg_course(); 
+        $this->data['course_list'] = $this->Common_model->get_course(); 
         $this->data['datasheet_status'] = $this->Common_model->get_datasheet_status();
 
         //Load View
@@ -1120,7 +1126,7 @@ class Reports extends Backend_Controller {
 
                 $start_age = 18;
                 for($i=$start_age; $i < 60; $i++) { 
-                    $data_arr[$i] = $this->Reports_model->get_count_age($data_sheet_type, $i);
+                    $data_arr[$i] = $this->Reports_model->get_count_age($data_sheet_type, $i, 7);
                 }
 
                 $this->data['results'] = $data_arr;
@@ -1142,7 +1148,7 @@ class Reports extends Backend_Controller {
                     $this->data['type_details'] = 'কর্মচারীদের ';
                 }
 
-                $this->data['course_info'] = $this->Common_model->get_info('training_course', $course_id);
+                $this->data['course_info'] = $this->Common_model->get_info('course', $course_id);
                 $this->data['results'] = $this->Reports_model->get_nilg_course_complete_list($data_sheet_type, $course_id, 7);
 
                 // print_r($this->data['results']); exit;
@@ -1164,25 +1170,39 @@ class Reports extends Backend_Controller {
     public function others_employee(){
         // $this->data['division'] = $this->Common_model->get_division();
         $this->data['data_type'] = array(''=>'-ডাটার ধরণ নির্বাচন করুন-', '6' => 'উন্নয়ন সহযোগী প্রতিষ্ঠান', '7' => 'এনজিও', '8' => 'অন্যান্য প্রতিষ্ঠান');
-        $this->data['designations'] = $this->Common_model->get_data('designation');
+        $this->data['designations'] = $this->Common_model->get_data('designations');
+        $this->data['division'] = $this->Common_model->get_division();
         $this->data['course_list'] = $this->Common_model->get_nilg_course(); 
-        $this->data['datasheet_status'] = $this->Common_model->get_datasheet_status();
+        // $this->data['datasheet_status'] = $this->Common_model->get_datasheet_status();
+        $this->data['datasheet_status'] = $this->Common_model->get_data_status();
 
         //Load View
-        $this->data['meta_title'] = 'অন্যান্য ব্যাক্তিগত রিপোর্ট';
+        $this->data['meta_title'] = 'রিপোর্ট';
         $this->data['subview'] = 'others_employee';
         $this->load->view('backend/_layout_main', $this->data);
     }
 
     public function others_employee_result(){
-        $this->form_validation->set_rules('data_sheet_type', 'datasheet type', 'trim|required');
+        // $this->form_validation->set_rules('data_sheet_type', 'datasheet type', 'trim|required');
+        $this->form_validation->set_rules('division_id', 'division', 'trim|required');
 
         if($this->form_validation->run() == true){
-            // $district=$this->input->post('district');
-            // $upazila=$this->input->post('upazila');
             $data_sheet_type = $this->input->post('data_sheet_type');
-            $course_id = $this->input->post('course_id');
-            $status = $this->input->post('status');
+
+            $division   = $this->input->post('division_id');
+            $district   = $this->input->post('district_id');
+            $upazila    = $this->input->post('upazila_id');
+            $union      = $this->input->post('union_id');
+            $course     = $this->input->post('course_id');
+            $status     = $this->input->post('status');
+            $start_date = $this->input->post('start_date');
+            $end_date   = $this->input->post('end_date');
+
+            $this->data['division_info'] = $this->Common_model->get_info('divisions', $division);
+            $this->data['district_info'] = $this->Common_model->get_info('districts', $district);
+            $this->data['upazila_info'] = $this->Common_model->get_info('upazilas', $upazila);        
+            $this->data['union_info'] = $this->Common_model->get_info('unions', $union);    
+
 
             if($this->input->post('btnsubmit') == 'pdf_others_employee') {
                 if($data_sheet_type == 6){
@@ -1206,9 +1226,85 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
                 // $mpdf->output('report.pdf', "D");
 
+            } elseif ($this->input->post('btnsubmit') == 'pdf_number_of_registrations') {
+                $this->data['results'] = $this->Reports_model->get_emp_pre_data(NULL,$division,$district,$upazila,$union,$start_date,$end_date);
+
+                // $this->data['total'] = count($this->data['results']);
+                $this->data['data_status'] = $status;
+                $this->data['headding'] = 'রেজিস্ট্রেশন রিপোর্ট তালিকা';
+                $this->data['start_date'] = $start_date;
+                $this->data['end_date'] = $end_date;
+                // print_r($this->data['division_list']);
+
+                $html = $this->load->view('pdf_number_of_registrations', $this->data, true);
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
+            } elseif ($this->input->post('btnsubmit') == 'pdf_number_of_organization') {
+
+                $this->data['result_data'] = $this->Reports_model->get_pr_by_division(null,$status,$division,$start_date,$end_date);
+
+                $this->data['total'] = count($this->data['result_data']);
+                $this->data['data_status'] = $status;
+                $this->data['headding'] = ' প্রতিষ্ঠান ভিত্তিক রিপোর্ট ('.eng2bng($start_date) .' হইতে '.eng2bng($end_date).')';
+
+                $html = $this->load->view('pdf_divisional_rep_number', $this->data, true);
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
+            } elseif ($this->input->post('btnsubmit') == 'pdf_number_designation') {
+
+                $data_arr = [];     
+
+                foreach ($this->input->post('designations') as $key => $val) {
+                    $data_arr[$val]['design'] = $this->Reports_model->get_item_info('designations', $val, 'id');
+                    $data_arr[$val]['total'] = $this->Reports_model->get_count_by_designation($val,null,$division,$start_date,$end_date); 
+                    //print_r($data_arr[$val]['total']); exit;
+                }
+                // dd($data_arr);       
+
+                $this->data['results'] = $data_arr;
+
+                $this->data['headding'] = 'পদবি ভিত্তিক সংখ্যা রির্পোট';
+                $html = $this->load->view('pdf_rep_number_designation', $this->data, true);
+
+                //Generate PDF
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
+            } elseif ($this->input->post('btnsubmit') == 'pdf_number_designation_mf') {
+
+                $data = [];     
+
+                $designation = $this->input->post('designations');
+                $data = $this->Reports_model->designation_count_by_mf($designation,$start_date,$end_date); 
+                // dd($data);       
+                $this->data['results'] = $data;
+                $this->data['headding'] = ' পদবি ভিত্তিক নারী/পরুষ রিপোর্ট ('.eng2bng($start_date) .' হইতে '.eng2bng($end_date).')';
+                $html = $this->load->view('pdf_number_designation_mf', $this->data, true);
+
+                //Generate PDF
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
+            } elseif ($this->input->post('btnsubmit') == 'pdf_organization_report') {
+
+                $data = [];     
+
+                $designation = $this->input->post('designations');
+                $data = $this->Reports_model->pdf_organization_report($division,$start_date,$end_date); 
+                // dd($data);       
+                $this->data['results'] = $data;
+                $this->data['headding'] = 'প্রশিক্ষণের তালিকা রিপোর্ট ('.eng2bng($start_date) .' হইতে '.eng2bng($end_date).')';
+                $html = $this->load->view('pdf_organization_report', $this->data, true);
+
+                //Generate PDF
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
             }
-            
         }
+        return redirect()->back(); 
     }
 
 

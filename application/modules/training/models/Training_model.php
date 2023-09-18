@@ -21,16 +21,16 @@ class Training_model extends CI_Model {
 
         //search
         if(!empty($_GET['course_id'])){
-            $this->db->like('t.course_id', $_GET['course_id']);                      
+            $this->db->where('t.course_id', $_GET['course_id']);                      
         } 
         if(!empty($_GET['division_id'])){
-            $this->db->like('t.division_id', $_GET['division_id']);                      
+            $this->db->where('t.division_id', $_GET['division_id']);                      
         }  
         if(!empty($_GET['district_id'])){
-            $this->db->like('t.district_id', $_GET['district_id']);                      
+            $this->db->where('t.district_id', $_GET['district_id']);                      
         }  
         if(!empty($_GET['upazila_id'])){
-            $this->db->like('t.upazila_id', $_GET['upazila_id']);                      
+            $this->db->where('t.upazila_id', $_GET['upazila_id']);                      
         }     
            
 
@@ -50,16 +50,16 @@ class Training_model extends CI_Model {
 
         //search
         if(!empty($_GET['course_id'])){
-            $this->db->like('t.course_id', $_GET['course_id']);                      
+            $this->db->where('t.course_id', $_GET['course_id']);                      
         } 
         if(!empty($_GET['division_id'])){
-            $this->db->like('t.division_id', $_GET['division_id']);                      
+            $this->db->where('t.division_id', $_GET['division_id']);                      
         }  
         if(!empty($_GET['district_id'])){
-            $this->db->like('t.district_id', $_GET['district_id']);                      
+            $this->db->where('t.district_id', $_GET['district_id']);                      
         }  
         if(!empty($_GET['upazila_id'])){
-            $this->db->like('t.upazila_id', $_GET['upazila_id']);                      
+            $this->db->where('t.upazila_id', $_GET['upazila_id']);                      
         }   
 
         $tmp = $this->db->get()->result();
@@ -453,10 +453,11 @@ class Training_model extends CI_Model {
         $query = $this->db->get();
         //echo $this->db->last_query();
         if($query->num_rows()>0){
-            // dd($query->result_array());
-            foreach ($query->result_array() as $value) {
-                $trainingIDs[]=$value['training_id'];
-            }
+
+            $querys = $query->result_array();
+            array_walk($querys, function($entry) use (&$trainingIDs) {
+                $trainingIDs[] = $entry["training_id"];
+            });
 
             // result query        
             $this->db->select('t.*, tt.training_type, c.course_title, f.finance_name, o.office_name');
@@ -669,7 +670,14 @@ class Training_model extends CI_Model {
 
     public function get_mark_by_subject($trainingID, $userID, $subjectID){
         // Applicant List
-        $this->db->select('id, mark');
+        $this->db->select('
+            id,
+            pre_question,
+            mark,
+            SUM(answer_mark) as answer_mark,
+            SUM(question_mark) as question_mark, 
+        ');
+
         $this->db->from('marksheet');
         $this->db->where('training_id', $trainingID);
         $this->db->where('user_id', $userID);
@@ -677,7 +685,7 @@ class Training_model extends CI_Model {
         $result = $this->db->get();
         // echo $this->db->last_query(); exit;
         if ($result->num_rows() > 0){
-            return $result->row()->mark;        
+            return $result->row();        
         }
 
         return 0;
@@ -830,20 +838,34 @@ class Training_model extends CI_Model {
         return $query;
     }
 
-    public function get_schedule($trainingID) {
+    public function count_schedule_by_date($trainingID) {
+        // result query
+        $this->db->select('COUNT(t.program_date) as total, t.training_id, t.program_date');
+        $this->db->from('training_schedule t');  
+        $this->db->where('t.training_id', $trainingID);
+        if($this->input->get('start_date') != NULL && $this->input->get('end_date') != NULL){
+            $this->db->where('t.program_date >=' , $this->input->get('start_date'));   
+            $this->db->where('t.program_date <=' , $this->input->get('end_date'));   
+        }
+
+        $this->db->group_by('t.program_date');
+        $query = $this->db->get()->result();
+        return $query;
+    }
+
+    public function get_schedule($trainingID, $date = NULL) {
         // result query
         $this->db->select('t.*, u.name_bn, dg.desig_name, u.designation');
         $this->db->from('training_schedule t');  
         $this->db->join('users u', 'u.id = t.trainer_id', 'LEFT');   
         $this->db->join('designations dg', 'dg.id = u.crrnt_desig_id', 'LEFT');
         $this->db->where('t.training_id', $trainingID);
-        if($this->input->get('start_date') != NULL){
-            $this->db->where('t.program_date >=' , $this->input->get('start_date'));   
-        }
-        if($this->input->get('end_date') != NULL){
-            $this->db->where('t.program_date <=' , $this->input->get('end_date'));   
+        if($date != NULL){
+            $this->db->where('t.program_date =' , $date);   
+            // $this->db->where('t.program_date <=' , $date);   
         }
         $this->db->order_by('t.program_date', 'ASC');
+        $this->db->order_by('t.time_start', 'ASC');
         $this->db->order_by('t.session_no', 'ASC');
         $query = $this->db->get()->result();
         return $query;

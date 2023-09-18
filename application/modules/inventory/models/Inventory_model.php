@@ -8,25 +8,45 @@ class Inventory_model extends CI_Model {
     }
 
 
-  public function get_requisition($limit=1000, $offset=0, $status=NULL) {
+  public function get_requisition($limit=1000, $offset=0, $status=NULL, $user_id = null) {
       $this->db->select('r.*, u.name_bn, dp.dept_name, dg.desig_name');
       $this->db->from('requisitions r');
       $this->db->join('users u', 'u.id = r.user_id', 'LEFT');
       $this->db->join('department dp', 'dp.id = u.crrnt_dept_id', 'LEFT');
       $this->db->join('designations dg', 'dg.id = u.crrnt_desig_id', 'LEFT');
+      // $this->db->where('r.status !=', 6);
       if($status){
           $this->db->where('r.status', $status);
       }
+
+      if($user_id != null){
+          $this->db->where('r.user_id', $user_id);
+      }
+      if(!empty($_GET['start_date']) && !empty($_GET['end_date'])){
+        $start_time = $_GET['start_date'];
+        $end_time = $_GET['end_date'];
+        $this->db->where("r.updated BETWEEN '$start_time' and '$end_time'");
+      }
+
       $this->db->limit($limit, $offset);
       $this->db->order_by('r.id', 'DESC');
       $query = $this->db->get()->result();
       $result['rows'] = $query;
+      // dd($query);
 
       // count query
       $q = $this->db->select('COUNT(*) as count');
       $this->db->from('requisitions'); 
       if($status){
           $this->db->where('status', $status);
+      }      
+      if($user_id != null){
+          $this->db->where('user_id', $user_id);
+      }      
+      if(!empty($_GET['start_date']) && !empty($_GET['end_date'])){
+        $start_time = $_GET['start_date'];
+        $end_time = $_GET['end_date'];
+        $this->db->where("updated BETWEEN '$start_time' and '$end_time'");
       }
       $query = $this->db->get()->result();
       $tmp = $query;
@@ -128,7 +148,7 @@ class Inventory_model extends CI_Model {
     $this->db->join('sub_categories sc', 'sc.id=i.sub_cate_id', 'LEFT');
     $this->db->join('item_unit u', 'u.id=i.unit_id', 'LEFT');
     $this->db->limit($limit, $offset);
-    $this->db->order_by('i.id', 'ASC');
+    $this->db->order_by('c.id', 'ASC');
     $query = $this->db->get()->result();
 
     $result['rows'] = $query;
@@ -223,14 +243,17 @@ class Inventory_model extends CI_Model {
     return $query;
   }
 
-  public function get_requisition_items($id) {
-    $this->db->select('ri.*, i.item_name, i.quantity, i.order_level, iu.unit_name, c.category_name');
+  public function get_requisition_items($id, $status = null) {
+    $this->db->select('ri.*, i.item_name, i.quantity, i.order_level, iu.unit_name, c.category_name, sc.sub_cate_name');
     $this->db->from('requisition_item ri');
     $this->db->join('items i', 'i.id = ri.item_id', 'LEFT');
     $this->db->join('item_unit iu', 'iu.id = i.unit_id', 'LEFT');
     $this->db->join('categories c', 'c.id = i.cat_id', 'LEFT');
+    $this->db->join('sub_categories sc', 'sc.id=ri.item_sub_cate_id', 'LEFT');
     $this->db->where('ri.requisition_id', $id);
-    $this->db->where_not_in('ri.is_delete', [1,2]);
+    if ($status == null) {
+      $this->db->where_not_in('ri.is_delete', [1,2]);
+    }
     $query = $this->db->get()->result();
 
     return $query;
@@ -295,7 +318,7 @@ class Inventory_model extends CI_Model {
     $this->db->from('items i');
     $this->db->join('categories c', 'c.id=i.cat_id', 'LEFT');
     $this->db->join('item_unit u', 'u.id=i.unit_id', 'LEFT');
-    $this->db->order_by('i.id', 'ASC');
+    $this->db->order_by('c.id', 'ASC');
     $this->db->where('quantity <= order_level');
     $query = $this->db->get()->result();
     // echo $this->db->last_query(); exit;

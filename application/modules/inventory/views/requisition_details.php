@@ -19,9 +19,9 @@
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">  
-                  <?php if((func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id) == 'jd') || (func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id) == 'dg')){ ?>
+                  <?php if($this->ion_auth->in_group(array('admin','jd','dg'))){ ?>
                      <a href="<?=base_url('inventory/request_requisition_list')?>" class="btn btn-blueviolet btn-xs btn-mini">রিকুয়েস্ট রিকুইজিশন তালিকা</a>  
-                  <?php } else if(func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id) == 'sk') { ?>  
+                  <?php } else if($this->ion_auth->in_group(array('sm', 'asm'))) { ?>  
                      <a href="<?=base_url('inventory/index')?>" class="btn btn-blueviolet btn-xs btn-mini">রিকুয়েস্ট রিকুইজিশন তালিকা</a>
                   <?php } else { ?>
                      <a href="<?=base_url('inventory/my_requisition')?>" class="btn btn-blueviolet btn-xs btn-mini">রিকুয়েস্ট রিকুইজিশন তালিকা</a> 
