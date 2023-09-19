@@ -90,12 +90,17 @@
 
                      <div class="row form-row">
                         <div class="col-md-6" style="margin-bottom: 20px;: ">
-                           <label class="form-label">Status Type <span class='required' style="font-size: 15px">* ফরওয়ার্ড টু যুগ্ন পরিচালক</span></label>
+                           <label class="form-label">Status Type <span class='required' style="font-size: 15px">* ফরওয়ার্ড টু যুগ্নপরিচালক</span></label>
                            <?php echo form_error('status');?>
-                           <input type="radio" name="status" value="2" <?=set_value('status')=='2'?'checked':'';?>> <span style="color: black; font-size: 14px;"><strong>Approve</strong></span> 
-                           <input type="radio" name="status" value="3" <?=set_value('status')=='3'?'checked':'';?>> <span style="color: black; font-size: 14px;"><strong>Reject</strong></span>
+                           <input type="radio" name="status" value="2" <?=set_value('status')=='2'?'checked':'';?>> <span style="color: black; font-size: 14px;"><strong>অ্যাপ্রভ </strong></span> 
+                           <input type="radio" name="status" value="3" <?=set_value('status')=='3'?'checked':'';?>> <span style="color: black; font-size: 14px;"><strong>রিজেক্ট </strong></span>
                            <div id="typeerror"></div>
                         </div>
+
+                        <div style="float: right; margin-right: 20px;">
+                           <a href="<?=base_url('inventory/delivered_list/0/'.encrypt_url($info->user_id))?>" class="btn btn-mini btn-primary">ডেলিভারি তালিকা</a>
+                        </div>
+
                      </div>
 
                      <div class="row form-row">                        
@@ -110,17 +115,19 @@
                               <div id="msgPerson"> </div>
                               <table width="100%" border="1" id="appRowDiv">
                                  <tr>
-                                    <th width="20%">Item Name <span class="required">*</span></th>
-                                    <th width="10%">Qty. Request</th>
-                                    <th width="10%"> Qty. Approve </th>
-                                    <th width="10%">Qty. Available</th>
-                                    <th width="10%">অ্যাকশান</th>
+                                    <th>আইটেম নাম (ইউনিট)</th>
+                                    <th>রিকুয়েস্ট কোয়ান্টিটি</th>
+                                    <th>অ্যাপ্রভ কোয়ান্টিটি</th>
+                                    <!-- <th width="10%">Qty. Request</th> -->
+                                    <!-- <th width="10%"> Qty. Approve </th> -->
+                                    <th>অ্যাভেলেবল কোয়ান্টিটি</th>
+                                    <th>অ্যাকশান</th>
                                  </tr>
                                  <?php foreach($items as $item){ ?>
                                  <tr>
                                     <td><?=$item->item_name?></td>
                                     <td><?=$item->qty_request?>  <?=$item->unit_name?></td>
-                                    <td><input name="qty_approve[]" value="<?=$item->qty_request?>" type="text" class="form-control input-sm"></td>
+                                    <td><input name="qty_approve[]" value="<?=$item->qty_request?>" type="number" class="form-control input-sm"></td>
                                     <td style="cursor: pointer;" title="Order Level <?php echo $item->order_level; ?>"><?=$item->quantity?> <?=$item->unit_name?></td>
                                     <input type="hidden" name="hide_id[]" value="<?=$item->id?>">
                                     <td>

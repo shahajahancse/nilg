@@ -58,7 +58,7 @@
                      <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> অ্যাকশন <span class="caret"></span> </a>
                      <ul class="dropdown-menu">
                       <li><?=anchor("evaluation/answer_sheet/".$row->eva_id.'/'.$row->id, 'উত্তরপত্র')?></li>
-                      <li><?=anchor("evaluation/examine_answer/".$row->eva_id.'/'.$row->id, 'প্রশ্নপত্র যাচাই ফরম')?></li>
+                      <li><?=anchor("evaluation/examine_answer/$row->eva_id/1/$row->id", 'প্রশ্নপত্র যাচাই ফরম')?></li>
                     </ul>
                   </div> 
                 </td>

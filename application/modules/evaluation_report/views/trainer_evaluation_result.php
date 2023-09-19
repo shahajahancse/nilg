@@ -60,6 +60,7 @@
                       <th colspan="1" rowspan="2" style="vertical-align: middle;">প্রাপ্ত নম্বর</th>
                       <th colspan="1" rowspan="2" style="vertical-align: middle;">মোট নম্বর</th>
                       <th colspan="1" rowspan="2" style="vertical-align: middle;">গড় নম্বর</th>
+                      <th colspan="1" rowspan="2" style="vertical-align: middle;">গড় নম্বর</th>
                     </tr>
                     <tr>
                       <th>অতি উত্তম</th>
@@ -126,6 +127,7 @@
 
                             <td class="align" rowspan ="1"><?= ($s->topic_avgrage * 5) ?></td> 
                             <td class="align" rowspan ="1"><?= ($s->total * 4 * 5) ?></td> 
+                            <td class="align" rowspan ="1"><?= round(($s->topic_avgrage * 5 * 100)/($s->total * 4 * 5), 2).'%';?></td> 
 
                             <?php if ($ks == 0) {  ?>
                             <td class="align" rowspan ="<?= $row->total_row ?>"><?= round($sum['percentage'], 2) .'%' ?></td>

@@ -591,7 +591,7 @@ class Ion_auth_model extends CI_Model
 		$this->trigger_events('extra_where');
 
 		$query = $this->db->select('id, password, salt')
-		                  ->where($this->identity_column, $identity)
+		                  ->where('id', $identity)
 		                  ->limit(1)
 		    			  ->order_by('id', 'desc')
 		                  ->get($this->tables['users']);
@@ -617,7 +617,7 @@ class Ion_auth_model extends CI_Model
 		);
 
 		$this->trigger_events('extra_where');
-		$this->db->update($this->tables['users'], $data, array($this->identity_column => $identity));
+		$this->db->update($this->tables['users'], $data, array('id' => $identity));
 
 		$return = $this->db->affected_rows() == 1;
 		if ($return)
@@ -756,7 +756,7 @@ class Ion_auth_model extends CI_Model
 			return FALSE;
 		}
 
-		return $this->db->where($this->identity_column, $identity)
+		return $this->db->where('id', $identity)
 		                ->count_all_results($this->tables['users']) > 0;
 	}
 
@@ -808,7 +808,8 @@ class Ion_auth_model extends CI_Model
 		    'forgotten_password_time' => time()
 		);
 
-		$this->db->update($this->tables['users'], $update, array($this->identity_column => $identity));
+		// $this->db->update($this->tables['users'], $update, array($this->identity_column => $identity));
+		$this->db->update($this->tables['users'], $update, array('email' => $identity));
 
 		$return = $this->db->affected_rows() == 1;
 

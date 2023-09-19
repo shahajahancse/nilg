@@ -17,7 +17,7 @@
           <div class="grid-title">
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
             <div class="pull-right">
-              <!-- <a href="#" data-toggle="modal" data-target="#myModal" class="btn btn-primary btn-xs btn-mini"> নতুন প্রতিষ্ঠানের নাম যুক্ত করুন </a> -->
+              <a href="<?=base_url('nilg_setting/qbank/qbank_pdf')?>" target="_blank" class="btn btn-primary btn-xs btn-mini"> ডাউনলোড পিডিএফ ফরমেট </a>
               <a href="<?=base_url('nilg_setting/qbank/add')?>" class="btn btn-primary btn-xs btn-mini"> এন্ট্রি করুন</a>
             </div>            
           </div>
@@ -48,7 +48,7 @@
               </div> 
               <div class="col-md-3 p5">
                 <div class="form-group">
-                  <input name="question" type="text" value="<?=set_value('question') ?>" class=" form-control input-sm" placeholder="প্রশ্ন">
+                  <input name="question" type="text" value="<?=set_value('question') ?>" class=" form-control input-sm" placeholder="প্রশ্ন" autocomplete="off">
                 </div>
               </div>
 
@@ -70,6 +70,7 @@
                   <th width="20">ক্রম</th>
                   <th>অফিসের ধরণ</th>
                   <th>প্রশ্ন</th>
+                  <th>প্রশ্নের নাম্বার</th>
                   <th>প্রশ্নের ধরণ</th>                  
                   <th width="50">উত্তর</th>
                   <th width="60">অ্যাকশন</th>
@@ -77,7 +78,7 @@
               </thead>
               <tbody>
                 <?php 
-                $sl = 0; //$pagination['current_page'];
+                $sl = $pagination['current_page'];
                 foreach ($results as $row){
                   $sl++;
                   // Auto Answer
@@ -91,6 +92,7 @@
                     <td><?=eng2bng($sl).'.'?></td>
                     <td><?=$row->office_type_name?></td>
                     <td><a href="#" data-target="#modalSetAnswer" data-toggle="modal" data-id="<?php echo $row->id;?>"><?=$row->question_title?></a></td>
+                    <td><?=$row->qnumber?></span></td>
                     <td style="font-family: 'Open Sans';"><?=func_question_type($row->question_type)?></td>
                     <td><?=$answer?></span></td>
                     <td>

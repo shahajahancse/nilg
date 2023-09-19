@@ -18,7 +18,7 @@
           <div class="grid-body" id="printableArea">
             <?php 
             $attributes = array('id' => 'validate');
-            echo form_open_multipart("evaluation/examine_answer/".$info->id.'/'.$this->uri->segment(4), $attributes);
+            echo form_open_multipart(current_url(), $attributes);
             ?>
 
             <div class="row">
@@ -60,8 +60,11 @@
                 ?>
                 <!-- <div style="border-bottom: 1px solid #ccc;"> -->
                 <div class="col-md-12" style="border-bottom: 1px solid #ccc;">
-                  <h5 class="semi-bold" <?=$rightAnswer?>><?=eng2bng($sl)?>। <?=$value->question_title?></h5>
-                  <input type="hidden" name="hideid[]" value="<?=$value->id?>">
+                  <h5 class="semi-bold pull-left" <?=$rightAnswer?>><?=eng2bng($sl)?>। <?=$value->question_title?></h5>
+                  <h5 class="semi-bold pull-right" style="color:blue;"><?=eng2bng($value->question_mark)?></h5>
+                  <input type="hidden" name="hideid[]" value="<?=$value->id?>">                    
+                  <div style="clear: both;"></div>
+
 
                   <?php if($value->que_type == 1){ // Text Question ?>
                   <em><b>প্রদত্ত উত্তরঃ</b></em> <?=$value->answer?><br>
@@ -92,66 +95,66 @@
                       <div class="form-check" style="margin-left: 30px;">                
                         <li><label class="form-check-label"><b><?=$radioOption?></b> <?=$rightOptionRadio?></label></li>
                       </div>
-                      <?php } ?>
-                    </ul>
+                    <?php } ?>
+                  </ul>
 
-                    <?php }elseif($value->que_type == 4){ // Checkbox Question?>
+                  <?php }elseif($value->que_type == 4){ // Checkbox Question?>
 
-                    <ul>
-                     <?php foreach ($value->options as $key => $row) {                        
-                      $rightOption = ''; 
-                      $checkOption = '<span style="color:black;">'.$row->option_name.'</span>';
+                  <ul>
+                   <?php foreach ($value->options as $key => $row) {                        
+                    $rightOption = ''; 
+                    $checkOption = '<span style="color:black;">'.$row->option_name.'</span>';
 
-                        // Checkbox Given Answer
-                      $exp = explode(',', $value->answer);
-                        // dd($exp[$key]);
-                      for ($i=0; $i<sizeof($exp); $i++) {         
-                        if($exp[$i] == $row->id){
-                          $checkOption = '<span style="color:red;">'.$row->option_name.'</span>';
-                        }              
-                      }
+                      // Checkbox Given Answer
+                    $exp = explode(',', $value->answer);
+                      // dd($exp[$key]);
+                    for ($i=0; $i<sizeof($exp); $i++) {         
+                      if($exp[$i] == $row->id){
+                        $checkOption = '<span style="color:red;">'.$row->option_name.'</span>';
+                      }              
+                    }
 
-                        // Checkbox Right Answer
-                      $exp = explode(',', $value->right_answer);
-                        // dd($exp[$key]);
-                      for ($i=0; $i<sizeof($exp); $i++) {         
-                        if($exp[$i] == $row->id){
-                          $rightOption = ' (সঠিক উত্তর)';
-                        }              
-                      }
-                      ?>                
-                      <div class="form-check" style="margin-left: 30px;">
-                        <li><label class="form-check-label"><b><?=$checkOption?></b> <?=$rightOption?></label></li>
-                      </div>              
-                      <?php } ?>
-                    </ul>
-                    <?php } ?>       
+                      // Checkbox Right Answer
+                    $exp = explode(',', $value->right_answer);
+                      // dd($exp[$key]);
+                    for ($i=0; $i<sizeof($exp); $i++) {         
+                      if($exp[$i] == $row->id){
+                        $rightOption = ' (সঠিক উত্তর)';
+                      }              
+                    }
+                    ?>                
+                    <div class="form-check" style="margin-left: 30px;">
+                      <li><label class="form-check-label"><b><?=$checkOption?></b> <?=$rightOption?></label></li>
+                    </div>              
+                    <?php } ?>
+                  </ul>
+                  <?php } ?>       
 
-                    <!-- Examin Answer -->
-                    <div style="float: right;">
-                      <input type="radio" name="is_right[<?=$value->id?>]" id="Yes" value="1" <?=$value->is_right == '1' ? "checked" : ""; ?>> সঠিক উত্তর
+                  <!-- Examin Answer -->
+                  <div style="float: right; margin-bottom: 3px; margin-top: -10px;">
+                    <span style="font-weight: bold;">নাম্বার </span><input style="width: 60px; border: 1px solid #0aa699; height: 22px; padding: 0px 5px;" type="input" name="answer_mark[<?=$value->id?>]" value="<?=$value->answer_mark?>">  &nbsp;&nbsp;&nbsp;
+                    <input type="radio" name="is_right[<?=$value->id?>]" id="Yes" value="1" <?=$value->is_right == '1' ? "checked" : ""; ?>> সঠিক উত্তর
 
-                      <input type="radio" name="is_right[<?=$value->id?>]" id="Yes" value="2" <?=$value->is_right == '2' ? "checked" : ""; ?>> ভূল উত্তর
-                    </div>
-                  </div>
-                  <?php } ?>
-
-                  <!-- </div>                                   -->
-                </div>
-
-                <div class="form-actions">  
-                  <div class="pull-right">
-                    <?php echo form_submit('submit', lang('common_save'), "class='btn btn-primary btn-cons font-big-bold'"); ?>
+                    <input type="radio" name="is_right[<?=$value->id?>]" id="Yes" value="2" <?=$value->is_right == '2' ? "checked" : ""; ?>> ভূল উত্তর
                   </div>
                 </div>
-                <?php echo form_close();?>
-
-              </div> <!-- /grid-body -->
+              <?php } ?>
+              <!-- </div>                                   -->
             </div>
-          </div>
 
+            <div class="form-actions">  
+              <div class="pull-right">
+                <?php echo form_submit('submit', lang('common_save'), "class='btn btn-primary btn-cons font-big-bold'"); ?>
+              </div>
+            </div>
+            <?php echo form_close();?>
+
+          </div> <!-- /grid-body -->
         </div>
-
-
       </div>
+
     </div>
+
+
+  </div>
+</div>

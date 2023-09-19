@@ -44,33 +44,64 @@
                   echo form_dropdown('training_id', $training, set_value('training_id', $info->training_id), $more_attr);
                   ?>
                 </div>
-              </div>               
-              <div class="col-md-6">
-                <div class="form-group">
-                  <label class="form-label">প্রশ্নপত্রের সেট <span class="required">*</span></label>
-                  <?php echo form_error('exam_set');?>
-                  <input name="exam_set" type="text" value="<?=set_value('exam_set', $info->exam_set)?>" class="form-control input-sm" placeholder="ক সেট">
-                </div>
               </div>  
-              <div class="col-md-3" style="padding-left: 0">
+            </div>
+
+            <div class="row form-row">         
+              <div class="col-md-5">
                 <label class="form-label">মূল্যায়নের বিষয় <span class="required">*</span></label>
                 <?php echo form_error('training_mark_id');
                 $more_attr = 'class="evaluation_val form-control input-sm" style="height:20px !important;"';
                 echo form_dropdown('training_mark_id', $training_mark, set_value('training_mark_id', $info->training_mark_id), $more_attr);
                 ?>
               </div> 
-              <div class="col-md-3" style="padding-left: 0">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="form-label">প্রশ্নপত্রের সেট <span class="required">*</span></label>
+                  <?php echo form_error('exam_set');?>
+                  <input name="exam_set" type="text" value="<?=set_value('exam_set', $info->exam_set)?>" class="form-control input-sm" placeholder="ক সেট">
+                </div>
+              </div> 
+              <div class="col-md-3" style="">
                 <label class="form-label">পাবলিশ</label>
                 <?php echo form_error('is_published'); ?>
                 <input type="radio" name="is_published" value="1" <?=$info->is_published == '1' ? "checked" : ""; ?>> <span style="color: black; font-size: 15px;">হ্যাঁ </span> 
                 <input type="radio" name="is_published" value="0" <?=$info->is_published == '0' ? "checked" : ""; ?>> <span style="color: black; font-size: 15px;">না</span>
                 <div class="error_placeholder"></div>
               </div>
+            </div>
 
+            <div class="row form-row"> 
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="form-label">পরীক্ষার তারিখ <span class="required">*</span></label>
+                  <?php echo form_error('exam_date');?>
+                  <input name="exam_date" type="date" value="<?=set_value('exam_date', $info->exam_date)?>" class="form-control input-sm" required>
+                </div>
+              </div> 
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="form-label">পরীক্ষা শুরু <span class="required">*</span></label>
+                  <?php echo form_error('exam_start_time');?>
+                  <input name="exam_start_time" type="time" value="<?=set_value('exam_start_time', $info->exam_start_time)?>" class="form-control input-sm" required>
+                </div>
+              </div>  
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="form-label">পরীক্ষার সময় <span class="required">*</span></label>
+                  <?php echo form_error('exam_duration');?>
+                  <input name="exam_duration" type="number" value="<?=set_value('exam_duration', $info->exam_duration)?>" class="form-control input-sm" placeholder="ex. 45 minute" required>
+                </div>
+              </div>  
+            </div>
+
+            <div class="row form-row">
               <div class="col-md-12" id="msgRemove"></div>
-              
               <div class="col-md-12">
-                <label class="form-label">প্রশ্নপত্র তৈরি করুন</label>
+                <label style="float: left;" class="form-label">প্রশ্নপত্র তৈরি করুন</label>
+                <label style="float: right;" class="form-label">প্রশ্ন সংখ্যা : <span id="qnumber"><?= eng2bng(count($questions)) ?></span></label>
+                <div style="clear: both; padding-bottom: 10px;"></div>
+
                 <?php if (!empty($questions)) {  ?>
                   <ul id="list2" class="list-group"><?php 
                     $sl=0;
@@ -79,9 +110,10 @@
                       ?>
                       <li class="list-group-item grab">
                         <h6 class="semi-bold">
-                        <a href="javascript:;" data-id="<?=$value->eq_id?>" onclick="removeRow(this)" class="label label-important"> <i style="margin-bottom: 6px !important;" class="fa fa-trash-o" aria-hidden="true"></i></a> <?=$value->question_title?>
+                        <a href="javascript:;" data-id="<?=$value->eq_id?>" onclick="removeRow(this)" class="label label-important"> <i style="margin-bottom: 6px !important;" class="fa fa-trash-o" aria-hidden="true"></i></a> <?=$value->question_title?> <span style="color:blue; margin-left:5px;"><?= eng2bng($value->qnumber) ?></span>
                         </h6>
-                        <!-- <input type="hidden" name="hideid[]" value="<?=$value->id?>"> -->
+                        <input type="hidden" name="hideid[]" value="<?=$value->id?>">
+                        <input type="hidden" name="hidenumber[]" value="<?=$value->qnumber?>">
                         <?php 
                         /*
                         if($value->question_type == 1){
@@ -160,7 +192,7 @@
       </div>
     </div>
 
-    <script type="text/javascript">
+<script type="text/javascript">
   // Evaluation Question Create
   $('#officeID').change(function(){
     var id = $('#officeID').val();
@@ -186,7 +218,10 @@
       rules: {
         training_id: { required: true},
         exam_set: { required: true},
-        training_mark_id: { required: true}
+        training_mark_id: { required: true},
+        exam_date: { required: true},
+        exam_start_time: { required: true},
+        exam_duration: { required: true},
       },
       message: {
         /*office_type: {
@@ -252,28 +287,28 @@
     $('.evaluation_val').addClass('form-control input-sm');
     $(".evaluation_val > option").remove();
     var id = $('#training_id').val();
-      // Traing Marking Type
-      // 1=pre_exam, 2=post_exam, 3=module, 4=manual
+    // Traing Marking Type
+    // 1=pre_exam, 2=post_exam, 3=module, 4=manual
 
-      $.ajax({
-        type: "POST",
-        url: hostname + "evaluation/ajax_training_mark_by_training_id/" + id + "/1", 
-        success: function(func_data)
+    $.ajax({
+      type: "POST",
+      url: hostname + "evaluation/ajax_training_mark_by_training_id/" + id + "/1", 
+      success: function(func_data)
+      {
+        $.each(func_data,function(id,name)
         {
-          $.each(func_data,function(id,name)
-          {
-            var opt = $('<option />');
-            opt.val(id);
-            opt.text(name);
-            $('.evaluation_val').append(opt);
-          });
-        }
-      });
+          var opt = $('<option />');
+          opt.val(id);
+          opt.text(name);
+          $('.evaluation_val').append(opt);
+        });
+      }
     });
-  </script>
+  });
+</script>
 
-  <script>
-    function removeRow(id){ 
+<script>
+  function removeRow(id){ 
     var dataId = $(id).attr("data-id");
     // alert(dataId);
     var txt;
@@ -285,6 +320,11 @@
         success: function (response) {
           $("#msgRemove").addClass('alert alert-success').html(response);
           $(id).closest("li").remove();
+
+          ul = document.getElementById("list2");
+          li = ul.getElementsByTagName('li');
+          total = li.length;
+          document.getElementById("qnumber").innerHTML = replaceNumbers(total.toString());
         }
       });
       txt = "You pressed OK!";
@@ -292,5 +332,48 @@
       txt = "You pressed Cancel!";
     }
   }
-  </script>
+</script>
+
+
+
+<script type="text/javascript">
+  $('#list').change(function(){
+    ul = document.getElementById("list2");
+    li = ul.getElementsByTagName('li');
+    total = li.length;
+    document.getElementById("qnumber").innerHTML = replaceNumbers(total.toString());
+  });
+
+  $('#list2').change(function(){
+    ul = document.getElementById("list2");
+    li = ul.getElementsByTagName('li');
+    total = li.length;
+    document.getElementById("qnumber").innerHTML = replaceNumbers(total.toString());
+  });
+
+  function replaceNumbers(input) {
+    var numbers = {
+      0:'০',
+      1:'১',
+      2:'২',
+      3:'৩',
+      4:'৪',
+      5:'৫',
+      6:'৬',
+      7:'৭',
+      8:'৮',
+      9:'৯'
+    };
+
+    var output = [];
+    for (var i = 0; i < input.length; ++i) {
+      if (numbers.hasOwnProperty(input[i])) {
+        output.push(numbers[input[i]]);
+      } else {
+        output.push(input[i]);
+      }
+    }
+    return output.join('');
+  }
+</script>
 

@@ -1,4 +1,10 @@
 <style type="text/css">
+  .small-ul {
+  font-size: 12px; /* Decrease the font size */
+  padding: 4px; /* Decrease the padding around each menu item */
+  min-width: auto; /* Remove any minimum width set */
+}
+
   .tg  {border-collapse:collapse;border-spacing:0;font-family: 'Kalpurush', Arial, sans-serif; border: 0px solid red; width: 100%}
   .tg td{font-family: 'Kalpurush', Arial, sans-serif;font-size:14px;padding:5px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#bbb;color:#00000;background-color:#E0FFEB; vertical-align: middle;}
   .tg th{font-family: 'Kalpurush', Arial, sans-serif;font-size:14px;font-weight:bold;padding:3px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#bbb;color:#493F3F;background-color:#bce2c5;text-align: center;}
@@ -41,7 +47,7 @@
               <div class="col-md-12 text-center">
                 <?php if($this->session->flashdata('success')):?>
                   <div class="alert alert-success">
-                    <?php echo $this->session->flashdata('success');;?>
+                    <?php echo $this->session->flashdata('success');?>
                   </div>
                 <?php endif; ?>
                 <span class="training-title"><?=func_training_title($training->id)?></span>
@@ -114,8 +120,49 @@
                             <td class="tg-031e font-opensans"><?=$row->mobile_no?></td>
                             <td class="tg-031e font-opensans"><?=$row->so?></td>
                             <td class="tg-031e">
-                              <a href="<?=base_url('training/participant_edit/'.$row->id)?>" class="btn btn-primary btn-mini mini-btn-padding"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </a>
-                              <a href="<?=base_url('training/participant_delete/'.$row->id)?>" class="btn btn-danger btn-mini mini-btn-padding" onclick="return confirm('Are you sure you want to delete this data?');"> <i class="fa fa-trash-o" aria-hidden="true"></i> </a>
+                             
+                            <div style="position: absolute;margin-top: -20px;">
+                                <a class="btn btn-primary btn-mini dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">অ্যাকশন <span class="glyphicon glyphicon-chevron-down"></span></a>
+                                <ul class="dropdown-menu small-ul" aria-labelledby="dropdownMenuLink">
+                                  <li>
+                                    <a href="<?=base_url('training/participant_edit/'.$row->id)?>" class="btn btn-primary btn-mini mini-btn-padding" style="background-color: #8dc641;"> সংশোধন <span class="glyphicon glyphicon-edit"></span> </a>
+                                    <a href="<?=base_url('training/participant_delete/'.$row->id)?>" class="btn btn-danger btn-mini mini-btn-padding" style="background-color: #ff0000;color: aliceblue;" onclick="return confirm('Are you sure you want to delete this data?');">ডিলিট <span class="glyphicon glyphicon-trash"></span></a>
+
+                                  
+                                  </li>
+                                  <?php
+                                         $note = $this->db
+                                         ->where('training_id', $row->training_id)
+                                         ->where('app_user_id', $row->app_user_id)
+                                         ->get('training_participant')
+                                         ->row()
+                                         ->note;
+                                         if($note){
+                                          $note_array=json_decode($note);
+                                        
+                                         ?>
+                                  <li class="dropdown dropend ">
+                                    <a style="background-color: #68308F;color: white;" class="dropdown-item dropdown-toggle"id="multilevelDropdownMenu1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">নোট <span class="glyphicon glyphicon-chevron-down"></span></a>
+                                    <ul style="border: 1px solid #68308f;" class="dropdown-menu small-ul" aria-labelledby="multilevelDropdownMenu1">
+                                  <?php     
+                                    foreach($note_array as $key => $value){
+                                    ?>
+                                     
+
+                                         <li style="border: 1px solid #971ff3;padding: 0px;width: 92px;margin: -3px;height: 37px;border-radius: 10px;"><a class="dropdown-item" href="<?=base_url('uploads/note/'. $value)?>">নোট  <?=$key+1?></a></li>
+                                      <?php }?>
+                                    </ul>
+                                  </li>
+                                  <?php
+                                  }
+                                  ?>
+                                </ul>
+                              </div>
+                         
+                                    
+                           
+                           
+                           
                             </td>
                           </tr>
                           <?php } ?>
@@ -136,9 +183,23 @@
 
     </div>
   </div>
+  <script>
 
+let dropdowns = document.querySelectorAll('.dropdown-toggle')
+dropdowns.forEach((dd)=>{
+    dd.addEventListener('click', function (e) {
+        var el = this.nextElementSibling
+        el.style.display = el.style.display==='block'?'none':'block'
+    })
+})
+
+
+</script>
 
   <script type="text/javascript">
+
+
+
 
 
     // Datatable

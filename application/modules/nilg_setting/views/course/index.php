@@ -58,19 +58,23 @@
                 $sl = $pagination['current_page'];
                 foreach ($results as $row):
                   $sl++;
-                $status = $row->status == '1'?'এনাবল':'ডিজেবল';
+                  $status = $row->status == '1'?'এনাবল':'ডিজেবল';
+                  $class = $row->status == '1'?'label-success':'label-danger';
+                  $change = $row->status == '2'?'1':'2';
+                  $change_s = $row->status == '2'?'এনাবল':'ডিজেবল';
+
                 ?>
                 <tr>
                   <td><?=eng2bng($sl).'।'?></td>
                   <td><strong><?=$row->course_title?></strong></td>
-                  <td><span class='label label-success'><?=$status?></span></td>
+                  <td><span class="label <?=$class?>"><?=$status?></span></td>
                   <td>
                     <div class="btn-group pull-right">
                       <button class="btn btn-mini btn-primary">অ্যাকশন</button>
                       <button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
                       <ul class="dropdown-menu">
                         <li><?php echo anchor("nilg_setting/course/edit/".$row->id, 'সংশোধন') ;?></li>
-                        <li class="divider"></li>
+                        <li><?php echo anchor("nilg_setting/course/enable_disable/$row->id/$change", $change_s) ;?></li>
                         <?php /*
                         <li><a href="<?=base_url("nilg_setting/course/delete/".$row->id)?>" onclick="return confirm('Be careful! Are you sure you want to delete this data?');">Delete </a></li>
                         */ ?>

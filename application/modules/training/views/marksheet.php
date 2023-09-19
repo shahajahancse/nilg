@@ -71,7 +71,7 @@
                         // print_r($results); exit;
                         foreach ($results as $row) { 
                           $i++;
-                          $getTotalMark=$resultPercent=$point=0;
+                          $TotalMark=$resultPercent=$point=$que_mark=$ans_mark=0;
                           $trainingID = $row->training_id;
                           $userID = $row->app_user_id;
                           // $mark = $this->Training_model->get_user_mark($trainingID, $userID); 
@@ -85,16 +85,34 @@
                             <?php foreach ($subjects AS $val): ?>
                               <td class="tg-031e font-opensans">
                                 <?php
-                                echo $getMark = $this->Training_model->get_mark_by_subject($trainingID, $userID, $val->subject_id);
-                                $getTotalMark += $getMark;
+                                $getMark = $this->Training_model->get_mark_by_subject($trainingID,$userID,$val->subject_id);
+                                if ($getMark->answer_mark == '0.00' && $getMark->pre_question == '1') {
+                                  echo $getMark->mark;
+                                } else {
+                                  echo $getMark->answer_mark;
+                                }
+
+                                $TotalMark    = $TotalMark + $getMark->mark;
+                                $que_mark     = $que_mark + $getMark->question_mark;
+                                $ans_mark     = $ans_mark + $getMark->answer_mark;
                                 ?>                              
                               </td>
                             <?php endforeach;?>
-                            <td class="tg-031e font-opensans bold"><?=$getTotalMark?></td>
+                            <td class="tg-031e font-opensans bold">
+                              <?php                                 
+                                if ($getMark->answer_mark == '0.00' && $getMark->pre_question == '1') {
+                                  echo $TotalMark;
+                                } else {
+                                  echo $ans_mark;
+                                } 
+                              ?>
+                            </td>
                             <td class="tg-031e font-opensans bold">
                               <?php
-                              if ($getTotalMark != 0) {
-                                $resultPercent = ($getTotalMark*100)/$totalMark;
+                              if ($que_mark == '0.00' && $ans_mark == '0.00' && $TotalMark != '0.00') {
+                                $resultPercent = ($TotalMark*100)/$totalMark;
+                              } else if ($que_mark != '0.00' && $ans_mark != '0.00') {
+                                $resultPercent = ($ans_mark*100)/$que_mark;
                               } else {
                                 $resultPercent = 0;
                               }

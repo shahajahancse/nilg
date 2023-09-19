@@ -1486,7 +1486,7 @@ class Common_model extends CI_Model
 
     public function get_dropdown($table, $field, $id)
     {
-        $data[''] = $this->lang->line('select');
+        $data[''] = '-- ক্যাটাগরি নির্বাচন করুন --';
         $this->db->select("$id, $field");
         $this->db->from($table);
         $this->db->order_by($id, 'ASC');

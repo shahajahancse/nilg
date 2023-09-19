@@ -139,7 +139,18 @@ class My_profile extends Backend_Controller {
 
         // Validate and Insert Data
         if ($this->form_validation->run() == true) {
+            $officeInfo     = $this->Common_model->get_office_info($results['info']->crrnt_office_id);
+            $divisionID     = $officeInfo->division_id;
+            $districtID     = $officeInfo->district_id;
+            $upazilaID      = $officeInfo->upazila_id;
+            $unionID        = $officeInfo->union_id;
+
             $form_data = array(
+                'div_id'            => $divisionID != NULL ? $divisionID : NULL,
+                'dis_id'            => $districtID != NULL ? $districtID : NULL,
+                'upa_id'            => $upazilaID != NULL ? $upazilaID : NULL,
+                'union_id'          => $unionID != NULL ? $unionID : NULL,
+
                 'name_bn'               => $this->input->post('name_bn'),
                 'name_en'               => strtoupper($this->input->post('name_en')),
                 'father_name'           => $this->input->post('father_name'),
@@ -487,7 +498,7 @@ public function edit_trainee_pr_official($userID)
 
         // Data Updata and Insert to DB
         if (isset($_POST['nilg_course_id'])) {
-            for ($i = 0; $i < sizeof($_POST['nilg_course_id']); $i++) {
+            /*for ($i = 0; $i < sizeof($_POST['nilg_course_id']); $i++) {
                 //check exists data
                 @$data_exists = $this->Common_model->exists('per_nilg_training', 'id', $_POST['hide_row_id'][$i]);
                 if ($data_exists) {
@@ -509,6 +520,35 @@ public function edit_trainee_pr_official($userID)
                         'nilg_training_end' => $_POST['nilg_training_end'][$i] != NULL ? $_POST['nilg_training_end'][$i] : NULL,
                         );
                     $this->Common_model->save('per_nilg_training', $data);
+                }
+            }*/
+
+            for ($i = 0; $i < sizeof($_POST['hide_row_id']); $i++) {
+                //check exists data
+                @$data_exists = $this->Common_model->exists('training_participant', 'id', $_POST['hide_row_id'][$i]);
+                if ($data_exists) {
+                    $data = array(
+                        'training_id' => $_POST['hide_training_id'][$i],
+                        'nilg_desig_id' => $_POST['nilg_desig_id'][$i],
+                    );
+                    $this->Common_model->edit('training_participant', $_POST['hide_row_id'][$i], 'id', $data);
+                } else {
+                    $data = array(
+                        'app_user_id' => $dataID,
+                        'training_id' => $_POST['hide_training_id'][$i],
+                        'nilg_desig_id' => $_POST['nilg_desig_id'][$i],
+                    );
+                    $this->Common_model->save('training_participant', $data);
+                }
+
+                if (!empty($_POST['hide_training_id'][$i])) {
+                    $data = array(
+                        'course_id' => $_POST['nilg_course_id'][$i],
+                        'batch_no' => $_POST['batch_no'][$i],
+                        'start_date' => $_POST['start_date'][$i],
+                        'end_date' => $_POST['end_date'][$i],
+                    );
+                    $this->Common_model->edit('training', $_POST['hide_training_id'][$i], 'id', $data);
                 }
             }
 

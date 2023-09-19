@@ -67,7 +67,7 @@
                         <?php if($training->qr_code != NULL){ ?> 
                         <img src="<?=base_url('uploads/qrcode/'.$training->qr_code)?>" width="80" style="border:1px solid #ccc; padding: 2px;">
                         <?php } ?>
-                        <span class="font-opensans"><?php echo $training->pin; ?> </span> (পিন নাম্বার)
+                        <span class="font-opensans"><?php echo $training->pin; ?> </span> (কোর্স কোড)
                       </td>                  
                     </tr>
                   <tr>

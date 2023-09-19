@@ -3,7 +3,7 @@
   .margin-top{margin-top:20px;}
 </style>
 <div class="page-content">     
-  <div class="content">  
+  <div class="content" style="padding-left: 10px; padding-right: 10px; ">  
     <ul class="breadcrumb" style="margin-bottom: 20px;">
       <li> <a href="<?=base_url('dashboard')?>" class="active"> রিপোর্ট </a> </li>
       <li><?=$meta_title?></li>
@@ -33,7 +33,46 @@
                   </div>
                   <label class="head">ফলাফল প্রদর্শনের ফিল্টারিং ফিল্ড সমূহ</label>
                   <div class="row form-row">
-                    <div class="col-md-6">
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label class="form-label pull-left">বিভাগ </label>
+                        <?php echo form_error('division_id');
+                        $more_attr = 'class="form-control input-sm" id="division"';
+                        echo form_dropdown('division_id', $division, set_value('division_id'), $more_attr);
+                        ?>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label class="form-label pull-left">জেলা </label>
+                        <?php echo form_error('district_id');?>
+                        <select name="district_id" <?=set_value('district_id')?> class="form-control input-sm district_val" id="district">
+                          <option value=""> <?=lang('select_district')?></option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label class="form-label pull-left">উপজেলা / থানা </label>
+                        <?php echo form_error('upazila_id');?>
+                        <select name="upazila_id" <?=set_value('upazila_id')?> class="upazila_val form-control input-sm" id="upazila">
+                          <option value=""> <?=lang('select_up_thana')?></option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label class="form-label pull-left">ইউনিয়ন</label>
+                        <select name="union_id" <?=set_value('union_id')?> class="union_val form-control input-sm" id="union">
+                          <option value=""><?=lang('select_union')?></option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row form-row">
+                    <!-- comment on 02-08-2023 -->
+                    <!-- <div class="col-md-6">
                       <div class="form-group">
                         <label class="form-label pull-left"> অন্যান্য ডাটা টাইপ</label>
                         <?php echo form_error('data_sheet_type');
@@ -41,7 +80,20 @@
                         echo form_dropdown('data_sheet_type', $data_type, set_value('data_sheet_type', $this->input->post('data_sheet_type')), $more_attr);
                         ?>
                       </div>
+                    </div>  -->     
+                    <!-- comment on 02-08-2023 -->
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="form-label pull-left">শুরুর তারিখঃ</label>
+                        <input name="start_date" id="start_date" type="text" value="" class="form-control input-sm datetime" placeholder="">
+                      </div>
                     </div>
+                    <div class="col-md-4">
+                      <div class="form-group">
+                        <label class="form-label pull-left">শেষের তারিখঃ</label>
+                        <input name="end_date" id="end_date" type="text" value="" class="form-control input-sm datetime" placeholder="">
+                      </div>
+                    </div>                    
                     <div class="col-md-4">
                       <div class="form-group">
                         <label class="form-label pull-left">ডাটার স্ট্যাটাস </label>
@@ -52,16 +104,59 @@
                       </div>
                     </div>
                   </div>
+
                 </div>
+
 
                 <div class="row form-row">
                   <div class="col-md-12" style="text-align: center; border:1px solid #0aa699; padding:10px 5px 20px 5px; position: relative; margin-top: 40px">
                     <label class="head">ফলাফল প্রদর্শনের বাটন সমূহ</label> 
+                    <!-- comment on 02-08-2023 -->
+                    <!-- <button type="submit" name="btnsubmit" value="pdf_others_employee" onclick="return validFunc1()" class="btn btn-info btn-cons margin-top"> অন্যান্য ব্যাক্তিগত রিপোর্ট  </button> -->
+                    <!-- comment on 02-08-2023 -->
+                    <button type="submit" name="btnsubmit" value="pdf_number_of_registrations" onclick="return validFunc2()" class="btn btn-info btn-cons margin-top"> রেজিস্ট্রেশন রিপোর্ট  </button>
+                    <button type="submit" name="btnsubmit" value="pdf_number_of_organization" onclick="return validFunc1()" class="btn btn-info btn-cons margin-top"> প্রতিষ্ঠান ভিত্তিক রিপোর্ট  </button>
+                    <button type="submit" name="btnsubmit" value="pdf_number_designation" onclick="return validFunc3(1)" class="btn btn-info btn-cons margin-top"> পদবি ভিত্তিক রির্পোট </button>
+                    <button type="submit" name="btnsubmit" value="pdf_number_designation_mf" onclick="return validFunc3(1)" class="btn btn-info btn-cons margin-top"> পদবি ভিত্তিক নারী/পরুষ রিপোর্ট </button>
+                    <button type="submit" name="btnsubmit" value="pdf_organization_report" onclick="return validFunc1()" class="btn btn-info btn-cons margin-top"> প্রশিক্ষণের তালিকা রিপোর্ট </button>
 
-                    <button type="submit" name="btnsubmit" value="pdf_others_employee" onclick="return validFunc1()" class="btn btn-info btn-cons margin-top"> অন্যান্য ব্যাক্তিগত রিপোর্ট  </button>
+                  </div>
+
+                  <div class="col-md-12" style="text-align: center; border:1px solid #0aa699; padding:10px 5px 20px 5px; position: relative; margin-top: 40px">
+                    <label class="head">তালিকা ভিত্তিক রিপোর্ট</label> 
+                    <button type="submit" name="btnsubmit" value="pdf_others_employee" onclick="return validFunc()" class="btn btn-info btn-cons margin-top"> অন্যান্য ব্যাক্তিগত রিপোর্ট  </button>
                   </div>
                 </div>
               </div> <!-- /col-md-8 -->
+
+              <div class="col-md-4">
+                <div style="padding: 5px 15px 15px 15px; background:#eee; font-style: italic;">
+                  <div id="errors" style="display: none;">
+                    <div class="alert alert-danger">এই রিপোর্ট দেখার জন্য পদবি নির্বাচন করুন।</div>
+                  </div>
+                  <label class="form-label">পদবি সমূহ</label> 
+                  <div style="border:1px solid #0aa699; padding: 4px 0; background: #0aa699; color: #fff;">
+                    <div class="row-fluid">
+                      <div class="checkbox check-danger">
+                        <input id="checkboxall" type="checkbox" value="1">
+                        <label for="checkboxall" style="color: #fff">সব নির্বাচন করুন</label>
+                      </div>
+                    </div>
+                    <div id="budget_sub_head_id2" style="max-height: 350px; overflow-y: scroll; background: #fff; padding-top: 5px;">
+
+                      <?php foreach ($designations as $row) { ?>
+                      <div class="row-fluid">
+                        <div class="checkbox check-primary">
+                          <input id="checkbox<?=$row->id?>" type="checkbox" name="designations[]" class="select" value="<?=$row->id?>">
+                          <label for="checkbox<?=$row->id?>"><?=$row->desig_name?></label>
+                        </div>
+                      </div>
+                      <?php } ?>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
 
             </div>
             <?php form_close(); ?>
@@ -73,10 +168,34 @@
   </div>
 
 
-  <script>
-    // $(document).ready(function(){
+  <script>  
 
-    function validFunc1() {
+    // get check box select value
+    function get_checked_value(checkboxes) {
+      var vals = "";
+      for (var i=0, n=checkboxes.length;i<n;i++) 
+      {
+          if (checkboxes[i].checked) 
+          {
+              vals += ","+checkboxes[i].value;
+          }
+      }
+      if (vals) vals = vals.substring(1);
+      return vals;
+    }
+
+
+    $(document).ready(function(){
+      $('#checkboxall').click(function(){
+        if($(this).is(":checked"))
+          $('.select').prop('checked',true);
+        else
+          $('.select').prop('checked',false);
+      });
+    });
+
+
+    function validFunc() {
       var datasheet = document.getElementById("dataSheetType").value;
       submitOK = "true";
 
@@ -90,7 +209,113 @@
         return false;
       }
     }
-    // });
+    
+    function validFunc1() {
+      var division = document.getElementById("division").value;
+      var start_date = document.getElementById("start_date").value;
+      var end_date = document.getElementById("end_date").value;
+
+      submitOK = "true";
+
+      if (division == '') {
+        // alert("The name may have no more than 10 characters");
+        $("#division").css("border", "1px solid red");
+        submitOK = "false";
+      }   
+
+      if (start_date == '' || start_date <= 0) {
+        // alert("The name may have no more than 10 characters");
+        $("#start_date").css("border", "1px solid red");
+        submitOK = "false";
+      }
+
+      if (end_date == '' || end_date <= 0) {
+        // alert("The name may have no more than 10 characters");
+        $("#end_date").css("border", "1px solid red");
+        submitOK = "false";
+      }
+
+      if (submitOK == "false") {
+        $("#error").show();
+        return false;
+      }
+    }
+
+    function validFunc2() {
+      var division = document.getElementById("division").value;
+      var district = document.getElementById("district").value;
+      var start_date = document.getElementById("start_date").value;
+      var end_date = document.getElementById("end_date").value;
+
+      submitOK = "true";
+
+      if (division == '') {
+        // alert("The name may have no more than 10 characters");
+        $("#division").css("border", "1px solid red");
+        submitOK = "false";
+      }
+      if (district == '' || district <= 0) {
+        // alert("The name may have no more than 10 characters");
+        $("#district").css("border", "1px solid red");
+        submitOK = "false";
+      }      
+
+      if (start_date == '' || start_date <= 0) {
+        // alert("The name may have no more than 10 characters");
+        $("#start_date").css("border", "1px solid red");
+        submitOK = "false";
+      }
+
+      if (end_date == '' || end_date <= 0) {
+        // alert("The name may have no more than 10 characters");
+        $("#end_date").css("border", "1px solid red");
+        submitOK = "false";
+      }
+
+      if (submitOK == "false") {
+        $("#error").show();
+        return false;
+      }
+    }
+
+    function validFunc3(div = null) {
+      var division = document.getElementById("division").value;
+      var start_date = document.getElementById("start_date").value;
+      var end_date = document.getElementById("end_date").value;
+      var desig_id = document.getElementsByName('designations[]');
+      var sql = get_checked_value(desig_id);
+      submitOK = "true";
+      
+      if (division == '' && div != null) {
+        // alert("The name may have no more than 10 characters");
+        $("#division").css("border", "1px solid red");
+        submitOK = "false";
+      }
+
+      if(sql == ''){
+        $("#budget_sub_head_id2").css("border", "1px solid red");
+        submitOK = "false";
+      }  
+
+      if (start_date == '' || start_date <= 0) {
+        // alert("The name may have no more than 10 characters");
+        $("#start_date").css("border", "1px solid red");
+        submitOK = "false";
+      }
+
+      if (end_date == '' || end_date <= 0) {
+        // alert("The name may have no more than 10 characters");
+        $("#end_date").css("border", "1px solid red");
+        submitOK = "false";
+      }
+
+      if (submitOK == "false") {
+        $("#error").show();
+        $("#errors").show();
+        return false;
+      }
+    }
+
 
     // https://www.quora.com/How-can-I-check-if-an-input-field-has-a-certain-text-value-with-JavaScript
   </script>

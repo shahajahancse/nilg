@@ -89,23 +89,28 @@
 
                      <div class="row form-row">
                         <div class="col-md-6" style="margin-bottom: 20px;: ">
-                        <?php if(func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id) == 'jd'){ ?>
-                           <label class="form-label">Status Type <span class='required' style="font-size: 15px">* ফরওয়ার্ড টু মহা পরিচালক</span></label>
+                        <?php if($this->ion_auth->in_group(array('admin','jd'))){ ?>
+                           <label class="form-label">Status Type <span class='required' style="font-size: 15px">* ফরওয়ার্ড টু পরিচালক (প্রশাসন ও সমন্বয়)</span></label>
                            <?php echo form_error('status');?>
-                        <?php } elseif (func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id) == 'dg') { ?>
+                        <?php } elseif ($this->ion_auth->in_group(array('admin','dg'))) { ?>
                            <label class="form-label">Status Type <span class='required'>*</span></label>
                         <?php } ?>
-                           <input type="radio" name="status" value="2" <?=set_value('status')=='2'?'checked':'';?>> <span style="color: black; font-size: 14px;"><strong>Approve</strong></span> 
-                           <input type="radio" name="status" value="3" <?=set_value('status')=='3'?'checked':'';?>> <span style="color: black; font-size: 14px;"><strong>Reject</strong></span>
+                           <input type="radio" name="status" value="2" <?=set_value('status')=='2'?'checked':'';?>> <span style="color: black; font-size: 14px;"><strong>অ্যাপ্রভ</strong></span> 
+                           <input type="radio" name="status" value="3" <?=set_value('status')=='3'?'checked':'';?>> <span style="color: black; font-size: 14px;"><strong>রিজেক্ট</strong></span>
                            <div id="typeerror"></div>
                         </div>
+
+                        <div style="float: right; margin-right: 20px;">
+                           <a href="<?=base_url('inventory/delivered_list/0/'.encrypt_url($info->user_id))?>" class="btn btn-mini btn-primary">ডেলিভারি তালিকা</a>
+                        </div>
+
                      </div>
 
                      <div class="row form-row">                        
                         <div class="col-md-12">
                            <style type="text/css">td{color: black; font-size: 15px;}</style>
                            <fieldset>      
-                              <legend>Requisition List</legend>
+                              <legend>রিকুইজিশন তালিকা</legend>
                               <style type="text/css">
                                  #appRowDiv td{padding: 5px; border-color: #ccc;}
                                  #appRowDiv th{padding: 5px;text-align:center;border-color: #ccc; color: black;}
@@ -113,25 +118,27 @@
                               <div id="msgPerson"> </div>
                               <table width="100%" border="1" id="appRowDiv">
                                  <tr>
-                                    <th width="20%">Item Name <span class="required">*</span></th>
-                                    <th width="8%">Qty. Request</th>
-                                    <th width="8%"> Qty. S.Manager Approve </th>
-                                    <?php if(func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id) == 'dg'){ ?>
-                                    <th width="8%"> Qty. J.Director Approve </th>
+                                    <th>আইটেম নাম (ইউনিট)</th>
+                                    <th>রিকুয়েস্ট কোয়ান্টিটি</th>
+                                    <th> স্টোর কিপার অ্যাপ্রভ </th>
+                                    <?php if($this->ion_auth->in_group(array('admin','dg'))){ ?>
+                                    <th> যুগ্নপরিচালক অ্যাপ্রভ </th>
                                     <?php } ?>
-                                    <th width="8%"> Qty. Approve </th>
-                                    <th width="7%">Qty. Available</th>
-                                    <th width="10%">অ্যাকশান</th>
+                                    <th>অ্যাপ্রভ কোয়ান্টিটি</th>
+                                    <th>অ্যাভেলেবল কোয়ান্টিটি</th>
+                                    <th>অ্যাকশান</th>
                                  </tr>
                                  <?php foreach($items as $item){ ?>
                                  <tr>
                                     <td><?=$item->item_name?></td>
                                     <td><?=$item->qty_request?>  <?=$item->unit_name?></td>
                                     <td><?=$item->sm_qty_approve?></td>
-                                    <?php if(func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id) == 'dg'){ ?>
+                                    <?php if($this->ion_auth->in_group(array('admin','dg'))){ ?>
                                     <td><?=$item->jd_qty_approve?></td>
+                                    <td><input name="qty_approve[]" value="<?=$item->jd_qty_approve?>" type="number" class="form-control input-sm"></td>
+                                    <?php } else { ?>
+                                    <td><input name="qty_approve[]" value="<?=$item->sm_qty_approve?>" type="number" class="form-control input-sm"></td>
                                     <?php } ?>
-                                    <td><input name="qty_approve[]" value="<?=$item->sm_qty_approve?>" type="text" class="form-control input-sm"></td>
                                     <td><?=$item->quantity?> <?=$item->unit_name?></td>
                                     <input type="hidden" name="hide_id[]" value="<?=$item->id?>">
                                     <td>

@@ -18,12 +18,12 @@
       </div>
     </div>
     */ ?>
-    <div class="col-xs-7 col-sm-6  col-md-3  col-lg-4">
+    <div class="col-xs-7 col-sm-6  col-md-2">
       <div class="form-group">
         <input name="name" type="text" value="<?= set_value('name') ?>" class="bangla form-control input-sm" contenteditable="TRUE" placeholder="নাম">
       </div>
     </div>
-    <div class="col-xs-5 col-sm-6  col-md-3 col-lg-2">
+    <div class="col-xs-5 col-sm-6  col-md-2">
       <div class="form-group">
         <input name="nid" type="text" value="<?= set_value('nid') ?>" class="form-control input-sm" placeholder="এনআইডি">
       </div>
@@ -33,13 +33,13 @@
         <input name="mobile" type="text" value="<?= set_value('mobile') ?>" class="form-control input-sm" placeholder="মোবাইল নং">
       </div>
     </div>
-    <div class="col-xs-8 col-sm-6  col-md-4 col-lg-4">
+    <div class="col-xs-8 col-sm-6  col-md-4">
       <div class="form-group">
         <select class="officeSelect2 form-control input-sm" name="office" style="width: 100%"></select>
       </div>
     </div>
 
-    <div class="col-xs-12">
+    <div class="col-sm-6  col-md-2">
       <div class="form-group pull-right">
         <?php echo form_submit('submit', 'Search', "class='btn btn-primary btn-mini'"); ?>
         <a href="<?=base_url('trainee/all_pr')?>" class="btn btn-warning btn-mini">Clear</a>

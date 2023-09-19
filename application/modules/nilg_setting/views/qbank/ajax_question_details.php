@@ -4,7 +4,17 @@ $expAnswer = explode(",", $info->answer);
 <div class="row">    
     <div class="alert" style="display:none;"></div>
     <div class="col-md-12">
-        <label class="form-label">অফিসের ধরণঃ <?=$info->office_type_name?></label>
+        <div class="pull-left">
+            <label class="form-label">অফিসের ধরণঃ <?=$info->office_type_name?></label>
+        </div>
+        <div class="pull-right">
+            <div class="form-inline" style="margin-bottom: 3px;">
+                <div class="form-group">
+                  <label class="form-label">প্রশ্নের নাম্বার সেট করুণঃ</label>
+                  <input style="width: 120px !important;" class="form-control input-sm" name="qnumber" type="number" value="<?php echo isset($info->qnumber)?$info->qnumber:0; ?>">
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

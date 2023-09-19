@@ -30,7 +30,7 @@
             <?php endif; ?>              
 
             <div class="row form-row">            
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <label class="form-label">অফিসের ধরণ <span class="required">*</span></label>
                 <?php echo form_error('office_type');
                 $more_attr = 'class="form-control input-sm"';
@@ -42,12 +42,16 @@
                 <?php echo form_error('question'); ?>
                 <input name="question" type="text" class="form-control input-sm" placeholder="" value="<?=set_value('question')?>">
               </div>
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <label class="form-label">প্রশ্নের ধরণ <span class="required">*</span></label>
                 <?php echo form_error('question_type');
                 $more_attr = 'class="form-control input-sm" id="question_type"';
                 echo form_dropdown('question_type', $question_type, set_value('question_type'), $more_attr);
                 ?>
+              </div>
+              <div class="col-md-2">
+                <label class="form-label">প্রশ্নের নাম্বার <span class="required">*</span></label>
+                <input name="qnumber" type="number" class="form-control input-sm" placeholder="" value="<?=set_value('qnumber')?>">
               </div>
             </div>
             <br>
@@ -90,7 +94,8 @@
       rules: {
         office_type: { required: true},
         question: { required: true},
-        question_type: { required: true}
+        question_type: { required: true},
+        qnumber: { required: true},
       },
       invalidHandler: function (event, validator) {
         //display error alert on form submit    

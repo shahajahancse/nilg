@@ -23,6 +23,8 @@ class Training extends Backend_Controller {
         $this->voucher_path = realpath(APPPATH . '../uploads/voucher');
         $this->video_path = realpath(APPPATH . '../uploads/video');
         $this->training_docs_path = realpath(APPPATH . '../uploads/training_docs');
+        $this->note_path = realpath(APPPATH . '../uploads/note');	
+
 
         // auto off training schedule after 7 day
         training_participant_auto_off();
@@ -79,6 +81,7 @@ class Training extends Backend_Controller {
         $this->data['subview'] = 'index';
         $this->load->view('backend/_layout_main', $this->data);
     }
+
 
     public function ajax_training_list($offset=0)
     {
@@ -145,6 +148,7 @@ class Training extends Backend_Controller {
         $this->data['training'] = $this->Training_model->get_training_info($id);
         // dd($this->data['info']); exit();
         $this->data['results'] = $this->Training_model->get_participant_list($id);
+        
 
         // Load Page
         $this->data['meta_title'] = 'অংশগ্রহণকারী তালিকা';
@@ -434,7 +438,8 @@ class Training extends Backend_Controller {
 
         // dd($this->data['info']); exit();
         // $this->data['trainer_list'] = $this->Training_model->get_trainer_list();
-        $this->data['results'] = $this->Training_model->get_schedule($id);
+        $this->data['results'] = $this->Training_model->count_schedule_by_date($id);
+        // dd($this->data['results']);
 
         //Load Page
         $this->data['meta_title'] = 'প্রশিক্ষণ কর্মসূচীর তালিকা';
@@ -535,7 +540,11 @@ class Training extends Backend_Controller {
         }
 
         $this->data['training'] = $this->Training_model->get_training_info($id);
-        $this->data['results'] = $this->Training_model->get_schedule($id);
+        // dd($this->data['info']); exit();
+        // $this->data['trainer_list'] = $this->Training_model->get_trainer_list();
+        $this->data['results'] = $this->Training_model->count_schedule_by_date($id);
+        // dd($this->data['results']);
+
 
         // print_r($this->data['results']); exit;
         $this->data['headding'] = 'প্রশিক্ষণ কর্মসূচী';
@@ -863,7 +872,7 @@ class Training extends Backend_Controller {
         $this->data['results'] = $this->Training_model->get_participant_list($id);
         $this->data['subjects'] = $this->Training_model->get_training_mark($id);
         $this->data['totalMark'] = $this->Training_model->get_training_mark_total($id);
-        // dd($this->data['results']);
+        // dd($this->data['totalMark']);
 
         //Load Page
         $this->data['meta_title'] = 'প্রশিক্ষণার্থীর মার্কশীট';
@@ -1751,35 +1760,35 @@ class Training extends Backend_Controller {
 
                         $this->upload->initialize($this->set_upload_options($file_name, $this->handbook_path));
 
-                        $this->form_validation->set_rules('userfile', '', 'callback_file_check');
-                        if ($this->form_validation->run() == true){
-                            if($this->upload->do_upload('userfile')) {
-                                $uploadData = $this->upload->data();
+                        // $this->form_validation->set_rules('userfile', '', 'callback_file_check');
+                        // if ($this->form_validation->run() == true){
+                        if($this->upload->do_upload('userfile')) {
+                            $uploadData = $this->upload->data();
 
-                                // print_r($uploadData);
-                                // DB fields
-                                $uploadedFile = $uploadData['file_name'];
-                                $handbook = $this->db->where('id', $lastID)->get('training')->row()->handbook;
+                            // print_r($uploadData);
+                            // DB fields
+                            $uploadedFile = $uploadData['file_name'];
+                            $handbook = $this->db->where('id', $lastID)->get('training')->row()->handbook;
 
-                                if ($handbook != '' && $handbook != null) {
-                                    if (is_array(json_decode($handbook))) {
-                                        $user_data = json_decode($handbook);
-                                        array_push($user_data, $uploadedFile);
+                            if ($handbook != '' && $handbook != null) {
+                                if (is_array(json_decode($handbook))) {
+                                    $user_data = json_decode($handbook);
+                                    array_push($user_data, $uploadedFile);
 
-                                    } else {
-                                        $user_data = array($handbook, $uploadedFile);
-                                    }
                                 } else {
-                                    $user_data  = array($uploadedFile);
+                                    $user_data = array($handbook, $uploadedFile);
                                 }
-                                
-                                $file_data['handbook'] = json_encode($user_data);
-
-                                $this->db->where('id', $lastID)->update('training', $file_data);
-                            }else{
-                                $this->data['message'] = $this->upload->display_errors();
+                            } else {
+                                $user_data  = array($uploadedFile);
                             }
+                            
+                            $file_data['handbook'] = json_encode($user_data);
+
+                            $this->db->where('id', $lastID)->update('training', $file_data);
+                        }else{
+                            $this->data['message'] = $this->upload->display_errors();
                         }
+                        // }
                     }
                 }
 
@@ -1890,7 +1899,7 @@ class Training extends Backend_Controller {
         $this->load->view('backend/_layout_main', $this->data);
     }
 
-    public function edit($id)
+    public function edit($id, $offset = null)
     {
         ini_set( 'memory_limit', '500M' );
         ini_set('upload_max_filesize', '500M');  
@@ -1901,6 +1910,8 @@ class Training extends Backend_Controller {
         if(!$this->ion_auth->in_group(array('admin', 'uz', 'ddlg', 'nilg', 'cc'))){
             redirect('dashboard');
         }
+
+        $offset = (int) decrypt_url($offset);
 
         // Get data
         $this->data['training'] = $this->Training_model->get_info($id);
@@ -2040,35 +2051,35 @@ class Training extends Backend_Controller {
 
                         $this->upload->initialize($this->set_upload_options($file_name, $this->handbook_path));
 
-                        $this->form_validation->set_rules('userfile', '', 'callback_file_check');
-                        if ($this->form_validation->run() == true){
-                            if($this->upload->do_upload('userfile')) {
-                                $uploadData = $this->upload->data();
+                        // $this->form_validation->set_rules('userfile', '', 'callback_file_check');
+                        // if ($this->form_validation->run() == true){
+                        if($this->upload->do_upload('userfile')) {
+                            $uploadData = $this->upload->data();
 
-                                // print_r($uploadData);
-                                // DB fields
-                                $uploadedFile = $uploadData['file_name'];
-                                $handbook = $this->db->where('id', $id)->get('training')->row()->handbook;
+                            // print_r($uploadData);
+                            // DB fields
+                            $uploadedFile = $uploadData['file_name'];
+                            $handbook = $this->db->where('id', $id)->get('training')->row()->handbook;
 
-                                if ($handbook != '' && $handbook != null) {
-                                    if (is_array(json_decode($handbook))) {
-                                        $user_data = json_decode($handbook);
-                                        array_push($user_data, $uploadedFile);
+                            if ($handbook != '' && $handbook != null) {
+                                if (is_array(json_decode($handbook))) {
+                                    $user_data = json_decode($handbook);
+                                    array_push($user_data, $uploadedFile);
 
-                                    } else {
-                                        $user_data = array($handbook, $uploadedFile);
-                                    }
                                 } else {
-                                    $user_data  = array($uploadedFile);
+                                    $user_data = array($handbook, $uploadedFile);
                                 }
-                                
-                                $file_data['handbook'] = json_encode($user_data);
-
-                                $this->db->where('id', $id)->update('training', $file_data);
-                            }else{
-                                $this->data['message'] = $this->upload->display_errors();
+                            } else {
+                                $user_data  = array($uploadedFile);
                             }
+                            
+                            $file_data['handbook'] = json_encode($user_data);
+
+                            $this->db->where('id', $id)->update('training', $file_data);
+                        }else{
+                            $this->data['message'] = $this->upload->display_errors();
                         }
+                    // }
                     }
                 }
 
@@ -2171,6 +2182,9 @@ class Training extends Backend_Controller {
 
                 // Redirct and success message                
                 $this->session->set_flashdata('success', 'প্রশিক্ষণের তথ্য সংশোধন করা হয়েছে');
+                if($offset != 0) {
+                    redirect('training/index/'.$offset);
+                }
                 redirect('training');
             }
         }
@@ -2194,13 +2208,14 @@ class Training extends Backend_Controller {
         $this->data['subview'] = 'edit';
         $this->load->view('backend/_layout_main', $this->data);
     }
+    
 
     //upload an image options
     private function set_upload_options($file_name, $path)
     {   
         //upload an image options
         $config = array();
-        $config['allowed_types']= 'jpg|png|jpeg|pdf';
+        $config['allowed_types']= 'jpg|png|jpeg|pdf|xlsx|xls';
         $config['upload_path']  = $path;
         $config['file_name']    = $file_name;
         // $config['max_size']     = '104857600';
@@ -2915,4 +2930,116 @@ class Training extends Backend_Controller {
 
     */
 
+    public function uplodenote($id){
+
+		if($_FILES['userfile']['size'][0] > 0){
+
+			$this->load->library('upload');
+			$files = $_FILES;
+			$cpt = count($_FILES['userfile']['name']);
+           
+			for($i=0; $i<$cpt; $i++)
+			{           
+				$_FILES['userfile']['name']= $files['userfile']['name'][$i];
+				$_FILES['userfile']['type']= $files['userfile']['type'][$i];
+				$_FILES['userfile']['tmp_name']= $files['userfile']['tmp_name'][$i];
+				$_FILES['userfile']['error']= $files['userfile']['error'][$i];
+				$_FILES['userfile']['size']= $files['userfile']['size'][$i]; 
+
+				$file_name = time().$i.'-'.$id;  
+				
+
+				$this->upload->initialize($this->set_upload_options($file_name, $this->note_path));
+
+				if($this->upload->do_upload('userfile')) {
+					$uploadData = $this->upload->data();
+					
+
+					// print_r($uploadData);
+					// DB fields
+					$uploadedFile = $uploadData['file_name'];
+
+
+					// this is working
+
+					$note = $this->db->where('training_id', $id)->where('app_user_id', $this->userID)->get('training_participant')->row()->note;
+				
+
+					if ($note != '' && $note != null) {
+						if (is_array(json_decode($note))) {
+							$user_data = json_decode($note);
+							array_push($user_data, $uploadedFile);
+
+						} else {
+							$user_data = array($note, $uploadedFile);
+						}
+					} else {
+						$user_data  = array($uploadedFile);
+					}
+					
+					$file_data['note'] = json_encode($user_data);
+
+					$this->db->where('training_id', $id)->where('app_user_id', $this->userID)->update('training_participant', $file_data);
+					$this->session->set_flashdata('success', 'নোট ডাটাবেজে সংরক্ষণ করা হয়েছে');
+			        
+			 
+				}else{
+					$this->session->set_flashdata('error', $this->upload->display_errors());
+			       redirect('dashboard/my_training', 'refresh');
+				}
+				// }
+			}
+            redirect('dashboard/my_training', 'refresh');
+			
+			
+			
+		}
+
+ 
+ 
+	}
+
+
+    public function dellet_note($notename,$triningid){
+
+        $note = $this->db
+        ->where('training_id', $triningid)
+        ->where('app_user_id', $this->userID)
+        ->get('training_participant')
+        ->row()
+        ->note;
+        if($note){
+         
+
+            $note_array=json_decode($note);
+            $key = array_search($notename, $note_array);
+
+                if ($key !== false) {
+                    unset($note_array[$key]);
+                    $baseUrl = base_url();
+                    $fileToDelete = FCPATH . 'uploads/note/' . $notename;         
+                               if(unlink($fileToDelete)){
+                                    $file_data['note'] = json_encode(array_values($note_array));
+                                    $this->db->where('training_id', $triningid)->where('app_user_id', $this->userID)->update('training_participant', $file_data);
+                                    $this->session->set_flashdata('success', 'নোট ডাটাবেজ থেকে মুছে ফেলা হয়েছে');
+                                    redirect('dashboard/my_training', 'refresh');
+                                }else{
+
+                                    $this->session->set_flashdata('success', 'নোট ডাটাবেজে ডাটাবেজ থেকে মুছে ফেলা সম্ভব হয়নি');
+                                    redirect('dashboard/my_training', 'refresh');
+                                }
+                }else{
+                    $this->session->set_flashdata('success', 'নোট ডাটাবেজে নেই');
+                                    redirect('dashboard/my_training', 'refresh');
+
+
+                }
+              
+               
+                   
+
+        }
+
+        
+    }
 }

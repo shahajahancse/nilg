@@ -8,25 +8,45 @@ class Inventory_model extends CI_Model {
     }
 
 
-  public function get_requisition($limit=1000, $offset=0, $status=NULL) {
+  public function get_requisition($limit=1000, $offset=0, $status=NULL, $user_id = null) {
       $this->db->select('r.*, u.name_bn, dp.dept_name, dg.desig_name');
       $this->db->from('requisitions r');
       $this->db->join('users u', 'u.id = r.user_id', 'LEFT');
       $this->db->join('department dp', 'dp.id = u.crrnt_dept_id', 'LEFT');
       $this->db->join('designations dg', 'dg.id = u.crrnt_desig_id', 'LEFT');
+      // $this->db->where('r.status !=', 6);
       if($status){
           $this->db->where('r.status', $status);
       }
+
+      if($user_id != null){
+          $this->db->where('r.user_id', $user_id);
+      }
+      if(!empty($_GET['start_date']) && !empty($_GET['end_date'])){
+        $start_time = $_GET['start_date'];
+        $end_time = $_GET['end_date'];
+        $this->db->where("r.updated BETWEEN '$start_time' and '$end_time'");
+      }
+
       $this->db->limit($limit, $offset);
       $this->db->order_by('r.id', 'DESC');
       $query = $this->db->get()->result();
       $result['rows'] = $query;
+      // dd($query);
 
       // count query
       $q = $this->db->select('COUNT(*) as count');
       $this->db->from('requisitions'); 
       if($status){
           $this->db->where('status', $status);
+      }      
+      if($user_id != null){
+          $this->db->where('user_id', $user_id);
+      }      
+      if(!empty($_GET['start_date']) && !empty($_GET['end_date'])){
+        $start_time = $_GET['start_date'];
+        $end_time = $_GET['end_date'];
+        $this->db->where("updated BETWEEN '$start_time' and '$end_time'");
       }
       $query = $this->db->get()->result();
       $tmp = $query;
@@ -121,14 +141,25 @@ class Inventory_model extends CI_Model {
     return $result;
   }
 
-  public function get_items($limit=100, $offset=0){
+  public function get_items($limit=1000, $offset=0){
     $this->db->select('SQL_CALC_FOUND_ROWS i.*, c.category_name, sc.sub_cate_name, u.unit_name', false);
     $this->db->from('items i');
     $this->db->join('categories c', 'c.id=i.cat_id', 'LEFT');
     $this->db->join('sub_categories sc', 'sc.id=i.sub_cate_id', 'LEFT');
     $this->db->join('item_unit u', 'u.id=i.unit_id', 'LEFT');
+
+    if (!empty($_POST['cat_id'])) {
+      $this->db->where('i.cat_id', $_POST['cat_id']);
+    }
+    if (!empty($_POST['sub_cat_id'])) {
+      $this->db->where('i.sub_cate_id', $_POST['sub_cat_id']);
+    }
+    if (!empty($_POST['item_id'])) {
+      $this->db->where('i.id', $_POST['item_id']);
+    }
+
     $this->db->limit($limit, $offset);
-    $this->db->order_by('i.id', 'ASC');
+    $this->db->order_by('c.id', 'ASC');
     $query = $this->db->get()->result();
 
     $result['rows'] = $query;
@@ -146,7 +177,7 @@ class Inventory_model extends CI_Model {
   }
 
   public function get_sub_category_by_cate_id($id){
-    $data['0'] = '-Select Sub Category-';
+    $data['0'] = '-- সাব ক্যাটাগরি নির্বাচন করুন --';
     $this->db->select('id, sub_cate_name');
     $this->db->from('sub_categories');        
     $this->db->where('cate_id', $id);
@@ -159,7 +190,7 @@ class Inventory_model extends CI_Model {
   }
 
   public function get_items_by_sub_cate_id($id){
-    $data['0'] = '-Select Item-';
+    $data['0'] = '-- Select Item --';
     $this->db->select('id, item_name');
     $this->db->from('items');        
     $this->db->where('sub_cate_id', $id);
@@ -223,14 +254,17 @@ class Inventory_model extends CI_Model {
     return $query;
   }
 
-  public function get_requisition_items($id) {
-    $this->db->select('ri.*, i.item_name, i.quantity, i.order_level, iu.unit_name, c.category_name');
+  public function get_requisition_items($id, $status = null) {
+    $this->db->select('ri.*, i.item_name, i.quantity, i.order_level, iu.unit_name, c.category_name, sc.sub_cate_name');
     $this->db->from('requisition_item ri');
     $this->db->join('items i', 'i.id = ri.item_id', 'LEFT');
     $this->db->join('item_unit iu', 'iu.id = i.unit_id', 'LEFT');
     $this->db->join('categories c', 'c.id = i.cat_id', 'LEFT');
+    $this->db->join('sub_categories sc', 'sc.id=ri.item_sub_cate_id', 'LEFT');
     $this->db->where('ri.requisition_id', $id);
-    $this->db->where_not_in('ri.is_delete', [1,2]);
+    if ($status == null) {
+      $this->db->where_not_in('ri.is_delete', [1,2]);
+    }
     $query = $this->db->get()->result();
 
     return $query;
@@ -295,7 +329,7 @@ class Inventory_model extends CI_Model {
     $this->db->from('items i');
     $this->db->join('categories c', 'c.id=i.cat_id', 'LEFT');
     $this->db->join('item_unit u', 'u.id=i.unit_id', 'LEFT');
-    $this->db->order_by('i.id', 'ASC');
+    $this->db->order_by('c.id', 'ASC');
     $this->db->where('quantity <= order_level');
     $query = $this->db->get()->result();
     // echo $this->db->last_query(); exit;
@@ -330,7 +364,7 @@ class Inventory_model extends CI_Model {
   } 
 
   public function get_department(){
-    $data[''] = '-- Select Department --';
+    $data[''] = '-- বিভাগ নির্বাচন করুন --';
     $this->db->select('d.id, d.dept_name as text');
     $this->db->from('department d');
     $query = $this->db->get();
@@ -340,5 +374,35 @@ class Inventory_model extends CI_Model {
     }
    return $data;
   } 
+
+  public function get_categories() {
+    $this->db->select('*');
+    $this->db->from('categories');
+    $query = $this->db->get()->result();
+    return $query;
+  }
+
+
+  public function ajax_item_list(){
+    $this->db->select('i.*, c.category_name, sc.sub_cate_name, u.unit_name');
+    $this->db->from('items i');
+    $this->db->join('categories c', 'c.id=i.cat_id', 'LEFT');
+    $this->db->join('sub_categories sc', 'sc.id=i.sub_cate_id', 'LEFT');
+    $this->db->join('item_unit u', 'u.id=i.unit_id', 'LEFT');
+
+    if (!empty($_POST['cat_id'])) {
+      $this->db->where('i.cat_id', $_POST['cat_id']);
+    }
+    if (!empty($_POST['sub_cat_id'])) {
+      $this->db->where('i.sub_cate_id', $_POST['sub_cat_id']);
+    }
+    if (!empty($_POST['item_id'])) {
+      $this->db->where('i.id', $_POST['item_id']);
+    }
+
+    $this->db->order_by('c.id', 'ASC');
+    $query = $this->db->get()->result();
+    return $query;
+  }
 
 }

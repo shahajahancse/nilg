@@ -213,8 +213,9 @@ class Acl extends Backend_Controller
                     'upa_id'          => $upazila,
                     'union_id'        => $union,
                     'mobile_no'       => $this->input->post('mobile_no'),
+                    'order_no'        => $this->input->post('order_no')?$this->input->post('order_no'):0,
                     'active'          => $this->input->post('active')
-                    );
+                );
                 // dd($data);
 
                 // update the password if it was posted

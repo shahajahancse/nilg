@@ -68,12 +68,12 @@
                   <div class="col-md-2">
                     <label class="form-label">শুরুর তারিখ </label>
                     <?php echo form_error('start_date'); ?>
-                    <input name="start_date" type="text" class="form-control input-sm datetime" placeholder="" value="<?php if(isset($start_date)){ echo $start_date; } ?>" required>
+                    <input name="start_date" type="text" class="form-control input-sm datetime" autocomplete="off" value="<?php if(isset($start_date)){ echo $start_date; } ?>" required autocomplete="off" >
                   </div>
                   <div class="col-md-2">
                     <label class="form-label">শেষের তারিখ </label>
                     <?php echo form_error('end_date'); ?>
-                    <input name="end_date" type="text" class="form-control input-sm datetime" placeholder="" value="<?php if(isset($end_date)){ echo $end_date; } ?>" required>
+                    <input name="end_date" type="text" class="form-control input-sm datetime"autocomplete="off" value="<?php if(isset($end_date)){ echo $end_date; } ?>" required>
                   </div>
                   <div class="col-md-2">  
                     <label class="form-label">&nbsp;</label>
@@ -99,60 +99,72 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <?php foreach ($results as $row) { 
-                      $itme = date('h:i a', strtotime($row->time_start)).' - '.date('h:i a', strtotime($row->time_end))
-                      ?>                      
+                    <?php foreach ($results as $value) { 
+                      $datas = $this->Training_model->get_schedule($value->training_id, $value->program_date); 
+                      // dd($datas);
+                      ?>
+
                       <tr>
-                        <td class="tg-031e"><?=date_bangla_calender_format($row->program_date)?></td>
-                        <td class="tg-031e"><?=eng2bng($itme)?></td>
-                        <td class="tg-031e" align="center"><?=eng2bng($row->session_no)?></td>
-                        <td class="tg-031e"><?=$row->topic?></td>                        
-                        <td class="tg-031e">
-                          <?php                          
-                          if($row->speakers != NULL){
-                            echo nl2br($row->speakers).'<br>';
-                          }else{
-                            echo nl2br($row->speakers);
-                          } 
-                          if($row->trainer_id != ''){
-                            echo $row->name_bn.' ('.$row->desig_name.')';
-                          }
-                          ?>
-                        </td>
+                        <td rowspan="<?= $value->total + 1 ?>" class="tg-031e"><?=date_bangla_calender_format($value->program_date)?></td>
 
-                        <?php if($this->ion_auth->in_group(array('admin'))){ ?>
-                        <td class="tg-031e">
-                          <?php if($row->is_honorarium != NULL){
-                            echo $row->is_honorarium=='Yes'?'হ্যাঁ':'না';
-                          } ?>
-                          </td>
-
+                      <?php foreach ($datas as $key => $row) { 
+                        $itme = date('h:i a', strtotime($row->time_start)).' - '.date('h:i a', strtotime($row->time_end))
+                      ?>   
+                        <tr>  
+                          <td class="tg-031e"><?=eng2bng($itme)?></td>
+                          <td class="tg-031e" align="center"><?=eng2bng($row->session_no)?></td>
+                          <td class="tg-031e"><?=$row->topic?></td>                        
                           <td class="tg-031e">
-                            <?php if($row->honorarium != '0'){
-                              echo eng2bng($row->honorarium);
-                            } ?> 
+                            <?php                          
+                            if($row->speakers != NULL){
+                              echo nl2br($row->speakers).'<br>';
+                            }else{
+                              echo nl2br($row->speakers);
+                            } 
+                            if (empty($row->desig_name)) {
+                              $desig_name = '';
+                            } else {
+                              $desig_name = ' ('.$row->desig_name.')';
+                            }
+
+                            if($row->trainer_id != ''){
+                              echo $row->name_bn.$desig_name;
+                            }
+                            ?>
                           </td>
-                          <?php } ?>
+
+                          <?php if($this->ion_auth->in_group(array('admin'))){ ?>
+                            <td class="tg-031e">
+                              <?php if($row->is_honorarium != NULL){
+                                echo $row->is_honorarium=='Yes'?'হ্যাঁ':'না';
+                              } ?>
+                            </td>
 
                             <td class="tg-031e">
-                              <a href="<?=base_url('training/schedule_docs/'.$row->id)?>" class="btn btn-primary btn-mini mini-btn-padding">ট্রেনিং ডকুমেন্ট </a>
-                              <a href="<?=base_url('training/schedule_item_edit/'.$row->id)?>" class="btn btn-primary btn-mini mini-btn-padding"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </a>
-                              <!-- <a href="<?=base_url('training/schedule_item_clone/'.$row->id)?>" class="btn btn-primary btn-mini mini-btn-padding">ক্লোন </a> -->
-                              <a href="<?=base_url('training/schedule_item_delete/'.$row->id)?>" class="btn btn-danger btn-mini mini-btn-padding" onclick="return confirm('Are you sure you want to delete this data?');"> <i class="fa fa-trash-o" aria-hidden="true"></i>  </a>
+                              <?php if($row->honorarium != '0'){
+                                echo eng2bng($row->honorarium);
+                              } ?> 
                             </td>
-                          </tr>
                           <?php } ?>
-                        </tbody>
-                      </table>
-                    </div>   
-                  </div>
-                </div>
-              </div>
 
-            </div> <!-- /grid-body -->
+                          <td class="tg-031e">
+                            <a href="<?=base_url('training/schedule_docs/'.$row->id)?>" class="btn btn-primary btn-mini mini-btn-padding">ট্রেনিং ডকুমেন্ট </a>
+                            <a href="<?=base_url('training/schedule_item_edit/'.$row->id)?>" class="btn btn-primary btn-mini mini-btn-padding"> <i class="fa fa-pencil-square-o" aria-hidden="true"></i> </a>
+                            <!-- <a href="<?=base_url('training/schedule_item_clone/'.$row->id)?>" class="btn btn-primary btn-mini mini-btn-padding">ক্লোন </a> -->
+                            <a href="<?=base_url('training/schedule_item_delete/'.$row->id)?>" class="btn btn-danger btn-mini mini-btn-padding" onclick="return confirm('Are you sure you want to delete this data?');"> <i class="fa fa-trash-o" aria-hidden="true"></i>  </a>
+                          </td>
+                      <?php } ?>
+                    </tr>
+
+                  <?php } ?>
+                  </tbody>
+                </table>
+              </div>   
+            </div>
           </div>
         </div>
-      </div>
-
+      </div> <!-- /grid-body -->
     </div>
   </div>
+</div>
+

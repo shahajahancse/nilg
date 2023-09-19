@@ -36,6 +36,19 @@
 
                 <span class="training-title"><?=func_training_title($info->training_id)?></span>
                 <span class="training-date"><?=func_training_date($info->start_date, $info->end_date)?></span>
+                <span>পরীক্ষার তারিখ : <?= date_bangla_calender_format($info->exam_date) ?> ।</span>
+                <span>পরীক্ষা শুরু : <?= bangla_time_format($info->exam_start_time) ?> টায় ।</span>
+
+                <?php 
+                  $exam_end = strtotime($info->exam_date.' '.$info->exam_start_time)+($info->exam_duration*60);
+                  $current_time = strtotime(date('Y-m-d H:i:s'));
+                  $exam_time = 0;
+                  if ($exam_end > $current_time) {
+                    $exam_time = date('i:s', ($exam_end - $current_time));
+                  }
+                ?>
+                <span>পরীক্ষার সময় : <?= eng2bng($info->exam_duration) ?> মিনিট</span>
+                <span id="settime"><span id="settime_refresh">সময় <?= eng2bng($exam_time) ?> মিনিট</span></span>
 
                 <span style="font-weight: bold; font-size: 20px; margin-top: 20px; display: block;">
                   <?php if($info->exam_type == 1) { ?> 
@@ -57,25 +70,30 @@
                   $sl++;
                   ?>
                   <div>
-                    <h5 class="semi-bold"><?=eng2bng($sl)?>। <?=$value->question_title?></h5>
+                    <h5 class="semi-bold pull-left"><?=eng2bng($sl)?>। <?=$value->question_title?></h5>
+                    <h5 class="semi-bold pull-right" style="color: blue;"> <?=eng2bng($value->qnumber)?></h5>
+                    <input type="hidden" name="answer_mark[<?=$value->id?>]" value="<?=$value->qnumber?>">
+                    <input type="hidden" name="question_type[<?=$value->id?>]" value="<?=$value->question_type?>">
                     <input type="hidden" name="hideid[]" value="<?=$value->id?>">
+                    <div style="clear: both;"></div>
+                    
                     <?php if($value->question_type == 1){ ?>
-                    <input type="text" name="input_text[<?=$value->id?>][]" class="form-control input-sm">
+                    <input type="text" name="input_text[<?=$value->id?>]" class="form-control input-sm">
 
                     <?php }elseif($value->question_type == 2){ ?>
-                    <textarea name="input_textarea[<?=$value->id?>][]" class="form-control input-sm"></textarea>
+                    <textarea name="input_textarea[<?=$value->id?>]" class="form-control input-sm"></textarea>
 
                     <?php }elseif($value->question_type == 3){ ?>
                     <?php foreach ($value->options as $row) { ?>                
                     <div class="form-check" style="margin-left: 30px;">                
-                      <label class="form-check-label" for="Radio<?=$row->id?>"><input class="form-check-input" type="radio" name="input_radio[<?=$value->id?>][]" id="Radio<?=$row->id?>" value="<?=$row->id?>"> <b><?=$row->option_name?></b></label>
+                      <label class="form-check-label" for="Radio<?=$row->id?>"><input class="form-check-input" type="radio" name="input_radio[<?=$value->id?>]" id="Radio<?=$row->id?>" value="<?=$row->id?>"> <b><?=$row->option_name?></b></label>
                     </div>
                     <?php } ?>
 
                     <?php }elseif($value->question_type == 4){ ?>
                     <?php foreach ($value->options as $row) { ?>                
                     <div class="form-check" style="margin-left: 30px;">
-                      <label class="form-check-label" for="Check<?=$row->id?>"><input class="form-check-input" type="checkbox" name="input_check[<?=$value->id?>][]" id="Check<?=$row->id?>" value="<?=$row->id?>"> <b><?=$row->option_name?></b></label>
+                      <label class="form-check-label" for="Check<?=$row->id?>"><input class="form-check-input" type="checkbox" name="input_check[<?=$value->id?>]" id="Check<?=$row->id?>" value="<?=$row->id?>"> <b><?=$row->option_name?></b></label>
                     </div>              
                     <?php } ?>
                     <?php } ?>
@@ -84,9 +102,15 @@
                 </div>                
               </div>
 
-              <div class="form-actions">  
-                <div class="pull-right">
-                  <?php echo form_submit('submit', lang('common_save'), "class='btn btn-primary btn-cons font-big-bold' onclick='return confirmAnswerSubmit();'"); ?>
+              <div class="form-actions"> 
+                <div class="pull-right" id="subbtn">
+                  <?php if ($exam_end > $current_time) {
+                      echo form_submit('submit', lang('common_save'), "class='btn btn-primary btn-cons font-big-bold' onclick='return confirmAnswerSubmit();'");
+                    } else {
+                      echo "<input id='frm_submit' style='display:none' type='submit' name='submit' value='সংরক্ষণ করুন' />";
+                      echo "<a disabled class='btn btn-primary btn-cons font-big-bold'> পরীক্ষার সময় শেষ </a>";
+                    }
+                  ?>
                 </div>
               </div>
               <?php echo form_close();?>
@@ -100,3 +124,65 @@
 
     </div>
   </div>
+
+
+<script>
+  $(document).ready(function(){
+    var exam_end        = Math.round("<?= $exam_end ?>");
+    var submit_end_time = Math.round(exam_end + 2);
+
+    setInterval(function(){
+      var dateInMillisecs = Date.now();
+      var current_time    = Math.round((dateInMillisecs / 1000));
+      
+      if (current_time <= exam_end) {
+        $("#settime").load(location.href + " #settime_refresh");
+        $(".form-actions").load(location.href + " #subbtn");
+      } 
+
+      // auto form submit when time over
+      if ((exam_end <= current_time) && (current_time < submit_end_time)) {
+        $('#frm_submit').click();
+      } 
+
+    }, 1000); 
+  });
+</script>
+
+<script>
+  window.onscroll = function() {myFunction()};
+
+  var settime = document.getElementById("settime");
+  var sticky = settime.offsetTop;
+
+  function myFunction() {
+    if (window.pageYOffset >= 400) {
+      settime.classList.add("sticky")
+    } else {
+      settime.classList.remove("sticky");
+    }
+  }
+</script>
+
+
+<style>
+  #settime{
+    float: right;
+    padding: 5px;
+    color: #143a04;
+    font-size: 18px;
+    font-weight: bold;
+    border: 1px solid;
+    box-shadow: 1px 3px 4px #454;
+  }
+  .sticky {
+    position: fixed;
+    top: 80px;
+    display: inline-block;
+    color: #143a04;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 1px 3px 4px #454;
+    right: 120px;
+  }
+</style>

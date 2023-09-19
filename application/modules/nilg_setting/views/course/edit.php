@@ -25,6 +25,15 @@
                 <input name="course_title" type="text" class="form-control input-sm" placeholder="" value="<?=set_value('course_title', $info->course_title)?>">
               </div>
 
+              <div class="col-md-3">
+                <label class="form-label">স্ট্যাটাস</label>
+                <?php echo form_error('course_title'); ?>
+                <select name="status" class="form-control input-sm">
+                  <option <?= ($info->status == 1)? 'selected':'' ?> value="1">এনাবল</option>
+                  <option <?= ($info->status == 2)? 'selected':'' ?> value="2">ডিজেবল</option>
+                </select>
+              </div>
+
               <?php /*
               <div class="col-md-3">
                 <div class="form-group">

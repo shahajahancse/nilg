@@ -66,7 +66,10 @@
                        <ul class="dropdown-menu">
                         <li><?=anchor("evaluation/module_exam_participant/".$row->id, 'অংশগ্রহনকারীর তালিকা')?></li>
                         <li><?=anchor("evaluation/module_exam_edit/".$row->id, 'সম্পাদন করুন')?></li>
+                        <li><?=anchor("evaluation/pre_evaluation_pdf/".$row->id, 'ডাউনলোড পিডিএফ ফরমেট', ['target' => '_blank'])?></li>
+                        <li><?=anchor("evaluation/pre_evaluation_word/".$row->id, 'ডাউনলোড ওর্য়াড ফরমেট')?></li>
                         <li><?=anchor("evaluation/module_exam_evaluation_form/".$row->id, 'মূল্যায়ন ফরম')?></li>
+                      <li><?=anchor("evaluation/delete_evaluation_question/$row->id/3", 'মুছে ফেলুন', array("onclick" => "return confirm('আপনি কি এই তথ্যটি মুছে ফেলতে চান?');"))?></li>
                       </ul>
                     </div> 
                   </td>

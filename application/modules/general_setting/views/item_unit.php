@@ -12,7 +12,7 @@
           <div class="grid-title">
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
             <div class="pull-right">
-              <a href="<?=base_url('general_setting/item_unit_add')?>" class="btn btn-blueviolet btn-xs btn-mini"> উনিট যুক্ত করুন </a>
+              <a href="<?=base_url('general_setting/item_unit_add')?>" class="btn btn-blueviolet btn-xs btn-mini">একক যুক্ত করুন </a>
             </div>            
           </div>
 
@@ -30,8 +30,8 @@
                 <tr>
                   <th style="width:2%"> ক্রম</th>
                   <th style="width:60%">উনিট নাম</th>
-                  <!-- <th style="width:18%">Status</th> -->
-                  <!-- <th style="width:20%">অ্যাকশন</th> -->
+                  <th style="width:18%">স্ট্যাটাস</th>
+                  <th style="width:40%; text-align: right;">অ্যাকশন</th>
                 </tr>
               </thead>
               <tbody>
@@ -39,13 +39,25 @@
                 $sl = 0;
                 foreach ($results as $row):
                   $sl++;
+                  if($row->status == 'Enable'){
+                    $status = '<span class="btn btn-primary btn-xs btn-mini">এনাবল </span>';
+                  }else{
+                    $status = '<span class="btn btn-danger btn-xs btn-mini">ডিজাবল</span>';
+                  }  
               ?>
                 <tr>
-                  <td class="v-align-middle"><?=$sl.'.'?></td>
+                  <td class="v-align-middle"><?=eng2bng($sl).'.'?></td>
                   <td class="v-align-middle"><?=$row->unit_name?></td>
-                  <!-- <td> <?php echo ($row->status) ?'<span class="btn btn-primary btn-xs btn-mini">Enable </span>': '<span class="btn btn-danger btn-xs btn-mini">Disable</span>';?> </td> -->
-                  <td>
-                  <?php //echo anchor(base_url()."general_setting/department_edit/".$row->id, 'Edit', 'class="btn btn-mini btn-primary"') ;?>&nbsp;<!-- <a class="btn btn-mini btn-primary" href="<?=base_url()?>general_setting/department_delete/<?=$row->id?>" onclick="return confirm('Are you sure you want to delete this Department?');">Delete</a> --></td>
+                  <td class="v-align-middle"><?=$status?></td> 
+                  <td align="right">
+                    <div class="btn-group">
+                      <button class="btn btn-mini btn-primary">অ্যাকশন</button>
+                      <button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
+                      <ul class="dropdown-menu pull-right">
+                         <li><a href="<?php echo base_url('general_setting/item_unit_edit/'.$row->id)?>" class="btn btn-mini btn-primary"><i class="fa fa-pencil-square"></i> এডিট করুন </a></li>
+                      </ul>
+                    </div>
+                  </td>
                 <?php endforeach;?>                      
               </tbody>
             </table>

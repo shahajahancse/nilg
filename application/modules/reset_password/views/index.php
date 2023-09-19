@@ -9,14 +9,15 @@
   <div class="row login-container column-seperation">  
       <form action="<?=base_url("reset_password/index/".$code)?>" method="post" autocomplete="on">
          <div class="col-md-7 col-sm-7 col-sm-offset-2 col-md-offset-2" style="background-color: rgba(255,255,255,0.8); padding: 30px; "> 
-            <img src="<?=base_url();?>awedget/assets/img/scouts-logo.gif" height="90" style="display: block; width: 90px; margin-left: auto;margin-right: auto; float: left; ">
-            <h1 style="font-weight: bold; text-align: center; float: left; margin: 25px 0 0 10px;">Bangladesh Scouts</h1>
+
+            <img src="<?= base_url(); ?>awedget/assets/img/logo.png" height="110" style="display: block;margin-left: auto;margin-right: auto ">
+
             <div class="clearfix"></div>
-            <h4 style="text-align: center; font-weight: bold;">Reset Password</h4>
+            <h4 style="text-align: center; font-weight: bold;">পাসওয়ার্ড রিসেট করুন</h4>
 
             <div class="row">
                <div class="col-md-6">
-                  <label>New Password</label>
+                  <label>নতুন পাসওয়ার্ড</label>
                   <?php echo form_error('new')?>
                   <div class="input-group">
                      <span class="input-group-addon addonExtra"> <i class="fa fa-lock"></i> </span>
@@ -25,7 +26,7 @@
                </div>
                
                <div class="col-md-6">
-                  <label>Repeat Password</label>
+                  <label>পাসওয়ার্ড রি-টাইপ</label>
                   <?php echo form_error('new_confirm')?>
                   <div class="input-group">
                      <span class="input-group-addon addonExtra"><i class="fa fa-lock"></i></span>
@@ -39,8 +40,8 @@
 
             <div style="margin-top:10px; margin-bottom: 30px;" class="form-group">
                <div class="controls">
-                  <a href="<?=base_url('login')?>" class="pull-left" style="color: blue;">I have already an account</a>
-                  <?php echo form_submit('submit', 'Reset Password', "class='btn btn-primary pull-right'"); ?>
+                  <a href="<?=base_url('login')?>" style="color: #0d638f; font-size: 14px;font-weight: bold;"> ইতিমধ্যে অ্যাকাউন্ট আছে </a>
+                  <?php echo form_submit('submit', 'রিসেট পাসওয়ার্ড', "class='btn btn-primary pull-right'"); ?>
                </div>
             </div>
 

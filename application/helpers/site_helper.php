@@ -11,6 +11,43 @@ if (!function_exists('set_output')) {
 
 }
 
+if (!function_exists('bangla_time_format')) {
+   function bangla_time_format($item) {  
+      if($item != NULL || $item != '00-00-00'){
+         switch ($item) {
+            case $item >= '04:00:00' && $item < '06:00:00':
+               $format = "ভোর";
+               break;
+            case $item >= '06:00:00' && $item < '11:59:59':
+               $format = "সকাল";
+               break;
+             case $item >= '12:00:00' && $item < '14:59:59':
+               $format = "দুপুর";
+               break;
+             case $item >= '15:00:00' && $item < '17:59:59':
+               $format = "বিকাল";
+               break;
+             case $item >= '18:00:00' && $item < '19:59:59':
+               $format = "সন্ধ্যা";
+               break;
+             case $item >= '20:00:00' && $item < '24:59:59':
+               $format = "রাত";
+               break;
+             case $item >= '00:00:00' && $item < '03:59:59':
+               $format = "রাত";
+               break;
+            default:
+               $format = "";
+         }
+         
+         $time = BanglaConverter::en2bn(date('h:i', strtotime($item)));
+         return $format .' '. $time;
+      }else{
+         return '00-00-00';
+      }      
+   }
+}
+
 if (!function_exists('date_db_format')) {
    function date_db_format($item) {  
       if($item != NULL){

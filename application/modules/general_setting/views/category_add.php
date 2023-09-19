@@ -33,6 +33,14 @@
                         <?php echo form_error('category_name'); ?>
                         <input name="category_name" type="text" value="<?=set_value('category_name')?>" class="form-control input-sm" placeholder="">
                      </div>
+
+                     <div class="col-md-6">
+                        <label class="form-label">স্ট্যাটাস</label>
+                        <select name="status" class="form-control input-sm">
+                           <option value="Enable">এনাবল</option>
+                           <option value="Disable">ডিজাবল</option>
+                        </select>
+                     </div>
                   </div>
 
                   <div class="form-actions">  

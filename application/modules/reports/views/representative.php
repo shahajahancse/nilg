@@ -134,18 +134,18 @@
                   <div class="col-md-12" style="text-align: center; border:1px solid #0aa699; padding:10px 5px 20px 5px; position: relative; margin-top: 40px">
                     <label class="head"> তালিকা ভিত্তিক রিপোর্ট</label> 
 
-                    <button type="submit" name="btnsubmit" value="pdf_rep_list_union" onclick="return validFunc6()" class="btn btn-info btn-cons margin-top"> ইউনিয়ন পরিষদের রিপোর্ট</button>
+                    <button type="submit" name="btnsubmit" value="pdf_rep_list_union" onclick="return validFunc3()" class="btn btn-info btn-cons margin-top"> ইউনিয়ন পরিষদের রিপোর্ট</button>
 
-                    <button type="submit" name="btnsubmit" value="pdf_rep_list_pourashava" onclick="return validFunc3()" class="btn btn-info btn-cons margin-top"> পৌরসভার রিপোর্ট</button>
+                    <button type="submit" name="btnsubmit" value="pdf_rep_list_pourashava" onclick="return validFunc2()" class="btn btn-info btn-cons margin-top"> পৌরসভার রিপোর্ট</button>
 
-                    <button type="submit" name="btnsubmit" value="pdf_rep_list_upazila" onclick="return validFunc3()" class="btn btn-info btn-cons margin-top"> উপজেলা পরিষদের রিপোর্ট</button>
+                    <button type="submit" name="btnsubmit" value="pdf_rep_list_upazila" onclick="return validFunc2()" class="btn btn-info btn-cons margin-top"> উপজেলা পরিষদের রিপোর্ট</button>
 
-                    <button type="submit" name="btnsubmit" value="pdf_rep_list_city" onclick="return validFunc2()" class="btn btn-info btn-cons margin-top"> সিটি কর্পোরেশনের রিপোর্ট</button>
+                    <button type="submit" name="btnsubmit" value="pdf_rep_list_city" onclick="return validFunc()" class="btn btn-info btn-cons margin-top"> সিটি কর্পোরেশনের রিপোর্ট</button>
 
-                    <button type="submit" name="btnsubmit" value="pdf_rep_list_district" onclick="return validFunc2()" class="btn btn-info btn-cons margin-top"> জেলা পরিষদের রিপোর্ট</button>
+                    <button type="submit" name="btnsubmit" value="pdf_rep_list_district" onclick="return validFunc1()" class="btn btn-info btn-cons margin-top"> জেলা পরিষদের রিপোর্ট</button>
 
-                    <button type="submit" name="btnsubmit" value="pdf_untrained_repo_list" onclick="return validFunc2()" class="btn btn-info btn-cons margin-top"> অপ্রশিক্ষিত ব্যক্তির রিপোর্ট</button>
-                    <button type="submit" name="btnsubmit" value="pdf_trained_repo_list" onclick="return validFunc2()" class="btn btn-info btn-cons margin-top"> প্রশিক্ষিত ব্যক্তির রিপোর্ট</button>
+                    <button type="submit" name="btnsubmit" value="pdf_untrained_list" onclick="return validFunc1()" class="btn btn-info btn-cons margin-top"> অপ্রশিক্ষিত ব্যক্তির রিপোর্ট</button>
+                    <button type="submit" name="btnsubmit" value="pdf_trained_list" onclick="return validFunc1()" class="btn btn-info btn-cons margin-top"> প্রশিক্ষিত ব্যক্তির রিপোর্ট</button>
                   </div>
                 </div>
 
@@ -363,42 +363,6 @@
         $("#validate").submit();
       }*/
     }
-
-    function validFunc6() {
-      submitOK = "true";
-      var division = document.getElementById("division").value;
-      var district = document.getElementById("district").value;
-      var upazila = document.getElementById("upazila").value;
-      var union = document.getElementById("union").value;
-
-      //Validation
-      if (division == '') {
-        $("#division").css("border", "1px solid red");
-        submitOK = "false";
-      }
-      if (district <= 1) {
-        $("#district").css("border", "1px solid red");
-        submitOK = "false";
-      }
-      if (upazila <= 1) {
-        $("#upazila").css("border", "1px solid red");
-        submitOK = "false";
-      }
-      if (union <= 1) {
-        $("#union").css("border", "1px solid red");
-        submitOK = "false";
-      }
-
-      //Success
-      if (submitOK == "false") {
-        $("#error").show();
-        return false;
-      }
-      /*else{
-        $("#validate").submit();
-      }*/
-    }
-
 
     // https://www.quora.com/How-can-I-check-if-an-input-field-has-a-certain-text-value-with-JavaScript
 

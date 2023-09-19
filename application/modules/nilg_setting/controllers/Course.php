@@ -44,7 +44,7 @@ class Course extends Backend_Controller {
             $form_data = array(
                 'course_title' => $this->input->post('course_title'),
                 // 'course_type' => $this->input->post('course_type')
-                );
+            );
             // print_r($form_data); exit;
             if($this->Common_model->save('course', $form_data)){                
                 $this->session->set_flashdata('success', 'New record insert successfully.');
@@ -66,14 +66,34 @@ class Course extends Backend_Controller {
 
         if ($this->form_validation->run() == true){
             $form_data = array(
-                'course_title' => $this->input->post('course_title')
-                );
+                'course_title' => $this->input->post('course_title'),
+                'status' =>       $this->input->post('status'),
+            );
             // print_r($form_data); exit;
             if($this->Common_model->edit('course', $id, 'id', $form_data)){
                 $this->session->set_flashdata('success', 'Update information successfully.');
                 redirect('nilg_setting/course');
             }
         }
+        
+        // Get Data        
+        $this->data['info'] = $this->Course_model->get_info($id);
+
+        //Load View
+        $this->data['meta_title'] = 'কোর্সের তথ্য সম্পাদন';
+        $this->data['subview'] = 'course/edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function enable_disable($id, $status){
+
+            $data = array('status' => $status);
+            // print_r($form_data); exit;
+            if($this->Common_model->edit('course', $id, 'id', $data)){
+                $this->session->set_flashdata('success', 'Update information successfully.');
+                redirect('nilg_setting/course');
+            }
+
         
         // Get Data        
         $this->data['info'] = $this->Course_model->get_info($id);

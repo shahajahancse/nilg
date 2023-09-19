@@ -921,6 +921,7 @@ class General_setting extends Backend_Controller {
     //     redirect('all');
     // }
 
+    // category section
     public function categories(){
         $this->data['results'] = $this->General_setting_model->get_categories(); 
         $this->data['meta_title'] = 'ক্যাটাগরি তালিকা';
@@ -928,15 +929,15 @@ class General_setting extends Backend_Controller {
         $this->load->view('backend/_layout_main', $this->data);
     }
 
-
     public function category_add(){
         $this->form_validation->set_rules('category_name', 'category Name', 'required|trim');
 
         if ($this->form_validation->run() == true){
             $form_data = array(
                 'category_name'      => $this->input->post('category_name'),
+                'status'             => $this->input->post('status'),
                 'is_delete'          => 0
-                ); 
+            ); 
 
             if($this->Common_model->save('categories', $form_data)){
                 $this->session->set_flashdata('success', 'ক্যাটাগরি যুক্ত করা হয়েছে.');
@@ -949,11 +950,35 @@ class General_setting extends Backend_Controller {
         $this->load->view('backend/_layout_main', $this->data);
     }
 
+    public function category_edit($id){
+        $this->form_validation->set_rules('category_name', 'category Name', 'required|trim');
+
+        if ($this->form_validation->run() == true){
+            $form_data = array(
+                'category_name' => $this->input->post('category_name'),
+                'status'        => $this->input->post('status'),
+            ); 
+
+            if($this->Common_model->edit('categories',$id,'id',$form_data)){
+                $this->session->set_flashdata('success', 'ক্যাটাগরি সম্পাদনা করা হয়েছে.');
+                redirect('general_setting/categories');
+            }
+        }
+        $this->data['rows'] = $this->General_setting_model->get_info('categories', $id);
+
+        $this->data['meta_title'] = 'সাব ক্যাটাগরি এডিট করুন';
+        $this->data['subview'] = 'category_edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    // category section end
+
+    // sub category section
     public function sub_categories(){
-      $this->data['results'] = $this->General_setting_model->get_sub_categories(); 
-      $this->data['meta_title'] = 'সাব ক্যাটাগরি তালিকা';
-      $this->data['subview'] = 'sub_categories';
-      $this->load->view('backend/_layout_main', $this->data);
+        $this->data['categories'] = $this->General_setting_model->get_categories();
+        $this->data['results'] = $this->General_setting_model->get_sub_categories(); 
+        $this->data['meta_title'] = 'সাব ক্যাটাগরি তালিকা';
+        $this->data['subview'] = 'sub_categories';
+        $this->load->view('backend/_layout_main', $this->data);
     } 
 
     public function sub_category_add(){
@@ -964,8 +989,9 @@ class General_setting extends Backend_Controller {
             $form_data = array(
                 'cate_id'            => $this->input->post('cate_id'),
                 'sub_cate_name'      => $this->input->post('sub_cate_name'),
+                'status'      => $this->input->post('status'),
                 'is_delete'          => 0
-                ); 
+            ); 
 
             if($this->Common_model->save('sub_categories', $form_data)){
                 $this->session->set_flashdata('success', 'সাব ক্যাটাগরি যুক্ত করা হয়েছে.');
@@ -988,8 +1014,9 @@ class General_setting extends Backend_Controller {
             $form_data = array(
                 'cate_id'            => $this->input->post('cate_id'),
                 'sub_cate_name'      => $this->input->post('sub_cate_name'),
+                'status'      => $this->input->post('status'),
                 'is_delete'          => 0
-                ); 
+            ); 
 
             if($this->Common_model->edit('sub_categories',$id,'id',$form_data)){
                 $this->session->set_flashdata('success', 'সাব ক্যাটাগরি সম্পাদনা করা হয়েছে.');
@@ -1013,10 +1040,27 @@ class General_setting extends Backend_Controller {
         $this->session->set_flashdata('success', 'সাব ক্যাটাগরি সফলভাবে মুছে ফেলা হয়েছে.');
         redirect('general_setting/sub_categories');
     }
+    //
 
+    public function ajax_sub_category_list()
+    {
+        $this->db->select('sc.*, c.category_name');
+        $this->db->from('sub_categories sc');
+        $this->db->join('categories c', 'c.id=sc.cate_id');
+        $this->db->where('sc.is_delete !=', 1);
+        $this->db->where('sc.cate_id', $_GET['cate']);
+        $this->data['results'] = $this->db->get()->result();
+
+        $text = $this->load->view('ajax_sub_category_list', $this->data, TRUE);
+        set_output($text); 
+    }
+    // sub category section end
+
+
+    // item section here
     public function item_unit(){
       $this->data['results'] = $this->General_setting_model->get_item_unit(); 
-      $this->data['meta_title'] = 'আইটেম উনিট তালিকা';
+      $this->data['meta_title'] = 'মালামালের একক তালিকা';
       $this->data['subview'] = 'item_unit';
       $this->load->view('backend/_layout_main', $this->data);
     }
@@ -1026,20 +1070,41 @@ class General_setting extends Backend_Controller {
         if ($this->form_validation->run() == true){
             $form_data = array(
                 'unit_name'      => $this->input->post('unit_name'),
-                'status'         => 'status',
-                ); 
+                'status'         => $this->input->post('status'),
+            ); 
 
             if($this->Common_model->save('item_unit', $form_data)){
-                $this->session->set_flashdata('success', 'আইটেম উনিট যুক্ত করা হয়েছে.');
+                $this->session->set_flashdata('success', 'মালামালের একক যুক্ত করা হয়েছে.');
                 redirect('general_setting/item_unit');
             }
         }
 
        $this->data['results'] = $this->General_setting_model->get_item_unit(); 
-       $this->data['meta_title'] = 'আইটেম উনিট যুক্ত করুন';
+       $this->data['meta_title'] = 'মালামালের একক যুক্ত করুন';
        $this->data['subview'] = 'item_unit_add';
        $this->load->view('backend/_layout_main', $this->data);
     }
+
+    public function item_unit_edit($id){
+        $this->form_validation->set_rules('unit_name', 'item Name', 'required|trim');
+        if ($this->form_validation->run() == true){
+            $form_data = array(
+                'unit_name'      => $this->input->post('unit_name'),
+                'status'         => $this->input->post('status'),
+            ); 
+
+            if($this->Common_model->edit('item_unit',$id,'id',$form_data)){
+                $this->session->set_flashdata('success', 'মালামালের একক সম্পাদনা করা হয়েছে.');
+                redirect('general_setting/item_unit');
+            }
+        }
+
+        $this->data['rows'] = $this->General_setting_model->get_info('item_unit', $id);
+        $this->data['meta_title'] = 'মালামালের একক সম্পাদনা করুন';
+        $this->data['subview'] = 'item_unit_edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    // item section end
 
     // ============ start leave ====================
     // create leave type list

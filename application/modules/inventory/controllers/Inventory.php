@@ -42,12 +42,12 @@ class Inventory extends Backend_Controller {
         'department_id' => ($user->crrnt_dept_id !== null)?$user->crrnt_dept_id:0, 
         'designation_id' => ($user->crrnt_desig_id !== null)?$user->crrnt_desig_id:0,
         'f_year_id'   => 0,
-        'current_desk'     => 1,
+        // 'current_desk'     => 1,
         'created'   => date('Y-m-d H:i:s'),
         'updated'   => date('Y-m-d H:i:s')
       );
 
-      // print_r($form_data); exit;
+      // dd($form_data); 
       if($this->Common_model->save('requisitions', $form_data)){     
         // Schedule Type Appointment
         $insert_id = $this->db->insert_id();
@@ -110,6 +110,97 @@ class Inventory extends Backend_Controller {
     // Load page
     $this->data['meta_title'] = 'রিকুইজিশন বর্ণনা';
     $this->data['subview'] = 'requisition_details';
+    $this->load->view('backend/_layout_main', $this->data);
+  }
+
+  public function forword_store_kipar($requisition_id = null){
+    if ($requisition_id) {
+       $requisition_id = (int) decrypt_url($requisition_id);
+    }
+
+    $form_data = array(
+      'status'         => 1,
+      'current_desk'   => 1,
+      'updated'        => date('Y-m-d H:i:s')
+    ); 
+    // dd($form_data);
+
+    if($this->Common_model->edit('requisitions',  $requisition_id, 'id', $form_data)){     
+      $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+      header('Content-Type: application/x-json; charset=utf-8');
+      echo json_encode(array('status' => true));
+    } else {
+      echo json_encode(array('status' => false));
+    }
+  }
+
+
+  public function draft_requisitions($requisition_id = null){
+    if ($requisition_id) {
+       $requisition_id = (int) decrypt_url($requisition_id);
+    }
+
+    $this->data['rows'] = $this->inventory_model->get_requisition_items($requisition_id); 
+    // dd($this->data['rows']);
+
+    if (isset($_POST['submit'])) {
+      $user = $this->ion_auth->user()->row();
+
+      if($_POST['submit'] == "ফরওয়ার্ড স্টোর কীপার") {
+        $form_data = array(
+          'status'         => 1,
+          'current_desk'   => 1,
+          'updated'        => date('Y-m-d H:i:s')
+        ); 
+      } else {
+        $form_data = array(
+          'status'         => 6,
+          'current_desk'   => 5,
+          'updated'        => date('Y-m-d H:i:s')
+        ); 
+      }
+
+      // print_r($form_data); exit;
+      if($this->Common_model->edit('requisitions',  $requisition_id, 'id', $form_data)){     
+        // Insert Scout Unit under a group
+
+        for ($i=0; $i<sizeof($_POST['item_id']); $i++) { 
+          if(empty($_POST['item_id'][$i])) {
+            continue;
+          }
+          @$data_exists = $this->Common_model->exists('requisition_item', 'id', $_POST['hide_id'][$i]);
+          if($data_exists){
+            $data = array(
+              'qty_request'  => $_POST['qty_request'][$i]
+            ); 
+            $this->Common_model->edit('requisition_item', $_POST['hide_id'][$i], 'id', $data);
+          } else { 
+            $form_data2 = array(
+              'requisition_id'     => $requisition_id,
+              'item_cate_id'       => $_POST['item_cate_id'][$i],
+              'item_sub_cate_id'   => $_POST['item_sub_cate_id'][$i],
+              'item_id'            => $_POST['item_id'][$i],
+              'user_id'            => $user->id,
+              'dept_id'            => ($user->crrnt_dept_id !== null)?$user->crrnt_dept_id:0,
+              'fiscal_year_id'     => 0,
+              'qty_request'        => $_POST['qty_request'][$i],           
+              'remark'             => $_POST['remark'][$i]
+            );
+            $this->Common_model->save('requisition_item', $form_data2);
+          }
+        }
+
+        $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+        redirect("inventory/my_requisition");
+      }
+    }
+
+    // Load view
+    $this->data['categories'] = $this->Common_model->get_dropdown('categories', 'category_name', 'id');
+    // dd($this->data['categories']);
+    $this->data['info'] = $this->Common_model->get_user_details();
+    $this->data['meta_title'] = 'রিকুইজিশন এন্ট্রি করুন';
+    $this->data['subview'] = 'draft_requisitions';
     $this->load->view('backend/_layout_main', $this->data);
   }
 
@@ -264,22 +355,6 @@ class Inventory extends Backend_Controller {
                  'pin_code'     => $pinCode,
                  'updated'      => date('Y-m-d H:i:s')
               );
-
-              // Send Mail
-              /*$q = $this->db->select('id, email')->where('id', $this->data['info']->user_id)->get('users');
-              if($q->num_rows() > 0){
-                 $email = $q->row()->email;          
-                 if($email != ''){
-                    // Send Mail
-                    $message = 'Hello, <br><br>Your requisition item(s) has been approved/processed. Please do the needful to collect your items. Please authorised the delivery with the confirmation code sent your email.<br><br><br>Your secrate PIN code is : '.$pinCode.'<br><br>Remember your secrate pin code and get your products. <br><br><br>';
-                    $this->email->clear();
-                    $this->email->from('testingemail9400@gmail.com', 'NILG Inventory');
-                    $this->email->to($email);
-                    $this->email->subject('NILG - Requisition PIN Code');
-                    $this->email->message($message);
-                    $this->email->send();
-                 }
-              }*/
           }else{
               $form_data = array(
                  'approve_reject_user' => $this->userSessID,
@@ -308,6 +383,7 @@ class Inventory extends Backend_Controller {
           }
       }
 
+      // dd($this->data['info']);
       //Dropdown
       $this->data['status'] = $this->inventory_model->get_requisition_status(); 
       //Results
@@ -329,10 +405,10 @@ class Inventory extends Backend_Controller {
       $limit = 25;
       $results = array();
 
-      if (func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id) == 'jd') {
+      if ($this->ion_auth->in_group(array('jd'))) {
           $status = 2;
           $desk = 2;
-      } else if (func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id) == 'dg') {
+      } else if ($this->ion_auth->in_group(array('dg'))) {
           $status = 2;
           $desk = 3;
       } else {
@@ -358,10 +434,10 @@ class Inventory extends Backend_Controller {
       $this->data['userDetails'] = $this->Common_model->get_office_info_by_session();
       $userDetails = $this->data['userDetails'];
 
-      if (func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id) == 'jd') {
+      if ($this->ion_auth->in_group(array('jd'))) {
           $status = 2;
           $desk = 2;
-      } else if (func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id) == 'dg') {
+      } else if ($this->ion_auth->in_group(array('dg'))) {
           $status = 2;
           $desk = 3;
       } else {
@@ -380,10 +456,10 @@ class Inventory extends Backend_Controller {
 
       //Validate and input data
       if ($this->form_validation->run() == true){
-          if ($this->input->post('status') == 2 && func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id) == 'jd') {
+          if ($this->input->post('status') == 2 && $this->ion_auth->in_group(array('jd'))) {
               $current_desk = 3;
               $status = 2;
-          } else if ($this->input->post('status') == 2 && func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id) == 'dg') {
+          } else if ($this->input->post('status') == 2 && $this->ion_auth->in_group(array('dg'))) {
               $current_desk = 4;
               $status = 4;
           }
@@ -407,7 +483,7 @@ class Inventory extends Backend_Controller {
           if($this->Common_model->edit('requisitions',  $dataID, 'id', $form_data)){
 
               // Requisition Data 
-              if (func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id) == 'jd') {
+              if ($this->ion_auth->in_group(array('jd'))) {
                 for ($i=0; $i<sizeof($_POST['hide_id']); $i++) {
                    //check exists data
                    @$data_exists = $this->Common_model->exists('requisition_item', 'id', $_POST['hide_id'][$i]);
@@ -514,9 +590,10 @@ class Inventory extends Backend_Controller {
     $this->load->view('backend/_layout_main', $this->data);
   }
 
-  public function delivered_list($offset=0){
+  public function delivered_list($offset=0, $user_id = null){
     $limit = 25;
-    $results = $this->inventory_model->get_requisition($limit, $offset, 5); 
+    $user_id = (int) decrypt_url($user_id); //exit;
+    $results = $this->inventory_model->get_requisition($limit, $offset, 5, $user_id); 
     $this->data['results'] = $results['rows'];
     $this->data['total_rows'] = $results['num_rows'];
 
@@ -527,6 +604,15 @@ class Inventory extends Backend_Controller {
     $this->data['meta_title'] = 'ডেলিভারড তালিকা';
     $this->data['subview'] = 'delivered_list';
     $this->load->view('backend/_layout_main', $this->data);
+  }
+
+  public function ajax_delivered_list_list($offset=0, $user_id = null){
+    $limit = 25;
+    $user_id = (int) decrypt_url($user_id); //exit;
+    $results = $this->inventory_model->get_requisition($limit, $offset, 5, $user_id); 
+    
+    $text = $this->load->view('ajax_delivered_list_list', $results, TRUE);
+    set_output($text); 
   }
 
   public function rejected_list($offset=0){
@@ -561,7 +647,7 @@ class Inventory extends Backend_Controller {
 
   public function item_setup($offset = 0)
   {
-    $limit = 10;
+    $limit = 25;
     $results = $this->inventory_model->get_items($limit, $offset);
     $this->data['results'] = $results['rows'];
     $this->data['total_rows'] = $results['num_rows'];
@@ -570,6 +656,7 @@ class Inventory extends Backend_Controller {
     $this->data['pagination'] = create_pagination('inventory/item_setup/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
 
 
+    $this->data['categories'] = $this->inventory_model->get_categories();
     $this->data['meta_title'] = 'আইটেম তালিকা';
     $this->data['subview'] = 'item_setup';
     $this->load->view('backend/_layout_main', $this->data);
@@ -783,7 +870,7 @@ class Inventory extends Backend_Controller {
                 'department_id' => $user->crrnt_dept_id, 
                 'designation_id' => $user->crrnt_desig_id, 
                 // 'title'     => $this->input->post('title'),
-                'current_desk'     => 1,
+                // 'current_desk'     => 1,
                 'created'   => date('Y-m-d H:i:s'),
                 'updated'   => date('Y-m-d H:i:s')
             );
@@ -799,6 +886,7 @@ class Inventory extends Backend_Controller {
                       'item_cate_id'       => $_POST['item_cate_id'][$i],
                       'item_sub_cate_id'   => $_POST['item_sub_cate_id'][$i],
                       'item_id'            => $_POST['item_id'][$i],
+                      'user_id'            => $user->id,
                       'dept_id'            => $user->crrnt_dept_id,
                       'qty_request'        => $_POST['qty_request'][$i],           
                       'remark'             => $_POST['remark'][$i]
@@ -875,6 +963,13 @@ class Inventory extends Backend_Controller {
       echo (json_encode($this->inventory_model->get_items_by_sub_cate_id($id)));
     }
 
+    function ajax_get_requisition_details(){
+      $dataID = (int) decrypt_url($_POST['id']);
+      $items = $this->inventory_model->get_requisition_items($dataID, 1);
+      header('Content-Type: application/x-json; charset=utf-8');
+      echo json_encode($items);
+    }
+
   public function delete_requisition_item()
   {
     $id = $this->input->post('id');
@@ -903,7 +998,7 @@ class Inventory extends Backend_Controller {
         // exit($btn_submit);
 
         // Generate PDF
-        $this->data['headding'] = 'আইটেম রিপোর্ট';
+        $this->data['headding'] = 'মালামালের রিপোর্ট';
         $html = $this->load->view('pdf_item_report', $this->data, true);
 
         $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
@@ -990,7 +1085,7 @@ class Inventory extends Backend_Controller {
         $this->data['results'] = $this->inventory_model->get_low_inventory_items();
 
         // Generate PDF
-        $this->data['headding'] = 'লো-ইনভেন্টরি আইটেম রিপোর্ট';
+        $this->data['headding'] = 'লো-ইনভেন্টরি মালামালের রিপোর্ট';
         $html = $this->load->view('pdf_low_inventory_item', $this->data, true);
 
         $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
@@ -1001,6 +1096,7 @@ class Inventory extends Backend_Controller {
 
     //Dropdown
     $this->data['users'] = $this->inventory_model->get_department();
+    $this->data['categories'] = $this->Common_model->get_dropdown('categories', 'category_name', 'id');
     // echo "<pre>"; print_r($this->data['users']);exit;
     // Load View 
     $this->data['meta_title'] = 'ইনভেন্টরি রিপোর্ট';
@@ -1017,5 +1113,13 @@ class Inventory extends Backend_Controller {
     $this->Common_model->edit('requisition_item',  $id, 'id', $form_data);
     echo 'এই তথ্যটি ডাটাবেজ থেকে সম্পূর্ণভাবে মুছে ফেলা হয়েছে।';
   } 
+
+  public function ajax_item_list()
+  {
+
+    $this->data['results'] = $this->inventory_model->ajax_item_list();
+    $text = $this->load->view('ajax_item_list', $this->data, TRUE);
+    set_output($text); 
+  }
 
 }

@@ -174,6 +174,7 @@ class Evaluation_model extends CI_Model {
     }
 
     public function is_answer($evaluationID){
+        // dd($evaluationID .' = '. $this->userSessID);
         $this->db->select('COUNT(*) as count');
         $this->db->from('evaluation_question_answer');
         $this->db->where('eva_id', $evaluationID);
@@ -341,7 +342,7 @@ class Evaluation_model extends CI_Model {
     }
 
     public function get_question_by_evaluation($id) {
-        $this->db->select('q.id, q.question_type, q.question_title, eq.id as eq_id');
+        $this->db->select('q.id, q.question_type, q.question_title, eq.id as eq_id, eq.qnumber');
         $this->db->from('evaluation_question eq');
         $this->db->join('qbank q', 'q.id = eq.question_id', 'LEFT');
         $this->db->where('eq.evaluation_id', $id);                        
@@ -358,7 +359,7 @@ class Evaluation_model extends CI_Model {
     } 
 
     public function get_question_answer_by_evaluation($id) {
-        $this->db->select('eqa.id, eqa.que_id, eqa.que_type, eqa.answer, eqa.is_right, q.question_title, q.answer as right_answer');
+        $this->db->select('eqa.id, eqa.que_id, eqa.que_type, eqa.answer, eqa.answer_mark, eqa.is_right, q.question_title, q.answer as right_answer');
         $this->db->from('evaluation_question_answer eqa');
         $this->db->join('qbank q', 'q.id = eqa.que_id', 'LEFT');
         $this->db->where('eqa.eva_id', $id);  
@@ -388,7 +389,7 @@ class Evaluation_model extends CI_Model {
     } 
 
     public function get_answer_sheet_by_user($evaluationID, $userID) {
-        $this->db->select('eqa.id, eqa.que_id, eqa.que_type, eqa.answer, eqa.is_right, q.question_title, q.answer as right_answer');
+        $this->db->select('eqa.id, eqa.eva_id, eqa.que_id, eqa.que_type, eqa.answer, eqa.question_mark, eqa.answer_mark, eqa.is_right, q.question_title, q.answer as right_answer');
         $this->db->from('evaluation_question_answer eqa');
         $this->db->join('qbank q', 'q.id = eqa.que_id', 'LEFT');
         $this->db->where('eqa.eva_id', $evaluationID);  
@@ -413,15 +414,22 @@ class Evaluation_model extends CI_Model {
     }
 
     public function get_question_answer_by_user($evaID, $userID, $isRight=NULL){        
-        $this->db->select('COUNT(*) as count');
+        $this->db->select('
+            SUM(question_mark) as question_mark, 
+            SUM(answer_mark) as answer_mark,
+            SUM(CASE WHEN is_right = 1 THEN 1 ELSE 0 END ) AS is_right,
+            SUM(CASE WHEN is_right = 2 THEN 1 ELSE 0 END ) AS is_wrong,
+        ');
         $this->db->from('evaluation_question_answer');
         $this->db->where('eva_id', $evaID);
         $this->db->where('user_id', $userID);
-        $this->db->where('is_right', $isRight);
-        $tmp = $this->db->get()->result();
-        $result = $tmp[0]->count;
+        /*if ($isRight != NULL) {
+            $this->db->where('is_right', $isRight);
+        }*/
+        $tmp = $this->db->get()->row();
+        // $result = $tmp[0]->count;
 
-        return $result;
+        return $tmp;
     }
 
     public function get_answer_by_question($id){
@@ -595,7 +603,7 @@ class Evaluation_model extends CI_Model {
             $this->db->join('financing f', 'f.id = t.financing_id', 'LEFT'); 
             $this->db->limit($limit);
             $this->db->offset($offset);        
-            $this->db->where('t.status', 1); // 1=UpComming, 2=OnGoing, 3=Completed        
+            //$this->db->where('t.status', 1); // 1=UpComming, 2=OnGoing, 3=Completed        
             $this->db->where_in('t.id', $trainingIDs);
             $this->db->order_by('t.id', 'DESC');
             $result['rows'] = $this->db->get()->result();
@@ -604,7 +612,7 @@ class Evaluation_model extends CI_Model {
             // count query
             $q = $this->db->select('COUNT(*) as count');
             $this->db->from('training');  
-            $this->db->where('status', 1);
+            // $this->db->where('status', 1);
             $this->db->where_in('id', $trainingIDs);
             $tmp = $this->db->get()->result();
             $result['num_rows'] = $tmp[0]->count;
@@ -617,9 +625,10 @@ class Evaluation_model extends CI_Model {
 
     public function get_training_schedule_with_trainer($trainingID) {
         // result query
-        $this->db->select('t.*, u.name_bn' );
+        $this->db->select('t.*, u.name_bn, dg.desig_name');
         $this->db->from('training_schedule t');  
-        $this->db->join('users u', 'u.id = t.trainer_id', 'LEFT');   
+        $this->db->join('users u', 'u.id = t.trainer_id', 'LEFT');          
+        $this->db->join('designations dg', 'dg.id = u.crrnt_desig_id', 'LEFT'); 
         $this->db->where('t.training_id', $trainingID);
         $this->db->where('t.trainer_id !=', 0);
         $this->db->order_by('id', 'ASC');

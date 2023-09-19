@@ -41,7 +41,7 @@
               </div>   
               
               <div style="text-align: center;">
-                <em>মোট প্রশ্নঃ</em> <b><?=eng2bng(count($que_ans_list))?></b>
+                <em>মোট প্রশ্নঃ</em> <b><?=eng2bng($que_ans)?></b>
                 <em>সঠিক উত্তরঃ</em> <b><?=eng2bng($result_right)?></b>
                 <em>ভূল উত্তরঃ</em> <b><?=eng2bng($result_wrong)?></b>
                 <em>উত্তর পরীক্ষা করা হয়নিঃ</em> <b><?=eng2bng($result_not_examin)?></b>
@@ -66,8 +66,10 @@
                   }
                   ?>
                   <div>
-                    <h5 class="semi-bold" <?=$rightAnswer?>><?=eng2bng($sl)?>। <?=$value->question_title?></h5>
-                    <input type="hidden" name="hideid[]" value="<?=$value->id?>">
+                    <h5 class="semi-bold pull-left" <?=$rightAnswer?>><?=eng2bng($sl)?>। <?=$value->question_title?></h5>
+                    <h5 class="semi-bold pull-right" <?=$rightAnswer?>><?=eng2bng($value->answer_mark)?></h5>
+                    <input type="hidden" name="hideid[]" value="<?=$value->id?>">                    
+                    <div style="clear: both;"></div>
 
                     <?php if($value->que_type == 1){ // Text Question ?>
                     <em><b>প্রদত্ত উত্তরঃ</b></em> <?=$value->answer?><br>

@@ -71,51 +71,53 @@
 						প্রশিক্ষণপূর্ব মূল্যায়ন প্রশ্নপত্র (<?=$info->exam_set?>)
 						<?php }elseif($info->exam_type == 2){ ?>
 						প্রশিক্ষণোত্তর মূল্যায়ন প্রশ্নপত্র (<?=$info->exam_set?>)
-						<?php } ?>
+		                <?php } elseif ($info->exam_type == 3) { ?>
+		                    মডিউল ভিত্তিক মূল্যায়ন প্রশ্নপত্র
+		                <?php } ?>
 					</span>
 				</div>
 			</div>			
 		</div>
 		<hr>		
 
-		<div class="priview-demand">
-			<div class="row">
-				<div class="col-md-12">
-					<?php 
-					$sl=0;
-					foreach ($questions as $value) { 
-						$sl++;
-						?>
-						<div>
-							<h5 class="semi-bold" style="margin-bottom: 0; padding-bottom: 0;"><?=eng2bng($sl)?>। <?=$value->question_title?></h5>
-							<input type="hidden" name="hideid[]" value="<?=$value->id?>">
-							<?php if($value->question_type == 1){ ?>
-							<input type="text" name="input_text" class="form-control input-sm">
 
-							<?php }elseif($value->question_type == 2){ ?>
-							<textarea name="input_textarea" class="form-control input-sm"></textarea>
+		<div class="row">
+			<?php 
+			$sl=0;
+			foreach ($questions as $value) { 
+				$sl++;
+				?>
+				<div>
 
-							<?php }elseif($value->question_type == 3){ ?>
-							<?php foreach ($value->options as $row) { ?>                
-							<div class="form-check" style="margin-left: 30px;">                
-								<label class="form-check-label" for="Radio<?=$row->id?>"><input class="form-check-input" type="radio" name="input_radio[<?=$value->id?>]" id="Radio<?=$row->id?>" value="<?=$row->option_name?>"> <b style="font-size: 16px;"><?=$row->option_name?></b></label>
-							</div>
-							<?php } ?>
+					<h5 class="row semi-bold" style="display: block; margin-bottom: 0; padding-bottom: 0;">
+						<div style="float: left; width: 94%;"><?=eng2bng($sl)?>। <?=$value->question_title?></div>
+						<div style="float: right; width: 5.9%; text-align: right;"><?= eng2bng($value->qnumber) ?></div>
+					</h5>
 
-							<?php }elseif($value->question_type == 4){ ?>
-							<?php foreach ($value->options as $row) { ?>                
-							<div class="form-check" style="margin-left: 30px;">
-								<label class="form-check-label" for="Check<?=$row->id?>"><input class="form-check-input" type="checkbox" name="input_check[<?=$value->id?>]" value="<?=$row->option_name?>" id="Check<?=$row->id?>"> <b style="font-size: 16px;"><?=$row->option_name?></b></label>
-							</div>              
-							<?php } ?>
-							<?php } ?>
+					<input type="hidden" name="hideid[]" value="<?=$value->id?>">
+					<?php if($value->question_type == 1){ ?>
+						<input type="text" name="input_text" class="form-control input-sm">
+					<?php }elseif($value->question_type == 2){ ?>
+						<textarea name="input_textarea" class="form-control input-sm"></textarea>
+					<?php }elseif($value->question_type == 3){ ?>
+						<?php foreach ($value->options as $row) { ?>                
+						<div class="form-check" style="margin-left: 30px;">                
+							<label class="form-check-label" for="Radio<?=$row->id?>"><input class="form-check-input" type="radio" name="input_radio[<?=$value->id?>]" id="Radio<?=$row->id?>" value="<?=$row->option_name?>"> <b style="font-size: 16px;"><?=$row->option_name?></b></label>
 						</div>
 						<?php } ?>
-					</div>
+					<?php }elseif($value->question_type == 4){ ?>
+						<?php foreach ($value->options as $row) { ?>                
+						<div class="form-check" style="margin-left: 30px;">
+							<label class="form-check-label" for="Check<?=$row->id?>"><input class="form-check-input" type="checkbox" name="input_check[<?=$value->id?>]" value="<?=$row->option_name?>" id="Check<?=$row->id?>"> <b style="font-size: 16px;"><?=$row->option_name?></b></label>
+						</div>              
+						<?php } ?>
+					<?php } ?>
 				</div>
-			</div>
-
-		</body>
-		</html>
+			<?php } ?>
+		</div>
+	</div>
+	
+</body>
+</html>
 
 

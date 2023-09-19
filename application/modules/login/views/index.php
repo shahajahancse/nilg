@@ -24,7 +24,7 @@
                </span>
                <input type="password" name="password" class="form-control" placeholder="পাসওয়ার্ড">
             </div>
-            <br>
+            <label style="text-align: right; margin-right: 5px; font-size: 14px;"><a href="<?=base_url('forgot_password')?>"><u style="color: #3333e5;">ফরগেট পাসওয়ার্ড</u></a></label>
 
             <div class="input-group">               
                <div class="pull-left">
@@ -34,7 +34,7 @@
                </div>               
 
                <div class="pull-right">
-                  <?php echo form_submit('submit', 'প্রবেশ করুন', "class='btn btn-primary btn-cons pull-right' style='font-size:18px; font-weight:bold;'"); ?>
+                  <?php echo form_submit('submit', 'লগইন করুন', "class='btn btn-primary btn-cons pull-right' style='font-size:18px; font-weight:bold;'"); ?>
                </div>
             </div>
 
