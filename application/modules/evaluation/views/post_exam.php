@@ -112,7 +112,7 @@
         type: "GET",
         // contentType: 'text/html',
         data: $('form').serialize(),
-        url: hostname +"evaluation/ajax_evaluation_list/2",
+        url: hostname +"evaluation/ajax_evaluation_list/0/2",
         success: function(response)
         {
           $('#loaddiv').html(response);

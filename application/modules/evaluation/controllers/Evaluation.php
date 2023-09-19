@@ -939,7 +939,7 @@ class Evaluation extends Backend_Controller {
       $this->load->view('backend/_layout_main', $this->data);
    }
 
-   public function ajax_evaluation_list($type, $offset=0){
+   public function ajax_evaluation_list($offset=0, $type=0){
       $limit = 50;
 
       // Get Session User Data
