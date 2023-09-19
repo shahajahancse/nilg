@@ -656,6 +656,7 @@ class Inventory extends Backend_Controller {
     $this->data['pagination'] = create_pagination('inventory/item_setup/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
 
 
+    $this->data['categories'] = $this->inventory_model->get_categories();
     $this->data['meta_title'] = 'আইটেম তালিকা';
     $this->data['subview'] = 'item_setup';
     $this->load->view('backend/_layout_main', $this->data);
@@ -1095,6 +1096,7 @@ class Inventory extends Backend_Controller {
 
     //Dropdown
     $this->data['users'] = $this->inventory_model->get_department();
+    $this->data['categories'] = $this->Common_model->get_dropdown('categories', 'category_name', 'id');
     // echo "<pre>"; print_r($this->data['users']);exit;
     // Load View 
     $this->data['meta_title'] = 'ইনভেন্টরি রিপোর্ট';
@@ -1111,5 +1113,13 @@ class Inventory extends Backend_Controller {
     $this->Common_model->edit('requisition_item',  $id, 'id', $form_data);
     echo 'এই তথ্যটি ডাটাবেজ থেকে সম্পূর্ণভাবে মুছে ফেলা হয়েছে।';
   } 
+
+  public function ajax_item_list()
+  {
+
+    $this->data['results'] = $this->inventory_model->ajax_item_list();
+    $text = $this->load->view('ajax_item_list', $this->data, TRUE);
+    set_output($text); 
+  }
 
 }

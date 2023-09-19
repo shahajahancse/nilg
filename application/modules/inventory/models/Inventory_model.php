@@ -141,12 +141,23 @@ class Inventory_model extends CI_Model {
     return $result;
   }
 
-  public function get_items($limit=100, $offset=0){
+  public function get_items($limit=1000, $offset=0){
     $this->db->select('SQL_CALC_FOUND_ROWS i.*, c.category_name, sc.sub_cate_name, u.unit_name', false);
     $this->db->from('items i');
     $this->db->join('categories c', 'c.id=i.cat_id', 'LEFT');
     $this->db->join('sub_categories sc', 'sc.id=i.sub_cate_id', 'LEFT');
     $this->db->join('item_unit u', 'u.id=i.unit_id', 'LEFT');
+
+    if (!empty($_POST['cat_id'])) {
+      $this->db->where('i.cat_id', $_POST['cat_id']);
+    }
+    if (!empty($_POST['sub_cat_id'])) {
+      $this->db->where('i.sub_cate_id', $_POST['sub_cat_id']);
+    }
+    if (!empty($_POST['item_id'])) {
+      $this->db->where('i.id', $_POST['item_id']);
+    }
+
     $this->db->limit($limit, $offset);
     $this->db->order_by('c.id', 'ASC');
     $query = $this->db->get()->result();
@@ -166,7 +177,7 @@ class Inventory_model extends CI_Model {
   }
 
   public function get_sub_category_by_cate_id($id){
-    $data['0'] = '-Select Sub Category-';
+    $data['0'] = '-- সাব ক্যাটাগরি নির্বাচন করুন --';
     $this->db->select('id, sub_cate_name');
     $this->db->from('sub_categories');        
     $this->db->where('cate_id', $id);
@@ -179,7 +190,7 @@ class Inventory_model extends CI_Model {
   }
 
   public function get_items_by_sub_cate_id($id){
-    $data['0'] = '-Select Item-';
+    $data['0'] = '-- Select Item --';
     $this->db->select('id, item_name');
     $this->db->from('items');        
     $this->db->where('sub_cate_id', $id);
@@ -353,7 +364,7 @@ class Inventory_model extends CI_Model {
   } 
 
   public function get_department(){
-    $data[''] = '-- Select Department --';
+    $data[''] = '-- বিভাগ নির্বাচন করুন --';
     $this->db->select('d.id, d.dept_name as text');
     $this->db->from('department d');
     $query = $this->db->get();
@@ -363,5 +374,35 @@ class Inventory_model extends CI_Model {
     }
    return $data;
   } 
+
+  public function get_categories() {
+    $this->db->select('*');
+    $this->db->from('categories');
+    $query = $this->db->get()->result();
+    return $query;
+  }
+
+
+  public function ajax_item_list(){
+    $this->db->select('i.*, c.category_name, sc.sub_cate_name, u.unit_name');
+    $this->db->from('items i');
+    $this->db->join('categories c', 'c.id=i.cat_id', 'LEFT');
+    $this->db->join('sub_categories sc', 'sc.id=i.sub_cate_id', 'LEFT');
+    $this->db->join('item_unit u', 'u.id=i.unit_id', 'LEFT');
+
+    if (!empty($_POST['cat_id'])) {
+      $this->db->where('i.cat_id', $_POST['cat_id']);
+    }
+    if (!empty($_POST['sub_cat_id'])) {
+      $this->db->where('i.sub_cate_id', $_POST['sub_cat_id']);
+    }
+    if (!empty($_POST['item_id'])) {
+      $this->db->where('i.id', $_POST['item_id']);
+    }
+
+    $this->db->order_by('c.id', 'ASC');
+    $query = $this->db->get()->result();
+    return $query;
+  }
 
 }
