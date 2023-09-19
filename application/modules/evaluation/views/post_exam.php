@@ -25,75 +25,102 @@
                 <?php echo $this->session->flashdata('success');;?>
               </div>
             <?php endif; ?>  
-            <!-- <form method="post" action="<?php echo base_url('training/search_course'); ?>">
-              <div class="col-sm-4">     
-                <input type="text" name="search" id="search" class="form-control" placeholder="কোর্স অনুসন্ধান করুন" />
-              </div>
-              <div class="col-md-2">  
 
-                <?php echo form_submit('submit', 'অনুসন্ধান', "class='btn btn-primary btn-cons'"); ?>
-              </div>
-            </form> <br><br><br> -->    
+            <form action="" method="get">
+              <div class="row">
+                <div class="col-md-3">
+                  <select id="course_id" name="course_id" class="form-control input-sm" style="height: 24px !important;">
+                    <option value="">কোর্সের শিরোনাম</option>
+                    <?php foreach ($courses->result() as $key => $row): ?>
+                      <option value="<?php echo $row->id ; ?>"><?php echo $row->course_title; ?></option>
+                    <?php endforeach ?>
+                  </select>
+                </div>
 
-            <table class="table table-hover table-bordered  table-flip-scroll cf">
-              <thead class="cf">
-                <tr>
-                  <th>ক্রম</th>
-                  <th>প্রশিক্ষণ কোর্সের শিরোনাম</th>
-                  <th width="100">প্রশ্নের সেট</th>                  
-                  <th>কোর্স শুরু ও শেষের তারিখ</th>
-                  <th width="70">পাবলিশ</th>
-                  <th width="80">অ্যাকশন</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php 
-                if(!empty($results)){
-                  $sl = $pagination['current_page'];
-                  foreach ($results as $row):
-                    $sl++;
-                  $published = $row->is_published == 1?"<span class='label label-success'>এনাবল</span>":"<span class='label label-danger'>ডিজেবল</span>";
-                  
-                  ?>
+                <div class="col-md-2">
+                    <a href="<?=base_url('evaluation/post_exam')?>" class="btn btn-warning btn-mini">Clear</a>
+                </div>
+
+              </div>
+            </form>
+
+            <div id="loaddiv">
+              <table class="table table-hover table-bordered  table-flip-scroll cf">
+                <thead class="cf">
                   <tr>
-                    <td><?=eng2bng($sl).'.'?></td>
-                    <td><strong><?=func_training_title($row->training_id)?></strong></td>
-                    <td><?=$row->exam_set?></td>
-                    <td><?=date_bangla_calender_format($row->start_date)?> হতে <?=date_bangla_calender_format($row->end_date)?></td>
-                    <td><?=$published?></td>
-                    <td>
-                      <div class="btn-group pull-right">
-                       <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> অ্যাকশন <span class="caret"></span> </a>
-                       <ul class="dropdown-menu">
-                        <li><?=anchor("evaluation/post_exam_participant/".$row->id, 'অংশগ্রহনকারীর তালিকা')?></li>
-                        <li><?=anchor("evaluation/post_exam_edit/".$row->id, 'সম্পাদন করুন')?></li>
-                        <li><?=anchor("evaluation/pre_evaluation_pdf/".$row->id, 'ডাউনলোড পিডিএফ ফরমেট', ['target' => '_blank'])?></li>
-                        <li><?=anchor("evaluation/pre_evaluation_word/".$row->id, 'ডাউনলোড ওর্য়াড ফরমেট')?></li>
-                        <li><?=anchor("evaluation/post_evaluation_form/".$row->id, 'মূল্যায়ন ফরমের নমুনা')?></li>
-                        <li><?=anchor("evaluation/delete_evaluation_question/$row->id/2", 'মুছে ফেলুন', array("onclick" => "return confirm('আপনি কি এই তথ্যটি মুছে ফেলতে চান?');"))?></li>
-                      </ul>
-                    </div> 
-                  </td>
-                </tr>
-              <?php endforeach;?>
-              <?php } ?>
-            </tbody>
-          </table>
+                    <th>ক্রম</th>
+                    <th>প্রশিক্ষণ কোর্সের শিরোনাম</th>
+                    <th width="100">প্রশ্নের সেট</th>                  
+                    <th>কোর্স শুরু ও শেষের তারিখ</th>
+                    <th width="70">পাবলিশ</th>
+                    <th width="80">অ্যাকশন</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php 
+                  if(!empty($results)){
+                    $sl = $pagination['current_page'];
+                    foreach ($results as $row):
+                      $sl++;
+                    $published = $row->is_published == 1?"<span class='label label-success'>এনাবল</span>":"<span class='label label-danger'>ডিজেবল</span>";
+                    
+                    ?>
+                    <tr>
+                      <td><?=eng2bng($sl).'.'?></td>
+                      <td><strong><?=func_training_title($row->training_id)?></strong></td>
+                      <td><?=$row->exam_set?></td>
+                      <td><?=date_bangla_calender_format($row->start_date)?> হতে <?=date_bangla_calender_format($row->end_date)?></td>
+                      <td><?=$published?></td>
+                      <td>
+                        <div class="btn-group pull-right">
+                          <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> অ্যাকশন <span class="caret"></span> </a>
+                          <ul class="dropdown-menu">
+                            <li><?=anchor("evaluation/post_exam_participant/".$row->id, 'অংশগ্রহনকারীর তালিকা')?></li>
+                            <li><?=anchor("evaluation/post_exam_edit/".$row->id, 'সম্পাদন করুন')?></li>
+                            <li><?=anchor("evaluation/pre_evaluation_pdf/".$row->id, 'ডাউনলোড পিডিএফ ফরমেট', ['target' => '_blank'])?></li>
+                            <li><?=anchor("evaluation/pre_evaluation_word/".$row->id, 'ডাউনলোড ওর্য়াড ফরমেট')?></li>
+                            <li><?=anchor("evaluation/post_evaluation_form/".$row->id, 'মূল্যায়ন ফরমের নমুনা')?></li>
+                            <li><?=anchor("evaluation/delete_evaluation_question/$row->id/2", 'মুছে ফেলুন', array("onclick" => "return confirm('আপনি কি এই তথ্যটি মুছে ফেলতে চান?');"))?></li>
+                          </ul>
+                        </div> 
+                      </td>
+                    </tr>
+                  <?php endforeach;  } ?>
+                </tbody>
+              </table>
 
-          <div class="row">
-            <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> <span style="color: green; font-weight: bold;"> মোট <?=eng2bng($total_rows)?>টি প্রশ্নপত্র </span></div>
-            <div class="col-sm-8 col-md-8 text-right">
-              <?php echo $pagination['links']; ?>
+              <div class="row">
+                <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> <span style="color: green; font-weight: bold;"> মোট <?=eng2bng($total_rows)?>টি প্রশ্নপত্র </span></div>
+                <div class="col-sm-8 col-md-8 text-right">
+                  <?php echo $pagination['links']; ?>
+                </div>
+              </div>
             </div>
+
           </div>
-
         </div>
-
       </div>
     </div>
-  </div>
-
-</div> <!-- END ROW -->
-
+  </div> <!-- END ROW -->
 </div>
-</div>
+
+<script>
+  // A $( document ).ready() block.
+  $( document ).ready(function() {
+    $('#course_id').change(function(){
+      $.ajax({
+        type: "GET",
+        // contentType: 'text/html',
+        data: $('form').serialize(),
+        url: hostname +"evaluation/ajax_evaluation_list/2",
+        success: function(response)
+        {
+          $('#loaddiv').html(response);
+        },
+        error:function () {
+          console.log('fail');
+        }
+      });
+    });
+  });
+</script>

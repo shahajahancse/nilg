@@ -209,6 +209,12 @@ class Evaluation_model extends CI_Model {
         // $this->db->join('course c', 'c.id = e.course_id', 'LEFT'); // c.course_title
         $this->db->limit($limit);
         $this->db->offset($offset);
+
+        $this->db->where_in('t.course_id', array(1,2,3, 7,8,11, 13,14,16, 18,19,21, 22,23,24)); 
+        if(!empty($_GET['course_id'])){
+            $this->db->where('e.course_id', $_GET['course_id']);
+        }
+
         if($examType != NULL){
             $this->db->where('e.exam_type', $examType); // 1=PRE, 2=POST
         }
@@ -232,6 +238,12 @@ class Evaluation_model extends CI_Model {
         $q = $this->db->select('COUNT(*) as count');
         $this->db->from('evaluation e');
         $this->db->join('training t', 't.id = e.training_id', 'LEFT');
+
+        $this->db->where_in('t.course_id', array(1,2,3, 7,8,11, 13,14,16, 18,19,21, 22,23,24)); 
+        if(!empty($_GET['course_id'])){
+            $this->db->where('e.course_id', $_GET['course_id']);
+        }
+        
         if($examType != NULL){
             $this->db->where('e.exam_type', $examType); // 1=PRE, 2=POST
         }

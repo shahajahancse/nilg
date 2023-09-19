@@ -329,6 +329,18 @@ class Inventory_model extends CI_Model {
     $this->db->from('items i');
     $this->db->join('categories c', 'c.id=i.cat_id', 'LEFT');
     $this->db->join('item_unit u', 'u.id=i.unit_id', 'LEFT');
+
+    if (!empty($_POST['cat_id'])) {
+      $this->db->where('i.cat_id', $_POST['cat_id']);
+    }
+    if (!empty($_POST['sub_cat_id'])) {
+      $this->db->where('i.sub_cate_id', $_POST['sub_cat_id']);
+    }
+    if (!empty($_POST['item_id'])) {
+      $this->db->where('i.id', $_POST['item_id']);
+    }
+
+
     $this->db->order_by('c.id', 'ASC');
     $this->db->where('quantity <= order_level');
     $query = $this->db->get()->result();
