@@ -69,9 +69,14 @@
                   <tr>
                     <td> <?=eng2bng($sl)?>. </td>
                     <?php if ($this->ion_auth->is_admin() || $this->ion_auth->in_group(array('nilg','admin'))){ ?>
-                    <td> <a href="#"  data-toggle="modal" data-target="#myModal"><strong data-serial_id="<?php echo encrypt_url($row->id)?>" data-user_name="<?=$row->name_bn?>" data-designation=" <?=$row->current_desig_name?>" data-sl_number_value="<?= $row->order_no?>"><?=$row->name_bn?></strong> </a></td>
-                    <?php }?>
+                      <td> 
+                        <a href="#"  data-toggle="modal" data-target="#myModal">
+                          <strong data-serial_id="<?php echo encrypt_url($row->id)?>" data-user_name="<?=$row->name_bn?>" data-designation=" <?=$row->current_desig_name?>" data-sl_number_value="<?= $row->order_no?>"><?=$row->name_bn?></strong> 
+                        </a>
+                      </td>
+                    <?php }else{?>
                     <td><strong ><?=$row->name_bn?></strong></td>
+                    <?php }?>
                     <td class='font-opensans'>  <?=$row->nid?> </td>
                     <td class='font-opensans'> <?=$row->mobile_no?> </td>
                     <td> <?=$row->current_desig_name?> </td>
