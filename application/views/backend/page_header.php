@@ -64,7 +64,11 @@
    <script type="text/javascript">
       var hostname = '<?php echo base_url(); ?>';
    </script>
-
+   <style>
+     ul.sub-menu > li > a:hover {
+         background-color: #badc89 !important;
+      }
+   </style>
    <!--Load the AJAX API-->
    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
    
@@ -208,6 +212,14 @@
                            }
                            ?>
                         </a></li>
+                        <li class="start <?= backend_activate_menu_class('trainee') ?>"> <a href="javascript:;"> <i class="fa fa-user"></i> <span style="color:#673190">প্রশিক্ষণার্থী</span><span class="arrow"></span></a>
+
+                           <ul class="sub-menu">
+                              <li class="start"> <a href="<?= base_url('trainee/all_pr'); ?>"><span class="sub_menu_list" style="color:#673190"> জনপ্রতিনিধির </span></a> </li>
+                              <li class="start"> <a href="<?= base_url('trainee/all_pr'); ?>"><span class="sub_menu_list" style="color:#673190"> তালিকা</span> </a> </li>
+                              <li class="start"> <a href="<?= base_url('trainee/all_pr'); ?>"><span class="sub_menu_list" style="color:#673190"> প্রতিনিধির তালিকা </span></a> </li>
+                           </ul>
+                        </li>
                      </ul>
                   </li>
                <?php } ?>
