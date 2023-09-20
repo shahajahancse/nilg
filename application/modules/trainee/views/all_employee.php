@@ -66,8 +66,8 @@
                   ?>
                   <tr>
                     <td> <?=eng2bng($sl)?>. </td>
-                    <td> <strong><?=$row->name_bn?></strong> </td>
-                    <td class='font-opensans'> <?=$row->nid?> </td>
+                    <td> <a href="#"  data-toggle="modal" data-target="#myModal"><strong style="color:#36383a" data-serial_id="<?php echo encrypt_url($row->id)?>"><?=$row->name_bn?></strong> </a></td>
+                    <td class='font-opensans'>  <?=$row->nid?> </td>
                     <td class='font-opensans'> <?=$row->mobile_no?> </td>
                     <td> <?=$row->current_desig_name?> </td>
                     <?php if($userDetails->office_type == 7) { ?>
@@ -94,6 +94,30 @@
                   <?php } ?>
                 </tbody>
               </table>
+              <!-- modal -->
+              <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                  <!-- Modal content -->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">ক্রম নম্বর পরিবর্তন </h4>
+                    </div>
+                    <!-- <form id="user_form"> -->
+                      <div class="modal-body">
+                            <input type="number" placeholder='ক্রম নম্বর' id="sl_number_value">
+                            <input type="text" id="user_id">
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-success" data-dismiss="modal" id="form_submit">সংরক্ষণ করুন</button>
+                            <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">বন্ধ করুন</button>
+                          </div>
+                      </div>
+                    <!-- </form>      -->
+                </div>
+              </div>
+
+              <!-- end modal-->
 
               <div class="row">
                 <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> মোট <span style="color: green; font-weight: bold;"><?php echo eng2bng($total_rows); ?> টি তথ্য </span></div>
@@ -110,3 +134,40 @@
 
   </div>
 </div>
+
+
+ <script>
+
+$(document).ready(function() {
+      // var user_id;
+    $("strong[data-serial_id]").click(function() {
+        var user_idd = $(this).data("serial_id");
+        $('#user_id').val(user_idd);
+    });
+
+    $("#form_submit").click(function() {
+        var sl_number_value = $('#sl_number_value').val();
+        var user_id = $('#user_id').val();
+        var baseUrl = "<?php echo base_url(); ?>";
+        var url = baseUrl + 'trainee/change_serial/'+user_id;
+        $.ajax({
+            url: url,
+            method: "GET",
+            // cache: false,
+            data: { user_id: user_id, sl_number_value: sl_number_value },
+            success: function(response) {
+              console.log(response); return false;
+              if(response.status == 'success'){
+                   $("#sl_number_value").val(""); 
+                   alert(response.message);
+                   console.log(response);
+              }
+            },
+            error: function(xhr, status, error) {
+                console.error("Error: " + error);
+            }
+        });
+    });
+});
+
+</script>

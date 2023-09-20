@@ -3554,4 +3554,28 @@ class Trainee extends Backend_Controller
         echo "string";
     }*/
 
+    public function change_serial($id){
+
+    // Check Auth
+        if(!$this->ion_auth->in_group(array('admin', 'nilg'))){
+            redirect('dashboard');
+        }
+        
+        // Decrypt Data
+        $user_id = (int) decrypt_url($id); //exit;
+
+        $data['order_no']= $_GET['sl_number_value'];
+        // dd($user_id);exit;
+        $update = $this->db->where('id',$user_id)->update('users',$data);
+        $this->session->set_flashdata('success', 'সফলভাবে পরিবর্তন করা হয়েছে');
+
+        // Create a JSON response
+        $response = array(
+            'status' => 'success',
+            'message' => $this->session->flashdata('success')
+        );
+        echo json_encode($response);
+    }
 }
+
+
