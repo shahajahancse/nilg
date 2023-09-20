@@ -106,7 +106,7 @@
                     <!-- <form id="user_form"> -->
                       <div class="modal-body">
                             <input type="number" placeholder='ক্রম নম্বর' id="sl_number_value">
-                            <input type="text" id="user_id">
+                            <input type="hidden" id="user_id">
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-sm btn-success" data-dismiss="modal" id="form_submit">সংরক্ষণ করুন</button>
