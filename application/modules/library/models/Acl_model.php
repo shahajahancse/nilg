@@ -40,7 +40,7 @@ class Acl_model extends CI_Model{
 	 	$data = array();
 		$this->db->select("acl_id");
 		$this->db->where('group_id',$group_id);
-		$query = $this->db->get('member_acl_level');
+		$query = $this->db->get('lib_member_acl_level');
 		foreach($query->result() as $rows)
 		{
 			$data[] = $rows->acl_id;	

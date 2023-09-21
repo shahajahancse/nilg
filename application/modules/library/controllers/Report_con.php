@@ -22,7 +22,7 @@ class Report_con extends CI_Controller {
 		$this->load->model('processdb');
 		$this->load->model('acl_model');
 		$access_level = 4;
-		$acl = $this->acl_model->acl_check($access_level);
+		// $acl = $this->acl_model->acl_check($access_level);
 	}
 	
 	function report()

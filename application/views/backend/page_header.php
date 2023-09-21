@@ -576,6 +576,29 @@
                               <li class=" <?= activate_method('all_request_list') ?>"> <a href="<?= base_url('library/transaction/all_request_list'); ?>"><span class="sub_menu_list" style="color:#673190"> All Request  </span> </a> </li>
                            </ul>
                         </li>
+
+                        <li class="start <?= activate_class('search') ?>"> 
+                           <a href="javascript:;"> <i class="fa fa-user"></i> <span style="color:#673190">Search</span><span class="arrow"></span></a>
+                           <ul class="sub-menu">
+                              <li class=" <?= activate_method('book_search_view') ?>"> <a href="<?= base_url('library/search_con/book_search_view'); ?>"><span class="sub_menu_list" style="color:#673190">Book</span> </a> </li>
+                              <li class=" <?= activate_method('journal_search_view') ?>"> <a href="<?= base_url('library/search_con/journal_search_view'); ?>"><span class="sub_menu_list" style="color:#673190">Journal</span> </a> </li>
+                              <li class=" <?= activate_method('govt_pub_search_view') ?>"> <a href="<?= base_url('library/search_con/govt_pub_search_view'); ?>"><span class="sub_menu_list" style="color:#673190">Govt. Publication</span> </a> </li>
+                           </ul>
+                        </li>
+
+                        <li class="start <?= activate_class('report') ?>"> 
+                           <a href="javascript:;"> <i class="fa fa-user"></i> <span style="color:#673190">Report</span><span class="arrow"></span></a>
+                           <ul class="sub-menu">
+                              <li class=" <?= activate_method('report_view') ?>"> <a href="<?= base_url('library/report_con/report'); ?>"><span class="sub_menu_list" style="color:#673190"> Report </span> </a> </li>
+                               </ul>
+                        </li>
+
+                        <li class="start <?= activate_class('entry_info') ?>"> 
+                           <a href="javascript:;"> <i class="fa fa-user"></i> <span style="color:#673190">Enatry Info</span><span class="arrow"></span></a>
+                           <ul class="sub-menu">
+                              <li class=" <?= activate_method('log_view') ?>"> <a href="<?= base_url('library/log_con/library_log_view'); ?>"><span class="sub_menu_list" style="color:#673190"> Log Module </span> </a> </li>
+                           </ul>
+                        </li>
                         
                      </ul>
                   </li>
