@@ -1009,6 +1009,11 @@ class Ion_auth_model extends CI_Model
 					return FALSE;
 				}
 
+				$libs = $this->db->select("*")->where('user_id',$user->id)->get('lib_member')->row();
+				$user->mem_id = $libs->mem_id;
+				$user->level = $libs->level;
+				$user->logged_in = TRUE;
+
 				$this->set_session($user);
 
 				$this->update_last_login($user->id);
@@ -1853,7 +1858,6 @@ class Ion_auth_model extends CI_Model
 	public function set_session($user)
 	{
 		$this->trigger_events('pre_set_session');
-
 		$session_data = array(
 		    'user_id'              => $user->id, //everyone likes to overwrite id so we'll use user_id
 		    'identity'             => $user->{$this->identity_column},
@@ -1868,6 +1872,9 @@ class Ion_auth_model extends CI_Model
 		    'created_on'           => $user->created_on,
 		    'old_last_login'       => $user->last_login,
 		    'last_check'           => time(),
+		    'mem_id'           	   => $user->mem_id,
+		    'level'           	   => $user->level,
+		    'logged_in'            => TRUE,
 		);
 
 		$this->session->set_userdata($session_data);
