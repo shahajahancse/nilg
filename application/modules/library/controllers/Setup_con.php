@@ -5,8 +5,10 @@ class Setup_con extends Backend_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->helper('url');
-		/* ------------------ */	
+		if (!$this->ion_auth->logged_in()) :
+			redirect('login');
+		endif;
+
         $this->load->model('Common_model');
 		$this->load->model('Processdb');
 		$this->load->model('Grid_model');
@@ -20,11 +22,16 @@ class Setup_con extends Backend_Controller {
 	/*
 		setup section 
 	*/
-	function lib_output($output = null)
+	function lib_output($data = null)
 	{
-		$this->load->view('admin/setup',$output);	
+
+		$this->load->view('backend/page_header', $this->data); 
+		$this->load->view('admin/setup',$data['output']);
+		$this->load->view('backend/page_footer');
+		// $this->load->view('admin/setup',$output);	
 	}
 
+	//  library setup
 	function library_setup ()
 	{
 		$this->grocery_crud->set_table('library_info');
@@ -33,15 +40,14 @@ class Setup_con extends Backend_Controller {
 		$this->grocery_crud->set_field_upload('logo','img/company_photo');
 		$this->grocery_crud->unset_add();
 		$this->grocery_crud->unset_delete();
-		$output = $this->grocery_crud->render();
 
+		// Load view
+		$this->data['output'] = $this->grocery_crud->render();
 		$this->data['meta_title'] = 'Library Setup';
-		$this->load->view('backend/page_header', $this->data); 
-		$this->load->view('admin/setup',$output);
-		$this->load->view('backend/page_footer');
+		$this->lib_output($this->data);
 	}
 
-
+	// member add/setup
 	function member()
 	{
 		$base_url = base_url();
@@ -93,16 +99,21 @@ class Setup_con extends Backend_Controller {
 			$this->grocery_crud->change_field_type('varification_code','hidden');
 			$this->grocery_crud->change_field_type('varify_status','hidden');
     	}
-		$output = $this->grocery_crud->render();
-		// $this->lib_output($output);
-		
+
+    	// Load view
+    	$this->data['output'] = $this->grocery_crud->render();
 		$this->data['meta_title'] = 'Member Setup';
-		$this->load->view('backend/page_header', $this->data); 
-		$this->load->view('admin/setup',$output);
-		$this->load->view('backend/page_footer');
+		$this->lib_output($this->data);
 	}
 
-
+	// configure
+	function configure()
+	{
+		// Load view
+    	$this->data['meta_title'] = 'Configure';
+    	$this->data['subview'] = 'configure';
+    	$this->load->view('backend/_layout_main', $this->data);
+	}
 
 
 
@@ -1555,22 +1566,8 @@ class Setup_con extends Backend_Controller {
 	//-----------------------------------------------------------------------------------------------------
 	// Library Setup
 	//-----------------------------------------------------------------------------------------------------
-	/*function library_setup ()
-	{
-		$this->grocery_crud->set_table('library_info');
-		$this->grocery_crud->set_subject('Library Setup');
-		$this->grocery_crud->required_fields('library_name','address','mobile','phone');
-		$this->grocery_crud->set_field_upload('logo','img/company_photo');
-		$this->grocery_crud->unset_add();
-		$this->grocery_crud->unset_delete();
-		$output = $this->grocery_crud->render();
-		$this->lib_output($output);
-	}*/
 
-	function configure()
-	{
-		$this->load->view('configure');
-	}
+
 	
 	function index()
 	{

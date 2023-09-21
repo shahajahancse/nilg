@@ -5,21 +5,15 @@ class Transaction extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		date_default_timezone_set('Asia/Dhaka');
-		/* Standard Libraries */
-		$this->load->database();
-		$this->load->helper('url');
-		/* ------------------ */	
-		$this->load->model('processdb');
-		$this->load->library('form_validation');
-		$this->load->library('grocery_CRUD');	
-		/*if($this->session->userdata('logged_in')==FALSE)
-		{
-			redirect("authentication");
-		}
-		elseif($this->session->userdata('level')!=1)
-		redirect("authentication");*/
-		$this->load->model('acl_model');
+		if (!$this->ion_auth->logged_in()) :
+			redirect('login');
+		endif;
+
+	    $this->load->model('Common_model');
+		$this->load->model('Processdb');
+		$this->load->model('Acl_model');
+		$this->load->library('grocery_CRUD');
+
 		$access_level = 2;
 		$acl = $this->acl_model->acl_check($access_level);
 	}
