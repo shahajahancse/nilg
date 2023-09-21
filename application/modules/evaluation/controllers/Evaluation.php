@@ -743,6 +743,7 @@ class Evaluation extends Backend_Controller {
       // Pagination
       $this->data['pagination'] = create_pagination('evaluation/module_exam/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
       $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+      $this->data['courses'] = $this->db->select('id, course_title')->from('course')->where('status', 1)->get();
 
       // Load page
       $this->data['meta_title'] = 'মডিউল ভিত্তিক মূল্যায়ন প্রশ্নপত্রের তালিকা';
@@ -930,12 +931,49 @@ class Evaluation extends Backend_Controller {
       // Pagination
       $this->data['pagination'] = create_pagination('evaluation/pre_exam/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
       $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+      $this->data['courses'] = $this->db->select('id, course_title')->from('course')->where('status', 1)->get();
 
       // Load page
       $this->data['meta_title'] = 'প্রশিক্ষণপূর্ব মূল্যায়ন প্রশ্নপত্রের তালিকা';
       $this->data['subview'] = 'pre_exam';
       $this->load->view('backend/_layout_main', $this->data);
    }
+
+   public function ajax_evaluation_list($offset=0, $type=0){
+      $limit = 50;
+
+      // Get Session User Data
+      $office = $this->Common_model->get_office_info_by_session();
+      $officeID = $office->crrnt_office_id;
+      // dd($office);
+
+      // Check Auth
+      if($this->ion_auth->in_group('uz')){
+         $results = $this->Evaluation_model->get_evaluation($limit, $offset, $type, $officeID);
+      }elseif($this->ion_auth->in_group('ddlg')){
+         $results = $this->Evaluation_model->get_evaluation($limit, $offset, $type, $officeID);
+      }elseif($this->ion_auth->in_group('nilg')){
+         $results = $this->Evaluation_model->get_evaluation($limit, $offset, $type, $officeID);
+      }elseif($this->ion_auth->in_group('cc')){
+         $results = $this->Evaluation_model->get_evaluation_coordinate($limit, $offset, $type);
+      }elseif($this->ion_auth->is_admin()){
+         $results = $this->Evaluation_model->get_evaluation($limit, $offset, $type);
+      }else{
+         redirect('dashboard');
+      }
+      // dd($results);
+
+      $this->data['results'] = $results['rows'];  
+      $this->data['total_rows'] = $results['num_rows'];      
+      // Pagination
+      $this->data['pagination'] = create_pagination('evaluation/pre_exam/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+      $this->data['courses'] = $this->db->select('id, course_title')->from('course')->where('status', 1)->get();
+
+      // Load page
+      $text = $this->load->view('ajax_evaluation_list', $this->data, TRUE);
+      set_output($text); 
+   }
+   
 
    public function pre_exam_participant($id){
       $this->data['info'] = $this->Evaluation_model->get_evaluation_details($id);
@@ -1166,6 +1204,7 @@ class Evaluation extends Backend_Controller {
       // Pagination
       $this->data['pagination'] = create_pagination('evaluation/post_exam/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
       $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+      $this->data['courses'] = $this->db->select('id, course_title')->from('course')->where('status', 1)->get();
 
       // Load page
       $this->data['meta_title'] = 'প্রশিক্ষণ পরবর্তী মূল্যায়ন প্রশ্নপত্রের তালিকা';

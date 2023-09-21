@@ -1,0 +1,341 @@
+/* CSS Document */
+body{
+	font-family:verdana;
+	font-size:11px;
+	background:url("../img/company_photo/bg.jpg") repeat fixed 50% 0 #000000;
+	}
+#container {
+width:100%;
+height:auto;
+margin:0 auto;
+overflow:hidden;
+}
+
+#container #header {
+width:950px;
+height:auto;
+margin:0 auto;
+/*overflow:hidden;*/
+}
+
+#menu{
+width:100%; }
+
+#container #header #header_top {
+width:950px;
+height:124px;
+margin:0 auto;
+background:url("../images/head_img.gif")  right no-repeat #19A751;
+border-radius: 10px 10px 0 0;
+}
+
+#container #header #header_top #logo {
+width:132px;
+height:80px;
+float:left;
+position:relative;
+top:3px;
+left:2px;
+}
+
+#container #header #header_top #header_right {
+/*width:750px;
+height:40px;*/
+font-family:Arial, Helvetica, sans-serif;
+font-size:29px;
+color:#FFFFFF;
+width:84%;
+position: relative;
+top: 25px;
+float:right;
+/*font-weight:bold;*/
+}
+
+#container #header #header_top #header_right_bottom {
+/*width:720px;
+height:40px;*/
+float:left;
+margin-left:30px;
+margin-top:4px;
+font-family:Arial, Helvetica, sans-serif;
+font-size:12px;
+color:#B22222;
+/*font-style:italic;
+font-weight:bold;*/
+}
+
+#container #header #menu {
+/*width:900px;*/
+/*height:24px;*/
+margin:0 auto;
+height:24px;
+}
+
+
+.menu{
+/*padding-left:2px;*/
+width:950px;
+background:url("../images/menu-bg.jpg") repeat-x scroll 0 0 transparent;
+
+float:left;
+
+}	
+#manu_left{
+	color:white;
+	padding:0 7px 0px 7px;
+	}
+#manu_left_content{
+width:96%;
+border:1px solid #cccccc;
+background-image:url('../imagess/body_back.jpg');
+background-repeat:repeat-x;
+padding-bottom:10px;
+}
+
+
+
+.subcontent {
+width:100%;
+font-size:11px;
+padding:20px 0 20px;
+text-align:left;
+}
+
+.subcontent h1{
+font-size:13px;
+}
+.subcontent img {
+width:100px;
+
+border:0;
+padding:3px;
+margin-bottom:15px;
+-webkit-box-shadow: rgba(0,0,0,0.5) 2px 2px 2px; 
+-moz-box-shadow: rgba(0,0,0,0.5) 2px 2px 2px; /* FF 3.5+ */	
+}
+
+
+.subcontent a {
+color:#2D3691;
+text-decoration:none;
+}
+
+.subcontent a:hover {
+color:#000000;
+text-decoration:underline;
+}
+
+#container #header #slide {
+width:900px;
+height:auto;
+margin:10px auto;
+overflow:hidden;
+}
+
+
+#container #main {
+width:950px;
+height:auto;
+margin:0 auto;
+overflow:hidden;
+}
+
+
+
+ul.dropdown-vertical *.dir,
+ul.dropdown-upward ul *.dir {
+ background-image: url(images/nav-arrow-right.png);
+}
+
+ul.dropdown-vertical-rtl *.dir {
+ padding-right: 15px;
+ padding-left: 15px;
+ background-image: url(images/nav-arrow-left.png);
+ background-position: 0 50%;
+}
+
+#container #footer {
+width:900px;
+height:80px;
+margin:10px auto;
+overflow:hidden;
+background:url(image/footer_bg.png) top center no-repeat;
+}
+
+.con_title{
+padding-left:10px;
+background:#2D3691;
+color:#FFFFFF;
+}
+
+#login_content{
+background:#EAEFE9;
+padding-top:5px;
+padding-left:20px;
+
+}
+.login_head{
+}
+
+
+.arrowlistmenu{
+width: 100%; /*width of accordion menu*/
+margin:0 auto;
+text-align:center;
+}
+
+.arrowlistmenu .menuheader{ /*CSS class for menu headers in general (expanding or not!)*/
+font: bold 14px Arial;
+color: #000080;
+text-transform: none;
+padding: 8px 0; /*header text is indented 10px*/
+cursor: hand;
+cursor: pointer;
+}
+
+.arrowlistmenu .openheader{ /*CSS class to apply to expandable header when it's expanded*/
+background: #8FCD99;
+}
+
+.arrowlistmenu ul{ /*CSS for UL of each sub menu*/
+list-style-type: none;
+margin: 0;
+padding: 0;
+/*margin-bottom: 8px; *//*bottom spacing between each UL and rest of content*/
+}
+
+.arrowlistmenu ul li{
+padding-bottom: 2px; /*bottom spacing between menu items*/
+}
+
+.arrowlistmenu .static_sitemap{
+padding:5px;
+text-align:left;
+border-top:1px #800000 solid;
+}
+
+.arrowlistmenu a{
+color:#000000;
+}
+.arrowlistmenu a:visited{
+background-color:gray; /*bottom spacing between menu items*/
+}
+
+.arrowlistmenu :active{
+background:#CC99FF; /*bottom spacing between menu items*/
+color: #FFFFFF;
+}
+.arrowlistmenu .static_sitemap:hover{
+background-color:#8FCD99; /*bottom spacing between menu items*/
+}
+
+
+
+
+
+.arrowlistmenu li a{
+color: #000000;
+clear:both;
+text-decoration:none; /*bottom spacing between menu items*/
+font-weight:bold;
+}
+
+
+
+.arrowlistmenu ul li a{
+color: #A70303;
+background:url('../img/company_photo/right.gif') no-repeat center left; /*custom bullet list image*/
+display: block;
+padding: 2px 0;
+padding-left: 19px; /*link text is indented 19px*/
+text-decoration: none;
+font-weight: bold;
+border-bottom: 1px solid #dadada;
+font-size: 90%;
+}
+
+.arrowlistmenu ul li a:visited{
+color: gray;
+}
+
+.arrowlistmenu ul li a:hover{ /*hover state CSS*/
+color: #A70303;
+background-color: #C0C9EF;
+}
+
+.arrowlistmenu ul li a:active{
+color:#006600;
+clear:both;
+text-decoration:none;
+
+}
+#footer{
+	background-color: #19A751;
+	bottom: 0;
+	box-shadow: 0 -1px 2px #111111;
+	height: 45px;
+	left: 0;
+	position: relative;
+	width:950px;
+	margin:0 auto;
+	
+}
+
+#footer h2{
+	color: #EEEEEE;
+	font-size: 14px;
+	font-weight: normal;
+	left: 45%;
+	margin-left: -400px;
+	padding: 13px 0 0;
+	position: absolute;
+	width: 540px;
+}
+#footer h2 i{
+	font-style:normal;
+	color: #000000;
+}
+
+#footer a.tzine,a.tzine:visited{
+	color: #999999;
+	font-size: 12px;
+	left: 50%;
+	margin: 16px 0 0 110px;
+	position: absolute;
+	text-decoration: none;
+	top: 0;
+}
+
+#footer a i{
+	color:#ccc;
+	font-style: normal;
+}
+
+#footer a i b{
+	color:#c92020;
+	font-weight: normal;
+}
+
+.static_link_header
+{
+	font-size:medium; 
+	font-weight:bold; 
+	text-align:left;
+	color:#990000; 
+	border-bottom:1px #9BBB59 solid;
+}
+.static_link_td
+{
+	color: #000000;
+	font-size:14px;
+	font-family:arial;
+}
+.face_book
+{
+	background: none repeat scroll 0 0 #E6EED5;
+    border: 3px solid #19A751;
+    border-radius: 5px 5px 5px 5px;
+    margin: 17px;
+    padding: 8px 0 0;
+    text-align: center;
+}
