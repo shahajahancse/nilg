@@ -552,6 +552,30 @@
                   </li> -->
                <?php } ?>
 
+               <!-- Library Section -->
+               <?php if ($this->ion_auth->is_admin() && !$this->ion_auth->in_group('nilg')) { ?>
+                  <li class="start <?= backend_activate_menu_class('reports') ?>">
+                     <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title">লাইব্রেরি</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                     <ul class="sub-menu">
+                        <li>
+                           <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title">Setup Information </span> <span class="selected"></span> <span class="arrow"></span> </a>
+                           <ul class="sub-menu">
+                              <li> <a href="<?= base_url('library/setup_con/library_setup'); ?>"> Library Setup </a> </li>
+                              <li> <a href="<?= base_url('library/setup_con/member'); ?>"> Member Setup </a> </li>
+                           </ul>
+                        </li>
+                        <li>
+                           <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title"> Transaction </span> <span class="selected"></span> <span class="arrow"></span> </a>
+                           <ul class="sub-menu">
+                              <li> <a href="<?= base_url('reports/employee'); ?>"> কর্মকর্তা/কর্মচারী রিপোর্ট</a> </li>
+                              <li> <a href="<?= base_url('reports/employee'); ?>"> কর্মকর্তা/কর্মচারী রিপোর্ট</a> </li>
+                           </ul>
+                        </li>
+                     </ul>
+                  </li>
+               <?php } ?>
+
+               <!-- Report Section -->
                <?php if ($this->ion_auth->is_admin() && !$this->ion_auth->in_group('nilg')) { ?>
                   <li class="start <?= backend_activate_menu_class('reports') ?>">
                      <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title"><?= lang('reports_all') ?></span> <span class="selected"></span> <span class="arrow"></span> </a>
