@@ -61,7 +61,7 @@
                         }else if ($row->current_desk == 2 && $row->status == 2) {
                            $desk = '<span class="label label-primary">যুগ্মপরিচালক রিভিউ</span>';
                         }else if ($row->current_desk == 3 && $row->status == 2) {
-                           $desk = '<span class="label label-primary">মহাপরিচালক রিভিউ</span>';
+                           $desk = '<span class="label label-primary">পরিচালক (প্রশাসন ও সমন্বয়)</span>';
                         }else if ($row->current_desk == 4 && $row->status == 5) {
                            $desk = '<span class="label label-success">আইটেম ডেলিভারড</span>';
                         } else {

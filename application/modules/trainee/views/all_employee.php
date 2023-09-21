@@ -1,3 +1,5 @@
+<!-- < ?php dd($results)?> -->
+
 <style>
    @media only screen and  (max-width: 1140px){
     .tableresponsive {
@@ -66,7 +68,15 @@
                   ?>
                   <tr>
                     <td> <?=eng2bng($sl)?>. </td>
-                    <td> <a href="#"  data-toggle="modal" data-target="#myModal"><strong style="color:#36383a" data-serial_id="<?php echo encrypt_url($row->id)?>"><?=$row->name_bn?></strong> </a></td>
+                    <?php if ($this->ion_auth->is_admin() || $this->ion_auth->in_group(array('nilg','admin'))){ ?>
+                      <td> 
+                        <a href="#"  data-toggle="modal" data-target="#myModal">
+                          <strong data-serial_id="<?php echo encrypt_url($row->id)?>" data-user_name="<?=$row->name_bn?>" data-designation=" <?=$row->current_desig_name?>" data-sl_number_value="<?= $row->order_no?>"><?=$row->name_bn?></strong> 
+                        </a>
+                      </td>
+                    <?php }else{?>
+                    <td><strong ><?=$row->name_bn?></strong></td>
+                    <?php }?>
                     <td class='font-opensans'>  <?=$row->nid?> </td>
                     <td class='font-opensans'> <?=$row->mobile_no?> </td>
                     <td> <?=$row->current_desig_name?> </td>
@@ -100,17 +110,19 @@
                   <!-- Modal content -->
                   <div class="modal-content">
                     <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <button type="button" id="closeModalButton" class="close" data-dismiss="modal">&times;</button>
                       <h4 class="modal-title">ক্রম নম্বর পরিবর্তন </h4>
                     </div>
                     <!-- <form id="user_form"> -->
                       <div class="modal-body">
+                            <input type="text"  id="user_name" readonly>
+                            <input type="text"  id="designation" readonly>
                             <input type="number" placeholder='ক্রম নম্বর' id="sl_number_value">
                             <input type="hidden" id="user_id">
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-sm btn-success" data-dismiss="modal" id="form_submit">সংরক্ষণ করুন</button>
-                            <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">বন্ধ করুন</button>
+                            <button type="button" id="closeModalButton" class="btn btn-sm btn-danger" data-dismiss="modal">বন্ধ করুন</button>
                           </div>
                       </div>
                     <!-- </form>      -->
@@ -135,13 +147,19 @@
   </div>
 </div>
 
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
  <script>
 
 $(document).ready(function() {
       // var user_id;
     $("strong[data-serial_id]").click(function() {
+        var user_name = $(this).data("user_name");
+        var sl_number_value = $(this).data("sl_number_value");
+        var designation = $(this).data("designation");
         var user_idd = $(this).data("serial_id");
+        $('#sl_number_value').val(sl_number_value);
+        $('#user_name').val(user_name);
+        $('#designation').val(designation);
         $('#user_id').val(user_idd);
     });
 
@@ -153,21 +171,44 @@ $(document).ready(function() {
         $.ajax({
             url: url,
             method: "GET",
-            // cache: false,
+            Type: 'JSON',
             data: { user_id: user_id, sl_number_value: sl_number_value },
-            success: function(response) {
-              console.log(response); return false;
-              if(response.status == 'success'){
-                   $("#sl_number_value").val(""); 
-                   alert(response.message);
-                   console.log(response);
-              }
+            success: function(data) {
+                response = JSON.parse(data);
+                if (response.status === 'success') {
+                    $("#sl_number_value").val("");
+                    const Toast = Swal.mixin({
+                      toast: true,
+                      position: 'top-end',
+                      showConfirmButton: false,
+                      timer: 3000,
+                      timerProgressBar: true,
+                      didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                      }
+                    })
+                    Toast.fire({
+                      icon: 'success',
+                      title: response.message,
+                    }).then(function(){
+                      window.location.reload();
+                    })
+                }
             },
             error: function(xhr, status, error) {
-                console.error("Error: " + error);
+              console.error("Error: " + error);
             }
         });
+
     });
+
+
+    function hideModal() {
+        $("#myModal").css("display", "none");
+        $("#sl_number_value").val(""); // Reset the input field
+    }
+    $("#closeModalButton").click(hideModal);
 });
 
 </script>

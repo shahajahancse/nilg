@@ -112,7 +112,7 @@ class Trainee_model extends CI_Model {
     public function get_all_employee($limit=1000, $offset=0, $crrntOfficeID=NULL, $div_id=NULL, $dis_id=NULL, $upa_id=NULL, $union_id=NULL) {
 
         // result query
-        $this->db->select('u.id, u.name_bn, ot.office_type_name, o.office_name AS current_office_name,  dg.desig_name AS current_desig_name, u.nid, u.mobile_no, ut.upa_name_bn, uni.uni_name_bn, s.status_name');
+        $this->db->select('u.id,u.order_no, u.name_bn, ot.office_type_name, o.office_name AS current_office_name,  dg.desig_name AS current_desig_name, u.nid, u.mobile_no, ut.upa_name_bn, uni.uni_name_bn, s.status_name');
         $this->db->from('users u');
         $this->db->join('office_type ot', 'ot.id=u.office_type', 'LEFT');
         $this->db->join('office o', 'o.id=u.crrnt_office_id', 'LEFT');
