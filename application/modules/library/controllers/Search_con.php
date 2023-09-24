@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Search_con extends CI_Controller {
+class Search_con extends Backend_Controller {
 
 	function __construct()
 	{
@@ -14,17 +14,20 @@ class Search_con extends CI_Controller {
 		$this->load->model('acl_model');
 		$this->load->library('grocery_CRUD');	
 		$access_level = 3;
-		$acl = $this->acl_model->acl_check($access_level);
+		// <!-- $acl = $this->acl_model->acl_check($access_level); -->
 	}
 	
 	function lib_output($output = null)
 	{
-		$this->load->view('admin/setup.php',$output);	
+		// $this->load->view('admin/setup.php',$output);	
+		
+		$this->load->view('backend/page_header', $this->data); 
+		$this->load->view('admin/setup',$data['output']);
+		$this->load->view('backend/page_footer');
 	}
 	
 	function book_search_view()
-	{
-		
+	{	
 		$value = $this->input->post('check_key_name');
 		$key = $this->input->post('radioValue');
 	
@@ -38,15 +41,17 @@ class Search_con extends CI_Controller {
 		}
 		else
 		{
-			$this->load->view('search/book_search_view');
+			// $this->load->view('search/book_search_view');
+
+			$this->data['meta_title'] = 'Book Search';
+			$this->data['subview'] = 'search/book_search_view';
+			$this->load->view('backend/_layout_main', $this->data);
 		}
 	}
 	function book_show()
 	{
 		//echo "hello";
-		$this->load->view('search/book_search_view');
-	
-		
+	$this->data['subview'] = 'search/book_search_view';
 				$this->load->library('pagination');
 				$config['base_url'] = base_url().'index.php/search_con/book_show/';
 				$config['per_page'] = '3';
@@ -62,7 +67,8 @@ class Search_con extends CI_Controller {
 			}
 			else
 			{
-				$this->load->view('search/book_show',$search_query);
+				// $this->load->view('search/book_show',);
+				$this->load->view('backend/_layout_main',$search_query);
 			}
 	}
 	function test()
