@@ -178,6 +178,7 @@ class Setup_con extends Backend_Controller {
 	function member_paper_status()
 	{
 		$this->data['search_query'] = $this->Processdb->member_paper_status();
+		// dd($this->data['search_query']);
 
 		// Load view
     	$this->data['meta_title'] = 'Configure';

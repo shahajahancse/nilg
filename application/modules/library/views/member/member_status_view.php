@@ -10,7 +10,7 @@
 	    </ul>
 
 
-		<?php $requset_count = $requestins_sts->num_rows();
+		<?php $requset_count = $search_query['requestins_sts']->num_rows();
 			if(isset($acc_no)){
 				$issued_count = count($acc_no);
 			}	

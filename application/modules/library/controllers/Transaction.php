@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Transaction extends CI_Controller {
+class Transaction extends Backend_Controller {
 
 	function __construct()
 	{
@@ -9,25 +9,41 @@ class Transaction extends CI_Controller {
 			redirect('login');
 		endif;
 
-	    $this->load->model('Common_model');
+        $this->load->model('Common_model');
 		$this->load->model('Processdb');
 		$this->load->model('Acl_model');
-		$this->load->library('grocery_CRUD');
-
-		$access_level = 2;
-		$acl = $this->acl_model->acl_check($access_level);
+		$this->load->library('form_validation');
+		$this->load->library('grocery_CRUD');	
+		$access_level = 1;
+		// $acl = $this->Acl_model->acl_check($access_level);
 	}
+
+	// Manual Issue
+	/*function manual_issue_view()
+	{
+		$this->load->view('transaction/manual_issue_view');
+	}*/
+	
+	function manual_issue_view()
+	{
+		// Load view
+    	$this->data['meta_title'] = 'Manual Issu';
+    	$this->data['subview'] = 'transaction/manual_issue_view';
+    	$this->load->view('backend/_layout_main', $this->data);
+	}	
+
+
+
+
+
+
+
 	
 	function renew_view()
 	{
 		$this->load->view('transaction/renew_view');
 	}
 	
-
-	function manual_issue_view()
-	{
-		$this->load->view('transaction/manual_issue_view');
-	}
 	function manual_issue()
 	{
 		//$this->load->model('processdb');
