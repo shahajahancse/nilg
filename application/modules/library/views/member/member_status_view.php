@@ -65,4 +65,4 @@
   	</div> <!-- END ROW -->
 </div>
 
-<script type="text/javascript" src="<?php echo base_url();?>js/dynamic.js"></script>
+<script type="text/javascript" src="<?php echo base_url();?>assets/js/dynamic.js"></script>

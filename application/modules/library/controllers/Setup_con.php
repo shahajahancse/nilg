@@ -187,8 +187,15 @@ class Setup_con extends Backend_Controller {
 		// $this->load->view('member/member_status_view', $search_query);
 	}
 	
-
-
+	// Setup
+	function setup()
+	{
+		// $this->load->view('setup.php');
+		// Load view
+    	$this->data['meta_title'] = 'Setup';
+    	$this->data['subview'] = 'setup';
+    	$this->load->view('backend/_layout_main', $this->data);
+	}
 
 
 
@@ -407,10 +414,7 @@ class Setup_con extends Backend_Controller {
 		$this->load->view('mem_profile.php',$id);
 	}
 	
-	function setup()
-	{
-		$this->load->view('setup.php');
-	}
+
 	function user_actual_date_callback($post_array) 
 	{
 		$post_array['user_name'] = $this->session->userdata('mem_id');

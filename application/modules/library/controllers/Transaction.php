@@ -18,12 +18,9 @@ class Transaction extends Backend_Controller {
 		// $acl = $this->Acl_model->acl_check($access_level);
 	}
 
+
+	//================================================================
 	// Manual Issue
-	/*function manual_issue_view()
-	{
-		$this->load->view('transaction/manual_issue_view');
-	}*/
-	
 	function manual_issue_view()
 	{
 		// Load view
@@ -32,17 +29,45 @@ class Transaction extends Backend_Controller {
     	$this->load->view('backend/_layout_main', $this->data);
 	}	
 
-
-
-
-
-
-
-	
+	// Renew & Release
 	function renew_view()
 	{
-		$this->load->view('transaction/renew_view');
+		// Load view
+    	$this->data['meta_title'] = 'Renew & Release';
+    	$this->data['subview'] = 'transaction/renew_view';
+    	$this->load->view('backend/_layout_main', $this->data);
 	}
+
+	//======================Latest Eequest============================
+	//================================================================
+	function latest_request_view()
+	{
+		// $this->load->view('transaction/latest_request');
+		// Load view
+    	$this->data['meta_title'] = 'Latest Eequest';
+    	$this->data['subview'] = 'transaction/latest_request';
+    	$this->load->view('backend/_layout_main', $this->data);
+	}
+	//====================Latest Request==============================
+	
+
+	
+	//==================================All Request List=========================================
+	//===========================================================================================
+	function all_request_list()
+	{
+		$this->data['value']= $this->Processdb->all_request_list();
+		// Load view
+    	$this->data['meta_title'] = 'All Request List';
+    	$this->data['subview'] = 'transaction/all_request_list';
+    	$this->load->view('backend/_layout_main', $this->data);
+	}
+	
+
+
+
+
+
 	
 	function manual_issue()
 	{
@@ -178,15 +203,7 @@ class Transaction extends Backend_Controller {
 		}
 		$this->load->view('manual_issue_view');
 	}	
-	
-	//======================================Latest Eequest===========================================
-	//===============================================================================================
-	function latest_request_view()
-	{
-		$this->load->view('transaction/latest_request');
-		//return $result;
-	}
-	
+
 	function req_issued()
 	{
 		$val = $this->uri->segment(3);
@@ -250,14 +267,7 @@ class Transaction extends Backend_Controller {
 		}
 	}
 	
-	//==================================All Request List=========================================
-	//===========================================================================================
-	function all_request_list()
-	{
-		$search_query ['value']= $this->processdb->all_request_list();
-		$this->load->view('transaction/all_request_list',$search_query);
-	}
-	
+
 	function all_req_issued()
 	{
 		$val = $this->uri->segment(3);
@@ -325,9 +335,6 @@ class Transaction extends Backend_Controller {
 		}
 		$this->all_request_list();
 	}
-	
-	//===========================================Latest Request=======================================
-	//================================================================================================
 	
 
 	function ongoing_request() //Latest Request

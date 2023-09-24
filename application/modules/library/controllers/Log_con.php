@@ -1,35 +1,35 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Log_con extends CI_Controller {
+class Log_con extends Backend_Controller {
 
 	function __construct()
 	{
 		parent::__construct();
-		date_default_timezone_set('Asia/Dhaka');
-		/* Standard Libraries */
-		$this->load->database();
-		$this->load->helper('url');
-		/* ------------------ */	
-		$this->load->model('processdb');
-		$this->load->model('acl_model');
+		if (!$this->ion_auth->logged_in()) :
+			redirect('login');
+		endif;
+
+        $this->load->model('Common_model');
+		$this->load->model('Processdb');
+		$this->load->model('Grid_model');
+		$this->load->model('Acl_model');
 		$this->load->library('form_validation');
 		$this->load->library('grocery_CRUD');	
-		/*if($this->session->userdata('logged_in')==FALSE)
-		{
-			redirect("authentication");
-		}
-		elseif($this->session->userdata('level')!=1)
-		redirect("authentication");*/
-		$access_level = 5;
-		// $acl = $this->acl_model->acl_check($access_level);
+		$access_level = 1;
+		// $acl = $this->Acl_model->acl_check($access_level);
 	}
 	
 		
+	// library log
 	function library_log_view()
 	{
-		$this->load->view('library_log_view');
-		//return $result;
+		// Load view
+    	$this->data['meta_title'] = 'Library Log View';
+    	$this->data['subview'] = 'library_log_view';
+    	$this->load->view('backend/_layout_main', $this->data);
 	}
+
+
 	function member_log()
 	{
 		$this->grocery_crud->set_table('lib_log');

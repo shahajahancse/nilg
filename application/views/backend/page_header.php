@@ -560,6 +560,8 @@
                               <li class=" <?= activate_method('library_setup') ?>"> <a href="<?= base_url('library/setup_con/library_setup'); ?>"><span class="sub_menu_list" style="color:#673190"> Library Setup </span> </a> </li>
                               <li class="start <?= activate_method('member') ?>"> <a href="<?= base_url('library/setup_con/member'); ?>"><span class="sub_menu_list" style="color:#673190"> Member Setup </span> </a> </li>
                               <li class="start <?= activate_method('configure') ?>"> <a href="<?= base_url('library/setup_con/configure'); ?>"><span class="sub_menu_list" style="color:#673190"> Configure </span> </a> </li>
+                              <li class="start <?= activate_method('setup') ?>"> <a href="<?= base_url('library/setup_con/setup'); ?>"><span class="sub_menu_list" style="color:#673190"> Setup </span> </a> </li>
+
                               <li class="start <?= activate_method('barcode_config') ?>"> <a href="<?= base_url('library/setup_con/barcode_config'); ?>"><span class="sub_menu_list" style="color:#673190"> Barcode Generator </span> </a> </li>
                               <li class="start <?= activate_method('setup') ?>"> <a href="<?= base_url('library/setup_con/call_no_config'); ?>"><span class="sub_menu_list" style="color:#673190"> Call No. Generator </span> </a> </li>
                               <li class="start <?= activate_method('setup') ?>"> <a href="<?= base_url('library/setup_con/inven_setup'); ?>"><span class="sub_menu_list" style="color:#673190"> Inventory Setup </span> </a> </li>
