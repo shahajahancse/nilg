@@ -1,21 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<title>Personal Info</title><meta http-equiv="content-type" content="text/html" charset="UTF-8">
-<link rel="stylesheet" type="text/css" media="screen" href="<?php echo base_url(); ?>css/style.css" />
-<link href="<?php echo base_url(); ?>css/ci_functions.css" rel="stylesheet" type="text/css" />
 
-<script type="text/javascript" src="<?php echo base_url();?>js/dynamic.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>js/prototype.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>js/effects.js"></script>
-<script type="text/javascript" src="<?php echo base_url();?>js/controls.js"></script>
-<script type='text/javascript' src='<?php echo base_url();?>js/function_searchjournal.js'></script>
-
-
-
-</head>
-
-<body class="body_back">
 
 <?PHP
 
@@ -91,8 +74,23 @@ $cd = 'checked';
 ?>
 
 
+
+<div class="page-content">     
+  <div class="content">
+    <ul class="breadcrumb" style="margin-bottom: 20px;">
+      <li> <a href="<?=base_url('dashboard')?>" class="active"> ড্যাশবোর্ড </a> </li>
+      <li> <a href="<?=base_url('evaluation')?>" class="active"> জার্নাল </a></li>
+      <li><?=$meta_title; ?> </li>
+    </ul>
+
+<div class="grid simple horizontal red">
+  <div class="grid-title">
+    <h4><span class="semi-bold">জার্নাল অনুসন্ধান</span></h4>
+  </div>
+<div class="grid-body tableresponsive">
+
 <div align="center" style="margin:0 auto; width:100%; overflow:hidden; ">
-<fieldset style='width:727px;border:3px #004040 solid; padding:10px;border-radius:5px;'><legend><font size='+1'><b>Search Keys</b></font></legend>
+<fieldset style='border:3px #004040 solid; padding:10px;border-radius:5px;'><legend><font size='+1'><b>Search Keys</b></font></legend>
 <form  name='search_book' action="<?php echo base_url(); ?>index.php/search_con/journal_search_view"  method="post">
 <table width='100%' border='0' align='center' style='padding:10px; color:#285151; font-weight:bold; font-size:13px;'>
 
@@ -134,10 +132,10 @@ $cd = 'checked';
 </tr>
 
 <tr>
-  <td align='right' width='29%'>Search Keywords :</td>
-  <td> <input style='background-color:#cccccc;' type='text' size='27px' name='check_key_name' id='check_key_name' onkeyup="search_jou()" placeholder="Enter Search Key" value="<?php if (isset($_POST['check_key_name'])){echo $_POST['check_key_name'];} else{ echo $this->session->userdata('search_value');} ?>" required >
+   <td align='right' width='29%'>কীওয়ার্ড অনুসন্ধান করুন </td>
+  <td> <input style='background-color:#cccccc;' type='text' size='27px' name='check_key_name' id='check_key_name' onkeyup="search_jou()" placeholder="অনুসন্ধান কী লিখুন" value="<?php if (isset($_POST['check_key_name'])){echo $_POST['check_key_name'];} else{ echo $this->session->userdata('search_value');} ?>" required >
   <div  id="autocomplete_journal" class="autocomplete" style="width: auto;"></div></td>
- <td> <input  type="submit" name='search'  value='Search' class="submit" /></td>
+<td><input  type="submit" name='search'  value='অনুসন্ধান' class="submit btn btn-xs btn-success" /></td>
  <!-- <td><input  type="submit" name='search'  value='Search' /><input type="image" src='<?php echo base_url();?>img/library_button/submit.gif' alt="Submit" width="80" height="25"  class="submit"/></td>-->
 </tr></table>
 </form>
@@ -145,6 +143,9 @@ $cd = 'checked';
 
 </fieldset>
 </div>
+</div>
+</div>
 
-</body>
-</html>
+
+  </div> <!-- END ROW -->
+</div>
