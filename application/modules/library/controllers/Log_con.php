@@ -21,7 +21,7 @@ class Log_con extends CI_Controller {
 		elseif($this->session->userdata('level')!=1)
 		redirect("authentication");*/
 		$access_level = 5;
-		$acl = $this->acl_model->acl_check($access_level);
+		// $acl = $this->acl_model->acl_check($access_level);
 	}
 	
 		
