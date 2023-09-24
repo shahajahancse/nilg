@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Transaction extends CI_Controller {
+class Transaction extends Backend_Controller {
 
 	function __construct()
 	{
@@ -9,25 +9,66 @@ class Transaction extends CI_Controller {
 			redirect('login');
 		endif;
 
-	    $this->load->model('Common_model');
+        $this->load->model('Common_model');
 		$this->load->model('Processdb');
 		$this->load->model('Acl_model');
-		$this->load->library('grocery_CRUD');
-
-		$access_level = 2;
-		$acl = $this->acl_model->acl_check($access_level);
+		$this->load->library('form_validation');
+		$this->load->library('grocery_CRUD');	
+		$access_level = 1;
+		// $acl = $this->Acl_model->acl_check($access_level);
 	}
-	
-	function renew_view()
-	{
-		$this->load->view('transaction/renew_view');
-	}
-	
 
+
+	//================================================================
+	// Manual Issue
 	function manual_issue_view()
 	{
-		$this->load->view('transaction/manual_issue_view');
+		// Load view
+    	$this->data['meta_title'] = 'Manual Issu';
+    	$this->data['subview'] = 'transaction/manual_issue_view';
+    	$this->load->view('backend/_layout_main', $this->data);
+	}	
+
+	// Renew & Release
+	function renew_view()
+	{
+		// Load view
+    	$this->data['meta_title'] = 'Renew & Release';
+    	$this->data['subview'] = 'transaction/renew_view';
+    	$this->load->view('backend/_layout_main', $this->data);
 	}
+
+	//======================Latest Eequest============================
+	//================================================================
+	function latest_request_view()
+	{
+		// $this->load->view('transaction/latest_request');
+		// Load view
+    	$this->data['meta_title'] = 'Latest Eequest';
+    	$this->data['subview'] = 'transaction/latest_request';
+    	$this->load->view('backend/_layout_main', $this->data);
+	}
+	//====================Latest Request==============================
+	
+
+	
+	//==================================All Request List=========================================
+	//===========================================================================================
+	function all_request_list()
+	{
+		$this->data['value']= $this->Processdb->all_request_list();
+		// Load view
+    	$this->data['meta_title'] = 'All Request List';
+    	$this->data['subview'] = 'transaction/all_request_list';
+    	$this->load->view('backend/_layout_main', $this->data);
+	}
+	
+
+
+
+
+
+	
 	function manual_issue()
 	{
 		//$this->load->model('processdb');
@@ -162,15 +203,7 @@ class Transaction extends CI_Controller {
 		}
 		$this->load->view('manual_issue_view');
 	}	
-	
-	//======================================Latest Eequest===========================================
-	//===============================================================================================
-	function latest_request_view()
-	{
-		$this->load->view('transaction/latest_request');
-		//return $result;
-	}
-	
+
 	function req_issued()
 	{
 		$val = $this->uri->segment(3);
@@ -234,14 +267,7 @@ class Transaction extends CI_Controller {
 		}
 	}
 	
-	//==================================All Request List=========================================
-	//===========================================================================================
-	function all_request_list()
-	{
-		$search_query ['value']= $this->processdb->all_request_list();
-		$this->load->view('transaction/all_request_list',$search_query);
-	}
-	
+
 	function all_req_issued()
 	{
 		$val = $this->uri->segment(3);
@@ -309,9 +335,6 @@ class Transaction extends CI_Controller {
 		}
 		$this->all_request_list();
 	}
-	
-	//===========================================Latest Request=======================================
-	//================================================================================================
 	
 
 	function ongoing_request() //Latest Request

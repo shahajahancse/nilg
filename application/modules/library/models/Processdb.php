@@ -604,7 +604,7 @@ class Processdb extends CI_Model{
 	
 	function member_info($mem_id)
 	{
-	 $this->db->select('*')->from('member')->where('mem_id', $mem_id);
+	 $this->db->select('*')->from('lib_member')->where('mem_id', $mem_id);
 	 $mem_info = $this->db->get();
 	 return $mem_info;
 	}

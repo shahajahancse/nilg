@@ -1,34 +1,33 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Report_con extends CI_Controller {
+class Report_con extends Backend_Controller {
 
 	function __construct()
 	{
 		parent::__construct();
-		date_default_timezone_set('Asia/Dhaka');
-		/* Standard Libraries */
-		$this->load->database();
-		$this->load->helper('url');
-		/* ------------------ */	
-		$this->load->model('processdb');
+		if (!$this->ion_auth->logged_in()) :
+			redirect('login');
+		endif;
+
+        $this->load->model('Common_model');
+		$this->load->model('Processdb');
+		$this->load->model('Acl_model');
 		$this->load->library('form_validation');
 		$this->load->library('grocery_CRUD');	
-		/*if($this->session->userdata('logged_in')==FALSE)
-		{
-			redirect("authentication");
-		}
-		elseif($this->session->userdata('level')!=1)
-		redirect("authentication");*/
-		$this->load->model('processdb');
-		$this->load->model('acl_model');
-		$access_level = 4;
-		// $acl = $this->acl_model->acl_check($access_level);
+		$access_level = 1;
+		// $acl = $this->Acl_model->acl_check($access_level);
 	}
+
+
 	
 	function report()
-	{
-		$this->load->view('report/report_view');	
+	{	
+
+		$this->data['meta_title'] = 'Report';
+    	$this->data['subview'] = 'report/report_view';
+    	$this->load->view('backend/_layout_main', $this->data);
 	}
+
 	
 	function fine_report()
 	{

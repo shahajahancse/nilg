@@ -1,28 +1,41 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Maintenance_con extends CI_Controller {
+class Maintenance_con extends Backend_Controller {
 
 	function __construct()
 	{
 		parent::__construct();
-		date_default_timezone_set('Asia/Dhaka');
-		/* Standard Libraries */
-		$this->load->database();
-		$this->load->helper('url');
-		/* ------------------ */	
-		$this->load->model('processdb');
-		$this->load->model('acl_model');
+		if (!$this->ion_auth->logged_in()) :
+			redirect('login');
+		endif;
+
+        $this->load->model('Common_model');
+		$this->load->model('Processdb');
+		$this->load->model('Grid_model');
+		$this->load->model('Acl_model');
 		$this->load->library('form_validation');
 		$this->load->library('grocery_CRUD');	
 		$access_level = 6;
-		$acl = $this->acl_model->acl_check($access_level);
+		$acl = $this->Acl_model->acl_check($access_level);
 	}
 	
+	function lib_output($data = null)
+	{
+
+		$this->load->view('backend/page_header', $this->data); 
+		$this->load->view('admin/setup',$data['output']);
+		$this->load->view('backend/page_footer');
+		// $this->load->view('admin/setup',$output);	
+	}
+
 		
 	function database_backup_view()
 	{
-		$this->load->view('database_backup');
-		//return $result;
+		// $this->load->view('database_backup');
+		// Load view
+    	$this->data['meta_title'] = 'Full Database Backup';
+    	$this->data['subview'] = 'database_backup';
+    	$this->load->view('backend/_layout_main', $this->data);
 	}
 	
 	//-----------------------------------------------------------------------------------------------------
@@ -68,8 +81,11 @@ class Maintenance_con extends CI_Controller {
 		//$this->grocery_crud->unset_add();
 		//$this->grocery_crud->unset_delete();
 		$this->grocery_crud->callback_after_upload(array($this,'personnel_dictionary_callback_after_upload'));
-		$output = $this->grocery_crud->render();
-		$this->lib_output($output);
+
+		// Load view
+		$this->data['output'] = $this->grocery_crud->render();
+		$this->data['meta_title'] = 'Personnel Dictionary';
+		$this->lib_output($this->data);
 	}
 	
 	function personnel_dictionary_callback_after_upload($uploader_response,$field_info, $files_to_upload)
@@ -92,8 +108,11 @@ class Maintenance_con extends CI_Controller {
 		//$this->grocery_crud->unset_add();
 		$this->grocery_crud->callback_after_upload(array($this,'slide_callback_after_upload'));
 		//$this->grocery_crud->unset_delete();
-		$output = $this->grocery_crud->render();
-		$this->lib_output($output);
+
+		// Load view
+		$this->data['output'] = $this->grocery_crud->render();
+		$this->data['meta_title'] = 'Slide Image';
+		$this->lib_output($this->data);
 	}
 	
 	function slide_callback_after_upload($uploader_response,$field_info, $files_to_upload)
@@ -115,8 +134,11 @@ class Maintenance_con extends CI_Controller {
 		$this->grocery_crud->set_field_upload('image','img/front_page');
 		//$this->grocery_crud->unset_add();
 		$this->grocery_crud->unset_delete();
-		$output = $this->grocery_crud->render();
-		$this->lib_output($output);
+
+		// Load view
+		$this->data['output'] = $this->grocery_crud->render();
+		$this->data['meta_title'] = 'Front Content';
+		$this->lib_output($this->data);
 	}
 	
 	//-----------------------------------------------------------------------------------------------------
@@ -131,14 +153,18 @@ class Maintenance_con extends CI_Controller {
 		$this->grocery_crud->set_relation('y_of_pub','lib_pub_year','pub_year');
 		$this->grocery_crud->set_relation('type','lib_download_type','download_type');
 		$this->grocery_crud->display_as('y_of_pub','Year of Pub.');
-		$this->grocery_crud->set_relation('edition','edition','edition_name');
+		$this->grocery_crud->set_relation('edition','lib_edition','edition_name');
 		$this->grocery_crud->callback_before_insert(array($this,'user_actual_date_callback'));
 		$this->grocery_crud->callback_before_update(array($this,'user_actual_date_callback'));
 		$this->grocery_crud->unset_columns('sys_date','user_name');
 		$this->grocery_crud->field_type('sys_date','invisible')->field_type('user_name','invisible');
-		$output = $this->grocery_crud->render();
-		$this->lib_output($output);
+
+		// Load view
+		$this->data['output'] = $this->grocery_crud->render();
+		$this->data['meta_title'] = 'Digital Collection';
+		$this->lib_output($this->data);
 	}
+
 	function user_actual_date_callback($post_array) 
 	{
 		$post_array['user_name'] = $this->session->userdata('mem_id');
@@ -152,10 +178,6 @@ class Maintenance_con extends CI_Controller {
 		
 		$output = $this->grocery_crud->render();
 		$this->lib_output($output);
-	}
-	function lib_output($output = null)
-	{
-		$this->load->view('admin/setup.php',$output);	
 	}
 	
 }
