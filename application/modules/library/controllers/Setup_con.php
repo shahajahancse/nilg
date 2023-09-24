@@ -20,7 +20,9 @@ class Setup_con extends Backend_Controller {
 	}
 
 	/*
-		setup section 
+		//------------------------------------------------------------------------------------------
+		// Library Setup
+		//-------------------------------------------------------------------------------------------
 	*/
 	function lib_output($data = null)
 	{
@@ -114,6 +116,87 @@ class Setup_con extends Backend_Controller {
     	$this->data['subview'] = 'configure';
     	$this->load->view('backend/_layout_main', $this->data);
 	}
+
+	// barcode configure
+	function barcode_config()
+	{
+		// Load view
+    	$this->data['meta_title'] = 'Barcode';
+    	$this->data['subview'] = 'barcode_config';
+    	$this->load->view('backend/_layout_main', $this->data);
+	}	
+
+	// Call No. Generator
+	function callno_generate()
+	{
+
+		$this->data["call_text"] = $this->input->post('call_text');
+		$this->data["call_no"] = $this->input->post('call_no');
+		$this->data["print_qty"] = $this->input->post('print_qty');
+
+		// $this->load->view('callno_print',$this->data);
+
+		// Load view
+    	$this->data['meta_title'] = 'Call No. Generator';
+    	$this->data['subview'] = 'callno_print';
+    	$this->load->view('backend/_layout_main', $this->data);
+	}
+
+	// Call No. config
+	function call_no_config()
+	{
+		// $this->load->view('call_no_config');
+		// Load view
+    	$this->data['meta_title'] = 'Call No. Generator';
+    	$this->data['subview'] = 'call_no_config';
+    	$this->load->view('backend/_layout_main', $this->data);
+	}
+
+	// Inventory setup
+	function inven_setup()
+	{
+		$this->grocery_crud->set_table('library_accessories');
+		$this->grocery_crud->set_subject('Inventory Setup');
+		$this->grocery_crud->required_fields('accessories_name','total');
+		$this->grocery_crud->set_rules('accessories_name','Accessories_name','trim|required|callback_accessories_check');
+		$this->grocery_crud->columns('accessories_name','total','remarks','last_updated');
+		$this->grocery_crud->fields('accessories_name','total','remarks','last_updated');
+		$this->grocery_crud->callback_before_insert(array($this,'checking_update_date'));
+		$this->grocery_crud->callback_before_update(array($this,'checking_update_date'));
+		$this->grocery_crud->change_field_type('last_updated','hidden');
+
+		// Load view
+		$this->data['output'] = $this->grocery_crud->render();
+		$this->data['meta_title'] = 'Inventory Setup';
+		$this->lib_output($this->data);
+
+		// $output = $this->grocery_crud->render();
+		// $this->lib_output($output);
+	}
+
+	// member paper
+	function member_paper_status()
+	{
+		$this->data['search_query'] = $this->Processdb->member_paper_status();
+
+		// Load view
+    	$this->data['meta_title'] = 'Configure';
+    	$this->data['subview'] = 'member/member_status_view';
+    	$this->load->view('backend/_layout_main', $this->data);
+		// $this->load->view('member/member_status_view', $search_query);
+	}
+	
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1370,21 +1453,6 @@ class Setup_con extends Backend_Controller {
 	
 	//===================================================End Report=========================================
 	//===============================================================================================================
-
-	function inven_setup()
-	{
-		$this->grocery_crud->set_table('library_accessories');
-		$this->grocery_crud->set_subject('Inventory Setup');
-		$this->grocery_crud->required_fields('accessories_name','total');
-		$this->grocery_crud->set_rules('accessories_name','Accessories_name','trim|required|callback_accessories_check');
-		$this->grocery_crud->columns('accessories_name','total','remarks','last_updated');
-		$this->grocery_crud->fields('accessories_name','total','remarks','last_updated');
-		$this->grocery_crud->callback_before_insert(array($this,'checking_update_date'));
-		$this->grocery_crud->callback_before_update(array($this,'checking_update_date'));
-		$this->grocery_crud->change_field_type('last_updated','hidden');
-		$output = $this->grocery_crud->render();
-		$this->lib_output($output);
-	}
 	
 	public function accessories_check($str)
 	{
@@ -1580,43 +1648,18 @@ class Setup_con extends Backend_Controller {
 	}
 
 	
-	function barcode_config()
-	{
-		$this->load->view('barcode_config');
-	}	
-	
 	function barcode_generator()
 	{
 		$result = $this->processdb->barcode_generator_db();
 		echo $result;
 		//return $result;
 	}
-	
-	function call_no_config()
-	{
-		$this->load->view('call_no_config');
-	}
-	
-	function callno_generate()
-	{
-		$data = array();
-		$data["call_text"] = $this->input->post('call_text');
-		$data["call_no"] = $this->input->post('call_no');
-		$data["print_qty"] = $this->input->post('print_qty');
-		$this->load->view('callno_print',$data);
-	}
+
 	
 	function type_insert($post_array)
     {
 		$post_array['type'] = "visitor";
 		return $post_array; 
 	}
-	
-	function member_paper_status()
-	{
-		$search_query = $this->processdb->member_paper_status();
-		$this->load->view('member/member_status_view',$search_query);
-	}
-	
-	
+		
 }

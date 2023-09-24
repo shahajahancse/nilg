@@ -17,12 +17,12 @@ class Processdb extends CI_Model{
 		//echo $key;
 		if($key == "radioValue_null" || $value == "check_key_name_null")
 		{
-			$query = $this->db->get('books');
+			$query = $this->db->get('lib_books');
 		}
 		else
 		{
 			$this->db->like($key,$value);
-			$query = $this->db->get('books');
+			$query = $this->db->get('lib_books');
 		}	
 		$num_rows = $query->num_rows();
 		if($num_rows)
@@ -57,7 +57,7 @@ class Processdb extends CI_Model{
 	{
 		$this->db->select('edition_name');
 		$this->db->where('id',$edition);
-		$query = $this->db->get('edition');
+		$query = $this->db->get('lib_edition');
 		foreach ($query->result() as $row)
 		{
 			$edt_result = $row->edition_name;
@@ -69,7 +69,7 @@ class Processdb extends CI_Model{
 	{
 		$this->db->select('language_name');
 		$this->db->where('id',$language);
-		$query = $this->db->get('language');
+		$query = $this->db->get('lib_language');
 		foreach ($query->result() as $row)
 		{
 			$lang_result = $row->language_name;
@@ -81,7 +81,7 @@ class Processdb extends CI_Model{
 	{
 		$this->db->select('source_name');
 		$this->db->where('id',$source);
-		$query = $this->db->get('source');
+		$query = $this->db->get('lib_source');
 		foreach ($query->result() as $row)
 		{
 			$src_result = $row->source_name;
@@ -92,7 +92,7 @@ class Processdb extends CI_Model{
 	function idcard_grid()
 	{
 		$this->db->select('*');
-		$this->db->from('member_type');
+		$this->db->from('lib_member_type');
 		$query = $this->db->get();
 		$data1 = array();
 		$data2 = array();
@@ -189,7 +189,7 @@ class Processdb extends CI_Model{
 			$this->db->where('group_no', $group_no);
 			$this->db->where('acc_no', $acc_no);
 			$this->db->where('status', $requesting);
-			$this->db->update('booking', $data);
+			$this->db->update('lib_booking', $data);
 			return "suceessfully Issued";
 		}
 		else
@@ -206,7 +206,7 @@ class Processdb extends CI_Model{
 			'sys_date' => $issued_date
 			);
 			
-			$this->db->insert('booking', $data);
+			$this->db->insert('lib_booking', $data);
 			return "suceessfully Issued"; 
 		}
 	}
@@ -233,7 +233,7 @@ class Processdb extends CI_Model{
 			$this->db->where('group_no', $group_no);
 			$this->db->where('acc_no', $acc_no);
 			$this->db->where('status', $requesting);
-			$this->db->update('booking', $data);
+			$this->db->update('lib_booking', $data);
 			return "suceessfully Cancel"; 
 		
 	}
@@ -263,7 +263,7 @@ class Processdb extends CI_Model{
 	{
 		$this->db->where('mem_id',$mem_id);
 		$this->db->where('group_no',$group_no);
-		$query = $this->db->get('booking');
+		$query = $this->db->get('lib_booking');
 		$data = array();
 		foreach ($query->result() as $row)
 		{
@@ -280,7 +280,7 @@ class Processdb extends CI_Model{
 		$this->db->where('group_no',$isbn_or_issn);
 		$this->db->where('mem_id',$mem_id);
 		$this->db->where('status',$status);
-		$this->db->from('booking');
+		$this->db->from('lib_booking');
 		$status =  $this->db->count_all_results();
 		return $status;
 	}
@@ -291,7 +291,7 @@ class Processdb extends CI_Model{
 		$this->db->where_not_in('mem_id',$mem_id);
 		$this->db->where('acc_no',$issue_acc_no);
 		$this->db->where('status',$status);
-		$this->db->from('booking');
+		$this->db->from('lib_booking');
 		$status =  $this->db->count_all_results();
 		return $status;
 	}
@@ -301,7 +301,7 @@ class Processdb extends CI_Model{
 		//echo $isbn_or_issn;
 		$this->db->where('acc_no',$issue_acc_no);
 		$this->db->where('status',$status);
-		$this->db->from('booking');
+		$this->db->from('lib_booking');
 		$status =  $this->db->count_all_results();
 		return $status;
 	}
@@ -311,14 +311,14 @@ class Processdb extends CI_Model{
 	{
 		$this->db->select('*');
 		$this->db->where('id',$mem_type_id);
-		$query = $this->db->get('member_type');
+		$query = $this->db->get('lib_member_type');
 		return $query;
 	}
 	function member_check($mem_id)
 	{
 		$this->db->select('mem_type');
 		$this->db->where('mem_id',$mem_id);
-		$query = $this->db->get('member');
+		$query = $this->db->get('lib_member');
 		foreach ($query->result() as $row)
 		{
 			$mem_type_id = $row->mem_type;
@@ -331,7 +331,7 @@ class Processdb extends CI_Model{
 		//$mem_id = $this->session->userdata('mem_id');
 		$this->db->where('mem_id',$mem_id);
 		$this->db->where('status',$status);
-		$this->db->from('booking');
+		$this->db->from('lib_booking');
 		$no_status =  $this->db->count_all_results();
 		return $no_status;
 	}
@@ -342,7 +342,7 @@ class Processdb extends CI_Model{
 		$this->db->select('*');
 		$this->db->where('mem_id',$mem_id);
 		$this->db->where('status',$book_issued);
-		$query = $this->db->get('booking');
+		$query = $this->db->get('lib_booking');
 		return $query;
 	}
 	
@@ -378,7 +378,7 @@ class Processdb extends CI_Model{
 				$this->db->where('mem_id', $mem_id);
 				$this->db->where('acc_no', $acc_no);
 				$this->db->where('book_iss_id', $book_iss_id);
-				$this->db->update('fine_table', $fine_data);
+				$this->db->update('lib_fine_table', $fine_data);
 			}
 			$data = array(
 			'release_date' => $release_date,
@@ -391,7 +391,7 @@ class Processdb extends CI_Model{
 			//$this->db->where('acc_no', $acc_no);
 			$this->db->where('id', $book_iss_id);
 			$this->db->where('status', $issued);
-			$this->db->update('booking', $data);
+			$this->db->update('lib_booking', $data);
 			return "Successfully Release";
 			
 	}
@@ -511,7 +511,7 @@ class Processdb extends CI_Model{
 		$this->db->select('*');
 		$this->db->where('acc_no',$acc_no);
 		$this->db->where('status',$status);
-		$query = $this->db->get('booking');
+		$query = $this->db->get('lib_booking');
 		return $query;
 	}
 	function paper_info($isbn_or_issn,$selected_radio)
@@ -575,7 +575,7 @@ class Processdb extends CI_Model{
 	{
 			$this->db->where('group_no',$isbn_or_issn);
 			$this->db->where('status',$book_text);
-			$this->db->from('booking');
+			$this->db->from('lib_booking');
 			$book_text =  $this->db->count_all_results();
 			return $book_text;
 	}
@@ -735,14 +735,14 @@ class Processdb extends CI_Model{
 					if($past_fine_test == 1)//1 for insert
 					{
 						$insert = $this->fine_data($mem_id,$acc_no,$group_no,$iss_id,$iss_date,$getdays,$fine);
-						$this->db->insert('fine_table', $insert); 
+						$this->db->insert('lib_fine_table', $insert); 
 						//echo "insert succesfull";
 					}
 					else
 					{
 						$update = $this->fine_data($mem_id,$acc_no,$group_no,$iss_id,$iss_date,$getdays,$fine);
 						$this->db->where('book_iss_id',$iss_id);
-						$this->db->update('fine_table', $update);
+						$this->db->update('lib_fine_table', $update);
 						//echo "Update succesfull"; 
 					}
 					$data["id"]=$iss_id;
@@ -765,7 +765,7 @@ class Processdb extends CI_Model{
 		$this->db->where('mem_id',$mem_id);
 		$this->db->where('acc_no',$acc_no);
 		$this->db->where('status',$book_issued);
-		$query = $this->db->get('booking');
+		$query = $this->db->get('lib_booking');
 		return $query;
 	}
 	
@@ -788,7 +788,7 @@ class Processdb extends CI_Model{
 	function all_request_list()
 	{
 		$book_request = "Requesting";
-		$table_book = "booking";
+		$table_book = "lib_booking";
 		$query = $this->collect_list($book_request,$table_book);
 		foreach ($query->result() as $row)
 		{ 
@@ -973,7 +973,7 @@ class Processdb extends CI_Model{
 	
 	function member_status($mem_id,$status)
 	{
-		$this->db->select('*')->from('booking')->where('mem_id', $mem_id)->where('status', $status);
+		$this->db->select('*')->from('lib_booking')->where('mem_id', $mem_id)->where('status', $status);
 		$query = $this->db->get();
 		return $query;
 		
@@ -1020,7 +1020,7 @@ class Processdb extends CI_Model{
 		$book_issued = 'Issued';
 		$this->db->select('*');
 		$this->db->where('status',$book_issued);
-		$query = $this->db->get('booking');
+		$query = $this->db->get('lib_booking');
 		foreach ($query->result() as $row)
 		{	
 			$book_iss_id = $row->id;
@@ -1070,14 +1070,14 @@ class Processdb extends CI_Model{
 					if($past_fine_test == 1)//1 for insert
 					{
 						$insert = $this->fine_data($mem_id,$acc_no,$group_no,$book_iss_id,$iss_date,$getdays,$fine);
-						$this->db->insert('fine_table', $insert); 
+						$this->db->insert('lib_fine_table', $insert); 
 						//echo "insert succesfull";
 					}
 					else
 					{
 						$update = $this->fine_data($mem_id,$acc_no,$group_no,$book_iss_id,$iss_date,$getdays,$fine);
 						$this->db->where('book_iss_id',$book_iss_id);
-						$this->db->update('fine_table', $update);
+						$this->db->update('lib_fine_table', $update);
 						//echo "Update succesfull"; 
 					}
 					
@@ -1138,7 +1138,7 @@ class Processdb extends CI_Model{
 	{
 		$insert = 1;
 		$this->db->where('book_iss_id',$book_iss_id);
-		$query = $this->db->get('fine_table');
+		$query = $this->db->get('lib_fine_table');
 		if($query->num_rows() == 0)
 		{
 			return $insert;
@@ -1149,7 +1149,7 @@ class Processdb extends CI_Model{
 	{
 		$this->db->select('*');
 		$this->db->where('fine_recetpt_no',0);
-		$query = $this->db->get('fine_table');
+		$query = $this->db->get('lib_fine_table');
 		foreach ($query->result() as $row)
 		{
 			$mem_id = $row->mem_id ;
@@ -1198,7 +1198,7 @@ class Processdb extends CI_Model{
 			$data["designation"] =$designation ;
 			$data["image"] =$mem_image ;
 			$book_request = "Requesting";
-			$table_book = "booking";
+			$table_book = "lib_booking";
 			$query = $this->collectpaper_list($book_request,$table_book,$mem_id);
 			if($query->num_rows()==0)
 			{
