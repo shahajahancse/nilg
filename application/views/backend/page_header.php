@@ -591,14 +591,26 @@
                         <li class="start <?= activate_class('report') ?>"> 
                            <a href="javascript:;"> <i class="fa fa-user"></i> <span style="color:#673190">Report</span><span class="arrow"></span></a>
                            <ul class="sub-menu">
-                              <li class=" <?= activate_method('report_view') ?>"> <a href="<?= base_url('library/report_con/report'); ?>"><span class="sub_menu_list" style="color:#673190"> Report </span> </a> </li>
+                              <li class=" <?= activate_method('report') ?>"> <a href="<?= base_url('library/report_con/report'); ?>"><span class="sub_menu_list" style="color:#673190"> Report </span> </a> </li>
                                </ul>
                         </li>
 
-                        <li class="start <?= activate_class('entry_info') ?>"> 
+                        <li class="start <?= activate_class('log_con') ?>"> 
                            <a href="javascript:;"> <i class="fa fa-user"></i> <span style="color:#673190">Enatry Info</span><span class="arrow"></span></a>
                            <ul class="sub-menu">
-                              <li class=" <?= activate_method('log_view') ?>"> <a href="<?= base_url('library/log_con/library_log_view'); ?>"><span class="sub_menu_list" style="color:#673190"> Log Module </span> </a> </li>
+                              <li class=" <?= activate_method('library_log_view') ?>"> <a href="<?= base_url('library/log_con/library_log_view'); ?>"><span class="sub_menu_list" style="color:#673190"> Log Module </span> </a> </li>
+                           </ul>
+                        </li>
+
+                        <li class="start <?= activate_class('acl_con') ?> <?= activate_class('maintenance_con') ?> "> 
+                           <a href="javascript:;"> <i class="fa fa-user"></i> <span style="color:#673190">Maintenance</span><span class="arrow"></span></a>
+                           <ul class="sub-menu">
+                              <li class=" <?= activate_method('acl') ?>"> <a href="<?= base_url('library/acl_con/acl'); ?>"><span class="sub_menu_list" style="color:#673190"> ACL </span> </a> </li>
+                              <li class=" <?= activate_method('database_backup_view') ?>"> <a href="<?= base_url('library/maintenance_con/database_backup_view'); ?>"><span class="sub_menu_list" style="color:#673190">  Backup </span> </a> </li>
+                              <li class=" <?= activate_method('front_page_content') ?>"> <a href="<?= base_url('library/maintenance_con/front_page_content'); ?>"><span class="sub_menu_list" style="color:#673190"> Front Page Content </span> </a> </li>
+                              <li class=" <?= activate_method('personnel_dictionary') ?>"> <a href="<?= base_url('library/maintenance_con/personnel_dictionary'); ?>"><span class="sub_menu_list" style="color:#673190"> Personnel Dictionary </span> </a> </li>
+                              <li class=" <?= activate_method('slide_image') ?>"> <a href="<?= base_url('library/maintenance_con/slide_image'); ?>"><span class="sub_menu_list" style="color:#673190"> Slide Image </span> </a> </li>
+                              <li class=" <?= activate_method('digital_colection') ?>"> <a href="<?= base_url('library/maintenance_con/digital_colection'); ?>"><span class="sub_menu_list" style="color:#673190"> Digital Collection </span> </a> </li>
                            </ul>
                         </li>
                         
