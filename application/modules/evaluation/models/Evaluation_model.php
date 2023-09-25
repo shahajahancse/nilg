@@ -555,41 +555,25 @@ class Evaluation_model extends CI_Model {
         $this->db->join('financing f', 'f.id = t.financing_id', 'LEFT'); 
         $this->db->limit($limit);
         $this->db->offset($offset);        
-        $this->db->where('t.status', 1); // 1=UpComming, 2=OnGoing, 3=Completed        
-        $this->db->order_by('t.id', 'DESC');
-        // $this->db->group_by('t.id');
-        if($officeID != NULL){
-            $this->db->where('t.office_id', $officeID);
-        }
-        if($district != NULL){
-            $this->db->where('t.district_id', $district);
-        }
-        if($upazila != NULL){
-            $this->db->where('t.upazila_id', $upazila);
-        }
-        if ($this->input->get('course_id') != NULL) {
-            $this->db->where('t.course_id', $this->input->get('course_id'));
+        // $this->db->where('t.status', 1); // 1=UpComming, 2=OnGoing, 3=Completed         
+
+        if(!empty($_GET['course_id'])){
+            $this->db->where('t.course_id', $_GET['course_id']);                      
         }
         if ($start_date != NULL && $end_date != NULL) {
             $this->db->where("t.end_date BETWEEN '$start_date' AND '$end_date'");
         }
+        $this->db->order_by('t.id', 'DESC');
+        // $this->db->group_by('t.id');
         $result['rows'] = $this->db->get()->result();
         // echo $this->db->last_query(); exit;
 
         // count query
         $q = $this->db->select('COUNT(*) as count');
         $this->db->from('training');  
-        $this->db->where('status', 1);
         // $this->db->join('training_users tu', 'tu.training_id = t.id', 'LEFT');
-        if($officeID != NULL){
-            $this->db->where('office_id', $officeID);
-        }
-        if($district != NULL){
-            $this->db->where('district_id', $district);            
-        }
-        if($upazila != NULL){
-            $this->db->where('upazila_id', $upazila);
-        }        
+        // $this->db->where('status', 1);
+     
         if ($this->input->get('course_id') != NULL) {
             $this->db->where('course_id', $this->input->get('course_id'));
         }        
@@ -614,8 +598,17 @@ class Evaluation_model extends CI_Model {
             $this->db->join('course c', 'c.id = t.course_id', 'LEFT');
             $this->db->join('financing f', 'f.id = t.financing_id', 'LEFT'); 
             $this->db->limit($limit);
-            $this->db->offset($offset);        
-            //$this->db->where('t.status', 1); // 1=UpComming, 2=OnGoing, 3=Completed        
+            $this->db->offset($offset);  
+
+            //$this->db->where('t.status', 1); // 1=UpComming, 2=OnGoing, 3=Completed 
+            // search 
+            if ($this->input->get('course_id') != NULL) {
+                $this->db->where('t.course_id', $this->input->get('course_id'));
+            }
+            if ($start_date != NULL && $end_date != NULL) {
+                $this->db->where("t.end_date BETWEEN '$start_date' AND '$end_date'");
+            }  
+
             $this->db->where_in('t.id', $trainingIDs);
             $this->db->order_by('t.id', 'DESC');
             $result['rows'] = $this->db->get()->result();
@@ -625,6 +618,13 @@ class Evaluation_model extends CI_Model {
             $q = $this->db->select('COUNT(*) as count');
             $this->db->from('training');  
             // $this->db->where('status', 1);
+            // search 
+            if ($this->input->get('course_id') != NULL) {
+                $this->db->where('t.course_id', $this->input->get('course_id'));
+            }
+            if ($start_date != NULL && $end_date != NULL) {
+                $this->db->where("t.end_date BETWEEN '$start_date' AND '$end_date'");
+            }  
             $this->db->where_in('id', $trainingIDs);
             $tmp = $this->db->get()->result();
             $result['num_rows'] = $tmp[0]->count;
@@ -633,6 +633,7 @@ class Evaluation_model extends CI_Model {
         }
         return 0;
     }
+
 
 
     public function get_training_schedule_with_trainer($trainingID) {
