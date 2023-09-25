@@ -53,21 +53,23 @@ class Setup_con extends Backend_Controller {
 	function member()
 	{
 		$base_url = base_url();
-		$this->grocery_crud->set_table('lib_member');
 		$this->grocery_crud->set_subject('Member Setup');
+		$this->grocery_crud->set_table('lib_member');
 		$this->grocery_crud->set_relation('mem_type','lib_member_type','mem_name');
 		$this->grocery_crud->set_relation('designation','lib_designation','designation');
 		$this->grocery_crud->set_relation('level','lib_member_group','group_name');
 		$this->grocery_crud->unset_columns('designation','mem_type','mem_pass','institutional_add','end_date');
 		$this->grocery_crud->columns('first_name','last_name','present_add','mem_id','active_date','email','image');
+
 		$this->grocery_crud->required_fields('first_name','last_name','mem_type','mem_pass','present_add','permanent_add','designation','marital_sts','gender','active_date','email','level','end_date');
+
 		$this->grocery_crud->change_field_type('mem_pass','password');
 		$this->grocery_crud->set_field_upload('image','img/uploads/mem_image');
 		$this->grocery_crud->callback_after_upload(array($this,'member_callback_after_upload'));
 		$this->grocery_crud->unset_delete();
 		$this->grocery_crud->set_rules('mem_pass','Password','required|min_length[6]|callback_password_check');
 		$this->grocery_crud->set_rules('email', 'Email', 'valid_email|required');
-		$this->grocery_crud->add_action('Smileys', "$base_url/img/company_photo/profile.png", 'setup_con/action_profile');		
+		$this->grocery_crud->add_action('Smileys', "$base_url/img/company_photo/profile.png", 'library/setup_con/action_profile');		
 
 		//$this->grocery_crud->set_rules('email', 'Email', 'valid_email|required|callback_email_check');
 		$this->grocery_crud->display_as('first_name','First Name')
@@ -84,6 +86,7 @@ class Setup_con extends Backend_Controller {
 						 ->display_as('mob','Mobile No.')
 						 ->display_as('level','Access Level')
 						 ->display_as('email','Email Id');
+
 		$this->grocery_crud->callback_before_insert(array($this, 'password_mdfive_insert'));
 		$this->grocery_crud->callback_before_update(array($this,'password_mdfive_update'));
 		
@@ -198,22 +201,158 @@ class Setup_con extends Backend_Controller {
     	$this->load->view('backend/_layout_main', $this->data);
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-	function configure_output($output = null)
+	// member profile details
+	function action_profile()
 	{
-		$this->load->view('configure.php',$output);	
+		$id = $this->uri->segment(4);
+		$this->data["results"] = $this->db->select('*')->where("id", $id)->get("lib_member")->result();
+
+		// Load view
+    	$this->data['meta_title'] = 'Profile Details';
+    	$this->data['head_title'] = 'Profile Details';
+    	$this->data['subview'] = 'mem_profile';
+    	$this->load->view('backend/_layout_main', $this->data);
+
+		// $this->load->view('mem_profile.php',$id);
 	}
+
+	// ==========================================================================================
+	// Source, place... configure
+	// ==========================================================================================
+	function configure_output($data = null)
+	{
+		$this->load->view('backend/page_header', $this->data); 
+		$this->load->view('configure',$data['output']);
+		$this->load->view('backend/page_footer');
+		// $this->load->view('configure.php',$output);	
+	}
+
+	// Add Source Setup
+	function source_set()
+	{
+		$this->grocery_crud->set_table('lib_source');
+		$this->grocery_crud->set_subject('Source Setup');
+		$this->grocery_crud->display_as('source_name','Source');
+		$this->grocery_crud->unset_delete();
+		$this->grocery_crud->unset_edit();
+
+		// Load view
+		$this->data['output'] = $this->grocery_crud->render();
+		$this->data['meta_title'] = 'Source Setup';
+		$this->data['head_title'] = 'Source Setup';
+		$this->configure_output($this->data);
+		
+	}
+
+	// Add place Setup
+	function place_set()
+	{
+		$this->grocery_crud->set_table('lib_pub_place');
+		$this->grocery_crud->set_subject('Publishing Place');
+		$this->grocery_crud->required_fields('pub_place');
+		$this->grocery_crud->display_as('pub_place','Publishing Place');
+		$this->grocery_crud->unset_delete();
+		//$this->grocery_crud->unset_edit();
+		$this->grocery_crud->set_rules('pub_place','Publishing Place','trim|required|callback_pub_place_check');
+
+		// Load view
+		$this->data['output'] = $this->grocery_crud->render();
+		$this->data['meta_title'] = 'Place Setup';
+		$this->data['head_title'] = 'Place Setup';
+		$this->configure_output($this->data);
+	}
+
+	// Add edition Setup
+	function edt_set()
+	{
+		$this->grocery_crud->set_table('lib_edition');
+		$this->grocery_crud->set_subject('Edition Setup');
+		// $this->grocery_crud->callback_column('buyPrice',array($this,'valueToEuro'));
+		$this->grocery_crud->required_fields('edition_name');
+		$this->grocery_crud->display_as('edition_name','Edition Name');
+		$this->grocery_crud->set_rules('edition_name','Edition Name','trim|required|callback_edition_name_check');
+		$this->grocery_crud->unset_delete();
+
+		// Load view
+		$this->data['output'] = $this->grocery_crud->render();
+		$this->data['meta_title'] = 'Edition Setup';
+		$this->data['head_title'] = 'Edition Setup';
+		$this->configure_output($this->data);
+	}
+
+	// Add designation
+	function designation_set()
+	{
+		$this->grocery_crud->set_table('lib_designation');
+		$this->grocery_crud->set_subject('Designation Entry');
+		$this->grocery_crud->required_fields('designation');
+		$this->grocery_crud->display_as('designation','Designation Name');
+		$this->grocery_crud->set_rules('designation','Designation Name','trim|required|callback_designation_check');
+		$this->grocery_crud->unset_delete();
+
+		// Load view
+		$this->data['output'] = $this->grocery_crud->render();
+		$this->data['meta_title'] = 'Designation Setup';
+		$this->data['head_title'] = 'Designation Setup';
+		$this->configure_output($this->data);
+	}
+
+	// Year setup section
+	function year_set()
+	{
+		$this->grocery_crud->set_table('lib_pub_year');
+		$this->grocery_crud->set_subject('Publishing Year');
+		$this->grocery_crud->required_fields('pub_year');
+		$this->grocery_crud->display_as('pub_year','Publishing Year');
+		$this->grocery_crud->unset_delete();
+		$this->grocery_crud->set_rules('pub_year','Publishing Year','trim|required|callback_pub_year_check');
+
+		// Load view
+		$this->data['output'] = $this->grocery_crud->render();
+		$this->data['meta_title'] = 'Designation Setup';
+		$this->data['head_title'] = 'Designation Setup';
+		$this->configure_output($this->data);
+	}
+
+	function member_type()
+	{
+		//$this->grocery_crud->set_theme('datatables');
+		$this->grocery_crud->set_table('lib_member_type');
+		$this->grocery_crud->set_subject('Member Type Setup');
+		$this->grocery_crud->required_fields('mem_name','mdayi','mbooki','mbookr','dffw','dfsw','dftw');
+		$this->grocery_crud->set_rules('mem_name','Member name','trim|required|callback_mem_name_check');
+
+		$this->grocery_crud->display_as('mem_name','Member')
+				 ->display_as('mdayi','Max. Day Issued')
+				 ->display_as('mbooki','Max. Books  Issued')
+				 ->display_as('mbookr','Max Books Requesting')
+				 ->display_as('dffw','Daily Fine 1st week')
+				 ->display_as('dfsw','Daily Fine 2nd week')
+				 ->display_as('dftw','Daily Fine 3rd week');
+		$this->grocery_crud->unset_delete();
+
+		// Load view
+		$this->data['output'] = $this->grocery_crud->render();
+		$this->data['meta_title'] = 'Designation Setup';
+		$this->data['head_title'] = 'Designation Setup';
+		$this->configure_output($this->data);
+	}
+
+	// ==========================================================================================
+	// End Source, place... configure
+	// ==========================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
 	function setup_output($output = null)
 	{
 		$this->load->view('setup.php',$output);	
@@ -227,35 +366,16 @@ class Setup_con extends Backend_Controller {
 	}
 	
 	
-	function member_type()
-	{
-		//$this->grocery_crud->set_theme('datatables');
-		$this->grocery_crud->set_table('member_type');
-		$this->grocery_crud->set_subject('Member Type Setup');
-		$this->grocery_crud->required_fields('mem_name','mdayi','mbooki','mbookr','dffw','dfsw','dftw');
-		$this->grocery_crud->set_rules('mem_name','Member name','trim|required|callback_mem_name_check');
-
-		$this->grocery_crud->display_as('mem_name','Member')
-				 ->display_as('mdayi','Max. Day Issued')
-				 ->display_as('mbooki','Max. Books  Issued')
-				 ->display_as('mbookr','Max Books Requesting')
-				 ->display_as('dffw','Daily Fine 1st week')
-				 ->display_as('dfsw','Daily Fine 2nd week')
-				 ->display_as('dftw','Daily Fine 3rd week');
-		$this->grocery_crud->unset_delete();
-		$output = $this->grocery_crud->render();
-		$this->configure_output($output);
-	}
 	
 	function mem_name_check($str)
 	{
 		$id = $this->uri->segment(4);
 		if(!empty($id) && is_numeric($id))
 		{
-			$mem_name_old = $this->db->where("id",$id)->get('member_type')->row()->mem_name;
+			$mem_name_old = $this->db->where("id",$id)->get('lib_member_type')->row()->mem_name;
 			$this->db->where("mem_name !=",$mem_name_old);
 		}
-		$num_row = $this->db->where('mem_name',$str)->get('member_type')->num_rows();
+		$num_row = $this->db->where('mem_name',$str)->get('lib_member_type')->num_rows();
 		if ($num_row >= 1)
 		{
 			$this->form_validation->set_message('mem_name_check', $str.' already exists');
@@ -409,12 +529,6 @@ class Setup_con extends Backend_Controller {
 		}
 	}
 	
-	function action_profile()
-	{
-		$id["primary_key"] = $this->uri->segment(3);
-		$this->load->view('mem_profile.php',$id);
-	}
-	
 
 	function user_actual_date_callback($post_array) 
 	{
@@ -425,7 +539,7 @@ class Setup_con extends Backend_Controller {
 	function journal_set()
 	{
 		$this->grocery_crud->set_table('lib_journal');
-		$this->grocery_crud->set_relation('source','source','source_name');
+		$this->grocery_crud->set_relation('source','lib_source','source_name');
 		$this->grocery_crud->set_relation('y_of_pub','lib_pub_year','pub_year');
 		$this->grocery_crud->set_relation('place','lib_pub_place','pub_place');
 		$this->grocery_crud->set_subject('Journal Entry');
@@ -683,8 +797,8 @@ class Setup_con extends Backend_Controller {
 	{
 		$this->grocery_crud->set_table('lib_book');
 		$this->grocery_crud->set_subject('Book Setup');
-		$this->grocery_crud->set_relation('source','source','source_name');
-		$this->grocery_crud->set_relation('edition','edition','edition_name');
+		$this->grocery_crud->set_relation('source','lib_source','source_name');
+		$this->grocery_crud->set_relation('edition','lib_edition','edition_name');
 		$this->grocery_crud->set_relation('y_of_pub','lib_pub_year','pub_year');
 		$this->grocery_crud->set_relation('place','lib_pub_place','pub_place');
 		$this->grocery_crud->display_as('acc_first','Acc. No. First')->display_as('acc_last','Acc. No. Last')->display_as('date_of_entry','Date of Entry')->display_as('call_no','Call No')->display_as('isbn','ISBN')->display_as('first_author','1st Author')->display_as('snd_author','2nd Author')->display_as('thrd_author','3rd Author')->display_as('first_subject','1st Subject')->display_as('snd_subject','2nd Subject')->display_as('thrd_subject','3rd Subject')->display_as('forth_subject','4th Subject')->display_as('fifth_subject','5th Subject')->display_as('y_of_pub','Year of Pub.')->display_as('initial_page','Initial Page')->display_as('total_page','Total Page')->display_as('cd','CD')->display_as('corporate_author','Corporate Author');
@@ -962,8 +1076,8 @@ class Setup_con extends Backend_Controller {
 	{
 		$this->grocery_crud->set_table('lib_gov_publicaton');
 		$this->grocery_crud->set_subject('Govt. Publcation Setup');
-		$this->grocery_crud->set_relation('source','source','source_name');
-		$this->grocery_crud->set_relation('edition','edition','edition_name');
+		$this->grocery_crud->set_relation('source','lib_source','source_name');
+		$this->grocery_crud->set_relation('edition','lib_edition','edition_name');
 		$this->grocery_crud->set_relation('y_of_pub','lib_pub_year','pub_year');
 		$this->grocery_crud->set_relation('place','lib_pub_place','pub_place');
 		$this->grocery_crud->set_field_upload('image','img/uploads/gov_pub_image');
@@ -1214,8 +1328,8 @@ class Setup_con extends Backend_Controller {
 	{
 		$this->grocery_crud->set_table('lib_report');
 		$this->grocery_crud->set_subject('Report Setup');
-		$this->grocery_crud->set_relation('source','source','source_name');
-		$this->grocery_crud->set_relation('edition','edition','edition_name');
+		$this->grocery_crud->set_relation('source','lib_source','source_name');
+		$this->grocery_crud->set_relation('edition','lib_edition','edition_name');
 		$this->grocery_crud->set_relation('y_of_pub','lib_pub_year','pub_year');
 		$this->grocery_crud->set_relation('place','lib_pub_place','pub_place');
 		$this->grocery_crud->set_field_upload('image','img/uploads/report_image');
@@ -1488,42 +1602,16 @@ class Setup_con extends Backend_Controller {
 		return $post_array;
 	}
 	
-	function source_set()
-	{
-		$this->grocery_crud->set_table('source');
-		$this->grocery_crud->set_subject('Source Setup');
-		$this->grocery_crud->display_as('source_name','Source');
-		$this->grocery_crud->unset_delete();
-		$this->grocery_crud->unset_edit();
-		$output = $this->grocery_crud->render();
-	
-		$this->configure_output($output);
-		
-	}
-	
-	function edt_set()
-	{
-		$this->grocery_crud->set_table('edition');
-		$this->grocery_crud->set_subject('Edition Setup');
-		// $this->grocery_crud->callback_column('buyPrice',array($this,'valueToEuro'));
-		$this->grocery_crud->required_fields('edition_name');
-		$this->grocery_crud->display_as('edition_name','Edition Name');
-		$this->grocery_crud->set_rules('edition_name','Edition Name','trim|required|callback_edition_name_check');
-		$this->grocery_crud->unset_delete();
-		//$this->grocery_crud->unset_edit();
-		$output = $this->grocery_crud->render();
-		$this->configure_output($output);
-	}
 	
 	function edition_name_check($str)
 	{
 		$id = $this->uri->segment(4);
 		if(!empty($id) && is_numeric($id))
 		{
-			$edition_name_old = $this->db->where("id",$id)->get('edition')->row()->edition_name;
+			$edition_name_old = $this->db->where("id",$id)->get('lib_edition')->row()->edition_name;
 			$this->db->where("edition_name !=",$edition_name_old);
 		}
-		$num_row = $this->db->where('edition_name',$str)->get('edition')->num_rows();
+		$num_row = $this->db->where('edition_name',$str)->get('lib_edition')->num_rows();
 		if ($num_row >= 1)
 		{
 			$this->form_validation->set_message('edition_name_check', "This Edition Name already exists");
@@ -1533,19 +1621,6 @@ class Setup_con extends Backend_Controller {
 		{
 			return TRUE;
 		}
-	}
-	
-	function designation_set()
-	{
-		$this->grocery_crud->set_table('lib_designation');
-		$this->grocery_crud->set_subject('Designation Entry');
-		$this->grocery_crud->required_fields('designation');
-		$this->grocery_crud->display_as('designation','Designation Name');
-		$this->grocery_crud->set_rules('designation','Designation Name','trim|required|callback_designation_check');
-		$this->grocery_crud->unset_delete();
-		//$this->grocery_crud->unset_edit();
-		$output = $this->grocery_crud->render();
-		$this->configure_output($output);
 	}
 	
 	function designation_check($str)
@@ -1568,18 +1643,6 @@ class Setup_con extends Backend_Controller {
 		}
 	}
 	
-	function place_set()
-	{
-		$this->grocery_crud->set_table('lib_pub_place');
-		$this->grocery_crud->set_subject('Publishing Place');
-		$this->grocery_crud->required_fields('pub_place');
-		$this->grocery_crud->display_as('pub_place','Publishing Place');
-		$this->grocery_crud->unset_delete();
-		//$this->grocery_crud->unset_edit();
-		$this->grocery_crud->set_rules('pub_place','Publishing Place','trim|required|callback_pub_place_check');
-		$output = $this->grocery_crud->render();
-		$this->configure_output($output);
-	}
 	
 	function pub_place_check($str)
 	{
@@ -1601,18 +1664,7 @@ class Setup_con extends Backend_Controller {
 		}
 	}
 	
-	function year_set()
-	{
-		$this->grocery_crud->set_table('lib_pub_year');
-		$this->grocery_crud->set_subject('Publishing Year');
-		$this->grocery_crud->required_fields('pub_year');
-		$this->grocery_crud->display_as('pub_year','Publishing Year');
-		$this->grocery_crud->unset_delete();
-		//$this->grocery_crud->unset_edit();
-		$this->grocery_crud->set_rules('pub_year','Publishing Year','trim|required|callback_pub_year_check');
-		$output = $this->grocery_crud->render();
-		$this->configure_output($output);
-	}
+
 	
 	
 	function pub_year_check($str)

@@ -1,13 +1,11 @@
 
-<link rel="stylesheet" type="text/css" media="screen" href="<?php echo base_url(); ?>assets/css/style.css" />
-<?php 
-// dd($output);
-foreach($css_files as $file): ?>
-	<link type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />
-<?php endforeach; ?>
-<?php //foreach($js_files as $file): ?>
-	<!-- <script src="<?php echo $file; ?>"></script> -->
-<?php// endforeach; ?>
+
+<?php if (!empty($css_files)):
+  foreach($css_files as $file): ?>
+	 <link type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />
+<?php  endforeach; endif; ?>
+
+
 
 <div class="page-content">     
   <div class="content">
@@ -16,7 +14,7 @@ foreach($css_files as $file): ?>
       <li> <a href="<?=base_url('evaluation')?>" class="active"> লাইব্রেরি </a></li>
       <li><?=$meta_title; ?> </li>
     </ul>
-    <div class="grid simple horizontal red">
+    <div class="grid simple horizontal">
       <div class="grid-title">
         <h4><span class="semi-bold"><?php echo $head_title?></span></h4>
       </div>
@@ -27,4 +25,13 @@ foreach($css_files as $file): ?>
 
   </div> <!-- END ROW -->
 </div>
+
+
+<?php if (!empty($js_files)) :
+  foreach($js_files as $file): ?>
+    <script src="<?php echo $file; ?>"></script>
+<?php  endforeach; endif; ?>
+
+
+
 
