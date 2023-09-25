@@ -295,7 +295,7 @@ class Setup_con extends Backend_Controller {
 		$id = $primary_key;
 		$this->db->select('mem_pass');
 		$this->db->where('id',$id);
-		$query = $this->db->get('member');
+		$query = $this->db->get('lib_member');
 		
 		foreach ($query->result() as $row)
 		{
@@ -354,10 +354,10 @@ class Setup_con extends Backend_Controller {
 		$password = md5($str);
 		if(!empty($id) && is_numeric($id))
 		{
-			$mem_pass_old = $this->db->where("id",$id)->get('member')->row()->mem_pass;
+			$mem_pass_old = $this->db->where("id",$id)->get('lib_member')->row()->mem_pass;
 			$this->db->where("mem_pass !=",$mem_pass_old);
 		}
-		$num_row = $this->db->where('mem_pass',$password)->get('member')->num_rows();
+		$num_row = $this->db->where('mem_pass',$password)->get('lib_member')->num_rows();
 		if ($num_row >= 1)
 		{
 			$this->form_validation->set_message('password_check', "Password already exists");
@@ -374,10 +374,10 @@ class Setup_con extends Backend_Controller {
 		$id = $this->uri->segment(4);
 		if(!empty($id) && is_numeric($id))
 		{
-			$mem_id_old = $this->db->where("id",$id)->get('member')->row()->mem_id;
+			$mem_id_old = $this->db->where("id",$id)->get('lib_member')->row()->mem_id;
 			$this->db->where("mem_id !=",$mem_id_old);
 		}
-		$num_row = $this->db->where('mem_id',$str)->get('member')->num_rows();
+		$num_row = $this->db->where('mem_id',$str)->get('lib_member')->num_rows();
 		if ($num_row >= 1)
 		{
 			$this->form_validation->set_message('mem_id_check', "Member ID field $str already exists");
@@ -394,10 +394,10 @@ class Setup_con extends Backend_Controller {
 		$id = $this->uri->segment(4);
 		if(!empty($id) && is_numeric($id))
 		{
-			$email_old = $this->db->where("id",$id)->get('member')->row()->email;
+			$email_old = $this->db->where("id",$id)->get('lib_member')->row()->email;
 			$this->db->where("email !=",$email_old);
 		}
-		$num_row = $this->db->where('email',$str)->get('member')->num_rows();
+		$num_row = $this->db->where('email',$str)->get('lib_member')->num_rows();
 		if ($num_row >= 1)
 		{
 			$this->form_validation->set_message('email_check', "Email ID field already exists");

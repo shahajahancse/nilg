@@ -399,7 +399,7 @@ class Processdb extends CI_Model{
 	{
 		$this->db->select('*');
 		$this->db->where('fine_recetpt_no',$fine_receipt_no);
-		$query = $this->db->get('fine_table');
+		$query = $this->db->get('lib_fine_table');
 		return $query;
 	}
 	
@@ -590,7 +590,7 @@ class Processdb extends CI_Model{
 	
 	function trans_data($mem_id,$trans_request)
 	{
-	 $this->db->select('*')->from('booking')->where('mem_id', $mem_id)->where('status', $trans_request);
+	 $this->db->select('*')->from('lib_booking')->where('mem_id', $mem_id)->where('status', $trans_request);
 	 $trans_request = $this->db->get();
 	 if($trans_request->num_rows())
 	 {

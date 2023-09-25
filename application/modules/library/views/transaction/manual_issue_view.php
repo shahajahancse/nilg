@@ -21,43 +21,43 @@
   <div class="content">
     <ul class="breadcrumb" style="margin-bottom: 20px;">
       <li> <a href="<?=base_url('dashboard')?>" class="active"> ড্যাশবোর্ড </a> </li>
-      <li> <a href="<?=base_url('evaluation')?>" class="active"> Library </a></li>
+      <li> <a href="<?=base_url('evaluation')?>" class="active"> লাইব্রেরি </a></li>
       <li><?=$meta_title; ?> </li>
     </ul>
 
 		<div style="width:70%; padding:27px;padding-top:17px;margin-top:10px;border-radius:7px; margin:0 auto; border:2px solid #0960B0;">
-			<form  id="manual_booking" name='book_fine' action="<?php echo base_url(); ?>index.php/transaction/manual_issue"  method="post">
-				<fieldset style='margin: 0 auto;width: 87%;'>
-					<legend  style="color:Black; font-size:18px"><b>Choose One </b></legend>
+			<form  id="manual_booking" name='book_fine' action="<?php echo base_url(); ?>library/transaction/manual_issue"  method="post">
+				<fieldset style='margin: 0 auto;'>
+					<legend  style="color:Black; font-size:18px"><b>নির্বাচন করুন </b></legend>
 					<table width='100%' border='0' align='center' style='padding:10px'>
 						<tr>
-							<td><input type="radio" name="radioValue" value="lib_book" id="radioValue" <?PHP print $lib_book; ?> required />Book</td>
-							<td><input type="radio" name="radioValue" value="lib_journal" id="radioValue" <?PHP print $lib_journal; ?> required />Journal</td>
-							<td><input type="radio" name="radioValue" value="lib_thesis" id="radioValue" <?PHP print $lib_thesis; ?> required />Thesis</td>
+							<td><input type="radio" name="radioValue" value="lib_book" id="radioValue" <?PHP print $lib_book; ?> required /> বই</td>
+							<td><input type="radio" name="radioValue" value="lib_journal" id="radioValue" <?PHP print $lib_journal; ?> required /> জার্নাল</td>
+							<td><input type="radio" name="radioValue" value="lib_thesis" id="radioValue" <?PHP print $lib_thesis; ?> required /> থিসিস</td>
 						</tr>
 					</table>
 				</fieldset>
 
 				</br>
 
-				<FIELDSET style="width:87%; margin:0 auto;">
-					<LEGEND style="color:Black; font-size:18px"><b>Manual Issue</b></LEGEND>
+				<FIELDSET style=" margin:0 auto;">
+					<LEGEND style="color:Black; font-size:18px"><b>ম্যানুয়াল সমস্যা</b></LEGEND>
 					<table  border='0' align='center' style='width: 100%;'>
 						<tr height="10px;"></tr>
 						<tr>
-							<td>Enter Member ID</td>
-							<td>Enter Barcode No</td>
+							<td>সদস্য আইডি লিখুন</td>
+							<td>বারকোড নম্বর লিখুন</td>
 						</tr>
 						<tr>
-						  <td> <input style='background-color:#cccccc;' type='text' size='27px' name='mem_id' id='mem_id' placeholder="Enter Member ID"  value="<?php if (isset($_POST['mem_id'])){echo $_POST['mem_id'];} else{ echo "";} ?>" required  ></td>
-						  <td> <input style='background-color:#cccccc;' type='text' size='27px' name='acc_no' id='acc_no' placeholder="Enter Barcode No" value="<?php if (isset($_POST['acc_no'])){echo $_POST['acc_no'];} else{ echo "";} ?>" required  ></td>
+						  <td> <input style='background-color:#cccccc;' type='text' size='27px' name='mem_id' id='mem_id' placeholder="সদস্য আইডি লিখুন"  value="<?php if (isset($_POST['mem_id'])){echo $_POST['mem_id'];} else{ echo "";} ?>" required  ></td>
+						  <td> <input style='background-color:#cccccc;' type='text' size='27px' name='acc_no' id='acc_no' placeholder="বারকোড নম্বর লিখুন" value="<?php if (isset($_POST['acc_no'])){echo $_POST['acc_no'];} else{ echo "";} ?>" required  ></td>
 						</tr>
 						<tr height="10px">
 							<td><input type="hidden" value="<?php if(isset($group_no)){echo $group_no;}else{echo " ";} ?>" name="group_no" id="group_no" /></td>
 						</tr>
 						<tr>
 							<td>
-							 <input  type="submit" name='submit'  value='Submit' class="submit" />
+							 <input  type="submit" name='submit'  value='সংরক্ষণ' class="btn btn-success" />
 							</td>
 						</tr>
 					</table>

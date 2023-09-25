@@ -64,48 +64,49 @@ class Transaction extends Backend_Controller {
 	}
 	
 
-
-
-
-
-	
 	function manual_issue()
 	{
 		//$this->load->model('processdb');
-		$data = $this->processdb->manual_issue();
-		if ($data == "Member not found")
+		$dataa = $this->Processdb->manual_issue();
+		// dd($data);
+		if ($dataa == "Member not found")
 		{
 			echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('Member ID not found'); window.location = \"manual_issue_view\";</SCRIPT>";
 			echo "Invalid Member id";
 		}
-		else if ($data == "Invalid Barcode")
+		else if ($dataa == "Invalid Barcode")
 		{
 			echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('Invalid Barcode'); window.location = \"manual_issue_view\";</SCRIPT>";
 			echo "Invalid Barcode";
 		}
-		else if ($data == "You are already Issued this")
+		else if ($dataa == "You are already Issued this")
 		{
 			echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('You are already Issued this.'); window.location = \"manual_issue_view\";</SCRIPT>";
 			echo "You are already Issued this";
 		}
-		else if ($data == "This is Already Requesting")
+		else if ($dataa == "This is Already Requesting")
 		{
 			echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('This is Already Requesting'); window.location = \"manual_issue_view\";</SCRIPT>";
 			echo "This Book Already Requesting"; 
 		}
-		else if ($data == "This Book Already Issued")
+		else if ($dataa == "This Book Already Issued")
 		{
 			echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('This Book Already Issued'); window.location = \"manual_issue_view\";</SCRIPT>";
 			echo "This Book Already Issued";
 		}
 		
-		$this->load->view('transaction/manual_issue_view',$data);
+		// $this->load->view('transaction/manual_issue_view',$data);
+
+		$this->data['meta_title'] = 'All Request List';
+    	$this->data['subview'] = 'transaction/manual_issue_view';
+		$mergedData = array_merge($this->data, $dataa);
+    	$this->load->view('backend/_layout_main', $mergedData);
 	}
 	function renew_fine() //Renew Anf Release
 	{
 		//$this->load->model('processdb');
 		$selected_radio = $this->input->post('radioValue');
-		$data = $this->processdb->fine_calc();
+		$data = $this->Processdb->fine_calc();
 		 if ($data == "Requested list is empty")
 		{
 			echo "Invalid Member id";
