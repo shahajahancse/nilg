@@ -13,11 +13,17 @@ foreach($css_files as $file): ?>
   <div class="content">
     <ul class="breadcrumb" style="margin-bottom: 20px;">
       <li> <a href="<?=base_url('dashboard')?>" class="active"> ড্যাশবোর্ড </a> </li>
-      <li> <a href="<?=base_url('evaluation')?>" class="active"> Library </a></li>
+      <li> <a href="<?=base_url('evaluation')?>" class="active"> লাইব্রেরি </a></li>
       <li><?=$meta_title; ?> </li>
     </ul>
-
-		<?php echo $output; ?>
+    <div class="grid simple horizontal red">
+      <div class="grid-title">
+        <h4><span class="semi-bold"><?php echo $head_title?></span></h4>
+      </div>
+        <div style="margin-bottom: 20px;">
+	      	<?php echo $output; ?>
+        </div>
+      </div>
 
   </div> <!-- END ROW -->
 </div>

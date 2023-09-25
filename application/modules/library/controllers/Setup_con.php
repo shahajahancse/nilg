@@ -42,10 +42,10 @@ class Setup_con extends Backend_Controller {
 		$this->grocery_crud->set_field_upload('logo','img/company_photo');
 		$this->grocery_crud->unset_add();
 		$this->grocery_crud->unset_delete();
-
 		// Load view
 		$this->data['output'] = $this->grocery_crud->render();
-		$this->data['meta_title'] = 'Library Setup';
+		$this->data['meta_title'] = 'লাইব্রেরি সেটআপ';
+		$this->data['head_title'] = 'লাইব্রেরি সেটআপ';
 		$this->lib_output($this->data);
 	}
 
@@ -104,7 +104,8 @@ class Setup_con extends Backend_Controller {
 
     	// Load view
     	$this->data['output'] = $this->grocery_crud->render();
-		$this->data['meta_title'] = 'Member Setup';
+		$this->data['meta_title'] = 'মেম্বার সেটআপ';
+		$this->data['head_title'] = 'মেম্বার সেটআপ';
 		$this->lib_output($this->data);
 	}
 
