@@ -854,7 +854,7 @@ class Processdb extends CI_Model{
 			$this->db->select('acc_no');
 			$this->db->where($where);
 			$query = $this->db->get($radioValue);
-			//echo $this->db->last_query();
+			// echo $this->db->last_query();
 			if($query->num_rows > 0)
 			{
 				//echo "valid";

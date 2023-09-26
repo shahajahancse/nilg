@@ -10,7 +10,7 @@
 
 		<div style="width:70%; padding:27px;padding-top:17px;margin-top:10px;border-radius:7px; margin:0 auto; border:2px solid #0960B0;">
 		  <div style="font-size:25px; font-weight:bold; text-align:center">Call No.  Generate </div><br />
-			<form  name='callno_form' target="_blank" method="post" action="<?php echo base_url(); ?>index.php/setup_con/callno_generate" >
+			<form  name='callno_form' target="_blank" method="post" action="<?php echo base_url(); ?>library/setup_con/callno_generate" >
 				<table width='100%' border='0' align='center' style='padding:10px; font-weight:bold;'>
 					<tr>
 					<td>Enter Text: <input type="text" name="call_text" value="<?php if(isset($call_text)){echo $call_text;}  ?>" id="call_text"  required placeholder="Type Text"  /></td>

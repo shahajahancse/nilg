@@ -138,8 +138,6 @@ class Setup_con extends Backend_Controller {
 		$this->data["call_no"] = $this->input->post('call_no');
 		$this->data["print_qty"] = $this->input->post('print_qty');
 
-		// $this->load->view('callno_print',$this->data);
-
 		// Load view
     	$this->data['meta_title'] = 'Call No. Generator';
     	$this->data['subview'] = 'callno_print';
@@ -355,9 +353,14 @@ class Setup_con extends Backend_Controller {
 
 
 
-	function setup_output($output = null)
+	function setup_output($data = null)
 	{
-		$this->load->view('setup.php',$output);	
+		// $this->load->view('setup.php',$output);	
+
+		
+		$this->load->view('backend/page_header', $this->data); 
+		$this->load->view('admin/setup',$data['output']);
+		$this->load->view('backend/page_footer');
 	}
 
 	function offices()
@@ -582,9 +585,10 @@ class Setup_con extends Backend_Controller {
 			$this->grocery_crud->set_rules('issn', 'ISSN','trim|required|callback_journalissn_check');
 		  	$this->grocery_crud->set_rules('issn','ISSN','required|callback_journalissn_space_check');
 		}
-		
-		$output = $this->grocery_crud->render();
-		$this->setup_output($output);
+		$this->data['output'] = $this->grocery_crud->render();
+		$this->data['meta_title'] = 'Journal Setup';
+		$this->data['head_title'] = 'Journal Setup';
+		$this->lib_output($this->data);
 	}
 	
 	public function journalissn_space_check($str)
@@ -836,8 +840,10 @@ class Setup_con extends Backend_Controller {
 			$this->grocery_crud->set_rules('isbn','ISBN','trim|required|callback_bookisbn_check');
 			$this->grocery_crud->set_rules('isbn','ISBN','required|callback_bookisbn_space_check');
 		}
-		$output = $this->grocery_crud->render();
-		$this->setup_output($output);
+		$this->data['output'] = $this->grocery_crud->render();
+		$this->data['meta_title'] = "Book Setup";
+		$this->data['head_title'] = "Book Setup";
+		$this->setup_output($this->data);
 	}
 	
 	function book_callback_after_upload($uploader_response,$field_info, $files_to_upload)
@@ -1112,8 +1118,13 @@ class Setup_con extends Backend_Controller {
     	{
 			$this->grocery_crud->set_rules('isbn','ISBN','trim|required|callback_gov_pub_isbn_check');
 		}
-		$output = $this->grocery_crud->render();
-		$this->setup_output($output);
+
+		$this->data['output'] = $this->grocery_crud->render();
+		$this->data['meta_title'] = 'Govt Publication Setup';
+		$this->data['head_title'] = 'Govt Publication Setup';
+		$this->lib_output($this->data);
+
+		
 	}
 	function gov_pub_callback_after_upload($uploader_response,$field_info, $files_to_upload)
 	{
@@ -1365,8 +1376,13 @@ class Setup_con extends Backend_Controller {
     	{
 			$this->grocery_crud->set_rules('isbn','ISBN','trim|required|callback_report_isbn_check');
 		}
-		$output = $this->grocery_crud->render();
-		$this->setup_output($output);
+		// $output = $this->grocery_crud->render();
+		// $this->setup_output($output);
+
+		$this->data['output'] = $this->grocery_crud->render();
+		$this->data['meta_title'] = 'Report';
+		$this->data['head_title'] = 'Report';
+		$this->lib_output($this->data);
 	}
 	function report_callback_after_upload($uploader_response,$field_info, $files_to_upload)
 	{
@@ -1710,7 +1726,7 @@ class Setup_con extends Backend_Controller {
 	
 	function barcode_generator()
 	{
-		$result = $this->processdb->barcode_generator_db();
+		$result = $this->Processdb->barcode_generator_db();
 		echo $result;
 		//return $result;
 	}

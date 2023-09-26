@@ -27,41 +27,40 @@
     </ul>
 
 		<div style="width:80%; padding:27px;padding-top:17px;margin-top:10px;border-radius:7px; margin:0 auto; border:2px solid #0960B0;">
-			<form  name='book_fine' action="<?php echo base_url(); ?>index.php/transaction/renew_fine"  method="post">
-				<fieldset style='margin: 0 auto;width: 50%;'>
+			<form  name='book_fine' action="<?php echo base_url(); ?>library/transaction/renew_fine"  method="post">
+				<fieldset style='margin: 0 auto;'>
 					<legend  style="color:Black; font-size:18px"><b>Choose One </b></legend>
 					<table width='100%' border='0' align='center' style='padding:10px'>
 						<tr>
-							<td><input type="radio" name="radioValue" value="lib_book" id="radioValue" <?PHP print $lib_book; ?> required />Book</td>
-							<td><input type="radio" name="radioValue" value="lib_journal" id="radioValue" <?PHP print $lib_journal; ?> required />Journal</td>
-							<td><input type="radio" name="radioValue" value="lib_thesis" id="radioValue" <?PHP print $lib_thesis; ?> required />Thesis</td>
+							<td><input type="radio" name="radioValue" value="lib_book" id="radioValue" <?PHP print $lib_book; ?> required /> Book</td>
+							<td><input type="radio" name="radioValue" value="lib_journal" id="radioValue" <?PHP print $lib_journal; ?> required /> Journal</td>
+							<td><input type="radio" name="radioValue" value="lib_thesis" id="radioValue" <?PHP print $lib_thesis; ?> required /> Thesis</td>
 						</tr>
 					</table>
 				</fieldset>
 				</br>
 
-				<FIELDSET style="width:50%">
+				<FIELDSET >
 					<LEGEND style="color:#FF8080; font-size:18px"><b>Renew & Release</b></LEGEND>
-					<table width='85%' border='0' style='padding:10px'>
+					<table  border='0' style='padding:10px'>
 						<tr>
 							<td>Enter Member ID</td>
 							<td>Enter Barcode </td>
 						</tr>
 						<tr>
-						  <td><input style='background-color:#cccccc;' type='text' size='27px' name='mem_id' id='mem_id' placeholder="Enter Member ID"  value="<?php if (isset($_POST['mem_id'])){echo $_POST['mem_id'];} else{ echo "";} ?>" required  ></td>
-					    <td> <input style='background-color:#cccccc;' type='text' size='27px' name='acc_no' id='acc_no' placeholder="Enter Barcode No" value="<?php if (isset($_POST['acc_no'])){echo $_POST['acc_no'];} else{ echo "";} ?>" required  ></td>
+						  <td><input style='background-color:#cccccc;' type='text' sname='mem_id' id='mem_id' placeholder="Enter Member ID"  value="<?php if (isset($_POST['mem_id'])){echo $_POST['mem_id'];} else{ echo "";} ?>" required  ></td>
+					    <td> <input style='background-color:#cccccc;' type='text' name='acc_no' id='acc_no' placeholder="Enter Barcode No" value="<?php if (isset($_POST['acc_no'])){echo $_POST['acc_no'];} else{ echo "";} ?>" required  ></td>
 					  </tr>
-						<tr height="15px"></tr>
 						<tr>
-						 	<td><input  type="submit" name='submit1'  value='Submit'  class="submit"/></td>
-						 	<td><a href="<?php echo base_url(); ?>index.php/transaction/all_fine_calc"  style="text-decoration:none">
-						   <input name="button" type="button"  style="width:100px;" value="All Fine Cal." class="submit" /></a></td>
+						 	<td><input  type="submit" name='submit1'  value='Submit'  class="btn btn-success"/></td>
+						 	<td><a href="<?php echo base_url(); ?>library/transaction/all_fine_calc"  style="text-decoration:none">
+						   <input name="button" type="button"  value="All Fine Cal" class="btn btn-success" /></a></td>
 						</tr>
 					</table>
 				</FIELDSET>
 			</form>
 
-			<form  name='book_release' action="<?php echo base_url(); ?>index.php/transaction/release_paper"  method="post">
+			<form  name='book_release' action="<?php echo base_url(); ?>library/transaction/release_paper"  method="post">
 				<?php  if(isset($id)) {?>
 					<FIELDSET style="width:50%;border:2px solid #43835F; ">
 						<LEGEND style="color:#FF8080; font-size:18px"><b>Information</b></LEGEND>
@@ -107,7 +106,7 @@
 							}
 							?>
 							<!--<input type="image" src='<?php echo base_url();?>uploads/release.png' alt="Release" width="100" height="25" />
-							 <input type="image" src='<?php echo base_url();?>uploads/renew.png' alt="Renew" width="100" height="25" formaction="<?php echo base_url(); ?>index.php/transaction/renew_paper"/>-->
+							 <input type="image" src='<?php echo base_url();?>uploads/renew.png' alt="Renew" width="100" height="25" formaction="<?php echo base_url(); ?>library/transaction/renew_paper"/>-->
 							<tr height="10px"></tr>
 							</tr><td> <input  type="submit" name='submit'  value='Release'  class="submit" /></td>
 							<td></td>
@@ -146,7 +145,7 @@
 									//if($available != 0)
 									//{
 									?>
-							<td> <input  type="submit" name='submit'  value='Renew' formaction="<?php echo base_url(); ?>index.php/transaction/renew_paper"  class="submit"/></td>
+							<td> <input  type="submit" name='submit'  value='Renew' formaction="<?php echo base_url(); ?>library/transaction/renew_paper"  class="submit"/></td>
 							<?php //} 
 							//else
 							//{

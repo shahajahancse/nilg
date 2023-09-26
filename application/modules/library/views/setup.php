@@ -24,12 +24,12 @@
 	<div style="width:80%; padding:27px;padding-top:17px;margin-top:10px;border-radius:7px; margin:0 auto; border:2px solid #0960B0;">
 		<FIELDSET style="width:93%">
 			<LEGEND style="color:#FF8080; font-size:18px"><b>Setup</b></LEGEND>
-			<a href="<?php echo base_url(); ?>index.php/setup_con/book_set"><input type="button" value="Book" name="button" class="button" /></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<a href="<?php echo base_url(); ?>index.php/setup_con/journal_set"><input type="button" value="Journal" name="button" class="button" /></a>
+			<a href="<?php echo base_url(); ?>library/setup_con/book_set"><input type="button" value="Book" name="button" class="button" /></a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<a href="<?php echo base_url(); ?>library/setup_con/journal_set"><input type="button" value="Journal" name="button" class="button" /></a>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<a href="<?php echo base_url(); ?>index.php/setup_con/gov_pub_set"><input type="button" value="Gov. Publication" name="button"  class="button" /></a>
+			<a href="<?php echo base_url(); ?>library/setup_con/gov_pub_set"><input type="button" value="Gov. Publication" name="button"  class="button" /></a>
 			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-			<a href="<?php echo base_url(); ?>index.php/setup_con/report_set"><input type="button" value="Report" name="button"  class="button" /></a>
+			<a href="<?php echo base_url(); ?>library/setup_con/report_set"><input type="button" value="Report" name="button"  class="button" /></a>
 		</FIELDSET>
 		<div id="config" style="width:95%; margin:5px" >
 			<?php  if(isset($output)) { echo $output; } ?>

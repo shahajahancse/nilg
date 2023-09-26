@@ -409,7 +409,7 @@ var ajaxRequest;  // The variable that makes Ajax possible!
 		}
 	
 		var queryString="acc_first="+acc_first+"&acc_last="+acc_last+"&radioValue="+radioValue;
-		url =  base_url+"index.php/setup_con/barcode_generator/";
+		url =  "http://localhost/nilg/library/setup_con/barcode_generator/";
 	
 	ajaxRequest.open("POST",url, true);
 	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -429,7 +429,7 @@ var ajaxRequest;  // The variable that makes Ajax possible!
 		//alert(acc_no);
 		rows = alldata[1];
 		//alert(resp);
-	url =  base_url+"barcode/html/code39.php?id="+acc_no+"&rows="+rows;
+	url =  "http://localhost/nilg/library/barcode/html/code39.php?id="+acc_no+"&rows="+rows;
 	barcode_gen = window.open(url,'barcode_gen',"menubar=1,resizable=1,scrollbars=1,width=1500,height=800");
 	barcode_gen.moveTo(0,0);
 		
