@@ -172,6 +172,7 @@ class Setup_con extends Backend_Controller {
 		// Load view
 		$this->data['output'] = $this->grocery_crud->render();
 		$this->data['meta_title'] = 'Inventory Setup';
+		$this->data['head_title'] = 'Inventory Setup';
 		$this->lib_output($this->data);
 
 		// $output = $this->grocery_crud->render();
@@ -314,6 +315,7 @@ class Setup_con extends Backend_Controller {
 		$this->configure_output($this->data);
 	}
 
+	// Member Type setup
 	function member_type()
 	{
 		//$this->grocery_crud->set_theme('datatables');

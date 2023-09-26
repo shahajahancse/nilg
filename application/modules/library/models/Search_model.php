@@ -190,7 +190,7 @@ class Search_model extends CI_Model{
 	
 	function book_details()
 	{
-		$value = $this->uri->segment(3);
+		$value = $this->uri->segment(4);
 		
 		$this->db->select('*');
 		$this->db->where('isbn',$value);
@@ -372,7 +372,7 @@ class Search_model extends CI_Model{
 			'paper_id' => $paper_id
 			);
 			
-			$this->db->insert('booking', $data);
+			$this->db->insert('lib_booking', $data);
 			echo "Suceessfully Booking"; 
 			return;
 		}

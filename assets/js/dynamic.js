@@ -12,6 +12,8 @@
 
 var eempid=null;
 var personalinfo = new Array();
+// hostname = window.location.href; 
+// base_url = hostname.substring(0, (hostname.indexOf("index.php") == -1)?hostname.length:hostname.indexOf("index.php"));
 
 
 
@@ -251,12 +253,12 @@ ajaxRequest.onreadystatechange = function(){
 
 
 function for_booking(){
-var ajaxRequest;  // The variable that makes Ajax possible!
-	
- try{
+	var ajaxRequest;  // The variable that makes Ajax possible!
+		
+	try{
    // Opera 8.0+, Firefox, Safari
    ajaxRequest = new XMLHttpRequest();
- }catch (e){
+	}catch (e){
    // Internet Explorer Browsers
    try{
       ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
@@ -269,36 +271,30 @@ var ajaxRequest;  // The variable that makes Ajax possible!
          return false;
       }
    }
- }
- var answer = confirm("Are You Sure To Booking?")
+	}
+	
+	var answer = confirm("Are You Sure To Booking?")
 	if (answer == false){
 		return false;
 	}
-	
- var table 	= document.getElementById('table').value;
- var group_no 	= document.getElementById('group_no').value;
-
-//alert(call_no);
-//alert(table);
- 
- var queryString="group_no="+group_no+"&table="+table;
-  hostname = window.location.hostname;
- url =  "http://www.nilglibrary.com/index.php/search_con/for_booking/";
- 
- ajaxRequest.open("POST",url, true);
- ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
- ajaxRequest.send(queryString);
- 
- 
-ajaxRequest.onreadystatechange = function(){
-	if(ajaxRequest.readyState == 4){
-		var resp = ajaxRequest.responseText;
-		alert('suceessfully Booking');
 		
-			
+	var table 	= document.getElementById('table').value;
+	var group_no 	= document.getElementById('group_no').value;
+	var queryString="group_no="+group_no+"&table="+table;
+	var url = hostname + "library/search_con/for_booking/";
+ 
+ 	ajaxRequest.open("POST",url, true);
+ 	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+ 	ajaxRequest.send(queryString);
+ 
+	ajaxRequest.onreadystatechange = function(){
+		if(ajaxRequest.readyState == 4){
+			var resp = ajaxRequest.responseText;
+			alert('suceessfully Booking');
+		}
 	}
 }
-}
+
 
 function book_insert_view(){
 var ajaxRequest;  // The variable that makes Ajax possible!

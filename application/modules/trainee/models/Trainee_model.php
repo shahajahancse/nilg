@@ -157,7 +157,11 @@ class Trainee_model extends CI_Model {
         $this->db->where('u.is_office', 0);
         $this->db->where('u.employee_type !=', 1);
         $this->db->where('u.is_verify', 1);
-        $this->db->order_by('u.id', 'DESC');
+        if($this->input->get('office') == 125){
+            $this->db->order_by('u.order_no', 'ASC');
+        } else {
+            $this->db->order_by('u.id', 'DESC');
+        }
         $this->db->limit($limit);
         $this->db->offset($offset);
         $result['rows']  = $this->db->get()->result();

@@ -1,3 +1,5 @@
+
+
 <?PHP
   $title = 'unchecked';
   $subtitle = 'unchecked';
@@ -87,76 +89,72 @@
       <li> <a href="<?=base_url('evaluation')?>" class="active"> লাইব্রেরি </a></li>
       <li><?=$meta_title; ?> </li>
     </ul>
-    <!-- <div class=""> -->
-        <div class="grid simple horizontal red">
-          <div class="grid-title">
-            <h4><span class="semi-bold">বই অনুসন্ধান</span></h4>
-          </div>
-          <div class="grid-body tableresponsive">
+    <div class="grid simple horizontal">
+      <div class="grid-title">
+        <h4><span class="semi-bold">বই অনুসন্ধান</span></h4>
+      </div>
 
-            <div align="center" style="margin:0 auto; width:100%; height=80vh; overflow:hidden; ">
-              <fieldset style='border:3px #004040 solid; padding:10px;border-radius:5px;'><legend><font size='+1'><b>অনুসন্ধান করুন</b></font></legend>
-                <form  name='search_book' action="<?php echo base_url(); ?>index.php/search_con/book_search_view"  method="post">
-                <table width='100%' border='0' align='center' style='padding:10px; color:#285151; font-weight:bold; font-size:13px;'>
-                  <tr>
-                    <td><input type="radio" name="radioValue" value="isbn" id="isbn" checked required />Search By ISBN</td>
-                    <td><input type="radio" name="radioValue" value="call_no" id="call_no" <?PHP print $call_no; ?> required />Search By Call No</td>
-                    <td><input type="radio" name="radioValue" value="acc_no" id="acc_no" <?PHP print $acc_no; ?> required />Search  By Accession No </td>
-                    <!--<td><input type="radio" name="radioValue" value="edition" id="edition" <?PHP print $edition; ?>/>Search By Edition</td>
-                    <td><input type="radio" name="radioValue" value="source" id="source"  <?PHP print $source; ?>/>Search By  Source</td>-->
-                  </tr>
+      <div class="grid-body tableresponsive">
 
-                  <tr>
-                    <td><input type="radio" name="radioValue" value="first_author" id="first_author"  <?PHP print $first_author; ?> required />Search By 1st Author </td>
-                    <td width="33%"><input type="radio" name="radioValue"  id="snd_author" value="snd_author" <?PHP print $snd_author; ?>required />Search By 2nd Author </td>
-                    <td width="38%"><input type="radio" name="radioValue" value="thrd_author" id="thrd_author" <?PHP print $thrd_author; ?> required />Search By 3rd Author</td>
-                  </tr>
+        <div align="center" style="margin:0 auto; width:100%; height=80vh; overflow:hidden; ">
+          <fieldset style='border:3px #004040 solid; padding:10px;border-radius:5px;'><legend><font size='+1'><b>অনুসন্ধান করুন</b></font></legend>
+            <form  name='search_book' action="<?php echo base_url(); ?>library/search_con/book_search_view"  method="post">
+              <table width='100%' border='0' align='center' style='padding:10px; color:#285151; font-weight:bold; font-size:13px;'>
+                <tr>
+                  <td><input type="radio" name="radioValue" value="isbn" id="isbn" checked required />Search By ISBN</td>
+                  <td><input type="radio" name="radioValue" value="call_no" id="call_no" <?PHP print $call_no; ?> required />Search By Call No</td>
+                  <td><input type="radio" name="radioValue" value="acc_no" id="acc_no" <?PHP print $acc_no; ?> required />Search  By Accession No </td>
+                </tr>
 
-                  <tr>
-                    <td><input type="radio" name="radioValue" value="first_subject" id="first_subject"  <?PHP print $first_subject; ?> required />Search By 1st Subject </td>
-                    <td width="33%"><input type="radio" name="radioValue"  id="snd_subject" value="snd_subject" <?PHP print $snd_subject; ?>required />Search By 2nd Subject </td>
-                    <td width="38%"><input type="radio" name="radioValue" value="thrd_subject" id="thrd_subject" <?PHP print $thrd_subject; ?> required />Search By 3rd Subject</td>
-                  </tr>
+                <tr>
+                  <td><input type="radio" name="radioValue" value="first_author" id="first_author"  <?PHP print $first_author; ?> required />Search By 1st Author </td>
+                  <td width="33%"><input type="radio" name="radioValue"  id="snd_author" value="snd_author" <?PHP print $snd_author; ?>required />Search By 2nd Author </td>
+                  <td width="38%"><input type="radio" name="radioValue" value="thrd_author" id="thrd_author" <?PHP print $thrd_author; ?> required />Search By 3rd Author</td>
+                </tr>
 
-                  <tr>
-                    <td><input type="radio" name="radioValue" value="title" id="title"  <?PHP print $title; ?> required />Search By Title </td>
-                    <td width="33%"><input type="radio" name="radioValue"  id="subtitle" value="subtitle" <?PHP print $subtitle; ?> required />Search By Subtitle</td>
-                    <td width="38%"><input type="radio" name="radioValue" value="compiler" id="compiler" <?PHP print $compiler; ?> required />Search By Compiler</td>
-                  </tr>
+                <tr>
+                  <td><input type="radio" name="radioValue" value="first_subject" id="first_subject"  <?PHP print $first_subject; ?> required />Search By 1st Subject </td>
+                  <td width="33%"><input type="radio" name="radioValue"  id="snd_subject" value="snd_subject" <?PHP print $snd_subject; ?>required />Search By 2nd Subject </td>
+                  <td width="38%"><input type="radio" name="radioValue" value="thrd_subject" id="thrd_subject" <?PHP print $thrd_subject; ?> required />Search By 3rd Subject</td>
+                </tr>
 
-                  <tr>
-                    <td><input type="radio" name="radioValue" value="language" id="language" <?PHP print $language; ?> required />Search By Language</td>
-                    <td><input type="radio" name="radioValue" value="publisher"  id="publisher" <?PHP print $publisher; ?> required />Search By Publisher</td>
-                    <td><input type="radio" name="radioValue" value="year_publication" id="year_publication" <?PHP print $year_publication; ?> required />Search By Year of Publication</td>
-                  </tr>
+                <tr>
+                  <td><input type="radio" name="radioValue" value="title" id="title"  <?PHP print $title; ?> required />Search By Title </td>
+                  <td width="33%"><input type="radio" name="radioValue"  id="subtitle" value="subtitle" <?PHP print $subtitle; ?> required />Search By Subtitle</td>
+                  <td width="38%"><input type="radio" name="radioValue" value="compiler" id="compiler" <?PHP print $compiler; ?> required />Search By Compiler</td>
+                </tr>
 
-                  <tr>
-                    <td><input type="radio" name="radioValue" value="price"  id="price" <?PHP print $price; ?> required />Search By Price</td>
-                    <td><input type="radio" name="radioValue" value="cd" id="cd" <?PHP print $cd; ?> required />Search  By CD </td>
-                    <td><input type="radio" name="radioValue" value="editor" id="editor" <?PHP print $editor; ?> required />Search By Editor </td>
-                  </tr>
+                <tr>
+                  <td><input type="radio" name="radioValue" value="language" id="language" <?PHP print $language; ?> required />Search By Language</td>
+                  <td><input type="radio" name="radioValue" value="publisher"  id="publisher" <?PHP print $publisher; ?> required />Search By Publisher</td>
+                  <td><input type="radio" name="radioValue" value="year_publication" id="year_publication" <?PHP print $year_publication; ?> required />Search By Year of Publication</td>
+                </tr>
 
-                  <tr >
-                    <td height="20"></td>
-                  </tr>
+                <tr>
+                  <td><input type="radio" name="radioValue" value="price"  id="price" <?PHP print $price; ?> required />Search By Price</td>
+                  <td><input type="radio" name="radioValue" value="cd" id="cd" <?PHP print $cd; ?> required />Search  By CD </td>
+                  <td><input type="radio" name="radioValue" value="editor" id="editor" <?PHP print $editor; ?> required />Search By Editor </td>
+                </tr>
 
-                  <tr>
-                    <td align='right' width='29%'>কীওয়ার্ড অনুসন্ধান করুন </td>
-                    <td> <input style='background-color:#cccccc;'  type='text' size='27px' name='check_key_name' id='check_key_name' placeholder="অনুসন্ধান কী লিখুন" value="<?php if (isset($_POST['check_key_name'])){echo $_POST['check_key_name'];} else{ echo $this->session->userdata('search_value');} ?>" required  >
-                    <!--<div  id="autocomplete_book" class="autocomplete" style="width: auto;"></div>--></td>
-                    <td><input  type="submit" name='search'  value='অনুসন্ধান' class="submit btn btn-xs btn-success" /></td>
-                    <!-- <td><input type="image" src='<?php echo base_url();?>img/library_button/submit.gif' alt="Submit" width="80" height="25" /></td>-->
-                  </tr>
-                  <tr></tr>
-                </table>
-                </form>
-              </fieldset>
-            </div>
+                <tr >
+                  <td height="20"></td>
+                </tr>
 
-          </div>
-
-        <!-- </div> -->
-
-
+                <tr>
+                  <td align='right' width='29%'>কীওয়ার্ড অনুসন্ধান করুন </td>
+                  <td> <input style='background-color:#cccccc;'  type='text' size='27px' name='check_key_name' id='check_key_name' placeholder="অনুসন্ধান কী লিখুন" value="<?php if (isset($_POST['check_key_name'])){echo $_POST['check_key_name'];} else{ echo $this->session->userdata('search_value');} ?>" required  ></td>
+                  <td><input  type="submit" name='search'  value='অনুসন্ধান' class="submit btn btn-xs btn-success" /></td>
+                </tr>
+                <tr></tr>
+              </table>
+            </form>
+          </fieldset>
+          <!-- search book show here -->
+          <?php if (!empty($search_query)) { $this->load->view('search/book_show', $search_query); } ?>
+        </div>
+      </div>
+    </div>
   </div> <!-- END ROW -->
 </div>
+
+
