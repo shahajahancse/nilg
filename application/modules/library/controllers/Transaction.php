@@ -128,12 +128,27 @@ class Transaction extends Backend_Controller {
 		}
 		$data['table_name'] = $selected_radio;
 		$this->load->view('transaction/renew_view',$data);
+
+
+
 	}
 	function all_fine_calc()
 	{
 			//echo "hello";
-		$data['value'] = $this->Processdb->all_fine_calc();
-		$this->load->view('transaction/renew_view',$data);
+		$this->data['value'] = $this->Processdb->all_fine_calc();
+		$this->data['meta_title'] = 'All Fine Calc';
+    	$this->data['subview'] = 'transaction/renew_view';
+    	$this->load->view('backend/_layout_main', $this->data);
+
+
+		// $this->data['meta_title'] = 'All Request List';
+    	// $this->data['subview'] = 'transaction/manual_issue_view';
+		// $mergedData = array_merge($this->data, $dataa);
+    	// $this->load->view('backend/_layout_main', $mergedData);
+
+
+
+		// $this->load->view('transaction/renew_view',$data);
 	}
 	function release_paper()
 	{

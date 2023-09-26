@@ -45,16 +45,17 @@
 					<table  border='0' style='padding:10px'>
 						<tr>
 							<td>Enter Member ID</td>
-							<td>Enter Barcode </td>
+							<td>Enter Barcode </td  >
 						</tr>
 						<tr>
-						  <td><input style='background-color:#cccccc;' type='text' sname='mem_id' id='mem_id' placeholder="Enter Member ID"  value="<?php if (isset($_POST['mem_id'])){echo $_POST['mem_id'];} else{ echo "";} ?>" required  ></td>
-					    <td> <input style='background-color:#cccccc;' type='text' name='acc_no' id='acc_no' placeholder="Enter Barcode No" value="<?php if (isset($_POST['acc_no'])){echo $_POST['acc_no'];} else{ echo "";} ?>" required  ></td>
-					  </tr>
+							<td><input style='background-color:#cccccc;' type='text' sname='mem_id' id='mem_id' placeholder="Enter Member ID"  value="<?php if (isset($_POST['mem_id'])){echo $_POST['mem_id'];} else{ echo "";} ?>" required  ></td>
+							<td> <input style='background-color:#cccccc;' type='text' name='acc_no' id='acc_no' placeholder="Enter Barcode No" value="<?php if (isset($_POST['acc_no'])){echo $_POST['acc_no'];} else{ echo "";} ?>" required  ></td>
+						</tr>
+						
 						<tr>
-						 	<td><input  type="submit" name='submit1'  value='Submit'  class="btn btn-success"/></td>
-						 	<td><a href="<?php echo base_url(); ?>library/transaction/all_fine_calc"  style="text-decoration:none">
-						   <input name="button" type="button"  value="All Fine Cal" class="btn btn-success" /></a></td>
+							<td><input  type="submit" name='submit1'  value='Submit'  class="btn btn-success"/></td>
+							<td><a href="<?php echo base_url(); ?>library/transaction/all_fine_calc"  style="text-decoration:none">
+							<input name="button" type="button"  value="All Fine Cal" class="btn btn-success" /></a></td>
 						</tr>
 					</table>
 				</FIELDSET>
