@@ -66,7 +66,7 @@ class Transaction extends Backend_Controller {
 
 	function manual_issue()
 	{
-		//$this->load->model('processdb');
+		//$this->load->model('Processdb');
 		$dataa = $this->Processdb->manual_issue();
 		// dd($data);
 		if ($dataa == "Member not found")
@@ -104,7 +104,7 @@ class Transaction extends Backend_Controller {
 	}
 	function renew_fine() //Renew Anf Release
 	{
-		//$this->load->model('processdb');
+		//$this->load->model('Processdb');
 		$selected_radio = $this->input->post('radioValue');
 		$data = $this->Processdb->fine_calc();
 		 if ($data == "Requested list is empty")
@@ -132,8 +132,8 @@ class Transaction extends Backend_Controller {
 	function all_fine_calc()
 	{
 			//echo "hello";
-		$data['value'] = $this->processdb->all_fine_calc();
-		$this->load->view('transaction/renew_view');
+		$data['value'] = $this->Processdb->all_fine_calc();
+		$this->load->view('transaction/renew_view',$data);
 	}
 	function release_paper()
 	{
@@ -141,7 +141,7 @@ class Transaction extends Backend_Controller {
 		$acc_no = $this->input->post('acc_no');
 		$book_iss_id = $this->input->post('id');
 		$fine_receipt_no = $this->input->post('fine_rec_no');
-		$msg = $this->processdb->release_paper($mem_id,$acc_no,$book_iss_id,$fine_receipt_no);
+		$msg = $this->Processdb->release_paper($mem_id,$acc_no,$book_iss_id,$fine_receipt_no);
 		if ($msg == "You Enter Duplicate Receipt No")
 		{
 			echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('You Enter Duplicate Receipt No'); window.location = \"renew_view\";</SCRIPT>";
@@ -160,7 +160,7 @@ class Transaction extends Backend_Controller {
 		$fine_receipt_no = $this->input->post('fine_rec_no');
 		$paper_id = $this->input->post('paper_id');
 		echo $paper_id;
-		$msg = $this->processdb->renew_paper($mem_id,$acc_no,$book_iss_id,$fine_receipt_no,$paper_id);
+		$msg = $this->Processdb->renew_paper($mem_id,$acc_no,$book_iss_id,$fine_receipt_no,$paper_id);
 		if ($msg == "not allow")
 		{
 			echo "You are not allow";
@@ -185,8 +185,8 @@ class Transaction extends Backend_Controller {
 		$acc_no = $this->input->post('acc_no');
 		$mem_id = $this->input->post('mem_id');
 		$paper_id = $this->input->post('paper_id');
-	   // $this->load->model('processdb');
-		$msg = $this->processdb->paper_issue_db($mem_id,$group_no,$acc_no,$acc_no,$paper_id);
+	   // $this->load->model('Processdb');
+		$msg = $this->Processdb->paper_issue_db($mem_id,$group_no,$acc_no,$acc_no,$paper_id);
 		if ($msg == "not allow")
 		{
 			echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('Your Permission Rules Already fullfilled'); window.location = \"manual_issue_view\";</SCRIPT>";
@@ -202,6 +202,7 @@ class Transaction extends Backend_Controller {
 			echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('You are already Issued this.'); window.location = \"manual_issue_view\";</SCRIPT>";
 			echo "You are already Issued this.";
 		}
+		
 		$this->load->view('manual_issue_view');
 	}	
 
@@ -217,7 +218,7 @@ class Transaction extends Backend_Controller {
 		$mem_id = $this->input->post('mem_id');
 		$issue_acc_no = $this->input->post($issue_acc_no);
 		//echo $mem_id."---".$acc_no;
-		$msg = $this->processdb->paper_issue_db($mem_id,$group_no,$acc_no,$issue_acc_no,$paper_id);
+		$msg = $this->Processdb->paper_issue_db($mem_id,$group_no,$acc_no,$issue_acc_no,$paper_id);
 		if ($msg == "not allow")
 		{
 			echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('Permission Rules Already fullfilled');</SCRIPT>";
@@ -260,7 +261,7 @@ class Transaction extends Backend_Controller {
 		$group_no = $this->input->post($group_no);
 		$acc_no = $this->input->post($acc_no);
 		$mem_id = $this->input->post('mem_id');
-		$msg = $this->processdb->req_cancel($mem_id,$group_no,$acc_no);
+		$msg = $this->Processdb->req_cancel($mem_id,$group_no,$acc_no);
 		$this->load->view('transaction/latest_request');
 		if ($msg == "suceessfully Cancel")
 		{
@@ -283,7 +284,7 @@ class Transaction extends Backend_Controller {
 		$issue_acc_no = $this->input->post($issue_acc_no);
 		$paper_id = $this->input->post($paper_id);
 		
-		$msg = $this->processdb->paper_issue_db($mem_id,$group_no,$acc_no,$issue_acc_no,$paper_id);
+		$msg = $this->Processdb->paper_issue_db($mem_id,$group_no,$acc_no,$issue_acc_no,$paper_id);
 		if ($msg == "not allow")
 		{
 			echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('Permission Rules Already fullfilled');</SCRIPT>";
@@ -329,7 +330,7 @@ class Transaction extends Backend_Controller {
 		$group_no = $this->input->post($group_no);
 		$acc_no = $this->input->post($acc_no);
 		$mem_id = $this->input->post($mem_id);
-		$msg = $this->processdb->req_cancel($mem_id,$group_no,$acc_no);
+		$msg = $this->Processdb->req_cancel($mem_id,$group_no,$acc_no);
 		if ($msg == "suceessfully Cancel")
 		{
 			echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('Suceessfully Cancel');</SCRIPT>";
@@ -342,7 +343,7 @@ class Transaction extends Backend_Controller {
 	{
 		
 		//echo "helo";
-		$data = $this->processdb->ongoing_request();
+		$data = $this->Processdb->ongoing_request();
 		if ($data == "not exists")
 		{
 			echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('Invalid Member id');</SCRIPT>";
