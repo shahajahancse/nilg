@@ -83,14 +83,8 @@ class Search_model extends CI_Model{
 		$query = $this->db->get('lib_journal',$num, $offset);
 		$num_rows = $query->num_rows();
 		//echo $num_rows;
-		
-		
-		$this->db->like($key,$value);
-		$this->db->group_by("title"); 
-		$query1 = $this->db->get('lib_journal');
-		$num_rows1 = $query1->num_rows();
 	
-		if($num_rows)
+		if($num_rows > 0)
 		{
 			foreach ($query->result() as $row)
 			{	
@@ -117,7 +111,12 @@ class Search_model extends CI_Model{
 				$data["price"][]=$row->price;
 				$data["image"][]=$row->image;
 			}
-			//print_r($data);
+
+			$this->db->like($key,$value);
+			$this->db->group_by("title"); 
+			$query1 = $this->db->get('lib_journal');
+			$num_rows1 = $query1->num_rows();
+
 			$data["num_rows"]=$num_rows1;
 			return $data;
 		}
@@ -311,7 +310,6 @@ class Search_model extends CI_Model{
 		$table = $this->input->post('table');
 		$paper_id = $this->input->post('paper_id');
 		$mem_id = $this->session->userdata('mem_id');
-		// dd($mem_id);
 
 		$requesting = "Requesting";	
 		$issued = "Issued";	
@@ -322,19 +320,19 @@ class Search_model extends CI_Model{
 			echo "You are already Issued this";
 			return;
 		}
+
 		$existing_request_check = $this->Processdb->existing_status_check($mem_id,$requesting,$group_no);
 		if($existing_request_check > 0)
 		{
-		echo "You are already Request this";
-		return;
+			echo "You are already Request this";
+			return;
 		}
-				//find rules
+
+		//find rules
 		$query = $this->Processdb->find_rules($mem_type_id);
-		foreach ($query->result() as $row)
-		{
-			$iss_rules = $row->mbooki;
-			$req_rules = $row->mbookr ;
-		}
+		$iss_rules = $query->row()->mbooki;
+		$req_rules = $query->row()->mbookr ;
+
 		
 		//get number of request	
 		$book_issued = "Issued";	

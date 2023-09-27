@@ -57,7 +57,6 @@ class Search_con extends Backend_Controller {
 	{
 
 		// $this->load->view('search/book_search_view');
-		$this->data['subview'] = 'search/book_search_view';
 		$this->load->library('pagination');
 		$config['base_url'] = base_url().'library/search_con/book_show/';
 		$config['per_page'] = '3';
@@ -65,15 +64,17 @@ class Search_con extends Backend_Controller {
 		$config['full_tag_close'] = '</div>';
 
 		$search_query = $this->Search_model->search_book($config['per_page'],$this->uri->segment(4));
-		$config['total_rows'] =  $search_query['num_rows'];
-		$this->pagination->initialize($config);
+
 		if(is_string($search_query))
 		{
-			echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('No Data Match');</SCRIPT>";
-			exit;
+			// echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('No Data Match');</SCRIPT>";
+			$this->session->set_flashdata('error', 'No Data Match.');
+			return false;
 		}
 		else
 		{	
+			$config['total_rows'] =  $search_query['num_rows'];
+			$this->pagination->initialize($config);
 			return $search_query;
 		}
 	}
@@ -86,12 +87,6 @@ class Search_con extends Backend_Controller {
 		$this->data['subview'] = 'search/book_details';
 		$this->load->view('backend/_layout_main', $this->data);
 		// $this->load->view('search/book_details',$search_query);
-	}
-
-	// book booking
-	function for_booking()
-	{
-		$search_query['value'] = $this->Search_model->for_booking();
 	}
 	//-----------------------------------  Book  Search End   ---------------------------------------
 	//-----------------------------------------------------------------------------------------------
@@ -121,21 +116,24 @@ class Search_con extends Backend_Controller {
 	function journal_show()
 	{
 		// $this->load->view('search/journal_search_view');
-		$this->data['subview'] = 'search/journal_search_view';
 		$this->load->library('pagination');
-		$config['base_url'] = base_url().'index.php/search_con/journal_show/';
+		$config['base_url'] = base_url().'library/search_con/journal_show/';
 		$config['per_page'] = '3';
 		$config['full_tag_open'] = '<div id="pagig">';
 		$config['full_tag_close'] = '</div>';	
 		$search_query = $this->Search_model->search_journal($config['per_page'],$this->uri->segment(4));
-		$config['total_rows'] =  $search_query['num_rows'];
-		$this->pagination->initialize($config);
+
 		if(is_string($search_query))
 		{
-			echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('No Data Match');</SCRIPT>";
+			// echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('No Data Match');</SCRIPT>";
+			$this->session->set_flashdata('error', 'No Data Match.');
+			return false;
 		}
 		else
 		{
+			$config['total_rows'] =  $search_query['num_rows'];
+			$this->pagination->initialize($config);
+			$this->session->set_flashdata('success', '');
 			return $search_query;
 		}
 	}
@@ -149,9 +147,69 @@ class Search_con extends Backend_Controller {
 		$this->load->view('backend/_layout_main', $this->data);
 		// $this->load->view('search/journal_details',$search_query);
 	}
+	// ==========================  journal search end ==================================
 
 
+	//====================================Start Govt. Publocation Search=================================
+	//===================================================================================================
+	function govt_pub_search_view()
+	{
+		$value = $this->input->post('check_key_name');
+		$key = $this->input->post('radioValue');
+	
+		$data = array( "search_key" => $key, "search_value" => $value);
+		$this->session->set_userdata($data);
 
+		if($value && $key )
+		{
+			$this->data['search_query'] = $this->gov_pub_show();
+		}
+
+		$this->data['meta_title'] = 'সরকারি প্রকাশনা অনুসন্ধান';
+		$this->data['subview'] = 'search/gov_pub_search_view';
+		$this->load->view('backend/_layout_main', $this->data);
+
+	}
+	
+	// get gov. pub.
+	function gov_pub_show()
+	{
+		$this->load->library('pagination');
+		$config['base_url'] = base_url().'index.php/search_con/gov_pub_show/';
+		$config['per_page'] = '3';
+		$config['full_tag_open'] = '<div id="pagig">';
+		$config['full_tag_close'] = '</div>';
+		$search_query = $this->Search_model->search_gov_pub($config['per_page'],$this->uri->segment(4));
+
+		if(is_string($search_query))
+		{
+			// echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('No Data Match');</SCRIPT>";
+			$this->session->set_flashdata('error', 'No Data Match.');
+			return false;
+		}
+		else
+		{
+			$config['total_rows'] =  $search_query['num_rows'];
+			$this->pagination->initialize($config);
+			return $search_query;
+		}
+	}
+	
+	// gov. pub. details
+	function gov_pub_details()
+	{
+		$this->data['value'] = $this->Search_model->gov_pub_details();
+		$this->data['meta_title'] = 'সরকারি প্রকাশনা অনুসন্ধান';
+		$this->data['subview'] = 'search/gov_pub_details';
+		$this->load->view('backend/_layout_main', $this->data);
+		// $this->load->view('search/gov_pub_details',$search_query);
+	}
+
+	// book/journal/govt.pub. booking
+	function for_booking()
+	{
+		$search_query['value'] = $this->Search_model->for_booking();
+	}
 
 
 
@@ -169,76 +227,23 @@ class Search_con extends Backend_Controller {
 		
 	}
 	
-	//====================================Start Govt. Publocation Search=================================
-	//===================================================================================================
-	function govt_pub_search_view()
-	{
-		$value = $this->input->post('check_key_name');
-		$key = $this->input->post('radioValue');
-	
-		$data = array( "search_key" => $key, "search_value" => $value);
-		
-		$this->session->set_userdata($data);
-
-		if($value && $key )
-		{
-			$this->gov_pub_show();
-		}
-		else
-		{
-			$this->data['meta_title'] = 'সরকারি প্রকাশনা অনুসন্ধান';
-			$this->data['subview'] = 'search/gov_pub_search_view';
-			$this->load->view('backend/_layout_main', $this->data);
-		}
-	}
-	
-	function gov_pub_show()
-	{
-		$this->data['subview'] = 'search/gov_pub_search_view';
-		$this->load->library('pagination');
-		$config['base_url'] = base_url().'index.php/search_con/gov_pub_show/';
-		$config['per_page'] = '3';
-		$config['full_tag_open'] = '<div id="pagig">';
-		$config['full_tag_close'] = '</div>';
-		$search_query = $this->search_model->search_gov_pub($config['per_page'],$this->uri->segment(3));
-		$config['total_rows'] =  $search_query['num_rows'];
-		$this->pagination->initialize($config);
-			if(is_string($search_query))
-			{
-				echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('No Data Match');</SCRIPT>";
-			}
-			else
-			{
-				$this->load->view('search/gov_pub_show',$search_query);
-			}
-	}
-	
-	function gov_pub_details()
-	{
-		$this->data['value'] = $this->search_model->gov_pub_details();
-		$this->data['meta_title'] = 'সরকারি প্রকাশনা অনুসন্ধান';
-		$this->data['subview'] = 'search/gov_pub_details';
-		$this->load->view('backend/_layout_main', $this->data);
-		// $this->load->view('search/gov_pub_details',$search_query);
-	}
-	
 
 	function book_ajaxsearch()
 	{
 		$searchkey = $this->input->post('check_key_name');
-		$radival = $this->uri->segment(3);
+		$radival = $this->uri->segment(4);
 		//echo $radival;
 		//echo $search;
-		echo $this->processdb->getbook_search($searchkey,$radival);
+		echo $this->Processdb->getbook_search($searchkey,$radival);
 	}
 	
 	function journal_ajaxsearch()
 	{
 		$searchkey = $this->input->post('check_key_name');
-		$radival = $this->uri->segment(3);
+		$radival = $this->uri->segment(4);
 		//echo $radival;
 		//echo $search;
-		echo $this->processdb->getjournal_search($searchkey,$radival);
+		echo $this->Processdb->getjournal_search($searchkey,$radival);
 	}
 
 }

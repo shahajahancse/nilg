@@ -83,6 +83,7 @@
       <div class="grid-title">
         <h4><span class="semi-bold">জার্নাল অনুসন্ধান</span></h4>
       </div>
+
       <div class="grid-body tableresponsive">
         <div align="center" style="margin:0 auto; width:100%; overflow:hidden; ">
           <fieldset style='border:3px #004040 solid; padding:10px;border-radius:5px;'>
@@ -126,7 +127,7 @@
                    <td align='right' width='29%'>কীওয়ার্ড অনুসন্ধান করুন </td>
                   <td> <input style='background-color:#cccccc;' type='text' size='27px' name='check_key_name' id='check_key_name' onkeyup="search_jou()" placeholder="অনুসন্ধান কী লিখুন" value="<?php if (isset($_POST['check_key_name'])){echo $_POST['check_key_name'];} else{ echo $this->session->userdata('search_value');} ?>" required >
                   <div  id="autocomplete_journal" class="autocomplete" style="width: auto;"></div></td>
-                <td><input  type="submit" name='search'  value='অনুসন্ধান' class="submit btn btn-xs btn-success" /></td>
+                <td><input onclick="hide_msg()" type="submit" name='search'  value='অনুসন্ধান' class="submit btn btn-xs btn-success" /></td>
                 </tr>
               </table>
             </form>
@@ -134,8 +135,25 @@
 
           <!-- search book show here -->
           <?php if (!empty($search_query)) { $this->load->view('search/journal_show', $search_query); } ?>
+
+            <?php if(!empty($this->session->flashdata('error'))):
+              echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('No Data Match');</SCRIPT>"; 
+            endif; ?>
+
         </div>
       </div>
     </div>
   </div> <!-- END ROW -->
 </div>
+
+
+
+
+    <script>
+      function hide_msg() {
+        setTimeout(function () {
+          $('#error_massage').hide();
+          $('#error_massage').css('display','none');
+        }, 10000);
+      };
+    </script>

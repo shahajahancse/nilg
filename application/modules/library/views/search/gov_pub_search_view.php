@@ -94,13 +94,14 @@
 
     <div class="grid simple horizontal red">
       <div class="grid-title">
-        <h4><span class="semi-bold">সরকারি প্রকাশনা  অনুসন্ধান</span></h4>
+        <h4><span class="semi-bold">সরকারি প্রকাশনা অনুসন্ধান</span></h4>
       </div>
       <div class="grid-body tableresponsive">
                   
         <div align="center" style="margin:0 auto; width:100%; overflow:hidden; ">
-          <fieldset style=';border:3px #004040 solid; padding:10px;border-radius:5px;'><legend><font size='+1'><b>অনুসন্ধান করুন</b></font></legend>
-            <form  name='search_book' action="<?php echo base_url(); ?>index.php/search_con/govt_pub_search_view"  method="post">
+          <fieldset style=';border:3px #004040 solid; padding:10px;border-radius:5px;'>
+            <legend><font size='+1'><b>অনুসন্ধান করুন</b></font></legend>
+            <form  name='search_book' action="<?php echo base_url(); ?>library/search_con/govt_pub_search_view"  method="post">
               <table width='100%' border='0' align='center' style='padding:10px; color: #004040; font-weight:bold; font-size:13px;'>
                 <tr>
                   <td><input type="radio" name="radioValue" value="isbn" id="isbn" checked required />Search By ISBN</td>
@@ -145,15 +146,15 @@
 
                 <tr>
                   <td align='right' width='29%'>কীওয়ার্ড অনুসন্ধান করুন</td>
-                  <td> <input style='background-color:#cccccc;' type='text' size='27px' name='check_key_name' id='check_key_name' placeholder="অনুসন্ধান কী লিখুন" value="<?php if (isset($_POST['check_key_name'])){echo $_POST['check_key_name'];} else{ echo $this->session->userdata('search_value');} ?>" required  >
-                  <!--<div  id="autocomplete_book" class="autocomplete" style="width: auto;"></div>--></td>
+                  <td> <input style='background-color:#cccccc;' type='text' size='27px' name='check_key_name' id='check_key_name' placeholder="অনুসন্ধান কী লিখুন" value="<?php if (isset($_POST['check_key_name'])){echo $_POST['check_key_name'];} else{ echo $this->session->userdata('search_value');} ?>" required  ></td>
                   <td><input  type="submit" name='search' class="btn btn-success"  value='Search' class="submit" /> </td>
                 </tr>  
               </table>
             </form>
-
-
           </fieldset>
+
+          <!-- search book show here -->
+          <?php if (!empty($search_query)) { $this->load->view('search/gov_pub_show', $search_query); } ?>
         </div>
       </div>
     </div>

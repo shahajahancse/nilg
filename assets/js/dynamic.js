@@ -290,9 +290,8 @@ function for_booking(){
  	ajaxRequest.send(queryString);
  
 	ajaxRequest.onreadystatechange = function(){
-		if(ajaxRequest.readyState == 4){
+		if(ajaxRequest.readyState == 4){   
 			var resp = ajaxRequest.responseText;
-			console.log(resp)
 			alert(resp);
 		}
 	}
