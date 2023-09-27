@@ -23,6 +23,7 @@ class Search_con extends Backend_Controller {
 		// Search Setup Section
 		//-------------------------------------------------------------------------------------------
 	*/
+	//-----------------------------------  Book  Search Start   ---------------------------------------
 	function lib_output($output = null)
 	{
 		$this->load->view('backend/page_header', $this->data); 
@@ -81,10 +82,10 @@ class Search_con extends Backend_Controller {
 	function book_details()
 	{
 		$this->data['value'] = $this->Search_model->book_details();
-		// $this->load->view('search/book_details',$search_query);
 		$this->data['meta_title'] = 'বই';
 		$this->data['subview'] = 'search/book_details';
 		$this->load->view('backend/_layout_main', $this->data);
+		// $this->load->view('search/book_details',$search_query);
 	}
 
 	// book booking
@@ -92,37 +93,31 @@ class Search_con extends Backend_Controller {
 	{
 		$search_query['value'] = $this->Search_model->for_booking();
 	}
+	//-----------------------------------  Book  Search End   ---------------------------------------
+	//-----------------------------------------------------------------------------------------------
 
 
-	
-
-
-
-
-	
+	// ==========================  journal search start ==================================
 	function journal_search_view()
 	{
-		
 		$value = $this->input->post('check_key_name');
 		$key = $this->input->post('radioValue');
-		//echo $value;
-		$data = array( "search_key" => $key, "search_value" => $value);
 		
+		$data = array( "search_key" => $key, "search_value" => $value);
 		$this->session->set_userdata($data);
-			//echo $value =$this->session->userdata('search_value');
-		//echo $key = $this->session->userdata('search_key');
+
 		if($value && $key )
 		{
-			$this->journal_show();
+			$this->data['search_query'] = $this->journal_show();
 		}
-		else
-		{
-			// $this->load->view('search/journal_search_view');
-			$this->data['meta_title'] = 'জার্নাল অনুসন্ধান';
-			$this->data['subview'] = 'search/journal_search_view';
-			$this->load->view('backend/_layout_main', $this->data);
-		}
+
+		// $this->load->view('search/journal_search_view');
+		$this->data['meta_title'] = 'জার্নাল অনুসন্ধান';
+		$this->data['subview'] = 'search/journal_search_view';
+		$this->load->view('backend/_layout_main', $this->data);
 	}
+
+	// get journal
 	function journal_show()
 	{
 		// $this->load->view('search/journal_search_view');
@@ -132,34 +127,46 @@ class Search_con extends Backend_Controller {
 		$config['per_page'] = '3';
 		$config['full_tag_open'] = '<div id="pagig">';
 		$config['full_tag_close'] = '</div>';	
-		$search_query = $this->search_model->search_journal($config['per_page'],$this->uri->segment(3));
+		$search_query = $this->Search_model->search_journal($config['per_page'],$this->uri->segment(4));
 		$config['total_rows'] =  $search_query['num_rows'];
 		$this->pagination->initialize($config);
 		if(is_string($search_query))
 		{
-		echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('No Data Match');</SCRIPT>";
+			echo "<SCRIPT LANGUAGE=\"JavaScript\">alert('No Data Match');</SCRIPT>";
 		}
 		else
 		{
-		$this->load->view('search/journal_show',$search_query);
+			return $search_query;
 		}
 	}
-	
-	
+
+	// journal details
+	function journal_details()
+	{
+		$this->data['value'] = $this->Search_model->journal_details();
+		$this->data['meta_title'] = 'জার্নাল';
+		$this->data['subview'] = 'search/journal_details';
+		$this->load->view('backend/_layout_main', $this->data);
+		// $this->load->view('search/journal_details',$search_query);
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
 	function configuration()
 	{
 		// $this->load->view('form/configuration');
 			$this->data['subview'] = 'search/configuration';
 		
-	}
-	
-	
-	function journal_details()
-	{
-		$data['value'] = $this->search_model->journal_details();
-		$this->data['subview'] = 'search/journal_details';
-		$this->load->view('backend/_layout_main', $this->data);
-		// $this->load->view('search/journal_details',$search_query);
 	}
 	
 	//====================================Start Govt. Publocation Search=================================

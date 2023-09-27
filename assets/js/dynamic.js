@@ -278,9 +278,11 @@ function for_booking(){
 		return false;
 	}
 		
-	var table 	= document.getElementById('table').value;
+	var table 		= document.getElementById('table').value;
 	var group_no 	= document.getElementById('group_no').value;
-	var queryString="group_no="+group_no+"&table="+table;
+	var paper_id 	= document.getElementById('paper_id').value;
+
+	var queryString="group_no="+group_no+"&table="+table+"&paper_id="+paper_id;
 	var url = hostname + "library/search_con/for_booking/";
  
  	ajaxRequest.open("POST",url, true);

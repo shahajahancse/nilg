@@ -6,7 +6,7 @@ class Search_model extends CI_Model{
 	{
 		parent::__construct();
 		date_default_timezone_set('Asia/Dhaka');
-		$this->load->model('processdb');
+		$this->load->model('Processdb');
 	}
 
 	function search_book($num, $offset)
@@ -47,10 +47,10 @@ class Search_model extends CI_Model{
 				$data["first_subject"][]=$row->first_subject;
 				$data["snd_subject"][]=$row->snd_subject;
 				$edition = $row->edition;
-				$edt_result = $this->processdb->find_edition($edition);
+				$edt_result = $this->Processdb->find_edition($edition);
 				$data["edition"][]=$edt_result;
 				$source=$row->source;
-				$src_result = $this->processdb->find_source($source);
+				$src_result = $this->Processdb->find_source($source);
 				$data["source"][]=$src_result;
 				$data["place"][]=$row->place;
 				$data["publisher"][]=$row->publisher;
@@ -106,7 +106,7 @@ class Search_model extends CI_Model{
 				$data["first_subject"][]=$row->first_subject;
 				$data["snd_subject"][]=$row->snd_subject;
 				$source=$row->source;
-				$src_result = $this->processdb->find_source($source);
+				$src_result = $this->Processdb->find_source($source);
 				$data["source"][]=$src_result;
 				$data["place"][]=$row->place;
 				$data["publisher"][]=$row->publisher;
@@ -164,10 +164,10 @@ class Search_model extends CI_Model{
 				$data["first_subject"][]=$row->first_subject;
 				$data["snd_subject"][]=$row->snd_subject;
 				$edition = $row->edition;
-				$edt_result = $this->processdb->find_edition($edition);
+				$edt_result = $this->Processdb->find_edition($edition);
 				$data["edition"][]=$edt_result;
 				$source=$row->source;
-				$src_result = $this->processdb->find_source($source);
+				$src_result = $this->Processdb->find_source($source);
 				$data["source"][]=$src_result;
 				$data["place"][]=$row->place;
 				$data["publisher"][]=$row->publisher;
@@ -213,10 +213,10 @@ class Search_model extends CI_Model{
 				$data["first_subject"]=$row->first_subject;
 				$data["snd_subject"]=$row->snd_subject;
 				$edition = $row->edition;
-				$edt_result = $this->processdb->find_edition($edition);
+				$edt_result = $this->Processdb->find_edition($edition);
 				$data["edition"]=$edt_result;
 				$source=$row->source;
-				$src_result = $this->processdb->find_source($source);
+				$src_result = $this->Processdb->find_source($source);
 				$data["source"]=$src_result;
 				$data["place"]=$row->place;
 				$data["publisher"]=$row->publisher;
@@ -232,7 +232,7 @@ class Search_model extends CI_Model{
 	
 	function journal_details()
 	{
-		$value = $this->uri->segment(3);
+		$value = $this->uri->segment(4);
 		$this->db->select('*');
 		$this->db->where('issn',$value);
 		$query = $this->db->get('lib_journal');
@@ -251,7 +251,7 @@ class Search_model extends CI_Model{
 				$data["snd_subject"]=$row->snd_subject;
 				$data["trans_co_author"]=$row->trans_co_author;
 				$source=$row->source;
-				$src_result = $this->processdb->find_source($source);
+				$src_result = $this->Processdb->find_source($source);
 				$data["source"]=$src_result;
 				$data["place"]=$row->place;
 				$data["publisher"]=$row->publisher;
@@ -267,7 +267,7 @@ class Search_model extends CI_Model{
 	
 	function gov_pub_details()
 	{
-		$value = $this->uri->segment(3);
+		$value = $this->uri->segment(4);
 		$this->db->select('*');
 		$this->db->where('isbn',$value);
 		$query = $this->db->get('lib_gov_publicaton');
@@ -289,10 +289,10 @@ class Search_model extends CI_Model{
 				$data["first_subject"]=$row->first_subject;
 				$data["snd_subject"]=$row->snd_subject;
 				$edition = $row->edition;
-				$edt_result = $this->processdb->find_edition($edition);
+				$edt_result = $this->Processdb->find_edition($edition);
 				$data["edition"]=$edt_result;
 				$source=$row->source;
-				$src_result = $this->processdb->find_source($source);
+				$src_result = $this->Processdb->find_source($source);
 				$data["source"]=$src_result;
 				$data["place"]=$row->place;
 				$data["publisher"]=$row->publisher;
@@ -311,25 +311,25 @@ class Search_model extends CI_Model{
 		$table = $this->input->post('table');
 		$paper_id = $this->input->post('paper_id');
 		$mem_id = $this->session->userdata('mem_id');
-		//echo $table;
-		//echo $call_no.$mem_id;
+		// dd($mem_id);
+
 		$requesting = "Requesting";	
 		$issued = "Issued";	
-		$mem_type_id = $this->processdb->member_check($mem_id);
-		$existing_issue_check = $this->processdb->existing_status_check($mem_id,$issued,$group_no);
+		$mem_type_id = $this->Processdb->member_check($mem_id);
+		$existing_issue_check = $this->Processdb->existing_status_check($mem_id,$issued,$group_no);
 		if($existing_issue_check > 0)
 		{
 			echo "You are already Issued this";
 			return;
 		}
-		$existing_request_check = $this->processdb->existing_status_check($mem_id,$requesting,$group_no);
+		$existing_request_check = $this->Processdb->existing_status_check($mem_id,$requesting,$group_no);
 		if($existing_request_check > 0)
 		{
 		echo "You are already Request this";
 		return;
 		}
 				//find rules
-		$query = $this->processdb->find_rules($mem_type_id);
+		$query = $this->Processdb->find_rules($mem_type_id);
 		foreach ($query->result() as $row)
 		{
 			$iss_rules = $row->mbooki;
@@ -338,10 +338,10 @@ class Search_model extends CI_Model{
 		
 		//get number of request	
 		$book_issued = "Issued";	
-		$no_issued = $this->processdb->status_check($mem_id,$book_issued);
+		$no_issued = $this->Processdb->status_check($mem_id,$book_issued);
 		//get number of request
 		$book_req = "Requesting";	
-		$no_req = $this->processdb->status_check($mem_id,$book_req);
+		$no_req = $this->Processdb->status_check($mem_id,$book_req);
 		$total_iss_req = $no_issued + $no_req;
 		//echo $total_iss_req;
 		if($total_iss_req >= $iss_rules)
@@ -353,7 +353,7 @@ class Search_model extends CI_Model{
 		{
 			$requesting_date =  date("Y-m-d H:i:s");
 			//collect acc no which are booked by member from booking table
-			$booking_acc_no = $this->processdb->booking_acc_no($mem_id,$group_no);
+			$booking_acc_no = $this->Processdb->booking_acc_no($mem_id,$group_no);
 			$no_booking_acc_no = count($booking_acc_no);
 			
 			if($no_booking_acc_no == 0)
@@ -361,7 +361,7 @@ class Search_model extends CI_Model{
 			 	$booking_acc_no = 0;
 			}
 			//collect available acc no
-			$available_accno = $this->processdb->available_accno($booking_acc_no,$group_no,$table);
+			$available_accno = $this->Processdb->available_accno($booking_acc_no,$group_no,$table);
 
 			$data = array(
 			'mem_id' => $mem_id,
@@ -490,10 +490,10 @@ class Search_model extends CI_Model{
 				$data["first_subject"][]=$row->first_subject;
 				$data["snd_subject"][]=$row->snd_subject;
 				$edition = $row->edition;
-				$edt_result = $this->processdb->find_edition($edition);
+				$edt_result = $this->Processdb->find_edition($edition);
 				$data["edition"][]=$edt_result;
 				$source=$row->source;
-				$src_result = $this->processdb->find_source($source);
+				$src_result = $this->Processdb->find_source($source);
 				$data["source"][]=$src_result;
 				$data["place"][]=$row->place;
 				$data["publisher"][]=$row->publisher;
@@ -612,10 +612,10 @@ class Search_model extends CI_Model{
 				$data["first_subject"][]	= $row->first_subject;
 				$data["snd_subject"][]		= $row->snd_subject;
 				$edition 					= $row->edition;
-				$edt_result = $this->processdb->find_edition($edition);
+				$edt_result = $this->Processdb->find_edition($edition);
 				$data["edition"][]=$edt_result;
 				$source=$row->source;
-				$src_result = $this->processdb->find_source($source);
+				$src_result = $this->Processdb->find_source($source);
 				$data["source"][]=$src_result;
 				$data["place"][]=$row->place;
 				$data["publisher"][]=$row->publisher;
@@ -685,7 +685,7 @@ class Search_model extends CI_Model{
 				$data["first_subject"][]=$row->first_subject;
 				$data["snd_subject"][]=$row->snd_subject;
 				$source=$row->source;
-				$src_result = $this->processdb->find_source($source);
+				$src_result = $this->Processdb->find_source($source);
 				$data["source"][]=$src_result;
 				$data["place"][]=$row->place;
 				$data["publisher"][]=$row->publisher;
@@ -796,7 +796,7 @@ class Search_model extends CI_Model{
 				$data["first_subject"][]=$row->first_subject;
 				$data["snd_subject"][]=$row->snd_subject;
 				$source=$row->source;
-				$src_result = $this->processdb->find_source($source);
+				$src_result = $this->Processdb->find_source($source);
 				$data["source"][]=$src_result;
 				$data["place"][]=$row->place;
 				$data["publisher"][]=$row->publisher;
@@ -869,10 +869,10 @@ class Search_model extends CI_Model{
 				$data["first_subject"][]=$row->first_subject;
 				$data["snd_subject"][]=$row->snd_subject;
 				$edition = $row->edition;
-				$edt_result = $this->processdb->find_edition($edition);
+				$edt_result = $this->Processdb->find_edition($edition);
 				$data["edition"][]=$edt_result;
 				$source=$row->source;
-				$src_result = $this->processdb->find_source($source);
+				$src_result = $this->Processdb->find_source($source);
 				$data["source"][]=$src_result;
 				$data["place"][]=$row->place;
 				$data["publisher"][]=$row->publisher;
@@ -998,10 +998,10 @@ class Search_model extends CI_Model{
 				$data["first_subject"][]=$row->first_subject;
 				$data["snd_subject"][]=$row->snd_subject;
 				$edition = $row->edition;
-				$edt_result = $this->processdb->find_edition($edition);
+				$edt_result = $this->Processdb->find_edition($edition);
 				$data["edition"][]=$edt_result;
 				$source=$row->source;
-				$src_result = $this->processdb->find_source($source);
+				$src_result = $this->Processdb->find_source($source);
 				$data["source"][]=$src_result;
 				$data["place"][]=$row->place;
 				$data["publisher"][]=$row->publisher;
