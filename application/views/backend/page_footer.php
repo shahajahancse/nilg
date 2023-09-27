@@ -41,7 +41,6 @@ type="text/javascript" ></script>
 */ ?>
 <!-- END PAGE LEVEL PLUGINS -->
 <?php /*<script src="<?=base_url();?>awedget/assets/js/datatables.js" type="text/javascript"></script>*/ ?>
-<script src="<?=base_url()?>awedget/assets/js/tabs_accordian.js" type="text/javascript"></script>
 <script src="<?=base_url()?>awedget/assets/plugins/fullcalendar/fullcalendar.min.js"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 <?php if($this->router->fetch_class('my_calendar') == 'my_calendar'){ ?>
@@ -53,7 +52,6 @@ type="text/javascript" ></script>
 <!-- END PAGE LEVEL PLUGINS -->
 <script src="<?=base_url()?>awedget/assets/js/email_comman.js" type="text/javascript"></script>
 <?php } ?>
-<script src="<?=base_url()?>awedget/assets/js/messages_notifications.js" type="text/javascript"></script>
 <!-- BEGIN CORE TEMPLATE JS -->
 
 <?php if($this->router->fetch_class('dashboard') == 'dashboard'){ ?>
@@ -100,14 +98,9 @@ type="text/javascript" ></script>
 <script type="text/javascript">
 var hostname = '<?php echo base_url();?>';
 </script>
-<script src="<?=base_url();?>awedget/assets/js/core.js" type="text/javascript"></script>
 <?php /*?>
 <!--<script src="<?=base_url();?>awedget/assets/js/chat.js" type="text/javascript"></script>--><?php */?>
 
-<script src="<?=base_url();?>awedget/assets/js/demo.js" type="text/javascript"></script>
-<script src="<?=base_url();?>awedget/assets/js/custom.js" type="text/javascript"></script>
-<script src="<?=base_url();?>awedget/assets/js/form_validations.js" type="text/javascript"></script>
-<script src="<?=base_url();?>awedget/assets/js/custom_validations.js" type="text/javascript"></script>
 
 <!-- Latest Sortable -->
 <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
@@ -633,6 +626,14 @@ Sortable.create(list2, {
 });
 </script>
 <?php } ?>
+<script src="<?=base_url()?>awedget/assets/js/tabs_accordian.js" type="text/javascript"></script>
+<script src="<?=base_url()?>awedget/assets/js/messages_notifications.js" type="text/javascript"></script>
+<script src="<?=base_url();?>awedget/assets/js/core.js" type="text/javascript"></script>
+<script src="<?=base_url();?>awedget/assets/js/demo.js" type="text/javascript"></script>
+<script src="<?=base_url();?>awedget/assets/js/custom.js" type="text/javascript"></script>
+<script src="<?=base_url();?>awedget/assets/js/form_validations.js" type="text/javascript"></script>
+<script src="<?=base_url();?>awedget/assets/js/custom_validations.js" type="text/javascript"></script>
+
 
 </body>
 
