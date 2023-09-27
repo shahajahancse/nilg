@@ -292,7 +292,8 @@ function for_booking(){
 	ajaxRequest.onreadystatechange = function(){
 		if(ajaxRequest.readyState == 4){
 			var resp = ajaxRequest.responseText;
-			alert('suceessfully Booking');
+			console.log(resp)
+			alert(resp);
 		}
 	}
 }

@@ -12,14 +12,24 @@ class Library extends CI_Controller {
 		$this->load->model('File_model');
 		$this->load->helper(array('form', 'url', 'email'));
 	}
+
 	
 	function index()
 	{
+        redirect('login');
 		$data['title'] = "Welcome to Library";
 		$data['main'] = 'mist_lib';
 		$this->load->view('mist',$data);
 	}
-	
+
+	// 27-09-2023
+	/*function index()
+	{
+		$data['title'] = "Welcome to Library";
+		$data['main'] = 'mist_lib';
+		$this->load->view('mist',$data);
+	}*/
+
 	function search_all()
 	{
 		$data['title'] = "Welcome to Search option";
