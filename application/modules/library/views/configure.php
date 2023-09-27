@@ -1,4 +1,9 @@
+
 <link rel="stylesheet" type="text/css" media="screen" href="<?php echo base_url(); ?>assets/css/style.css" />
+<?php if (!empty($css_files)) {
+	foreach($css_files as $file): ?>
+		<link type="text/css" rel="stylesheet" href="<?php echo $file; ?>" />
+<?php endforeach; } ?>
 <style type='text/css'>
 	a {
 	    text-decoration: none;
@@ -44,4 +49,9 @@
     </div>
   </div> <!-- END ROW -->
 </div>
-    \
+
+
+<?php if (!empty($css_files)) {
+	foreach($js_files as $file): ?>
+		<script src="<?php echo $file; ?>"></script>
+<?php endforeach;} ?>
