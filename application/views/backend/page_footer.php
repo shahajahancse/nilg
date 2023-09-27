@@ -292,6 +292,7 @@ function promotion_designation_suggestions() {
     $(".promo_desig_sugg").result(function(event, data, formatted) {});
     $(".promo_desig_sugg").search();
 }
+// promotion_designation_suggestions() 
 
 // Organization suggestions
 function organization_suggestions() {
@@ -633,7 +634,9 @@ Sortable.create(list2, {
 <script src="<?=base_url();?>awedget/assets/js/custom.js" type="text/javascript"></script>
 <script src="<?=base_url();?>awedget/assets/js/form_validations.js" type="text/javascript"></script>
 <script src="<?=base_url();?>awedget/assets/js/custom_validations.js" type="text/javascript"></script>
-
+ <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.22.0/autocomplete.jquery.min.js" ></script>
 
 </body>
 
