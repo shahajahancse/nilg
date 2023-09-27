@@ -17,31 +17,30 @@
       <li><?=$meta_title; ?> </li>
     </ul>
 
-	<div class="grid simple horizontal red">
-		<div class="grid-title">
-		<h4><span class="semi-bold">বই অনুসন্ধান</span></h4>
-		</div>
-		<div class="grid-body tableresponsive">
-			<FIELDSET style="width:76%">
-				<LEGEND style="color:#FF8080; font-size:18px"><b>Configure</b></LEGEND>
-					<table>
-						<tr>
-							<td style="width:20%;"><a href="<?php echo base_url(); ?>library/setup_con/source_set"><input type="button" value="Source" name="button" class="button" /></a></td>
-							<td style="width:20%;"><a href="<?php echo base_url(); ?>library/setup_con/edt_set"><input type="button" value="Edition" name="button" class="button" /></a></td>
-							<td style="width:20%;"><a href="<?php echo base_url(); ?>library/setup_con/designation_set"><input type="button" value="Designation" name="button" class="button"  /></a></td>
-						</tr>
-						<tr>
-							<td style="width:20%;"><a href="<?php echo base_url(); ?>library/setup_con/place_set"><input type="button" value="Place" name="button" class="button" /></a></td>
-							<td style="width:20%;"><a href="<?php echo base_url(); ?>library/setup_con/year_set"><input type="button" value="Year" name="button" class="button" /></a></td>
-							<td style="width:20%;"><a href="<?php echo base_url(); ?>library/setup_con/member_type"><input type="button" value="Member Type" name="button" class="button"  /></a></td>
-						</tr>
-					</table>
-			</FIELDSET>
-			<div id="config" style="width:78%; margin:5px" >
-				<?php if(isset($output)) { echo $output;  } ?>
+		<div class="grid simple horizontal red">
+			<div class="grid-title">
+				<h4><span class="semi-bold">বই অনুসন্ধান</span></h4>
 			</div>
-		</div>
+			<div class="grid-body tableresponsive">
+				<FIELDSET style="width:76%">
+					<LEGEND style="color:#FF8080; font-size:18px"><b>Configure</b></LEGEND>
+						<table>
+							<tr>
+								<td style="width:20%;"><a href="<?php echo base_url(); ?>library/setup_con/source_set"><input type="button" value="Source" name="button" class="button" /></a></td>
+								<td style="width:20%;"><a href="<?php echo base_url(); ?>library/setup_con/edt_set"><input type="button" value="Edition" name="button" class="button" /></a></td>
+								<td style="width:20%;"><a href="<?php echo base_url(); ?>library/setup_con/designation_set"><input type="button" value="Designation" name="button" class="button"  /></a></td>
+							</tr>
+							<tr>
+								<td style="width:20%;"><a href="<?php echo base_url(); ?>library/setup_con/place_set"><input type="button" value="Place" name="button" class="button" /></a></td>
+								<td style="width:20%;"><a href="<?php echo base_url(); ?>library/setup_con/year_set"><input type="button" value="Year" name="button" class="button" /></a></td>
+								<td style="width:20%;"><a href="<?php echo base_url(); ?>library/setup_con/member_type"><input type="button" value="Member Type" name="button" class="button"  /></a></td>
+							</tr>
+						</table>
+				</FIELDSET>
+				<div id="config" style="width:78%; margin:5px" >
+					<?php if(isset($output)) { echo $output;  } ?>
+				</div>
+			</div>
     </div>
   </div> <!-- END ROW -->
 </div>
-    \

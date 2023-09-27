@@ -850,29 +850,31 @@ class Processdb extends CI_Model{
 		$acc_last	= $this->input->post('acc_last');
 		$radioValue	= $this->input->post('radioValue');
 		
-			$where = "acc_no BETWEEN $acc_first and $acc_last";
-			$this->db->select('acc_no');
-			$this->db->where($where);
-			$query = $this->db->get($radioValue);
-			// echo $this->db->last_query();
-			if($query->num_rows > 0)
+		$where = "acc_no BETWEEN $acc_first and $acc_last";
+		$this->db->select('acc_no');
+		$this->db->where($where);
+		$this->db->order_by('acc_no');
+		$query = $this->db->get($radioValue);
+		// echo $this->db->last_query();
+
+		if($query->num_rows() > 0)
+		{
+			//echo "valid";
+			$data1 = array();
+			foreach ($query->result() as $row)
 			{
-				//echo "valid";
-				$data1 = array();
-				foreach ($query->result() as $row)
-				{
-					$data1[] = $row->acc_no;
-				}
-				
-				
-				$data1 = implode("==",$data1);
-				$data2 = $query->num_rows;
-				echo "$data1***$data2";
+				$data1[] = $row->acc_no;
 			}
-			else
-			{
-				echo "not exist";
-			}
+			
+			
+			$data1 = implode("==",$data1);
+			$data2 = $query->num_rows();
+			echo "$data1***$data2";
+		}
+		else
+		{
+			echo "not exist";
+		}
 	
 	}
 	

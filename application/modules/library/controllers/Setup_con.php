@@ -342,6 +342,18 @@ class Setup_con extends Backend_Controller {
 	// End Source, place... configure
 	// ==========================================================================================
 
+	// =========================== barcode generator ==============================
+	function barcode_generator()
+	{
+		$result = $this->Processdb->barcode_generator_db();
+		echo $result;
+		//return $result;
+	}
+	// =========================== end barcode generator ==============================
+
+
+
+
 
 
 
@@ -1722,15 +1734,6 @@ class Setup_con extends Backend_Controller {
 	{
 		return $value.' &euro;';
 	}
-
-	
-	function barcode_generator()
-	{
-		$result = $this->Processdb->barcode_generator_db();
-		echo $result;
-		//return $result;
-	}
-
 	
 	function type_insert($post_array)
     {

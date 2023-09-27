@@ -345,99 +345,93 @@ ajaxRequest.onreadystatechange = function(){
 
 function barcode_generator()
 {
-	hostname = window.location.href; 
-	base_url = hostname.substring(0, (hostname.indexOf("index.php") == -1)?hostname.length:hostname.indexOf("index.php"));
-
-var ajaxRequest;  // The variable that makes Ajax possible!
-	
- try{
-   // Opera 8.0+, Firefox, Safari
-   ajaxRequest = new XMLHttpRequest();
- }catch (e){
-   // Internet Explorer Browsers
-   try{
-      ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
-   }catch (e) {
-      try{
-         ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
-      }catch (e){
-         // Something went wrong
-         alert("Your browser broke!");
-         return false;
-      }
-   }
- }
-	  //var radioValue 	= document.getElementById('radioValue').value;
-	  var acc_first = document.getElementById('acc_first').value;
-	  var acc_last 		= document.getElementById('acc_last').value;
+	var ajaxRequest;  // The variable that makes Ajax possible!
 		
-		for (index=0; index < document.barcode_form.radioValue.length; index++) {
-			if (document.barcode_form.radioValue[index].checked) {
+	try{
+	   // Opera 8.0+, Firefox, Safari
+	   ajaxRequest = new XMLHttpRequest();
+	}catch (e){
+	   // Internet Explorer Browsers
+	   try{
+	      ajaxRequest = new ActiveXObject("Msxml2.XMLHTTP");
+	   }catch (e) {
+	      try{
+	         ajaxRequest = new ActiveXObject("Microsoft.XMLHTTP");
+	      }catch (e){
+	         // Something went wrong
+	         alert("Your browser broke!");
+	         return false;
+	      }
+	   }
+	}
+		  
+	var radioValue 	= document.getElementById('radioValue').value;
+	var acc_first = document.getElementById('acc_first').value;
+	var acc_last 		= document.getElementById('acc_last').value;
+		
+	for (index=0; index < document.barcode_form.radioValue.length; index++) {
+		if (document.barcode_form.radioValue[index].checked) {
 			var radioValue = document.barcode_form.radioValue[index].value;
 			break;
-			}
 		}
-		//alert(radioValue);
+	}
+	//alert(radioValue);
 	
 	
-		if(radioValue == null)
-		{
-			alert("Choose One Radio Button");
-			return
+	if(radioValue == null)
+	{
+		alert("Choose One Radio Button");
+		return
 		// alert("radioValue null");
-		}
-		if(acc_first == "")
-		{
-		  alert("Enter Acc. No. First..");
-		  return;
-		}
-		
-		if(acc_last == "")
-		{
-		  alert("Enter Acc. No. Last..");
-		  return;
-		}
-		
-		if (isNaN(acc_first))
-		{
-		  alert("Accession First is always number");
-		  return;
-		}
-		
-		if (isNaN(acc_last))
-		{
-		  alert("Accession Last is always number");
-		  return;
-		}
+	}
+	if(acc_first == "")
+	{
+	  alert("Enter Acc. No. First..");
+	  return;
+	}
 	
-		var queryString="acc_first="+acc_first+"&acc_last="+acc_last+"&radioValue="+radioValue;
-		url =  "http://localhost/nilg/library/setup_con/barcode_generator/";
+	if(acc_last == "")
+	{
+	  alert("Enter Acc. No. Last..");
+	  return;
+	}
 	
+	if (isNaN(acc_first))
+	{
+	  alert("Accession First is always number");
+	  return;
+	}
+	
+	if (isNaN(acc_last))
+	{
+	  alert("Accession Last is always number");
+	  return;
+	}
+
+	var queryString="acc_first="+acc_first+"&acc_last="+acc_last+"&radioValue="+radioValue;
+	var url = hostname + "library/setup_con/barcode_generator/";
+
 	ajaxRequest.open("POST",url, true);
 	ajaxRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 	ajaxRequest.send(queryString);
 	ajaxRequest.onreadystatechange = function(){
-	if(ajaxRequest.readyState == 4){
-		var resp = ajaxRequest.responseText;
-			//alert(resp);
-		if(resp == "not exist")	
-		{
-		 	alert('Invalid Accession No');
-			return;
-		}
-		
-		alldata = resp.split("***");
-		acc_no = alldata[0];
-		//alert(acc_no);
-		rows = alldata[1];
-		//alert(resp);
-	url =  "http://localhost/nilg/library/barcode/html/code39.php?id="+acc_no+"&rows="+rows;
-	barcode_gen = window.open(url,'barcode_gen',"menubar=1,resizable=1,scrollbars=1,width=1500,height=800");
-	barcode_gen.moveTo(0,0);
-		
+		if(ajaxRequest.readyState == 4){
+			var resp = ajaxRequest.responseText;
+				//alert(resp);
+			if(resp == "not exist")	
+			{
+			 	alert('Invalid Accession No');
+				return;
+			}
 			
-		}}
-	
+			alldata = resp.split("***");
+			acc_no = alldata[0];
+			rows = alldata[1];
+			url =  hostname + "barcode/html/code39.php?id="+acc_no+"&rows="+rows;
+			barcode_gen = window.open(url,'barcode_gen',"menubar=1,resizable=1,scrollbars=1,width=1500,height=800");
+			barcode_gen.moveTo(0,0);
+		}
+	}
 }
 
 
