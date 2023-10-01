@@ -337,7 +337,6 @@ class Setup_con extends Backend_Controller {
 		$this->data['head_title'] = 'Designation Setup';
 		$this->configure_output($this->data);
 	}
-
 	// ==========================================================================================
 	// End Source, place... configure
 	// ==========================================================================================
@@ -351,6 +350,60 @@ class Setup_con extends Backend_Controller {
 	}
 	// =========================== end barcode generator ==============================
 
+
+	// ==========================================================================================
+	// Start Book, Journal... configure
+	// ==========================================================================================
+	function book_set()
+	{
+		$this->grocery_crud->set_table('lib_book');
+		$this->grocery_crud->set_subject('Book Setup');
+		$this->grocery_crud->set_relation('source','lib_source','source_name');
+		$this->grocery_crud->set_relation('edition','lib_edition','edition_name');
+		$this->grocery_crud->set_relation('y_of_pub','lib_pub_year','pub_year');
+		$this->grocery_crud->set_relation('place','lib_pub_place','pub_place');
+		$this->grocery_crud->display_as('acc_first','Acc. No. First')->display_as('acc_last','Acc. No. Last')->display_as('date_of_entry','Date of Entry')->display_as('call_no','Call No')->display_as('isbn','ISBN')->display_as('first_author','1st Author')->display_as('snd_author','2nd Author')->display_as('thrd_author','3rd Author')->display_as('first_subject','1st Subject')->display_as('snd_subject','2nd Subject')->display_as('thrd_subject','3rd Subject')->display_as('forth_subject','4th Subject')->display_as('fifth_subject','5th Subject')->display_as('y_of_pub','Year of Pub.')->display_as('initial_page','Initial Page')->display_as('total_page','Total Page')->display_as('cd','CD')->display_as('corporate_author','Corporate Author');
+		$this->grocery_crud->field_type('sys_date','invisible')->field_type('user_name','invisible');
+		$this->grocery_crud->required_fields('acc_first','acc_last','call_no','isbn','date_of_entry','title','first_subject','language','price','currency','publisher','place','y_of_pub');
+		$this->grocery_crud->columns('call_no','isbn','acc_no','date_of_entry','first_author','title','first_subject','language','user_name');
+		$this->grocery_crud->set_rules('acc_first', 'Acc first','trim|required|numeric|callback_bookacc_first_check');
+		$this->grocery_crud->set_rules('acc_last', 'Acc last','trim|required|numeric');
+		$this->grocery_crud->set_rules('price', 'Price','trim|required|numeric');
+		$this->grocery_crud->set_rules('y_of_pub', 'Year of Publication','trim|numeric');
+		/*$this->grocery_crud->set_rules('initial_page', 'Initial Page','trim|numeric');
+		$this->grocery_crud->set_rules('total_page', 'Total Page','trim|numeric');*/
+		$this->grocery_crud->callback_before_insert(array($this,'bookrepeat_insert'));
+		$this->grocery_crud->callback_before_update(array($this,'bookrepeat_update'));
+		$this->grocery_crud->callback_before_delete(array($this,'book_delete_check'));
+		$this->grocery_crud->set_field_upload('image','img/uploads/book_image');
+		$this->grocery_crud->callback_after_upload(array($this,'book_callback_after_upload'));
+		$this->grocery_crud->field_type('sys_date','invisible')->field_type('user_name','invisible');
+		$state = $this->grocery_crud->getState();
+		if($state == 'add' || $state =='insert_validation')
+    	{
+       	 	$this->grocery_crud->change_field_type('acc_no','hidden');
+		 	$this->grocery_crud->set_rules('isbn','ISBN','trim|required|callback_bookisbn_space_check');
+    	}
+		if($state == 'edit')
+    	{
+       		//$this->grocery_crud->change_field_type('acc_no','hidden');
+			//$this->grocery_crud->change_field_type('acc_first','hidden');
+			//$this->grocery_crud->change_field_type('acc_last','hidden');
+    	}
+		if($state == 'update_validation')
+    	{
+			$this->grocery_crud->set_rules('isbn','ISBN','trim|required|callback_bookisbn_check');
+			$this->grocery_crud->set_rules('isbn','ISBN','required|callback_bookisbn_space_check');
+		}
+		$this->data['output'] = $this->grocery_crud->render();
+		$this->data['meta_title'] = "Book Setup";
+		$this->data['head_title'] = "Book Setup";
+		$this->setup_output($this->data);
+	}
+
+	// ==========================================================================================
+	// End Book, Journal... configure
+	// ==========================================================================================
 
 
 
@@ -811,53 +864,7 @@ class Setup_con extends Backend_Controller {
 		return $post_array;
     } 
 	
-	function book_set()
-	{
-		$this->grocery_crud->set_table('lib_book');
-		$this->grocery_crud->set_subject('Book Setup');
-		$this->grocery_crud->set_relation('source','lib_source','source_name');
-		$this->grocery_crud->set_relation('edition','lib_edition','edition_name');
-		$this->grocery_crud->set_relation('y_of_pub','lib_pub_year','pub_year');
-		$this->grocery_crud->set_relation('place','lib_pub_place','pub_place');
-		$this->grocery_crud->display_as('acc_first','Acc. No. First')->display_as('acc_last','Acc. No. Last')->display_as('date_of_entry','Date of Entry')->display_as('call_no','Call No')->display_as('isbn','ISBN')->display_as('first_author','1st Author')->display_as('snd_author','2nd Author')->display_as('thrd_author','3rd Author')->display_as('first_subject','1st Subject')->display_as('snd_subject','2nd Subject')->display_as('thrd_subject','3rd Subject')->display_as('forth_subject','4th Subject')->display_as('fifth_subject','5th Subject')->display_as('y_of_pub','Year of Pub.')->display_as('initial_page','Initial Page')->display_as('total_page','Total Page')->display_as('cd','CD')->display_as('corporate_author','Corporate Author');
-		$this->grocery_crud->field_type('sys_date','invisible')->field_type('user_name','invisible');
-		$this->grocery_crud->required_fields('acc_first','acc_last','call_no','isbn','date_of_entry','title','first_subject','language','price','currency','publisher','place','y_of_pub');
-		$this->grocery_crud->columns('call_no','isbn','acc_no','date_of_entry','first_author','title','first_subject','language','user_name');
-		$this->grocery_crud->set_rules('acc_first', 'Acc first','trim|required|numeric|callback_bookacc_first_check');
-		$this->grocery_crud->set_rules('acc_last', 'Acc last','trim|required|numeric');
-		$this->grocery_crud->set_rules('price', 'Price','trim|required|numeric');
-		$this->grocery_crud->set_rules('y_of_pub', 'Year of Publication','trim|numeric');
-		/*$this->grocery_crud->set_rules('initial_page', 'Initial Page','trim|numeric');
-		$this->grocery_crud->set_rules('total_page', 'Total Page','trim|numeric');*/
-		$this->grocery_crud->callback_before_insert(array($this,'bookrepeat_insert'));
-		$this->grocery_crud->callback_before_update(array($this,'bookrepeat_update'));
-		$this->grocery_crud->callback_before_delete(array($this,'book_delete_check'));
-		$this->grocery_crud->set_field_upload('image','img/uploads/book_image');
-		$this->grocery_crud->callback_after_upload(array($this,'book_callback_after_upload'));
-		$this->grocery_crud->field_type('sys_date','invisible')->field_type('user_name','invisible');
-		$state = $this->grocery_crud->getState();
-		if($state == 'add' || $state =='insert_validation')
-    	{
-       	 	$this->grocery_crud->change_field_type('acc_no','hidden');
-		 	$this->grocery_crud->set_rules('isbn','ISBN','trim|required|callback_bookisbn_space_check');
-    	}
-		if($state == 'edit')
-    	{
-       		//$this->grocery_crud->change_field_type('acc_no','hidden');
-			//$this->grocery_crud->change_field_type('acc_first','hidden');
-			//$this->grocery_crud->change_field_type('acc_last','hidden');
-    	}
-		if($state == 'update_validation')
-    	{
-			$this->grocery_crud->set_rules('isbn','ISBN','trim|required|callback_bookisbn_check');
-			$this->grocery_crud->set_rules('isbn','ISBN','required|callback_bookisbn_space_check');
-		}
-		$this->data['output'] = $this->grocery_crud->render();
-		$this->data['meta_title'] = "Book Setup";
-		$this->data['head_title'] = "Book Setup";
-		$this->setup_output($this->data);
-	}
-	
+
 	function book_callback_after_upload($uploader_response,$field_info, $files_to_upload)
 	{
 	  $this->load->library('image_moo');
