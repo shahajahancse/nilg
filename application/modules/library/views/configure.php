@@ -23,7 +23,7 @@
       <li><?=$meta_title; ?> </li>
     </ul>
 
-		<div class="grid simple horizontal red">
+		<div class="grid simple horizontal">
 			<div class="grid-title">
 				<h4><span class="semi-bold">বই অনুসন্ধান</span></h4>
 			</div>

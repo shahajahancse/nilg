@@ -55,7 +55,8 @@ type="text/javascript" ></script>
 <!-- BEGIN CORE TEMPLATE JS -->
 
 <?php if($this->router->fetch_class('dashboard') == 'dashboard'){ ?>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script> -->
+<script src="<?=base_url();?>awedget/assets/js/raphael-min.js" type="text/javascript"></script>
 <script src="<?=base_url();?>awedget/assets/plugins/pace/pace.min.js" type="text/javascript"></script>
 <script src="<?=base_url();?>awedget/assets/plugins/jquery-slider/jquery.sidr.min.js" type="text/javascript"></script>
 <script src="<?=base_url();?>awedget/assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js"
@@ -81,13 +82,22 @@ type="text/javascript" ></script>
 <!-- <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> -->
 <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
 */ ?>
-<script src="//cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<script src="<?=base_url();?>awedget/assets/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="<?=base_url();?>awedget/assets/js/dataTables.buttons.min.js" type="text/javascript"></script>
+<script src="<?=base_url();?>awedget/assets/js/jszip.min.js" type="text/javascript"></script>
+<script src="<?=base_url();?>awedget/assets/js/pdfmake.min.js" type="text/javascript"></script>
+<script src="<?=base_url();?>awedget/assets/js/vfs_fonts.js" type="text/javascript"></script>
+<script src="<?=base_url();?>awedget/assets/js/buttons.html5.min.js" type="text/javascript"></script>
+<script src="<?=base_url();?>awedget/assets/js/buttons.print.min.js" type="text/javascript"></script>
+
+<!-- <script src="//cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="//cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="//cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-<script src="//cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
+<script src="//cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script> -->
 <?php /*
 <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script> -->
 <!-- Bangla Fornt- https://stackoverflow.com/questions/66882619/datatable-pdf-export-with-custom-font -->
@@ -103,7 +113,7 @@ var hostname = '<?php echo base_url();?>';
 
 
 <!-- Latest Sortable -->
-<script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
+<!-- <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script> -->
 <script src="<?=base_url();?>awedget/assets/js/jquery.buttonLoader.js" type="text/javascript"></script>
 
 <!-- END CORE TEMPLATE JS -->
@@ -611,8 +621,10 @@ function printDiv(divName) {
     document.body.innerHTML = originalContents;
 }
 </script>
+<!-- <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script> -->
 
 <?php if($this->router->fetch_class('evaluation') == 'evaluation'){ ?>
+<script src="<?=base_url()?>awedget/assets/js/Sortable.js" type="text/javascript"></script>
 <script type="text/javascript">
 // Evaluation Module (Create Question)
 Sortable.create(list, {
@@ -634,9 +646,13 @@ Sortable.create(list2, {
 <script src="<?=base_url();?>awedget/assets/js/custom.js" type="text/javascript"></script>
 <script src="<?=base_url();?>awedget/assets/js/form_validations.js" type="text/javascript"></script>
 <script src="<?=base_url();?>awedget/assets/js/custom_validations.js" type="text/javascript"></script>
- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script src="<?=base_url();?>awedget/assets/js/select2_js.min.js" type="text/javascript"></script>
+<script src="<?=base_url();?>awedget/assets/js/datetimepicker.full.min.js" type="text/javascript"></script>
+<script src="<?=base_url();?>awedget/assets/js/autocomplete.jquery.min.js" type="text/javascript"></script>
+
+ <!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.22.0/autocomplete.jquery.min.js" ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.22.0/autocomplete.jquery.min.js" ></script> -->
 
 </body>
 

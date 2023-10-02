@@ -42,28 +42,38 @@
    <script src="<?= base_url(); ?>awedget/assets/plugins/jquery-ui/jquery-ui-1.10.1.custom.min.js" type="text/javascript"></script>
    <script src="<?= base_url(); ?>awedget/assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
-   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+   <!-- <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" /> -->
+   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script> -->
 
+   <link href="<?= base_url(); ?>awedget/assets/css/select2.min.css" rel="stylesheet" type="text/css" />
+   <script src="<?= base_url(); ?>awedget/assets/js/select2.min.js" type="text/javascript"></script>
    <link href="<?= base_url(); ?>awedget/assets/css/autocomplete.css" rel="stylesheet" type="text/css" />
-   <script src="<?= base_url(); ?>awedget/assets/js/jquery.autocomplete.js" type="text/javascript"></script>
+   <script src="<?= base_url(); ?>awedget/assets/js/jquery.autocomplete.js" type="text/javascript"></script>  
+   <script src="<?= base_url(); ?>awedget/assets/js/moment-with-locales.js" type="text/javascript"></script>  
+   <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script> -->
 
 
-   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-  
+   <!-- <link href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet"> -->
+   <!-- <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script> -->
+   <link href="<?= base_url(); ?>awedget/assets/css/eonasdan-bootstrap-datetimepicker.css" rel="stylesheet" type="text/css" />
+   <script src="<?= base_url(); ?>awedget/assets/js/eonasdan-bootstrap-datetimepicker.js" type="text/javascript"></script>
+   <!-- 01-10-2023 comment -->
+   <!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
+   <!-- 01-10-2023 comment -->
+   
 
-
-   <link href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
-   <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
-   <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
-
-   <link href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" type="text/css" />
-   <link href="//cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" type="text/css" />
+   <!-- <link href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" type="text/css" /> -->
+   <!-- <link href="//cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" type="text/css" />  -->
+   <link href="<?= base_url(); ?>awedget/assets/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+   <link href="<?= base_url(); ?>awedget/assets/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" />
    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css"> -->
 
 
-   <script src="https://code.highcharts.com/highcharts.js"></script>
-   <script src="https://code.highcharts.com/modules/data.js"></script>
+   <!-- <script src="https://code.highcharts.com/highcharts.js"></script> -->
+   <!-- <script src="https://code.highcharts.com/modules/data.js"></script> -->
+   <script src="<?= base_url(); ?>awedget/assets/js/highcharts.js" type="text/javascript"></script>  
+   <script src="<?= base_url(); ?>awedget/assets/js/data.js" type="text/javascript"></script>  
+
    <link href="<?= base_url(); ?>awedget/assets/css/style.css" rel="stylesheet" type="text/css" />
    <link href="<?= base_url(); ?>awedget/assets/css/dashboard.css" rel="stylesheet" type="text/css" />
    <script type="text/javascript">
