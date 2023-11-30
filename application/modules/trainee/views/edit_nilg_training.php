@@ -42,8 +42,7 @@
                                 <td width="80">ব্যাচ নং</td>
                                 <td>ট্রেনিং শুরুর তারিখ</td>
                                 <td>ট্রেনিং শেষের তারিখ</td>
-                                <td width="100"> <a href="javascript:void();" class="label label-success"> <i  class="fa fa-plus-circle"></i> অ্যাকশান</a> </td>
-                                <!-- <td width="100"> <a href="javascript:void();" id="addRowNilgTraining" class="label label-success"> <i  class="fa fa-plus-circle"></i> যোগ করুন</a> </td> -->
+                                <td width="100"> <a href="javascript:void();" id="addRowNilgTraining" class="label label-success"> <i  class="fa fa-plus-circle"></i> যোগ করুন</a> </td>
                             </tr>
                             <?php if (!empty($nilg_training)) {
                                     // dd($experience);

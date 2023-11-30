@@ -16,7 +16,7 @@
     </ul>
     <div class="grid simple horizontal">
       <div class="grid-title">
-        <h4><span class="semi-bold"><?php echo $head_title?></span></h4>
+        <h4><span class="semi-bold"><?php echo $meta_title?></span></h4>
       </div>
         <div style="margin-bottom: 20px;">
 	      	<?php echo $output; ?>

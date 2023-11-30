@@ -184,7 +184,7 @@ class Setup_con extends Backend_Controller {
 		// dd($this->data['search_query']);
 
 		// Load view
-    	$this->data['meta_title'] = 'Configure';
+    	$this->data['meta_title'] = 'Page Status';
     	$this->data['subview'] = 'member/member_status_view';
     	$this->load->view('backend/_layout_main', $this->data);
 		// $this->load->view('member/member_status_view', $search_query);

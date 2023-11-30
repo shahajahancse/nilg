@@ -18,7 +18,26 @@ class Log_con extends Backend_Controller {
 		$access_level = 1;
 		// $acl = $this->Acl_model->acl_check($access_level);
 	}
-	
+
+	//----------------------------------------------------------------------------------------------
+	// CRUD output method
+	//----------------------------------------------------------------------------------------------
+	/*function lib_log_output($output = null)
+	{
+		$this->load->view('library_log_view.php',$output);	
+	}*/
+
+	function lib_log_output($data = null)
+	{
+		$this->load->view('backend/page_header', $this->data); 
+		$this->load->view('library_log_view',$data['output']);
+		$this->load->view('backend/page_footer');
+		// $this->load->view('admin/setup',$output);	
+	}
+	//----------------------------------------------------------------------------------------------
+	// library log
+	//----------------------------------------------------------------------------------------------
+
 		
 	// library log
 	function library_log_view()
@@ -29,7 +48,7 @@ class Log_con extends Backend_Controller {
     	$this->load->view('backend/_layout_main', $this->data);
 	}
 
-
+	// member log
 	function member_log()
 	{
 		$this->grocery_crud->set_table('lib_log');
@@ -46,31 +65,11 @@ class Log_con extends Backend_Controller {
     	{
 			$this->grocery_crud->set_rules('out_time', 'Out time','trim|required');
     	}
-		$output = $this->grocery_crud->render();
-		$this->lib_log_output($output);
+		$this->data['output'] = $this->grocery_crud->render();
+		$this->lib_log_output($this->data);
 	}
-	
-	public function member_id_check($str)
-	{
-		$id = $this->uri->segment(4);
-		if(!empty($id) && is_numeric($id))
-		{
-			$id_name_old = $this->db->where("id",$id)->get('lib_log')->row()->id_name;
-			$this->db->where("mem_id",$id_name_old);
-		}
-		
-		$num_row = $this->db->where('mem_id',$str)->get('member')->num_rows();
-		if ($num_row == 0)
-		{
-			$this->form_validation->set_message('member_id_check', 'Invalid Member ID');
-			return FALSE;
-		}
-		else
-		{
-			return TRUE;
-		}
-	}
-	
+
+	// visitor log
 	function visitor_log()
 	{
 		$this->grocery_crud->set_table('lib_log');
@@ -95,13 +94,29 @@ class Log_con extends Backend_Controller {
     	{
 			$this->grocery_crud->set_rules('out_time', 'Out time','trim|required');
     	}
-		$output = $this->grocery_crud->render();
-		$this->lib_log_output($output);
+		$this->data['output'] = $this->grocery_crud->render();
+		$this->lib_log_output($this->data);
 	}
-		
-	function lib_log_output($output = null)
+	
+	public function member_id_check($str)
 	{
-		$this->load->view('library_log_view.php',$output);	
+		$id = $this->uri->segment(4);
+		if(!empty($id) && is_numeric($id))
+		{
+			$id_name_old = $this->db->where("id",$id)->get('lib_log')->row()->id_name;
+			$this->db->where("mem_id",$id_name_old);
+		}
+		
+		$num_row = $this->db->where('mem_id',$str)->get('lib_member')->num_rows();
+		if ($num_row == 0)
+		{
+			$this->form_validation->set_message('member_id_check', 'Invalid Member ID');
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}
 	}
 	
 	

@@ -22,7 +22,6 @@ class Report_con extends Backend_Controller {
 	
 	function report()
 	{	
-
 		$this->data['meta_title'] = 'Report';
     	$this->data['subview'] = 'report/report_view';
     	$this->load->view('backend/_layout_main', $this->data);

@@ -243,11 +243,23 @@ class Inventory_model extends CI_Model {
   }
 
   public function get_requisition_by_id($id) {
-    $this->db->select('r.*, u.name_bn, u.signature, dp.dept_name, dg.desig_name');
+    $this->db->select('
+          r.*, 
+          u.name_bn, 
+          u.signature, 
+          dp.dept_name, 
+          dg.desig_name, 
+          sm.signature as sm_signature, 
+          jd.signature as jd_signature, 
+          gd.signature as gd_signature, 
+        ');
     $this->db->from('requisitions r');
     $this->db->join('users u', 'u.id = r.user_id', 'LEFT');
     $this->db->join('department dp', 'dp.id = u.crrnt_dept_id', 'LEFT');
     $this->db->join('designations dg', 'dg.id = u.crrnt_desig_id', 'LEFT');
+    $this->db->join('users sm', 'sm.id = r.sm_user_id', 'LEFT');
+    $this->db->join('users jd', 'jd.id = r.jd_user_id', 'LEFT');
+    $this->db->join('users gd', 'gd.id = r.dg_user_id', 'LEFT');
     $this->db->where('r.id', $id);
     $query = $this->db->get()->row();
 

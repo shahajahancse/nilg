@@ -8,24 +8,26 @@ class Dashboard_model extends CI_Model {
 	}
 
 
-    public function get_count_user($officeType=NULL, $employeeType=NULL, $status=NULL, $gender=NULL) {
+    public function get_count_user($officeType=array(), $employeeType=NULL, $status=NULL, $gender=NULL) {
         $this->db->select('COUNT(*) as count');
         $this->db->where('is_office', 0);
         $this->db->where('is_verify', 1);
         $this->db->where_not_in('office_type', array(8,9));
+        $this->db->where('gender !=', NULL);
+        $this->db->where('employee_type !=', NULL);
 
         if($officeType != NULL){
-            $this->db->where('office_type', $officeType); 
+            $this->db->where_in('office_type', $officeType); 
         }
         if($employeeType != NULL){
             if($employeeType == 1){
                 $this->db->where('employee_type', 1);    
-            }elseif($employeeType == 'employee'){
-                $this->db->where('employee_type !=', 1);    
             }elseif($employeeType == 2){
                 $this->db->where('employee_type', 2);    
             }elseif($employeeType == 3){
                 $this->db->where('employee_type', 3);    
+            }elseif($employeeType == 'employee'){
+                $this->db->where('employee_type !=', 1);    
             }
         }
         if($status != NULL){
@@ -41,7 +43,7 @@ class Dashboard_model extends CI_Model {
 
     public function get_count_training($financing_id=NULL) {
         $this->db->select('COUNT(*) as count');
-        $this->db->where('status', 3);
+        // $this->db->where('status', 3);
 
         if($financing_id != NULL){
             $this->db->where('financing_id', $financing_id); 

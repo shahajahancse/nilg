@@ -314,6 +314,10 @@ class Evaluation_model extends CI_Model {
         if ($getEvId != NULL) {
             $this->db->where_not_in('id', $getEvId);
         }
+        if (!empty($_GET['hideid'])) {
+           $this->db->where_not_in('id', $_GET['hideid']);
+        }
+
         $q = $this->db->get();
         $questions = $q->result();
 
@@ -544,7 +548,7 @@ class Evaluation_model extends CI_Model {
         return $result;
     }
 
-    public function get_upcomming_training($limit=1000, $offset=0, $officeID=NULL, $district=NULL, $upazila=NULL) {
+    public function get_upcomming_training($limit=1000, $offset=0, $type=NULL, $officeID=NULL, $district=NULL, $upazila=NULL) {
         $start_date = $this->input->get('start_date');
         $end_date = $this->input->get('end_date');
         // result query
@@ -559,6 +563,10 @@ class Evaluation_model extends CI_Model {
 
         if(!empty($_GET['course_id'])){
             $this->db->where('t.course_id', $_GET['course_id']);                      
+        }
+
+        if(!empty($type)){
+            $this->db->where('t.course_id', $type);                      
         }
         if ($start_date != NULL && $end_date != NULL) {
             $this->db->where("t.end_date BETWEEN '$start_date' AND '$end_date'");
@@ -576,6 +584,9 @@ class Evaluation_model extends CI_Model {
      
         if ($this->input->get('course_id') != NULL) {
             $this->db->where('course_id', $this->input->get('course_id'));
+        }   
+        if ($type != NULL) {
+            $this->db->where('course_id', $type);
         }        
         if ($start_date != NULL && $end_date != NULL) {
             $this->db->where("end_date BETWEEN '$start_date' AND '$end_date'");
@@ -586,11 +597,14 @@ class Evaluation_model extends CI_Model {
         return $result;
     }  
 
-    public function get_upcomming_training_coordinate($limit=1000, $offset=0, $officeID=NULL) {
-        // Get training IDs
+    public function get_upcomming_training_coordinate($limit=1000, $offset=0, $type=NULL, $officeID=NULL) {
+        // Get training IDs        
+        $start_date = $this->input->get('start_date');
+        $end_date = $this->input->get('end_date');
         $trainingIDs = func_training_ids_cc($this->userSessID);
 
         if($trainingIDs){
+
             // Query 
             $this->db->select('t.*, ct.ct_name, c.course_title, f.finance_name');
             $this->db->from('training t');  
@@ -602,8 +616,11 @@ class Evaluation_model extends CI_Model {
 
             //$this->db->where('t.status', 1); // 1=UpComming, 2=OnGoing, 3=Completed 
             // search 
-            if ($this->input->get('course_id') != NULL) {
-                $this->db->where('t.course_id', $this->input->get('course_id'));
+            if(!empty($_GET['course_id'])){
+                $this->db->where('t.course_id', $_GET['course_id']);                      
+            }
+            if(!empty($type)){
+                $this->db->where('t.course_id', $type);                      
             }
             if ($start_date != NULL && $end_date != NULL) {
                 $this->db->where("t.end_date BETWEEN '$start_date' AND '$end_date'");
@@ -612,7 +629,7 @@ class Evaluation_model extends CI_Model {
             $this->db->where_in('t.id', $trainingIDs);
             $this->db->order_by('t.id', 'DESC');
             $result['rows'] = $this->db->get()->result();
-            // echo $this->db->last_query(); exit;
+            // echo $this->db->last_query(); exit;            
 
             // count query
             $q = $this->db->select('COUNT(*) as count');
@@ -620,10 +637,13 @@ class Evaluation_model extends CI_Model {
             // $this->db->where('status', 1);
             // search 
             if ($this->input->get('course_id') != NULL) {
-                $this->db->where('t.course_id', $this->input->get('course_id'));
+                $this->db->where('course_id', $this->input->get('course_id'));
+            }
+            if ($type != NULL) {
+                $this->db->where('course_id', $type);
             }
             if ($start_date != NULL && $end_date != NULL) {
-                $this->db->where("t.end_date BETWEEN '$start_date' AND '$end_date'");
+                $this->db->where("end_date BETWEEN '$start_date' AND '$end_date'");
             }  
             $this->db->where_in('id', $trainingIDs);
             $tmp = $this->db->get()->result();

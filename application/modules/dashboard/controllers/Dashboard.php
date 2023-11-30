@@ -188,39 +188,39 @@ class Dashboard extends Backend_Controller
 
 			// Box summary data			
 			// Details summary data Representative
-			$this->data['total_representative'] = $this->Dashboard_model->get_count_user('', 1);
-			$this->data['rep_union'] = $this->Dashboard_model->get_count_user(1, 1);
-			$this->data['rep_paurashova'] = $this->Dashboard_model->get_count_user(2, 1);
-			$this->data['rep_upazila'] = $this->Dashboard_model->get_count_user(3, 1);
-			$this->data['rep_zila'] = $this->Dashboard_model->get_count_user(4, 1);
-			$this->data['rep_city'] = $this->Dashboard_model->get_count_user(5, 1);
-			$this->data['rep_nilg'] = $this->Dashboard_model->get_count_user(7, 1);
+			$this->data['total_representative'] = $this->Dashboard_model->get_count_user(array(1,2,3,4,5,7), 1);
+			$this->data['rep_union'] = $this->Dashboard_model->get_count_user(array(1), 1);
+			$this->data['rep_paurashova'] = $this->Dashboard_model->get_count_user(array(2), 1);
+			$this->data['rep_upazila'] = $this->Dashboard_model->get_count_user(array(3), 1);
+			$this->data['rep_zila'] = $this->Dashboard_model->get_count_user(array(4), 1);
+			$this->data['rep_city'] = $this->Dashboard_model->get_count_user(array(5), 1);
+			$this->data['rep_nilg'] = $this->Dashboard_model->get_count_user(array(7), 1);
 
 			// Details summary data Kormokorta
-			$this->data['total_kormokorta'] = $this->Dashboard_model->get_count_user('', '2');
-			$this->data['emp1_union'] = $this->Dashboard_model->get_count_user(1, 2);
-			$this->data['emp1_paurashova'] = $this->Dashboard_model->get_count_user(2, 2);
-			$this->data['emp1_upazila'] = $this->Dashboard_model->get_count_user(3, 2);
-			$this->data['emp1_zila'] = $this->Dashboard_model->get_count_user(4, 2);
-			$this->data['emp1_city'] = $this->Dashboard_model->get_count_user(5, 2);
-			$this->data['emp1_nilg'] = $this->Dashboard_model->get_count_user(7, 2);
+			$this->data['total_kormokorta'] = $this->Dashboard_model->get_count_user(array(1,2,3,4,5,7), '2');
+			$this->data['emp1_union'] = $this->Dashboard_model->get_count_user(array(1), 2);
+			$this->data['emp1_paurashova'] = $this->Dashboard_model->get_count_user(array(2), 2);
+			$this->data['emp1_upazila'] = $this->Dashboard_model->get_count_user(array(3), 2);
+			$this->data['emp1_zila'] = $this->Dashboard_model->get_count_user(array(4), 2);
+			$this->data['emp1_city'] = $this->Dashboard_model->get_count_user(array(5), 2);
+			$this->data['emp1_nilg'] = $this->Dashboard_model->get_count_user(array(7), 2);
 
 			// Details summary data Kormochari
-			$this->data['total_kormocari'] = $this->Dashboard_model->get_count_user('', '3');
-			$this->data['emp2_union'] = $this->Dashboard_model->get_count_user(1, 3);
-			$this->data['emp2_pourashova'] = $this->Dashboard_model->get_count_user(2, 3);
-			$this->data['emp2_upazila'] = $this->Dashboard_model->get_count_user(3, 3);
-			$this->data['emp2_zila'] = $this->Dashboard_model->get_count_user(4, 3);
-			$this->data['emp2_city'] = $this->Dashboard_model->get_count_user(5, 3);
-			$this->data['emp2_nilg'] = $this->Dashboard_model->get_count_user(7, 3);
+			$this->data['total_kormocari'] = $this->Dashboard_model->get_count_user(array(1,2,3,4,5,7), '3');
+			$this->data['emp2_union'] = $this->Dashboard_model->get_count_user(array(1), 3);
+			$this->data['emp2_pourashova'] = $this->Dashboard_model->get_count_user(array(2), 3);
+			$this->data['emp2_upazila'] = $this->Dashboard_model->get_count_user(array(3), 3);
+			$this->data['emp2_zila'] = $this->Dashboard_model->get_count_user(array(4), 3);
+			$this->data['emp2_city'] = $this->Dashboard_model->get_count_user(array(5), 3);
+			$this->data['emp2_nilg'] = $this->Dashboard_model->get_count_user(array(7), 3);
 
 			// Details summary data Kormokorta
-			$this->data['total_nilg_kormokorta'] = $this->Dashboard_model->get_count_user(7, 2);
-			$this->data['total_nilg_kormocari'] = $this->Dashboard_model->get_count_user(7, 3);
-			$this->data['nilg_emp1_male'] = $this->Dashboard_model->get_count_user(7, 2, '', 'Male');
-			$this->data['nilg_emp1_female'] = $this->Dashboard_model->get_count_user(7, 2, '', 'Female');
-			$this->data['nilg_emp2_male'] = $this->Dashboard_model->get_count_user(7, 3, '', 'Male');
-			$this->data['nilg_emp2_female'] = $this->Dashboard_model->get_count_user(7, 3, '', 'Female');
+			$this->data['total_nilg_kormokorta'] = $this->Dashboard_model->get_count_user(array(7), 2);
+			$this->data['total_nilg_kormocari'] = $this->Dashboard_model->get_count_user(array(7), 3);
+			$this->data['nilg_emp1_male'] = $this->Dashboard_model->get_count_user(array(7), 2, null, 'Male');
+			$this->data['nilg_emp1_female'] = $this->Dashboard_model->get_count_user(array(7), 2, null, 'Female');
+			$this->data['nilg_emp2_male'] = $this->Dashboard_model->get_count_user(array(7), 3, null, 'Male');
+			$this->data['nilg_emp2_female'] = $this->Dashboard_model->get_count_user(array(7), 3, null, 'Female');
 
 
 			// Training summary 
@@ -234,16 +234,16 @@ class Dashboard extends Backend_Controller
 			$this->data['training_p4d'] = $this->Dashboard_model->get_count_training(8);
 
 			// Office wise statistics			
-			$this->data['officeUnion'] = $this->Dashboard_model->get_count_user(1);
-			$this->data['officePaurashava'] = $this->Dashboard_model->get_count_user(2);
-			$this->data['officeUpazila'] = $this->Dashboard_model->get_count_user(3);
-			$this->data['officeDdlg'] = $this->Dashboard_model->get_count_user(8);
-			$this->data['officeZila'] = $this->Dashboard_model->get_count_user(4);
-			$this->data['officeCity'] = $this->Dashboard_model->get_count_user(5);
-			$this->data['officeNilg'] = $this->Dashboard_model->get_count_user(7);
-			$this->data['officeMinistry'] = $this->Dashboard_model->get_count_user(9);
-			$this->data['officeDirectorate'] = $this->Dashboard_model->get_count_user(10);
-			$this->data['officeDevlopment'] = $this->Dashboard_model->get_count_user(6);
+			$this->data['officeUnion'] = $this->Dashboard_model->get_count_user(array(1));
+			$this->data['officePaurashava'] = $this->Dashboard_model->get_count_user(array(2));
+			$this->data['officeUpazila'] = $this->Dashboard_model->get_count_user(array(3));
+			$this->data['officeDdlg'] = $this->Dashboard_model->get_count_user(array(8));
+			$this->data['officeZila'] = $this->Dashboard_model->get_count_user(array(4));
+			$this->data['officeCity'] = $this->Dashboard_model->get_count_user(array(5));
+			$this->data['officeNilg'] = $this->Dashboard_model->get_count_user(array(7));
+			$this->data['officeMinistry'] = $this->Dashboard_model->get_count_user(array(9));
+			$this->data['officeDirectorate'] = $this->Dashboard_model->get_count_user(array(10));
+			$this->data['officeDevlopment'] = $this->Dashboard_model->get_count_user(array(6));
 
 			
 

@@ -349,21 +349,21 @@ class Inventory extends Backend_Controller {
               $this->load->helper('string');
               $pinCode = random_string('alnum',5);
               $form_data = array(
-                 'approve_reject_user' => $this->userSessID,
-                 'current_desk'       => 2,
-                 'status'       => 2,
-                 'pin_code'     => $pinCode,
-                 'updated'      => date('Y-m-d H:i:s')
+                'approve_reject_user' => $this->data['userDetails']->id,
+                'current_desk'   => 2,
+                'status'         => 2,
+                'sm_user_id'     => $this->data['userDetails']->id,
+                'pin_code'       => $pinCode,
+                'updated'        => date('Y-m-d H:i:s')
               );
           }else{
               $form_data = array(
-                 'approve_reject_user' => $this->userSessID,
-                 'status'    => 3,
-                 'updated'   => date('Y-m-d H:i:s')
+                'approve_reject_user' => $this->data['userDetails']->id,
+                'status'    => 3,
+                'updated'   => date('Y-m-d H:i:s')
               );
           }
 
-          // print_r($form_data); exit;
           if($this->Common_model->edit('requisitions',  $dataID, 'id', $form_data)){
 
               // Requisition Data 
@@ -456,30 +456,32 @@ class Inventory extends Backend_Controller {
 
       //Validate and input data
       if ($this->form_validation->run() == true){
+
           if ($this->input->post('status') == 2 && $this->ion_auth->in_group(array('jd'))) {
-              $current_desk = 3;
-              $status = 2;
+            $form_data = array(
+              'approve_reject_user' => $this->data['userDetails']->id,
+              'current_desk'       => 3,
+              'status'             => 2,
+              'jd_user_id'         => $this->data['userDetails']->id,
+              'updated'            => date('Y-m-d H:i:s')
+            );
           } else if ($this->input->post('status') == 2 && $this->ion_auth->in_group(array('dg'))) {
-              $current_desk = 4;
-              $status = 4;
+            $form_data = array(
+              'approve_reject_user' => $this->data['userDetails']->id,
+              'current_desk'       => 4,
+              'status'             => 4,
+              'dg_user_id'         => $this->data['userDetails']->id,
+              'updated'            => date('Y-m-d H:i:s')
+            );
+          } else {
+            $form_data = array(
+               'approve_reject_user' => $this->data['userDetails']->id,
+               'status'    => 3,
+               'updated'   => date('Y-m-d H:i:s')
+            );
           }
 
-          if($this->input->post('status') == 2){
-              $form_data = array(
-                 'approve_reject_user' => $this->userSessID,
-                 'current_desk'       => $current_desk,
-                 'status'       => $status,
-                 'updated'      => date('Y-m-d H:i:s')
-              );
-          }else{
-              $form_data = array(
-                 'approve_reject_user' => $this->userSessID,
-                 'status'    => 3,
-                 'updated'   => date('Y-m-d H:i:s')
-              );
-          }
-
-          // print_r($form_data); exit;
+          // dd($form_data); exit;
           if($this->Common_model->edit('requisitions',  $dataID, 'id', $form_data)){
 
               // Requisition Data 
@@ -939,9 +941,11 @@ class Inventory extends Backend_Controller {
       $this->data['info'] = $this->inventory_model->get_requisition_by_id($dataID);
       $this->data['items'] = $this->inventory_model->get_requisition_items($dataID);
       // 83=মহাপরিচালক (অতিরিক্ত সচিব), 91=যুগ্ম-পরিচালক (প্রশিক্ষণ ও পরামর্শ), 106  store kipper
-      $this->data['dg'] = $this->Common_model->get_signature_by_designation(83);
-      $this->data['jd'] = $this->Common_model->get_signature_by_designation(91);
-      $this->data['sk'] = $this->Common_model->get_signature_by_designation(106);
+      // comment on 01-11-2023
+      // $this->data['dg'] = $this->Common_model->get_signature_by_designation(83);
+      // $this->data['jd'] = $this->Common_model->get_signature_by_designation(91);
+      // $this->data['sk'] = $this->Common_model->get_signature_by_designation(106);
+      // comment on 01-11-2023
       // dd($this->data['info']);
 
       // Generate PDF

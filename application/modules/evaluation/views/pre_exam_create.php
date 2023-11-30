@@ -88,7 +88,10 @@
             <div class="row form-row"> 
               <div class="col-md-12">
                 <label style="float: left;" class="form-label">প্রশ্নপত্র তৈরি করুন</label>
-                <label style="float: right;" class="form-label">প্রশ্ন সংখ্যা : <span id="qnumber">0</span></label>
+                <div style="float: right; display: flex; gap: 60px;">
+                  <label class="form-label">প্রশ্ন নাম্বার : <span id="q_number">0</span></label>
+                  <label class="form-label">প্রশ্ন সংখ্যা : <span id="qnumber">0</span></label>
+                </div>
                 <div style="clear: both; padding-bottom: 10px;"></div>
                 <ul id="list2" class="list-group" style="height: 350px;overflow: scroll;"></ul>
               </div>
@@ -137,14 +140,86 @@
   </div>
 </div>
 
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalSetAnswer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3 id="myModalLabel" class="semi-bold">প্রশ্নের উত্তর প্রদান করুন</h3>
+        </div>
+        <?php
+        // $attributes = array('id' => '', 'class' => 'answerUpdate');
+        // echo form_open('', $attributes);
+        ?>
+        <form method="POST" class="answerUpdate">
+          <div class="modal-body"> </div>        
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal"><?=lang('common_close')?></button>
+            <button type="submit" class="btn btn-primary"><?=lang('common_save')?></button>
+            <?php //echo form_submit('submit', lang('common_save'), "class='btn btn-primary' id='submitnote'"); ?>
+          </div>        
+        </form>
+        <?php //echo form_close(); ?>
+      </div> <!-- /.modal-content -->
+    </div> <!-- /.modal-dialog -->
+  </div> <!-- /.modal -->
+
+<script type="text/javascript">
+  // Question Set Answer Modal
+  function addmodall (id) {
+    $.ajax({
+      type: "GET",
+      url: hostname+"nilg_setting/qbank/ajax_question_by_id/" + id,
+    }).done(function (response) {
+      $(".modal-body").html(response);
+      //update data
+      $(".answerUpdate").submit(function(){
+        $('#modalSetAnswer').modal('hide');
+        $.ajax({
+          type: "POST",
+          url: hostname+"nilg_setting/qbank/ajax_answer_update/" + id,
+          data: $(this).serialize(),
+          dataType: 'json',
+          success: function (response) {
+            // alert(response);
+            if (response.status == 1) {
+              $('.alert').addClass('alert-success').html(response.msg).show();
+
+              forms = $('#validate').serialize();
+              ul = document.getElementById("officeID").value;
+              $.ajax({
+                type: "GET",
+                data: forms,
+                url: hostname +"evaluation/ajax_question_by_office/" + ul,
+                success: function(func_data)
+                {
+                  $('#myInput').show();
+                  $('#list').html(func_data);
+                }
+              });
+
+            } else {
+              $('.alert').addClass('alert-red').html(response.msg).show();
+            }
+          }
+        });
+        return false;    
+      });
+    });
+  };
+</script>
+
 <script type="text/javascript">
   // Evaluation Question Create
   $('#officeID').change(function(){
     var id = $('#officeID').val();
-    // alert(id);
+    forms = $('#validate').serialize();
 
     $.ajax({
       type: "GET",
+      data: forms,
       url: hostname +"evaluation/ajax_question_by_office/" + id,
       success: function(func_data)
       {
@@ -255,17 +330,32 @@
 
 <script type="text/javascript">
   $('#list').change(function(){
+    q_number = 0;
     ul = document.getElementById("list2");
     li = ul.getElementsByTagName('li');
     total = li.length;
+
+    var hiddenNumbers = ul.getElementsByClassName('hidenumber');
+      for (var i = 0; i < hiddenNumbers.length; i++) {
+      q_number = q_number + Number(hiddenNumbers[i].value);
+    }
     document.getElementById("qnumber").innerHTML = replaceNumbers(total.toString());
+    document.getElementById("q_number").innerHTML = replaceNumbers(q_number.toString());
   });
 
   $('#list2').change(function(){
+    q_number = 0;
     ul = document.getElementById("list2");
     li = ul.getElementsByTagName('li');
     total = li.length;
+
+    var hiddenNumbers = ul.getElementsByClassName('hidenumber');
+      for (var i = 0; i < hiddenNumbers.length; i++) {
+      q_number = q_number + Number(hiddenNumbers[i].value);
+    }
+
     document.getElementById("qnumber").innerHTML = replaceNumbers(total.toString());
+    document.getElementById("q_number").innerHTML = replaceNumbers(q_number.toString());
   });
 
   function replaceNumbers(input) {
@@ -282,7 +372,11 @@
       9:'৯'
     };
 
-    var output = [];
+    return input.toString().replace(/\d/g, function (match) {
+      return numbers[match];
+    });
+
+    /*var output = [];
     for (var i = 0; i < input.length; ++i) {
       if (numbers.hasOwnProperty(input[i])) {
         output.push(numbers[input[i]]);
@@ -290,7 +384,8 @@
         output.push(input[i]);
       }
     }
-    return output.join('');
+    return output.join('');*/
+
   }
 </script>
 

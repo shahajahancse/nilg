@@ -4,7 +4,7 @@
       <h3>ড্যাশবোর্ড</h3>
     </div> -->    
 
-    <?php $this->load->view('filter'); ?>
+    <?php //$this->load->view('filter'); ?>
 
     <div class="row">
       <div class="col-md-3 m-b-20">
@@ -245,7 +245,7 @@
         </div>
 
         <div class="col-md-4 col-sm-6 spacing-bottom-sm spacing-bottom">
-          <div class="tiles white added-margin new new1">
+          <div class="tiles white added-margin new new1" style="height: 340px !important; ">
             <div class="tiles-body">
 
               <div class="tiles-title"> এনআইএলজি কর্মকর্তা/কর্মচারীর সামারি </div>
@@ -261,22 +261,22 @@
                       <td>সংখ্যা</td>
                     </tr>
                     <tr>
-                      <td>এনআইএলজি কর্মকর্তা(নারী)</td>
+                      <td>কর্মকর্তা(নারী)</td>
                       <td class="sub-mark">:</td>
                       <td><?= eng2bng($nilg_emp1_female) ?></td>
                     </tr>
                     <tr>
-                      <td>এনআইএলজি কর্মকর্তা(পুরুষ)</td>
+                      <td>কর্মকর্তা(পুরুষ)</td>
                       <td class="sub-mark">:</td>
                       <td><?= eng2bng($nilg_emp1_male) ?></td>
                     </tr>
                     <tr>
-                      <td>এনআইএলজি কর্মচারী(নারী)</td>
+                      <td>কর্মচারী(নারী)</td>
                       <td class="sub-mark">:</td>
                       <td><?= eng2bng($nilg_emp2_female) ?></td>
                     </tr>
                     <tr>
-                      <td>এনআইএলজি কর্মচারী(পুরুষ)</td>
+                      <td>কর্মচারী(পুরুষ)</td>
                       <td class="sub-mark">:</td>
                       <td><?= eng2bng($nilg_emp2_male) ?></td>
                     </tr>
@@ -294,7 +294,7 @@
         </div>
 
         <div class="col-md-4 col-sm-6 spacing-bottom-sm spacing-bottom">
-          <div class="tiles white added-margin new new2">
+          <div class="tiles white added-margin new new2" style="height: 340px !important; ">
             <div class="tiles-body">
 
               <div class="tiles-title"> প্রশিক্ষণ সামারি রিপোর্ট</div>
@@ -359,7 +359,7 @@
         </div>
 
         <div class="col-md-4 col-sm-6 spacing-bottom-sm spacing-bottom">
-          <div class="tiles white added-margin new new3">
+          <div class="tiles white added-margin new new3" style="height: 340px !important; ">
             <div class="tiles-body">
 
               <div class="tiles-title"> অফিস সামারি রিপোর্ট</div>
@@ -410,7 +410,8 @@
       </div>
     </div>
 
-    <div class="row">
+    <!-- 30-11-2023 -->
+    <!-- <div class="row">
       <div class="col-md-12">      
         <script nonce="undefined" src="https://cdn.zingchart.com/zingchart.min.js"></script>   
         <style>
@@ -625,7 +626,8 @@
         zingchart.bind('myChart');
 
       </script>
-    </div>
+    </div> -->
+    <!-- 30-11-2023 -->
 
     <div class="col-md-12">         
       <script src="https://code.highcharts.com/highcharts.js"></script>
@@ -633,9 +635,10 @@
       <script src="https://code.highcharts.com/modules/export-data.js"></script>
       <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
-      <figure class="highcharts-figure">
+      <!-- 30-11-2023 -->
+      <!-- <figure class="highcharts-figure">
         <div id="container"></div>
-      </figure>
+      </figure> -->
       <br>
 
       <script type="text/javascript">

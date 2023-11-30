@@ -33,6 +33,7 @@
                 <li><?=anchor("evaluation/pre_evaluation_pdf/".$row->id, 'ডাউনলোড পিডিএফ ফরমেট', ['target' => '_blank'])?></li>
                 <li><?=anchor("evaluation/pre_evaluation_word/".$row->id, 'ডাউনলোড ওর্য়াড ফরমেট')?></li>
                 <li><?=anchor("evaluation/pre_evaluation_form/".$row->id, 'মূল্যায়ন ফরমের নমুনা')?></li>
+                <li><?=anchor("training/marksheet/".$row->training_id, 'প্রশিক্ষণার্থীর মার্কশীট')?></li>
                 <li><?=anchor("evaluation/delete_evaluation_question/$row->id/1", 'মুছে ফেলুন', array("onclick" => "return confirm('আপনি কি এই তথ্যটি মুছে ফেলতে চান?');"))?></li>
               </ul>
             </div> 

@@ -54,7 +54,7 @@ class Evaluation_report extends Backend_Controller {
 
    // Training wise evaluation
    public function trainer_evaluation_result($trainingID, $excel = NULL){
-      if(!$this->ion_auth->in_group(array('admin', 'nilg'))){
+      if(!$this->ion_auth->in_group(array('admin', 'nilg', 'cc'))){
          redirect('dashboard');
       }
 

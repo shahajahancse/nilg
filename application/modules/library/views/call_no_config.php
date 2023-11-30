@@ -25,7 +25,7 @@
 				<div style=" padding:15px; margin-top:10px;border-radius:7px; border:2px solid #0960B0;">
 				  <div style="font-size:25px; font-weight:bold; text-align:center">Call No.  Generate </div><br />
 
-					<form  name='callno_form' target="_blank" method="post" action="<?php echo base_url(); ?>library/setup_con/callno_generate" >
+					<form style="font-size:16px;"  name='callno_form' target="_blank" method="post" action="<?php echo base_url(); ?>library/setup_con/callno_generate" >
 						<div class="col-md-4">						
 							<div class="form-group">
 								<label for="first_name">Enter Text:</label>
@@ -47,7 +47,7 @@
 							</div>
 						</div>
 
-						<input type="submit"  name="callno_gen"  style="width:150px;" value="Generate Call No."  class="button">
+						<input type="submit"  name="callno_gen"  style="width:150px;" value="Generate Call No."  class="btn btn-xs btn-success">
 
 					</form >
 				</div>

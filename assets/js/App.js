@@ -81,3 +81,109 @@ Ext.extend(Ext.app.App, Ext.util.Observable, {
         }
     }
 });
+
+
+
+class Converter {
+  static bn = ['১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯', '০'];
+  static en = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+
+  static enMonths = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+
+  static enShortMonths = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'June',
+    'July',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+
+  static bnMonths = [
+    'জানুয়ারি',
+    'ফেব্রুয়ারি',
+    'মার্চ',
+    'এপ্রিল',
+    'মে',
+    'জুন',
+    'জুলাই',
+    'অগাস্ট',
+    'সেপ্টেম্বর',
+    'অক্টোবর',
+    'নভেম্বর',
+    'ডিসেম্বর',
+  ];
+
+  // ... (other arrays for days and times)
+  static bn2en(number) {
+    return number.replace(new RegExp(`[${Converter.bn.join('')}]`, 'g'), (match) =>
+      Converter.en[Converter.bn.indexOf(match)]
+    );
+  }
+
+  static en2bn(number) {
+    return number.replace(new RegExp(`[${Converter.en.join('')}]`, 'g'), (match) =>
+      Converter.bn[Converter.en.indexOf(match)]
+    );
+  }
+
+  static bnDate(date) {
+    // Convert Numbers
+    date = Converter.bn2en(date);
+
+    // Convert Months
+    for (let i = 0; i < Converter.enMonths.length; i++) {
+      date = date.replace(new RegExp(Converter.enMonths[i], 'g'), Converter.bnMonths[i]);
+      date = date.replace(new RegExp(Converter.enShortMonths[i], 'g'), Converter.bnMonths[i]);
+    }
+
+    // Convert Days (You can add similar logic for days)
+
+    return date;
+  }
+
+  static bnTime(time) {
+    // Convert Numbers
+    time = Converter.bn2en(time);
+
+    // Convert Time (You can add similar logic for times)
+
+    return time;
+  }
+}
+
+/*// Example usage:
+const bnNumber = '১২৩৪৫';
+const enNumber = '12345';
+
+console.log(Converter.bn2en(bnNumber)); // Outputs: '12345'
+console.log(Converter.en2bn(enNumber)); // Outputs: '১২৩৪৫'
+
+const bnDate = '১২ মার্চ ২০২৩';
+const enDate = 'March 12, 2023';
+
+console.log(Converter.bnDate(bnDate)); // Outputs: '12 মার্চ 2023'
+
+const bnTime = '৫:৩০ PM';
+const enTime = '5:30 PM';
+
+console.log(Converter.bnTime(bnTime)); // Outputs: '5:30 PM'*/

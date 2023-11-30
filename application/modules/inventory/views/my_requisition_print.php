@@ -138,55 +138,64 @@
 
   <div class="footer">
     <div class="col-6">
-
         <?php if($info->signature != NULL){
           $url = base_url('uploads/signature/').$info->signature;
           }else{
             $url = base_url('uploads/signature/blank.jpg');
           }
         ?>
-
       <div><img src="<?=$url?>" style="width:160; height: 50px; display: block;"></div>
       <div><span class="border-top">চাহিদাকারীর স্বাক্ষর ও সীল</span></div>
     </div>
     <div class="col-6">
-
-        <?php if($info->signature != NULL){
-          $url = base_url('uploads/signature/').$info->signature;
-          }else{
-            $url = base_url('uploads/signature/blank.jpg');
-          }
-        ?>
-
         <div><img src="<?=$url?>" style="width:160; height: 50px; display: block;"></div>
         <div><span class="border-top" style="margin-right: 20px">গ্রহণকারীর স্বাক্ষর ও সীল </span></div>
         <!-- <div><span class="border-top" style="margin-right: 20px">গ্রহণকারীর পূর্ণ নাম ও পদবী </span></div> -->
     </div>
     <br>
+
+
     <div class="col-4"> 
-      <?php if(isset($sk->signature) && $sk->signature != NULL){ ?>
+      <?php if(isset($info->sm_signature) && $info->sm_signature != NULL){
+        $sm = base_url('uploads/signature/').$info->sm_signature;
+        }else{
+          $sm = base_url('uploads/signature/blank.jpg');
+        }
+      ?>
       <div>
-        <img src="<?=base_url('uploads/signature/'.$sk->signature)?>" style="width:160; height: 50px; display: block;">
+        <img src="<?= $sm ?>" style="width:160; height: 50px; display: block;">
       </div>
-      <?php } ?>
       <div><span class="border-top">স্টোর কিপার</span></div>
     </div>
+
+
     <div class="col-4">
-      <?php if(isset($jd->signature) && $jd->signature != NULL){ ?>
+      <?php if(isset($info->jd_signature) && $info->jd_signature != NULL){
+        $jd = base_url('uploads/signature/').$info->jd_signature;
+        }else{
+          $jd = base_url('uploads/signature/blank.jpg');
+        }
+      ?>
       <div>
-        <img src="<?=base_url('uploads/signature/'.$jd->signature)?>" style="width:160; height: 50px; display: block;">
+        <img src="<?= $jd ?>" style="width:160; height: 50px; display: block;">
       </div>
-      <?php } ?>
       <div><span class="border-top">যুগ্ম পরিচালক</span><br><span>(প্রশাসন ও সমন্বয়)</span></div>
     </div>
+
+
     <div class="col-4">
-      <?php if(isset($dg->signature) && $dg->signature != NULL){ ?>
+      <?php if(isset($info->gd_signature) && $info->gd_signature != NULL){
+        $dg = base_url('uploads/signature/').$info->gd_signature;
+        }else{
+          $dg = base_url('uploads/signature/blank.jpg');
+        }
+      ?>
       <div>
-        <img src="<?=base_url('uploads/signature/'.$dg->signature)?>" style="width:160; height: 50px; display: block;">
+        <img src="<?= $dg ?>" style="width:160; height: 50px; display: block;">
       </div>
-      <?php } ?>
       <div><span class="border-top">অনুমোদনকারী</span><br><span>পরিচালক (প্রশাসন ও সমন্বয়)</span></div>
     </div>
+
   </div>
   <style>
     .footer {

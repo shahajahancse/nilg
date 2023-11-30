@@ -25,21 +25,22 @@
 
 		<div class="grid simple horizontal">
 			<div class="grid-title">
-				<h4><span class="semi-bold">বই অনুসন্ধান</span></h4>
+				<h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
 			</div>
 			<div class="grid-body tableresponsive">
 				<FIELDSET style="width:76%">
 					<LEGEND style="color:#FF8080; font-size:18px"><b>Configure</b></LEGEND>
 						<table>
 							<tr>
-								<td style="width:20%;"><a href="<?php echo base_url(); ?>library/setup_con/source_set"><input type="button" value="Source" name="button" class="button" /></a></td>
-								<td style="width:20%;"><a href="<?php echo base_url(); ?>library/setup_con/edt_set"><input type="button" value="Edition" name="button" class="button" /></a></td>
-								<td style="width:20%;"><a href="<?php echo base_url(); ?>library/setup_con/designation_set"><input type="button" value="Designation" name="button" class="button"  /></a></td>
+								<td style=""><a href="<?php echo base_url(); ?>library/setup_con/source_set"><input type="button" value="Source" name="button" class="btn btn-xs btn-success" /></a>&nbsp;&nbsp;</td>
+								<td style=""><a href="<?php echo base_url(); ?>library/setup_con/edt_set"><input type="button" value="Edition" name="button" class="btn btn-xs btn-success" /></a>&nbsp;&nbsp;</td>
+								<td style=""><a href="<?php echo base_url(); ?>library/setup_con/designation_set"><input type="button" value="Designation" name="button" class="btn btn-xs btn-success"  /></a>&nbsp;&nbsp;</td>
 							</tr>
+							<tr><td style="color: transparent;">.</td></tr>
 							<tr>
-								<td style="width:20%;"><a href="<?php echo base_url(); ?>library/setup_con/place_set"><input type="button" value="Place" name="button" class="button" /></a></td>
-								<td style="width:20%;"><a href="<?php echo base_url(); ?>library/setup_con/year_set"><input type="button" value="Year" name="button" class="button" /></a></td>
-								<td style="width:20%;"><a href="<?php echo base_url(); ?>library/setup_con/member_type"><input type="button" value="Member Type" name="button" class="button"  /></a></td>
+								<td style=""><a href="<?php echo base_url(); ?>library/setup_con/place_set"><input type="button" value="Place" name="button" class="btn btn-xs btn-success" /></a></td>
+								<td style=""><a href="<?php echo base_url(); ?>library/setup_con/year_set"><input type="button" value="Year" name="button" class="btn btn-xs btn-success" /></a></td>
+								<td style=""><a href="<?php echo base_url(); ?>library/setup_con/member_type"><input type="button" value="Member Type" name="button" class="btn btn-xs btn-success"  /></a></td>
 							</tr>
 						</table>
 				</FIELDSET>
