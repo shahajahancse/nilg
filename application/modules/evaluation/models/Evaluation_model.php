@@ -366,12 +366,14 @@ class Evaluation_model extends CI_Model {
         $questions = $q->result();
 
         $i=0;
+        $eq=0;
         foreach($questions as $value){
             $questions[$i]->options = $this->q_option($value->id);
             $i++;
+            $eq = $eq + $value->qnumber;
         }
 
-        return $questions;
+        return array('sum' => $eq, 'qs' => $questions);
     } 
 
     public function get_question_answer_by_evaluation($id) {

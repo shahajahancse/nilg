@@ -43,6 +43,7 @@ class Dashboard_model extends CI_Model {
 
     public function get_count_training($financing_id=NULL) {
         $this->db->select('COUNT(*) as count');
+        $this->db->where_not_in('financing_id', array(9));
         // $this->db->where('status', 3);
 
         if($financing_id != NULL){

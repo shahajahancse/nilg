@@ -99,7 +99,10 @@
               <div class="col-md-12" id="msgRemove"></div>
               <div class="col-md-12">
                 <label style="float: left;" class="form-label">প্রশ্নপত্র তৈরি করুন</label>
-                <label style="float: right;" class="form-label">প্রশ্ন সংখ্যা : <span id="qnumber"><?= eng2bng(count($questions)) ?></span></label>
+                <div style="float: right; display: flex; gap: 60px;">
+                  <label class="form-label">প্রশ্ন নাম্বার : <span id="q_number"><?= eng2bng($qNumber) ?></span></label>
+                  <label style="float: right;" class="form-label">প্রশ্ন সংখ্যা : <span id="qnumber"><?= eng2bng(count($questions)) ?></span></label>
+                </div>
                 <div style="clear: both; padding-bottom: 10px;"></div>
 
                 <?php if (!empty($questions)) {  ?>
@@ -113,7 +116,7 @@
                         <a href="javascript:;" data-id="<?=$value->eq_id?>" onclick="removeRow(this)" class="label label-important"> <i style="margin-bottom: 6px !important;" class="fa fa-trash-o" aria-hidden="true"></i></a> <?=$value->question_title?> <span style="color:blue; margin-left:5px;"><?= eng2bng($value->qnumber) ?></span>
                         </h6>
                         <input type="hidden" name="hideid[]" value="<?=$value->id?>">
-                        <input type="hidden" name="hidenumber[]" value="<?=$value->qnumber?>">
+                        <input type="hidden" class="hidenumber" name="hidenumber[]" value="<?=$value->qnumber?>">
                         <?php 
                         /*
                         if($value->question_type == 1){
@@ -338,17 +341,32 @@
 
 <script type="text/javascript">
   $('#list').change(function(){
+    q_number = 0;
     ul = document.getElementById("list2");
     li = ul.getElementsByTagName('li');
     total = li.length;
+
+    var hiddenNumbers = ul.getElementsByClassName('hidenumber');
+      for (var i = 0; i < hiddenNumbers.length; i++) {
+      q_number = q_number + Number(hiddenNumbers[i].value);
+    }
     document.getElementById("qnumber").innerHTML = replaceNumbers(total.toString());
+    document.getElementById("q_number").innerHTML = replaceNumbers(q_number.toString());
   });
 
   $('#list2').change(function(){
+    q_number = 0;
     ul = document.getElementById("list2");
     li = ul.getElementsByTagName('li');
     total = li.length;
+
+    var hiddenNumbers = ul.getElementsByClassName('hidenumber');
+      for (var i = 0; i < hiddenNumbers.length; i++) {
+      q_number = q_number + Number(hiddenNumbers[i].value);
+    }
+
     document.getElementById("qnumber").innerHTML = replaceNumbers(total.toString());
+    document.getElementById("q_number").innerHTML = replaceNumbers(q_number.toString());
   });
 
   function replaceNumbers(input) {
@@ -365,7 +383,11 @@
       9:'৯'
     };
 
-    var output = [];
+    return input.toString().replace(/\d/g, function (match) {
+      return numbers[match];
+    });
+
+    /*var output = [];
     for (var i = 0; i < input.length; ++i) {
       if (numbers.hasOwnProperty(input[i])) {
         output.push(numbers[input[i]]);
@@ -373,7 +395,8 @@
         output.push(input[i]);
       }
     }
-    return output.join('');
+    return output.join('');*/
+
   }
 </script>
 

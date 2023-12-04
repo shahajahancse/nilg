@@ -908,7 +908,9 @@ class Evaluation extends Backend_Controller {
 
       // Get Info
       $this->data['info'] = $this->Evaluation_model->get_evaluation_details($id);
-      $this->data['questions'] = $this->Evaluation_model->get_question_by_evaluation($id);
+      $gets = $this->Evaluation_model->get_question_by_evaluation($id);
+      $this->data['qNumber'] = $gets['sum'];
+      $this->data['questions'] = $gets['qs'];
 
       // Dropdown
       $this->data['training'] = $this->Evaluation_model->get_training_not_completed();
@@ -1143,7 +1145,9 @@ class Evaluation extends Backend_Controller {
 
       // Get Info
       $this->data['info'] = $this->Evaluation_model->get_evaluation_details($id);
-      $this->data['questions'] = $this->Evaluation_model->get_question_by_evaluation($id);
+      $gets = $this->Evaluation_model->get_question_by_evaluation($id);
+      $this->data['qNumber'] = $gets['sum'];
+      $this->data['questions'] = $gets['qs'];
 
       // Dropdown
       $this->data['training'] = $this->Evaluation_model->get_training_not_completed();
@@ -1384,8 +1388,9 @@ class Evaluation extends Backend_Controller {
 
       // Get Info
       $this->data['info'] = $this->Evaluation_model->get_evaluation_details($id);
-      $this->data['questions'] = $this->Evaluation_model->get_question_by_evaluation($id);
-
+      $gets = $this->Evaluation_model->get_question_by_evaluation($id);
+      $this->data['qNumber'] = $gets['sum'];
+      $this->data['questions'] = $gets['qs'];
       // Dropdown
       $this->data['training'] = $this->Evaluation_model->get_training_not_completed();
       $this->data['office_type'] = $this->Common_model->get_office_type();
