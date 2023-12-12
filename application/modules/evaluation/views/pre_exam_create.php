@@ -140,31 +140,31 @@
   </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="modalSetAnswer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel" class="semi-bold">প্রশ্নের উত্তর প্রদান করুন</h3>
+      </div>
+      <?php
+      // $attributes = array('id' => '', 'class' => 'answerUpdate');
+      // echo form_open('', $attributes);
+      ?>
+      <form method="POST" class="answerUpdate">
+        <div class="modal-body"> </div>        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?=lang('common_close')?></button>
+          <button type="submit" class="btn btn-primary"><?=lang('common_save')?></button>
+          <?php //echo form_submit('submit', lang('common_save'), "class='btn btn-primary' id='submitnote'"); ?>
+        </div>        
+      </form>
+      <?php //echo form_close(); ?>
+    </div> <!-- /.modal-content -->
+  </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
 
-  <!-- Modal -->
-  <div class="modal fade" id="modalSetAnswer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h3 id="myModalLabel" class="semi-bold">প্রশ্নের উত্তর প্রদান করুন</h3>
-        </div>
-        <?php
-        // $attributes = array('id' => '', 'class' => 'answerUpdate');
-        // echo form_open('', $attributes);
-        ?>
-        <form method="POST" class="answerUpdate">
-          <div class="modal-body"> </div>        
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal"><?=lang('common_close')?></button>
-            <button type="submit" class="btn btn-primary"><?=lang('common_save')?></button>
-            <?php //echo form_submit('submit', lang('common_save'), "class='btn btn-primary' id='submitnote'"); ?>
-          </div>        
-        </form>
-        <?php //echo form_close(); ?>
-      </div> <!-- /.modal-content -->
-    </div> <!-- /.modal-dialog -->
-  </div> <!-- /.modal -->
 
 <script type="text/javascript">
   // Question Set Answer Modal
@@ -173,43 +173,54 @@
       type: "GET",
       url: hostname+"nilg_setting/qbank/ajax_question_by_id/" + id,
     }).done(function (response) {
-      $(".modal-body").html(response);
-      //update data
-      $(".answerUpdate").submit(function(){
-        $('#modalSetAnswer').modal('hide');
-        $.ajax({
-          type: "POST",
-          url: hostname+"nilg_setting/qbank/ajax_answer_update/" + id,
-          data: $(this).serialize(),
-          dataType: 'json',
-          success: function (response) {
-            // alert(response);
-            if (response.status == 1) {
-              $('.alert').addClass('alert-success').html(response.msg).show();
+     $(".modal-body").html(response);
+      $(".modal-body").append('<input type="hidden" value="' + id + '" id="prosnoid">');
 
-              forms = $('#validate').serialize();
-              ul = document.getElementById("officeID").value;
-              $.ajax({
-                type: "GET",
-                data: forms,
-                url: hostname +"evaluation/ajax_question_by_office/" + ul,
-                success: function(func_data)
-                {
-                  $('#myInput').show();
-                  $('#list').html(func_data);
-                }
-              });
-
-            } else {
-              $('.alert').addClass('alert-red').html(response.msg).show();
-            }
-          }
-        });
-        return false;    
-      });
     });
   };
 </script>
+<script>
+  $("#answerUpdate").submit(function(e){
+    e.preventDefault();
+
+    $('#modalSetAnswer').modal('hide');
+    var id= $('#prosnoid').val();
+
+    $.ajax({
+      type: "POST",
+      url: hostname+"nilg_setting/qbank/ajax_answer_update/" + id,
+      data: $(this).serialize(),
+      dataType: 'json',
+      success: function (response) {
+        // alert(response);
+        if (response.status == 1) {
+          $('.alert').addClass('alert-success').html(response.msg).show();
+
+          forms = $('#validate').serialize();
+          ul = document.getElementById("officeID").value;
+          $.ajax({
+            type: "GET",
+            data: forms,
+            url: hostname +"evaluation/ajax_question_by_office/" + ul,
+            success: function(func_data)
+            {
+              $('#myInput').show();
+              $('#list').html(func_data);
+            }
+          });
+
+        } else {
+          $('.alert').addClass('alert-red').html(response.msg).show();
+        }
+        $(".answerUpdate").remove();
+        $(".answerUpdate").empty();
+      }
+    });
+    return false;    
+  });
+</script>
+
+
 
 <script type="text/javascript">
   // Evaluation Question Create

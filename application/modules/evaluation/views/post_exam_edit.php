@@ -24,9 +24,8 @@
             </div>
           </div>
           <div class="grid-body">
-            <?php 
-            $attributes = array('id' => 'validate', 'autcomplete' => 'off');
-            echo form_open_multipart(current_url(), $attributes);?>
+            <?php $attributes = array('id' => 'validate', 'autcomplete' => 'off');
+              echo form_open_multipart(current_url(), $attributes);?>
 
             <div><?php //echo validation_errors(); ?></div>
             <?php if($this->session->flashdata('success')):?>
@@ -106,8 +105,7 @@
                 <ul id="list2" class="list-group"><?php 
                   $sl=0;
                   foreach ($questions as $value) { 
-                    $sl++;
-                    ?>
+                    $sl++; ?>
                     <li class="list-group-item grab">
                       <h6 class="semi-bold">
                       <a href="javascript:void();" data-id="<?=$value->eq_id?>" onclick="removeRow(this)" class="label label-important"> <i style="margin-bottom: 6px !important;" class="fa fa-trash-o" aria-hidden="true"></i></a> <?=$value->question_title?> <span style="color:blue; margin-left:5px;">  <?= eng2bng($value->qnumber) ?></span>
@@ -115,80 +113,163 @@
                       <input type="hidden" name="hideid[]" value="<?=$value->id?>">
                       <input type="hidden" class="hidenumber" name="hidenumber[]" value="<?=$value->qnumber?>">
                       <?php 
-                      /*
-                      if($value->question_type == 1){
-                        echo '<input type="text" name="input_text" class="form-control input-sm">';
-                      }elseif($value->question_type == 2){
-                        echo '<textarea name="input_textarea" class="form-control input-sm"></textarea>';
-                      }elseif($value->question_type == 3){
-                        foreach ($value->options as $row) {
-                          echo '<div class="form-check" style="margin-left: 30px;">                
-                          <label class="form-check-label" for="exampleRadios1">
-                            <input class="form-check-input" type="radio" name="input_radios" id="exampleRadios1">
-                            <b>'.$row->option_name.'</b>
-                          </label></div>';
+                        /*
+                        if($value->question_type == 1){
+                          echo '<input type="text" name="input_text" class="form-control input-sm">';
+                        }elseif($value->question_type == 2){
+                          echo '<textarea name="input_textarea" class="form-control input-sm"></textarea>';
+                        }elseif($value->question_type == 3){
+                          foreach ($value->options as $row) {
+                            echo '<div class="form-check" style="margin-left: 30px;">                
+                            <label class="form-check-label" for="exampleRadios1">
+                              <input class="form-check-input" type="radio" name="input_radios" id="exampleRadios1">
+                              <b>'.$row->option_name.'</b>
+                            </label></div>';
+                          }
+                        }elseif($value->question_type == 4){
+                          foreach ($value->options as $row) {
+                            echo '<div class="form-check" style="margin-left: 30px;">
+                            <label class="form-check-label" for="defaultCheck1">
+                              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                              <b>'.$row->option_name.'</b>
+                            </label></div>';
+                          }
                         }
-                      }elseif($value->question_type == 4){
-                        foreach ($value->options as $row) {
-                          echo '<div class="form-check" style="margin-left: 30px;">
-                          <label class="form-check-label" for="defaultCheck1">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                            <b>'.$row->option_name.'</b>
-                          </label></div>';
-                        }
-                      }
-                      */
-                      echo '</li>';
+                        */
                       ?>
-                      <?php } ?>
-                    </ul>
-                  </div>
-                </div>
-
-                <div class="form-actions">  
-                  <div class="pull-right">
-                    <?php echo form_submit('submit', lang('common_save'), "class='btn btn-primary btn-cons font-big-bold'"); ?>
-                  </div>
-                </div>
-                <?php echo form_close();?>            
-
-              </div>  <!-- END GRID BODY -->              
-            </div> <!-- END GRID -->
-          </div>
-
-          <div class="col-md-6">
-            <div class="grid simple horizontal red">
-              <div class="grid-title">
-                <h4 style="width: 100px;"><span class="semi-bold">প্রশ্ন ব্যাংক</span></h4>
-                <div class="pull-right">
-                  <div style="width: 350px;">
-                    <?php
-                    $more_attr = 'class="form-control input-sm" id="officeID" style="height: 20px !important;"';
-                    echo form_dropdown('office_type', $office_type, set_value('office_type'), $more_attr);
-                    ?>
-                  </div>
-                </div>
+                    </li>
+                  <?php } ?>
+                </ul>
               </div>
+            </div>
 
-              <div class="grid-body">
-                <div class="row">
-                  <div class="col-md-12" style="height: 500px;overflow: scroll;">
-                    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="অনুসন্ধান করুন" style="display: none;">
-                    <ul id="list" class="list-group">
-                      <!-- <div id="resultDiv"></div> -->
+            <div class="form-actions">  
+              <div class="pull-right">
+                <?php echo form_submit('submit', lang('common_save'), "class='btn btn-primary btn-cons font-big-bold'"); ?>
+              </div>
+            </div>
+            <?php echo form_close();?>            
 
-                    </ul>
-                  </div>
-                </div>
+          </div>  <!-- END GRID BODY -->              
+        </div> <!-- END GRID -->
+      </div>
 
+      <div class="col-md-6">
+        <div class="grid simple horizontal red">
+          <div class="grid-title">
+            <h4 style="width: 100px;"><span class="semi-bold">প্রশ্ন ব্যাংক</span></h4>
+            <div class="pull-right">
+              <div style="width: 350px;">
+                <?php
+                $more_attr = 'class="form-control input-sm" id="officeID" style="height: 20px !important;"';
+                echo form_dropdown('office_type', $office_type, set_value('office_type'), $more_attr);
+                ?>
               </div>
             </div>
           </div>
 
-        </div> <!-- END ROW -->
+          <div class="grid-body">
+            <div class="row">
+              <div class="col-md-12" style="height: 500px;overflow: scroll;">
+                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="অনুসন্ধান করুন" style="display: none;">
+                <ul id="list" class="list-group">
+                  <!-- <div id="resultDiv"></div> -->
 
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
-    </div>
+
+    </div> <!-- END ROW -->
+
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalSetAnswer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel" class="semi-bold">প্রশ্নের উত্তর প্রদান করুন</h3>
+      </div>
+      <?php
+      // $attributes = array('id' => '', 'class' => 'answerUpdate');
+      // echo form_open('', $attributes);
+      ?>
+      <form method="POST" class="answerUpdate">
+        <div class="modal-body"> </div>        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?=lang('common_close')?></button>
+          <button type="submit" class="btn btn-primary"><?=lang('common_save')?></button>
+          <?php //echo form_submit('submit', lang('common_save'), "class='btn btn-primary' id='submitnote'"); ?>
+        </div>        
+      </form>
+      <?php //echo form_close(); ?>
+    </div> <!-- /.modal-content -->
+  </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+
+
+<script type="text/javascript">
+  // Question Set Answer Modal
+  function addmodall (id) {
+    $.ajax({
+      type: "GET",
+      url: hostname+"nilg_setting/qbank/ajax_question_by_id/" + id,
+    }).done(function (response) {
+     $(".modal-body").html(response);
+      $(".modal-body").append('<input type="hidden" value="' + id + '" id="prosnoid">');
+
+    });
+  };
+</script>
+<script>
+  $("#answerUpdate").submit(function(e){
+    e.preventDefault();
+
+    $('#modalSetAnswer').modal('hide');
+    var id= $('#prosnoid').val();
+
+    $.ajax({
+      type: "POST",
+      url: hostname+"nilg_setting/qbank/ajax_answer_update/" + id,
+      data: $(this).serialize(),
+      dataType: 'json',
+      success: function (response) {
+        // alert(response);
+        if (response.status == 1) {
+          $('.alert').addClass('alert-success').html(response.msg).show();
+
+          forms = $('#validate').serialize();
+          ul = document.getElementById("officeID").value;
+          $.ajax({
+            type: "GET",
+            data: forms,
+            url: hostname +"evaluation/ajax_question_by_office/" + ul,
+            success: function(func_data)
+            {
+              $('#myInput').show();
+              $('#list').html(func_data);
+            }
+          });
+
+        } else {
+          $('.alert').addClass('alert-red').html(response.msg).show();
+        }
+        $(".answerUpdate").remove();
+        $(".answerUpdate").empty();
+      }
+    });
+    return false;    
+  });
+</script>
+
+
 
 <script type="text/javascript">
   // Evaluation Question Create

@@ -12,7 +12,7 @@ class Dashboard_model extends CI_Model {
         $this->db->select('COUNT(*) as count');
         $this->db->where('is_office', 0);
         $this->db->where('is_verify', 1);
-        $this->db->where_not_in('office_type', array(8,9));
+        $this->db->where_not_in('office_type', array(8,9,10));
         $this->db->where('gender !=', NULL);
         $this->db->where('employee_type !=', NULL);
 

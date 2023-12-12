@@ -336,7 +336,7 @@ class Reports extends Backend_Controller {
                 // $mpdf->output('report.pdf', "D");
 
             }elseif($this->input->post('btnsubmit') == 'pdf_rep_list_city') {
-                $this->data['results'] = $this->Reports_model->get_list_pr(5, $division_id);
+                $this->data['results'] = $this->Reports_model->get_list_pr(5,$division_id,NULL,NULL,NULL,$status);
                 // $this->data['results'] = $this->Reports_model->get_list_personal_data(1, 5, NULL, $district_id);
                 // echo $this->db->last_query(); exit;
               
@@ -350,7 +350,7 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
 
             }elseif($this->input->post('btnsubmit') == 'pdf_rep_list_district') {
-                $this->data['results'] = $this->Reports_model->get_list_pr(4, NULL, $district_id);
+                $this->data['results'] = $this->Reports_model->get_list_pr(4,NULL,$district_id,NULL,NULL,$status);
                 // $this->data['results'] = $this->Reports_model->get_list_personal_data(1, 4, NULL, $district_id);
               
                 $this->data['headding'] = 'জেলা পরিষদের জনপ্রতিনিধির তালিকা';
@@ -363,7 +363,7 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
 
             }elseif($this->input->post('btnsubmit') == 'pdf_rep_list_upazila') {
-                $this->data['results'] = $this->Reports_model->get_list_pr(3, NULL, NULL, $upazila_id);
+                $this->data['results'] = $this->Reports_model->get_list_pr(3,NULL,NULL,$upazila_id,NULL,$status);
                 // $this->data['results'] = $this->Reports_model->get_list_personal_data(1, 3, NULL, NULL, $upazila_id);
               
                 $this->data['headding'] = 'উপজেলা পরিষদের জনপ্রতিনিধির তালিকা';
@@ -376,7 +376,7 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
 
             }elseif($this->input->post('btnsubmit') == 'pdf_rep_list_pourashava') {
-                $this->data['results'] = $this->Reports_model->get_list_pr(2, NULL, NULL, $upazila_id);
+                $this->data['results'] = $this->Reports_model->get_list_pr(2,NULL,NULL,$upazila_id,NULL,$status);
                 // $this->data['results'] = $this->Reports_model->get_list_personal_data(1, 2, NULL, NULL, $upazila_id);
               
                 $this->data['headding'] = 'পৌরসভার জনপ্রতিনিধির তালিকা';
@@ -389,7 +389,7 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
 
             } elseif ($this->input->post('btnsubmit') == 'pdf_rep_list_union') {
-                $this->data['results'] = $this->Reports_model->get_list_pr(1, NULL, NULL, NULL, $union_id);
+                $this->data['results'] = $this->Reports_model->get_list_pr(1,NULL,NULL,NULL,$union_id,$status);
                 // $this->data['results'] = $this->Reports_model->get_list_personal_data(1, 1, NULL, NULL, NULL, $union_id);
 
                 // print_r($this->input->post());

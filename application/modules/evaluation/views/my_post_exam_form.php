@@ -67,6 +67,7 @@
                 <?php 
                 $sl=0;
                 foreach ($questions as $value) { 
+                  
                   $sl++;
                   ?>
                   <div>
@@ -83,19 +84,19 @@
                     <?php }elseif($value->question_type == 2){ ?>
                     <textarea name="input_textarea[<?=$value->id?>]" class="form-control input-sm"></textarea>
 
-                    <?php }elseif($value->question_type == 3){ ?>
-                    <?php foreach ($value->options as $row) { ?>                
-                    <div class="form-check" style="margin-left: 30px;">                
-                      <label class="form-check-label" for="Radio<?=$row->id?>"><input class="form-check-input" type="radio" name="input_radio[<?=$value->id?>]" id="Radio<?=$row->id?>" value="<?=$row->id?>"> <b><?=$row->option_name?></b></label>
-                    </div>
+                    <?php }elseif($value->question_type == 3){ 
+                      foreach ($value->options as $row) { ?>                
+                      <div class="form-check" style="margin-left: 30px;">                
+                        <label class="form-check-label" for="Radio<?=$row->id?>"><input class="form-check-input" type="radio" name="input_radio[<?=$value->id?>]" id="Radio<?=$row->id?>" value="<?=$row->id?>"> <b><?=$row->option_name?></b></label>
+                      </div>
                     <?php } ?>
 
                     <?php }elseif($value->question_type == 4){ ?>
-                    <?php foreach ($value->options as $row) { ?>                
-                    <div class="form-check" style="margin-left: 30px;">
-                      <label class="form-check-label" for="Check<?=$row->id?>"><input class="form-check-input" type="checkbox" name="input_check[<?=$value->id?>]" id="Check<?=$row->id?>" value="<?=$row->id?>"> <b><?=$row->option_name?></b></label>
-                    </div>              
-                    <?php } ?>
+                      <?php foreach ($value->options as $row) { ?>                
+                        <div class="form-check" style="margin-left: 30px;">
+                          <label class="form-check-label" for="Check<?=$row->id?>"><input class="form-check-input" type="checkbox" name="input_check[<?=$value->id?>]" id="Check<?=$row->id?>" value="<?=$row->id?>"> <b><?=$row->option_name?></b></label>
+                        </div>              
+                      <?php } ?>
                     <?php } ?>
                   </div>
                   <?php } ?>

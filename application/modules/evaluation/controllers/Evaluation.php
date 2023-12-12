@@ -1167,7 +1167,9 @@ class Evaluation extends Backend_Controller {
       // Get Info
       // $results = $this->Evaluation_model->get_evaluation_details($id);
       $this->data['info'] = $this->Evaluation_model->get_evaluation_details($id);
-      $this->data['questions'] = $this->Evaluation_model->get_question_by_evaluation($id);
+      $gets = $this->Evaluation_model->get_question_by_evaluation($id);
+      $this->data['qNumber'] = $gets['sum'];
+      $this->data['questions'] = $gets['qs'];
       // dd($this->data['info']);
 
       // Load Page
@@ -1179,8 +1181,10 @@ class Evaluation extends Backend_Controller {
    public function pre_evaluation_word($id)
    {
       // Get Result
-      $this->data['info'] = $this->Evaluation_model->get_evaluation_details($id);
-      $this->data['questions'] = $this->Evaluation_model->get_question_by_evaluation($id);
+      $this->data['info'] = $this->Evaluation_model->get_evaluation_details($id);      
+      $gets = $this->Evaluation_model->get_question_by_evaluation($id);
+      $this->data['qNumber'] = $gets['sum'];
+      $this->data['questions'] = $gets['qs'];
       // dd($this->data['info']);
       
       $this->data['headding'] = 'প্রশিক্ষণপূর্ব ';
@@ -1198,8 +1202,9 @@ class Evaluation extends Backend_Controller {
    {    
       // Get Result
       $this->data['info'] = $this->Evaluation_model->get_evaluation_details($id);
-      $this->data['questions'] = $this->Evaluation_model->get_question_by_evaluation($id);
-      // dd($this->data['info']);
+      $gets = $this->Evaluation_model->get_question_by_evaluation($id);
+      $this->data['qNumber'] = $gets['sum'];
+      $this->data['questions'] = $gets['qs'];
 
       // Load View
       $this->data['headding'] = 'সনদপত্র';
@@ -1499,7 +1504,9 @@ class Evaluation extends Backend_Controller {
 
       // Get Result
       $this->data['info'] = $this->Evaluation_model->get_evaluation_details($dataID);
-      $this->data['questions'] = $this->Evaluation_model->get_question_by_evaluation($dataID);
+      $res = $this->Evaluation_model->get_question_by_evaluation($dataID);
+      $this->data['qNumber'] = $res['sum'];
+      $this->data['questions'] = $res['qs'];
 
       $trainingID = $this->data['info']->training_id;
       $tmID = $this->data['info']->training_mark_id;
@@ -1673,6 +1680,7 @@ class Evaluation extends Backend_Controller {
 
       // Decrypt Data        
       $dataID = (int) decrypt_url($evaID); //exit;
+      // dd($dataID);
       // Check Exists
       if (!$this->Common_model->exists('evaluation', 'id', $dataID)) {
          // redirect('dashboard');
@@ -1685,7 +1693,10 @@ class Evaluation extends Backend_Controller {
 
       // Get Result
       $this->data['info'] = $this->Evaluation_model->get_evaluation_details($dataID);
-      $this->data['questions'] = $this->Evaluation_model->get_question_by_evaluation($dataID);
+      $res = $this->Evaluation_model->get_question_by_evaluation($dataID);
+      $this->data['qNumber'] = $res['sum'];
+      $this->data['questions'] = $res['qs'];
+      // dd($this->data['questions']);
 
       $trainingID = $this->data['info']->training_id;
       $tmID = $this->data['info']->training_mark_id;
@@ -1864,9 +1875,10 @@ class Evaluation extends Backend_Controller {
       
       // echo $this->auto_answer_examine(36, 13);
       // exit('hello');
-      $this->data['info'] = $this->Evaluation_model->get_evaluation_details($dataID);
-      $this->data['questions'] = $this->Evaluation_model->get_question_by_evaluation($dataID);
-      // dd($this->data['info']);
+      $this->data['info'] = $this->Evaluation_model->get_evaluation_details($dataID);      
+      $res = $this->Evaluation_model->get_question_by_evaluation($dataID);
+      $this->data['qNumber'] = $res['sum'];
+      $this->data['questions'] = $res['qs'];
 
       $trainingID = $this->data['info']->training_id;
       $tmID = $this->data['info']->training_mark_id;

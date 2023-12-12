@@ -169,42 +169,51 @@
       type: "GET",
       url: hostname+"nilg_setting/qbank/ajax_question_by_id/" + id,
     }).done(function (response) {
-      $(".modal-body").html(response);
-      //update data
-      $(".answerUpdate").submit(function(){
-        $('#modalSetAnswer').modal('hide');
-        $.ajax({
-          type: "POST",
-          url: hostname+"nilg_setting/qbank/ajax_answer_update/" + id,
-          data: $(this).serialize(),
-          dataType: 'json',
-          success: function (response) {
-            // alert(response);
-            if (response.status == 1) {
-              $('.alert').addClass('alert-success').html(response.msg).show();
+     $(".modal-body").html(response);
+      $(".modal-body").append('<input type="hidden" value="' + id + '" id="prosnoid">');
 
-              forms = $('#validate').serialize();
-              ul = document.getElementById("officeID").value;
-              $.ajax({
-                type: "GET",
-                data: forms,
-                url: hostname +"evaluation/ajax_question_by_office/" + ul,
-                success: function(func_data)
-                {
-                  $('#myInput').show();
-                  $('#list').html(func_data);
-                }
-              });
-
-            } else {
-              $('.alert').addClass('alert-red').html(response.msg).show();
-            }
-          }
-        });
-        return false;    
-      });
     });
   };
+</script>
+<script>
+  $("#answerUpdate").submit(function(e){
+    e.preventDefault();
+
+    $('#modalSetAnswer').modal('hide');
+    var id= $('#prosnoid').val();
+
+    $.ajax({
+      type: "POST",
+      url: hostname+"nilg_setting/qbank/ajax_answer_update/" + id,
+      data: $(this).serialize(),
+      dataType: 'json',
+      success: function (response) {
+        // alert(response);
+        if (response.status == 1) {
+          $('.alert').addClass('alert-success').html(response.msg).show();
+
+          forms = $('#validate').serialize();
+          ul = document.getElementById("officeID").value;
+          $.ajax({
+            type: "GET",
+            data: forms,
+            url: hostname +"evaluation/ajax_question_by_office/" + ul,
+            success: function(func_data)
+            {
+              $('#myInput').show();
+              $('#list').html(func_data);
+            }
+          });
+
+        } else {
+          $('.alert').addClass('alert-red').html(response.msg).show();
+        }
+        $(".answerUpdate").remove();
+        $(".answerUpdate").empty();
+      }
+    });
+    return false;    
+  });
 </script>
 
 

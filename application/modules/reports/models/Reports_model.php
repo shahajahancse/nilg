@@ -539,7 +539,7 @@ class Reports_model extends CI_Model {
         return $ret;
     }
 
-    public function get_list_pr($officeType, $division=NULL, $district=NULL, $upazila=NULL, $union=NULL) {
+    public function get_list_pr($officeType, $division=NULL, $district=NULL, $upazila=NULL, $union=NULL, $status = array()) {
         $this->db->select('u.name_bn, u.nid, u.mobile_no, o.office_name, d.desig_name');
         $this->db->from('users u');
         $this->db->join('office o', 'o.id = u.crrnt_office_id', 'LEFT');
@@ -548,6 +548,10 @@ class Reports_model extends CI_Model {
         $this->db->where('u.office_type', $officeType);
         // $this->db->where('pd.status', 1);
 
+        if(!empty($status)){
+            $this->db->where_in('u.status', $status);
+        }
+        
         if(!empty($division)){
             $this->db->where('u.div_id', $division);
         }

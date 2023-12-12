@@ -150,50 +150,134 @@
               </div>
             </div>
 
-                <div class="form-actions">  
-                  <div class="pull-right">
-                    <?php echo form_submit('submit', lang('common_save'), "class='btn btn-primary btn-cons font-big-bold'"); ?>
-                  </div>
-                </div>
-                <?php echo form_close();?>            
-
-              </div>  <!-- END GRID BODY -->              
-            </div> <!-- END GRID -->
-          </div>
-
-          <div class="col-md-6">
-            <div class="grid simple horizontal red">
-              <div class="grid-title">
-                <h4 style="width: 100px;"><span class="semi-bold">প্রশ্ন ব্যাংক</span></h4>
-                <div class="pull-right">
-                  <div style="width: 350px;">
-                    <?php
-                    $more_attr = 'class="form-control input-sm" id="officeID" style="height: 20px !important;"';
-                    echo form_dropdown('office_type', $office_type, set_value('office_type'), $more_attr);
-                    ?>
-                  </div>
-                </div>
+            <div class="form-actions">  
+              <div class="pull-right">
+                <?php echo form_submit('submit', lang('common_save'), "class='btn btn-primary btn-cons font-big-bold'"); ?>
               </div>
+            </div>
+            <?php echo form_close();?>            
 
-              <div class="grid-body">
-                <div class="row">
-                  <div class="col-md-12" style="height: 500px;overflow: scroll;">
-                    <input type="text" id="myInput" onkeyup="myFunction()" placeholder="অনুসন্ধান করুন" style="display: none;">
-                    <ul id="list" class="list-group">
-                      <!-- <div id="resultDiv"></div> -->
+          </div>  <!-- END GRID BODY -->              
+        </div> <!-- END GRID -->
+      </div>
 
-                    </ul>
-                  </div>
-                </div>
-
+      <div class="col-md-6">
+        <div class="grid simple horizontal red">
+          <div class="grid-title">
+            <h4 style="width: 100px;"><span class="semi-bold">প্রশ্ন ব্যাংক</span></h4>
+            <div class="pull-right">
+              <div style="width: 350px;">
+                <?php
+                $more_attr = 'class="form-control input-sm" id="officeID" style="height: 20px !important;"';
+                echo form_dropdown('office_type', $office_type, set_value('office_type'), $more_attr);
+                ?>
               </div>
             </div>
           </div>
 
-        </div> <!-- END ROW -->
+          <div class="grid-body">
+            <div class="row">
+              <div class="col-md-12" style="height: 500px;overflow: scroll;">
+                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="অনুসন্ধান করুন" style="display: none;">
+                <ul id="list" class="list-group">
+                  <!-- <div id="resultDiv"></div> -->
 
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
-    </div>
+
+    </div> <!-- END ROW -->
+
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalSetAnswer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel" class="semi-bold">প্রশ্নের উত্তর প্রদান করুন</h3>
+      </div>
+      <?php
+      // $attributes = array('id' => '', 'class' => 'answerUpdate');
+      // echo form_open('', $attributes);
+      ?>
+      <form method="POST" id="answerUpdate">
+        <div class="modal-body"> </div>        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal"><?=lang('common_close')?></button>
+          <button type="submit" class="btn btn-primary"><?=lang('common_save')?></button>
+          <?php //echo form_submit('submit', lang('common_save'), "class='btn btn-primary' id='submitnote'"); ?>
+        </div>        
+      </form>
+      <?php //echo form_close(); ?>
+    </div> <!-- /.modal-content -->
+  </div> <!-- /.modal-dialog -->
+</div> <!-- /.modal -->
+
+
+<script type="text/javascript">
+  // Question Set Answer Modal
+  function addmodall (id) {
+    $.ajax({
+      type: "GET",
+      url: hostname+"nilg_setting/qbank/ajax_question_by_id/" + id,
+    }).done(function (response) {
+     $(".modal-body").html(response);
+      $(".modal-body").append('<input type="hidden" value="' + id + '" id="prosnoid">');
+
+    });
+  };
+</script>
+<script>
+  $("#answerUpdate").submit(function(e){
+    e.preventDefault();
+
+    $('#modalSetAnswer').modal('hide');
+    var id= $('#prosnoid').val();
+
+    $.ajax({
+      type: "POST",
+      url: hostname+"nilg_setting/qbank/ajax_answer_update/" + id,
+      data: $(this).serialize(),
+      dataType: 'json',
+      success: function (response) {
+        // alert(response);
+        if (response.status == 1) {
+          $('.alert').addClass('alert-success').html(response.msg).show();
+
+          forms = $('#validate').serialize();
+          ul = document.getElementById("officeID").value;
+          $.ajax({
+            type: "GET",
+            data: forms,
+            url: hostname +"evaluation/ajax_question_by_office/" + ul,
+            success: function(func_data)
+            {
+              $('#myInput').show();
+              $('#list').html(func_data);
+            }
+          });
+
+        } else {
+          $('.alert').addClass('alert-red').html(response.msg).show();
+        }
+        $(".answerUpdate").remove();
+        $(".answerUpdate").empty();
+      }
+    });
+    return false;    
+  });
+</script>
+
+
+
 
 <script type="text/javascript">
   // Evaluation Question Create
