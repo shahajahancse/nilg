@@ -379,11 +379,63 @@ class Evaluation extends Backend_Controller {
       // Pagination
       $this->data['pagination'] = create_pagination('evaluation/course_evaluation/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
       $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+      $this->data['courses'] = $this->db->select('id, course_title')->from('course')->where('status', 1)->get();
 
       // Load page
       $this->data['meta_title'] = 'কোর্স মূল্যায়নের তালিকা';
       $this->data['subview'] = 'course_evaluation';
       $this->load->view('backend/_layout_main', $this->data);
+   }
+
+   public function ajax_upcomming_training_list($offset=0){      
+      $limit = 50;
+
+      // Get Session User Data
+      $office = $this->Common_model->get_office_info_by_session();
+      $officeID = $office->crrnt_office_id;
+      $this->data['results'] = 0;
+      $this->data['total_rows'] = 0;
+      // dd($office);
+
+      // Check Auth
+      if($this->ion_auth->in_group('uz')){
+         $results = $this->Evaluation_model->get_upcomming_training($limit, $offset, NULL, $officeID);
+      }elseif($this->ion_auth->in_group('ddlg')){
+         $results = $this->Evaluation_model->get_upcomming_training($limit, $offset, NULL, $officeID);
+      }elseif($this->ion_auth->in_group('nilg')){
+         $results = $this->Evaluation_model->get_upcomming_training($limit, $offset, NULL, $officeID);
+      }elseif($this->ion_auth->in_group('cc')){
+         $results = $this->Evaluation_model->get_upcomming_training_coordinate($limit, $offset);
+      }elseif($this->ion_auth->is_admin()){
+         $results = $this->Evaluation_model->get_upcomming_training($limit, $offset);
+      }else{
+         redirect('dashboard');
+      }
+      // dd($results); exit();
+
+      // Data existes
+      if($results){
+         $this->data['results'] = $results['rows'];
+         $this->data['total_rows'] = $results['num_rows'];
+
+         foreach ($this->data['results'] as $k => $row){
+            // dd($row); 
+            $this->data['results'][$k]->user = $this->Evaluation_model->get_participant_course_evaluation_by_training_id($row->id);
+         }
+      }
+      // dd($this->data['results']);
+
+      // Pagination
+      $this->data['pagination'] = create_pagination('evaluation/course_evaluation/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+      $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+      $this->data['courses'] = $this->db->select('id, course_title')->from('course')->where('status', 1)->get();
+
+      // Load page
+      $text = $this->load->view('ajax_upcomming_training_list', $this->data, TRUE);
+      set_output($text); 
+
+
+
    }
 
    public function course_evaluation_participant($trainingID){
