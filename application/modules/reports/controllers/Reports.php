@@ -1185,8 +1185,9 @@ class Reports extends Backend_Controller {
     public function others_employee_result(){
         // $this->form_validation->set_rules('data_sheet_type', 'datasheet type', 'trim|required');
         $this->form_validation->set_rules('division_id', 'division', 'trim|required');
-
-        if($this->form_validation->run() == true){
+        $start_date = $this->input->post('start_date');
+        $end_date   = $this->input->post('end_date');
+        if($this->form_validation->run() == true || (!empty($end_date) && !empty($start_date))){
             $data_sheet_type = $this->input->post('data_sheet_type');
 
             $division   = $this->input->post('division_id');
@@ -1195,8 +1196,6 @@ class Reports extends Backend_Controller {
             $union      = $this->input->post('union_id');
             $course     = $this->input->post('course_id');
             $status     = $this->input->post('status');
-            $start_date = $this->input->post('start_date');
-            $end_date   = $this->input->post('end_date');
 
             $this->data['division_info'] = $this->Common_model->get_info('divisions', $division);
             $this->data['district_info'] = $this->Common_model->get_info('districts', $district);
@@ -1230,7 +1229,6 @@ class Reports extends Backend_Controller {
                 $this->data['results'] = $this->Reports_model->get_emp_pre_data(NULL,$division,$district,$upazila,$union,$start_date,$end_date);
 
                 // $this->data['total'] = count($this->data['results']);
-                $this->data['data_status'] = $status;
                 $this->data['headding'] = 'রেজিস্ট্রেশন রিপোর্ট তালিকা';
                 $this->data['start_date'] = $start_date;
                 $this->data['end_date'] = $end_date;
@@ -1240,6 +1238,21 @@ class Reports extends Backend_Controller {
                 $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
                 $mpdf->WriteHtml($html);
                 $mpdf->output();
+            } elseif ($this->input->post('btnsubmit') == 'pdf_number_of_registrations_excel') {
+
+                $this->data['results'] = $this->Reports_model->get_emp_pre_data(NULL,$division,$district,$upazila,$union,$start_date,$end_date);
+
+                $this->data['division_info'] = $this->Common_model->get_info('divisions', $division);
+                $this->data['district_info'] = $this->Common_model->get_info('districts', $district);
+                $this->data['upazila_info'] = $this->Common_model->get_info('upazilas', $upazila);        
+                $this->data['union_info'] = $this->Common_model->get_info('unions', $union); 
+
+                $this->data['headding'] = 'রেজিস্ট্রেশন রিপোর্ট তালিকা';
+                $this->data['start_date'] = $start_date;
+                $this->data['end_date'] = $end_date;
+
+                $this->load->view('pdf_number_of_registrations_excel', $this->data);
+
             } elseif ($this->input->post('btnsubmit') == 'pdf_number_of_organization') {
 
                 $this->data['result_data'] = $this->Reports_model->get_pr_by_division(null,$status,$division,$start_date,$end_date);

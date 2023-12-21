@@ -118,13 +118,16 @@
                     <button type="submit" name="btnsubmit" value="pdf_number_of_organization" onclick="return validFunc1()" class="btn btn-info btn-cons margin-top"> প্রতিষ্ঠান ভিত্তিক রিপোর্ট  </button>
                     <button type="submit" name="btnsubmit" value="pdf_number_designation" onclick="return validFunc3(1)" class="btn btn-info btn-cons margin-top"> পদবি ভিত্তিক রির্পোট </button>
                     <button type="submit" name="btnsubmit" value="pdf_number_designation_mf" onclick="return validFunc3(1)" class="btn btn-info btn-cons margin-top"> পদবি ভিত্তিক নারী/পরুষ রিপোর্ট </button>
+
+                    <button type="submit" name="btnsubmit" value="pdf_number_of_registrations_excel" onclick="return validFunc()" class="btn btn-primary btn-cons margin-top">রেজিস্ট্রেশন এক্সেল শীট</button>
+
                     <button type="submit" name="btnsubmit" value="pdf_organization_report" onclick="return validFunc1()" class="btn btn-info btn-cons margin-top"> প্রশিক্ষণের তালিকা রিপোর্ট </button>
 
                   </div>
 
                   <div class="col-md-12" style="text-align: center; border:1px solid #0aa699; padding:10px 5px 20px 5px; position: relative; margin-top: 40px">
                     <label class="head">তালিকা ভিত্তিক রিপোর্ট</label> 
-                    <button type="submit" name="btnsubmit" value="pdf_others_employee" onclick="return validFunc()" class="btn btn-info btn-cons margin-top"> অন্যান্য ব্যাক্তিগত রিপোর্ট  </button>
+                    <button type="submit" name="btnsubmit" value="pdf_others_employee" onclick="return validFunc5()" class="btn btn-info btn-cons margin-top"> অন্যান্য ব্যাক্তিগত রিপোর্ট  </button>
                   </div>
                 </div>
               </div> <!-- /col-md-8 -->
@@ -196,11 +199,20 @@
 
 
     function validFunc() {
-      var datasheet = document.getElementById("dataSheetType").value;
+      var start_date = document.getElementById("start_date").value;
+      var end_date = document.getElementById("end_date").value;
+
       submitOK = "true";
 
-      if (datasheet == '' || datasheet <= 0) {        
-        $("#dataSheetType").css("border", "1px solid red");
+      if (start_date == '' || start_date <= 0) {
+        // alert("The name may have no more than 10 characters");
+        $("#start_date").css("border", "1px solid red");
+        submitOK = "false";
+      }
+
+      if (end_date == '' || end_date <= 0) {
+        // alert("The name may have no more than 10 characters");
+        $("#end_date").css("border", "1px solid red");
         submitOK = "false";
       }
 
