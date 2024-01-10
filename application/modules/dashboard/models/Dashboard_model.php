@@ -8,6 +8,98 @@ class Dashboard_model extends CI_Model {
 	}
 
 
+    public function get_count_user_second() {
+        $this->db->select("
+                COUNT(*) as count,
+                COUNT(CASE WHEN office_type = '1' THEN 1 END) AS up,
+                COUNT(CASE WHEN office_type = '1' AND employee_type = '1' THEN 1 END) AS up_pr,
+                COUNT(CASE WHEN office_type = '1' AND employee_type = '2' THEN 1 END) AS up_oficer,
+                COUNT(CASE WHEN office_type = '1' AND employee_type = '3' THEN 1 END) AS up_emp,
+
+                COUNT(CASE WHEN office_type = '2' THEN 1 END) AS psp,
+                COUNT(CASE WHEN office_type = '2' AND employee_type = '1' THEN 1 END) AS psp_pr,
+                COUNT(CASE WHEN office_type = '2' AND employee_type = '2' THEN 1 END) AS psp_oficer,
+                COUNT(CASE WHEN office_type = '2' AND employee_type = '3' THEN 1 END) AS psp_emp,
+
+                COUNT(CASE WHEN office_type = '3' THEN 1 END) AS uzp,
+                COUNT(CASE WHEN office_type = '3' AND employee_type = '1' THEN 1 END) AS uzp_pr,
+                COUNT(CASE WHEN office_type = '3' AND employee_type = '2' THEN 1 END) AS uzp_oficer,
+                COUNT(CASE WHEN office_type = '3' AND employee_type = '3' THEN 1 END) AS uzp_emp,
+
+                COUNT(CASE WHEN office_type = '4' THEN 1 END) AS zp,
+                COUNT(CASE WHEN office_type = '4' AND employee_type = '1' THEN 1 END) AS zp_pr,
+                COUNT(CASE WHEN office_type = '4' AND employee_type = '2' THEN 1 END) AS zp_oficer,
+                COUNT(CASE WHEN office_type = '4' AND employee_type = '3' THEN 1 END) AS zp_emp,
+
+                COUNT(CASE WHEN office_type = '5' THEN 1 END) AS ctc,
+                COUNT(CASE WHEN office_type = '5' AND employee_type = '1' THEN 1 END) AS ctc_pr,
+                COUNT(CASE WHEN office_type = '5' AND employee_type = '2' THEN 1 END) AS ctc_oficer,
+                COUNT(CASE WHEN office_type = '5' AND employee_type = '3' THEN 1 END) AS ctc_emp,
+
+                COUNT(CASE WHEN office_type = '6' THEN 1 END) AS develop,
+                COUNT(CASE WHEN office_type = '6' AND employee_type = '1' THEN 1 END) AS develop_pr,
+                COUNT(CASE WHEN office_type = '6' AND employee_type = '2' THEN 1 END) AS develop_oficer,
+                COUNT(CASE WHEN office_type = '6' AND employee_type = '3' THEN 1 END) AS develop_emp,
+
+                COUNT(CASE WHEN office_type = '7' THEN 1 END) AS nilg,
+                COUNT(CASE WHEN office_type = '7' AND employee_type = '1' THEN 1 END) AS nilg_pr,
+                COUNT(CASE WHEN office_type = '7' AND employee_type = '2' THEN 1 END) AS nilg_oficer,
+                COUNT(CASE WHEN office_type = '7' AND employee_type = '3' THEN 1 END) AS nilg_emp,
+
+                COUNT(CASE WHEN office_type = '8' THEN 1 END) AS ddlg,
+                COUNT(CASE WHEN office_type = '8' AND employee_type = '1' THEN 1 END) AS ddlg_pr,
+                COUNT(CASE WHEN office_type = '8' AND employee_type = '2' THEN 1 END) AS ddlg_oficer,
+                COUNT(CASE WHEN office_type = '8' AND employee_type = '3' THEN 1 END) AS ddlg_emp,
+
+                COUNT(CASE WHEN office_type = '9' THEN 1 END) AS mdivision,
+                COUNT(CASE WHEN office_type = '9' AND employee_type = '1' THEN 1 END) AS mdivision_pr,
+                COUNT(CASE WHEN office_type = '9' AND employee_type = '2' THEN 1 END) AS mdivision_oficer,
+                COUNT(CASE WHEN office_type = '9' AND employee_type = '3' THEN 1 END) AS mdivision_emp,
+
+                COUNT(CASE WHEN office_type = '10' THEN 1 END) AS doptor,
+                COUNT(CASE WHEN office_type = '10' AND employee_type = '1' THEN 1 END) AS doptor_pr,
+                COUNT(CASE WHEN office_type = '10' AND employee_type = '2' THEN 1 END) AS doptor_oficer,
+                COUNT(CASE WHEN office_type = '10' AND employee_type = '3' THEN 1 END) AS doptor_emp,
+
+                COUNT(CASE WHEN office_type = '11' THEN 1 END) AS bcomision,
+                COUNT(CASE WHEN office_type = '11' AND employee_type = '1' THEN 1 END) AS bcomision_pr,
+                COUNT(CASE WHEN office_type = '11' AND employee_type = '2' THEN 1 END) AS bcomision_oficer,
+                COUNT(CASE WHEN office_type = '11' AND employee_type = '3' THEN 1 END) AS bcomision_emp,
+
+                COUNT(CASE WHEN office_type = '7' AND employee_type = '2' AND gender='Male' THEN 1 END) AS nilg_of_ml,
+                COUNT(CASE WHEN office_type = '7' AND employee_type = '2' AND gender = 'Female' THEN 1 END) AS nilg_of_fl,
+                COUNT(CASE WHEN office_type = '7' AND employee_type = '3' AND gender='Male' THEN 1 END) AS nilg_em_ml,
+                COUNT(CASE WHEN office_type = '7' AND employee_type = '3' AND gender = 'Female' THEN 1 END) AS nilg_em_fl,
+            ");
+
+        $this->db->where('is_office', 0);
+        $this->db->where('is_verify', 1);
+        // $this->db->where('gender !=', NULL);
+        $this->db->where('employee_type !=', NULL);
+
+        $result = $this->db->get('users')->row();
+        // dd($result);      
+        return $result;
+    }
+
+    public function get_count_training_second() {
+        $this->db->select("
+                COUNT(*) as count,                
+                COUNT(CASE WHEN financing_id = '1' THEN 1 END) AS training_revenue,
+                COUNT(CASE WHEN financing_id = '2' THEN 1 END) AS training_undp,
+                COUNT(CASE WHEN financing_id = '3' THEN 1 END) AS training_jica,
+                COUNT(CASE WHEN financing_id = '4' THEN 1 END) AS training_unicef,
+                COUNT(CASE WHEN financing_id = '5' THEN 1 END) AS training_helvetas,
+                COUNT(CASE WHEN financing_id = '6' THEN 1 END) AS training_swiss,
+                COUNT(CASE WHEN financing_id = '7' THEN 1 END) AS training_uicdp,
+                COUNT(CASE WHEN financing_id = '8' THEN 1 END) AS training_p4d,
+            ");
+        $this->db->where_not_in('financing_id', array(9));
+        $result = $this->db->get('training')->row();      
+        return $result;
+    }
+
+
     public function get_count_user($officeType=array(), $employeeType=NULL, $status=NULL, $gender=NULL) {
         $this->db->select('COUNT(*) as count');
         $this->db->where('is_office', 0);

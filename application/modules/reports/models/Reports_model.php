@@ -11,7 +11,7 @@ class Reports_model extends CI_Model {
     }
 
 
-    public function get_emp_pre_data($status=NULL, $division=NULL, $district=NULL, $upazila=NULL, $union=NULL, $start_date=NULL, $end_date=NULL){
+    public function get_emp_pre_data($status=NULL, $division=NULL, $district=NULL, $upazila=NULL, $union=NULL, $start_date=NULL, $end_date=NULL, $desig = NULL){
 
         $this->db->select('
                 u.name_bn as name_bangla, 
@@ -62,6 +62,9 @@ class Reports_model extends CI_Model {
             $start_date = strtotime($start_date);
             $end_date = strtotime($end_date);
             $this->db->where("u.created_on BETWEEN '$start_date' AND '$end_date'");
+        }
+        if(!empty($desig)){
+            $this->db->where_in('u.crrnt_desig_id', $desig);
         }
 
         $query = $this->db->get()->result();

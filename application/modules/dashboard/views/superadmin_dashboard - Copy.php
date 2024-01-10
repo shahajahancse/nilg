@@ -16,7 +16,7 @@
           </div>
           <div class="col-md-8 no-padding">
             <div class="tiles white text-center">
-              <h2 class="semi-bold text-error no-margin" style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;"> <?=eng2bng($totalData->count)?></h2>
+              <h2 class="semi-bold text-error no-margin" style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;"> <?=eng2bng($totalData)?></h2>
               <div class="tiles-title red m-b-5">প্রশিক্ষণার্থী</div>
               <div class="clearfix"></div>
             </div>
@@ -81,21 +81,13 @@
 
     <div class="row">
       <div class="spacing-bottom">
-        <?php
-          $onny_pr  = $totalData->ddlg_pr + $totalData->develop_pr + $totalData->mdivision_pr + $totalData->doptor_pr + $totalData->bcomision_pr;
-          $onny_ofc = $totalData->ddlg_oficer + $totalData->develop_oficer + $totalData->mdivision_oficer + $totalData->doptor_oficer + $totalData->bcomision_oficer;
-          $onny_emp = $totalData->ddlg_emp + $totalData->develop_emp + $totalData->mdivision_emp + $totalData->doptor_emp + $totalData->bcomision_emp;
 
-          $total_pr = $onny_pr + $totalData->up_pr + $totalData->psp_pr + $totalData->uzp_pr + $totalData->zp_pr + $totalData->ctc_pr + $totalData->nilg_pr;
-          $total_ofc = $onny_ofc + $totalData->up_oficer + $totalData->psp_oficer + $totalData->uzp_oficer + $totalData->zp_oficer + $totalData->ctc_oficer + $totalData->nilg_oficer;
-          $total_emp = $onny_emp + $totalData->up_emp + $totalData->psp_emp + $totalData->uzp_emp + $totalData->zp_emp + $totalData->ctc_emp + $totalData->nilg_emp;
-        ?>
         <div class="col-md-4 col-sm-6 spacing-bottom-sm spacing-bottom">
           <div class="tiles white added-margin new new2">
             <div class="tiles-body">
 
               <div class="tiles-title"> জনপ্রতিনিধির সামারি রিপোর্ট </div>
-              <div class="heading "> <span class="" data-value="" data-animation-duration="1000"><?= eng2bng($total_pr) ?></span> </div>
+              <div class="heading "> <span class="" data-value="" data-animation-duration="1000"><?= eng2bng($total_representative) ?></span> </div>
 
               <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
               <div class="description">
@@ -109,37 +101,32 @@
                     <tr>
                       <td>ইউনিয়ন পরিষদ</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->up_pr) ?></td>
+                      <td><?= eng2bng($rep_union) ?></td>
                     </tr>
                     <tr>
                       <td>পৌরসভা</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->psp_pr) ?></td>
+                      <td><?= eng2bng($rep_paurashova) ?></td>
                     </tr>
                     <tr>
                       <td>উপজেলা পরিষদ</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->uzp_pr) ?></td>
+                      <td><?= eng2bng($rep_upazila) ?></td>
                     </tr>
                     <tr>
                       <td>জেলা পরিষদ</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->zp_pr) ?></td>
+                      <td><?= eng2bng($rep_zila) ?></td>
                     </tr>
                     <tr>
                       <td>সিটি কর্পোরেশন</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->ctc_pr) ?></td>
+                      <td><?= eng2bng($rep_city) ?></td>
                     </tr>
                     <tr>
                       <td>এনআইএলজি</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->nilg_pr) ?></td>
-                    </tr>
-                    <tr>
-                      <td>অন্যান্য</td>
-                      <td class="sub-mark">:</td>
-                      <td><?= eng2bng($onny_pr) ?></td>
+                      <td><?= eng2bng($rep_nilg) ?></td>
                     </tr>
                   </tbody>
                 </table>
@@ -153,7 +140,7 @@
           <div class="tiles white added-margin new new1">
             <div class="tiles-body">
               <div class="tiles-title"> কর্মকর্তার সামারি রিপোর্ট </div>
-              <div class="heading"> <span class="" data-value="" data-animation-duration="1200"><?= eng2bng($total_ofc) ?></span> </div>
+              <div class="heading"> <span class="" data-value="" data-animation-duration="1200"><?= eng2bng($total_kormokorta) ?></span> </div>
 
               <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
               <div class="description">
@@ -167,37 +154,32 @@
                     <tr>
                       <td>ইউনিয়ন পরিষদ</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->up_oficer) ?></td>
+                      <td><?= eng2bng($emp1_union) ?></td>
                     </tr>
                     <tr>
                       <td>পৌরসভা</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->psp_oficer) ?></td>
+                      <td><?= eng2bng($emp1_paurashova) ?></td>
                     </tr>
                     <tr>
                       <td>উপজেলা পরিষদ</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->uzp_oficer) ?></td>
+                      <td><?= eng2bng($emp1_upazila) ?></td>
                     </tr>
                     <tr>
                       <td>জেলা পরিষদ</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->zp_oficer) ?></td>
+                      <td><?= eng2bng($emp1_zila) ?></td>
                     </tr>
                     <tr>
                       <td>সিটি কর্পোরেশন</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->ctc_oficer) ?></td>
+                      <td><?= eng2bng($emp1_city) ?></td>
                     </tr>
                     <tr>
                       <td>এনআইএলজি</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->nilg_oficer) ?></td>
-                    </tr>
-                    <tr>
-                      <td>অন্যান্য</td>
-                      <td class="sub-mark">:</td>
-                      <td><?= eng2bng($onny_ofc) ?></td>
+                      <td><?= eng2bng($emp1_nilg) ?></td>
                     </tr>
                   </tbody>
                 </table>
@@ -213,7 +195,7 @@
 
               <div class="tiles-title"> কর্মচারীর সামারি রিপোর্ট </div>
               <div class="row-fluid ">
-                <div class="heading"> <span class="" data-value="" data-animation-duration="700"><?= eng2bng($total_emp) ?></span> </div>
+                <div class="heading"> <span class="" data-value="" data-animation-duration="700"><?= eng2bng($total_kormocari) ?></span> </div>
               </div>
               <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
               <div class="description">
@@ -227,37 +209,32 @@
                     <tr>
                       <td>ইউনিয়ন পরিষদ</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->up_emp) ?></td>
+                      <td><?= eng2bng($emp2_union) ?></td>
                     </tr>
                     <tr>
                       <td>পৌরসভা</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->psp_emp) ?></td>
+                      <td><?= eng2bng($emp2_pourashova) ?></td>
                     </tr>
                     <tr>
                       <td>উপজেলা পরিষদ</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->uzp_emp) ?></td>
+                      <td><?= eng2bng($emp2_upazila) ?></td>
                     </tr>
                     <tr>
                       <td>জেলা পরিষদ</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->zp_emp) ?></td>
+                      <td><?= eng2bng($emp2_zila) ?></td>
                     </tr>
                     <tr>
                       <td>সিটি কর্পোরেশন</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->ctc_emp) ?></td>
+                      <td><?= eng2bng($emp2_city) ?></td>
                     </tr>
                     <tr>
                       <td>এনআইএলজি</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->nilg_emp) ?></td>
-                    </tr>
-                    <tr>
-                      <td>অন্যান্য</td>
-                      <td class="sub-mark">:</td>
-                      <td><?= eng2bng($onny_emp) ?></td>
+                      <td><?= eng2bng($emp2_nilg) ?></td>
                     </tr>
                   </tbody>
                 </table>
@@ -272,7 +249,7 @@
             <div class="tiles-body">
 
               <div class="tiles-title"> এনআইএলজি কর্মকর্তা/কর্মচারীর সামারি </div>
-              <div class="heading"> <span class="" data-value="" data-animation-duration="<?= $totalData->nilg ?>"><?= eng2bng($totalData->nilg) ?></span> </div>
+              <div class="heading"> <span class="" data-value="" data-animation-duration="<?= $total_nilg_kormokorta ?>"><?= eng2bng($total_nilg_kormokorta + $total_nilg_kormocari) ?></span> </div>
 
               <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
               <div class="description">
@@ -284,24 +261,24 @@
                       <td>সংখ্যা</td>
                     </tr>
                     <tr>
-                      <td>কর্মকর্তা(পুরুষ)</td>
-                      <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->nilg_of_ml) ?></td>
-                    </tr>
-                    <tr>
                       <td>কর্মকর্তা(নারী)</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->nilg_of_fl) ?></td>
+                      <td><?= eng2bng($nilg_emp1_female) ?></td>
                     </tr>
                     <tr>
-                      <td>কর্মচারী(পুরুষ)</td>
+                      <td>কর্মকর্তা(পুরুষ)</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->nilg_em_ml) ?></td>
+                      <td><?= eng2bng($nilg_emp1_male) ?></td>
                     </tr>
                     <tr>
                       <td>কর্মচারী(নারী)</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->nilg_em_fl) ?></td>
+                      <td><?= eng2bng($nilg_emp2_female) ?></td>
+                    </tr>
+                    <tr>
+                      <td>কর্মচারী(পুরুষ)</td>
+                      <td class="sub-mark">:</td>
+                      <td><?= eng2bng($nilg_emp2_male) ?></td>
                     </tr>
                     <tr>
                       <td>&nbsp;</td>
@@ -321,7 +298,7 @@
             <div class="tiles-body">
 
               <div class="tiles-title"> প্রশিক্ষণ সামারি রিপোর্ট</div>
-              <div class="heading"> <span class="" data-value="" data-animation-duration="0"><?= eng2bng($finances->count) ?></span> </div>
+              <div class="heading"> <span class="" data-value="" data-animation-duration="0"><?= eng2bng($training_jica + $training_undp + $training_revenue) ?></span> </div>
 
               <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
               <div class="description">
@@ -335,42 +312,42 @@
                     <tr>
                       <td>JICA</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($finances->training_jica) ?></td>
+                      <td><?= eng2bng($training_jica) ?></td>
                     </tr>
                     <tr>
                       <td>UNDP</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($finances->training_undp) ?></td>
+                      <td><?= eng2bng($training_undp) ?></td>
                     </tr>
                     <tr>
                       <td>রাজস্ব</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($finances->training_revenue) ?></td>
+                      <td><?= eng2bng($training_revenue) ?></td>
                     </tr>
                     <tr>
                       <td>UNICEF</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($finances->training_unicef) ?></td>
+                      <td><?= eng2bng($training_unicef) ?></td>
                     </tr>
                     <tr>
                       <td>HELVETAS</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($finances->training_helvetas) ?></td>
+                      <td><?= eng2bng($training_helvetas) ?></td>
                     </tr>
                     <tr>
                       <td>Swiss Inc. Bangladesh</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($finances->training_swiss) ?></td>
+                      <td><?= eng2bng($training_swiss) ?></td>
                     </tr>
                     <tr>
                       <td>UICDP</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($finances->training_uicdp) ?></td>
+                      <td><?= eng2bng($training_uicdp) ?></td>
                     </tr>
                     <tr>
                       <td>P4D</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($finances->training_p4d) ?></td>
+                      <td><?= eng2bng($training_p4d) ?></td>
                     </tr>
 
                   </tbody>
@@ -381,13 +358,12 @@
           </div>
         </div>
 
-        <?php $onn = $totalData->ddlg + $totalData->develop + $totalData->mdivision + $totalData->doptor + $totalData->bcomision; ?>
         <div class="col-md-4 col-sm-6 spacing-bottom-sm spacing-bottom">
           <div class="tiles white added-margin new new3" style="height: 340px !important; ">
             <div class="tiles-body">
 
               <div class="tiles-title"> অফিস সামারি রিপোর্ট</div>
-              <div class="heading"> <span class="" data-value="" data-animation-duration="<?= $totalData->count ?>"><?= eng2bng($totalData->count) ?></span> </div>
+              <div class="heading"> <span class="" data-value="" data-animation-duration="<?= $totalData ?>"><?= eng2bng($totalData) ?></span> </div>
 
               <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
               <div class="description">
@@ -399,39 +375,29 @@
                       <td>সংখ্যা</td>
                     </tr>
                     <tr>
-                      <td>ইউনিয়ন পরিষদ</td>
+                      <td>জনপ্রতিনিধি</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->up) ?></td>
+                      <td><?= eng2bng($total_representative) ?></td>
                     </tr>
                     <tr>
-                      <td>পৌরসভা</td>
+                      <td>কর্মকর্তা</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->psp) ?></td>
+                      <td><?= eng2bng($total_kormokorta - $total_nilg_kormokorta) ?></td>
                     </tr>
                     <tr>
-                      <td>উপজেলা পরিষদ</td>
+                      <td>কর্মচারী</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->uzp) ?></td>
+                      <td><?= eng2bng($total_kormocari - $total_nilg_kormocari) ?></td>
+                    </tr>                  
+                    <tr>
+                      <td>এনআইএলজি কর্মকর্তা</td>
+                      <td class="sub-mark">:</td>
+                      <td><?= eng2bng($total_nilg_kormokorta) ?></td>
                     </tr>
                     <tr>
-                      <td>জেলা পরিষদ</td>
+                      <td>এনআইএলজি কর্মচারী</td>
                       <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->zp) ?></td>
-                    </tr>
-                    <tr>
-                      <td>সিটি কর্পোরেশন</td>
-                      <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->ctc) ?></td>
-                    </tr>
-                    <tr>
-                      <td>এনআইএলজি</td>
-                      <td class="sub-mark">:</td>
-                      <td><?= eng2bng($totalData->nilg) ?></td>
-                    </tr>
-                    <tr>
-                      <td>অন্যান্য</td>
-                      <td class="sub-mark">:</td>
-                      <td><?= eng2bng($onn) ?></td>
+                      <td><?= eng2bng($total_nilg_kormocari) ?></td>
                     </tr>
                   </tbody>
                 </table>

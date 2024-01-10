@@ -1196,6 +1196,7 @@ class Reports extends Backend_Controller {
             $union      = $this->input->post('union_id');
             $course     = $this->input->post('course_id');
             $status     = $this->input->post('status');
+            $desig      = $this->input->post('designations');
 
             $this->data['division_info'] = $this->Common_model->get_info('divisions', $division);
             $this->data['district_info'] = $this->Common_model->get_info('districts', $district);
@@ -1240,7 +1241,7 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
             } elseif ($this->input->post('btnsubmit') == 'pdf_number_of_registrations_excel') {
 
-                $this->data['results'] = $this->Reports_model->get_emp_pre_data(NULL,$division,$district,$upazila,$union,$start_date,$end_date);
+                $this->data['results'] = $this->Reports_model->get_emp_pre_data($status,$division,$district,$upazila,$union,$start_date,$end_date, $desig);
 
                 $this->data['division_info'] = $this->Common_model->get_info('divisions', $division);
                 $this->data['district_info'] = $this->Common_model->get_info('districts', $district);
