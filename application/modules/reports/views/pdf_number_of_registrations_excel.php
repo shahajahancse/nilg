@@ -55,17 +55,20 @@
 				<th class="text-center">নাম</th>
 				<th class="text-center">বর্তমান পদবি</th>
 				<th class="text-center">জাতীয় পরিচয়পত্র নম্বর</th>
+				<th class="text-center">জাতীয় পরিচয়পত্র বাংলা</th>
 				<th class="text-center">মোবাইল নম্বর</th>
 				<th class="text-center">বর্তমান প্রতিষ্ঠান</th>
 				<th class="text-center">রেজিস্ট্রেশন</th>
 			</tr>
-			<?php $i=0;					
+			<?php $i=0;	
+			// dd($results);				
 			foreach ($results as $row) {  $i++; ?>
 				<tr>
 					<td class="text-center"><?=eng2bng($i)?>.</td>
 					<td class="text-left"><?=$row->name_bangla?></td>
 					<td class="text-left"><?=$row->desig_name?></td>
-					<td class="text-left"><?=eng2bng($row->national_id)?></td>
+					<td class="text-left">'  <?php echo $row->national_id; ?>  '</td>
+					<td class="text-left">'  <?=eng2bng($row->national_id)?>  '</td>
 					<td class="text-left"><?=eng2bng($row->telephone_mobile)?></td>			
 					<td class="text-left"><?=$row->office_name?></td>			
 					<td class="text-left"><?=eng2bng(date('d-m-Y', $row->created_on))?></td>			

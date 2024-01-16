@@ -130,7 +130,7 @@ class Reports extends Backend_Controller {
 
             } elseif ($this->input->post('btnsubmit') == 'pdf_rep_number_district') {
                 // dd($this->input->post());
-                $this->data['result_data'] = $this->Reports_model->get_pr_by_district($status, $district_id);
+                $this->data['result_data'] = $this->Reports_model->get_pr_by_district(1, $status, $district_id);
 
                 // 02/02/2023
                  /*$data_arr = [];
@@ -169,7 +169,7 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
 
             } elseif($this->input->post('btnsubmit') == 'pdf_rep_number_upazila') {
-                $this->data['result_data'] = $this->Reports_model->get_pr_by_upazila($status, $upazila_id);
+                $this->data['result_data'] = $this->Reports_model->get_pr_by_upazila(1, $status, $upazila_id);
                 // 06/02/2023
                 /*$data_arr = [];
                 if(!empty($district_id)){
@@ -199,7 +199,7 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
 
             }elseif($this->input->post('btnsubmit') == 'pdf_rep_number_union') {
-                $this->data['result_data'] = $this->Reports_model->get_pr_count($status, $division_id, $district_id, $upazila_id, $union_id);
+                $this->data['result_data'] = $this->Reports_model->get_pr_count(1, $status, $division_id, $district_id, $upazila_id, $union_id);
 
                 // 06/02/2023
                 /*$data_arr = [];
@@ -1171,9 +1171,7 @@ class Reports extends Backend_Controller {
         // $this->data['division'] = $this->Common_model->get_division();
         $this->data['data_type'] = array(''=>'-ডাটার ধরণ নির্বাচন করুন-', '6' => 'উন্নয়ন সহযোগী প্রতিষ্ঠান', '7' => 'এনজিও', '8' => 'অন্যান্য প্রতিষ্ঠান');
         $this->data['designations'] = $this->Common_model->get_data('designations');
-        $this->data['division'] = $this->Common_model->get_division();
         $this->data['course_list'] = $this->Common_model->get_nilg_course(); 
-        // $this->data['datasheet_status'] = $this->Common_model->get_datasheet_status();
         $this->data['datasheet_status'] = $this->Common_model->get_data_status();
 
         //Load View
@@ -1190,13 +1188,14 @@ class Reports extends Backend_Controller {
         if($this->form_validation->run() == true || (!empty($end_date) && !empty($start_date))){
             $data_sheet_type = $this->input->post('data_sheet_type');
 
-            $division   = $this->input->post('division_id');
-            $district   = $this->input->post('district_id');
-            $upazila    = $this->input->post('upazila_id');
-            $union      = $this->input->post('union_id');
-            $course     = $this->input->post('course_id');
-            $status     = $this->input->post('status');
-            $desig      = $this->input->post('designations');
+            $division       = $this->input->post('division_id');
+            $district       = $this->input->post('district_id');
+            $upazila        = $this->input->post('upazila_id');
+            $union          = $this->input->post('union_id');
+            $course         = $this->input->post('course_id');
+            $status         = $this->input->post('status');
+            $desig          = $this->input->post('designations');
+            $emp_type       = $this->input->post('employee_type');
 
             $this->data['division_info'] = $this->Common_model->get_info('divisions', $division);
             $this->data['district_info'] = $this->Common_model->get_info('districts', $district);
@@ -1241,7 +1240,7 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
             } elseif ($this->input->post('btnsubmit') == 'pdf_number_of_registrations_excel') {
 
-                $this->data['results'] = $this->Reports_model->get_emp_pre_data($status,$division,$district,$upazila,$union,$start_date,$end_date, $desig);
+                $this->data['results'] = $this->Reports_model->get_emp_pre_data($status,$division,$district,$upazila,$union,$start_date,$end_date, $desig, $emp_type);
 
                 $this->data['division_info'] = $this->Common_model->get_info('divisions', $division);
                 $this->data['district_info'] = $this->Common_model->get_info('districts', $district);
@@ -1255,13 +1254,14 @@ class Reports extends Backend_Controller {
                 $this->load->view('pdf_number_of_registrations_excel', $this->data);
 
             } elseif ($this->input->post('btnsubmit') == 'pdf_number_of_organization') {
+                $d = $this->get_array_divDis_dUzUp($emp_type, $status, $division, $district, $upazila, $union, $start_date,$end_date, $desig);
 
-                $this->data['result_data'] = $this->Reports_model->get_pr_by_division(null,$status,$division,$start_date,$end_date);
-
-                $this->data['total'] = count($this->data['result_data']);
-                $this->data['data_status'] = $status;
+                $this->data['result_data'] = $d['r'];
+                $this->data['total'] = count($d['r']);
+                $this->data['zone'] = $d['zone'];
+                $this->data['name'] = $d['name'];
                 $this->data['headding'] = ' প্রতিষ্ঠান ভিত্তিক রিপোর্ট ('.eng2bng($start_date) .' হইতে '.eng2bng($end_date).')';
-
+                // dd($this->data);
                 $html = $this->load->view('pdf_divisional_rep_number', $this->data, true);
                 $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
                 $mpdf->WriteHtml($html);
@@ -1321,8 +1321,42 @@ class Reports extends Backend_Controller {
         return redirect()->back(); 
     }
 
+    public function get_array_divDis_dUzUp($emp_type=null , $status=null, $division=null, $district=null, $upazila=null, $union=null, $start_date=null, $end_date=null, $desig=null){
+        $d = array();
+        if (!empty($division) && !empty($district) && !empty($upazila) && !empty($union)) {
+            $d['zone'] = 'বিভাগঃ '.$this->data['division_info']->div_name_bn.', জেলাঃ '.$this->data['district_info']->dis_name_bn .', উপজেলাঃ '.$this->data['upazila_info']->upa_name_bn;
+            $d['name'] = 'ইউনিয়নের নাম';
 
-    
+            $d['r'] = $this->Reports_model->get_pr_by_upazila($emp_type,$status,$upazila,$union,$start_date,$end_date,$desig);
+
+        } else if (!empty($division) && !empty($district) && !empty($upazila)) {
+
+            $d['r'] = $this->Reports_model->get_pr_by_upazila($emp_type,$status,$upazila, null, $start_date,$end_date,$desig);
+            $d['zone'] = 'বিভাগঃ '.$this->data['division_info']->div_name_bn.', জেলাঃ '.$this->data['district_info']->dis_name_bn .', উপজেলাঃ '.$this->data['upazila_info']->upa_name_bn;
+            $d['name'] = 'ইউনিয়নের নাম';
+
+        } else if (!empty($division) && !empty($district)) {
+
+            $d['r'] = $this->Reports_model->get_pr_by_district($emp_type,$status,$district,$start_date,$end_date,$desig);
+            $d['zone'] = 'বিভাগঃ '.$this->data['division_info']->div_name_bn.', জেলাঃ '.$this->data['district_info']->dis_name_bn;
+            $d['name'] = 'উপজেলার নাম';
+
+        } else {
+            $d['r'] = $this->Reports_model->get_pr_by_division($emp_type,$status,$division,$start_date,$end_date,$desig);
+            if ($division == 'All') {
+                $d['zone'] = 'জেলার তালিকা';
+            } else {
+                $d['zone'] = 'বিভাগঃ '.$this->data['division_info']->div_name_bn;
+            }
+            $d['name'] = 'জেলার নাম';
+        }
+        return $d;
+    }
+ 
+
+
+
+
 
 
     public function details($id){
@@ -1344,17 +1378,16 @@ class Reports extends Backend_Controller {
 
     public function get_columns()
     {
-      $thismodel=$this->this_model();
-
-      $columslist=$this->$thismodel->getcolumnlist();
-      $filtercolumns=array();
-      for($i=0;$i<sizeof($columslist);$i++)
-      {
-         if($columslist[$i]['Field']=='id') continue;
-         $filtercolumns[]=$columslist[$i];
-     }
-     return $filtercolumns;
- }
+        $thismodel=$this->this_model();
+        $columslist=$this->$thismodel->getcolumnlist();
+        $filtercolumns=array();
+        for($i=0;$i<sizeof($columslist);$i++)
+        {
+            if($columslist[$i]['Field']=='id') continue;
+            $filtercolumns[]=$columslist[$i];
+        }
+        return $filtercolumns;
+    }
 
  public function this_model()
  {

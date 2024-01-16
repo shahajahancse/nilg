@@ -36,10 +36,19 @@
                     <div class="col-md-3">
                       <div class="form-group">
                         <label class="form-label pull-left">বিভাগ </label>
-                        <?php echo form_error('division_id');
-                        $more_attr = 'class="form-control input-sm" id="division"';
-                        echo form_dropdown('division_id', $division, set_value('division_id'), $more_attr);
-                        ?>
+                        <?php echo form_error('division_id'); ?>
+                        <select name="division_id" class="form-control input-sm" id="division">
+                          <option value="" selected="selected">-বিভাগ নির্বাচন করুন-</option>
+                          <option value="All">All</option>
+                          <option value="3">ঢাকা</option>
+                          <option value="2">চট্টগ্রাম</option>
+                          <option value="5">রাজশাহী</option>
+                          <option value="7">সিলেট</option>
+                          <option value="4">খুলনা</option>
+                          <option value="1">বরিশাল</option>
+                          <option value="6">রংপূর</option>
+                          <option value="8">ময়মনসিংহ</option>
+                        </select>
                       </div>
                     </div>
                     <div class="col-md-3">
@@ -71,30 +80,32 @@
                   </div>
 
                   <div class="row form-row">
-                    <!-- comment on 02-08-2023 -->
-                    <!-- <div class="col-md-6">
-                      <div class="form-group">
-                        <label class="form-label pull-left"> অন্যান্য ডাটা টাইপ</label>
-                        <?php echo form_error('data_sheet_type');
-                        $more_attr = 'class="form-control input-sm" id="dataSheetType"';
-                        echo form_dropdown('data_sheet_type', $data_type, set_value('data_sheet_type', $this->input->post('data_sheet_type')), $more_attr);
-                        ?>
-                      </div>
-                    </div>  -->     
-                    <!-- comment on 02-08-2023 -->
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <div class="form-group">
                         <label class="form-label pull-left">শুরুর তারিখঃ</label>
-                        <input name="start_date" id="start_date" type="text" value="" class="form-control input-sm datetime" placeholder="">
+                        <input name="start_date" id="start_date" class="form-control input-sm datetime" autocomplete="off">
                       </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                       <div class="form-group">
                         <label class="form-label pull-left">শেষের তারিখঃ</label>
-                        <input name="end_date" id="end_date" type="text" value="" class="form-control input-sm datetime" placeholder="">
+                        <input name="end_date" id="end_date" class="form-control input-sm datetime" autocomplete="off">
                       </div>
-                    </div>                    
-                    <div class="col-md-4">
+                    </div>  
+
+                    <div class="col-md-3">
+                      <div class="form-group">
+                        <label class="form-label pull-left">টাইপ</label>
+                        <select name="employee_type" id="employee_type" class="form-control input-sm">
+                          <option value="">--নির্বাচন করুন--</option>
+                          <option value="1">জনপ্রতিনিধি</option>
+                          <option value="2">কর্মকর্তা</option>
+                          <option value="3">কর্মচারী</option>
+                        </select>
+                      </div>
+                    </div>  
+
+                    <div class="col-md-3">
                       <div class="form-group">
                         <label class="form-label pull-left">ডাটার স্ট্যাটাস </label>
                         <?php echo form_error('status');

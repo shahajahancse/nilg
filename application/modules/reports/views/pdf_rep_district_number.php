@@ -102,7 +102,7 @@
 						?>
 					<tr>
 						<td class="text-center"><?=eng2bng($key+1)?>.</td>
-						<td class="text-left"><?=$row->upa_name_bn?></td>
+						<td class="text-left"><?=$row->name_bn?></td>
 						<td class="text-right"><?=eng2bng($upazila_p)?></td>
 						<td class="text-right"><?=eng2bng($pourasava)?></td>
 						<td class="text-right"><?=eng2bng($union_p)?></td>

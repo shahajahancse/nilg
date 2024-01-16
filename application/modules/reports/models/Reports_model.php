@@ -11,7 +11,7 @@ class Reports_model extends CI_Model {
     }
 
 
-    public function get_emp_pre_data($status=NULL, $division=NULL, $district=NULL, $upazila=NULL, $union=NULL, $start_date=NULL, $end_date=NULL, $desig = NULL){
+    public function get_emp_pre_data($status=NULL, $division=NULL, $district=NULL, $upazila=NULL, $union=NULL, $start_date=NULL, $end_date=NULL, $desig = NULL, $employee_type = null){
 
         $this->db->select('
                 u.name_bn as name_bangla, 
@@ -34,13 +34,13 @@ class Reports_model extends CI_Model {
         $this->db->join('designations dg', 'dg.id=u.crrnt_desig_id', 'LEFT');
         $this->db->where('u.is_verify', 1);
 
-        /*if(!empty($employee_type)){
-            $this->db->where('u.employee_type', $employee_type);
-        }
+        /*
         if(!empty($officeType)){
             $this->db->where('u.office_type', $officeType);
         }*/
-
+        if(!empty($employee_type)){
+            $this->db->where('u.employee_type', $employee_type);
+        }
         if(!empty($status)){
             $this->db->where('u.status', $status);
         }
@@ -95,47 +95,49 @@ class Reports_model extends CI_Model {
         return $query;
     }
 
-    public function get_pr_by_division($et=null, $status=NULL, $division=NULL, $start_date=NULL, $end_date=NULL) {
-        $this->db->select('d.id, d.dis_name_bn, d.dis_div_id as div_id'); 
+    public function get_pr_by_division($et=null, $status=NULL, $division=NULL, $start_date=NULL, $end_date=NULL, $desig=NULL) {
+        $this->db->select('d.id, d.dis_name_bn name_bn, d.dis_div_id as div_id'); 
         $this->db->from('districts as d');
-        $this->db->where('d.dis_div_id', $division);
+        if (!empty($division) && $division != 'All') {
+            $this->db->where('d.dis_div_id', $division);
+        }
         $results = $this->db->get()->result();
 
         foreach ($results as &$value) {
-            $value->count = $this->get_pr_count($et, $status, $value->div_id, $value->id, NULL, NULL, $start_date, $end_date);
+            $value->count = $this->get_pr_count($et, $status, $value->div_id, $value->id, NULL, NULL, $start_date, $end_date,$desig);
         }
         return $results;
     }
 
-    public function get_pr_by_district($status=NULL, $district=NULL) {
-        $this->db->select('upa.id, upa.upa_name_bn, upa.upa_div_id as div_id'); 
+    public function get_pr_by_district($et=null, $status=NULL, $district=NULL, $start_date=NULL, $end_date=NULL,$desig=NULL) {
+        $this->db->select('upa.id, upa.upa_name_bn name_bn, upa.upa_div_id as div_id'); 
         $this->db->from('upazilas as upa');
         $this->db->where('upa.upa_dis_id', $district);
         $results = $this->db->get()->result();
-        // dd($results);
 
         foreach ($results as &$value) {
-            $value->count = $this->get_pr_count(1, $status, $value->div_id, $district, $value->id);
+            $value->count = $this->get_pr_count($et,$status,$value->div_id,$district,$value->id,NULL,$start_date,$end_date, $desig);
         }
-        // dd($results);
         return $results;
     }
 
-    public function get_pr_by_upazila($status=NULL, $upazila=NULL) {
-        $this->db->select('up.id, up.uni_name_bn, up.uni_div_id as div_id, up.uni_dis_id as dis_id'); 
+    public function get_pr_by_upazila($et=null, $status=NULL, $upazila=NULL, $union=NULL, $start_date=NULL, $end_date=NULL, $desig=NULL) {
+        $this->db->select('up.id, up.uni_name_bn name_bn, up.uni_div_id as div_id, up.uni_dis_id as dis_id'); 
         $this->db->from('unions as up');
+        if (!empty($union)) {
+            $this->db->where('up.id', $union);
+        }
         $this->db->where('up.uni_upa_id', $upazila);
         $results = $this->db->get()->result();
         // dd($results);
 
         foreach ($results as &$value) {
-            $value->count = $this->get_pr_count(1, $status, $value->div_id, $value->dis_id, $upazila, $value->id);
+            $value->count = $this->get_pr_count($et, $status, $value->div_id, $value->dis_id, $upazila, $value->id, $start_date, $end_date, $desig);
         }
-        // dd($results);
         return $results;
     }
 
-    public function get_pr_count($et=NULL, $status=NULL, $division=NULL, $district=NULL, $upazila=NULL, $union=NULL, $start_date=NULL, $end_date=NULL) {
+    public function get_pr_count($et=NULL, $status=NULL, $division=NULL, $district=NULL, $upazila=NULL, $union=NULL, $start_date=NULL, $end_date=NULL, $desig=NULL) {
         $this->db->select('
                     SUM(CASE WHEN office_type = 5 THEN 1 ELSE 0 END ) AS city_c, 
                     SUM(CASE WHEN office_type = 4 THEN 1 ELSE 0 END ) AS zila_p,
@@ -170,11 +172,15 @@ class Reports_model extends CI_Model {
             $this->db->where('union_id', $union);
         }
 
-        /*if(!empty($start_date) && !empty($end_date)){
+        if(!empty($start_date) && !empty($end_date)){
             $start_date = strtotime($start_date);
             $end_date = strtotime($end_date);
             $this->db->where("created_on BETWEEN '$start_date' AND '$end_date'");
-        }*/
+        }
+
+        if(!empty($desig)){
+            $this->db->where_in('crrnt_desig_id', $desig);
+        }
 
         return $tmp = $this->db->get('users')->result();
         // echo $this->db->last_query(); exit;        

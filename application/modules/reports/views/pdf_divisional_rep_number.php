@@ -55,7 +55,7 @@
 				<div class="col-12 text-center">
 					<div style="font-size:18px;"><u><?=$headding?></u></div>
 					<?= !empty($data_status)?'ব্যাক্তিগত ডাটার স্ট্যাটাসঃ '.datasheet_status_func($data_status).'<br>':''?>
-					<?= !empty($division_info->div_name_bn)?'বিভাগঃ '.$division_info->div_name_bn.'<br>':''?>
+					<?= !empty($zone)? $zone.'<br>':''?>
 					তারিখঃ <?=date_bangla_calender_format(date('d-m-Y'))?>
 				</div>
 			</div>
@@ -66,7 +66,7 @@
 				<thead class="headding">
 					<tr>
 						<td class="text-center">নং</td>
-						<td class="text-left">জেলার নাম</td>
+						<td class="text-left"><?= $name ?></td>
 						<td class="text-right">সিটি কর্পোরেশন</td>
 						<td class="text-right">জেলা পরিষদ</td>
 						<td class="text-right">উপজেলা পরিষদ</td>
@@ -100,7 +100,7 @@
 						?>
 					<tr>
 						<td class="text-center"><?=eng2bng($key+1)?>.</td>
-						<td class="text-left"><?=$row->dis_name_bn?></td>
+						<td class="text-left"><?=$row->name_bn?></td>
 						<td class="text-right"><?=eng2bng($city_c)?></td>
 						<td class="text-right"><?=eng2bng($zila_p)?></td>
 						<td class="text-right"><?=eng2bng($upazila_p)?></td>
