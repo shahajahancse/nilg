@@ -45,7 +45,7 @@ class Reports_model extends CI_Model {
             $this->db->where('u.status', $status);
         }
 
-        if(!empty($division)){
+        if (!empty($division) && $division != 'All') {
             $this->db->where('u.div_id', $division);
         }
         if(!empty($district)){
@@ -67,6 +67,10 @@ class Reports_model extends CI_Model {
             $this->db->where_in('u.crrnt_desig_id', $desig);
         }
 
+        $this->db->order_by('u.div_id', 'ASC');
+        $this->db->order_by('u.dis_id', 'ASC');
+        $this->db->order_by('u.upa_id', 'ASC');
+        $this->db->order_by('u.union_id', 'ASC');
         $query = $this->db->get()->result();
         // dd($query);
         return $query;
@@ -182,6 +186,10 @@ class Reports_model extends CI_Model {
             $this->db->where_in('crrnt_desig_id', $desig);
         }
 
+        $this->db->order_by('div_id', 'ASC');
+        $this->db->order_by('dis_id', 'ASC');
+        $this->db->order_by('upa_id', 'ASC');
+        $this->db->order_by('union_id', 'ASC');
         return $tmp = $this->db->get('users')->result();
         // echo $this->db->last_query(); exit;        
         $ret['count'] = $tmp[0]->count;
@@ -210,7 +218,10 @@ class Reports_model extends CI_Model {
         if(!empty($status)){
             $this->db->where('status', $status);
         }
-
+        $this->db->order_by('div_id', 'ASC');
+        $this->db->order_by('dis_id', 'ASC');
+        $this->db->order_by('upa_id', 'ASC');
+        $this->db->order_by('union_id', 'ASC');
         return $tmp = $this->db->get('users')->row()->zila_c;
         // echo $this->db->last_query(); exit;        
     }
