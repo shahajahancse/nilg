@@ -565,7 +565,7 @@
 
 
                <!-- Library  management system -->
-               <?php if ($this->ion_auth->is_admin() && !$this->ion_auth->in_group('nilg')) { ?>
+               <?php /* if ($this->ion_auth->is_admin() && !$this->ion_auth->in_group('nilg')) { ?>
                   <li class="start <?= activate_module('library') ?>">
                      <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title">লাইব্রেরি</span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
@@ -631,7 +631,7 @@
                         
                      </ul>
                   </li>
-               <?php } ?>
+               <?php } */ ?>
 
                <!-- Report Section -->
                <?php if ($this->ion_auth->is_admin() && !$this->ion_auth->in_group('nilg')) { ?>
