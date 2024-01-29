@@ -9,7 +9,7 @@ and (min-width : 1600) {
 	}
 }	
 @media only screen 
-and (min-width : 3000px) {	
+and (min-width : 3000px) {	/*1824*/
 	body { 
 		 height:100%;
 	}
