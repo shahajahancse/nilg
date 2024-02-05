@@ -139,9 +139,9 @@
   <div class="footer">
     <div class="col-6">
         <?php if($info->signature != NULL){
-          $url = base_url('uploads/signature/').$info->signature;
+          $url = $_SERVER['DOCUMENT_ROOT'].'/uploads/signature/'.$info->signature;
           }else{
-            $url = base_url('uploads/signature/blank.jpg');
+            $url = $_SERVER['DOCUMENT_ROOT'].'/uploads/signature/blank.jpg';
           }
         ?>
       <div><img src="<?=$url?>" style="width:160; height: 50px; display: block;"></div>
@@ -157,9 +157,9 @@
 
     <div class="col-4"> 
       <?php if(isset($info->sm_signature) && $info->sm_signature != NULL){
-        $sm = base_url('uploads/signature/').$info->sm_signature;
+        $sm = $_SERVER['DOCUMENT_ROOT'].'/uploads/signature/'.$info->sm_signature;
         }else{
-          $sm = base_url('uploads/signature/blank.jpg');
+          $sm = $_SERVER['DOCUMENT_ROOT'].'uploads/signature/blank.jpg';
         }
       ?>
       <div>
@@ -171,9 +171,9 @@
 
     <div class="col-4">
       <?php if(isset($info->jd_signature) && $info->jd_signature != NULL){
-        $jd = base_url('uploads/signature/').$info->jd_signature;
+        $jd = $_SERVER['DOCUMENT_ROOT'].'/uploads/signature/'.$info->jd_signature;
         }else{
-          $jd = base_url('uploads/signature/blank.jpg');
+          $jd = $_SERVER['DOCUMENT_ROOT'].'/uploads/signature/blank.jpg';
         }
       ?>
       <div>
@@ -185,9 +185,9 @@
 
     <div class="col-4">
       <?php if(isset($info->gd_signature) && $info->gd_signature != NULL){
-        $dg = base_url('uploads/signature/').$info->gd_signature;
+        $dg = $_SERVER['DOCUMENT_ROOT'].'/uploads/signature/'.$info->gd_signature;
         }else{
-          $dg = base_url('uploads/signature/blank.jpg');
+          $dg = $_SERVER['DOCUMENT_ROOT'].'/uploads/signature/blank.jpg';
         }
       ?>
       <div>

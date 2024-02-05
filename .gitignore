@@ -17,4 +17,5 @@ application/logs/*
 !application/logs/index.html
 !application/logs/.htaccess
 /vendor/
+/uploads/
 NILG-ERD.pdf
