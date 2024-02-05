@@ -356,6 +356,15 @@ class General_setting extends Backend_Controller {
         $this->load->view('backend/_layout_main', $this->data);
     }
 
+    public function union_delete($id){
+        if($this->db->where('id', $id)->delete('unions')){
+            $this->session->set_flashdata('success', 'Information deleted successfully.');
+        } else {
+            $this->session->set_flashdata('success', 'Information not update.');
+        }
+        redirect('general_setting/union');
+    }
+
     public function union_add(){
         $this->form_validation->set_rules('division', 'Division', 'required|trim');
         $this->form_validation->set_rules('district', 'District', 'required|trim');

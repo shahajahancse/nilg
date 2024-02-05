@@ -159,7 +159,7 @@
       <?php if(isset($info->sm_signature) && $info->sm_signature != NULL){
         $sm = $_SERVER['DOCUMENT_ROOT'].'/uploads/signature/'.$info->sm_signature;
         }else{
-          $sm = $_SERVER['DOCUMENT_ROOT'].'uploads/signature/blank.jpg';
+          $sm = $_SERVER['DOCUMENT_ROOT'].'/uploads/signature/blank.jpg';
         }
       ?>
       <div>
