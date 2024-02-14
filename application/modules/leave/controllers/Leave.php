@@ -66,7 +66,6 @@ class Leave extends Backend_Controller {
 
     public function add(){
         $this->load->model('Common_model');
-        $this->data['userDetails'] = $this->Common_model->get_office_info_by_session();
         $userDetails = $this->data['userDetails']; 
         // Validation
         $this->form_validation->set_rules('user_id', 'স্টাফ নাম', 'required|trim');
@@ -119,7 +118,6 @@ class Leave extends Backend_Controller {
             }
         }
 
-        $this->data['users'] = $this->Leave_model->get_user('users');
         $this->data['leave_type'] = $this->Leave_model->get_leave_type();
         $this->data['info'] = $this->Leave_model->get_info('users',$this->session->userdata('user_id'));
         

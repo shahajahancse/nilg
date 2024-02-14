@@ -127,6 +127,7 @@ class Common_model extends CI_Model
         $data[''] = '-- নির্বাচন করুন --';
         $this->db->select('id, name_bn');
         $this->db->from('users');
+        $this->db->where('is_office !=', 1);
         $this->db->where('office_type', 7);
         $query = $this->db->get();
 
