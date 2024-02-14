@@ -475,7 +475,7 @@ class Common_model extends CI_Model
     {
         // count query
         $this->db->select('COUNT(*) as count');
-        $this->db->from('employee_leave');
+        $this->db->from('leave_employee');
         $this->db->where('status', 1);
         $query = $this->db->get()->result();
 

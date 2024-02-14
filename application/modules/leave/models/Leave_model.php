@@ -10,7 +10,7 @@ class Leave_model extends CI_Model {
     public function get_data($limit = 1000, $offset = 0, $status = null, $user = null) {
         // result query
         $this->db->select('el.*, et.leave_name_bn, et.leave_name_en, users.name_bn, dg.dept_name, cd.desig_name');
-        $this->db->from('employee_leave el');
+        $this->db->from('leave_employee el');
         $this->db->join('leave_type et', 'et.id = el.leave_type', 'LEFT');
         $this->db->join('users', 'users.id = el.user_id', 'LEFT');
         $this->db->join('department dg', 'dg.id = users.crrnt_dept_id', 'LEFT');
@@ -45,7 +45,7 @@ class Leave_model extends CI_Model {
 
         // count query
         $q = $this->db->select('COUNT(*) as count');
-        $this->db->from('employee_leave as el');
+        $this->db->from('leave_employee as el');
         // Filter
         if($this->input->get('from_date') && $this->input->get('to_date')){
             // ->where("start_date BETWEEN '$fDate' AND '$lDate'")
@@ -133,7 +133,7 @@ class Leave_model extends CI_Model {
         $this->db->where('el.status', 2);  
         $this->db->where('el.from_date >=', date('Y-01-01'));
         $this->db->where('el.from_date <=', date('Y-12-31'));
-        $results['used_leave'] = $this->db->get('employee_leave el')->row()->leave_days;
+        $results['used_leave'] = $this->db->get('leave_employee el')->row()->leave_days;
         // dd($this->db->last_query());
 
         return $results;
@@ -142,7 +142,7 @@ class Leave_model extends CI_Model {
     public function get_report($status = null, $from_date = null, $to_date = null, $type = null) {
         // result query
         $this->db->select('el.*, et.leave_name_bn, et.leave_name_en, users.name_bn, dg.dept_name, cd.desig_name');
-        $this->db->from('employee_leave el');
+        $this->db->from('leave_employee el');
         $this->db->join('leave_type et', 'et.id = el.leave_type', 'LEFT');
         $this->db->join('users', 'users.id = el.user_id', 'LEFT');
         $this->db->join('department dg', 'dg.id = users.crrnt_dept_id', 'LEFT');
@@ -168,7 +168,7 @@ class Leave_model extends CI_Model {
     public function get_current_report($status = null, $report_date = null, $type = null) {
         // result query
         $this->db->select('el.*, et.leave_name_bn, et.leave_name_en, users.name_bn, dg.dept_name, cd.desig_name');
-        $this->db->from('employee_leave el');
+        $this->db->from('leave_employee el');
         $this->db->join('leave_type et', 'et.id = el.leave_type', 'LEFT');
         $this->db->join('users', 'users.id = el.user_id', 'LEFT');
         $this->db->join('department dg', 'dg.id = users.crrnt_dept_id', 'LEFT');

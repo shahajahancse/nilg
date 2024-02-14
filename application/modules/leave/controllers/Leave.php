@@ -109,7 +109,7 @@ class Leave extends Backend_Controller {
                 'file_name'    => $uploadedFile, 
                 'created_date' => "Y-m-d", 
             );
-            if($this->Common_model->save('employee_leave', $form_data)){
+            if($this->Common_model->save('leave_employee', $form_data)){
                 $this->session->set_flashdata('success', 'ছুটিটি সংরক্ষণ করা হয়েছে.');
                 redirect('leave');
             } else {
@@ -140,7 +140,7 @@ class Leave extends Backend_Controller {
         $id = (int) decrypt_url($id);
 
         // Check Exists
-        if (!$this->Common_model->exists('employee_leave', 'id', $id)) {
+        if (!$this->Common_model->exists('leave_employee', 'id', $id)) {
             redirect('dashboard');
         }
         // Validation
@@ -163,7 +163,7 @@ class Leave extends Backend_Controller {
             );               
             // dd($form_data); exit;
             
-            if($this->Common_model->edit('employee_leave', $id, 'id', $form_data)){
+            if($this->Common_model->edit('leave_employee', $id, 'id', $form_data)){
                 $this->session->set_flashdata('success', 'সফলভাবে সংশোধন করা হয়েছে');
                 redirect('leave');
             }
@@ -171,7 +171,7 @@ class Leave extends Backend_Controller {
 
 
         // Dropdown List        
-        $this->data['row'] = $this->Leave_model->get_info('employee_leave', $id);
+        $this->data['row'] = $this->Leave_model->get_info('leave_employee', $id);
         $this->data['users'] = $this->Common_model->get_nilg_employee();
         $this->data['leave_type'] = $this->Leave_model->get_leave_type();
         $results = $this->Leave_model->get_yearly_leave_count($this->data['row']->user_id);
@@ -188,7 +188,7 @@ class Leave extends Backend_Controller {
 
         $id = (int) decrypt_url($id);
         // Check Exists
-        if (!$this->Common_model->exists('employee_leave', 'id', $id)) {
+        if (!$this->Common_model->exists('leave_employee', 'id', $id)) {
             redirect('dashboard');
         }
 
@@ -203,14 +203,14 @@ class Leave extends Backend_Controller {
             );               
             // dd($form_data); exit;
         
-            if($this->Common_model->edit('employee_leave', $id, 'id', $form_data)){
+            if($this->Common_model->edit('leave_employee', $id, 'id', $form_data)){
                 $this->session->set_flashdata('success', $message);
                 redirect('leave');
             }
         }
 
         // Dropdown List        
-        $this->data['row'] = $this->Leave_model->get_info('employee_leave', $id);
+        $this->data['row'] = $this->Leave_model->get_info('leave_employee', $id);
         $this->data['users'] = $this->Common_model->get_nilg_employee();
         $this->data['leave_type'] = $this->Leave_model->get_leave_type();
         $results = $this->Leave_model->get_yearly_leave_count($this->data['row']->user_id);
@@ -228,10 +228,10 @@ class Leave extends Backend_Controller {
     public function delete($dataID){
         $dataID = (int) decrypt_url($dataID);
         // Check Exists
-        if (!$this->Common_model->exists('employee_leave', 'id', $dataID)) {
+        if (!$this->Common_model->exists('leave_employee', 'id', $dataID)) {
             redirect('dashboard');
         }
-        if ($this->db->delete('employee_leave', array('id' => $dataID))) {
+        if ($this->db->delete('leave_employee', array('id' => $dataID))) {
             $this->session->set_flashdata('success', 'এই তথ্যটি ডাটাবেজ থেকে সম্পূর্ণভাবে মুছে ফেলা হয়েছে।'); 
             redirect('leave');
         }
