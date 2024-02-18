@@ -19,5 +19,9 @@ class Nilg_setting extends Backend_Controller {
         redirect('general_setting/upazila_thana');
     }
 
+    
+
+
+
 
 }
