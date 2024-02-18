@@ -7,7 +7,7 @@
       </ul>
 
       <div class="row">
-         <div class="col-md-9">
+         <div class="col-md-10">
             <div class="grid simple horizontal red">
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
@@ -28,16 +28,27 @@
                   echo form_open_multipart("general_setting/leave_type_edit/$rows->id", $attributes);?>
 
                   <div class="row form-row">
-                     <div class="col-md-5">
+                     <div class="col-md-3">
                         <label class="form-label">ছুটির নাম (বাংলা)</label>
                         <?php echo form_error('leave_name_bn'); ?>
                         <input name="leave_name_bn" type="text" value="<?=$rows->leave_name_bn;?>" class="form-control input-sm" placeholder="">
                      </div>
-                     <div class="col-md-5">
+                     <div class="col-md-3">
                         <label class="form-label">ছুটির নাম (ইংরেজি)</label>
                         <?php echo form_error('leave_name_en'); ?>
                         <input name="leave_name_en" type="text" value="<?=$rows->leave_name_en;?>" class="form-control input-sm" placeholder="">
                      </div>
+                     <div class="col-md-2">
+                        <label class="form-label">বার্ষিক ছুটি</label>
+                        <?php echo form_error('yearly_total_leave'); ?>
+                        <input name="yearly_total_leave" type="text" value="<?=$rows->yearly_total_leave;?>" class="form-control input-sm" placeholder="">
+                     </div>
+                     <div class="col-md-2">
+                        <label class="form-label">সর্বোচ্চ আবেদন</label>
+                        <?php echo form_error('max_apply_leave'); ?>
+                        <input name="yearly_total_leave" type="text" value="<?=$rows->max_apply_leave;?>" class="form-control input-sm" placeholder="">
+                     </div>
+
                      <div class="col-md-2">
                         <label class="form-label">স্ট্যাটাস</label>
                         <select name="status" class="form-control input-sm">

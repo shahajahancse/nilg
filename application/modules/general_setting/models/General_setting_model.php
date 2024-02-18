@@ -7,6 +7,29 @@ class General_setting_model extends CI_Model {
         parent::__construct();
     }
 
+    public function get_role_list($limit = 1000, $offset = 0, $type = null) {
+        // result query
+        $this->db->select('*');
+        $this->db->from('groups');
+        if (!empty($type)) {
+            $this->db->where('type', $type);
+        }
+        $this->db->limit($limit);
+        $this->db->offset($offset);        
+        $this->db->order_by('id', 'DESC');
+        $result['rows'] = $this->db->get()->result();
+
+        // count query
+        $q = $this->db->select('COUNT(*) as count');
+        $this->db->from('groups');
+
+        $tmp = $this->db->get()->result();
+        $result['num_rows'] = $tmp[0]->count;
+
+        return $result;
+    }    
+
+
     public function get_board_institute($limit = 1000, $offset = 0) {
         // result query
         $this->db->select('*');

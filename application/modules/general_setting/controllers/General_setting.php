@@ -18,6 +18,94 @@ class General_setting extends Backend_Controller {
     public function index(){
         redirect('general_setting/upazila_thana');
     }
+    
+    public function role($offset=0){
+        //Manage list the users
+        $limit = 50;
+        $results = $this->General_setting_model->get_role_list($limit, $offset);
+        $this->data['results'] = $results['rows'];
+        $this->data['total_rows'] = $results['num_rows'];
+
+        //pagination
+        $this->data['pagination'] = create_pagination('general_setting/role/', $this->data['total_rows'], $limit, 3, true);        
+        // Load page
+        $this->data['meta_title'] = 'রোলের তালিকা'; 
+        $this->data['subview'] = 'role';
+        $this->load->view('backend/_layout_main', $this->data);
+    }    
+
+    public function role_add(){
+        // Validation
+        $this->form_validation->set_rules('name', 'Role Name', 'required|trim');
+        $this->form_validation->set_rules('title', 'Tile (bn)', 'required|trim');
+        $this->form_validation->set_rules('type', 'Module Type ', 'required|trim');
+        $this->form_validation->set_rules('description', 'Description (bn)', 'required|trim');
+
+        // Insert Data
+        if ($this->form_validation->run() == true){
+            $form_data = array(
+                'type' => $this->input->post('type'),
+                'name' => $this->input->post('name'),
+                'title' => $this->input->post('title'),
+                'description' => $this->input->post('description'),
+                'status' => 1,
+            );
+
+            if($this->Common_model->save('groups', $form_data)){                
+                $this->session->set_flashdata('success', 'তথ্যটি সংরক্ষণ করা হয়েছে');
+                redirect('general_setting/role');
+            }
+
+        }
+        // View
+        $this->data['meta_title'] = 'রোল এন্ট্রি করুন';
+        $this->data['subview'] = 'role_add';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function role_edit($id){
+        // Validation
+        $this->form_validation->set_rules('name', 'Role Name', 'required|trim');
+        $this->form_validation->set_rules('title', 'Tile (bn)', 'required|trim');
+        $this->form_validation->set_rules('type', 'Module Type ', 'required|trim');
+        $this->form_validation->set_rules('description', 'Description (bn)', 'required|trim');
+        $this->form_validation->set_rules('status', 'Status', 'required|trim');
+
+        // Insert Data
+        if ($this->form_validation->run() == true){
+            $form_data = array(
+                'type' => $this->input->post('type'),
+                'name' => $this->input->post('name'),
+                'title' => $this->input->post('title'),
+                'description' => $this->input->post('description'),
+                'status' => $this->input->post('status'),
+            );
+
+            if($this->Common_model->edit('groups',$id,'id',$form_data)){
+                $this->session->set_flashdata('success', 'তথ্যটি সংরক্ষণ করা হয়েছে');
+                redirect('general_setting/role');
+            }
+        }
+
+        $this->data['rows'] = $this->General_setting_model->get_info('groups', $id);
+        // View
+        $this->data['meta_title'] = 'রোল সংশোধন করুন';
+        // $this->data['subview'] = 'board/add';
+        $this->data['subview'] = 'role_edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function manage_designation($offset=0){
+        //Manage list the users
+        $limit = 50;
+        $results = $this->General_setting_model->get_role_list($limit, $offset, 5);
+        $this->data['results'] = $results['rows'];
+    
+        // Load page
+        $this->data['meta_title'] = 'Manage Designation'; 
+        $this->data['subview'] = 'manage_designation';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
 
     public function board($offset=0){
         //Manage list the users
@@ -1131,10 +1219,12 @@ class General_setting extends Backend_Controller {
 
         if ($this->form_validation->run() == true){
             $form_data = array(
-                'leave_name_bn'   => $this->input->post('leave_name_bn'),
-                'leave_name_en'   => $this->input->post('leave_name_en'),
-                'status'          => 1
-                ); 
+                'leave_name_bn'        => $this->input->post('leave_name_bn'),
+                'leave_name_en'        => $this->input->post('leave_name_en'),
+                'yearly_total_leave'   => $this->input->post('yearly_total_leave'),
+                'max_apply_leave'      => $this->input->post('max_apply_leave'),
+                'status'               => 1
+            ); 
 
             if($this->Common_model->save('leave_type', $form_data)){
                 $this->session->set_flashdata('success', 'Leave create successfully.');
@@ -1154,9 +1244,11 @@ class General_setting extends Backend_Controller {
 
         if ($this->form_validation->run() == true){
             $form_data = array(
-                'leave_name_bn'   => $this->input->post('leave_name_bn'),
-                'leave_name_en'   => $this->input->post('leave_name_en'),
-                'status'          => $this->input->post('status'),
+                'leave_name_bn'        => $this->input->post('leave_name_bn'),
+                'leave_name_en'        => $this->input->post('leave_name_en'),
+                'yearly_total_leave'   => $this->input->post('yearly_total_leave'),
+                'max_apply_leave'      => $this->input->post('max_apply_leave'),
+                'status'               => $this->input->post('status'),
             ); 
 
             if($this->Common_model->edit('leave_type',$id,'id',$form_data)){

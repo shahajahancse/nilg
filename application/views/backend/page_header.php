@@ -613,6 +613,18 @@
                <?php if ($this->ion_auth->is_admin() || $this->ion_auth->in_group(array('sm', 'asm'))) { ?>
                   <li class="start <?= backend_activate_menu_class('general_setting') ?>"> <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title"><?= lang('setting_general') ?></span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
+
+                        <?php if ($this->ion_auth->is_admin()) { ?>
+                        <li class="start <?= backend_activate_menu_method('role') ?>">
+                           <a href="<?= base_url('general_setting/role'); ?>"> রোলের তালিকা </a>
+                        </li>
+                        <?php } ?>
+
+                        <?php if ($this->ion_auth->in_group(array('admin','leave_jd', 'leave_director', 'leave'))) { ?>
+                        <li> <a href="<?= base_url('general_setting/leave_type'); ?>"> ছুটির টাইপ </a></li>
+                        <li> <a href="<?= base_url('general_setting/manage_designation'); ?>"> পদবী ব্যবস্থাপনা </a></li>
+                        <?php } ?>
+
                         <?php if ($this->ion_auth->in_group(array('admin','sm', 'asm'))) { ?>
                         <li> <a href="<?= base_url('general_setting/categories'); ?>"> ক্যাটাগরি </a></li>
                         <li> <a href="<?= base_url('general_setting/sub_categories'); ?>">সাব ক্যাটাগরি</a></li>
