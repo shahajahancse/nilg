@@ -122,6 +122,20 @@ class Common extends Backend_Controller {
         echo json_encode($json);
     }
 
+    public function get_dept(){
+        $data = array();
+        $this->db->select('*');
+        $query = $this->db->get('department')->result();
+
+        foreach ($query as $row) {
+            $data[$row->id] = $row->name_en .' => '. $row->dept_name;
+        }
+
+        header('Content-Type: application/x-json; charset=utf-8');
+        echo json_encode($data);
+        exit;
+    }
+
 
     public function select2_nid_trainee_verified(){
         $json = [];
