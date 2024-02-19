@@ -74,19 +74,6 @@
 </head> <!-- END HEAD -->
 
 <body class="">
-   <?php 
-   // dd($userDetails);
-   // User groups
-   /*
-   $users_groups = $this->ion_auth_model->get_users_groups()->result();
-   $groups_array = array();
-   foreach ($users_groups as $group){
-      $groups_array[$group->id] = $group->description;
-   }
-   $user_group_name = implode(',', $groups_array);
-   dd($user_group_name);
-   */
-   ?>
 
    <div class="header navbar navbar-inverse ">
       <div class="navbar-inner">
@@ -594,9 +581,10 @@
                <?php } ?>                  
 
                <?php if ($this->ion_auth->is_admin() || $this->ion_auth->in_group('nilg')) { ?>
-                  <li class="start <?= backend_activate_menu_class('qbank') ?> <?= backend_activate_menu_class('office') ?> <?= backend_activate_menu_class('designation') ?> <?= backend_activate_menu_class('course') ?> <?= backend_activate_menu_class('evaluation_subject') ?> <?= backend_activate_menu_class('training_material') ?> <?= backend_activate_menu_class('dev_partner') ?>"> 
+                  <li class="start  <?= backend_activate_menu_class('budget_head') ?> <?= backend_activate_menu_class('qbank') ?> <?= backend_activate_menu_class('office') ?> <?= backend_activate_menu_class('designation') ?> <?= backend_activate_menu_class('course') ?> <?= backend_activate_menu_class('evaluation_subject') ?> <?= backend_activate_menu_class('training_material') ?> <?= backend_activate_menu_class('dev_partner') ?>"> 
                      <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">এনআইএলজি সেটিংস</span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
+                        <li> <a href="<?= base_url('nilg_setting/budget_head'); ?>">বাজেট হেড</a> </li>
                         <li> <a href="<?= base_url('nilg_setting/qbank'); ?>">প্রশ্ন ব্যাংক</a> </li>
                         <li> <a href="<?= base_url('nilg_setting/office'); ?>">অফিসের তালিকা</a> </li>
                         <li> <a href="<?= base_url('nilg_setting/calendar'); ?>">ট্রেনিং ক্যালেন্ডার</a> </li>
