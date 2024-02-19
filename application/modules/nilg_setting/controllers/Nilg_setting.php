@@ -18,6 +18,6 @@ class Nilg_setting extends Backend_Controller {
     public function index(){
         redirect('general_setting/upazila_thana');
     }
-
-
+   
+    
 }
