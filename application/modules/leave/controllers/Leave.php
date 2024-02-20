@@ -149,6 +149,8 @@ class Leave extends Backend_Controller {
         $this->form_validation->set_rules('from_date', 'শুরুর তারিখ', 'required|trim');
         $this->form_validation->set_rules('to_date', 'শেষ তারিখ', 'required|trim');
 
+        $total_days = $this->Leave_model->GetDays($this->input->post('from_date'), $this->input->post('to_date'));
+
         // Insert Data
         if ($this->form_validation->run() == true){
             // dd($this->input->post('is_right'));

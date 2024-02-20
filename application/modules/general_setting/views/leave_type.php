@@ -30,6 +30,8 @@
                   <th> ক্রম</th>
                   <th>নাম বাংলা</th>
                   <th>নাম ইংরেজি</th>
+                  <th>বার্ষিক ছুটি</th>
+                  <th>সর্বোচ্চ আবেদন</th>
                   <th>স্ট্যাটাস</th>
                   <th>অ্যাকশন</th>
                 </tr>
@@ -41,6 +43,8 @@
                     <td class="v-align-middle"><?=eng2bng($sl).'.'?></td>
                     <td class="v-align-middle"><?=$row->leave_name_bn?></td>
                     <td class="v-align-middle"><?=$row->leave_name_en?></td>
+                    <td class="v-align-middle"><?= eng2bng($row->yearly_total_leave) ?></td>
+                    <td class="v-align-middle"><?= eng2bng($row->max_apply_leave) ?></td>
                     <td class="v-align-middle"><?php echo ($row->status == 1)? "এনাবল":"ডিজাবল"; ?></td>
                     <td class="v-align-middle">
                       <div class="btn-group pull-right">
