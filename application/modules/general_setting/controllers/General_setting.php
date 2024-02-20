@@ -100,11 +100,68 @@ class General_setting extends Backend_Controller {
         $limit = 50;
         $results = $this->General_setting_model->get_role_list($limit, $offset, 5);
         $this->data['results'] = $results['rows'];
+        $this->data['depts'] = $this->db->get('department')->result();
     
         // Load page
         $this->data['meta_title'] = 'Manage Designation'; 
         $this->data['subview'] = 'manage_designation';
         $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function manage_designation_ajax()
+    {
+        $groups_id  = $this->input->post('groups_id');
+        $dept_id    = $this->input->post('dept_id');
+
+        $this->db->select('dm.desig_id as id');
+        $this->db->from('leave_dasignation_manage as dm');
+        $this->db->where('dm.groups_id', $groups_id);
+        $this->db->where('dm.dept_id', $dept_id);
+        $dgss = $this->db->get()->result();
+        $data1 = array();
+        foreach ($dgss as $key => $r) { $data1[$key] = $r->id; }
+
+        $this->db->select("*");
+        $this->db->from("designations as dg");
+        $this->db->group_by("dg.id");
+        $dddd = $this->db->get()->result();
+
+        $data1d = array();
+        foreach ($dddd as $key => $d) {
+            $ex = explode(',', $d->offices);
+            if (in_array(7, $ex)) {
+                $data1d[] = $d->id;
+            }
+        }
+
+        $this->db->select("dg.id, dg.desig_name, dg.offices");
+        $this->db->from("designations as dg");
+        $this->db->where_in("dg.id", $data1d);
+        $this->db->group_by("dg.id");
+        $this->data['results'] = $this->db->get()->result();
+        
+        $this->data['desig_id'] = $data1;
+        $this->load->view('manage_designation_ajax', $this->data);
+    }
+
+    public function manage_designation_add_ajax()
+    {
+        $groups_id   = $this->input->post('groups_id');
+        $dept_id     = $this->input->post('dept_id');
+        $id          = $this->input->post('id');
+        $is_check    = $this->input->post('is_check');
+
+        if ($is_check == 1) {
+            $data = array(
+                'groups_id'         => $groups_id,
+                'dept_id'           => $dept_id,
+                'desig_id'          => $id,
+            );
+            $this->db->insert('leave_dasignation_manage', $data);
+        } else {
+            $this->db->where('desig_id', $id)->where('groups_id', $groups_id)->where('dept_id', $dept_id);
+            $this->db->delete('leave_dasignation_manage');
+        }
     }
 
     public function board($offset=0){
