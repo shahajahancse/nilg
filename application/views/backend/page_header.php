@@ -13,10 +13,7 @@
    <!-- <link href="<?= base_url(); ?>awedget/assets/plugins/bootstrap-select2/select2.css" rel="stylesheet" type="text/css" media="screen"/> -->
    <link href="<?= base_url(); ?>awedget/assets/plugins/bootstrap-datepicker/css/datepicker.css" rel="stylesheet" type="text/css" />
    <link href="<?= base_url(); ?>awedget/assets/plugins/bootstrap-timepicker/css/bootstrap-timepicker.css" rel="stylesheet" type="text/css" />
-   <?php /*
-   <link href="<?= base_url(); ?>awedget/assets/plugins/jquery-datatable/css/jquery.dataTables.css" rel="stylesheet" type="text/css" />
-   <link href="<?= base_url(); ?>awedget/assets/plugins/datatables-responsive/css/datatables.responsive.css" rel="stylesheet" type="text/css" media="screen" />
-   */ ?>
+
    <link href="<?= base_url(); ?>awedget/assets/plugins/boostrap-checkbox/css/bootstrap-checkbox.css" rel="stylesheet" type="text/css" media="screen" />
    <link rel="stylesheet" href="<?= base_url(); ?>awedget/assets/plugins/ios-switch/ios7-switch.css" type="text/css" media="screen">
    <!-- <link href="<?= base_url(); ?>awedget/assets/plugins/bootstrap-select2/select2.css" rel="stylesheet" type="text/css" media="screen"/> -->
@@ -44,21 +41,30 @@
 
    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+   <!-- <link href="<?= base_url('assets/css/select2.min.css') ?>" type="text/css" /> -->
+   <!-- <script src="<?= base_url('assets/js/select2.min.js'); ?>"></script> -->
 
    <link href="<?= base_url(); ?>awedget/assets/css/autocomplete.css" rel="stylesheet" type="text/css" />
    <script src="<?= base_url(); ?>awedget/assets/js/jquery.autocomplete.js" type="text/javascript"></script>
 
-   <link href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
-   <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
-   <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+   <!-- <link href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" rel="stylesheet"> -->
+   <link href="<?= base_url('assets/css/bootstrap-datetimepicker.css') ?>" type="text/css" />
+   <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script> -->
+   <script src="<?= base_url('assets/js/moment-with-locales.js'); ?>"></script>
+   <!-- <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script> -->
+   <script src="<?= base_url('assets/js/bootstrap-datetimepicker.js'); ?>"></script>
 
-   <link href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" type="text/css" />
-   <link href="//cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" type="text/css" />
-   <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css"> -->
+
+   <!-- <link href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" type="text/css" /> -->
+   <!-- <link href="//cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" type="text/css" /> -->
+   <link href="<?= base_url('assets/css/jquery.dataTables.min.css') ?>" type="text/css" />
+   <link href="<?= base_url('assets/css/buttons.dataTables.min.css') ?>" type="text/css" />
 
 
-   <script src="https://code.highcharts.com/highcharts.js"></script>
-   <script src="https://code.highcharts.com/modules/data.js"></script>
+   <script src="<?= base_url('assets/js/highcharts.js'); ?>"></script>
+   <script src="<?= base_url('assets/js/data.js'); ?>"></script>
+   <!-- <script src="https://code.highcharts.com/highcharts.js"></script> -->
+   <!-- <script src="https://code.highcharts.com/modules/data.js"></script> -->
    <link href="<?= base_url(); ?>awedget/assets/css/style.css" rel="stylesheet" type="text/css" />
    <link href="<?= base_url(); ?>awedget/assets/css/dashboard.css" rel="stylesheet" type="text/css" />
    <script type="text/javascript">
@@ -66,7 +72,8 @@
    </script>
 
    <!--Load the AJAX API-->
-   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+   <!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
+   <script src="<?= base_url('assets/js/loader.js'); ?>"></script>
    
 
 

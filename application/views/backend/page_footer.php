@@ -57,7 +57,8 @@ type="text/javascript" ></script>
 <!-- BEGIN CORE TEMPLATE JS -->
 
 <?php if($this->router->fetch_class('dashboard') == 'dashboard'){ ?>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+<script src="<?= base_url('assets/js/raphael-min.js'); ?>"></script>
+<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script> -->
 <script src="<?=base_url();?>awedget/assets/plugins/pace/pace.min.js" type="text/javascript"></script>
 <script src="<?=base_url();?>awedget/assets/plugins/jquery-slider/jquery.sidr.min.js" type="text/javascript"></script>
 <script src="<?=base_url();?>awedget/assets/plugins/jquery-numberAnimate/jquery.animateNumbers.js"
@@ -83,17 +84,21 @@ type="text/javascript" ></script>
 <!-- <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> -->
 <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> -->
 */ ?>
-<script src="//cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="//cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script src="//cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-<script src="//cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-<?php /*
+<!-- <script src="//cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> -->
+<!-- <script src="//cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script> -->
+<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script> -->
+<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script> -->
 <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script> -->
-<!-- Bangla Fornt- https://stackoverflow.com/questions/66882619/datatable-pdf-export-with-custom-font -->
-*/ ?>
+<!-- <script src="//cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script> -->
+<!-- <script src="//cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script> -->
+<script src="<?= base_url('assets/js/jquery.dataTables.min.js'); ?>"></script>
+<script src="<?= base_url('assets/js/dataTables.buttons.min.js'); ?>"></script>
+<script src="<?= base_url('assets/js/jszip.min.js'); ?>"></script>
+<script src="<?= base_url('assets/js/pdfmake.min.js'); ?>"></script>
+<script src="<?= base_url('assets/js/vfs_fonts.js'); ?>"></script>
+<script src="<?= base_url('assets/js/buttons.html5.min.js'); ?>"></script>
+<script src="<?= base_url('assets/js/buttons.print.min.js'); ?>"></script>
+
 
 <!-- END PAGE LEVEL PLUGINS -->
 <script src="<?=base_url();?>awedget/assets/js/bangla-input.js" type="text/javascript"></script>
@@ -110,7 +115,8 @@ var hostname = '<?php echo base_url();?>';
 <script src="<?=base_url();?>awedget/assets/js/custom_validations.js" type="text/javascript"></script>
 
 <!-- Latest Sortable -->
-<script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script>
+<!-- <script src="https://raw.githack.com/SortableJS/Sortable/master/Sortable.js"></script> -->
+<script src="<?= base_url('assets/js/Sortable.js'); ?>"></script>
 <script src="<?=base_url();?>awedget/assets/js/jquery.buttonLoader.js" type="text/javascript"></script>
 
 <!-- END CORE TEMPLATE JS -->
