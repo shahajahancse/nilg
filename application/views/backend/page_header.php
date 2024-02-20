@@ -74,7 +74,6 @@
 </head> <!-- END HEAD -->
 
 <body class="">
-
    <div class="header navbar navbar-inverse ">
       <div class="navbar-inner">
          <div class="header-seperation">
@@ -585,6 +584,7 @@
                      <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">এনআইএলজি সেটিংস</span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
                         <li> <a href="<?= base_url('nilg_setting/budget_head'); ?>">বাজেট হেড</a> </li>
+                        <li> <a href="<?= base_url('nilg_setting/budget_sub_head'); ?>">বাজেট সাব হেড</a> </li>
                         <li> <a href="<?= base_url('nilg_setting/qbank'); ?>">প্রশ্ন ব্যাংক</a> </li>
                         <li> <a href="<?= base_url('nilg_setting/office'); ?>">অফিসের তালিকা</a> </li>
                         <li> <a href="<?= base_url('nilg_setting/calendar'); ?>">ট্রেনিং ক্যালেন্ডার</a> </li>
