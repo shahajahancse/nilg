@@ -40,9 +40,10 @@
    <script src="<?= base_url(); ?>awedget/assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 
    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script>
+   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js"></script> -->
+   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js"></script> -->
    <!-- <link href="<?= base_url('assets/css/select2.min.css') ?>" type="text/css" /> -->
-   <!-- <script src="<?= base_url('assets/js/select2.min.js'); ?>"></script> -->
+   <script src="<?= base_url('assets/js/select2.full.min.js'); ?>"></script>
 
    <link href="<?= base_url(); ?>awedget/assets/css/autocomplete.css" rel="stylesheet" type="text/css" />
    <script src="<?= base_url(); ?>awedget/assets/js/jquery.autocomplete.js" type="text/javascript"></script>
@@ -364,6 +365,17 @@
                      </ul>
                   </li>
                <?php } ?>
+
+               <?php if ($this->ion_auth->in_group('admin')) { ?>
+                  <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">বাজেট</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                     <ul class="sub-menu">
+                        <li class="start <?= backend_activate_menu_method('budget_nilg') ?>"> <a href="<?= base_url('budgets/budget_nilg'); ?>">বাজেট এনআইএলজি</a> </li>
+                        <li class="start <?= backend_activate_menu_method('budget_field') ?>"> <a href="<?= base_url('budgets/budget_field'); ?>">বাজেট অফিস</a> </li>
+                        <li class="start <?= backend_activate_menu_method('budget_entry') ?>"> <a href="<?= base_url('budgets/budget_entry'); ?>">বাজেট এন্ট্রি </a> </li>
+                     </ul>
+                  </li>
+               <?php } ?>
+
 
                <?php if ($this->ion_auth->in_group('cc')) { ?>
 
