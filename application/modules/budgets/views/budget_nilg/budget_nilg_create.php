@@ -44,7 +44,7 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                                <fieldset>
+                                <fieldset style="background: #fff !important; ">
                                     <legend>বাজেট তথ্য</legend>
 
                                     <div class="row form-row" style="font-size: 16px; color: black;">
@@ -116,8 +116,7 @@
                                                    </div>
 
                                                 </div>
-
-                                                <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e;" id="appRowDiv">
+                                                <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
                                                     <thead>
                                                        <tr>
                                                            <th width="30%">বাজেট হেড<span class="required">*</span></th>
@@ -129,10 +128,8 @@
                                                     <tbody id="tbody">
                                                     </tbody>
                                                 </table>
-                                                <br>
-                                                <br>
 
-                                                <div class="col-md-12" style="margin-top: 10px; padding: 0px;">
+                                                <div class="col-md-12" style="margin-top: 30px; padding: 0px;">
                                                     <div class="form-group margin_top_10">
                                                       <label for=""> Description :</label>
                                                     <textarea class="form-control" name="description" style="height: 300px;" id="description"></textarea>
@@ -183,14 +180,14 @@ function removeRow(id) {
            success: function(data) {
             var data=JSON.parse(data);
             var tr=`<tr>
-                        <td>${data.budget_head_name}</td>
-                        <td>${data.name_bn}</td>
-                        <td>
+                        <td style="padding:0px 10px">${data.budget_head_name}</td>
+                        <td style="padding:0px 10px">${data.name_bn}</td>
+                        <td style="padding:0px 10px">
                         <input type="hidden" name="head_id[]" value="${data.budget_head_id}" >
                         <input type="hidden" name="head_sub_id[]" value="${data.id}" >
                         <input value="0" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm">
                         </td>
-                        <td><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
+                        <td style="padding:0px 10px"><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
                      </tr>`
             $("#tbody").append(tr);
             $("#loading").hide();

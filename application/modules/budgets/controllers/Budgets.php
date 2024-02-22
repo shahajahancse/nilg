@@ -72,7 +72,7 @@ class Budgets extends Backend_Controller {
     $this->data['info'] = $this->Common_model->get_user_details();
     //Load view
     $this->data['meta_title'] = 'বাজেট তৈরি করুন';
-    $this->data['subview'] = 'budget_nilg/create';
+    $this->data['subview'] = 'budget_nilg/budget_nilg_create';
     $this->load->view('backend/_layout_main', $this->data);
   }
   public function add_new_row()
