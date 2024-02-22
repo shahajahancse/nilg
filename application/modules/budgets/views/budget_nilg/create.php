@@ -1,3 +1,12 @@
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
+<style>
+   .chosen-single {
+    height: 30px !important;
+    border: 1px solid #00a59a !important;
+}
+</style>
+
 <div class="page-content">
     <div class="content">
         <ul class="breadcrumb">
@@ -52,17 +61,18 @@
                                         <br>
                                         <div class="col-md-4">
                                             <label for="title" class="control-label">টাইটেল : </label>
-                                            <input type="text" class="form-control" name="title"
+                                            <input type="text" class="form-control input-sm" name="title"
                                                 style="min-height: 33px;" value="" required>
                                         </div>
                                         <div class="col-md-4">
+                                        <?php $session_year=$this->db->get('session_year')->result();?>
+
                                             <label for="fcl_year" class="control-label">অর্থবছর</label>
-                                            <select name="fcl_year" id="fcl_year">
+                                            <select name="fcl_year" id="fcl_year" class="form-control input-sm">
                                                 <option value="">নির্বাচন করুন</option>
-                                                <?php $session_year=$this->db->get('session_year')->result();
-                                    foreach ($session_year as $key => $value) {
-                                       echo '<option value="'.$value->id.'">'.$value->session_name.'</option>';
-                                    } ?>
+                                                <?php foreach ($session_year as $key => $value) {
+                                                      echo '<option value="'.$value->id.'">'.$value->session_name.'</option>';
+                                                   } ?>
                                             </select>
                                         </div>
                                     </div>
@@ -85,9 +95,9 @@
                                                 color: black;
                                             }
                                             </style>
-                                            <div class="col-md-12">
-                                                <div class="col-md-12">
-                                                   <div class="col-md-4 margin_top_10">
+                                            <div class="col-md-12" >
+                                                <div class="col-md-12" style="margin:0px;padding:0px">
+                                                   <div class="col-md-4 margin_top_10 " style="margin:0px;padding:0px">
                                                       <label for="">Select Head</label>
                                                       <select name="head" id="head_id" class="form-control" onchange="addNewRow(this.value)">
                                                          <option value="">Select Head</option>
@@ -96,12 +106,12 @@
                                                          }?>
                                                       </select>
                                                    </div>
-                                                   <div class="col-md-4">
+                                                   <div class="col-md-4" >
                                                       <img id="loading" src="<?=base_url('img/loading.gif') ?>" style="height: 47px;margin-top: 14px;display: none;">
                                                    </div>
                                                    <div class="col-md-4">
                                                       <label for="">Total Amount</label>
-                                                      <input type="number" class="form-control" name="total_amount" id="total_amount" readonly>
+                                                      <input type="number" class="form-control input-sm" name="total_amount" id="total_amount" readonly>
 
                                                    </div>
 
@@ -178,7 +188,7 @@ function removeRow(id) {
                         <td>
                         <input type="hidden" name="head_id[]" value="${data.budget_head_id}" >
                         <input type="hidden" name="head_sub_id[]" value="${data.id}" >
-                        <input value="0" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount">
+                        <input value="0" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm">
                         </td>
                         <td><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
                      </tr>`
@@ -202,7 +212,15 @@ function removeRow(id) {
 <script>
       $(document).ready(function() {
          calculateTotal()
+        
       })
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
+<script>
+  $(document).ready(function(){
+   $('#fcl_year').chosen();
+   $('#head_id').chosen();
+  });
 </script>
 
 

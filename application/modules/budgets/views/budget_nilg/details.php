@@ -1,3 +1,11 @@
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
+<style>
+   .chosen-single {
+    height: 30px !important;
+    border: 1px solid #00a59a !important;
+}
+</style>
 <div class="page-content">
     <div class="content">
         <ul class="breadcrumb">
@@ -54,7 +62,7 @@
                                         <div class="col-md-4">
                                             
                                             <label for="title" class="control-label">টাইটেল : </label>
-                                            <input type="text" class="form-control" name="title"
+                                            <input type="text" class="form-control input-sm" name="title"
                                                 style="min-height: 33px;" value="<?= $budget_nilg->title?>" required>
                                         </div>
                                         <div class="col-md-4">
@@ -88,8 +96,8 @@
                                             }
                                             </style>
                                             <div class="col-md-12">
-                                                <div class="col-md-12">
-                                                   <div class="col-md-4 margin_top_10">
+                                                <div class="col-md-12" style="margin:0px;padding:0px">
+                                                   <div class="col-md-4 margin_top_10" style="margin:0px;padding:0px">
                                                       <label for="">Select Head</label>
                                                       <select name="head" id="head_id" class="form-control" onchange="addNewRow(this.value)">
                                                          <option value="">Select Head</option>
@@ -103,7 +111,7 @@
                                                    </div>
                                                    <div class="col-md-4">
                                                       <label for="">Total Amount</label>
-                                                      <input type="number" class="form-control" name="total_amount" id="total_amount" readonly>
+                                                      <input type="number" class="form-control input-sm" name="total_amount" id="total_amount" readonly>
 
                                                    </div>
 
@@ -119,24 +127,6 @@
                                                        </tr>
                                                     </thead>
                                                     <tbody id="tbody">
-                                                    <!-- [id] => 1
-                                                    [budget_nilg_id] => 1
-                                                    [head_id] => 2
-                                                    [head_sub_id] => 1
-                                                    [amount] => 89.00
-                                                    [dpt_amt] => 0.00
-                                                    [acc_amt] => 0.00
-                                                    [dg_amt] => 0.00
-                                                    [revenue_amt] => 0.00
-                                                    [fcl_year] => 5
-                                                    [status] => 1
-                                                    [office_id] => 0
-                                                    [dept_id] => 0
-                                                    [created_by] => 1
-                                                    [created_at] => 2024-02-22 16:04:59
-                                                    [name_bn] => test sub
-                                                    [budget_head_name] => dfdsafasgfas
-                                                    [budget_head_id] => 2 -->
                                                         <?php foreach ($budget_nilg_details as $key => $value) { ?>
                                                             <tr>
                                                                 <td><?= $value->budget_head_name ?></td>
@@ -144,7 +134,7 @@
                                                                 <td>
                                                                 <input type="hidden" name="head_id[]" value="<?= $value->head_id ?>" >
                                                                 <input type="hidden" name="head_sub_id[]" value="<?= $value->head_sub_id ?>" >
-                                                                <input value="<?= $value->amount ?>" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount">
+                                                                <input value="<?= $value->amount ?>" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm">
                                                                 </td>
                                                                 <td><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
                                                             </tr>
@@ -210,7 +200,7 @@ function removeRow(id) {
                         <td>
                         <input type="hidden" name="head_id[]" value="${data.budget_head_id}" >
                         <input type="hidden" name="head_sub_id[]" value="${data.id}" >
-                        <input value="0" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount">
+                        <input value="0" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm">
                         </td>
                         <td><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
                      </tr>`
@@ -235,6 +225,13 @@ function removeRow(id) {
       $(document).ready(function() {
          calculateTotal()
       })
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
+<script>
+  $(document).ready(function(){
+   $('#fcl_year').chosen();
+   $('#head_id').chosen();
+  });
 </script>
 
 
