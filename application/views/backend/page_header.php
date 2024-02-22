@@ -604,6 +604,7 @@
                      <ul class="sub-menu">
                         <li> <a href="<?= base_url('nilg_setting/budget_head'); ?>">বাজেট হেড</a> </li>
                         <li> <a href="<?= base_url('nilg_setting/budget_sub_head'); ?>">বাজেট সাব হেড</a> </li>
+                        <li> <a href="<?= base_url('nilg_setting/budget_head/budget_description'); ?>">বাজেট সামারি</a> </li>
                         <li> <a href="<?= base_url('nilg_setting/qbank'); ?>">প্রশ্ন ব্যাংক</a> </li>
                         <li> <a href="<?= base_url('nilg_setting/office'); ?>">অফিসের তালিকা</a> </li>
                         <li> <a href="<?= base_url('nilg_setting/calendar'); ?>">ট্রেনিং ক্যালেন্ডার</a> </li>

@@ -32,6 +32,23 @@ class Budget_head_model extends CI_Model {
     }
 
 
+    public function get_description($limit = 1000, $offset = 0) {
+        // result query
+        $this->db->select('*');
+        $this->db->from('budget_description');
+        $this->db->limit($limit);
+        $this->db->offset($offset);        
+        $this->db->order_by('id', 'DESC');
+        $result['rows'] = $this->db->get()->result();
+        // count query
+        $this->db->select('COUNT(*) as count');
+        $this->db->from('budget_description');
+        $tmp = $this->db->get()->result();
+        $result['num_rows'] = $tmp[0]->count;
+        return $result;
+    }
+
+
     
 
 }
