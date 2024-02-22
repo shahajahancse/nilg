@@ -23,3 +23,12 @@ UPDATE `department` SET `name_en` = 'accounts' WHERE `department`.`id` = 7;
 UPDATE `department` SET `name_en` = 'audit' WHERE `department`.`id` = 8;
 
 CREATE TABLE `nilg_erp`.`leave_dasignation_manage` ( `id` INT NOT NULL AUTO_INCREMENT ,  `dept_id` INT NOT NULL ,  `desig_id` INT NOT NULL ,  `groups_id` INT NOT NULL ,  `status` TINYINT(1) NOT NULL COMMENT '1=active, 2=inactive' ,    PRIMARY KEY  (`id`),    INDEX  (`dept_id`),    INDEX  (`desig_id`),    INDEX  (`groups_id`)) ENGINE = InnoDB;
+ALTER TABLE `leave_dasignation_manage` CHANGE `status` `status` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '1=active, 2=inactive';
+
+22-02-2024
+ALTER TABLE `training` ADD `budget_field_id` INT NULL DEFAULT NULL COMMENT 'budget_field table id' AFTER `course_id`, ADD INDEX (`budget_field_id`);
+ALTER TABLE `training` ADD INDEX(`course_id`);
+ALTER TABLE `training` ADD INDEX(`office_id`);
+ALTER TABLE `training_participant` ADD `pay_type` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '1=not pay, 2=pay, 3=partial pay' AFTER `is_apply`;
+
+

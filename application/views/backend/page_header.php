@@ -604,6 +604,7 @@
                      <ul class="sub-menu">
                         <li> <a href="<?= base_url('nilg_setting/budget_head'); ?>">বাজেট হেড</a> </li>
                         <li> <a href="<?= base_url('nilg_setting/budget_sub_head'); ?>">বাজেট সাব হেড</a> </li>
+                        <li> <a href="<?= base_url('nilg_setting/budget_head/budget_description'); ?>">বাজেট সামারি</a> </li>
                         <li> <a href="<?= base_url('nilg_setting/qbank'); ?>">প্রশ্ন ব্যাংক</a> </li>
                         <li> <a href="<?= base_url('nilg_setting/office'); ?>">অফিসের তালিকা</a> </li>
                         <li> <a href="<?= base_url('nilg_setting/calendar'); ?>">ট্রেনিং ক্যালেন্ডার</a> </li>
@@ -623,13 +624,13 @@
 
                         <?php if ($this->ion_auth->is_admin()) { ?>
                         <li class="start <?= backend_activate_menu_method('role') ?>">
-                           <a href="<?= base_url('general_setting/role'); ?>"> রোলের তালিকা </a>
+                           <!-- <a href="<?= base_url('general_setting/role'); ?>"> রোলের তালিকা </a> -->
                         </li>
                         <?php } ?>
 
                         <?php if ($this->ion_auth->in_group(array('admin','leave_jd', 'leave_director', 'leave'))) { ?>
                         <li> <a href="<?= base_url('general_setting/leave_type'); ?>"> ছুটির টাইপ </a></li>
-                        <li> <a href="<?= base_url('general_setting/manage_designation'); ?>"> পদবী ব্যবস্থাপনা </a></li>
+                        <!-- <li> <a href="<?= base_url('general_setting/manage_designation'); ?>"> পদবী ব্যবস্থাপনা </a></li> -->
                         <?php } ?>
 
                         <?php if ($this->ion_auth->in_group(array('admin','sm', 'asm'))) { ?>

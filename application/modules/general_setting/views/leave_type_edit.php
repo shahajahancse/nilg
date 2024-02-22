@@ -46,7 +46,7 @@
                      <div class="col-md-2">
                         <label class="form-label">সর্বোচ্চ আবেদন</label>
                         <?php echo form_error('max_apply_leave'); ?>
-                        <input name="yearly_total_leave" type="text" value="<?=$rows->max_apply_leave;?>" class="form-control input-sm" placeholder="">
+                        <input name="max_apply_leave" type="text" value="<?=$rows->max_apply_leave;?>" class="form-control input-sm" placeholder="">
                      </div>
 
                      <div class="col-md-2">
