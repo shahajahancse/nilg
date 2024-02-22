@@ -50,10 +50,15 @@ class Common_model extends CI_Model
         }
     }
 
-    public function get_data_array($table)
+    public function get_data_array($table, $id=null)
     {
         $this->db->select('*');
         $this->db->from($table);
+        if ($id != null) {
+            foreach ($id as $key => $value) {
+                $this->db->where($key, $value);
+            }
+        }
         $query =  $this->db->get();
 
         if ($query->num_rows() > 0) {
@@ -2038,7 +2043,7 @@ class Common_model extends CI_Model
     }
 
 
-    public function get_user_details()
+    public function get_user_details($id=null)
     {
         // , u.office_type_id
 
@@ -2054,7 +2059,11 @@ class Common_model extends CI_Model
         $this->db->join('divisions di', 'di.id=u.div_id', 'LEFT');
         $this->db->join('districts dis', 'dis.id=u.dis_id', 'LEFT');
         $this->db->join('upazilas upa', 'upa.id=u.upa_id', 'LEFT');
-        $this->db->where('u.id', $this->session->userdata('user_id'));
+        if ($id != null) {
+            $this->db->where('u.id', $id);
+        }else{
+            $this->db->where('u.id', $this->session->userdata('user_id'));
+        }
         $query = $this->db->get()->row();
 
         return $query;
