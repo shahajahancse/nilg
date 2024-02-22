@@ -20,8 +20,8 @@
 
           <div class="grid-body">
             <?php 
-            $attributes = array('id' => 'validate');
-            echo form_open_multipart("nilg_setting/budget_head/budget_description_add", $attributes);
+              $attributes = array('id' => 'validate');
+              echo form_open(current_url(), $attributes);
             ?>
 
             <div><?php //echo validation_errors(); ?></div>
@@ -35,7 +35,7 @@
               <div class="col-md-6 p5">
                   <label class="form-label">টাইটেল <span class="required">*</span></label>
                   <?php echo form_error('title'); ?>
-                  <input name="title" class="form-control input-sm" id="title" value="<?=set_value('title')?>" />
+                  <input name="title" class="form-control input-sm"  value="<?= $info->title ?>" />
               </div>
 
               <div class="col-md-3 p5">
@@ -43,17 +43,17 @@
                 <?php echo form_error('office_type'); ?>
                 <select name="office_type" class="form-control input-sm" style="height: 30px !important;">
                   <option value="" selected="selected">-অফিসের ধরণ নির্বাচন করুন-</option>
-                  <option value="1">ইউনিয়ন পরিষদ</option>
-                  <option value="3">উপজেলা পরিষদ</option>
-                  <option value="2">পৌরসভা</option>
-                  <option value="4">জেলা পরিষদ</option>
-                  <option value="8">ডিডিএলজি অফিস (জেলা)</option>
-                  <option value="5">সিটি কর্পোরেশন</option>
-                  <option value="7">এনআইএলজি সদর দপ্তর</option>
-                  <option value="9">মন্ত্রণালয় ও বিভাগ</option>
-                  <option value="10">অধিদপ্তর ও অন্যান্য</option>
-                  <option value="6">ডেভেলপমেন্ট পার্টনার</option>
-                  <option value="11">বিভাগী কমিশনার কার্য়ালয়</option>
+                  <option <?= ($info->status == 1)? 'selected':'' ?> value="1">ইউনিয়ন পরিষদ</option>
+                  <option <?= ($info->status == 3)? 'selected':'' ?> value="3">উপজেলা পরিষদ</option>
+                  <option <?= ($info->status == 2)? 'selected':'' ?> value="2">পৌরসভা</option>
+                  <option <?= ($info->status == 4)? 'selected':'' ?> value="4">জেলা পরিষদ</option>
+                  <option <?= ($info->status == 8)? 'selected':'' ?> value="8">ডিডিএলজি অফিস (জেলা)</option>
+                  <option <?= ($info->status == 5)? 'selected':'' ?> value="5">সিটি কর্পোরেশন</option>
+                  <option <?= ($info->status == 7)? 'selected':'' ?> value="7">এনআইএলজি সদর দপ্তর</option>
+                  <option <?= ($info->status == 9)? 'selected':'' ?> value="9">মন্ত্রণালয় ও বিভাগ</option>
+                  <option <?= ($info->status == 10)? 'selected':'' ?> value="10">অধিদপ্তর ও অন্যান্য</option>
+                  <option <?= ($info->status == 6)? 'selected':'' ?> value="6">ডেভেলপমেন্ট পার্টনার</option>
+                  <option <?= ($info->status == 11)? 'selected':'' ?> value="11">বিভাগী কমিশনার কার্য়ালয়</option>
                 </select>
               </div>
 
@@ -61,8 +61,8 @@
                   <label class="form-label">স্ট্যাটাস<span class="required">*</span></label>
                   <?php echo form_error('status'); ?>
                   <select name="status" class="form-control input-sm" style="height: 30px !important;">
-                    <option value="1">for nilg in</option>
-                    <option value="2">for field out</option>
+                    <option <?= ($info->status == 1)? 'selected':'' ?> value="1">for nilg in</option>
+                    <option <?= ($info->status == 2)? 'selected':'' ?> value="2">for field out</option>
                   </select>
               </div>
 
@@ -73,7 +73,9 @@
                 <div class="form-group">
                   <label class="form-label">বর্ণনা <span class="required">*</span></label>
                   <?php echo form_error('details'); ?>
-                  <textarea name="details" class="form-control input-sm" id="details"  cols="30" rows="10"></textarea>
+                  <textarea name="details" class="form-control input-sm" id="details"  cols="30" rows="10">
+                    <?= $info->details ?>
+                  </textarea>
                 </div>
               </div>
             </div>

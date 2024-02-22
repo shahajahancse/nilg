@@ -177,38 +177,50 @@ class Budget_head extends Backend_Controller {
             );
             // print_r($form_data); exit;
             if($this->Common_model->save('budget_description', $form_data)){
-                $this->session->set_flashdata('success', 'বাজেট হেড সংরক্ষণ করা হয়েছে');
+                $this->session->set_flashdata('success', 'বাজেট সামারি সংরক্ষণ করা হয়েছে');
                 redirect('nilg_setting/budget_head/budget_description');
             }
         }
 
-        $this->data['meta_title'] = 'বাজেট হেড সংরক্ষণ করুন';
+        $this->data['meta_title'] = 'বাজেট সামারি সংরক্ষণ করুন';
         $this->data['subview'] = 'budget_head/budget_description_add';
         $this->load->view('backend/_layout_main', $this->data);
    }   
 
    // description
-   public function budget_description_edit()
+   public function budget_description_edit($id)
    {
-        $this->form_validation->set_rules('name_en', 'নাম (ইংরেজী)', 'required|trim');
-        $this->form_validation->set_rules('name_bn', 'নাম (বাংলা)', 'required|trim');
-        $this->form_validation->set_rules('bd_code', 'বিঃডিঃ কোড', 'required|trim');
+        $this->form_validation->set_rules('title', 'টাইটেল', 'required|trim');
+        $this->form_validation->set_rules('office_type', 'অফিসের ধরণ', 'required|trim');
+        $this->form_validation->set_rules('details', 'বর্ণনা', 'required|trim');
         // Insert Data
         if ($this->form_validation->run() == true){
             $form_data = array(
-                'name_en'    => $this->input->post('name_en'),
-                'name_bn'    => $this->input->post('name_bn'),
-                'bd_code'    => $this->input->post('bd_code'),
-                'status'     => $this->input->post('status'),
+                'title'         => $this->input->post('title'),
+                'office_type'   => $this->input->post('office_type'),
+                'details'       => $this->input->post('details'),
+                'status'        => $this->input->post('status'),
             );
             // print_r($form_data); exit;
-            if($this->Common_model->save('budget_head', $form_data)){
-                $this->session->set_flashdata('success', 'বাজেট হেড সংরক্ষণ করা হয়েছে');
-                redirect('nilg_setting/budget_head');
+            if($this->Common_model->edit('budget_description', $id, 'id', $form_data)){
+                $this->session->set_flashdata('success', 'বাজেট সামারি সংরক্ষণ করা হয়েছে');
+                redirect('nilg_setting/budget_head/budget_description');
             }
         }
-        $this->data['meta_title'] = 'বাজেট হেড সংরক্ষণ করুন';
-        $this->data['subview'] = 'budget_head/budget_description';
+
+        $this->data['info'] = $this->db->where('id', $id)->get('budget_description')->row();
+
+        $this->data['meta_title'] = 'বাজেট সামারি সংরক্ষণ করুন';
+        $this->data['subview'] = 'budget_head/budget_description_edit';
         $this->load->view('backend/_layout_main', $this->data);
    }
+
+    public function budget_description_delete($dataID){
+      
+        if ($this->db->delete('budget_description', array('id' => $dataID))) {
+            $this->session->set_flashdata('success', 'এই প্রশ্নটি ডাটাবেজ থেকে মুছে ফেলা হয়েছে'); 
+            redirect('nilg_setting/budget_head/budget_description');
+        }
+
+    }
 }
