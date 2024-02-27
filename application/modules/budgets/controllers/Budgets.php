@@ -173,7 +173,7 @@ class Budgets extends Backend_Controller
       $data = array(
         'budget_info' => $budget_nilg,
         'budget_dtails' => $items,
-      )
+      );
       header('Content-Type: application/x-json; charset=utf-8');
       echo json_encode($data);
     }
@@ -287,7 +287,7 @@ class Budgets extends Backend_Controller
         $this->data['subview'] = 'budget_field/details';
         $this->load->view('backend/_layout_main', $this->data);
     }
-    
+
     public function budget_field_edit()
     {
         $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');

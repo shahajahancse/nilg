@@ -135,7 +135,7 @@
                   </h4>
                </div>
                <div class="heading-main">
-                  <div class="headding-title">চাহিদা পত্র</div>
+                  <div class="headding-title">বাজেট পত্র</div>
                </div>
             </div>
 
@@ -143,10 +143,11 @@
                <table class="table table-hover table-condensed" border="0" id="addRow">
                   <tr>
                      <th>ক্রম</th>
-                     <th>আইটেম নাম</th>
-                     <th>ক্যাটাগরি</th>
-                     <th>রিকুয়েস্ট কোয়ান্টিটি</th>
-                     <th>রিমার্ক</th>
+                     <th>বিষয়</th>
+                     <th>আমাউন্ট</th>
+                     <th>ডিপার্টমেন্ট আমাউন্ট</th>
+                     <th>আক্কাউন্ট আমাউন্ট</th>
+                     <th>ডিজি আমাউন্ট</th>
                   </tr>
                </table>
             </div>
@@ -241,16 +242,17 @@
                var sl = 0;
                $('.adds').remove();
 
-               $.each(response,function(id,res)
+               $.each(response.budget_dtails,function(id,res)
                {
                   sl = sl + 1;
                   var items = '';
                   items+= '<tr class="adds">';        
                   items+= '<td>'+ sl +'</td>';
-                  items+= '<td>'+ res.item_name +'('+ res.unit_name+')'+ '</td>';
-                  items+= '<td>'+ res.category_name +'</td>';
-                  items+= '<td>'+ res.qty_request +'</td>';
-                  items+= '<td>'+ res.remark +'</td>';
+                  items+= '<td>'+ res.name_bn+'</td>';
+                  items+= '<td>'+ res.amount +'</td>';
+                  items+= '<td>'+ res.dpt_amt +'</td>';
+                  items+= '<td>'+ res.acc_amt +'</td>';
+                  items+= '<td>'+ res.dg_amt +'</td>';
                   items+= '</tr>';
                   $('#addRow tr:last').after(items);
                });
