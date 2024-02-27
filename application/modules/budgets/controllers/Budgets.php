@@ -251,7 +251,7 @@ class Budgets extends Backend_Controller
 
         $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
         if ($this->form_validation->run() == true) {
-            dd($_POST);
+            // dd($_POST);
             $user = $this->ion_auth->user()->row();
             $form_data = array(
                 'title' => $this->input->post('title'),
@@ -261,23 +261,40 @@ class Budgets extends Backend_Controller
                 'fcl_year' => $this->input->post('fcl_year'),
                 'office_id' => $this->input->post('office_id'),
                 'description' => $this->input->post('description'),
-                'dept_id' => $user->dept_id,
+                'dept_id' => $user->crrnt_dept_id,
                 'created_by' => $user->id,
             );
             if ($this->Common_model->save('budget_field', $form_data)) {
                 $insert_id = $this->db->insert_id();
                 for ($i = 0; $i < sizeof($_POST['head_id']); $i++) {
 
-                    // id	budget_field_id head_sub_id 	office_type type	token	amount	days participants total_amt	status office_id	dept_id	created_by
-
+                    // 	dept_id	created_by
+                    $token=[];
+                    foreach($_POST['token-'.$_POST['head_sub_id'][$i]] as $key => $value){
+                        $token[$key]=[
+                            'token' => $value,
+                            'amount' => $_POST['token_amount-'.$_POST['head_sub_id'][$i]][$key],
+                        ];
+                    }
                     $form_data2 = array(
-                        'budget_nilg_id' => $insert_id,
-                       
+                        'budget_field_id' => $insert_id,
+                        'head_sub_id' => $_POST['head_sub_id'][$i],
+                        'office_type' => $this->input->post('office_type'),
+                        'type' =>1,
+                        'token' => json_encode($token),
+                        'amount' => '',
+                        'days' => '',
+                        'participants' => '',
+                        'total_amt' => $_POST['head_sub_id'][$i],
+                        'status' => 1,
+                        'office_id' => $this->input->post('office_id'),
+                        'dept_id' => $user->crrnt_dept_id,
+                        'created_by' => $user->id,
                     );
-                    $this->Common_model->save('budget_nilg_details', $form_data2);
+                    $this->Common_model->save('budget_field_details', $form_data2);
                 }
                 $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
-                redirect("budgets/budget_nilg");
+                redirect("budgets/budget_field");
             }
 
         }
