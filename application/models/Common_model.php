@@ -235,6 +235,15 @@ class Common_model extends CI_Model
 
         return $data;
     }
+    public function get_office_id_by_type($type_id){
+        $this->db->select('office.id, office.office_name as name');
+        $this->db->from('office');
+        $this->db->where('office.office_type', $type_id);
+        $this->db->where('office.status', 1);
+        $this->db->order_by('office.id', 'ASC');
+        return $this->db->get()->result();
+
+    }
 
     public function exists_nid($item, $own_id = NULL)
     {
