@@ -44,23 +44,7 @@
                            <td class="v-align-middle"><?=$sl.'.'?></td>
                            <td class="v-align-middle"><?=$row->title; ?></td>
                            <td class="v-align-middle"><?=$row->amount; ?></td>
-                           <td class="v-align-middle"><?=$row->session_name; ?></td>
-                           <td class="v-align-middle">
-                              <?php if($row->desk==1){
-                                echo 'Current';
-                              }elseif($row->desk==2){
-                                 echo 'Forward DPT';
-                              }elseif($row->desk==3){
-                                 echo 'Forward ACC';
-                              }elseif($row->desk==4){
-                                 echo 'DG';
-                              }elseif($row->desk==5){
-                                 echo 'Back ACC';
-                              }elseif($row->desk==6){
-                                 echo 'Complete';
-                              }
-                                 ?>
-                           </td>
+                          
                            <td class="v-align-middle" style="width: 200px; white-space: normal;overflow: hidden" title="<?=$row->description; ?>"><?=$row->description; ?></td>
                            <td class="v-align-middle">
                            <!-- 1=pending,2=dpt. app., 3=reject, 4=acc., 5=dg, 6=draft, 7=revenue received -->
@@ -82,14 +66,14 @@
                               ?>
                            </td>
                          
-                           <td class="v-align-middle"><?=date_bangla_calender_format($row->update_at); ?>                              
+                           <td class="v-align-middle"><?=date_bangla_calender_format($row->updated_at); ?>                              
                            </td>
                            <td align="right">
                               <div class="btn-group">
                                 <button class="btn btn-mini btn-primary">অ্যাকশন</button>
                                 <button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
                                 <ul class="dropdown-menu pull-right">
-                                  <li><a href="<?php echo base_url('budgets/budget_nilg_details/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
+                                  <li><a href="<?php echo base_url('budgets/budget_field_details/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
                                 </ul>
                               </div>
                            </td>
