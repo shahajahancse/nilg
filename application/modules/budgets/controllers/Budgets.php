@@ -77,17 +77,6 @@ class Budgets extends Backend_Controller
       $this->data['subview'] = 'budget_nilg/budget_nilg_create';
       $this->load->view('backend/_layout_main', $this->data);
     }
-    public function add_new_row()
-    {
-      $id = $this->input->post('head_id');
-
-      $this->db->select('budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name,budget_head.id as budget_head_id');
-      $this->db->from('budget_head_sub');
-      $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
-      $this->db->where('budget_head_sub.id', $id);
-      echo json_encode($this->db->get()->row());
-
-    }
 
     public function budget_nilg_details($encid)
     {
@@ -166,6 +155,17 @@ class Budgets extends Backend_Controller
             }
 
         }
+
+    }
+    public function add_new_row()
+    {
+      $id = $this->input->post('head_id');
+
+      $this->db->select('budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name,budget_head.id as budget_head_id');
+      $this->db->from('budget_head_sub');
+      $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+      $this->db->where('budget_head_sub.id', $id);
+      echo json_encode($this->db->get()->row());
 
     }
     // End Budget Nilg
