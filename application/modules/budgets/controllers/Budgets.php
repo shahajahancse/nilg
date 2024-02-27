@@ -164,9 +164,7 @@ class Budgets extends Backend_Controller
       $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
       $this->db->where('budget_head_sub.id', $id);
       echo json_encode($this->db->get()->row());
-
     }
-
     // End Budget Nilg
 
     // Manage Budget field list
