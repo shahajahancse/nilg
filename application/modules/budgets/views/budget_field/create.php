@@ -244,19 +244,16 @@ function addNewRow(id) {
                                </thead>
                                <tbody id="token-row-${data.id}">
                                     <tr>
-                                        <td><input type="text" name="token-${data.id}[]" value="Amount" class="form-control input-sm"></td>
+                                        <td><input type="text" name="token-${data.id}[]" value="Amount" class="form-control input-sm" readonly></td>
                                         <td><input type="text" value="1" min="1" name="token_amount-${data.id}[]" onkeyup="calculateTotal_token(${data.id})" class="form-control input-sm"></td>
-                                        <td><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i></a></td>
                                     </tr>
                                     <tr>
-                                        <td><input type="text" name="token-${data.id}[]" value="Day" class="form-control input-sm"></td>
+                                        <td><input type="text" name="token-${data.id}[]" value="Day" class="form-control input-sm" readonly></td>
                                         <td><input type="text" value="1" min="1" name="token_amount-${data.id}[]" onkeyup="calculateTotal_token(${data.id})" class="form-control input-sm"></td>
-                                        <td><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i></a></td>
                                     </tr>
                                     <tr>
-                                        <td><input type="text" name="token-${data.id}[]" value="Participants" class="form-control input-sm"></td>
+                                        <td><input type="text" name="token-${data.id}[]" value="Participants" class="form-control input-sm" readonly></td>
                                         <td><input type="text" value="1" min="1" name="token_amount-${data.id}[]" onkeyup="calculateTotal_token(${data.id})" class="form-control input-sm"></td>
-                                        <td><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i></a></td>
                                     </tr>
                                </tbody>
                             </table>
