@@ -37,6 +37,24 @@ class Budgets_model extends CI_Model {
       return $data;
     }
     // End Manage Budget nilg list
+
+    // Manage Budget nilg data
+    public function get_budget_details_nilg($id) {
+        $this->db->select('
+                budget_nilg_details.*,
+                budget_head_sub.name_bn,
+                budget_head.name_bn as budget_head_name,
+            ');
+        $this->db->from('budget_nilg_details');
+        $this->db->join('budget_head_sub', 'budget_nilg_details.head_sub_id = budget_head_sub.id');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->db->where('budget_nilg_details.budget_nilg_id', $id);
+        $this->db->where('budget_nilg_details.modify_soft_d', 1);
+        return $this->db->get()->result();
+    }
+    // End Manage Budget nilg list
+
+
     // Manage Budget office list
     public function get_budget_field($limit, $offset) {
 

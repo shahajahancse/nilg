@@ -30,7 +30,7 @@ class Budgets extends Backend_Controller
 
         // Load view
         $this->data['meta_title'] = 'বাজেট এর তালিকা';
-        $this->data['subview'] = '/budget_nilg/index';
+        $this->data['subview'] = 'budget_nilg/index';
         $this->load->view('backend/_layout_main', $this->data);
     }
     public function budget_nilg_create()
@@ -165,6 +165,17 @@ class Budgets extends Backend_Controller
       $this->db->where('budget_head_sub.id', $id);
       echo json_encode($this->db->get()->row());
     }
+    function ajax_get_budget_details_nilg(){
+      $id = (int) decrypt_url($_POST['id']);
+      $budget_nilg = $this->Common_model->get_single_data('budget_nilg', $id);
+      $items = $this->Budgets_model->get_budget_details_nilg($id);
+      $data = array(
+        'budget_info' => $budget_nilg,
+        'budget_dtails' => $items,
+      )
+      header('Content-Type: application/x-json; charset=utf-8');
+      echo json_encode($data);
+    }
     // End Budget Nilg
 
     // Manage Budget field list
@@ -186,63 +197,63 @@ class Budgets extends Backend_Controller
  
     public function budget_field_create()
     {
-//         Array
-// (
-//     [title] => test
-//     [fcl_year] => 5
-//     [office_type] => 7
-//     [office_id] => 125
-//     [head] => 6
-//     [total_amount] => 0
-//     [token-3] => Array
-//         (
-//             [0] => person
-//             [1] => day
-//             [2] => amount
-//         )
+        //         Array
+        // (
+        //     [title] => test
+        //     [fcl_year] => 5
+        //     [office_type] => 7
+        //     [office_id] => 125
+        //     [head] => 6
+        //     [total_amount] => 0
+        //     [token-3] => Array
+        //         (
+        //             [0] => person
+        //             [1] => day
+        //             [2] => amount
+        //         )
 
-//     [token_amount-3] => Array
-//         (
-//             [0] => 1
-//             [1] => 1
-//             [2] => 1
-//         )
+        //     [token_amount-3] => Array
+        //         (
+        //             [0] => 1
+        //             [1] => 1
+        //             [2] => 1
+        //         )
 
-//     [head_id] => Array
-//         (
-//             [0] => 1
-//             [1] => 2
-//         )
+        //     [head_id] => Array
+        //         (
+        //             [0] => 1
+        //             [1] => 2
+        //         )
 
-//     [head_sub_id] => Array
-//         (
-//             [0] => 3
-//             [1] => 6
-//         )
+        //     [head_sub_id] => Array
+        //         (
+        //             [0] => 3
+        //             [1] => 6
+        //         )
 
-//     [amount] => Array
-//         (
-//             [0] => 0
-//             [1] => 0
-//         )
+        //     [amount] => Array
+        //         (
+        //             [0] => 0
+        //             [1] => 0
+        //         )
 
-//     [token-6] => Array
-//         (
-//             [0] => prson
-//             [1] => day
-//             [2] => amount
-//         )
+        //     [token-6] => Array
+        //         (
+        //             [0] => prson
+        //             [1] => day
+        //             [2] => amount
+        //         )
 
-//     [token_amount-6] => Array
-//         (
-//             [0] => 1
-//             [1] => 1
-//             [2] => 1
-//         )
+        //     [token_amount-6] => Array
+        //         (
+        //             [0] => 1
+        //             [1] => 1
+        //             [2] => 1
+        //         )
 
-//     [description] => dvfds
-//     [submit] => সংরক্ষণ করুন
-// )
+        //     [description] => dvfds
+        //     [submit] => সংরক্ষণ করুন
+        // )
 
 
         $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
