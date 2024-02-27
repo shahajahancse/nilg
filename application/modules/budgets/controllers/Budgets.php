@@ -189,63 +189,6 @@ class Budgets extends Backend_Controller
  
     public function budget_field_create()
     {
-//         Array
-// (
-//     [title] => test
-//     [fcl_year] => 5
-//     [office_type] => 7
-//     [office_id] => 125
-//     [head] => 6
-//     [total_amount] => 0
-//     [token-3] => Array
-//         (
-//             [0] => person
-//             [1] => day
-//             [2] => amount
-//         )
-
-//     [token_amount-3] => Array
-//         (
-//             [0] => 1
-//             [1] => 1
-//             [2] => 1
-//         )
-
-//     [head_id] => Array
-//         (
-//             [0] => 1
-//             [1] => 2
-//         )
-
-//     [head_sub_id] => Array
-//         (
-//             [0] => 3
-//             [1] => 6
-//         )
-
-//     [amount] => Array
-//         (
-//             [0] => 0
-//             [1] => 0
-//         )
-
-//     [token-6] => Array
-//         (
-//             [0] => prson
-//             [1] => day
-//             [2] => amount
-//         )
-
-//     [token_amount-6] => Array
-//         (
-//             [0] => 1
-//             [1] => 1
-//             [2] => 1
-//         )
-
-//     [description] => dvfds
-//     [submit] => সংরক্ষণ করুন
-// )
 
 
         $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
