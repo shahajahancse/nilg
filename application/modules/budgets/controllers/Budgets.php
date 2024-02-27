@@ -33,7 +33,6 @@ class Budgets extends Backend_Controller
         $this->data['subview'] = '/budget_nilg/index';
         $this->load->view('backend/_layout_main', $this->data);
     }
-
     public function budget_nilg_create()
     {
       $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
@@ -103,21 +102,8 @@ class Budgets extends Backend_Controller
         $this->data['subview'] = 'budget_nilg/details';
         $this->load->view('backend/_layout_main', $this->data);
     }
-    public function budgets_nilg_remove_row()
-    {
-        $id = $this->input->post('id');
-        $this->db->where('id', $id);
-        if ($this->db->update('budget_nilg_details', array('modify_soft_d' => 2))) {
-            echo 1;
-            exit;
-        } else {
-            echo 0;
-            exit;
-        }
-    }
     public function budget_nilg_edit()
     {
-
         $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
         if ($this->form_validation->run() == true) {
             $user = $this->ion_auth->user()->row();
@@ -155,7 +141,19 @@ class Budgets extends Backend_Controller
             }
 
         }
+    }
 
+    public function budgets_nilg_remove_row()
+    {
+        $id = $this->input->post('id');
+        $this->db->where('id', $id);
+        if ($this->db->update('budget_nilg_details', array('modify_soft_d' => 2))) {
+            echo 1;
+            exit;
+        } else {
+            echo 0;
+            exit;
+        }
     }
     public function add_new_row()
     {
@@ -168,6 +166,7 @@ class Budgets extends Backend_Controller
       echo json_encode($this->db->get()->row());
 
     }
+
     // End Budget Nilg
 
     // Manage Budget field list
