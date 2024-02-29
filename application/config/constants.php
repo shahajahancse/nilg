@@ -102,7 +102,7 @@ $constants['base_url'] = $root;
 // define('DBNAME', 'land_pmis');
 
 // windows path
-define('BASH_PATH', $_SERVER['DOCUMENT_ROOT']. '/nilg-erp/');
+define('BASH_PATH', $_SERVER['DOCUMENT_ROOT']. '/nilg/');
 // define('BASH_PATH', 'E:/Server/htdocs/land_mis/');
 // define('BASH_PATH', 'C:/xampp/htdocs/codeigniter-crop-image/');
 // ubuntu path

@@ -31,10 +31,9 @@ class Budgets extends Backend_Controller
 
         // Load view
         $this->data['meta_title'] = 'বাজেট এর তালিকা';
-        $this->data['subview'] = '/budget_nilg/index';
+        $this->data['subview'] = 'budget_nilg/index';
         $this->load->view('backend/_layout_main', $this->data);
     }
-
     public function budget_nilg_create()
     {
         $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
@@ -78,17 +77,6 @@ class Budgets extends Backend_Controller
         $this->data['subview'] = 'budget_nilg/budget_nilg_create';
         $this->load->view('backend/_layout_main', $this->data);
     }
-    public function add_new_row()
-    {
-        $id = $this->input->post('head_id');
-
-        $this->db->select('budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name,budget_head.id as budget_head_id');
-        $this->db->from('budget_head_sub');
-        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
-        $this->db->where('budget_head_sub.id', $id);
-        echo json_encode($this->db->get()->row());
-
-    }
 
     public function budget_nilg_details($encid)
     {
@@ -115,33 +103,9 @@ class Budgets extends Backend_Controller
         $this->data['subview'] = 'budget_nilg/details';
         $this->load->view('backend/_layout_main', $this->data);
     }
-    public function budgets_nilg_remove_row()
-    {
-        $id = $this->input->post('id');
-        $this->db->where('id', $id);
-        if ($this->db->update('budget_nilg_details', array('modify_soft_d' => 2))) {
-            echo 1;
-            exit;
-        } else {
-            echo 0;
-            exit;
-        }
-    }
-    public function budgets_field_remove_row()
-    {
-        $id = $this->input->post('id');
-        $this->db->where('id', $id);
-        if ($this->db->update('budget_field_details', array('modify_soft_d' => 2))) {
-            echo 1;
-            exit;
-        } else {
-            echo 0;
-            exit;
-        }
-    }
+
     public function budget_nilg_edit()
     {
-
         $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
         if ($this->form_validation->run() == true) {
             $user = $this->ion_auth->user()->row();
@@ -179,7 +143,40 @@ class Budgets extends Backend_Controller
             }
 
         }
+    }
 
+    public function budgets_nilg_remove_row()
+    {
+        $id = $this->input->post('id');
+        $this->db->where('id', $id);
+        if ($this->db->update('budget_nilg_details', array('modify_soft_d' => 2))) {
+            echo 1;
+            exit;
+        } else {
+            echo 0;
+            exit;
+        }
+    }
+    public function add_new_row()
+    {
+      $id = $this->input->post('head_id');
+
+      $this->db->select('budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name,budget_head.id as budget_head_id');
+      $this->db->from('budget_head_sub');
+      $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+      $this->db->where('budget_head_sub.id', $id);
+      echo json_encode($this->db->get()->row());
+    }
+    function ajax_get_budget_details_nilg(){
+      $id = (int) decrypt_url($_POST['id']);
+      $budget_nilg = $this->Common_model->get_single_data('budget_nilg', $id);
+      $items = $this->Budgets_model->get_budget_details_nilg($id);
+      $data = array(
+        'budget_info' => $budget_nilg,
+        'budget_dtails' => $items,
+      );
+      header('Content-Type: application/x-json; charset=utf-8');
+      echo json_encode($data);
     }
     // End Budget Nilg
 
@@ -264,24 +261,6 @@ class Budgets extends Backend_Controller
         $this->data['subview'] = 'budget_field/create';
         $this->load->view('backend/_layout_main', $this->data);
     }
-    public function get_office_id_by_type()
-    {
-        $type = $this->input->post('office_type');
-        $office_id = $this->Common_model->get_office_id_by_type($type);
-        echo json_encode($office_id);
-    }
-
-    public function add_new_row_field()
-    {
-        $id = $this->input->post('head_id');
-
-        $this->db->select('budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name,budget_head.id as budget_head_id');
-        $this->db->from('budget_head_sub');
-        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
-        $this->db->where('budget_head_sub.id', $id);
-        echo json_encode($this->db->get()->row());
-
-    }
 
     public function budget_field_details($encid)
     {
@@ -363,6 +342,38 @@ class Budgets extends Backend_Controller
 
         }
     }
+
+    public function budgets_field_remove_row()
+    {
+        $id = $this->input->post('id');
+        $this->db->where('id', $id);
+        if ($this->db->update('budget_field_details', array('modify_soft_d' => 2))) {
+            echo 1;
+            exit;
+        } else {
+            echo 0;
+            exit;
+        }
+    }
+
+    public function get_office_id_by_type(){
+        $type = $this->input->post('office_type');
+        $office_id = $this->Common_model->get_office_id_by_type($type);
+        echo json_encode($office_id);
+    }
+
+    public function add_new_row_field()
+    {
+        $id = $this->input->post('head_id');
+
+        $this->db->select('budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name,budget_head.id as budget_head_id');
+        $this->db->from('budget_head_sub');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->db->where('budget_head_sub.id', $id);
+        echo json_encode($this->db->get()->row());
+
+    }
+
     // End Budget field
 
     // Budget Entry part start
