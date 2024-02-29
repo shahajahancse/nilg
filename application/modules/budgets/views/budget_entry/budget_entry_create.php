@@ -37,34 +37,22 @@
                         <?php endif; ?>
 
                         <?php 
-                  $attributes = array('id' => 'jsvalidate');
-                  echo form_open_multipart("budgets/budget_nilg_create",$attributes);
-                  echo validation_errors();
-                  ?>
-
+                            $attributes = array('id' => 'jsvalidate');
+                            echo form_open_multipart("budgets/budget_nilg_create",$attributes);
+                            echo validation_errors();
+                        ?>
                         <div class="row">
                             <div class="col-md-12">
-                                <fieldset style="background: #fff !important; ">
+                                <fieldset style="background: #fff !important;">
                                     <legend>বাজেট তথ্য</legend>
-
                                     <div class="row form-row" style="font-size: 16px; color: black;">
-                                        <div class="col-md-4">
-                                            আবেদনকারীর নাম: <strong><?=$info->name_bn?></strong>
-                                        </div>
-                                        <div class="col-md-4">
-                                            পদবীর নাম: <strong><?=$info->current_desig_name?></strong>
-                                        </div>
-                                        <div class="col-md-4">
-                                            ডিপার্টমেন্ট নাম: <strong><?=$info->current_dept_name?></strong>
-                                        </div>
-                                        <br>
                                         <br>
                                         <div class="col-md-3">
                                             <label for="title" class="control-label">টাইটেল : </label>
                                             <input type="text" class="form-control input-sm" name="title"
                                                 style="min-height: 33px;" value="" required>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <?php $session_year=$this->db->get('session_year')->result();?>
 
                                             <label for="fcl_year" class="control-label">অর্থবছর</label>
@@ -75,7 +63,7 @@
                                                    } ?>
                                             </select>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <label for="quarter" class="control-label">কোয়াটার</label>
                                             <select name="quarter" id="quarter" class="form-control input-sm" required>
                                             <!-- enum('1st', '2nd', '3rd', '4th', 'others') -->
@@ -86,6 +74,21 @@
                                                 <option value="4th">4th</option>
                                                 <option value="others">Others</option>
                                             </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="type" class="control-label">বাজেট টাইপে</label>
+                                            <select name="type" id="type" class="form-control input-sm" required>
+                                                <option value="">নির্বাচন করুন</option>
+                                                <option value="1">Revenue</option>
+                                                <option value="2">Auditorium</option>
+                                                <option value="3">Library</option>
+                                                <option value="4">Publication</option>
+                                                <option value="5">Others</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="type" class="control-label">বাজেট আমাউন্ট</label>
+                                            <input type="number" value="0" min="0" class="form-control input-sm" id="budget_amount" name="budget_amount" required>
                                         </div>
                                     </div>
 
@@ -110,21 +113,25 @@
                                             <div class="col-md-12" >
                                                 <div class="col-md-12" style="margin:0px;padding:0px">
                                                    <div class="col-md-4 margin_top_10 " style="margin:0px;padding:0px">
-                                                      <label for="">Select Head</label>
+                                                      <label for="">বাজেট হেড</label>
                                                       <select name="head" id="head_id" class="form-control" onchange="addNewRow(this.value)">
-                                                         <option value="">Select Head</option>
+                                                         <option value="">নির্বাচন করুন</option>
                                                          <?php foreach ($budget_head_sub as $key => $value) {
                                                             echo '<option value="'.$value->id.'">'.$value->budget_head_name.'>>'.$value->name_bn.'</option>';
                                                          }?>
                                                       </select>
                                                    </div>
-                                                   <div class="col-md-4" >
+                                                   <div class="col-md-2" >
                                                       <img id="loading" src="<?=base_url('img/loading.gif') ?>" style="height: 47px;margin-top: 14px;display: none;">
                                                    </div>
-                                                   <div class="col-md-4">
-                                                      <label for="">Total Amount</label>
-                                                      <input type="number" class="form-control input-sm" name="total_amount" id="total_amount" readonly>
+                                                   <div class="col-md-3">
+                                                      <label for="">বাকি টাকা</label>
+                                                      <input type="number" value="0" min="0" class="form-control input-sm" name="rest_amount" id="rest_amount" readonly>
 
+                                                   </div>
+                                                   <div class="col-md-3">
+                                                      <label for="">মোট টাকা</label>
+                                                      <input type="number" class="form-control input-sm" name="total_amount" id="total_amount" readonly>
                                                    </div>
 
                                                 </div>
@@ -134,16 +141,15 @@
                                                            <th width="30%">বাজেট হেড<span class="required">*</span></th>
                                                            <th width="30%">বাজেট সাব হেড <span class="required">*</span></th>
                                                            <th width="30%">বাজেট আমাউন্ট</th>
-                                                           <th width="10%">অ্যাকশন </th>
+                                                           <th width="10%">অ্যাকশন</th>
                                                        </tr>
                                                     </thead>
                                                     <tbody id="tbody">
                                                     </tbody>
                                                 </table>
-
                                                 <div class="col-md-12" style="margin-top: 20px; padding: 0px;">
                                                     <div class="form-group margin_top_10">
-                                                      <label for=""> Description :</label>
+                                                      <label for=""> বিবরণ :</label>
                                                     <textarea class="form-control" name="description" style="height: 300px;" id="description"></textarea>
                                                    </div>
                                                 </div>
@@ -155,7 +161,7 @@
                         </div>
                         <div class="form-actions">
                             <div class="pull-right">
-                                <input type="submit" name="submit" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
+                                <input type="submit" name="submit" id="submit_btn" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
                             </div>
                         </div>
                         <?php echo form_close();?>
@@ -216,6 +222,7 @@ function removeRow(id) {
            total += parseInt($(this).val());
        })
        $("#total_amount").val(total);
+       $("#total_amount").trigger('change');
    }
 </script>
 <script>
@@ -230,7 +237,7 @@ function removeRow(id) {
    $('#fcl_year').chosen();
    $('#head_id').chosen();
    $('#quarter').chosen();
-
+   $('#type').chosen();
   });
 </script>
 
@@ -245,4 +252,20 @@ function removeRow(id) {
         .catch(error => {
             console.error(error);
         });
+</script>
+<script>
+    $("#total_amount").change(function(){
+        var total_amount = parseFloat($("#total_amount").val()) || 0;
+        var rest_amount = $("#rest_amount");
+        var budget_amount = parseFloat($("#budget_amount").val()) || 0;
+        rest_amount.val(budget_amount - total_amount);
+        if (isNaN(total_amount) || isNaN(budget_amount) || total_amount < 0 || budget_amount < 0){
+            $("#submit_btn").prop('disabled', true);
+        } else {
+            $("#submit_btn").prop('disabled', false);
+        }
+    })
+    $('#budget_amount').keyup(function(){
+        $("#total_amount").trigger('change');
+    })
 </script>
