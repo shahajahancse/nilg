@@ -125,17 +125,16 @@
     
         <!-- Modal content-->
         <div class="modal-content">
-            <div class="modal-header priview-body">
+            <div class="modal-header priview-body" style="padding: 15px 15px 0px 15px !important;">
                <button type="button" class="close" data-dismiss="modal">&times;</button>
                <div class="priview-header modal-title">
                   <h4 class="text-center">
-                     <span style="font-size:20px;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট</span>
-                     <br>(এনআইএলজি )<br>
+                     <span style="font-size:20px;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি )</span><br>
                      <span style="font-size:13px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ । </span>
                   </h4>
                </div>
                <div class="heading-main">
-                  <div class="headding-title">বাজেট পত্র</div>
+                  <div class="headding-title" id="heading_title"> </div>
                </div>
             </div>
 
@@ -150,7 +149,12 @@
                      <th>ডিজি আমাউন্ট</th>
                   </tr>
                </table>
+
+               <div class="budget-main">
+                  <div class="budget-text" id="budget_text"> </div>
+               </div>
             </div>
+
             <div class="modal-footer">
                <button type="button" class="btn btn-default" data-dismiss="modal">বন্ধ করুন</button>
                <button type="submit" id="smSend" class="btn btn-primary">সংরক্ষণ করুন</button>
@@ -180,10 +184,8 @@
    }
 
    .headding-title {
-      border: 1px solid #000;
       font-size: 18px;
       padding: 1px 5px !important;
-      border-radius: 10%;
       display: initial;
    }
 
@@ -241,6 +243,7 @@
             success: function (response) {
                var sl = 0;
                $('.adds').remove();
+               $('#heading_title').empty().text('বাজেট : '+response.budget_info.title);
 
                $.each(response.budget_dtails,function(id,res)
                {
@@ -256,6 +259,15 @@
                   items+= '</tr>';
                   $('#addRow tr:last').after(items);
                });
+               var item = '';
+                  item+= '<tr class="adds">';        
+                  item+= '<td colspan="5">Total</td>';
+                  item+= '<td>'+ response.budget_info.revenue_amt +'</td>';
+                  item+= '</tr>';
+
+               $('#addRow tr:last').after(item);
+               $('#budget_text').empty().html(response.budget_info.description);
+
                $('#smSend').attr('data-id', data_id);
             }
          });
