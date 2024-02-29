@@ -69,4 +69,26 @@ class Budgets_model extends CI_Model {
       return $data;
     }
     // End Manage Budget office list
+
+
+
+
+
+    // budgets entry start
+    public function get_budget_entry($limit, $offset) {
+      // result query
+      $this->db->select('q.*');
+      $this->db->from('budgets as q');
+      $this->db->limit($limit);
+      $this->db->offset($offset);        
+      $this->db->order_by('q.id', 'DESC');
+      $result['rows'] = $this->db->get()->result();
+      // count query
+      $this->db->select('COUNT(*) as count');
+      $this->db->from('budgets');
+      $tmp = $this->db->get()->result();
+      $result['num_rows'] = $tmp[0]->count;
+      return $result; 
+    }
+    // budgets entry end
 }

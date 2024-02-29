@@ -19,9 +19,10 @@ class Budgets extends Backend_Controller
         // $this->data['module_title'] = 'Inventory';
     }
 
-    public function budget_nilg($offset=0){
+    public function budget_nilg($offset = 0)
+    {
         $limit = 15;
-        $results = $this->Budgets_model->get_budget($limit, $offset); 
+        $results = $this->Budgets_model->get_budget($limit, $offset);
         $this->data['results'] = $results['rows'];
         $this->data['total_rows'] = $results['num_rows'];
 
@@ -36,56 +37,56 @@ class Budgets extends Backend_Controller
 
     public function budget_nilg_create()
     {
-      $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
-      if ($this->form_validation->run() == true){
-        $user = $this->ion_auth->user()->row();
-        $form_data = array(
-          'title'   => $this->input->post('title'),
-          'amount'   => $this->input->post('total_amount'),
-          'fcl_year'   => $this->input->post('fcl_year'),
-          'description'   => $this->input->post('description'),
-          'created_by'   => $user->id
-        );
-        if($this->Common_model->save('budget_nilg', $form_data)){     
-          $insert_id = $this->db->insert_id();
-          for ($i=0; $i<sizeof($_POST['head_id']); $i++) { 
-             $form_data2 = array(
-                'budget_nilg_id'     => $insert_id,
-                'head_id'       => $_POST['head_id'][$i],
-                'head_sub_id'       => $_POST['head_sub_id'][$i],
-                'amount'       => $_POST['amount'][$i],
-                'fcl_year'       => $_POST['fcl_year'],
-                'created_by'   => $user->id
-                );
-             $this->Common_model->save('budget_nilg_details', $form_data2);
-          }
-          $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
-          redirect("budgets/budget_nilg");
+        $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
+        if ($this->form_validation->run() == true) {
+            $user = $this->ion_auth->user()->row();
+            $form_data = array(
+                'title' => $this->input->post('title'),
+                'amount' => $this->input->post('total_amount'),
+                'fcl_year' => $this->input->post('fcl_year'),
+                'description' => $this->input->post('description'),
+                'created_by' => $user->id,
+            );
+            if ($this->Common_model->save('budget_nilg', $form_data)) {
+                $insert_id = $this->db->insert_id();
+                for ($i = 0; $i < sizeof($_POST['head_id']); $i++) {
+                    $form_data2 = array(
+                        'budget_nilg_id' => $insert_id,
+                        'head_id' => $_POST['head_id'][$i],
+                        'head_sub_id' => $_POST['head_sub_id'][$i],
+                        'amount' => $_POST['amount'][$i],
+                        'fcl_year' => $_POST['fcl_year'],
+                        'created_by' => $user->id,
+                    );
+                    $this->Common_model->save('budget_nilg_details', $form_data2);
+                }
+                $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+                redirect("budgets/budget_nilg");
+            }
+
         }
 
-      }
-
-      $this->db->select('budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name');
-      $this->db->from('budget_head_sub');
-      $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
-      $this->data['budget_head_sub'] = $this->db->get()->result();
-      //Dropdown
-      $this->data['budget_head'] = $this->Common_model->get_dropdown('budget_head', 'name_bn', 'id');
-      $this->data['info'] = $this->Common_model->get_user_details();
-      //Load view
-      $this->data['meta_title'] = 'বাজেট তৈরি করুন';
-      $this->data['subview'] = 'budget_nilg/budget_nilg_create';
-      $this->load->view('backend/_layout_main', $this->data);
+        $this->db->select('budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name');
+        $this->db->from('budget_head_sub');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->data['budget_head_sub'] = $this->db->get()->result();
+        //Dropdown
+        $this->data['budget_head'] = $this->Common_model->get_dropdown('budget_head', 'name_bn', 'id');
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'বাজেট তৈরি করুন';
+        $this->data['subview'] = 'budget_nilg/budget_nilg_create';
+        $this->load->view('backend/_layout_main', $this->data);
     }
     public function add_new_row()
     {
-      $id = $this->input->post('head_id');
+        $id = $this->input->post('head_id');
 
-      $this->db->select('budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name,budget_head.id as budget_head_id');
-      $this->db->from('budget_head_sub');
-      $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
-      $this->db->where('budget_head_sub.id', $id);
-      echo json_encode($this->db->get()->row());
+        $this->db->select('budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name,budget_head.id as budget_head_id');
+        $this->db->from('budget_head_sub');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->db->where('budget_head_sub.id', $id);
+        echo json_encode($this->db->get()->row());
 
     }
 
@@ -198,7 +199,7 @@ class Budgets extends Backend_Controller
         $this->data['subview'] = '/budget_field/index';
         $this->load->view('backend/_layout_main', $this->data);
     }
- 
+
     public function budget_field_create()
     {
         $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
@@ -220,19 +221,19 @@ class Budgets extends Backend_Controller
                 $insert_id = $this->db->insert_id();
                 for ($i = 0; $i < sizeof($_POST['head_id']); $i++) {
 
-                    // 	dept_id	created_by
-                    $token=[];
-                    foreach($_POST['token-'.$_POST['head_sub_id'][$i]] as $key => $value){
-                        $token[$key]=[
+                    //     dept_id    created_by
+                    $token = [];
+                    foreach ($_POST['token-' . $_POST['head_sub_id'][$i]] as $key => $value) {
+                        $token[$key] = [
                             'token' => $value,
-                            'amount' => $_POST['token_amount-'.$_POST['head_sub_id'][$i]][$key],
+                            'amount' => $_POST['token_amount-' . $_POST['head_sub_id'][$i]][$key],
                         ];
                     }
                     $form_data2 = array(
                         'budget_field_id' => $insert_id,
                         'head_sub_id' => $_POST['head_sub_id'][$i],
                         'office_type' => $this->input->post('office_type'),
-                        'type' =>1,
+                        'type' => 1,
                         'token' => json_encode($token),
                         'amount' => '',
                         'days' => '',
@@ -263,7 +264,8 @@ class Budgets extends Backend_Controller
         $this->data['subview'] = 'budget_field/create';
         $this->load->view('backend/_layout_main', $this->data);
     }
-    public function get_office_id_by_type(){
+    public function get_office_id_by_type()
+    {
         $type = $this->input->post('office_type');
         $office_id = $this->Common_model->get_office_id_by_type($type);
         echo json_encode($office_id);
@@ -308,13 +310,11 @@ class Budgets extends Backend_Controller
         $this->load->view('backend/_layout_main', $this->data);
     }
 
-    
-
     public function budget_field_edit()
     {
         $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
         if ($this->form_validation->run() == true) {
-         
+
             $user = $this->ion_auth->user()->row();
             $form_data = array(
                 'title' => $this->input->post('title'),
@@ -333,18 +333,18 @@ class Budgets extends Backend_Controller
                 $this->db->where('budget_field_id', $insert_id);
                 $this->db->delete('budget_field_details');
                 for ($i = 0; $i < sizeof($_POST['head_id']); $i++) {
-                    $token=[];
-                    foreach($_POST['token-'.$_POST['head_sub_id'][$i]] as $key => $value){
-                        $token[$key]=[
+                    $token = [];
+                    foreach ($_POST['token-' . $_POST['head_sub_id'][$i]] as $key => $value) {
+                        $token[$key] = [
                             'token' => $value,
-                            'amount' => $_POST['token_amount-'.$_POST['head_sub_id'][$i]][$key],
+                            'amount' => $_POST['token_amount-' . $_POST['head_sub_id'][$i]][$key],
                         ];
                     }
                     $form_data2 = array(
                         'budget_field_id' => $insert_id,
                         'head_sub_id' => $_POST['head_sub_id'][$i],
                         'office_type' => $this->input->post('office_type'),
-                        'type' =>1,
+                        'type' => 1,
                         'token' => json_encode($token),
                         'amount' => '',
                         'days' => '',
@@ -364,5 +364,84 @@ class Budgets extends Backend_Controller
         }
     }
     // End Budget field
+
+    // Budget Entry part start
+    public function budget_entry($offset = 0)
+    {
+        $limit = 15;
+        $results = $this->Budgets_model->get_budget_entry($limit, $offset);
+        $this->data['results'] = $results['rows'];
+        $this->data['total_rows'] = $results['num_rows'];
+        //pagination
+        $this->data['pagination'] = create_pagination('budget/budget_entry/budget_entry/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+
+        $this->data['meta_title'] = 'বাজেট এন্ট্রি';
+        $this->data['subview'] = 'budget_entry/budget_entry';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function budget_entry_create()
+    {
+        $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
+        if ($this->form_validation->run() == true) {
+            // dd($_POST);
+            $user = $this->ion_auth->user()->row();
+            $form_data = array(
+                'title' => $this->input->post('title'),
+                'office_type' => $this->input->post('office_type'),
+                'amount' => $this->input->post('total_amount'),
+                'status' => 1,
+                'fcl_year' => $this->input->post('fcl_year'),
+                'office_id' => $this->input->post('office_id'),
+                'description' => $this->input->post('description'),
+                'dept_id' => $user->crrnt_dept_id,
+                'created_by' => $user->id,
+            );
+            if ($this->Common_model->save('budget_field', $form_data)) {
+                $insert_id = $this->db->insert_id();
+                for ($i = 0; $i < sizeof($_POST['head_id']); $i++) {
+
+                    //     dept_id    created_by
+                    $token = [];
+                    foreach ($_POST['token-' . $_POST['head_sub_id'][$i]] as $key => $value) {
+                        $token[$key] = [
+                            'token' => $value,
+                            'amount' => $_POST['token_amount-' . $_POST['head_sub_id'][$i]][$key],
+                        ];
+                    }
+                    $form_data2 = array(
+                        'budget_field_id' => $insert_id,
+                        'head_sub_id' => $_POST['head_sub_id'][$i],
+                        'office_type' => $this->input->post('office_type'),
+                        'type' => 1,
+                        'token' => json_encode($token),
+                        'amount' => '',
+                        'days' => '',
+                        'participants' => '',
+                        'total_amt' => $_POST['amount'][$i],
+                        'status' => 1,
+                        'office_id' => $this->input->post('office_id'),
+                        'dept_id' => $user->crrnt_dept_id,
+                        'created_by' => $user->id,
+                    );
+                    $this->Common_model->save('budget_field_details', $form_data2);
+                }
+                $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+                redirect("budgets/budget_field");
+            }
+
+        }
+
+        $this->db->select('budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name');
+        $this->db->from('budget_head_sub');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->data['budget_head_sub'] = $this->db->get()->result();
+        //Dropdown
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'বাজেট তৈরি করুন';
+        $this->data['subview'] = 'budget_entry/budget_entry_create';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    // Budget Entry part end
 
 }
