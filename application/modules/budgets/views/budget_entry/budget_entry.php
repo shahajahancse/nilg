@@ -37,10 +37,10 @@
                             </thead>
                             <tbody>
                                 <?php
-$sl = $pagination['current_page'];
-foreach ($results as $row):
-    $sl++;
-    ?>
+                                    $sl = $pagination['current_page'];
+                                    foreach ($results as $row):
+                                        $sl++;
+                                        ?>
 	                                <tr>
 	                                    <td class="v-align-middle"><?=$sl . '.'?></td>
 	                                    <td class="v-align-middle"><?=$row->title;?></td>
@@ -49,19 +49,19 @@ foreach ($results as $row):
 	                                    <td class="v-align-middle">
 	                                        <!-- 1=revenue, 2=auditorium, 3=library, 4=publication, 5=others	 -->
 	                                        <?php
-    if ($row->type == 1) {
-        echo 'Revenue';
-    } elseif ($row->type == 2) {
-    echo 'Auditorium';
-} elseif ($row->type == 3) {
-    echo 'Library';
-} elseif ($row->type == 4) {
-    echo 'Publication';
-} elseif ($row->type == 5) {
-    echo 'Others';
-}
-?>
-                                    </td>
+                                                    if ($row->type == 1) {
+                                                        echo 'Revenue';
+                                                    } elseif ($row->type == 2) {
+                                                    echo 'Auditorium';
+                                                } elseif ($row->type == 3) {
+                                                    echo 'Library';
+                                                } elseif ($row->type == 4) {
+                                                    echo 'Publication';
+                                                } elseif ($row->type == 5) {
+                                                    echo 'Others';
+                                                }
+                                                ?>
+                                        </td>
 
 
                                     <td class="v-align-middle"><?=date_bangla_calender_format($row->created_at);?>
