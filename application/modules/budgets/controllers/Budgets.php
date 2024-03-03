@@ -394,53 +394,60 @@ class Budgets extends Backend_Controller
     {
         $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
         if ($this->form_validation->run() == true) {
+            // dd($this->input->post());
             $user = $this->ion_auth->user()->row();
+            //	status 1=in, 2=out	created_by	created_at	updated_at
+
             $form_data = array(
                 'title' => $this->input->post('title'),
-                'office_type' => $this->input->post('office_type'),
-                'amount' => $this->input->post('total_amount'),
-                'status' => 1,
+                'amount' => $this->input->post('budget_amount'),
                 'fcl_year' => $this->input->post('fcl_year'),
-                'office_id' => $this->input->post('office_id'),
-                'description' => $this->input->post('description'),
-                'dept_id' => $user->crrnt_dept_id,
-                'created_by' => $user->id,
+                'quarter'=> $this->input->post('quarter'),
+                'type' => $this->input->post('type'),
+                'status' => 1,
             );
-            if ($this->Common_model->save('budget_field', $form_data)) {
+            if ($this->Common_model->save('budgets', $form_data)) {
                 $insert_id = $this->db->insert_id();
-                for ($i = 0; $i < sizeof($_POST['head_id']); $i++) {
+                for ($i = 0; $i < sizeof($_POST['head_sub_id']); $i++) { 
 
-                    //     dept_id    created_by
-                    $token = [];
-                    foreach ($_POST['token-' . $_POST['head_sub_id'][$i]] as $key => $value) {
-                        $token[$key] = [
-                            'token' => $value,
-                            'amount' => $_POST['token_amount-' . $_POST['head_sub_id'][$i]][$key],
-                        ];
+                    $this->db->where('head_sub_id', $_POST['head_sub_id'][$i]);
+                    $token = $this->db->get('budget_accounts')->row();
+                    if (count($token) != 0) {
+ // id	head_id budget_head table id	head_sub_id budget_head_sub table id	amount	status 1=in, 2=out	created_by	created_at	updated_at
+                        $form_data2 = array(
+                            'amount'=> $_POST['amount'][$i]+$token->amount,
+                            'updated_at' => date('Y-m-d H:i:s'),
+                        );
+                        $this->db->where('id', $token->id);
+                        $this->db->update('budget_accounts', $form_data2);
+                    }else{
+                        $form_data2 = array(
+                            'head_id' => $_POST['head_id'][$i],
+                            'head_sub_id' => $_POST['head_sub_id'][$i],
+                            'amount'=> $_POST['amount'][$i],
+                            'status' => 1,
+                            'created_by' => $user->id,
+                            'updated_at' => date('Y-m-d H:i:s'),
+                        );
+                        $this->db->insert('budget_accounts', $form_data2);
                     }
-                    $form_data2 = array(
-                        'budget_field_id' => $insert_id,
+
+                    // id	budgets_id 	head_sub_id 	amount	type  status 1=in, 2=out	created_by	created_at	updated_at
+                    $form_data3 = array(
+                        'budgets_id' => $insert_id,
                         'head_sub_id' => $_POST['head_sub_id'][$i],
-                        'office_type' => $this->input->post('office_type'),
-                        'type' => 1,
-                        'token' => json_encode($token),
-                        'amount' => '',
-                        'days' => '',
-                        'participants' => '',
-                        'total_amt' => $_POST['amount'][$i],
+                        'amount'=> $_POST['amount'][$i],
                         'status' => 1,
-                        'office_id' => $this->input->post('office_id'),
-                        'dept_id' => $user->crrnt_dept_id,
+                        'type' => $this->input->post('type'),
                         'created_by' => $user->id,
+                        'updated_at' => date('Y-m-d H:i:s'),
                     );
-                    $this->Common_model->save('budget_field_details', $form_data2);
+                    $this->db->insert('budget_details', $form_data3);
                 }
                 $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
-                redirect("budgets/budget_field");
+                redirect("budgets/budget_entry");
             }
-
         }
-
         $this->db->select('budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name');
         $this->db->from('budget_head_sub');
         $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');

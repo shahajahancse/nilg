@@ -30,10 +30,8 @@
                                     <th>নাম</th>
                                     <th>আমাউন্ট</th>
                                     <th>অর্থবছর</th>
-                                    <th>ডেস্ক</th>
-                                    <th>ডেস্কিপশন</th>
-                                    <th>স্টাস</th>
-                                    <th>আপডেট তারিখ</th>
+                                    <th>টাইপ</th>
+                                    <th>তারিখ</th>
                                     <th style="text-align: right;">অ্যাকশন</th>
                                 </tr>
                             </thead>
@@ -49,47 +47,24 @@
                                     <td class="v-align-middle"><?=$row->amount; ?></td>
                                     <td class="v-align-middle"><?=$row->session_name; ?></td>
                                     <td class="v-align-middle">
-                                        <!-- // 1=current, 2=forward dpt, 3=forward acc., 4=dg, 5=back acc, 6=complete, -->
-                                        <?php if($row->desk==1){
-                                                echo 'Current';
-                                                }elseif($row->desk==2){
-                                                    echo 'Forward DPT';
-                                                }elseif($row->desk==3){
-                                                    echo 'Forward ACC';
-                                                }elseif($row->desk==4){
-                                                    echo 'DG';
-                                                }elseif($row->desk==5){
-                                                    echo 'Back ACC';
-                                                }elseif($row->desk==6){
-                                                    echo 'Complete';
-                                                }
-                                             ?>
+                                    <!-- 1=revenue, 2=auditorium, 3=library, 4=publication, 5=others	 -->
+                                    <?php
+                                    if($row->type==1){
+                                        echo 'Revenue';
+                                    }elseif($row->type==2){
+                                        echo 'Auditorium';
+                                    }elseif($row->type==3){
+                                        echo 'Library';
+                                    }elseif($row->type==4){
+                                        echo 'Publication';
+                                    }elseif($row->type==5){
+                                        echo 'Others';
+                                    }
+                                    ?>
                                     </td>
-                                    <td class="v-align-middle"
-                                        style="width: 200px; white-space: normal;overflow: hidden"
-                                        title="<?=$row->description; ?>"><?=$row->description; ?></td>
-                                    <td class="v-align-middle">
-                                        <!-- 1=pending,2=dpt. app., 3=reject, 4=acc., 5=dg, 6=draft, 7=revenue received -->
-                                            <?php
-                                             if($row->status==1){
-                                                echo '<span class="label label-warning">Pending </span>';
-                                                }elseif($row->status==2){
-                                                    echo '<span class="label label-success">DPT. Approve </span>';
-                                                }elseif($row->status==3){
-                                                    echo '<span class="label label-important">Rejected </span>';
-                                                }elseif($row->status==4){
-                                                    echo '<span class="label label-info">ACC. Approve </span>';
-                                                }elseif($row->status==5){
-                                                    echo '<span class="label label-success">DG. Approve </span>';
-                                                }elseif($row->status==6){
-                                                    echo '<span class="label label-info">Draft </span>';
-                                                }elseif($row->status==7){
-                                                    echo '<span class="label label-success">Revenue Received </span>';
-                                                }
-                                            ?>
-                                    </td>
+                                 
 
-                                    <td class="v-align-middle"><?=date_bangla_calender_format($row->update_at); ?>
+                                    <td class="v-align-middle"><?=date_bangla_calender_format($row->created_at); ?>
                                     </td>
                                     <td align="right">
                                         <div class="btn-group">
@@ -98,7 +73,7 @@
                                                 data-toggle="dropdown"> <span class="caret"></span> </button>
                                             <ul class="dropdown-menu pull-right">
                                                 <li><a
-                                                        href="<?php echo base_url('budgets/budget_nilg_details/'.encrypt_url($row->id))?>"><i
+                                                        href="<?php echo base_url('budgets/budget_entry_details/'.encrypt_url($row->id))?>"><i
                                                             class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
                                             </ul>
                                         </div>

@@ -95,8 +95,9 @@ class Budgets_model extends CI_Model {
     // budgets entry start
     public function get_budget_entry($limit, $offset) {
       // result query
-      $this->db->select('q.*');
+      $this->db->select('q.*,session_year.session_name');
       $this->db->from('budgets as q');
+      $this->db->join('session_year','q.fcl_year=session_year.id','left');
       $this->db->limit($limit);
       $this->db->offset($offset);        
       $this->db->order_by('q.id', 'DESC');
