@@ -136,10 +136,10 @@
         <div class="row">
             <div class="content-div">
                 <div class="col-3">
-                    <div style="margin-top: -10px; margin-bottom: 4px">
+                    <!-- <div style="margin-top: -10px; margin-bottom: 4px">
                         <span>দেয় পত্র নং : </span>
                         <span><?php echo eng2bng($info->id);; ?></span>
-                    </div>
+                    </div> -->
                     <div style="margin-bottom: 8px;">
                         <span>পোস্টিং তারিখ : </span>
                         <span style="font-size: 13px"><?php echo date("d/m/Y", strtotime($info->updated)); ?></span>
@@ -156,6 +156,7 @@
 
         <div class="row">
             <div class="content-div">
+                <p style="padding: 0px; margin: 0px;">চাহিদাকারীর নাম : <abbr><?php echo $info->crt_by_name_bn; ?></abbr></p>
                 <p style="padding: 0px; margin: 3px 0px;">বিভাগের নাম : <abbr> <?php echo $info->dept_name; ?></abbr></p>
             </div>
         </div>
@@ -191,7 +192,7 @@
     <div class="footer">
         <div class="col-6">
             <?php if ($info->signature != NULL) {
-                $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $info->signature;
+                $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $info->crt_by_signature;
             } else {
                 $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/blank.jpg';
             }
@@ -200,16 +201,21 @@
             <div><span class="border-top">চাহিদাকারীর স্বাক্ষর ও সীল</span></div>
         </div>
         <div class="col-6">
+            <?php if ($info->signature != NULL) {
+                $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $info->crt_by_signature;
+            } else {
+                $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/blank.jpg';
+            }
+            ?>
             <div><img src="<?= $url ?>" style="width:160; height: 50px; display: block;"></div>
-            <div><span class="border-top" style="margin-right: 20px">গ্রহণকারীর স্বাক্ষর ও সীল </span></div>
-            <!-- <div><span class="border-top" style="margin-right: 20px">গ্রহণকারীর পূর্ণ নাম ও পদবী </span></div> -->
+            <div><span class="border-top">চাহিদাকারীর স্বাক্ষর ও সীল</span></div>
         </div>
         <br>
 
 
         <div class="col-4">
-            <?php if (isset($info->sm_signature) && $info->sm_signature != NULL) {
-                $sm = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $info->sm_signature;
+            <?php if (isset($info->dpt_h_signature) && $info->dpt_h_signature != NULL) {
+                $sm = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $info->dpt_h_signature;
             } else {
                 $sm = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/blank.jpg';
             }
@@ -222,8 +228,8 @@
 
 
         <div class="col-4">
-            <?php if (isset($info->jd_signature) && $info->jd_signature != NULL) {
-                $jd = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $info->jd_signature;
+            <?php if (isset($info->acu_h_signature) && $info->acu_h_signature != NULL) {
+                $jd = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $info->acu_h_signature;
             } else {
                 $jd = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/blank.jpg';
             }
@@ -236,8 +242,8 @@
 
 
         <div class="col-4">
-            <?php if (isset($info->gd_signature) && $info->gd_signature != NULL) {
-                $dg = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $info->gd_signature;
+            <?php if (isset($info->acu_h_signature) && $info->acu_h_signature != NULL) {
+                $dg = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $info->acu_h_signature;
             } else {
                 $dg = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/blank.jpg';
             }
