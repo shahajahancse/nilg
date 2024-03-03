@@ -185,15 +185,15 @@ class Budgets extends Backend_Controller
         //Results
         $this->data['info'] = $this->Budgets_model->get_budget_nilg_info($id);
         $this->data['items'] = $this->Budgets_model->get_budget_details_nilg($id);
-        // dd($this->data['info']);
+        // dd($this->data['items']);
 
         // Generate PDF
         $this->data['headding'] = 'বাজেট';
-        $html = $this->load->view('budget_nilg_print', $this->data, true);
+        echo $html = $this->load->view('budget_nilg/budget_nilg_print', $this->data, true);
 
-        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+        /* $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
         $mpdf->WriteHtml($html);
-        $mpdf->output();
+        $mpdf->output(); */
     }
     // End Budget Nilg
 

@@ -46,8 +46,6 @@
             border-radius: 1.8%;
         }
 
-
-
         .col-1 {
             width: 8.33%;
             float: left;
@@ -128,36 +126,48 @@
 
 <body>
     <div class="priview-body">
-        <div class="priview-header">
-            <p class="text-center"><span style="font-size:20px;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট</span><br>
-                (এনআইএলজি ) <br> <span style="font-size:13px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ । </span> </p>
-        </div>
-
-        <div class="row">
-            <div class="content-div">
-                <div class="col-3">
-                    <!-- <div style="margin-top: -10px; margin-bottom: 4px">
-                        <span>দেয় পত্র নং : </span>
-                        <span><?php echo eng2bng($info->id);; ?></span>
-                    </div> -->
-                    <div style="margin-bottom: 8px;">
-                        <span>পোস্টিং তারিখ : </span>
-                        <span style="font-size: 13px"><?php echo date("d/m/Y", strtotime($info->updated)); ?></span>
-                    </div>
+        <div class="head">
+            <div class="col-3" style="float: left !important;">
+                <?php
+                // $url = $_SERVER['DOCUMENT_ROOT'].'/awedget/assets/img/nilg-logo.png';
+                $url = base_url('awedget/assets/img/nilg-logo.png');
+                ?>
+                <div style="max-width: 110px; float: left;">
+                    <img class="img-responsive" src="<?= $url ?>" alt="logo">
                 </div>
+            </div>
 
-                <div class="col-9">
-                    <div class="heading-main">
-                        <div class="headding-title"><?= $headding ?></div>
-                    </div>
+            <div class="col-6">
+                <h4 class="text-center">
+                    <span style="font-size:16px;">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</span><br>
+                    <span style="font-size:16px;">স্থানীয় সরকার, পল্লী উন্নয়ন ও সমবায় মন্ত্রণালয়</span><br>
+                    <span style="font-size:18px;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি )</span><br>
+                    <span style="font-size:13px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
+                    <span style="font-size:13px; text-decoration: underline;">www.nilg.gov.bd </span>
+                </h4>
+            </div>
+
+            <div class="col-3">
+                <div style="margin-top: 15px; padding: 4px; border: 2px solid; font-size: 15px; float: right;">
+                    <span> শেখ হাসিনার মূলনীতি </span> <br>
+                    <span> গ্রাম শহরের উন্নতি </span>
                 </div>
             </div>
         </div>
 
+
         <div class="row">
-            <div class="content-div">
-                <p style="padding: 0px; margin: 0px;">চাহিদাকারীর নাম : <abbr><?php echo $info->crt_by_name_bn; ?></abbr></p>
-                <p style="padding: 0px; margin: 3px 0px;">বিভাগের নাম : <abbr> <?php echo $info->dept_name; ?></abbr></p>
+            <div class="col-md-12">
+                <div class="col-9">
+                    <p style="padding: 10px 0px 0px 0px; margin: 0px;">চাহিদাকারীর নাম : <abbr><?php echo $info->crt_by_name_bn; ?></abbr></p>
+                    <p style="padding: 0px; margin: 3px 0px;">বিভাগের নাম : <abbr> <?php echo $info->dept_name; ?></abbr></p>
+                </div>
+                <div class="col-3">
+                    <div style="margin-bottom: 8px; float: right;">
+                        <span>পোস্টিং তারিখ : </span>
+                        <span style="font-size: 13px"><?php echo date("d/m/Y", strtotime($info->created_at)); ?></span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -191,7 +201,7 @@
 
     <div class="footer">
         <div class="col-6">
-            <?php if ($info->signature != NULL) {
+            <?php if ($info->crt_by_signature != NULL) {
                 $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $info->crt_by_signature;
             } else {
                 $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/blank.jpg';
@@ -201,7 +211,7 @@
             <div><span class="border-top">চাহিদাকারীর স্বাক্ষর ও সীল</span></div>
         </div>
         <div class="col-6">
-            <?php if ($info->signature != NULL) {
+            <?php if ($info->crt_by_signature != NULL) {
                 $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $info->crt_by_signature;
             } else {
                 $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/blank.jpg';
