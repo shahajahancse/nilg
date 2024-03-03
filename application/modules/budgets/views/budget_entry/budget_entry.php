@@ -1,3 +1,8 @@
+
+
+
+
+
 <div class="page-content">
     <div class="content">
         <ul class="breadcrumb" style="margin-bottom: 20px;">
@@ -5,6 +10,11 @@
             <li> <a href="javascript:void()" class="active"> <?=$module_name?> </a> </li>
             <li> <?=$meta_title;?> </li>
         </ul>
+        <?php
+            dd($module_name,$meta_title,$results);
+        ?>
+
+
         <div class="row">
             <div class="col-md-12">
                 <div class="grid simple">
@@ -23,7 +33,6 @@
                         </div>
                         <?php endif;?>
                         <table class="table table-hover table-condensed" border="0">
-                            <!-- id	title	amount	dpt_amt dept head approve amt	dpt_head_id user id	acc_amt account head approve amt	acc_head_id user id	dg_amt dg approve amt	dg_user_id user id	revenue_amt get revenue amt of financial year	acc_id user id	fcl_year financial year	status 1=pending,2=dpt. app., 3=reject, 4=acc., 5=dg, 6=…	desk 1=current, 2=forward dpt, 3=forward acc., 4=dg, 5=…	dept_id	description	created_by	created_at -->
                             <thead>
                                 <tr>
                                     <th> ক্রম </th>
