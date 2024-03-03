@@ -43,6 +43,7 @@ class Budgets extends Backend_Controller
                 'title' => $this->input->post('title'),
                 'amount' => $this->input->post('total_amount'),
                 'fcl_year' => $this->input->post('fcl_year'),
+                'dept_id' => $user->crrnt_dept_id,
                 'description' => $this->input->post('description'),
                 'created_by' => $user->id,
             );
@@ -214,10 +215,15 @@ class Budgets extends Backend_Controller
 
     public function budget_field_create()
     {
+        $user = $this->ion_auth->user()->row();
+        if ($user->crrnt_dept_id == '') {
+            $this->session->set_flashdata('success', 'Please update your profile first');
+                redirect("budgets/budget_field");
+        }
+
         $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
         if ($this->form_validation->run() == true) {
             // dd($_POST);
-            $user = $this->ion_auth->user()->row();
             $form_data = array(
                 'title' => $this->input->post('title'),
                 'office_type' => $this->input->post('office_type'),
@@ -473,6 +479,28 @@ class Budgets extends Backend_Controller
         $this->data['meta_title'] = 'বাজেট তৈরি করুন';
         $this->data['subview'] = 'budget_entry/budget_entry_create';
         $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function budget_entry_details($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->select('q.*,session_year.session_name');
+        $this->db->from('budgets as q');
+        $this->db->join('session_year','q.fcl_year=session_year.id','left');
+        $this->db->where('q.id', $id);
+        $this->data['budgets'] = $this->db->get()->row();
+
+        $this->db->select('q.*,budget_head_sub.name_bn, budget_head.name_bn as budget_head_name, budget_head_sub.id as budget_head_sub_id');
+        $this->db->from('budget_details as q');
+        $this->db->join('budget_head_sub', 'q.head_sub_id = budget_head_sub.id');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->db->where('q.budgets_id', $id);
+        $this->data['details'] = $this->db->get()->result();
+
+         //Dropdown
+         $this->data['info'] = $this->Common_model->get_user_details();
+         //Load view
+         $this->data['meta_title'] = 'বাজেট তৈরি করুন';
+         $this->data['subview'] = 'budget_entry/budget_entry_details';
+         $this->load->view('backend/_layout_main', $this->data);
     }
     // Budget Entry part end
 
