@@ -178,6 +178,21 @@ class Budgets extends Backend_Controller
       header('Content-Type: application/x-json; charset=utf-8');
       echo json_encode($data);
     }
+    public function budget_nilg_print($id)
+    {
+        $id = (int) decrypt_url($id);
+        //Results
+        $this->data['info'] = $this->Common_model->get_single_data('budget_nilg', $id);
+        $this->data['items'] = $this->Budgets_model->get_budget_details_nilg($id);
+
+        // Generate PDF
+        $this->data['headding'] = 'বাজেট';
+        $html = $this->load->view('budget_nilg_print', $this->data, true);
+
+        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+        $mpdf->WriteHtml($html);
+        $mpdf->output();
+    }
     // End Budget Nilg
 
     // Manage Budget field list

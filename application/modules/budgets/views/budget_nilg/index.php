@@ -1,5 +1,5 @@
-<div class="page-content">     
-   <div class="content">  
+<div class="page-content">
+   <div class="content">
       <ul class="breadcrumb" style="margin-bottom: 20px;">
          <li> <a href="<?=base_url('dashboard')?>" class="active"> ড্যাশবোর্ড </a> </li>
          <li> <a href="javascript:void()" class="active"> <?=$module_name?> </a></li>
@@ -13,7 +13,7 @@
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">
                      <a href="<?=base_url('budgets/budget_nilg_create')?>" class="btn btn-blueviolet btn-xs btn-mini"> Create Budget</a>
-                  </div>            
+                  </div>
                </div>
 
                <div class="grid-body ">
@@ -47,8 +47,8 @@
                               <td class="v-align-middle"><?=$row->amount; ?></td>
                               <td class="v-align-middle"><?=$row->session_name; ?></td>
                               <td class="v-align-middle">
-                              <!-- // 1=current, 2=forward dpt, 3=forward acc., 4=dg, 5=back acc, 6=complete, -->
-                                 <?php 
+                                 <!-- // 1=current, 2=forward dpt, 3=forward acc., 4=dg, 5=back acc, 6=complete, -->
+                                 <?php
                                     if($row->desk==1){
                                        echo 'Current';
                                     }elseif($row->desk==2){
@@ -84,21 +84,26 @@
                                  }
                                  ?>
                               </td>
-                            
-                              <td class="v-align-middle"><?=date_bangla_calender_format($row->update_at); ?>                              
+
+                              <td class="v-align-middle"><?=date_bangla_calender_format($row->update_at); ?>
                               </td>
                               <td align="right">
                                  <div class="btn-group">
                                    <button class="btn btn-mini btn-primary">অ্যাকশন</button>
                                    <button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
                                    <ul class="dropdown-menu pull-right">
-                                     <li><a href="<?php echo base_url('budgets/budget_nilg_details/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
-                                     <li><a id="modalId" data-toggle="modal" data-target="#myModal" data-id="<?=encrypt_url($row->id) ?>" href=""><i class="fa fa-user"></i>ফরওয়ার্ড অ্যাকাউন্ট </a></li>
+                                       <li><a href="<?php echo base_url('budgets/budget_nilg_details/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
+                                       <li><a href="<?php echo base_url('budgets/budget_nilg_details/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> সংশোধন করুন </a></li>
+                                       <li><a id="modalId" data-toggle="modal" data-target="#myModal" data-id="<?=encrypt_url($row->id) ?>" href=""><i class="fa fa-user"></i> ফরওয়ার্ড ডিপার্টমেন্ট </a></li>
+
+                                       <li>
+                                          <a href="<?php echo base_url('budgets/budget_nilg_print/'.encrypt_url($row->id))?>" target="_blank" ><i class="fa fa-pencil-square"></i> প্রিন্ট করুন </a>
+                                       </li>
                                    </ul>
                                  </div>
                               </td>
                            </tr>
-                        <?php endforeach;?>                      
+                        <?php endforeach;?>
                      </tbody>
                   </table>
 
@@ -122,17 +127,11 @@
 <!-- The Modal -->
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog modal-lg">
-    
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header priview-body" style="padding: 15px 15px 0px 15px !important;">
                <button type="button" class="close" data-dismiss="modal">&times;</button>
-               <div class="priview-header modal-title">
-                  <h4 class="text-center">
-                     <span style="font-size:20px;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি )</span><br>
-                     <span style="font-size:13px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ । </span>
-                  </h4>
-               </div>
+               <?php $this->load->view('nilg_head'); ?>
                <div class="heading-main">
                   <div class="headding-title" id="heading_title"> </div>
                </div>
@@ -156,6 +155,7 @@
             </div>
 
             <div class="modal-footer">
+               <!-- <button type="button" id="smSend" class="btn btn-info">প্রিন্ট করুন</button> -->
                <button type="button" class="btn btn-default" data-dismiss="modal">বন্ধ করুন</button>
                <button type="submit" id="smSend" class="btn btn-primary">সংরক্ষণ করুন</button>
             </div>
@@ -198,8 +198,8 @@
       border-collapse: collapse;
    }
 
-   #addRow > tbody > tr > th, 
-   #addRow > tbody > tr > td, 
+   #addRow > tbody > tr > th,
+   #addRow > tbody > tr > td,
    #addRow > tfoot > tr > td {
        border: 1px solid #448dc7 !important;
    }
@@ -214,18 +214,15 @@
       // requisition item delete
       $(document).on("click", "#smSend", function () {
          var id = $(this).attr('data-id');
-         $('#myModal').modal('hide');
-
+         var url = "<?php echo base_url('budgets/nilg_change_status'); ?>";
          $.ajax({
-            type: "POST", 
-            url: hostname+"inventory/forword_store_kipar/" + id,
+            type: "POST",
+            url: url,
             data: { type: 2},
             dataType: 'json',
             success: function (response) {
                if (response.status == 1) {
-                  window.location = hostname+"inventory/my_requisition";
-               } else {
-                  window.location = hostname+"inventory";
+                  $('#myModal').modal('hide');
                }
             }
          });
@@ -249,7 +246,7 @@
                {
                   sl = sl + 1;
                   var items = '';
-                  items+= '<tr class="adds">';        
+                  items+= '<tr class="adds">';
                   items+= '<td>'+ sl +'</td>';
                   items+= '<td>'+ res.name_bn+'</td>';
                   items+= '<td>'+ res.amount +'</td>';
@@ -260,7 +257,7 @@
                   $('#addRow tr:last').after(items);
                });
                var item = '';
-                  item+= '<tr class="adds">';        
+                  item+= '<tr class="adds">';
                   item+= '<td colspan="5">Total</td>';
                   item+= '<td>'+ response.budget_info.revenue_amt +'</td>';
                   item+= '</tr>';
@@ -272,6 +269,6 @@
             }
          });
       });
-   });   
+   });
 
-</script>  
+</script>
