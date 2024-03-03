@@ -185,7 +185,7 @@ class Budgets extends Backend_Controller
         //Results
         $this->data['info'] = $this->Budgets_model->get_budget_nilg_info($id);
         $this->data['items'] = $this->Budgets_model->get_budget_details_nilg($id);
-        dd($this->data['info']);
+        // dd($this->data['info']);
 
         // Generate PDF
         $this->data['headding'] = 'বাজেট';
