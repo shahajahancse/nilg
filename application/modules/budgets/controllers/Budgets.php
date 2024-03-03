@@ -182,8 +182,9 @@ class Budgets extends Backend_Controller
     {
         $id = (int) decrypt_url($id);
         //Results
-        $this->data['info'] = $this->Common_model->get_single_data('budget_nilg', $id);
+        $this->data['info'] = $this->Budgets_model->get_budget_nilg_info($id);
         $this->data['items'] = $this->Budgets_model->get_budget_details_nilg($id);
+        dd($this->data['info']);
 
         // Generate PDF
         $this->data['headding'] = 'বাজেট';
@@ -423,7 +424,7 @@ class Budgets extends Backend_Controller
             );
             if ($this->Common_model->save('budgets', $form_data)) {
                 $insert_id = $this->db->insert_id();
-                for ($i = 0; $i < sizeof($_POST['head_sub_id']); $i++) { 
+                for ($i = 0; $i < sizeof($_POST['head_sub_id']); $i++) {
 
                     $this->db->where('head_sub_id', $_POST['head_sub_id'][$i]);
                     $token = $this->db->get('budget_accounts')->row();
