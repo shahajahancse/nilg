@@ -10,7 +10,7 @@
 <div class="page-content">
     <div class="content">
         <ul class="breadcrumb">
-            <li><a href="<?=base_url('dashboard')?>" class="active"> Dashboard </a></li>
+            <li><a href="<?=base_url('dashboard')?>" class="active" > Dashboard </a></li>
             <li><a href="<?=base_url('budget/budget_nilg_create')?>" class="active"><?=$module_name?></a></li>
             <li><?=$meta_title; ?></li>
         </ul>
@@ -25,7 +25,7 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right">
-                            <a href="<?=base_url('budgets/budget_nilg')?>"
+                            <a href="<?=base_url('budgets/budget_entry')?>"
                                 class="btn btn-blueviolet btn-xs btn-mini">বাজেট তাকিকা</a>
                         </div>
                     </div>
@@ -38,7 +38,7 @@
 
                         <?php 
                             $attributes = array('id' => 'jsvalidate');
-                            echo form_open_multipart("budgets/budget_nilg_create",$attributes);
+                            echo form_open_multipart("budgets/budget_entry_create",$attributes);
                             echo validation_errors();
                         ?>
                         <div class="row">
@@ -124,7 +124,7 @@
                                                    <div class="col-md-2" >
                                                       <img id="loading" src="<?=base_url('img/loading.gif') ?>" style="height: 47px;margin-top: 14px;display: none;">
                                                    </div>
-                                                   <div class="col-md-3">
+                                                   <div class="col-md-3" style="visibility: hidden"> 
                                                       <label for="">বাকি টাকা</label>
                                                       <input type="number" value="0" min="0" class="form-control input-sm" name="rest_amount" id="rest_amount" readonly>
 
@@ -177,6 +177,8 @@
 function removeRow(id) {
     $(id).closest("tr").remove();
     calculateTotal()
+    $("#total_amount").trigger('change');
+
 }
 </script>
 
@@ -259,7 +261,7 @@ function removeRow(id) {
         var rest_amount = $("#rest_amount");
         var budget_amount = parseFloat($("#budget_amount").val()) || 0;
         rest_amount.val(budget_amount - total_amount);
-        if (isNaN(total_amount) || isNaN(budget_amount) || total_amount < 0 || budget_amount < 0){
+        if (rest_amount.val()!=0){
             $("#submit_btn").prop('disabled', true);
         } else {
             $("#submit_btn").prop('disabled', false);

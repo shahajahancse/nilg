@@ -394,7 +394,6 @@ class Budgets extends Backend_Controller
     {
         $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
         if ($this->form_validation->run() == true) {
-            // dd($_POST);
             $user = $this->ion_auth->user()->row();
             $form_data = array(
                 'title' => $this->input->post('title'),
