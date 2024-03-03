@@ -8,7 +8,7 @@
         .priview-body {
             font-size: 16px;
             color: #000;
-            margin: 25px;
+            margin: 15px;
         }
 
         .priview-header div {
@@ -58,7 +58,7 @@
 
         .col-3 {
             width: 25%;
-            float: right
+            float: left;
         }
 
         .col-4 {
@@ -125,52 +125,48 @@
 </head>
 
 <body>
+
     <div class="priview-body">
-        <div class="head">
-            <div class="col-3" style="float: left !important;">
-                <?php
-                // $url = $_SERVER['DOCUMENT_ROOT'].'/awedget/assets/img/nilg-logo.png';
-                $url = base_url('awedget/assets/img/nilg-logo.png');
-                ?>
-                <div style="max-width: 110px; float: left;">
-                    <img class="img-responsive" src="<?= $url ?>" alt="logo">
-                </div>
-            </div>
-
-            <div class="col-6">
-                <h4 class="text-center">
-                    <span style="font-size:16px;">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</span><br>
-                    <span style="font-size:16px;">স্থানীয় সরকার, পল্লী উন্নয়ন ও সমবায় মন্ত্রণালয়</span><br>
-                    <span style="font-size:18px;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি )</span><br>
-                    <span style="font-size:13px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
-                    <span style="font-size:13px; text-decoration: underline;">www.nilg.gov.bd </span>
-                </h4>
-            </div>
-
-            <div class="col-3">
-                <div style="margin-top: 15px; padding: 4px; border: 2px solid; font-size: 15px; float: right;">
-                    <span> শেখ হাসিনার মূলনীতি </span> <br>
-                    <span> গ্রাম শহরের উন্নতি </span>
-                </div>
-            </div>
+        <div class="col-3">
+            <?php
+            // $url = $_SERVER['DOCUMENT_ROOT'].'/awedget/assets/img/nilg-logo.png';
+            $url = base_url('awedget/assets/img/nilg-logo.png');
+            ?>
+            <div style="float: left;"><img src="<?= $url ?>" style="width:60; height: 80px; display: block;"></div>
         </div>
 
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-9">
-                    <p style="padding: 10px 0px 0px 0px; margin: 0px;">চাহিদাকারীর নাম : <abbr><?php echo $info->crt_by_name_bn; ?></abbr></p>
-                    <p style="padding: 0px; margin: 3px 0px;">বিভাগের নাম : <abbr> <?php echo $info->dept_name; ?></abbr></p>
-                </div>
-                <div class="col-3">
-                    <div style="margin-bottom: 8px; float: right;">
-                        <span>পোস্টিং তারিখ : </span>
-                        <span style="font-size: 13px"><?php echo date("d/m/Y", strtotime($info->created_at)); ?></span>
-                    </div>
-                </div>
-            </div>
+        <div class="col-6">
+            <h4 class="text-center">
+                <span style="font-size:14px;">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</span><br>
+                <span style="font-size:14px;">স্থানীয় সরকার, পল্লী উন্নয়ন ও সমবায় মন্ত্রণালয়</span><br>
+                <span style="font-size:16px;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি )</span><br>
+                <span style="font-size:11px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
+                <span style="font-size:11px; text-decoration: underline;">www.nilg.gov.bd </span>
+            </h4>
         </div>
 
+        <div class="col-2" style="float: right;">
+            <div style="padding: 4px; border: 2px solid; font-size: 13px;">
+                <span> শেখ হাসিনার মূলনীতি </span> <br>
+                <span> গ্রাম শহরের উন্নতি </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="priview-body content-div">
+        <div class="col-9">
+            <span style="padding: 0px 0px 0px 0px; margin: 0px;">চাহিদাকারীর নাম : <abbr><?php echo $info->crt_by_name_bn; ?></abbr></span> <br>
+            <span style="padding: 0px; margin: 1px 0px;">বিভাগের নাম : <abbr> <?php echo $info->dept_name; ?></abbr></span>
+        </div>
+        <div class="col-3" style="float: right;">
+            <div>
+                <span>পোস্টিং তারিখ : </span>
+                <span style="font-size: 13px"><?php echo date("d/m/Y", strtotime($info->created_at)); ?></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="priview-body">
         <div class="priview-demand">
             <table class="table table-hover table-bordered report">
                 <thead class="headding">
@@ -199,6 +195,12 @@
         </div>
     </div>
 
+    <div class="priview-body">
+        <div class="col-12">
+            <span><?= $info->description ?></span>
+        </div>
+    </div>
+
     <div class="footer">
         <div class="col-6">
             <?php if ($info->crt_by_signature != NULL) {
@@ -218,10 +220,9 @@
             }
             ?>
             <div><img src="<?= $url ?>" style="width:160; height: 50px; display: block;"></div>
-            <div><span class="border-top">চাহিদাকারীর স্বাক্ষর ও সীল</span></div>
+            <div><span class="border-top">আক্কাউন্ট প্রধান স্বাক্ষর ও সীল</span></div>
         </div>
         <br>
-
 
         <div class="col-4">
             <?php if (isset($info->dpt_h_signature) && $info->dpt_h_signature != NULL) {
@@ -233,9 +234,8 @@
             <div>
                 <img src="<?= $sm ?>" style="width:160; height: 50px; display: block;">
             </div>
-            <div><span class="border-top">স্টোর কিপার</span></div>
+            <div><span class="border-top">ডিপার্টমেন্ট প্রধান</span></div>
         </div>
-
 
         <div class="col-4">
             <?php if (isset($info->acu_h_signature) && $info->acu_h_signature != NULL) {
@@ -250,7 +250,6 @@
             <div><span class="border-top">যুগ্ম পরিচালক</span><br><span>(প্রশাসন ও সমন্বয়)</span></div>
         </div>
 
-
         <div class="col-4">
             <?php if (isset($info->acu_h_signature) && $info->acu_h_signature != NULL) {
                 $dg = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $info->acu_h_signature;
@@ -263,7 +262,6 @@
             </div>
             <div><span class="border-top">অনুমোদনকারী</span><br><span>পরিচালক (প্রশাসন ও সমন্বয়)</span></div>
         </div>
-
     </div>
 
     <style>
