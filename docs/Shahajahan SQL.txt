@@ -6,13 +6,14 @@ ALTER TABLE `leave_type` ADD `max_apply_leave` TINYINT NOT NULL AFTER `yearly_to
 
 
 ALTER TABLE `groups` ADD `status` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '1=active, 2=inactive' AFTER `description`, ADD `type` TINYINT(1) NOT NULL COMMENT '1=super admin,2=training, 3=evaluation,4=store,5=leave, 6=budget' AFTER `status`;
-UPDATE `leave_type` SET `yearly_total_leave` = '0'
+UPDATE `leave_type` SET `yearly_total_leave` = '0';
 ALTER TABLE `groups` ADD `title` VARCHAR(128) NOT NULL AFTER `name`;
 ALTER TABLE `groups` CHANGE `description` `description` VARCHAR(256) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL;
 UPDATE `groups` SET `title`= `description`;
 
+
 ALTER TABLE `department` ADD `name_en` VARCHAR(64) NOT NULL AFTER `id`;
-UPDATE `department` SET `name_en`=`dept_name`
+UPDATE `department` SET `name_en`=`dept_name`;
 UPDATE `department` SET `name_en` = 'administration' WHERE `department`.`id` = 1;
 UPDATE `department` SET `name_en` = 'training' WHERE `department`.`id` = 2;
 UPDATE `department` SET `name_en` = 'evaluation' WHERE `department`.`id` = 3;
@@ -22,8 +23,9 @@ UPDATE `department` SET `name_en` = 'planning' WHERE `department`.`id` = 6;
 UPDATE `department` SET `name_en` = 'accounts' WHERE `department`.`id` = 7;
 UPDATE `department` SET `name_en` = 'audit' WHERE `department`.`id` = 8;
 
-CREATE TABLE `nilg_erp`.`leave_dasignation_manage` ( `id` INT NOT NULL AUTO_INCREMENT ,  `dept_id` INT NOT NULL ,  `desig_id` INT NOT NULL ,  `groups_id` INT NOT NULL ,  `status` TINYINT(1) NOT NULL COMMENT '1=active, 2=inactive' ,    PRIMARY KEY  (`id`),    INDEX  (`dept_id`),    INDEX  (`desig_id`),    INDEX  (`groups_id`)) ENGINE = InnoDB;
-ALTER TABLE `leave_dasignation_manage` CHANGE `status` `status` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '1=active, 2=inactive';
+
+CREATE TABLE `leave_dasignation_manage` ( `id` INT NOT NULL AUTO_INCREMENT , `dept_id` INT NOT NULL , `desig_id` INT NOT NULL , `groups_id` INT NOT NULL , `status` TINYINT(1) NOT NULL COMMENT '1=active, 2=inactive' , PRIMARY KEY (`id`), INDEX (`dept_id`), INDEX (`desig_id`), INDEX (`groups_id`)) ENGINE = InnoDB
+ALTER TABLE `leave_dasignation_manage` CHANGE `status` `status` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '1=active, 2=inactive'
 
 22-02-2024
 ALTER TABLE `training` ADD `budget_field_id` INT NULL DEFAULT NULL COMMENT 'budget_field table id' AFTER `course_id`, ADD INDEX (`budget_field_id`);

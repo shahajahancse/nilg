@@ -1,1 +1,0 @@
-RENAME TABLE `nilg_erp`.`employee_leave` TO `nilg_erp`.`leave_employee`;
