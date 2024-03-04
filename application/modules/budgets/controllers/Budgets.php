@@ -310,6 +310,37 @@ class Budgets extends Backend_Controller
         $this->data['subview'] = 'budget_field/details';
         $this->load->view('backend/_layout_main', $this->data);
     }
+    public function budget_field_print($encid)
+    {
+        $id = (int) decrypt_url($encid);
+        $budget_field = $this->Common_model->get_single_data('budget_field', $id);
+        $this->data['budget_field'] = $budget_field;
+        $this->db->select('budget_field_details.*,budget_field_details.id as budget_field_details_id,budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name,budget_head.id as budget_head_id');
+        $this->db->from('budget_field_details');
+        $this->db->join('budget_head_sub', 'budget_field_details.head_sub_id = budget_head_sub.id');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->db->where('budget_field_details.budget_field_id', $id);
+        $this->db->where('budget_field_details.modify_soft_d', 1);
+        $budget_field_details = $this->db->get()->result();
+        $this->data['budget_field_details'] = $budget_field_details;
+
+        // $this->db->select('budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name');
+        // $this->db->from('budget_head_sub');
+        // $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        // $this->data['budget_head_sub'] = $this->db->get()->result();
+        //Dropdown
+        // $this->data['budget_head'] = $this->Common_model->get_dropdown('budget_head', 'name_bn', 'id');
+        $this->data['info'] = $this->Common_model->get_user_details($this->data['budget_field']->created_by);
+        $this->data['headding'] = 'বাজেট';
+       echo $html = $this->load->view('budget_field/print', $this->data, true);
+
+        // $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+        // $mpdf->WriteHtml($html);
+        // $mpdf->output();
+        // $this->data['meta_title'] = 'বাজেট বিস্তারিত';
+        // $this->data['subview'] = 'budget_field/details';
+        // $this->load->view('backend/_layout_main', $this->data);
+    }
 
     public function budget_field_edit()
     {

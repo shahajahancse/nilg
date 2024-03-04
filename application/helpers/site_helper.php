@@ -119,6 +119,18 @@ function eng2bng($item) {
 function bng2eng($item) {      
    return BanglaConverter::bn2en($item);
 }
+if (!function_exists('number_bangla_format')) {
+   function number_bangla_format($item) { 
+      $convertedDATE = '';
+      if($item != ''){     
+         $currentDate = $item;
+         $engDATE = array('1','2','3','4','5','6','7','8','9','0','Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Saturday','Sunday','Monday','Tuesday','Wednesday','Thursday','Friday');
+         $bangDATE = array('১','২','৩','৪','৫','৬','৭','৮','৯','০','জানুয়ারী','ফেব্রুয়ারী','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর','শনিবার','রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার' );
+         $convertedDATE = str_replace($engDATE, $bangDATE, $currentDate);
+      }
+      return $convertedDATE;
+   }
+}
 
 if (!function_exists('func_datasheet_status')) {
    function func_datasheet_status($item) {      
