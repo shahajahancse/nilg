@@ -21,10 +21,10 @@
  */
 if ( ! function_exists('printr'))
 {
-	function dd(...$vars)
+	function ddd(...$vars)
 		{
 			$CI =& get_instance();
-			echo'<script src="'.base_url('sty.js').'"></script>';
+			// echo'<script src="'.base_url('sty.js').'"></script>';
 			echo' <link rel="stylesheet" href="'.base_url('styc.css').'">';
 
 			echo `<div>`;
@@ -40,15 +40,14 @@ if ( ! function_exists('printr'))
                     foreach ($value as $sub_key => $sub_value) {
                         echo "<br><span data-depth='2'";
                         echo "<span class='sf-dump-key'>$sub_key</span>=> ";
-                        echo "\"<span class='sf-dump-str' title='" . strlen($sub_value) . " characters'>$sub_value</span>\"";
+                        echo "\"<span class='sf-dump-str'>$sub_value</span>\"";
                         echo "</span>";
                     }
-                    echo "]</samp>";
+                    echo "]<br><br></samp>";
                 }
                 echo " ]</pre>";
                 echo "<script>Sfdump('sf-dump-$uniq_id');</script>";
             }else{
-				$count_data = count($var);
                 echo "<pre class='sf-dump' id='sf-dump-$uniq_id' data-indent-pad='  '>";
 				print_r($var);
                 echo "</pre>";
@@ -79,6 +78,19 @@ if ( ! function_exists('vardump'))
 		echo '<pre>';
 		var_dump($var);
 		echo '</pre>';
+	}
+}
+
+if ( ! function_exists('dd'))   
+{
+	function dd(...$var)
+	{
+		$CI =& get_instance();
+        foreach($var as $key => $value){
+            echo '<pre>';
+            print_r($value);
+            echo '</pre>';
+        }
 	}
 }
 

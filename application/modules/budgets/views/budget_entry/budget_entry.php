@@ -11,7 +11,7 @@
             <li> <?=$meta_title;?> </li>
         </ul>
         <?php
-            dd($module_name,$meta_title,$results);
+            // dd($module_name,$meta_title,$results);
         ?>
 
 

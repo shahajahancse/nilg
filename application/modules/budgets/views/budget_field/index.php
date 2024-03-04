@@ -26,9 +26,10 @@
                      <thead>
                         <tr>
                            <th> ক্রম </th>
+                           <th>শিরোনাম</th>
                             <th>আমাউন্ট</th>
-                           <th>ডেস্ক</th>
-                           <th>ডেস্কিপশন</th>
+                           <!-- <th>ডেস্ক</th> -->
+                           <!-- <th>ডেস্কিপশন</th> -->
                            <th>স্টাস</th>
                            <th>আপডেট তারিখ</th>
                            <th style="text-align: right;">অ্যাকশন</th>
@@ -45,7 +46,7 @@
                            <td class="v-align-middle"><?=$row->title; ?></td>
                            <td class="v-align-middle"><?=$row->amount; ?></td>
                           
-                           <td class="v-align-middle" style="width: 200px; white-space: normal;overflow: hidden" title="<?=$row->description; ?>"><?=$row->description; ?></td>
+                           <!-- <td class="v-align-middle" style="width: 200px; white-space: normal;overflow: hidden" title="<?=$row->description; ?>"><?=$row->description; ?></td> -->
                            <td class="v-align-middle">
                            <!-- 1=pending,2=dpt. app., 3=reject, 4=acc., 5=dg, 6=draft, 7=revenue received -->
                               <?php if($row->status==1){
@@ -66,7 +67,7 @@
                               ?>
                            </td>
                          
-                           <td class="v-align-middle"><?=date_bangla_calender_format($row->updated_at); ?>                              
+                           <td class="v-align-middle"><?=date_bangla_calender_format($row->created_at); ?>                              
                            </td>
                            <td align="right">
                               <div class="btn-group">
@@ -74,6 +75,8 @@
                                 <button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
                                 <ul class="dropdown-menu pull-right">
                                   <li><a href="<?php echo base_url('budgets/budget_field_details/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
+
+                                  <li><a href="<?php echo base_url('budgets/budget_field_print/'.encrypt_url($row->id))?>" target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট </a></li>
                                 </ul>
                               </div>
                            </td>
