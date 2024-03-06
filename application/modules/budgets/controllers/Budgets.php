@@ -25,7 +25,6 @@ class Budgets extends Backend_Controller
         $results = $this->Budgets_model->get_budget($limit, $offset);
         $this->data['results'] = $results['rows'];
         $this->data['total_rows'] = $results['num_rows'];
-
         //pagination
         $this->data['pagination'] = create_pagination('budget/budget_nilg/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
 
@@ -333,7 +332,6 @@ class Budgets extends Backend_Controller
         $this->data['info'] = $this->Common_model->get_user_details($this->data['budget_field']->created_by);
         $this->data['headding'] = 'বাজেট';
        echo $html = $this->load->view('budget_field/print', $this->data, true);
-
         // $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
         // $mpdf->WriteHtml($html);
         // $mpdf->output();
@@ -341,12 +339,10 @@ class Budgets extends Backend_Controller
         // $this->data['subview'] = 'budget_field/details';
         // $this->load->view('backend/_layout_main', $this->data);
     }
-
     public function budget_field_edit()
     {
         $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
         if ($this->form_validation->run() == true) {
-
             $user = $this->ion_auth->user()->row();
             $form_data = array(
                 'title' => $this->input->post('title'),
@@ -392,10 +388,8 @@ class Budgets extends Backend_Controller
                 $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
                 redirect("budgets/budget_field");
             }
-
         }
     }
-
     public function budgets_field_remove_row()
     {
         $id = $this->input->post('id');
