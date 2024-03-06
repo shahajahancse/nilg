@@ -52,13 +52,13 @@
                                     <legend>বাজেট তথ্য</legend>
 
                                     <div class="row form-row" style="font-size: 16px; color: black;">
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             আবেদনকারীর নাম: <strong><?=$info->name_bn?></strong>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             পদবীর নাম: <strong><?=$info->current_desig_name?></strong>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             ডিপার্টমেন্ট নাম: <strong><?=$info->current_dept_name?></strong>
                                         </div>
                                         <br>
