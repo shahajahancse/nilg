@@ -22,7 +22,25 @@ class Budgets extends Backend_Controller
     public function budget_nilg($offset = 0)
     {
         $limit = 15;
-        $results = $this->Budgets_model->get_budget($limit, $offset);
+        $user_id = $this->data['userDetails']->id;
+        $dept_id = $this->data['userDetails']->crrnt_dept_id;
+
+        if ($this->ion_auth->in_group(array('bdh'))) {
+            $arr = array(2,3,4,5,6,7,8);
+            $results = $this->Budgets_model->get_budget($limit, $offset, $arr, $dept_id);
+        } else if ($this->ion_auth->in_group(array('acc'))) {
+            $arr = array(3,4,5,6,7,8);
+            $results = $this->Budgets_model->get_budget($limit, $offset, $arr, null, null);
+        } else if ($this->ion_auth->in_group(array('dg'))) {
+            $arr = array(4,5,6,7,8);
+            $results = $this->Budgets_model->get_budget($limit, $offset, $arr, null, null);
+        } else if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
+            $results = $this->Budgets_model->get_budget($limit, $offset);
+        } else {
+            $results = $this->Budgets_model->get_budget($limit, $offset, array(), $dept_id, $user_id);
+        }
+
+
         $this->data['results'] = $results['rows'];
         $this->data['total_rows'] = $results['num_rows'];
 
@@ -195,6 +213,50 @@ class Budgets extends Backend_Controller
         $mpdf->WriteHtml($html);
         $mpdf->output();
     }
+
+  public function nilg_change_status($requisition_id = null){
+    $id  = (int) decrypt_url($this->input->post('id'));
+    $type  = $this->input->post('type');
+    $info = $this->Budgets_model->get_budget_nilg_info($id);
+
+    if ($type == 1 && !empty($info)) {
+        if ($info->status == 1) {
+            $status = 2;
+            $desk = 2;
+        } else if ($info->status == 2) {
+            $status = 3;
+            $desk = 3;
+        } else if ($info->status == 3) {
+            $status = 4;
+            $desk = 4;
+        } else if ($info->status == 4) {
+            $desk = 5;
+            $status = 5;
+        } else if ($info->status == 5) {
+            $desk = 6;
+            $status = 6;
+        } else {
+            $desk = 7;
+            $status = 7;
+        }
+
+        $form_data = array(
+          'status'         => $status,
+          'desk'           => $desk,
+          'update_at'      => date('Y-m-d H:i:s')
+        ); 
+
+        if($this->Common_model->edit('budget_nilg',  $id, 'id', $form_data)){     
+          $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+          header('Content-Type: application/x-json; charset=utf-8');
+          echo json_encode(array('status' => true));
+        } else {
+          echo json_encode(array('status' => false));
+        }
+    }
+
+  }
+
     // End Budget Nilg
 
     // Manage Budget field list
