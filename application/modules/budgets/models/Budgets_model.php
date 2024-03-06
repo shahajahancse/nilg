@@ -7,19 +7,42 @@ class Budgets_model extends CI_Model {
         parent::__construct();
     }
     // Manage Budget nilg list
-    public function get_budget($limit, $offset) {
+    public function get_budget($limit, $offset, $arr = array(), $dept_id = null, $user_id = null) {
 
       // result query
       $this->db->select('q.*,session_year.session_name');
       $this->db->from('budget_nilg as q');
       $this->db->join('session_year','q.fcl_year=session_year.id','left');
+
+      if (!empty($arr)) {
+          $this->db->where_in('q.status', $arr);
+      }
+
+      if (!empty($dept_id)) {
+          $this->db->where('q.dept_id', $dept_id);
+      }
+      
+      if (!empty($user_id)) {
+          $this->db->where('q.created_by', $user_id);
+      }
+      
       $this->db->limit($limit);
       $this->db->offset($offset);
       $this->db->order_by('q.id', 'DESC');
       $result['rows'] = $this->db->get()->result();
+
       // count query
       $this->db->select('COUNT(*) as count');
       $this->db->from('budget_nilg');
+      if (!empty($arr)) {
+          $this->db->where_in('status', $arr);
+      }
+      if (!empty($dept_id)) {
+          $this->db->where('dept_id', $dept_id);
+      }
+      if (!empty($user_id)) {
+          $this->db->where('created_by', $user_id);
+      }
       $tmp = $this->db->get()->result();
       $result['num_rows'] = $tmp[0]->count;
       return $result;

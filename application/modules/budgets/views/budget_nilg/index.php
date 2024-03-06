@@ -26,11 +26,11 @@
                      <thead>
                         <tr>
                            <th> ক্রম </th>
-                           <th>নাম</th>
+                           <th>শিরোনাম</th>
                            <th>আমাউন্ট</th>
                            <th>অর্থবছর</th>
                            <th>ডেস্ক</th>
-                           <th>ডেস্কিপশন</th>
+                           <!-- <th>ডেস্কিপশন</th> -->
                            <th>স্টাস</th>
                            <th>আপডেট তারিখ</th>
                            <th style="text-align: right;">অ্যাকশন</th>
@@ -52,35 +52,35 @@
                                     if($row->desk==1){
                                        echo 'Current';
                                     }elseif($row->desk==2){
-                                       echo 'Forward DPT';
+                                       echo 'Department';
                                     }elseif($row->desk==3){
-                                       echo 'Forward ACC';
+                                       echo 'Account';
                                     }elseif($row->desk==4){
-                                       echo 'DG';
+                                       echo 'DG Sir';
                                     }elseif($row->desk==5){
-                                       echo 'Back ACC';
+                                       echo 'back Acc.';
                                     }elseif($row->desk==6){
                                        echo 'Complete';
                                     }
                                  ?>
                               </td>
-                              <td class="v-align-middle" style="width: 200px; white-space: normal;overflow: hidden" title="<?=$row->description; ?>"><?=$row->description; ?></td>
+                              <!-- <td class="v-align-middle" style="width: 200px; white-space: normal;overflow: hidden" title="<?=$row->description; ?>"><?=$row->description; ?></td> -->
                               <td class="v-align-middle">
                               <!-- 1=pending,2=dpt. app., 3=reject, 4=acc., 5=dg, 6=draft, 7=revenue received -->
                                  <?php if($row->status==1){
-                                    echo '<span class="label label-warning">Pending </span>';
+                                    echo '<span class="label label-info">Draft </span>';
                                  }elseif($row->status==2){
-                                    echo '<span class="label label-success">DPT. Approve </span>';
+                                    echo '<span class="label label-warning">On Precess</span>';
                                  }elseif($row->status==3){
-                                    echo '<span class="label label-important">Rejected </span>';
+                                    echo '<span class="label label-primary">Department Approve </span>';
                                  }elseif($row->status==4){
-                                    echo '<span class="label label-info">ACC. Approve </span>';
+                                    echo '<span class="label label-info">Account. Approve </span>';
                                  }elseif($row->status==5){
                                     echo '<span class="label label-success">DG. Approve </span>';
                                  }elseif($row->status==6){
-                                    echo '<span class="label label-info">Draft </span>';
-                                 }elseif($row->status==7){
                                     echo '<span class="label label-success">Revenue Received </span>';
+                                 }elseif($row->status==7){
+                                    echo '<span class="label label-important">Rejected </span>';
                                  }
                                  ?>
                               </td>
@@ -94,7 +94,7 @@
                                    <ul class="dropdown-menu pull-right">
                                        <li><a href="<?php echo base_url('budgets/budget_nilg_details/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
                                        <li><a href="<?php echo base_url('budgets/budget_nilg_details/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> সংশোধন করুন </a></li>
-                                       <li><a id="modalId" data-toggle="modal" data-target="#myModal" data-id="<?=encrypt_url($row->id) ?>" href=""><i class="fa fa-user"></i> ফরওয়ার্ড ডিপার্টমেন্ট </a></li>
+                                       <li><a id="modalId" data-toggle="modal" data-target="#myModal" data-id="<?=encrypt_url($row->id) ?>" href=""><i class="fa fa-user"></i> রিভিও</a></li>
 
                                        <li>
                                           <a href="<?php echo base_url('budgets/budget_nilg_print/'.encrypt_url($row->id))?>" target="_blank" ><i class="fa fa-pencil-square"></i> প্রিন্ট করুন </a>
@@ -157,7 +157,7 @@
             <div class="modal-footer">
                <!-- <button type="button" id="smSend" class="btn btn-info">প্রিন্ট করুন</button> -->
                <button type="button" class="btn btn-default" data-dismiss="modal">বন্ধ করুন</button>
-               <button type="submit" id="smSend" class="btn btn-primary">সংরক্ষণ করুন</button>
+               <!-- <button type="submit" id="smSend" class="btn btn-primary">সংরক্ষণ করুন</button> -->
             </div>
         </div>
     </div>
@@ -218,7 +218,7 @@
          $.ajax({
             type: "POST",
             url: url,
-            data: { type: 2},
+            data: { type: 1, id: id},
             dataType: 'json',
             success: function (response) {
                if (response.status == 1) {
@@ -240,7 +240,7 @@
             success: function (response) {
                var sl = 0;
                $('.adds').remove();
-               $('#heading_title').empty().text('বাজেট : '+response.budget_info.title);
+               $('#heading_title').empty().text('শিরোনাম : '+response.budget_info.title);
 
                $.each(response.budget_dtails,function(id,res)
                {
@@ -258,8 +258,11 @@
                });
                var item = '';
                   item+= '<tr class="adds">';
-                  item+= '<td colspan="5">Total</td>';
-                  item+= '<td>'+ response.budget_info.revenue_amt +'</td>';
+                  item+= '<td colspan="2">Total</td>';
+                  item+= '<td>'+ response.budget_info.amount +'</td>';
+                  item+= '<td>'+ response.budget_info.dpt_amt +'</td>';
+                  item+= '<td>'+ response.budget_info.acc_amt +'</td>';
+                  item+= '<td>'+ response.budget_info.dg_amt +'</td>';
                   item+= '</tr>';
 
                $('#addRow tr:last').after(item);
