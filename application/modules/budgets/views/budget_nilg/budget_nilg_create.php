@@ -62,7 +62,6 @@
                                             ডিপার্টমেন্ট নাম: <strong><?=$info->current_dept_name?></strong>
                                         </div>
                                         <br>
-                                        <br>
                                         <div class="col-md-4">
                                             <label for="title" class="control-label">টাইটেল : </label>
                                             <input type="text" class="form-control input-sm" name="title"
