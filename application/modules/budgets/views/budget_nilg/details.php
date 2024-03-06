@@ -64,7 +64,7 @@
                                         <br>
                                         <div class="col-md-4">
 
-                                            <label for="title" class="control-label">টাইটেল : </label>
+                                            <label for="title" class="control-label">শিরোনাম : </label>
                                             <input type="text" class="form-control input-sm" name="title" style="min-height: 33px;" value="<?= $budget_nilg->title ?>" required>
                                         </div>
                                         <div class="col-md-4">
@@ -81,8 +81,9 @@
 
                                     <div class="row form-row">
                                         <div class="col-md-12">
-                                            <h4 class="semi-bold margin_left_15">বাজেট তালিকা <em style="color: #f73838; font-size: 15px;">Click <strong>Add
-                                                        More</strong> button for adding more item. </em></h4>
+                                            <h4 class="semi-bold margin_left_15">বাজেট তালিকা 
+                                                <em style="color: #f73838; font-size: 15px;">Click <strong>Add More</strong> button for adding more item. </em>
+                                            </h4>
                                             <style type="text/css">
                                                 #appRowDiv td {
                                                     padding: 5px;
@@ -113,25 +114,26 @@
                                                     <div class="col-md-4">
                                                         <label for="">Total Amount</label>
                                                         <input type="number" class="form-control input-sm" name="total_amount" id="total_amount" readonly>
-
                                                     </div>
-
                                                 </div>
 
                                                 <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e;" id="appRowDiv">
                                                     <thead>
                                                         <tr>
-                                                            <th width="30%">বাজেট হেড<span class="required">*</span></th>
-                                                            <th width="30%">বাজেট সাব হেড <span class="required">*</span></th>
-                                                            <th width="30%">বাজেট আমাউন্ট</th>
+                                                            <th width="30%">শিরোনাম<span class="required">*</span></th>
+                                                            <th width="30%">বাজেট কোড <span class="required">*</span></th>
+                                                            <th width="30%">আমাউন্ট</th>
+                                                            <?php if ($this->ion_auth->in_group(array('bdh'))) { ?>
+                                                            <th width="30%">আমাউন্ট</th>
+                                                            <?php } ?>
                                                             <th width="10%">অ্যাকশন </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="tbody">
                                                         <?php foreach ($budget_nilg_details as $key => $value) { ?>
                                                             <tr>
-                                                                <td><?= $value->budget_head_name ?></td>
                                                                 <td><?= $value->name_bn ?></td>
+                                                                <td><?= $value->bd_code ?></td>
                                                                 <td>
                                                                     <input type="hidden" name="budget_nilg_details_id[]" value="<?= $value->budget_nilg_details_id ?>">
                                                                     <input type="hidden" name="head_id[]" value="<?= $value->head_id ?>">
