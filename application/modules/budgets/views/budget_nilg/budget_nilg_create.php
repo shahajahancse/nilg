@@ -53,14 +53,15 @@
 
                                     <div class="row form-row" style="font-size: 16px; color: black;">
                                         
-                                        <div class="col-md-3">
-                                            <div class="col-md-3">
+                                        <div class="col-md-12" style="display: flex; gap: 5px;padding-bottom: 6px" >
+                                            <div style="width:fit-content;">
                                                 আবেদনকারীর নাম: <strong><?=$info->name_bn?></strong>
                                             </div>
-                                            <div class="col-md-3">
+                                            
+                                            <div style="width:fit-content;">
                                                 পদবীর নাম: <strong><?=$info->current_desig_name?></strong>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div style="width:fit-content;">
                                                 ডিপার্টমেন্ট নাম: <strong><?=$info->current_dept_name?></strong>
                                             </div>
                                         </div>
