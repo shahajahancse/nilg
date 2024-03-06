@@ -51,16 +51,18 @@
                                     <input type="hidden" name="budget_nilg_id" value="<?= $budget_nilg->id ?>">
 
                                     <div class="row form-row" style="font-size: 16px; color: black;">
-                                        <div class="col-md-4">
-                                            আবেদনকারীর নাম: <strong><?= $info->name_bn ?></strong>
+                                    <div class="col-md-12" style="display: flex;gap: 74px;padding-bottom: 14px;" >
+                                            <div style="width:fit-content;">
+                                                আবেদনকারীর নাম: <strong><?=$info->name_bn?></strong>
+                                            </div>
+                                            
+                                            <div style="width:fit-content;">
+                                                পদবীর নাম: <strong><?=$info->current_desig_name?></strong>
+                                            </div>
+                                            <div style="width:fit-content;">
+                                                ডিপার্টমেন্ট নাম: <strong><?=$info->current_dept_name?></strong>
+                                            </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            পদবীর নাম: <strong><?= $info->current_desig_name ?></strong>
-                                        </div>
-                                        <div class="col-md-4">
-                                            ডিপার্টমেন্ট নাম: <strong><?= $info->current_dept_name ?></strong>
-                                        </div>
-                                        <br>
                                         <br>
                                         <div class="col-md-4">
 
@@ -81,8 +83,9 @@
 
                                     <div class="row form-row">
                                         <div class="col-md-12">
-                                            <h4 class="semi-bold margin_left_15">বাজেট তালিকা <em style="color: #f73838; font-size: 15px;">Click <strong>Add
-                                                        More</strong> button for adding more item. </em></h4>
+                                            <h4 class="semi-bold margin_left_15">বাজেট তালিকা 
+                                                <em style="color: #f73838; font-size: 15px;">Click <strong>Add More</strong> button for adding more item. </em>
+                                            </h4>
                                             <style type="text/css">
                                                 #appRowDiv td {
                                                     padding: 5px;
@@ -113,31 +116,37 @@
                                                     <div class="col-md-4">
                                                         <label for="">Total Amount</label>
                                                         <input type="number" class="form-control input-sm" name="total_amount" id="total_amount" readonly>
-
                                                     </div>
-
                                                 </div>
 
                                                 <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e;" id="appRowDiv">
                                                     <thead>
                                                         <tr>
-                                                            <th width="30%">বাজেট হেড<span class="required">*</span></th>
-                                                            <th width="30%">বাজেট সাব হেড <span class="required">*</span></th>
-                                                            <th width="30%">বাজেট আমাউন্ট</th>
+                                                            <th width="">শিরোনাম<span class="required">*</span></th>
+                                                            <th width="">বাজেট কোড <span class="required">*</span></th>
+                                                            <th width="">আমাউন্ট</th>
+                                                            <?php if ($this->ion_auth->in_group(array('bdh'))) { ?>
+                                                            <th width="">আমাউন্ট</th>
+                                                            <?php } ?>
                                                             <th width="10%">অ্যাকশন </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="tbody">
                                                         <?php foreach ($budget_nilg_details as $key => $value) { ?>
                                                             <tr>
-                                                                <td><?= $value->budget_head_name ?></td>
                                                                 <td><?= $value->name_bn ?></td>
+                                                                <td><?= $value->bd_code ?></td>
                                                                 <td>
                                                                     <input type="hidden" name="budget_nilg_details_id[]" value="<?= $value->budget_nilg_details_id ?>">
                                                                     <input type="hidden" name="head_id[]" value="<?= $value->head_id ?>">
                                                                     <input type="hidden" name="head_sub_id[]" value="<?= $value->head_sub_id ?>">
                                                                     <input value="<?= $value->amount ?>" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm">
                                                                 </td>
+                                                                <?php if ($this->ion_auth->in_group(array('bdh'))) { ?>
+                                                                <td>
+                                                                    <input value="<?= $value->dpt_amt ?>" min="0" type="number" onkeyup="calculateTotal()" name="dpt_amt[]" class="form-control amount input-sm">
+                                                                </td>
+                                                                <?php } ?>
                                                                 <td><a href="javascript:void(0)" onclick="removeRow(this,<?= $value->budget_nilg_details_id ?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
                                                             </tr>
                                                         <?php } ?>

@@ -127,7 +127,13 @@ class Budgets extends Backend_Controller
         $this->data['info'] = $this->Common_model->get_user_details($this->data['budget_nilg']->created_by);
 
         $this->data['meta_title'] = 'বাজেট বিস্তারিত';
-        $this->data['subview'] = 'budget_nilg/details';
+        if ($this->ion_auth->in_group(array('bdh'))) {
+            $this->data['subview'] = 'budget_nilg/details_dept_head';
+        } else if ($this->ion_auth->in_group(array('admin', 'nilg', 'dg', 'acc'))) {
+            $this->data['subview'] = 'budget_nilg/details_dg_acc';
+        } else {
+            $this->data['subview'] = 'budget_nilg/details';
+        }
         $this->load->view('backend/_layout_main', $this->data);
     }
 
