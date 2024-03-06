@@ -53,7 +53,7 @@
 
                                     <div class="row form-row" style="font-size: 16px; color: black;">
                                         
-                                        <div class="col-md-12" style="display: flex; gap: 5px;padding-bottom: 6px" >
+                                        <div class="col-md-12" style="display: flex;gap: 74px;padding-bottom: 14px;" >
                                             <div style="width:fit-content;">
                                                 আবেদনকারীর নাম: <strong><?=$info->name_bn?></strong>
                                             </div>
@@ -65,7 +65,6 @@
                                                 ডিপার্টমেন্ট নাম: <strong><?=$info->current_dept_name?></strong>
                                             </div>
                                         </div>
-
                                         <br>
                                         <div class="col-md-4">
                                             <label for="title" class="control-label">টাইটেল : </label>
