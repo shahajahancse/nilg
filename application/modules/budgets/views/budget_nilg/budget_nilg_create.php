@@ -77,9 +77,9 @@
                                             <label for="fcl_year" class="control-label">অর্থবছর</label>
                                             <select name="fcl_year" id="fcl_year" class="form-control input-sm">
                                                 <option value="">নির্বাচন করুন</option>
-                                                <?php foreach ($session_year as $key => $value) {
-                                                      echo '<option value="'.$value->id.'">'.$value->session_name.'</option>';
-                                                   } ?>
+                                                    <?php foreach ($session_year as $key => $value) {
+                                                        echo '<option value="'.$value->id.'">'.$value->session_name.'</option>';
+                                                    } ?>
                                             </select>
                                         </div>
                                     </div>

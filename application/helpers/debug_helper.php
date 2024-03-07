@@ -91,6 +91,7 @@ if ( ! function_exists('dd'))
             print_r($value);
             echo '</pre>';
         }
+        exit;
 	}
 }
 

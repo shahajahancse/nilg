@@ -179,42 +179,74 @@ class Budgets extends Backend_Controller
     }
     public function budget_nilg_dept_edit()
     {
+
+
         $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
         if ($this->form_validation->run() == true) {
-            $user = $this->ion_auth->user()->row();
-            $form_data = array(
-                'title' => $this->input->post('title'),
-                'amount' => $this->input->post('total_amount'),
-                'fcl_year' => $this->input->post('fcl_year'),
-                'description' => $this->input->post('description'),
-            );
-            $this->db->where('id', $this->input->post('budget_nilg_id'));
-
-            if ($this->db->update('budget_nilg', $form_data)) {
-                $insert_id = $this->input->post('budget_nilg_id');
-                for ($i = 0; $i < sizeof($_POST['head_id']); $i++) {
-                    $form_data2 = array(
-                        'budget_nilg_id' => $insert_id,
-                        'head_id' => $_POST['head_id'][$i],
-                        'head_sub_id' => $_POST['head_sub_id'][$i],
-                        'amount' => $_POST['amount'][$i],
-                        'fcl_year' => $_POST['fcl_year'],
-                        'created_by' => $user->id,
+            if ($this->input->post('submit')=='ফরওয়ার্ড করুন') {
+                    $user = $this->ion_auth->user()->row();
+                    $form_data = array(
+                        'title' => $this->input->post('title'),
+                        'dpt_amt' => $this->input->post('total_amount'),
+                        'status' => 3,
+                        'desk' => $this->input->post('desk'),
+                        'description' => $this->input->post('description'),
                     );
-                    if ($_POST['budget_nilg_details_id'][$i] == 'new') {
-                        $this->Common_model->save('budget_nilg_details', $form_data2);
-                    } else {
-                        $this->db->where('id', $_POST['budget_nilg_details_id'][$i]);
-                        $this->db->update('budget_nilg_details', $form_data2);
+                $this->db->where('id', $this->input->post('budget_nilg_id'));
+                if ($this->db->update('budget_nilg', $form_data)) {
+                    $insert_id = $this->input->post('budget_nilg_id');
+                    for ($i = 0; $i < sizeof($_POST['head_id']); $i++) {
+                        $form_data2 = array(
+                            'budget_nilg_id' => $insert_id,
+                            'head_id' => $_POST['head_id'][$i],
+                            'head_sub_id' => $_POST['head_sub_id'][$i],
+                            'dpt_amt' => $_POST['dpt_amt'][$i],
+                        );
+                        if ($_POST['budget_nilg_details_id'][$i] == 'new') {
+                            $this->Common_model->save('budget_nilg_details', $form_data2);
+                        } else {
+                            $this->db->where('id', $_POST['budget_nilg_details_id'][$i]);
+                            $this->db->update('budget_nilg_details', $form_data2);
+                        }
                     }
+                    $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+                    redirect("budgets/budget_nilg");
+                } else {
+                    $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়নি');
+                    redirect("budgets/budget_nilg");
                 }
-                $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
-                redirect("budgets/budget_nilg");
-            } else {
-                $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়নি');
-                redirect("budgets/budget_nilg");
+            }else{
+                dd('hello');
+                $user = $this->ion_auth->user()->row();
+                $form_data = array(
+                    'title' => $this->input->post('title'),
+                    'dpt_amt' => $this->input->post('total_amount'),
+                    'description' => $this->input->post('description'),
+                );
+                $this->db->where('id', $this->input->post('budget_nilg_id'));
+                if ($this->db->update('budget_nilg', $form_data)) {
+                    $insert_id = $this->input->post('budget_nilg_id');
+                    for ($i = 0; $i < sizeof($_POST['head_id']); $i++) {
+                        $form_data2 = array(
+                            'budget_nilg_id' => $insert_id,
+                            'head_id' => $_POST['head_id'][$i],
+                            'head_sub_id' => $_POST['head_sub_id'][$i],
+                            'dpt_amt' => $_POST['dpt_amt'][$i],
+                        );
+                        if ($_POST['budget_nilg_details_id'][$i] == 'new') {
+                            $this->Common_model->save('budget_nilg_details', $form_data2);
+                        } else {
+                            $this->db->where('id', $_POST['budget_nilg_details_id'][$i]);
+                            $this->db->update('budget_nilg_details', $form_data2);
+                        }
+                    }
+                    $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+                    redirect("budgets/budget_nilg");
+                } else {
+                    $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়নি');
+                    redirect("budgets/budget_nilg");
+                }
             }
-
         }
     }
 
@@ -269,45 +301,45 @@ class Budgets extends Backend_Controller
     }
 
     public function nilg_change_status($requisition_id = null){
-    $id  = (int) decrypt_url($this->input->post('id'));
-    $type  = $this->input->post('type');
-    $info = $this->Budgets_model->get_budget_nilg_info($id);
+        $id  = (int) decrypt_url($this->input->post('id'));
+        $type  = $this->input->post('type');
+        $info = $this->Budgets_model->get_budget_nilg_info($id);
 
-    if ($type == 1 && !empty($info)) {
-        if ($info->status == 1) {
-            $status = 2;
-            $desk = 2;
-        } else if ($info->status == 2) {
-            $status = 3;
-            $desk = 3;
-        } else if ($info->status == 3) {
-            $status = 4;
-            $desk = 4;
-        } else if ($info->status == 4) {
-            $desk = 5;
-            $status = 5;
-        } else if ($info->status == 5) {
-            $desk = 6;
-            $status = 6;
-        } else {
-            $desk = 7;
-            $status = 7;
+        if ($type == 1 && !empty($info)) {
+            if ($info->status == 1) {
+                $status = 2;
+                $desk = 2;
+            } else if ($info->status == 2) {
+                $status = 3;
+                $desk = 3;
+            } else if ($info->status == 3) {
+                $status = 4;
+                $desk = 4;
+            } else if ($info->status == 4) {
+                $desk = 5;
+                $status = 5;
+            } else if ($info->status == 5) {
+                $desk = 6;
+                $status = 6;
+            } else {
+                $desk = 7;
+                $status = 7;
+            }
+
+            $form_data = array(
+            'status'         => $status,
+            'desk'           => $desk,
+            'update_at'      => date('Y-m-d H:i:s')
+            ); 
+
+            if($this->Common_model->edit('budget_nilg',  $id, 'id', $form_data)){     
+            $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+            header('Content-Type: application/x-json; charset=utf-8');
+            echo json_encode(array('status' => true));
+            } else {
+            echo json_encode(array('status' => false));
+            }
         }
-
-        $form_data = array(
-          'status'         => $status,
-          'desk'           => $desk,
-          'update_at'      => date('Y-m-d H:i:s')
-        ); 
-
-        if($this->Common_model->edit('budget_nilg',  $id, 'id', $form_data)){     
-          $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
-          header('Content-Type: application/x-json; charset=utf-8');
-          echo json_encode(array('status' => true));
-        } else {
-          echo json_encode(array('status' => false));
-        }
-    }
 
     }
 
@@ -617,7 +649,6 @@ class Budgets extends Backend_Controller
                     $this->db->where('head_sub_id', $_POST['head_sub_id'][$i]);
                     $token = $this->db->get('budget_accounts')->row();
                     if (count($token) != 0) {
- // id	head_id budget_head table id	head_sub_id budget_head_sub table id	amount	status 1=in, 2=out	created_by	created_at	updated_at
                         $form_data2 = array(
                             'amount'=> $_POST['amount'][$i]+$token->amount,
                             'updated_at' => date('Y-m-d H:i:s'),

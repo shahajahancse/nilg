@@ -175,7 +175,8 @@
                         </div>
                         <div class="form-actions">
                             <div class="pull-right">
-                                <input type="submit" name="submit" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
+                                <input type="submit" name="save" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
+                                <input type="submit" name="submit" value="ফরওয়ার্ড করুন" class="btn btn-primary btn-cons">
                             </div>
                         </div>
                         <?php echo form_close(); ?>
