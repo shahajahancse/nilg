@@ -37,7 +37,6 @@
                                 <?= $this->session->flashdata('error');; ?>
                             </div>
                         <?php endif; ?>
-
                         <?php
                         $attributes = array('id' => 'jsvalidate');
                         echo form_open_multipart("budgets/budget_nilg_dept_edit", $attributes);
@@ -63,7 +62,6 @@
                                         </div>
                                         <br>
                                         <div class="col-md-4">
-
                                             <label for="title" class="control-label">শিরোনাম : </label>
                                             <input type="text" class="form-control input-sm" name="title" style="min-height: 33px;" value="<?= $budget_nilg->title ?>" required>
                                         </div>
@@ -111,17 +109,16 @@
                                                     <div class="col-md-4">
                                                         <img id="loading" src="<?= base_url('img/loading.gif') ?>" style="height: 47px;margin-top: 14px;display: none;">
                                                     </div>
-                                                  
+                                                
                                                 </div>
-
                                                 <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e;" id="appRowDiv">
                                                     <thead>
                                                         <tr>
                                                             <th width="">শিরোনাম<span class="required">*</span></th>
                                                             <th width="">বাজেট কোড <span class="required">*</span></th>
-                                                            <th width="">আমাউন্ট</th>
+                                                            <th width=""> পরিমান</th>
                                                             <?php if ($this->ion_auth->in_group(array('bdh'))) { ?>
-                                                            <th width="">আমাউন্ট</th>
+                                                            <th width="">মডিফাই আমাউন্ট</th>
                                                             <?php } ?>
                                                             <th width="10%">অ্যাকশন </th>
                                                         </tr>

@@ -40,16 +40,14 @@
 
                         <?php
                         $attributes = array('id' => 'jsvalidate');
-                        echo form_open_multipart("budgets/budget_nilg_edit", $attributes);
+                        echo form_open_multipart("budgets/budget_nilg_acc_edit", $attributes);
                         echo validation_errors();
                         ?>
-
                         <div class="row">
                             <div class="col-md-12">
                                 <fieldset>
                                     <legend>বাজেট তথ্য</legend>
                                     <input type="hidden" name="budget_nilg_id" value="<?= $budget_nilg->id ?>">
-
                                     <div class="row form-row" style="font-size: 16px; color: black;">
                                     <div class="col-md-12" style="display: flex;gap: 74px;padding-bottom: 14px;" >
                                             <div style="width:fit-content;">
@@ -113,10 +111,7 @@
                                                     <div class="col-md-4">
                                                         <img id="loading" src="<?= base_url('img/loading.gif') ?>" style="height: 47px;margin-top: 14px;display: none;">
                                                     </div>
-                                                    <div class="col-md-4">
-                                                        <label for="">Total Amount</label>
-                                                        <input type="number" class="form-control input-sm" name="total_amount" id="total_amount" readonly>
-                                                    </div>
+                                                  
                                                 </div>
 
                                                 <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e;" id="appRowDiv">
@@ -125,7 +120,7 @@
                                                             <th width="">শিরোনাম<span class="required">*</span></th>
                                                             <th width="">বাজেট কোড <span class="required">*</span></th>
                                                             <th width="">আমাউন্ট</th>
-                                                            <?php if ($this->ion_auth->in_group(array('bdh'))) { ?>
+                                                            <?php if ($this->ion_auth->in_group(array('admin', 'nilg', 'dg', 'acc'))) { ?>
                                                             <th width="">আমাউন্ট</th>
                                                             <?php } ?>
                                                             <th width="10%">অ্যাকশন </th>
@@ -140,7 +135,7 @@
                                                                     <input type="hidden" name="budget_nilg_details_id[]" value="<?= $value->budget_nilg_details_id ?>">
                                                                     <input type="hidden" name="head_id[]" value="<?= $value->head_id ?>">
                                                                     <input type="hidden" name="head_sub_id[]" value="<?= $value->head_sub_id ?>">
-                                                                    <input value="<?= $value->amount ?>" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm">
+                                                                    <input value="<?= $value->dpt_amt ?>" min="0" type="number"  class="form-control input-sm" readonly>
                                                                 </td>
                                                                 <?php if ($this->ion_auth->in_group(array('bdh'))) { ?>
                                                                 <td>
@@ -151,6 +146,17 @@
                                                             </tr>
                                                         <?php } ?>
                                                     </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td colspan="2">Total</td>
+                                                            <td >
+                                                                <input type="number" class="form-control input-sm" name="total_amount_e" id="total_amount_e" value="<?= $budget_nilg->amount ?>" readonly>
+                                                            </td>
+                                                            <td >
+                                                                <input type="number" class="form-control input-sm" name="total_amount" id="total_amount" readonly>
+                                                            </td>
+                                                        </tr>
+                                                    </tfoot>
                                                 </table>
                                                 <br>
                                                 <br>
@@ -169,7 +175,8 @@
                         </div>
                         <div class="form-actions">
                             <div class="pull-right">
-                                <input type="submit" name="submit" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
+                                <input type="submit" name="save" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
+                                <input type="submit" name="submit" value="ফরওয়ার্ড করুন" class="btn btn-primary btn-cons">
                             </div>
                         </div>
                         <?php echo form_close(); ?>
@@ -225,8 +232,13 @@
                         <input type="hidden" name="budget_nilg_details_id[]" value="new" >
                         <input type="hidden" name="head_id[]" value="${data.budget_head_id}" >
                         <input type="hidden" name="head_sub_id[]" value="${data.id}" >
-                        <input value="0" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm">
+                        <input value="0" min="0" type="number"  class="form-control input-sm" readonly>
                         </td>
+                        <?php if ($this->ion_auth->in_group(array('bdh'))) { ?>
+                        <td>
+                            <input value="0" min="0" type="number" onkeyup="calculateTotal()" name="dpt_amt[]" class="form-control amount input-sm">
+                        </td>
+                        <?php } ?>
                         <td><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
                      </tr>`
                 $("#tbody").append(tr);
