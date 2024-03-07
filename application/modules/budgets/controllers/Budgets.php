@@ -250,6 +250,79 @@ class Budgets extends Backend_Controller
             }
         }
     }
+    public function budget_nilg_acc_edit()
+    {
+
+
+        $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
+        if ($this->form_validation->run() == true) {
+            if ($this->input->post('submit')=='ফরওয়ার্ড করুন') {
+                    $user = $this->ion_auth->user()->row();
+                    $form_data = array(
+                        'title' => $this->input->post('title'),
+                        'dpt_amt' => $this->input->post('total_amount'),
+                        'status' => 3,
+                        'dpt_head_id' =>$this->ion_auth->user()->row()->id,
+                        'desk' => $this->input->post('desk'),
+                        'description' => $this->input->post('description'),
+                    );
+                $this->db->where('id', $this->input->post('budget_nilg_id'));
+                if ($this->db->update('budget_nilg', $form_data)) {
+                    $insert_id = $this->input->post('budget_nilg_id');
+                    for ($i = 0; $i < sizeof($_POST['head_id']); $i++) {
+                        $form_data2 = array(
+                            'budget_nilg_id' => $insert_id,
+                            'head_id' => $_POST['head_id'][$i],
+                            'head_sub_id' => $_POST['head_sub_id'][$i],
+                            'dpt_amt' => $_POST['dpt_amt'][$i],
+                        );
+                        if ($_POST['budget_nilg_details_id'][$i] == 'new') {
+                            $this->Common_model->save('budget_nilg_details', $form_data2);
+                        } else {
+                            $this->db->where('id', $_POST['budget_nilg_details_id'][$i]);
+                            $this->db->update('budget_nilg_details', $form_data2);
+                        }
+                    }
+                    $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+                    redirect("budgets/budget_nilg");
+                } else {
+                    $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়নি');
+                    redirect("budgets/budget_nilg");
+                }
+            }else{
+                dd('hello');
+                $user = $this->ion_auth->user()->row();
+                $form_data = array(
+                    'title' => $this->input->post('title'),
+                    'dpt_amt' => $this->input->post('total_amount'),
+                    'description' => $this->input->post('description'),
+                );
+                $this->db->where('id', $this->input->post('budget_nilg_id'));
+                if ($this->db->update('budget_nilg', $form_data)) {
+                    $insert_id = $this->input->post('budget_nilg_id');
+                    for ($i = 0; $i < sizeof($_POST['head_id']); $i++) {
+                        $form_data2 = array(
+                            'budget_nilg_id' => $insert_id,
+                            'head_id' => $_POST['head_id'][$i],
+                            'head_sub_id' => $_POST['head_sub_id'][$i],
+                            'dpt_amt' => $_POST['dpt_amt'][$i],
+                        );
+                        if ($_POST['budget_nilg_details_id'][$i] == 'new') {
+                            $this->Common_model->save('budget_nilg_details', $form_data2);
+                        } else {
+                            $this->db->where('id', $_POST['budget_nilg_details_id'][$i]);
+                            $this->db->update('budget_nilg_details', $form_data2);
+                        }
+                    }
+                    $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+                    redirect("budgets/budget_nilg");
+                } else {
+                    $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়নি');
+                    redirect("budgets/budget_nilg");
+                }
+            }
+        }
+    }
 
     public function budgets_nilg_remove_row()
     {
