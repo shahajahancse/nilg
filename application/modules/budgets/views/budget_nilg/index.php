@@ -13,7 +13,7 @@
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">
                      <a class="btn btn-success btn-xs btn-mini" href="<?php echo base_url('budgets/nilg_revenue_summary') ?>" target="_blank"><i class="fa fa-book"></i> রিভিনিও সামারী  </a>
-                     <a class="btn btn-info btn-xs btn-mini" href="<?php echo base_url('budgets/nilg_acc_summary') ?>" target="_blank"><i class="fa fa-book"></i> সামারী করুন </a>
+                     <a class="btn btn-info btn-xs btn-mini" href="<?php echo base_url('budgets/nilg_dept_summary') ?>" target="_blank"><i class="fa fa-book"></i> সামারী করুন </a>
                      <a href="<?=base_url('budgets/budget_nilg_create')?>" class="btn btn-blueviolet btn-xs btn-mini"> Create Budget</a>
                   </div>
                </div>
@@ -24,6 +24,49 @@
                         <?=$this->session->flashdata('success');?>
                      </div>
                   <?php endif; ?>
+
+                  <style type="text/css">
+                    .btt-m, .btt-m:focus, .btt-m:active:focus, .btt-m.active:focus {
+                      outline: none !important;
+                      padding: 5px 25px !important;
+                      margin-top: 0px;
+                    }
+                    .btt-t, .btt-t:focus, .btt-t:active:focus, .btt-t.active:focus, .btt-t:hover {
+                      outline: none !important;
+                      padding: 5px 25px !important;
+                      margin-top: 0px !important;
+                      width: 40px !important;
+                      background: #ddb90a;
+                    }
+                  </style>
+
+                  <form action="<?=base_url('leave');?>" method="get" style="margin-top: -10px">
+                    <div class="col-md-3 p5">
+                      <div class="form-group">
+                       <?php $dpts = $this->db->get('department')->result(); ?>
+                           <select name="dept_id" id="dept_id">
+                              <option value=""><-- select --></option>
+                              <?php foreach ($dpts as $key => $r) { ?>
+                                 <option value="<?= $r->id ?>"><?= $r->dept_name ?></option>
+                              <?php } ?>
+                           </select>
+
+                      </div>
+                    </div>
+                    <div class="col-md-3 p5">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <span class="input-group-btn" style="display: block; margin-top: -1px">
+                              <button class="btn btn-primary btn-block btt-m">
+                                  <span style="margin-left: -6px;" class="fa fa-search"></span>
+                              </button>
+                              <a  href="<?=base_url('leave');?>" class="btn btn-primary btn-block btt-t"><span style="margin-left: -12px;">মুছুন</span></a>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+
                   <table class="table table-hover table-condensed" border="0">
                      <thead>
                         <tr>
