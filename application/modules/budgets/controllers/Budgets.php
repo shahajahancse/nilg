@@ -271,7 +271,7 @@ class Budgets extends Backend_Controller
 
     }
 
-    public function budget_nilg_marge()
+    public function budget_nilg_summary()
     {
         $id = (int) decrypt_url($encid);
         $budget_nilg = $this->Common_model->get_single_data('budget_nilg', $id);
