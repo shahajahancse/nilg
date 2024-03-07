@@ -269,46 +269,45 @@ class Budgets extends Backend_Controller
     }
 
     public function nilg_change_status($requisition_id = null){
-    $id  = (int) decrypt_url($this->input->post('id'));
-    $type  = $this->input->post('type');
-    $info = $this->Budgets_model->get_budget_nilg_info($id);
+        $id  = (int) decrypt_url($this->input->post('id'));
+        $type  = $this->input->post('type');
+        $info = $this->Budgets_model->get_budget_nilg_info($id);
 
-    if ($type == 1 && !empty($info)) {
-        if ($info->status == 1) {
-            $status = 2;
-            $desk = 2;
-        } else if ($info->status == 2) {
-            $status = 3;
-            $desk = 3;
-        } else if ($info->status == 3) {
-            $status = 4;
-            $desk = 4;
-        } else if ($info->status == 4) {
-            $desk = 5;
-            $status = 5;
-        } else if ($info->status == 5) {
-            $desk = 6;
-            $status = 6;
-        } else {
-            $desk = 7;
-            $status = 7;
+        if ($type == 1 && !empty($info)) {
+            if ($info->status == 1) {
+                $status = 2;
+                $desk = 2;
+            } else if ($info->status == 2) {
+                $status = 3;
+                $desk = 3;
+            } else if ($info->status == 3) {
+                $status = 4;
+                $desk = 4;
+            } else if ($info->status == 4) {
+                $desk = 5;
+                $status = 5;
+            } else if ($info->status == 5) {
+                $desk = 6;
+                $status = 6;
+            } else {
+                $desk = 7;
+                $status = 7;
+            }
+
+            $form_data = array(
+              'status'         => $status,
+              'desk'           => $desk,
+              'update_at'      => date('Y-m-d H:i:s')
+            ); 
+
+            if($this->Common_model->edit('budget_nilg',  $id, 'id', $form_data)){     
+              $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+              header('Content-Type: application/x-json; charset=utf-8');
+              echo json_encode(array('status' => true));
+            } else {
+              echo json_encode(array('status' => false));
+            }
         }
-
-        $form_data = array(
-          'status'         => $status,
-          'desk'           => $desk,
-          'update_at'      => date('Y-m-d H:i:s')
-        ); 
-
-        if($this->Common_model->edit('budget_nilg',  $id, 'id', $form_data)){     
-          $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
-          header('Content-Type: application/x-json; charset=utf-8');
-          echo json_encode(array('status' => true));
-        } else {
-          echo json_encode(array('status' => false));
-        }
-    }
-
     }
 
     public function budget_nilg_summary()
