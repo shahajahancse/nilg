@@ -589,6 +589,7 @@ class Budgets extends Backend_Controller
         $this->db->join('budget_nilg as b', 'b.id = bd.budget_nilg_id');
         $this->db->join('budget_head_sub as bhs', 'bhs.id = bd.head_sub_id');
 
+        $this->db->where('b.dept_id', $fcy->id);
         $this->db->where('b.fcl_year', $fcy->id);
         $this->db->where_in('b.status', array(3,4,5,6));
         $this->db->order_by('bd.head_sub_id','ASC')->group_by('bd.head_sub_id');
