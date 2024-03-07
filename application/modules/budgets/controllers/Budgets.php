@@ -487,7 +487,7 @@ class Budgets extends Backend_Controller
         }
     }
 
-    public function nilg_acc_summary_1st()
+    public function nilg_acc_summary_1st_not_used()
     {
         $fcy = $this->db->order_by('id','DESC')->get('session_year')->row();
 
