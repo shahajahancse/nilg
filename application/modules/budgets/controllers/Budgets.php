@@ -189,6 +189,7 @@ class Budgets extends Backend_Controller
                         'title' => $this->input->post('title'),
                         'dpt_amt' => $this->input->post('total_amount'),
                         'status' => 3,
+                        'dpt_head_id' =>$this->ion_auth->user()->row()->id,
                         'desk' => $this->input->post('desk'),
                         'description' => $this->input->post('description'),
                     );
