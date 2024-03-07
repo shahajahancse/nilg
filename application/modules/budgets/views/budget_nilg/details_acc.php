@@ -120,7 +120,7 @@
                                                             <th width="">শিরোনাম<span class="required">*</span></th>
                                                             <th width="">বাজেট কোড <span class="required">*</span></th>
                                                             <th width="">আমাউন্ট</th>
-                                                            <?php if ($this->ion_auth->in_group(array('admin', 'nilg', 'dg', 'acc'))) { ?>
+                                                            <?php if ($this->ion_auth->in_group(array('acc'))) { ?>
                                                             <th width="">আমাউন্ট</th>
                                                             <?php } ?>
                                                             <th width="10%">অ্যাকশন </th>
@@ -137,9 +137,9 @@
                                                                     <input type="hidden" name="head_sub_id[]" value="<?= $value->head_sub_id ?>">
                                                                     <input value="<?= $value->dpt_amt ?>" min="0" type="number"  class="form-control input-sm" readonly>
                                                                 </td>
-                                                                <?php if ($this->ion_auth->in_group(array('bdh'))) { ?>
+                                                                <?php if ($this->ion_auth->in_group(array('acc'))) { ?>
                                                                 <td>
-                                                                    <input value="<?= $value->dpt_amt ?>" min="0" type="number" onkeyup="calculateTotal()" name="dpt_amt[]" class="form-control amount input-sm">
+                                                                    <input value="<?= $value->acc_amt ?>" min="0" type="number" onkeyup="calculateTotal()" name="acc_amt[]" class="form-control amount input-sm">
                                                                 </td>
                                                                 <?php } ?>
                                                                 <td><a href="javascript:void(0)" onclick="removeRow(this,<?= $value->budget_nilg_details_id ?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
@@ -234,7 +234,7 @@
                         <input type="hidden" name="head_sub_id[]" value="${data.id}" >
                         <input value="0" min="0" type="number"  class="form-control input-sm" readonly>
                         </td>
-                        <?php if ($this->ion_auth->in_group(array('bdh'))) { ?>
+                        <?php if ($this->ion_auth->in_group(array('acc'))) { ?>
                         <td>
                             <input value="0" min="0" type="number" onkeyup="calculateTotal()" name="dpt_amt[]" class="form-control amount input-sm">
                         </td>
