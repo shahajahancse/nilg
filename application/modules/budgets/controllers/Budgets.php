@@ -327,60 +327,52 @@ class Budgets extends Backend_Controller
             }
 
             $form_data = array(
-            'status'         => $status,
-            'desk'           => $desk,
-            'update_at'      => date('Y-m-d H:i:s')
+              'status'         => $status,
+              'desk'           => $desk,
+              'update_at'      => date('Y-m-d H:i:s')
             ); 
 
             if($this->Common_model->edit('budget_nilg',  $id, 'id', $form_data)){     
-            $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
-            header('Content-Type: application/x-json; charset=utf-8');
-            echo json_encode(array('status' => true));
+              $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+              header('Content-Type: application/x-json; charset=utf-8');
+              echo json_encode(array('status' => true));
             } else {
-            echo json_encode(array('status' => false));
+              echo json_encode(array('status' => false));
             }
         }
-
     }
 
-    public function budget_nilg_summary()
+    public function nilg_acc_summary()
     {
-        $id = (int) decrypt_url($encid);
-        $budget_nilg = $this->Common_model->get_single_data('budget_nilg', $id);
-        $this->data['budget_nilg'] = $budget_nilg;
+        $fcy = $this->db->order_by('id','DESC')->get('session_year')->row();
 
-        $this->db->select('budget_nilg_details.*,
-                    budget_nilg_details.id as budget_nilg_details_id,
-                    budget_head_sub.id,
-                    budget_head_sub.name_bn,
-                    budget_head_sub.bd_code,
-                    budget_head.name_bn as budget_head_name,
-                    budget_head.id as budget_head_id
-                ');
-        $this->db->from('budget_nilg_details');
-        $this->db->join('budget_head_sub', 'budget_nilg_details.head_sub_id = budget_head_sub.id');
-        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
-        $this->db->where('budget_nilg_details.budget_nilg_id', $id);
-        $this->db->where('budget_nilg_details.modify_soft_d', 1);
-        $budget_nilg_details = $this->db->get()->result();
-        $this->data['budget_nilg_details'] = $budget_nilg_details;
+        $this->db->select('b.id, b.title, b.acc_amt, dg_amt, b.revenue_amt, b.dept_id, dept.name_en, dept.dept_name');
+        $this->db->from('budget_nilg b');
 
-        $this->db->select('budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name');
-        $this->db->from('budget_head_sub');
-        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
-        $this->data['budget_head_sub'] = $this->db->get()->result();
-        //Dropdown
-        $this->data['budget_head'] = $this->Common_model->get_dropdown('budget_head', 'name_bn', 'id');
-        $this->data['info'] = $this->Common_model->get_user_details($this->data['budget_nilg']->created_by);
+        $this->db->join('department as dept', 'dept.id = b.dept_id');
+        $this->db->where('b.fcl_year', $fcy->id);
+        $this->db->order_by('b.dept_id','ASC')->group_by('b.id');
+        $this->data['summary'] = $this->db->get()->result();
 
-        $this->data['meta_title'] = 'বাজেট বিস্তারিত';
-        if ($this->ion_auth->in_group(array('bdh'))) {
-            $this->data['subview'] = 'budget_nilg/details_dept_head';
-        } else if ($this->ion_auth->in_group(array('admin', 'nilg', 'dg', 'acc'))) {
-            $this->data['subview'] = 'budget_nilg/details_dg_acc';
-        } else {
-            $this->data['subview'] = 'budget_nilg/details';
-        }
+        $this->data['meta_title'] = 'বাজেট সামারী ';
+        $this->data['subview'] = 'budget_nilg/nilg_acc_summary';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function nilg_revenue_summary()
+    {
+        $fcy = $this->db->order_by('id','DESC')->get('session_year')->row();
+
+        $this->db->select('b.id, b.title, b.acc_amt, dg_amt, b.revenue_amt, b.dept_id, dept.name_en, dept.dept_name');
+        $this->db->from('budget_nilg b');
+
+        $this->db->join('department as dept', 'dept.id = b.dept_id');
+        $this->db->where('b.fcl_year', $fcy->id);
+        $this->db->order_by('b.dept_id','ASC')->group_by('b.id');
+        $this->data['summary'] = $this->db->get()->result();
+
+        $this->data['meta_title'] = 'বাজেট সামারী ';
+        $this->data['subview'] = 'budget_nilg/nilg_revenue_summary';
         $this->load->view('backend/_layout_main', $this->data);
     }
     // End Budget Nilg
