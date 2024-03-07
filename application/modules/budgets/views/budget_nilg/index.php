@@ -11,7 +11,7 @@
             <div class="grid simple ">
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
-                  <div class="pull-right">
+                  <div class="pull-right" style="display: flex;align-content: center;justify-content: center;flex-wrap: wrap;gap: 8px;">
                      <a class="btn btn-success btn-xs btn-mini" href="<?php echo base_url('budgets/nilg_revenue_summary') ?>" target="_blank"><i class="fa fa-book"></i> রিভিনিও সামারী  </a>
                      <form action="<?=base_url('budgets/nilg_revenue_summary') ?>" method="post">
                         <input type="hidden" name="dept_id" id="summary_dept_id" required>
