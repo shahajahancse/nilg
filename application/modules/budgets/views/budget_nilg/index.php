@@ -76,17 +76,15 @@
                                 </div>
                             </div>
                             <div class="col-md-3 p5">
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <div class="input-group">
                                         <span class="input-group-btn" style="display: block; margin-top: -1px">
                                             <button class="btn btn-primary btn-block btt-m">
                                                 <span style="margin-left: -6px;" class="fa fa-search"></span>
                                             </button>
-                                            <a href="<?=base_url('leave');?>"
-                                                class="btn btn-primary btn-block btt-t"><span
-                                                    style="margin-left: -12px;">মুছুন</span></a>
+                                             <a class="btn btn-primary btn-block btt-t"><span style="margin-left: -12px;">মুছুন</span></a>
                                         </span>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </form>
