@@ -39,7 +39,6 @@
                             <?=$this->session->flashdata('error');;?>
                         </div>
                         <?php endif; ?>
-
                         <?php 
                             $attributes = array('id' => 'jsvalidate');
                             echo form_open_multipart("budgets/budget_entry_create",$attributes);
