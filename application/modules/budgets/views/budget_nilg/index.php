@@ -13,7 +13,11 @@
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">
                      <a class="btn btn-success btn-xs btn-mini" href="<?php echo base_url('budgets/nilg_revenue_summary') ?>" target="_blank"><i class="fa fa-book"></i> রিভিনিও সামারী  </a>
-                     <a class="btn btn-info btn-xs btn-mini" href="<?php echo base_url('budgets/nilg_dept_summary') ?>" target="_blank"><i class="fa fa-book"></i> সামারী করুন </a>
+                     <form action="<?=base_url('budgets/nilg_revenue_summary') ?>" method="post">
+                        <input type="hidden" name="dept_id" id="summary_dept_id" required>
+                     <a class="btn btn-info btn-xs btn-mini" type="submit" target="_blank"><i class="fa fa-book"></i> সামারী করুন </a>
+                     </form>
+                        
                      <a href="<?=base_url('budgets/budget_nilg_create')?>" class="btn btn-blueviolet btn-xs btn-mini"> Create Budget</a>
                   </div>
                </div>
@@ -43,14 +47,13 @@
                   <form action="<?=base_url('leave');?>" method="get" style="margin-top: -10px">
                     <div class="col-md-3 p5">
                       <div class="form-group">
-                       <?php $dpts = $this->db->get('department')->result(); ?>
-                           <select name="dept_id" id="dept_id" class="form-control input-sm">
-                              <option value=""><-- select --></option>
-                              <?php foreach ($dpts as $key => $r) { ?>
-                                 <option value="<?= $r->id ?>"><?= $r->dept_name ?></option>
-                              <?php } ?>
-                           </select>
-
+                           <?php $dpts = $this->db->get('department')->result(); ?>
+                              <select name="dept_id" id="dept_id" onchange="$('#summary_dept_id').val($(this).val());" class="form-control input-sm">
+                                 <option value=""><-- select --></option>
+                                 <?php foreach ($dpts as $key => $r) { ?>
+                                    <option value="<?= $r->id ?>"><?= $r->dept_name ?></option>
+                                 <?php } ?>
+                              </select>
                       </div>
                     </div>
                     <div class="col-md-3 p5">
