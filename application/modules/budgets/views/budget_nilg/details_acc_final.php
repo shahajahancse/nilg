@@ -40,7 +40,7 @@
 
                         <?php
                         $attributes = array('id' => 'jsvalidate');
-                        echo form_open_multipart("budgets/budget_nilg_dg_edit", $attributes);
+                        echo form_open_multipart("budgets/budget_nilg_acc_final", $attributes);
                         echo validation_errors();
                         ?>
                         <div class="row">
@@ -99,15 +99,17 @@
                                             </style>
                                             <div class="col-md-12">
                                                 <div class="col-md-12" style="margin:0px;padding:0px">
-                                                    <div class="col-md-4 margin_top_10" style="margin:0px;padding:0px">
+                                                    <!-- <div class="col-md-4 margin_top_10" style="margin:0px;padding:0px">
                                                         <label for="">Select Head</label>
                                                         <select name="head" id="head_id" class="form-control" onchange="addNewRow(this.value)">
                                                             <option value="">Select Head</option>
-                                                            <?php foreach ($budget_head_sub as $key => $value) {
-                                                                echo '<option value="' . $value->id . '">' . $value->budget_head_name . '>>' . $value->name_bn . '</option>';
-                                                            } ?>
+                                                            <?php
+                                                            // foreach ($budget_head_sub as $key => $value) {
+                                                               // echo '<option value="' . $value->id . '">' . $value->budget_head_name . '>>' . $value->name_bn . '</option>';
+                                                            //} 
+                                                            ?>
                                                         </select>
-                                                    </div>
+                                                    </div> -->
                                                     <div class="col-md-4">
                                                         <img id="loading" src="<?= base_url('img/loading.gif') ?>" style="height: 47px;margin-top: 14px;display: none;">
                                                     </div>
@@ -120,7 +122,7 @@
                                                             <th width="">শিরোনাম<span class="required">*</span></th>
                                                             <th width="">বাজেট কোড <span class="required">*</span></th>
                                                             <th width="">আমাউন্ট</th>
-                                                            <?php if ($this->ion_auth->in_group(array('dg'))) { ?>
+                                                            <?php if ($this->ion_auth->in_group(array('acc'))) { ?>
                                                             <th width="">আমাউন্ট</th>
                                                             <?php } ?>
                                                             <th width="10%">অ্যাকশন </th>
@@ -135,11 +137,11 @@
                                                                     <input type="hidden" name="budget_nilg_details_id[]" value="<?= $value->budget_nilg_details_id ?>">
                                                                     <input type="hidden" name="head_id[]" value="<?= $value->head_id ?>">
                                                                     <input type="hidden" name="head_sub_id[]" value="<?= $value->head_sub_id ?>">
-                                                                    <input value="<?= $value->acc_amt ?>" min="0" type="number"  class="form-control input-sm" readonly>
+                                                                    <input value="<?= $value->dg_amt ?>" min="0" type="number"  class="form-control input-sm" readonly>
                                                                 </td>
-                                                                <?php if ($this->ion_auth->in_group(array('dg'))) { ?>
+                                                                <?php if ($this->ion_auth->in_group(array('acc'))) { ?>
                                                                 <td>
-                                                                    <input value="<?= $value->dg_amt ?>" min="0" type="number" onkeyup="calculateTotal()" name="dg_amt[]" class="form-control amount input-sm">
+                                                                    <input value="<?= $value->revenue_amt ?>" min="0" type="number" onkeyup="calculateTotal()" name="revenue_amt[]" class="form-control amount input-sm">
                                                                 </td>
                                                                 <?php } ?>
                                                                 <td><a href="javascript:void(0)" onclick="removeRow(this,<?= $value->budget_nilg_details_id ?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
@@ -236,7 +238,7 @@
                         </td>
                         <?php if ($this->ion_auth->in_group(array('dg'))) { ?>
                         <td>
-                            <input value="0" min="0" type="number" onkeyup="calculateTotal()" name="dg_amt[]" class="form-control amount input-sm">
+                            <input value="0" min="0" type="number" onkeyup="calculateTotal()" name="revenue_amt[]" class="form-control amount input-sm">
                         </td>
                         <?php } ?>
                         <td><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
