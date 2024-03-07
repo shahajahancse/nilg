@@ -44,7 +44,7 @@
                     <div class="col-md-3 p5">
                       <div class="form-group">
                        <?php $dpts = $this->db->get('department')->result(); ?>
-                           <select name="dept_id" id="dept_id">
+                           <select name="dept_id" id="dept_id" class="form-control input-sm">
                               <option value=""><-- select --></option>
                               <?php foreach ($dpts as $key => $r) { ?>
                                  <option value="<?= $r->id ?>"><?= $r->dept_name ?></option>
