@@ -228,7 +228,7 @@ class Budgets extends Backend_Controller
         $mpdf->output();
     }
 
-  public function nilg_change_status($requisition_id = null){
+    public function nilg_change_status($requisition_id = null){
     $id  = (int) decrypt_url($this->input->post('id'));
     $type  = $this->input->post('type');
     $info = $this->Budgets_model->get_budget_nilg_info($id);
@@ -269,8 +269,48 @@ class Budgets extends Backend_Controller
         }
     }
 
-  }
+    }
 
+    public function budget_nilg_marge()
+    {
+        $id = (int) decrypt_url($encid);
+        $budget_nilg = $this->Common_model->get_single_data('budget_nilg', $id);
+        $this->data['budget_nilg'] = $budget_nilg;
+
+        $this->db->select('budget_nilg_details.*,
+                    budget_nilg_details.id as budget_nilg_details_id,
+                    budget_head_sub.id,
+                    budget_head_sub.name_bn,
+                    budget_head_sub.bd_code,
+                    budget_head.name_bn as budget_head_name,
+                    budget_head.id as budget_head_id
+                ');
+        $this->db->from('budget_nilg_details');
+        $this->db->join('budget_head_sub', 'budget_nilg_details.head_sub_id = budget_head_sub.id');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->db->where('budget_nilg_details.budget_nilg_id', $id);
+        $this->db->where('budget_nilg_details.modify_soft_d', 1);
+        $budget_nilg_details = $this->db->get()->result();
+        $this->data['budget_nilg_details'] = $budget_nilg_details;
+
+        $this->db->select('budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name');
+        $this->db->from('budget_head_sub');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->data['budget_head_sub'] = $this->db->get()->result();
+        //Dropdown
+        $this->data['budget_head'] = $this->Common_model->get_dropdown('budget_head', 'name_bn', 'id');
+        $this->data['info'] = $this->Common_model->get_user_details($this->data['budget_nilg']->created_by);
+
+        $this->data['meta_title'] = 'বাজেট বিস্তারিত';
+        if ($this->ion_auth->in_group(array('bdh'))) {
+            $this->data['subview'] = 'budget_nilg/details_dept_head';
+        } else if ($this->ion_auth->in_group(array('admin', 'nilg', 'dg', 'acc'))) {
+            $this->data['subview'] = 'budget_nilg/details_dg_acc';
+        } else {
+            $this->data['subview'] = 'budget_nilg/details';
+        }
+        $this->load->view('backend/_layout_main', $this->data);
+    }
     // End Budget Nilg
 
     // Manage Budget field list
