@@ -363,17 +363,31 @@ class Budgets extends Backend_Controller
     {
         $fcy = $this->db->order_by('id','DESC')->get('session_year')->row();
 
-        $this->db->select('b.id, b.title, b.acc_amt, dg_amt, b.revenue_amt, b.dept_id, dept.name_en, dept.dept_name');
-        $this->db->from('budget_nilg b');
+        $this->db->select('
+                        bd.head_sub_id,
+                        SUM(bd.acc_amt) as acc_amt, 
+                        SUM(bd.dg_amt) as dg_amt, 
+                        SUM(bd.revenue_amt) as revenue_amt, 
+                        bhs.name_bn,
+                        bhs.bd_code,
+                    ');
+        $this->db->from('budget_nilg_details bd');
+        $this->db->join('budget_nilg as b', 'b.id = bd.budget_nilg_id');
+        $this->db->join('budget_head_sub as bhs', 'bhs.id = bd.head_sub_id');
 
-        $this->db->join('department as dept', 'dept.id = b.dept_id');
         $this->db->where('b.fcl_year', $fcy->id);
-        $this->db->order_by('b.dept_id','ASC')->group_by('b.id');
+        $this->db->where_in('b.status', array(3,4,5,6));
+        $this->db->order_by('bd.head_sub_id','ASC')->group_by('bd.head_sub_id');
+
         $this->data['summary'] = $this->db->get()->result();
+        $this->data['fcl'] = $fcy;
 
         $this->data['meta_title'] = 'বাজেট সামারী ';
-        $this->data['subview'] = 'budget_nilg/nilg_revenue_summary';
-        $this->load->view('backend/_layout_main', $this->data);
+        $html = $this->load->view('budget_nilg/nilg_revenue_summary', $this->data, true);
+
+        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+        $mpdf->WriteHtml($html);
+        $mpdf->output();
     }
     // End Budget Nilg
 
