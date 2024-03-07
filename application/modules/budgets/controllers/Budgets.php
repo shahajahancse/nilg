@@ -24,7 +24,6 @@ class Budgets extends Backend_Controller
         $limit = 15;
         $user_id = $this->data['userDetails']->id;
         $dept_id = $this->data['userDetails']->crrnt_dept_id;
-
         if ($this->ion_auth->in_group(array('bdh'))) {
             $arr = array(2,3,4,5,6,7,8);
             $results = $this->Budgets_model->get_budget($limit, $offset, $arr, $dept_id);
