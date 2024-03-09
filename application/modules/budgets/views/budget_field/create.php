@@ -52,7 +52,7 @@
                         </div>
                         <?php endif; ?>
 
-                        <?php 
+                        <?php
                   $attributes = array('id' => 'jsvalidate');
                   echo form_open_multipart("budgets/budget_field_create",$attributes);
                   echo validation_errors();
@@ -68,11 +68,11 @@
 
 
                                     <div class="row form-row" style="font-size: 16px; color: black;">
-                                    <div class="col-md-12" style="display: flex;gap: 74px;padding-bottom: 14px;" >
+                                    <div class="col-md-12" style="display: flex;gap: 74px; padding-bottom: 7px;" >
                                             <div style="width:fit-content;">
                                                 আবেদনকারীর নাম: <strong><?=$info->name_bn?></strong>
                                             </div>
-                                            
+
                                             <div style="width:fit-content;">
                                                 পদবীর নাম: <strong><?=$info->current_desig_name?></strong>
                                             </div>
@@ -214,7 +214,7 @@ function removeRow(id) {
 <script>
 function remove_token_Row(el,head_sub_id) {
     $(el).closest("tr").remove();
-    calculateTotal_token(head_sub_id) 
+    calculateTotal_token(head_sub_id)
     calculateTotal()
 }
 </script>
@@ -342,7 +342,7 @@ function getofficeid(id) {
     if (office_id == "") {
         return false;
     }
-    $("#loading").css("display", "flex"); 
+    $("#loading").css("display", "flex");
     $.ajax({
         type: "POST",
         url: "<?= base_url('budgets/get_office_id_by_type') ?>",
@@ -350,7 +350,7 @@ function getofficeid(id) {
             office_type: office_id
         },
         success: function(data) {
-            $("#loading").css("display", "none"); 
+            $("#loading").css("display", "none");
             data = JSON.parse(data);
             $("#office_id").append('<option value="">-- নির্বাচন করুন --</option>');
             $.each(data, function(key, value) {
