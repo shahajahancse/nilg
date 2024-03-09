@@ -771,7 +771,7 @@ class Budgets extends Backend_Controller
         $id = (int) decrypt_url($encid);
         $budget_field = $this->Common_model->get_single_data('budget_field', $id);
         $this->data['budget_field'] = $budget_field;
-        $this->db->select('budget_field_details.*,budget_field_details.id as budget_field_details_id,budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name,budget_head.id as budget_head_id');
+        $this->db->select('budget_field_details.*,budget_field_details.id as budget_field_details_id,budget_head_sub.bd_code,budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name,budget_head.id as budget_head_id');
         $this->db->from('budget_field_details');
         $this->db->join('budget_head_sub', 'budget_field_details.head_sub_id = budget_head_sub.id');
         $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
