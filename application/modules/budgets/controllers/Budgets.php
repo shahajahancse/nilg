@@ -1039,7 +1039,7 @@ class Budgets extends Backend_Controller
         $this->data['subview'] = 'budget_report/index';
         $this->load->view('backend/_layout_main', $this->data);
     }
-    /************************** Common Function end ******************************
+    /************************** Report Function end ******************************
     ***************************************************************************/
 
 
