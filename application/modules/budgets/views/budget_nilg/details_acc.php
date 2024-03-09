@@ -53,7 +53,7 @@
                                             <div style="width:fit-content;">
                                                 আবেদনকারীর নাম: <strong><?=$info->name_bn?></strong>
                                             </div>
-                                            
+
                                             <div style="width:fit-content;">
                                                 পদবীর নাম: <strong><?=$info->current_desig_name?></strong>
                                             </div>
@@ -81,12 +81,12 @@
 
                                     <div class="row form-row">
                                         <div class="col-md-12">
-                                            <h4 class="semi-bold margin_left_15">বাজেট তালিকা 
+                                            <h4 class="semi-bold margin_left_15">বাজেট তালিকা
                                                 <em style="color: #f73838; font-size: 15px;">Click <strong>Add More</strong> button for adding more item. </em>
                                             </h4>
                                             <style type="text/css">
                                                 #appRowDiv td {
-                                                    padding: 5px;
+                                                    padding: 0px 5px !important;
                                                     border-color: #ccc;
                                                 }
 
@@ -111,7 +111,7 @@
                                                     <div class="col-md-4">
                                                         <img id="loading" src="<?= base_url('img/loading.gif') ?>" style="height: 47px;margin-top: 14px;display: none;">
                                                     </div>
-                                                  
+
                                                 </div>
 
                                                 <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e;" id="appRowDiv">

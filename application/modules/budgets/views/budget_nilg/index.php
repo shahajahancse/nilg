@@ -13,16 +13,12 @@
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right"
                             style="display: flex;align-content: center;justify-content: center;flex-wrap: wrap;gap: 8px;">
-                            <?php if( $this->ion_auth->in_group(array('admin', 'nilg', 'dg','acc'))){ ?>
+                            <?php if( $this->ion_auth->in_group(array('admin', 'nilg', 'bdg','acc'))){ ?>
 
                             <a class="btn btn-success btn-xs btn-mini"
                                 href="<?php echo base_url('budgets/nilg_revenue_summary') ?>" target="_blank"><i
                                     class="fa fa-book"></i> রিভিনিও সামারী </a>
-                            <form action="<?=base_url('budgets/nilg_revenue_summary') ?>" method="post">
-                                <input type="hidden" name="dept_id" id="summary_dept_id" required>
-                                <a class="btn btn-info btn-xs btn-mini" type="submit" target="_blank"><i
-                                        class="fa fa-book"></i> সামারী করুন </a>
-                            </form>
+
                             <?php }  ?>
                             <a href="<?=base_url('budgets/budget_nilg_create')?>"
                                 class="btn btn-blueviolet btn-xs btn-mini"> Create Budget</a>
@@ -37,35 +33,36 @@
                         <?php endif; ?>
 
                         <style type="text/css">
-                        .btt-m,
-                        .btt-m:focus,
-                        .btt-m:active:focus,
-                        .btt-m.active:focus {
-                            outline: none !important;
-                            padding: 5px 25px !important;
-                            margin-top: 0px;
-                        }
+                            .btt-m,
+                            .btt-m:focus,
+                            .btt-m:active:focus,
+                            .btt-m.active:focus {
+                                outline: none !important;
+                                padding: 5px 25px !important;
+                                margin-top: 0px;
+                            }
 
-                        .btt-t,
-                        .btt-t:focus,
-                        .btt-t:active:focus,
-                        .btt-t.active:focus,
-                        .btt-t:hover {
-                            outline: none !important;
-                            padding: 5px 25px !important;
-                            margin-top: 0px !important;
-                            width: 40px !important;
-                            background: #ddb90a;
-                        }
+                            .btt-t,
+                            .btt-t:focus,
+                            .btt-t:active:focus,
+                            .btt-t.active:focus,
+                            .btt-t:hover {
+                                outline: none !important;
+                                padding: 5px 25px !important;
+                                margin-top: 0px !important;
+                                width: 40px !important;
+                                background: #ddb90a;
+                            }
                         </style>
-
-                        <form action="<?=base_url('leave');?>" method="get" style="margin-top: -10px">
+                        <?php if( $this->ion_auth->in_group(array('admin', 'nilg', 'bdg','acc'))){ ?>
+                        <form target="_blank" action="<?=base_url('budgets/nilg_revenue_summary') ?>" method="post"
+                            style="margin-top: -10px">
                             <div class="col-md-3 p5">
                                 <div class="form-group">
                                     <?php $dpts = $this->db->get('department')->result(); ?>
                                     <select name="dept_id" id="dept_id"
                                         onchange="$('#summary_dept_id').val($(this).val());"
-                                        class="form-control input-sm">
+                                        class="form-control input-sm" required>
                                         <option value="">
                                             <-- select -->
                                         </option>
@@ -75,22 +72,24 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-3 p5">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <span class="input-group-btn" style="display: block; margin-top: -1px">
-                                            <button class="btn btn-primary btn-block btt-m">
-                                                <span style="margin-left: -6px;" class="fa fa-search"></span>
-                                            </button>
-                                            <a href="<?=base_url('leave');?>"
-                                                class="btn btn-primary btn-block btt-t"><span
-                                                    style="margin-left: -12px;">মুছুন</span></a>
-                                        </span>
+                            <input class="btn btn-primary btn-xs" type="submit" value="সামারী করুন" target="_blank"
+                                style="padding: 6px;margin-top: 6px;">
+                                <!-- <div class="col-md-3 p5" sty>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <span class="input-group-btn" style="display: block; margin-top: -1px">
+                                                <button class="btn btn-primary btn-block btt-m">
+                                                    <span style="margin-left: -6px;" class="fa fa-search"></span>
+                                                </button>
+                                                <a href="<?=base_url('leave');?>"
+                                                    class="btn btn-primary btn-block btt-t"><span
+                                                        style="margin-left: -12px;">মুছুন</span></a>
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
+                                </div> -->
                         </form>
-
+                        <?php } ?>
                         <table class="table table-hover table-condensed" border="0">
                             <thead>
                                 <tr>

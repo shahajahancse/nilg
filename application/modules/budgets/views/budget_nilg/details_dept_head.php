@@ -38,9 +38,9 @@
                             </div>
                         <?php endif; ?>
                         <?php
-                        $attributes = array('id' => 'jsvalidate');
-                        echo form_open_multipart("budgets/budget_nilg_dept_edit", $attributes);
-                        echo validation_errors();
+                            $attributes = array('id' => 'jsvalidate');
+                            echo form_open_multipart("budgets/budget_nilg_dept_edit", $attributes);
+                            echo validation_errors();
                         ?>
                         <div class="row">
                             <div class="col-md-12">
@@ -48,11 +48,11 @@
                                     <legend>বাজেট তথ্য</legend>
                                     <input type="hidden" name="budget_nilg_id" value="<?= $budget_nilg->id ?>">
                                     <div class="row form-row" style="font-size: 16px; color: black;">
-                                    <div class="col-md-12" style="display: flex;gap: 74px;padding-bottom: 14px;" >
+                                        <div class="col-md-12" style="display: flex;gap: 74px;padding-bottom: 7px;" >
                                             <div style="width:fit-content;">
                                                 আবেদনকারীর নাম: <strong><?=$info->name_bn?></strong>
                                             </div>
-                                            
+
                                             <div style="width:fit-content;">
                                                 পদবীর নাম: <strong><?=$info->current_desig_name?></strong>
                                             </div>
@@ -61,13 +61,13 @@
                                             </div>
                                         </div>
                                         <br>
-                                        <div class="col-md-4">
-                                            <label for="title" class="control-label">শিরোনাম : </label>
-                                            <input type="text" class="form-control input-sm" name="title" style="min-height: 33px;" value="<?= $budget_nilg->title ?>" required>
+                                        <div class="col-md-8" style="display: flex; gap: 20px;">
+                                            <label for="title" class="control-label col-3">শিরোনাম  </label>
+                                            <input type="text" class="col-9 form-control input-sm" name="title" style="min-height: 33px;" value="<?= $budget_nilg->title ?>" required>
                                         </div>
-                                        <div class="col-md-4">
-                                            <label for="fcl_year" class="control-label">অর্থবছর</label>
-                                            <select name="fcl_year" id="fcl_year">
+                                        <div class="col-md-4" style="display: flex; gap: 20px;">
+                                            <label for="fcl_year" class="control-label col-3">অর্থবছর  </label>
+                                            <select name="fcl_year" id="fcl_year" class="col-9 form-control input-sm">
                                                 <option value="">নির্বাচন করুন</option>
                                                 <?php $session_year = $this->db->get('session_year')->result();
                                                 foreach ($session_year as $key => $value) {
@@ -79,12 +79,12 @@
 
                                     <div class="row form-row">
                                         <div class="col-md-12">
-                                            <h4 class="semi-bold margin_left_15">বাজেট তালিকা 
+                                            <h4 class="semi-bold margin_left_15">বাজেট তালিকা
                                                 <em style="color: #f73838; font-size: 15px;">Click <strong>Add More</strong> button for adding more item. </em>
                                             </h4>
                                             <style type="text/css">
                                                 #appRowDiv td {
-                                                    padding: 5px;
+                                                    padding: 0px 5px !important;
                                                     border-color: #ccc;
                                                 }
 
@@ -98,7 +98,6 @@
                                             <div class="col-md-12">
                                                 <div class="col-md-12" style="margin:0px;padding:0px">
                                                     <div class="col-md-4 margin_top_10" style="margin:0px;padding:0px">
-                                                        <label for="">Select Head</label>
                                                         <select name="head" id="head_id" class="form-control" onchange="addNewRow(this.value)">
                                                             <option value="">Select Head</option>
                                                             <?php foreach ($budget_head_sub as $key => $value) {
@@ -106,10 +105,11 @@
                                                             } ?>
                                                         </select>
                                                     </div>
+                                                    <br><br>
                                                     <div class="col-md-4">
                                                         <img id="loading" src="<?= base_url('img/loading.gif') ?>" style="height: 47px;margin-top: 14px;display: none;">
                                                     </div>
-                                                
+
                                                 </div>
                                                 <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e;" id="appRowDiv">
                                                     <thead>
@@ -165,15 +165,15 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="">
+                                                <div class="pull-right">
+                                                    <input type="submit" name="save" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
+                                                    <input type="submit" name="submit" value="ফরওয়ার্ড করুন" class="btn btn-primary btn-cons">
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </fieldset>
-                            </div>
-                        </div>
-                        <div class="form-actions">
-                            <div class="pull-right">
-                                <input type="submit" name="save" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
-                                <input type="submit" name="submit" value="ফরওয়ার্ড করুন" class="btn btn-primary btn-cons">
                             </div>
                         </div>
                         <?php echo form_close(); ?>

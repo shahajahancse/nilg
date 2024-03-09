@@ -75,7 +75,7 @@
    <!--Load the AJAX API-->
    <!-- <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> -->
    <script src="<?= base_url('assets/js/loader.js'); ?>"></script>
-   
+
 
 
    <!-- <script src="https://code.highcharts.com/modules/exporting.js"></script> -->
@@ -100,7 +100,7 @@
          <div class="header-quick-nav">
             <div class="pull-left">
                <ul class="nav quick-section">
-                  <li class="quicklinks"> 
+                  <li class="quicklinks">
                      <a href="javascript:;" class="" id="layout-condensed-toggle">
                         <i class="fa fa-bars" style="font-size: 22px; color: #ffffff !important;"></i>
                      </a>
@@ -117,7 +117,7 @@
                            <span class="bold">
                               <?php
                               if ($this->ion_auth->in_group(array('admin', 'nilg', 'city', 'ddlg', 'zp', 'uz', 'paura', 'up'))) {
-                                 echo $userDetails->office_name;                        
+                                 echo $userDetails->office_name;
                               } else {
                                  echo $userDetails->name_bn;
                               }
@@ -128,7 +128,7 @@
                      </div>
                   </a>
 
-                  <?php 
+                  <?php
                   if ($this->ion_auth->in_group(array('trainee', 'trainer', 'partner'))) {
                      $path = base_url('uploads/profile/');
                      if ($userDetails->profile_img != NULL) {
@@ -316,7 +316,7 @@
 
                <?php if ($this->ion_auth->in_group(array('admin', 'nilg', 'uz', 'ddlg'))) { ?>
                   <li class="start <?= backend_activate_menu_class('training') ?>">
-                     <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title">প্রশিক্ষণ</span> <span class="selected"></span> 
+                     <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title">প্রশিক্ষণ</span> <span class="selected"></span>
                         <?php
                         if ($request_training_application_no > 0) {
                            echo '<span class="badge badge-danger pull-right">' . eng2bng($request_training_application_no) . '</span>';
@@ -324,7 +324,7 @@
                         ?>
                         <span class="arrow"></span> </a>
                         <ul class="sub-menu">
-                           <li> <a href="<?= base_url('training'); ?>">প্রশিক্ষণের তালিকা 
+                           <li> <a href="<?= base_url('training'); ?>">প্রশিক্ষণের তালিকা
                               <?php
                               if ($request_training_application_no > 0) {
                                  echo '<span class="badge badge-danger pull-right">' . eng2bng($request_training_application_no) . '</span>';
@@ -366,7 +366,7 @@
                   </li>
                <?php } ?>
 
-               <?php if ($this->ion_auth->in_group(array('admin', 'dg', 'nilg', 'bdh', 'acc')) || $userDetails->office_type == 7) { ?>
+               <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg', 'bdh', 'acc')) || $userDetails->office_type == 7) { ?>
                   <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">বাজেট</span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
                         <li class="start <?= backend_activate_menu_method('budget_nilg') ?>"> <a href="<?= base_url('budgets/budget_nilg'); ?>">বাজেট এনআইএলজি</a> </li>
@@ -394,12 +394,12 @@
                   </li> -->
                <?php } ?>
 
-               <?php 
+               <?php
                   /*if ($this->ion_auth->in_group(array('admin', 'nilg'))) { ?>
                   <li class="start <?= backend_activate_menu_class('qbank') ?>">
                      <a href="<?= base_url('qbank'); ?>"> <i class="fa fa-book"></i> <span class="title">প্রশ্ন ব্যাংক</span></a>
                   </li>
-                  <?php } 
+                  <?php }
                */ ?>
 
 
@@ -413,12 +413,12 @@
                      <ul class="sub-menu">
                         <?php if($this->ion_auth->in_group(array('admin', 'nilg'))){ ?>
                         <li> <a href="<?= base_url('leave'); ?>"> অনুমোদিত তালিকা </a> </li>
-                        <li class="start <?= backend_activate_menu_method('pending_list') ?>"><a href="<?= base_url('leave/pending_list') ?>">অপেক্ষমাণ তালিকা 
+                        <li class="start <?= backend_activate_menu_method('pending_list') ?>"><a href="<?= base_url('leave/pending_list') ?>">অপেক্ষমাণ তালিকা
                            <?php if ($leave_notify > 0) {
                               echo '<span class="badge badge-danger pull-right" style="margin-right:10px">' . eng2bng($leave_notify) . '</span>';
                            } ?>
                         </a></li>
-                        <li class="start <?= backend_activate_menu_method('rejected_list') ?>"><a href="<?= base_url('leave/rejected_list') ?>">প্রত্যাখ্যাত তালিকা 
+                        <li class="start <?= backend_activate_menu_method('rejected_list') ?>"><a href="<?= base_url('leave/rejected_list') ?>">প্রত্যাখ্যাত তালিকা
                         </a></li>
                         <li class="start <?= backend_activate_menu_method('leave_reports') ?>"><a href="<?= base_url('leave/leave_reports') ?>">রিপোর্ট</a></li>
                         <?php } elseif (func_nilg_auth($userDetails->office_type) == 'employee') { ?>
@@ -429,7 +429,7 @@
                <?php } ?>
 
 
-               <!--  <?php 
+               <!--  <?php
                /*if (func_nilg_auth($userDetails->office_type) == 'employee' && !in_array(func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id), $people)) { ?>
                <li class="start <?= backend_activate_menu_class('inventory') ?>">
                   <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title">ইনভেন্টরি</span> <span class="selected"></span>
@@ -473,7 +473,7 @@
                               echo '<span class="badge badge-danger pull-right">' . $director_general_no . '</span>';
                            } ?>
 
-                           <?php 
+                           <?php
                            if (isset($request_staff_no) && $request_staff_no > 0) {
                               if ($request_staff_no > 0 || $un_available_item_notify > 0) {
                                  echo '<span class="badge badge-danger pull-right">' . ($request_staff_no + $un_available_item_notify) . '</span>';
@@ -482,7 +482,7 @@
                            ?>
 
                            <span class="badge badge-danger pull-right"></span>
-                           <span class="arrow"></span> 
+                           <span class="arrow"></span>
                         </a>
                         <ul class="sub-menu">
                            <li class="start <?= backend_activate_menu_class('inventory') ?>">
@@ -520,7 +520,7 @@
                                  <a href="<?= base_url('inventory/pending_list') ?>">পেন্ডিং তালিকা
                                  <?php if ($request_stor_no['pending'] > 0) {
                                     echo '<span class="badge badge-danger pull-right" style="margin-right:15px">' . $request_stor_no['pending'] . '</span>';
-                                 } ?> 
+                                 } ?>
                                  </a>
                               </li>
 
@@ -596,10 +596,10 @@
                   <!-- <li class="start <?= backend_activate_menu_class('trainer_register') ?>">
                      <a href="<?= base_url('trainer_register'); ?>"> <i class="fa fa-user"></i>  <span class="title">প্রশিক্ষক নিবন্ধন</span></a>
                   </li> -->
-               <?php } ?>                  
+               <?php } ?>
 
                <?php if ($this->ion_auth->is_admin() || $this->ion_auth->in_group('nilg')) { ?>
-                  <li class="start  <?= backend_activate_menu_class('budget_head') ?> <?= backend_activate_menu_class('qbank') ?> <?= backend_activate_menu_class('office') ?> <?= backend_activate_menu_class('designation') ?> <?= backend_activate_menu_class('course') ?> <?= backend_activate_menu_class('evaluation_subject') ?> <?= backend_activate_menu_class('training_material') ?> <?= backend_activate_menu_class('dev_partner') ?>"> 
+                  <li class="start  <?= backend_activate_menu_class('budget_head') ?> <?= backend_activate_menu_class('qbank') ?> <?= backend_activate_menu_class('office') ?> <?= backend_activate_menu_class('designation') ?> <?= backend_activate_menu_class('course') ?> <?= backend_activate_menu_class('evaluation_subject') ?> <?= backend_activate_menu_class('training_material') ?> <?= backend_activate_menu_class('dev_partner') ?>">
                      <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">এনআইএলজি সেটিংস</span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
                         <li> <a href="<?= base_url('nilg_setting/budget_head'); ?>">বাজেট হেড</a> </li>
@@ -662,7 +662,7 @@
                         <!-- <li> <a href="<?= base_url('acl/group_name'); ?>"> Group Name</a></li> -->
                      </ul>
                   </li>
-               <?php } ?>                  
+               <?php } ?>
 
                <li class="start"><a href="<?= base_url('login/logout') ?>"> <i class="fa fa-power-off"></i>
                   <span class="title">লগ আউট</span> </a></li>

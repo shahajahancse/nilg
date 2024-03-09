@@ -40,7 +40,7 @@
                         </div>
                         <?php endif; ?>
 
-                        <?php 
+                        <?php
                   $attributes = array('id' => 'jsvalidate');
                   echo form_open_multipart("budgets/budget_nilg_create",$attributes);
                   echo validation_errors();
@@ -52,12 +52,12 @@
                                     <legend>বাজেট তথ্য</legend>
 
                                     <div class="row form-row" style="font-size: 16px; color: black;">
-                                        
-                                        <div class="col-md-12" style="display: flex;gap: 74px;padding-bottom: 14px;" >
+
+                                        <div class="col-md-12" style="display: flex;gap: 74px;padding-bottom: 7px;" >
                                             <div style="width:fit-content;">
                                                 আবেদনকারীর নাম: <strong><?=$info->name_bn?></strong>
                                             </div>
-                                            
+
                                             <div style="width:fit-content;">
                                                 পদবীর নাম: <strong><?=$info->current_desig_name?></strong>
                                             </div>
@@ -200,7 +200,7 @@ function removeRow(id) {
             $("#loading").hide();
            }
        })
-       
+
    }
 </script>
 <script>
@@ -216,7 +216,7 @@ function removeRow(id) {
 <script>
       $(document).ready(function() {
          calculateTotal()
-        
+
       })
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>

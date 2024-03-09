@@ -39,9 +39,9 @@
                         <?php endif; ?>
 
                         <?php
-                        $attributes = array('id' => 'jsvalidate');
-                        echo form_open_multipart("budgets/budget_nilg_edit", $attributes);
-                        echo validation_errors();
+                            $attributes = array('id' => 'jsvalidate');
+                            echo form_open_multipart("budgets/budget_nilg_edit", $attributes);
+                            echo validation_errors();
                         ?>
 
                         <div class="row">
@@ -50,7 +50,7 @@
                                     <legend>বাজেট তথ্য</legend>
                                     <input type="hidden" name="budget_nilg_id" value="<?= $budget_nilg->id ?>">
 
-                                    <div class="row form-row" style="font-size: 16px; color: black;">
+                                    <div class="row form-row" style="font-size: 16px; color: black; margin-bottom: 6px;">
                                         <div class="col-md-4">
                                             আবেদনকারীর নাম: <strong><?= $info->name_bn ?></strong>
                                         </div>
@@ -60,14 +60,14 @@
                                         <div class="col-md-4">
                                             ডিপার্টমেন্ট নাম: <strong><?= $info->current_dept_name ?></strong>
                                         </div>
-                                        <br>
-                                        <br>
-                                        <div class="col-md-4">
+                                    </div>
 
+                                    <div class="row form-row" style="font-size: 16px; color: black;">
+                                        <div class="col-md-6">
                                             <label for="title" class="control-label">শিরোনাম : </label>
                                             <input type="text" class="form-control input-sm" name="title" style="min-height: 33px;" value="<?= $budget_nilg->title ?>" required>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <label for="fcl_year" class="control-label">অর্থবছর</label>
                                             <select name="fcl_year" id="fcl_year">
                                                 <option value="">নির্বাচন করুন</option>
@@ -81,11 +81,10 @@
 
                                     <div class="row form-row">
                                         <div class="col-md-12">
-                                            <h4 class="semi-bold margin_left_15">বাজেট তালিকা <em style="color: #f73838; font-size: 15px;">Click <strong>Add
-                                                        More</strong> button for adding more item. </em></h4>
+                                            <h4 class="semi-bold margin_left_15">বাজেট তালিকা <em style="color: #f73838; font-size: 15px;">Click <strong>Add More</strong> button for adding more item. </em></h4>
                                             <style type="text/css">
                                                 #appRowDiv td {
-                                                    padding: 5px;
+                                                    padding: 0px 5px !important;
                                                     border-color: #ccc;
                                                 }
 
@@ -96,72 +95,72 @@
                                                     color: black;
                                                 }
                                             </style>
-                                            <div class="col-md-12">
-                                                <div class="col-md-12" style="margin:0px;padding:0px">
-                                                    <div class="col-md-4 margin_top_10" style="margin:0px;padding:0px">
-                                                        <label for="">Select Head</label>
-                                                        <select name="head" id="head_id" class="form-control" onchange="addNewRow(this.value)">
-                                                            <option value="">Select Head</option>
-                                                            <?php foreach ($budget_head_sub as $key => $value) {
-                                                                echo '<option value="' . $value->id . '">' . $value->budget_head_name . '>>' . $value->name_bn . '</option>';
-                                                            } ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <img id="loading" src="<?= base_url('img/loading.gif') ?>" style="height: 47px;margin-top: 14px;display: none;">
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <label for="">Total Amount</label>
-                                                        <input type="number" class="form-control input-sm" name="total_amount" id="total_amount" readonly>
 
-                                                    </div>
-
+                                            <div class="col-md-12" style="margin:0px;padding:0px">
+                                                <div class="col-md-4 margin_top_10" style="margin:0px;padding:0px">
+                                                    <label for="">Select Head</label>
+                                                    <select name="head" id="head_id" class="form-control" onchange="addNewRow(this.value)">
+                                                        <option value="">Select Head</option>
+                                                        <?php foreach ($budget_head_sub as $key => $value) {
+                                                            echo '<option value="' . $value->id . '">' . $value->budget_head_name . '>>' . $value->name_bn . '</option>';
+                                                        } ?>
+                                                    </select>
                                                 </div>
 
-                                                <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e;" id="appRowDiv">
-                                                    <thead>
-                                                        <tr>
-                                                            <th width="30%">বাজেট হেড<span class="required">*</span></th>
-                                                            <th width="30%">বাজেট সাব হেড <span class="required">*</span></th>
-                                                            <th width="30%">বাজেট আমাউন্ট</th>
-                                                            <th width="10%">অ্যাকশন </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="tbody">
-                                                        <?php foreach ($budget_nilg_details as $key => $value) { ?>
-                                                            <tr>
-                                                                <td><?= $value->budget_head_name ?></td>
-                                                                <td><?= $value->name_bn ?></td>
-                                                                <td>
-                                                                    <input type="hidden" name="budget_nilg_details_id[]" value="<?= $value->budget_nilg_details_id ?>">
-                                                                    <input type="hidden" name="head_id[]" value="<?= $value->head_id ?>">
-                                                                    <input type="hidden" name="head_sub_id[]" value="<?= $value->head_sub_id ?>">
-                                                                    <input value="<?= $value->amount ?>" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm">
-                                                                </td>
-                                                                <td><a href="javascript:void(0)" onclick="removeRow(this,<?= $value->budget_nilg_details_id ?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
-                                                            </tr>
-                                                        <?php } ?>
-                                                    </tbody>
-                                                </table>
-                                                <br>
-                                                <br>
+                                                <div class="col-md-4">
+                                                    <img id="loading" src="<?= base_url('img/loading.gif') ?>" style="height: 47px;margin-top: 14px;display: none;">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="">Total Amount</label>
+                                                    <input type="number" class="form-control input-sm" name="total_amount" id="total_amount" readonly>
 
-                                                <div class="col-md-12" style="margin-top: 10px; padding: 0px;">
-                                                    <div class="form-group margin_top_10">
-                                                        <label for=""> Description :</label>
-                                                        <textarea class="form-control" name="description" style="height: 300px;" id="description"> <?= $budget_nilg->description ?></textarea>
-                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e;" id="appRowDiv">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="30%">বাজেট হেড<span class="required">*</span></th>
+                                                        <th width="30%">বাজেট সাব হেড <span class="required">*</span></th>
+                                                        <th width="30%">বাজেট আমাউন্ট</th>
+                                                        <th width="10%">অ্যাকশন </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tbody">
+                                                    <?php foreach ($budget_nilg_details as $key => $value) { ?>
+                                                        <tr>
+                                                            <td><?= $value->budget_head_name ?></td>
+                                                            <td><?= $value->name_bn ?></td>
+                                                            <td>
+                                                                <input type="hidden" name="budget_nilg_details_id[]" value="<?= $value->budget_nilg_details_id ?>">
+                                                                <input type="hidden" name="head_id[]" value="<?= $value->head_id ?>">
+                                                                <input type="hidden" name="head_sub_id[]" value="<?= $value->head_sub_id ?>">
+                                                                <input value="<?= $value->amount ?>" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm">
+                                                            </td>
+                                                            <td><a href="javascript:void(0)" onclick="removeRow(this,<?= $value->budget_nilg_details_id ?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
+                                                        </tr>
+                                                    <?php } ?>
+                                                </tbody>
+                                            </table>
+                                            <br>
+                                            <br>
+
+                                            <div class="col-md-12" style="margin-top: 10px; padding: 0px;">
+                                                <div class="form-group margin_top_10">
+                                                    <label for=""> Description :</label>
+                                                    <textarea class="form-control" name="description" style="height: 300px;" id="description"> <?= $budget_nilg->description ?></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-actions">
+                                                <div class="pull-right">
+                                                    <input type="submit" name="save" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
+                                                    <input type="submit" name="submit" value="ফরওয়ার্ড করুন" class="btn btn-primary btn-cons">
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </fieldset>
-                            </div>
-                        </div>
-                        <div class="form-actions">
-                            <div class="pull-right">
-                                <input type="submit" name="save" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
-                                <input type="submit" name="submit" value="ফরওয়ার্ড করুন" class="btn btn-primary btn-cons">
                             </div>
                         </div>
                         <?php echo form_close(); ?>

@@ -30,7 +30,7 @@ class Budgets extends Backend_Controller
         } else if ($this->ion_auth->in_group(array('acc'))) {
             $arr = array(3,4,5,6,7,8);
             $results = $this->Budgets_model->get_budget($limit, $offset, $arr, null, null);
-        } else if ($this->ion_auth->in_group(array('dg'))) {
+        } else if ($this->ion_auth->in_group(array('bdg'))) {
             $arr = array(4,5,6,7,8);
             $results = $this->Budgets_model->get_budget($limit, $offset, $arr, null, null);
         } else if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
@@ -132,7 +132,7 @@ class Budgets extends Backend_Controller
             $this->data['subview'] = 'budget_nilg/details_acc_final';
         } else if ($this->ion_auth->in_group(array('acc'))) {
             $this->data['subview'] = 'budget_nilg/details_acc';
-        } else if ($this->ion_auth->in_group(array('dg'))) {
+        } else if ($this->ion_auth->in_group(array('bdg'))) {
             $this->data['subview'] = 'budget_nilg/details_dg';
         } else {
             $this->data['subview'] = 'budget_nilg/details';
@@ -582,9 +582,9 @@ class Budgets extends Backend_Controller
               'status'         => $status,
               'desk'           => $desk,
               'update_at'      => date('Y-m-d H:i:s')
-            ); 
+            );
 
-            if($this->Common_model->edit('budget_nilg',  $id, 'id', $form_data)){     
+            if($this->Common_model->edit('budget_nilg',  $id, 'id', $form_data)){
               $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
               header('Content-Type: application/x-json; charset=utf-8');
               echo json_encode(array('status' => true));
@@ -614,14 +614,14 @@ class Budgets extends Backend_Controller
 
     public function nilg_revenue_summary()
     {
-        $dept_id=$this->input->post('dept_id');
+        $dept_id = $this->input->post('dept_id');
         $fcy = $this->db->order_by('id','DESC')->get('session_year')->row();
 
         $this->db->select('
                         bd.head_sub_id,
-                        SUM(bd.acc_amt) as acc_amt, 
-                        SUM(bd.dg_amt) as dg_amt, 
-                        SUM(bd.revenue_amt) as revenue_amt, 
+                        SUM(bd.acc_amt) as acc_amt,
+                        SUM(bd.dg_amt) as dg_amt,
+                        SUM(bd.revenue_amt) as revenue_amt,
                         bhs.name_bn,
                         bhs.bd_code,
                     ');
@@ -629,7 +629,9 @@ class Budgets extends Backend_Controller
         $this->db->join('budget_nilg as b', 'b.id = bd.budget_nilg_id');
         $this->db->join('budget_head_sub as bhs', 'bhs.id = bd.head_sub_id');
 
-        $this->db->where('b.dept_id', $dept_id);
+        if (!empty( $dept_id)) {
+            $this->db->where('b.dept_id', $dept_id);
+        }
         $this->db->where('b.fcl_year', $fcy->id);
         $this->db->where_in('b.status', array(3,4,5,6));
         $this->db->order_by('bd.head_sub_id','ASC')->group_by('bd.head_sub_id');
