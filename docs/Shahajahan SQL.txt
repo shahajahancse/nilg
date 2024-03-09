@@ -33,4 +33,5 @@ ALTER TABLE `training` ADD INDEX(`course_id`);
 ALTER TABLE `training` ADD INDEX(`office_id`);
 ALTER TABLE `training_participant` ADD `pay_type` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '1=not pay, 2=pay, 3=partial pay' AFTER `is_apply`;
 
+ALTER TABLE `training` ADD `budget_code` VARCHAR(12) NULL DEFAULT NULL AFTER `batch_no`;
 

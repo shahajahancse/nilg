@@ -666,7 +666,7 @@ class Budgets extends Backend_Controller
 
         // Load view
         $this->data['meta_title'] = 'বাজেট এর তালিকা';
-        $this->data['subview'] = '/budget_field/index';
+        $this->data['subview'] = 'budget_field/index';
         $this->load->view('backend/_layout_main', $this->data);
     }
 

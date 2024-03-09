@@ -12,7 +12,7 @@ foreach ($mark_entry_type as $key => $value) {
 }*/
 
 /*$evaluation_subject_data = '';
-foreach ($evaluation_subject as $key => $value) {      
+foreach ($evaluation_subject as $key => $value) {
   $evaluation_subject_data .= '<option value="'.$key.'">'.$value.'</option>';
 }*/
 
@@ -84,7 +84,7 @@ foreach ($materials as $key => $value) {
                     <label class="form-label">কোর্সের শিরোনাম <span class="required">*</span></label>
                     <?php echo form_error('training_title'); ?>
                     <input name="training_title" type="text" value="<?= set_value('training_title') ?>" class="form-control input-sm" placeholder="">
-                  </div> 
+                  </div>
                   */ ?>
 
                   <div class="col-md-4">
@@ -126,7 +126,7 @@ foreach ($materials as $key => $value) {
                   <div class="col-md-6">
                     <label class="form-label">কোর্স পরিচালকের পদবি <span class="required">*</span></label>
                     <?php echo form_error('cd_designation'); ?>
-                    <input name="cd_designation" type="text" value="<?=set_value('cd_designation')?>" class="form-control input-sm" placeholder="">  
+                    <input name="cd_designation" type="text" value="<?=set_value('cd_designation')?>" class="form-control input-sm" placeholder="">
                   </div>
                 </div>
 
@@ -140,7 +140,7 @@ foreach ($materials as $key => $value) {
                       <label class="form-label">কোর্স সমন্বয়কের পদবি</label>
                       <input name="cc_designation" type="text" value="<?=set_value('cc_designation')?>" class="form-control input-sm" placeholder="">
                     </div>
-                  </div>                  
+                  </div>
                 </div>
                 */ ?>
 
@@ -155,13 +155,20 @@ foreach ($materials as $key => $value) {
                     </div>
                   </div>
 
-                  <div class="col-md-6">
+                  <div class="col-md-3">
                     <div class="form-group">
                       <label class="form-label">এলজিআই এর ধরণ <span class="required">*</span></label>
                       <?php echo form_error('lgi_type');
                       $more_attr = 'class="form-control input-sm" style="height: 24px !important;"';
                       echo form_dropdown('lgi_type', $lgi_type, set_value('lgi_type'), $more_attr);
                       ?>
+                    </div>
+                  </div>
+
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="form-label">বাজেট কোড <!-- <span class="required">*</span> --></label>
+                      <input name="budget_code" type="text" class="form-control input-sm" placeholder="" value="<?= set_value('budget_code') ?>">
                     </div>
                   </div>
 
@@ -192,7 +199,7 @@ foreach ($materials as $key => $value) {
               <div class="col-md-4">
                 <?php /*
                 <div class="row form-row">
-                  
+
                   <div class="col-md-7">
                     <div class="form-group">
                       <label class="form-label">প্রশিক্ষণার্থীর ধরণ </label>
@@ -310,7 +317,7 @@ foreach ($materials as $key => $value) {
                       </div>
                     </div>
                   </div>
-                  
+
                   <!-- <div class="col-md-12">
                     <div class="form-group">
                       <label class="form-label">ভিডিও</label>
@@ -377,11 +384,11 @@ foreach ($materials as $key => $value) {
 
 
 <script type="text/javascript">
-    
+
     $(document).ready(function() {
       $("#batch_no").bind("keypress", function (e) {
           var keyCode = e.which ? e.which : e.keyCode
-               
+
           if (!(keyCode >= 48 && keyCode <= 57)) {
             $(".error").css("display", "inline");
             return false;
@@ -397,11 +404,11 @@ foreach ($materials as $key => $value) {
   function confirmSubmit() {
     return confirm('আপনি কি নিশ্চিত? সবগুলো ফিল্ড সঠিকভাবে পূরণ করেছেন?');
   }
-  
+
   $(document).ready(function() {
 
     $('#validate').validate({
-      // focusInvalid: false, 
+      // focusInvalid: false,
       ignore: "",
       rules: {
         participant_name: {
@@ -446,17 +453,17 @@ foreach ($materials as $key => $value) {
         tra_a: {
           required: false,
           number: true
-        },        
+        },
         financing_id: {
           required: true
         }
       },
 
       invalidHandler: function(event, validator) {
-        //display error alert on form submit    
+        //display error alert on form submit
       },
 
-      errorPlacement: function(label, element) { // render error placement for each input type            
+      errorPlacement: function(label, element) { // render error placement for each input type
         if (element.attr("name") == "grp_type") {
           label.insertAfter("#typeerror");
         } else {
@@ -520,7 +527,7 @@ foreach ($materials as $key => $value) {
   }
 
 
-  // Add Multiple Row 
+  // Add Multiple Row
   var i=0;
   $("#addRowTM").click(function(e) {
     //var options=
@@ -529,10 +536,10 @@ foreach ($materials as $key => $value) {
     if(i==0)
     {
       var items = '';
-      
+
       items += '<tr id="'+i+'" class="x">';
       items += '<td><select name="subject_id[]" class="subject_val form-control input-sm" style="height: 24px !important;" ></select></td>';
-      items += '<td><input name="mark[]" type="number" class="form-control input-sm font-opensans mark_number" value="0" onClick="this.select();" onkeyup="totalMark()"></td>';    
+      items += '<td><input name="mark[]" type="number" class="form-control input-sm font-opensans mark_number" value="0" onClick="this.select();" onkeyup="totalMark()"></td>';
       items += '<td> <a href="javascript:void();" class="label label-important" onclick="removeRowTM(this)"> <i class="fa fa-minus-circle"></i> মুছে ফেলুন </a></td>';
       items += '</tr>';
       evaluationSubject();
@@ -541,12 +548,12 @@ foreach ($materials as $key => $value) {
          //console.log(items);
          //alert(i);
          var j=i-1;
-         var items ='<tr id="'+i+'">'+$('#'+j).html()+'</tr>'; 
+         var items ='<tr id="'+i+'">'+$('#'+j).html()+'</tr>';
        }
 
        i++;
        $('#tmDiv tbody tr:last').after(items);
-    //$('.subject_val');  
+    //$('.subject_val');
   });
 
   function removeRowTM(id) {
@@ -579,7 +586,7 @@ foreach ($materials as $key => $value) {
     // });
   }
 
-  // Add Multiple Row 
+  // Add Multiple Row
   $("#addRowMaterial").click(function(e) {
     var items = '';
 
@@ -596,7 +603,7 @@ foreach ($materials as $key => $value) {
   }
 
 
-  
+
 </script>
 
 <script>

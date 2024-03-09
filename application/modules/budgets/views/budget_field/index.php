@@ -1,5 +1,5 @@
-<div class="page-content">     
-   <div class="content">  
+<div class="page-content">
+   <div class="content">
       <ul class="breadcrumb" style="margin-bottom: 20px;">
          <li> <a href="<?=base_url('dashboard')?>" class="active"> ড্যাশবোর্ড </a> </li>
          <li> <a href="javascript:void()" class="active"> <?=$module_name?> </a></li>
@@ -13,7 +13,7 @@
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">
                      <a href="<?=base_url('budgets/budget_field_create')?>" class="btn btn-blueviolet btn-xs btn-mini">বাজেট তৈরি করুণ</a>
-                  </div>            
+                  </div>
                </div>
 
                <div class="grid-body ">
@@ -27,8 +27,8 @@
                         <tr>
                            <th> ক্রম </th>
                            <th>শিরোনাম</th>
+                           <th>ডেস্ক</th>
                             <th>পরিমাণ</th>
-                           <!-- <th>ডেস্ক</th> -->
                            <!-- <th>ডেস্কিপশন</th> -->
                            <th>স্ট্যাটাস</th>
                            <th>আপডেট তারিখ</th>
@@ -36,7 +36,7 @@
                         </tr>
                      </thead>
                      <tbody>
-                        <?php 
+                        <?php
                         $sl=$pagination['current_page'];
                         foreach ($results as $row):
                            $sl++;
@@ -44,8 +44,9 @@
                         <tr>
                            <td class="v-align-middle"><?=$sl.'.'?></td>
                            <td class="v-align-middle"><?=$row->title; ?></td>
+                           <td class="v-align-middle"><?=$row->code; ?></td>
                            <td class="v-align-middle"><?=$row->amount; ?></td>
-                          
+
                            <!-- <td class="v-align-middle" style="width: 200px; white-space: normal;overflow: hidden" title="<?=$row->description; ?>"><?=$row->description; ?></td> -->
                            <td class="v-align-middle">
                            <!-- 1=pending,2=dpt. app., 3=reject, 4=acc., 5=dg, 6=draft, 7=revenue received -->
@@ -66,8 +67,8 @@
                               }
                               ?>
                            </td>
-                         
-                           <td class="v-align-middle"><?=date_bangla_calender_format($row->created_at); ?>                              
+
+                           <td class="v-align-middle"><?=date_bangla_calender_format($row->created_at); ?>
                            </td>
                            <td align="right">
                               <div class="btn-group">
@@ -81,7 +82,7 @@
                               </div>
                            </td>
                         </tr>
-                     <?php endforeach;?>                      
+                     <?php endforeach;?>
                   </tbody>
                </table>
 
