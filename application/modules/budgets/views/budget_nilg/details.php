@@ -122,6 +122,7 @@
                                                 <thead>
                                                     <tr>
                                                         <th width="30%">শিরোনাম<span class="required">*</span></th>
+                                                        <th width="30%">বাজেট কোড<span class="required">*</span></th>
                                                         <th width="30%">বাজেট আমাউন্ট</th>
                                                         <th width="10%">অ্যাকশন </th>
                                                     </tr>
@@ -130,6 +131,7 @@
                                                     <?php foreach ($budget_nilg_details as $key => $value) { ?>
                                                         <tr>
                                                             <td><?= $value->name_bn ?></td>
+                                                            <td><?= $value->bd_code ?></td>
                                                             <td>
                                                                 <input type="hidden" name="budget_nilg_details_id[]" value="<?= $value->budget_nilg_details_id ?>">
                                                                 <input type="hidden" name="head_id[]" value="<?= $value->head_id ?>">
@@ -210,6 +212,7 @@
                 var data = JSON.parse(data);
                 var tr = `<tr>
                         <td>${data.name_bn}</td>
+                        <td>${data.bd_code}</td>
                         <td>
                         <input type="hidden" name="budget_nilg_details_id[]" value="new" >
                         <input type="hidden" name="head_id[]" value="${data.budget_head_id}" >

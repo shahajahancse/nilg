@@ -128,6 +128,7 @@
                                                        <tr>
                                                            <!-- <th width="30%">বাজেট হেড<span class="required">*</span></th> -->
                                                            <th width="30%">শিরোনাম<span class="required">*</span></th>
+                                                           <th width="30%">বাজেট কোড<span class="required">*</span></th>
                                                            <th width="30%">বাজেট আমাউন্ট</th>
                                                            <th width="10%">অ্যাকশন </th>
                                                        </tr>
@@ -188,6 +189,7 @@ function removeRow(id) {
             var data=JSON.parse(data);
             var tr=`<tr>
                         <td style="padding:0px 10px">${data.name_bn}</td>
+                        <td style="padding:0px 10px">${data.bd_code}</td>
                         <td style="padding:0px 10px">
                         <input type="hidden" name="head_id[]" value="${data.budget_head_id}" >
                         <input type="hidden" name="head_sub_id[]" value="${data.id}" >

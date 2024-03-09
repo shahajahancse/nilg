@@ -165,9 +165,9 @@
                                                     style="border:1px solid #a09e9e;" id="appRowDiv">
                                                     <thead>
                                                         <tr>
-                                                            <th width="30%">বাজেট হেড<span class="required">*</span>
-                                                            </th>
-                                                            <th width="30%">বাজেট সাব হেড <span class="required">*</span></th>
+                                                          
+                                                            <th width="30%">শিরোনাম<span class="required">*</span></th>
+                                                            <th width="30%">বাজেট কোড<span class="required">*</span></th>
                                                             <th width="30%">বাজেট টোকেন <span class="required">*</span></th>
                                                             <th width="30%">বাজেট আমাউন্ট</th>
                                                             <th width="10%">অ্যাকশন </th>
@@ -238,8 +238,8 @@ function addNewRow(id) {
         success: function(data) {
             var data = JSON.parse(data);
             var tr = `<tr>
-                        <td>${data.budget_head_name}</td>
                         <td>${data.name_bn}</td>
+                        <td>${data.bd_code}</td>
                         <td>
                             <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e;">
                                <thead>
