@@ -398,7 +398,6 @@ class Budgets extends Backend_Controller
                     redirect("budgets/budget_nilg");
                 }
             }else{
-                dd('hello');
                 $user = $this->ion_auth->user()->row();
                 $form_data = array(
                     'title' => $this->input->post('title'),
