@@ -223,7 +223,6 @@
             success: function(data) {
                 var data = JSON.parse(data);
                 var tr = `<tr>
-                        <td>${data.budget_head_name}</td>
                         <td>${data.name_bn}</td>
                         <td>
                         <input type="hidden" name="budget_nilg_details_id[]" value="new" >

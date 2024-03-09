@@ -126,8 +126,8 @@
                                                 <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
                                                     <thead>
                                                        <tr>
-                                                           <th width="30%">বাজেট হেড<span class="required">*</span></th>
-                                                           <th width="30%">বাজেট সাব হেড <span class="required">*</span></th>
+                                                           <!-- <th width="30%">বাজেট হেড<span class="required">*</span></th> -->
+                                                           <th width="30%">শিরোনাম<span class="required">*</span></th>
                                                            <th width="30%">বাজেট আমাউন্ট</th>
                                                            <th width="10%">অ্যাকশন </th>
                                                        </tr>
@@ -187,7 +187,6 @@ function removeRow(id) {
            success: function(data) {
             var data=JSON.parse(data);
             var tr=`<tr>
-                        <td style="padding:0px 10px">${data.budget_head_name}</td>
                         <td style="padding:0px 10px">${data.name_bn}</td>
                         <td style="padding:0px 10px">
                         <input type="hidden" name="head_id[]" value="${data.budget_head_id}" >
