@@ -21,7 +21,7 @@
 
                             <?php }  ?>
                             <a href="<?=base_url('budgets/budget_nilg_create')?>"
-                                class="btn btn-blueviolet btn-xs btn-mini"> Create Budget</a>
+                                class="btn btn-blueviolet btn-xs btn-mini">বাজেট তৈরি করুণ</a>
                         </div>
                     </div>
 
@@ -99,7 +99,7 @@
                                     <th>অর্থবছর</th>
                                     <th>ডেস্ক</th>
                                     <!-- <th>ডেস্কিপশন</th> -->
-                                    <th>স্টাস</th>
+                                    <th>স্ট্যাটাস</th>
                                     <th>আপডেট তারিখ</th>
                                     <th style="text-align: right;">অ্যাকশন</th>
                                 </tr>
@@ -187,7 +187,7 @@
                         <div class="row">
                             <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> সর্বমোট <span
                                     style="color: green; font-weight: bold;"><?php echo eng2bng($total_rows); ?>
-                                    রিকুইজিশন </span></div>
+                                    বাজেট  </span></div>
                             <div class="col-sm-8 col-md-8 text-right">
                                 <?php echo $pagination['links']; ?>
                             </div>

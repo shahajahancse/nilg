@@ -22,7 +22,7 @@
                         <h4><span class="semi-bold"><?=$meta_title;?></span></h4>
                         <div class="pull-right">
                             <a href="<?=base_url('budgets/budget_entry_create')?>"
-                                class="btn btn-blueviolet btn-xs btn-mini"> Create Budget</a>
+                                class="btn btn-blueviolet btn-xs btn-mini">বাজেট তৈরি করুণ</a>
                         </div>
                     </div>
 

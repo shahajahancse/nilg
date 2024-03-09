@@ -12,7 +12,7 @@
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">
-                     <a href="<?=base_url('budgets/budget_field_create')?>" class="btn btn-blueviolet btn-xs btn-mini"> Create Budget</a>
+                     <a href="<?=base_url('budgets/budget_field_create')?>" class="btn btn-blueviolet btn-xs btn-mini">বাজেট তৈরি করুণ</a>
                   </div>            
                </div>
 
@@ -30,7 +30,7 @@
                             <th>পরিমাণ</th>
                            <!-- <th>ডেস্ক</th> -->
                            <!-- <th>ডেস্কিপশন</th> -->
-                           <th>স্টাস</th>
+                           <th>স্ট্যাটাস</th>
                            <th>আপডেট তারিখ</th>
                            <th style="text-align: right;">অ্যাকশন</th>
                         </tr>
@@ -86,7 +86,7 @@
                </table>
 
                <div class="row">
-                  <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> সর্বমোট <span style="color: green; font-weight: bold;"><?php echo eng2bng($total_rows); ?> রিকুইজিশন </span></div>
+                  <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> সর্বমোট <span style="color: green; font-weight: bold;"><?php echo eng2bng($total_rows); ?> বাজেট  </span></div>
                   <div class="col-sm-8 col-md-8 text-right">
                      <?php echo $pagination['links']; ?>
                   </div>
