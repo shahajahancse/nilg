@@ -122,7 +122,8 @@
                                                       <select name="head" id="head_id" class="form-control" onchange="addNewRow(this.value)">
                                                          <option value="">নির্বাচন করুন</option>
                                                          <?php foreach ($budget_head_sub as $key => $value) {
-                                                            echo '<option value="'.$value->id.'">'.$value->budget_head_name.'>>'.$value->name_bn.'</option>';
+                                                              echo '<option value="'.$value->id.'">'.$value->budget_head_name.'>>'.$value->name_bn.' ('.$value->bd_code.')'.'</option>';
+
                                                          }?>
                                                       </select>
                                                    </div>
