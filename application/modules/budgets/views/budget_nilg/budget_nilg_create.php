@@ -86,9 +86,7 @@
 
                                     <div class="row form-row">
                                         <div class="col-md-12">
-                                            <h4 class="semi-bold margin_left_15">বাজেট তালিকা <em
-                                                    style="color: #f73838; font-size: 15px;">Click <strong>Add
-                                                        More</strong> button for adding more item. </em></h4>
+                                            <h4 class="semi-bold margin_left_15">বাজেট তালিকা</h4>
                                             <style type="text/css">
                                             #appRowDiv td {
                                                 padding: 5px;
@@ -105,10 +103,8 @@
                                             <div class="col-md-12" >
                                                 <div class="col-md-12" style="margin:0px;padding:0px">
                                                    <div class="col-md-4 margin_top_10 " style="margin:0px;padding:0px">
-                                                      <label for="">Select Head</label>
-                                                      <select name="head" id="head_id" class="form-control" onchange="addNewRow(this.value)">
-                                                         <option value="">Select Head</option>
-                                                         <?php  foreach ($budget_head_sub as $key => $value) {
+                                                    <label for="">বাজেট হেড নির্বাচন করুন</label>                                                      <select name="head" id="head_id" class="form-control" onchange="addNewRow(this.value)">
+                                                    <label for="">বাজেট হেড নির্বাচন করুন</label>                                                         <?php  foreach ($budget_head_sub as $key => $value) {
                                                             echo '<option value="'.$value->id.'">'.$value->budget_head_name.'>>'.$value->name_bn.' ('.$value->bd_code.')'.'</option>';
                                                          }?>
                                                       </select>
@@ -117,7 +113,7 @@
                                                       <img id="loading" src="<?=base_url('img/loading.gif') ?>" style="height: 47px;margin-top: 14px;display: none;">
                                                    </div>
                                                    <div class="col-md-4">
-                                                      <label for="">Total Amount</label>
+                                                      <label for="">সর্বমোট পরিমান</label>
                                                       <input type="number" class="form-control input-sm" name="total_amount" id="total_amount" readonly>
 
                                                    </div>
@@ -139,7 +135,7 @@
 
                                                 <div class="col-md-12" style="margin-top: 20px; padding: 0px;">
                                                     <div class="form-group margin_top_10">
-                                                      <label for=""> Description :</label>
+                                                      <label for=""> বিবরণ:</label>
                                                     <textarea class="form-control" name="description" style="height: 300px;" id="description"></textarea>
                                                    </div>
                                                 </div>
