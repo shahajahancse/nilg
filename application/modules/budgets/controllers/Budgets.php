@@ -82,7 +82,7 @@ class Budgets extends Backend_Controller
 
         }
 
-        $this->db->select('budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name');
+        $this->db->select('budget_head_sub.id,budget_head_sub.bd_code, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name');
         $this->db->from('budget_head_sub');
         $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
         $this->data['budget_head_sub'] = $this->db->get()->result();
@@ -117,7 +117,7 @@ class Budgets extends Backend_Controller
         $budget_nilg_details = $this->db->get()->result();
         $this->data['budget_nilg_details'] = $budget_nilg_details;
 
-        $this->db->select('budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name');
+        $this->db->select('budget_head_sub.id,budget_head_sub.bd_code, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name');
         $this->db->from('budget_head_sub');
         $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
         $this->data['budget_head_sub'] = $this->db->get()->result();
@@ -721,7 +721,7 @@ class Budgets extends Backend_Controller
 
         }
 
-        $this->db->select('budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name');
+        $this->db->select('budget_head_sub.id,budget_head_sub.bd_code, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name');
         $this->db->from('budget_head_sub');
         $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
         $this->data['budget_head_sub'] = $this->db->get()->result();
@@ -748,7 +748,7 @@ class Budgets extends Backend_Controller
         $budget_field_details = $this->db->get()->result();
         $this->data['budget_field_details'] = $budget_field_details;
 
-        $this->db->select('budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name');
+        $this->db->select('budget_head_sub.id,budget_head_sub.bd_code, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name');
         $this->db->from('budget_head_sub');
         $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
         $this->data['budget_head_sub'] = $this->db->get()->result();
@@ -945,7 +945,7 @@ class Budgets extends Backend_Controller
                 redirect("budgets/budget_entry");
             }
         }
-        $this->db->select('budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name');
+        $this->db->select('budget_head_sub.id,budget_head_sub.bd_code, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name');
         $this->db->from('budget_head_sub');
         $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
         $this->data['budget_head_sub'] = $this->db->get()->result();
