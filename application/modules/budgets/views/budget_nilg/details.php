@@ -98,13 +98,15 @@
 
                                             <div class="col-md-12" style="margin:0px;padding:0px">
                                                 <div class="col-md-4 margin_top_10" style="margin:0px;padding:0px">
-                                                                                                             <label for="">বাজেট হেড নির্বাচন করুন</label>                                                    <select name="head" id="head_id" class="form-control" onchange="addNewRow(this.value)">
-                                                        <option value="">Select Head</option>
-                                                        <?php foreach ($budget_head_sub as $key => $value) {
-                                                                                                                        echo '<option value="'.$value->id.'">'.$value->budget_head_name.'>>'.$value->name_bn.' ('.$value->bd_code.')'.'</option>';
+                                                <label for="">বাজেট হেড নির্বাচন করুন</label>
+                                                        <select name="head" id="head_id" class="form-control"
+                                                            onchange="addNewRow(this.value)">
+                                                            <option value="">বাজেট হেড নির্বাচন করুন</option>               
+                                                            <?php foreach ($budget_head_sub as $key => $value) {
+                                                              echo '<option value="'.$value->id.'">'.$value->budget_head_name.'>>'.$value->name_bn.' ('.$value->bd_code.')'.'</option>';
 
-                                                        } ?>
-                                                    </select>
+                                                         }?>
+                                                        </select>
                                                 </div>
 
                                                 <div class="col-md-4">
