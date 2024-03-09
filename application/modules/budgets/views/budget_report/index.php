@@ -3,8 +3,8 @@
   .margin-top{margin-top:20px;}
   .checkbox label {margin-bottom: 2px;}
 </style>
-<div class="page-content">     
-  <div class="content">  
+<div class="page-content">
+  <div class="content">
     <ul class="breadcrumb" style="margin-bottom: 20px;">
       <li> <a href="<?=base_url('dashboard')?>" class="active"> রিপোর্ট </a> </li>
       <li><?=$meta_title?></li>
@@ -23,12 +23,12 @@
               </div>
             <?php endif; ?>
 
-            <?php 
-            $attributes = array('id' => 'validate', 'target' => '_blank');
-            echo form_open_multipart("reports/representative_result", $attributes);?>
+            <?php $attributes = array('id' => 'validate', 'target' => '_blank');
+              echo form_open_multipart("reports/representative_result", $attributes);
+            ?>
 
             <div class="row">
-              <div class="col-md-8">
+              <div class="col-md-10">
                 <div style="text-align: center; border:1px solid #0aa699; padding:25px 15px 15px 15px; margin:0 -15px; position: relative; ">
                   <div id="error" style="display: none;">
                     <div class="alert alert-danger">এই রিপোর্ট দেখার জন্য লাল চিহ্নিত ফিল্ড গুলো পূরণ করুন।</div>
@@ -101,7 +101,7 @@
 
                 <div class="row form-row">
                   <div class="col-md-12" style="text-align: center; border:1px solid #0aa699; padding:10px 5px 20px 5px; position: relative; margin-top: 40px">
-                    <label class="head"> সংখ্যা ভিত্তিক রিপোর্ট</label> 
+                    <label class="head"> সংখ্যা ভিত্তিক রিপোর্ট</label>
 
                     <button type="submit" name="btnsubmit" value="pdf_rep_number_divisional" onclick="return validFunc()" class="btn btn-info btn-cons margin-top"> বিভাগ ভিত্তিক রিপোর্ট</button>
 
@@ -132,7 +132,7 @@
 
                 <div class="row form-row">
                   <div class="col-md-12" style="text-align: center; border:1px solid #0aa699; padding:10px 5px 20px 5px; position: relative; margin-top: 40px">
-                    <label class="head"> তালিকা ভিত্তিক রিপোর্ট</label> 
+                    <label class="head"> তালিকা ভিত্তিক রিপোর্ট</label>
 
                     <button type="submit" name="btnsubmit" value="pdf_rep_list_union" onclick="return validFunc3()" class="btn btn-info btn-cons margin-top"> ইউনিয়ন পরিষদের রিপোর্ট</button>
 
@@ -148,37 +148,7 @@
                     <button type="submit" name="btnsubmit" value="pdf_trained_list" onclick="return validFunc1()" class="btn btn-info btn-cons margin-top"> প্রশিক্ষিত ব্যক্তির রিপোর্ট</button>
                   </div>
                 </div>
-
               </div> <!-- /col-md-8 -->
-
-              <div class="col-md-4">
-                <div style="padding: 5px 15px 15px 15px; background:#eee; font-style: italic;">
-                  <div id="errors" style="display: none;">
-                    <div class="alert alert-danger">এই রিপোর্ট দেখার জন্য পদবি নির্বাচন করুন।</div>
-                  </div>
-                  <label class="form-label">পদবি সমূহ</label> 
-                  <div style="border:1px solid #0aa699; padding: 4px 0; background: #0aa699; color: #fff;">
-                    <div class="row-fluid">
-                      <div class="checkbox check-danger">
-                        <input id="checkboxall" type="checkbox" value="1">
-                        <label for="checkboxall" style="color: #fff">সব নির্বাচন করুন</label>
-                      </div>
-                    </div>
-                    <div id="budget_sub_head_id2" style="max-height: 350px; overflow-y: scroll; background: #fff; padding-top: 5px;">
-
-                      <?php foreach ($designations as $row) { ?>
-                      <div class="row-fluid">
-                        <div class="checkbox check-primary">
-                          <input id="checkbox<?=$row->id?>" type="checkbox" name="designations[]" class="select" value="<?=$row->id?>">
-                          <label for="checkbox<?=$row->id?>"><?=$row->desig_name?></label>
-                        </div>
-                      </div>
-                      <?php } ?>
-
-                    </div>
-                  </div>
-                </div>
-              </div> 
             </div>
             <?php form_close(); ?>
 
@@ -186,7 +156,7 @@
         </div>
       </div>
 
-      
+
 
     </div> <!-- END ROW -->
   </div>
@@ -197,9 +167,9 @@
     // get check box select value
     function get_checked_value(checkboxes) {
       var vals = "";
-      for (var i=0, n=checkboxes.length;i<n;i++) 
+      for (var i=0, n=checkboxes.length;i<n;i++)
       {
-          if (checkboxes[i].checked) 
+          if (checkboxes[i].checked)
           {
               vals += ","+checkboxes[i].value;
           }
@@ -221,7 +191,7 @@
       submitOK = "true";
       var division = document.getElementById("division").value;
 
-      if (division == '') {        
+      if (division == '') {
         $("#division").css("border", "1px solid red");
         submitOK = "false";
       }
@@ -238,11 +208,11 @@
       // var upazila = document.getElementById("upazila").value;
       submitOK = "true";
 
-      if (division == '') {        
+      if (division == '') {
         $("#division").css("border", "1px solid red");
         submitOK = "false";
       }
-      if (district == '' || district <= 0) {        
+      if (district == '' || district <= 0) {
         $("#district").css("border", "1px solid red");
         submitOK = "false";
       }
@@ -319,7 +289,7 @@
     function validFunc4() {
       submitOK = "true";
       /*var field = document.getElementById("checkboxall").value;
-      
+
       if (field == '') {
         // alert("The name may have no more than 10 characters");
         $("#checkboxall").css("border", "1px solid red");
@@ -330,7 +300,7 @@
 
       var emp_id = document.getElementsByName('designations[]');
       var sql = get_checked_value(emp_id);
-       
+
       if(sql == ''){
         $("#budget_sub_head_id2").css("border", "1px solid red");
         submitOK = "false";

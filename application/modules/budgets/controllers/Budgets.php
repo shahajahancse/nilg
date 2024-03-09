@@ -988,6 +988,25 @@ class Budgets extends Backend_Controller
     }
     // Budget Entry part end
 
+    /************************** Report Function  ******************************
+    ***************************************************************************/
+    public function budget_report(){
+        $this->data['division'] = $this->Common_model->get_division();
+        
+        // $this->data['course_list'] = $this->Common_model->get_nilg_course();
+        $this->data['course_list'] = $this->Common_model->get_course();
+        // $this->data['datasheet_status'] = $this->Common_model->get_datasheet_status();
+        $this->data['datasheet_status'] = $this->Common_model->get_data_status();
+
+        //Load View
+        $this->data['meta_title'] = 'বাজেট রিপোর্ট';
+        $this->data['subview'] = 'budget_report/index';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    /************************** Report Function end ******************************
+    ***************************************************************************/
+
+
 
     /************************** Common Function ******************************
     ***************************************************************************/
@@ -1019,28 +1038,6 @@ class Budgets extends Backend_Controller
     ***************************************************************************/
 
 
-
-
-    /************************** Report Function end ******************************
-    ***************************************************************************/
-
-    public function budget_report(){
-        $this->data['division'] = $this->Common_model->get_division();
-        $this->data['designations'] = $this->Common_model->get_designation_by_employee_type('pr');
-        // print_r($this->data['designations']); exit;
-
-        // $this->data['course_list'] = $this->Common_model->get_nilg_course(); 
-        $this->data['course_list'] = $this->Common_model->get_course(); 
-        // $this->data['datasheet_status'] = $this->Common_model->get_datasheet_status();
-        $this->data['datasheet_status'] = $this->Common_model->get_data_status();
-
-        //Load View
-        $this->data['meta_title'] = 'বাজেট রিপোর্ট';
-        $this->data['subview'] = 'budget_report/index';
-        $this->load->view('backend/_layout_main', $this->data);
-    }
-    /************************** Report Function end ******************************
-    ***************************************************************************/
 
 
 }
