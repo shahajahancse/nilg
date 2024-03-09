@@ -109,7 +109,7 @@
                                                       <select name="head" id="head_id" class="form-control" onchange="addNewRow(this.value)">
                                                          <option value="">Select Head</option>
                                                          <?php  foreach ($budget_head_sub as $key => $value) {
-                                                            echo '<option value="'.$value->id.'">'.$value->budget_head_name.'>>'.$value->name_bn.'('.$value->bd_code.')'.'</option>';
+                                                            echo '<option value="'.$value->id.'">'.$value->budget_head_name.'>>'.$value->name_bn.' ('.$value->bd_code.')'.'</option>';
                                                          }?>
                                                       </select>
                                                    </div>
@@ -128,6 +128,7 @@
                                                        <tr>
                                                            <!-- <th width="30%">বাজেট হেড<span class="required">*</span></th> -->
                                                            <th width="30%">শিরোনাম<span class="required">*</span></th>
+                                                           <th width="30%">বাজেট কোড<span class="required">*</span></th>
                                                            <th width="30%">বাজেট আমাউন্ট</th>
                                                            <th width="10%">অ্যাকশন </th>
                                                        </tr>
@@ -188,6 +189,7 @@ function removeRow(id) {
             var data=JSON.parse(data);
             var tr=`<tr>
                         <td style="padding:0px 10px">${data.name_bn}</td>
+                        <td style="padding:0px 10px">${data.bd_code}</td>
                         <td style="padding:0px 10px">
                         <input type="hidden" name="head_id[]" value="${data.budget_head_id}" >
                         <input type="hidden" name="head_sub_id[]" value="${data.id}" >

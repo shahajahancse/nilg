@@ -122,7 +122,8 @@
                                                       <select name="head" id="head_id" class="form-control" onchange="addNewRow(this.value)">
                                                          <option value="">নির্বাচন করুন</option>
                                                          <?php foreach ($budget_head_sub as $key => $value) {
-                                                            echo '<option value="'.$value->id.'">'.$value->budget_head_name.'>>'.$value->name_bn.'</option>';
+                                                              echo '<option value="'.$value->id.'">'.$value->budget_head_name.'>>'.$value->name_bn.' ('.$value->bd_code.')'.'</option>';
+
                                                          }?>
                                                       </select>
                                                    </div>
@@ -143,7 +144,7 @@
                                                 <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
                                                     <thead>
                                                        <tr>
-                                                           <th width="30%">বাজেট হেড<span class="required">*</span></th>
+                                                           <th width="30%">শিরোনাম<span class="required">*</span></th>
                                                            <th width="30%">বাজেট কোড<span class="required">*</span></th>
                                                            <th width="30%">পরিমাণ</th>
                                                            <th width="10%">অ্যাকশন</th>

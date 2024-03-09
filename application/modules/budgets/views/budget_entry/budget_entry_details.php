@@ -63,7 +63,7 @@
                                             <strong><?php echo $budgets->quarter; ?></strong>
                                         </div>
                                         <div class="col-md-2">
-                                            <label for="type" class="control-label">বাজেট টাইপে</label>
+                                            <label for="type" class="control-label">বাজেট টাইপ</label>
                                             <strong>
                                             <?php
                                     if($budgets->type==1){

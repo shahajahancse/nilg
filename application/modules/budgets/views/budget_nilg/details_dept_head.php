@@ -101,7 +101,7 @@
                                                         <select name="head" id="head_id" class="form-control" onchange="addNewRow(this.value)">
                                                             <option value="">Select Head</option>
                                                             <?php foreach ($budget_head_sub as $key => $value) {
-                                                                echo '<option value="' . $value->id . '">' . $value->budget_head_name . '>>' . $value->name_bn . '</option>';
+                                                                  echo '<option value="'.$value->id.'">'.$value->budget_head_name.'>>'.$value->name_bn.' ('.$value->bd_code.')'.'</option>';
                                                             } ?>
                                                         </select>
                                                     </div>
@@ -224,6 +224,7 @@
                 var data = JSON.parse(data);
                 var tr = `<tr>
                         <td>${data.name_bn}</td>
+                        <td>${data.bd_code}</td>
                         <td>
                         <input type="hidden" name="budget_nilg_details_id[]" value="new" >
                         <input type="hidden" name="head_id[]" value="${data.budget_head_id}" >
