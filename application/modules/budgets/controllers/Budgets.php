@@ -692,10 +692,12 @@ class Budgets extends Backend_Controller
                 'dept_id' => $user->crrnt_dept_id,
                 'created_by' => $user->id,
             );
+
             if ($this->Common_model->save('budget_field', $form_data)) {
                 $insert_id = $this->db->insert_id();
-                for ($i = 0; $i < sizeof($_POST['head_id']); $i++) {
+                $this->generator_qrcode($insert_id, $this->input->post('office_type'));
 
+                for ($i = 0; $i < sizeof($_POST['head_id']); $i++) {
                     //     dept_id    created_by
                     $token = [];
                     foreach ($_POST['token-' . $_POST['head_sub_id'][$i]] as $key => $value) {
@@ -985,5 +987,36 @@ class Budgets extends Backend_Controller
          $this->load->view('backend/_layout_main', $this->data);
     }
     // Budget Entry part end
+
+
+    /************************** Common Function ******************************
+    ***************************************************************************/
+    public function generator_qrcode($id, $type)
+    {
+        // Get MAX Number accourding to LGI Type
+        $code = str_pad($id,6,"0",STR_PAD_LEFT); //exit;
+
+        if($type == 1){
+            $preFix = 'UP';
+        }elseif($type == 2){
+            $preFix = 'PA';
+        }elseif($type == 3){
+            $preFix = 'UZ';
+        }elseif($type == 4){
+            $preFix = 'ZP';
+        }elseif($type == 5){
+            $preFix = 'CC';
+        }elseif($type == 7){
+            $preFix = 'N';
+        }
+
+        $pin = $preFix.$code;
+        $this->db->where('id', $id)->update('budget_field', array('code' => $pin));
+        return true;
+    }
+
+    /************************** Common Function end ******************************
+    ***************************************************************************/
+
 
 }
