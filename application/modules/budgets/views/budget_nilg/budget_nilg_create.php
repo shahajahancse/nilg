@@ -129,7 +129,7 @@
                                                            <!-- <th width="30%">বাজেট হেড<span class="required">*</span></th> -->
                                                            <th width="30%">শিরোনাম<span class="required">*</span></th>
                                                            <th width="30%">বাজেট কোড<span class="required">*</span></th>
-                                                           <th width="30%">বাজেট আমাউন্ট</th>
+                                                           <th width="30%">বাজেট পরিমাণ</th>
                                                            <th width="10%">অ্যাকশন </th>
                                                        </tr>
                                                     </thead>

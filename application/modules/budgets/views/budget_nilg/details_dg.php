@@ -120,9 +120,9 @@
                                                         <tr>
                                                             <th width="">শিরোনাম<span class="required">*</span></th>
                                                             <th width="">বাজেট কোড <span class="required">*</span></th>
-                                                            <th width="">আমাউন্ট</th>
+                                                            <th width="">পরিমাণ</th>
                                                             <?php if ($this->ion_auth->in_group(array('bdg'))) { ?>
-                                                            <th width="">আমাউন্ট</th>
+                                                            <th width="">পরিমাণ</th>
                                                             <?php } ?>
                                                             <th width="10%">অ্যাকশন </th>
                                                         </tr>

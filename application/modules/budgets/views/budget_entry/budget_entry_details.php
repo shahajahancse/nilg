@@ -81,7 +81,7 @@
                                             </strong>
                                         </div>
                                         <div class="col-md-2">
-                                            <label for="type" class="control-label">বাজেট আমাউন্ট</label>
+                                            <label for="type" class="control-label">বাজেট পরিমাণ</label>
                                             <strong><?php echo $budgets->amount; ?></strong>
                                         </div>
                                     </div>
@@ -108,7 +108,7 @@
                                                        <tr>
                                                            <th width="30%">বাজেট হেড<span class="required">*</span></th>
                                                            <th width="30%">বাজেট সাব হেড <span class="required">*</span></th>
-                                                           <th width="30%">বাজেট আমাউন্ট</th>
+                                                           <th width="30%">বাজেট পরিমাণ</th>
                                                        </tr>
                                                     </thead>
                                                     <tbody id="tbody">

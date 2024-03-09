@@ -92,7 +92,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-2">
-                                            <label for="type" class="control-label">বাজেট আমাউন্ট</label>
+                                            <label for="type" class="control-label">বাজেট পরিমাণ</label>
                                             <input type="number" value="0" min="0" class="form-control input-sm" id="budget_amount" name="budget_amount" required>
                                         </div>
                                     </div>

@@ -118,7 +118,7 @@
                                                             <th width="">বাজেট কোড <span class="required">*</span></th>
                                                             <th width=""> পরিমান</th>
                                                             <?php if ($this->ion_auth->in_group(array('bdh'))) { ?>
-                                                            <th width="">মডিফাই আমাউন্ট</th>
+                                                            <th width="">মডিফাই পরিমাণ</th>
                                                             <?php } ?>
                                                             <th width="10%">অ্যাকশন </th>
                                                         </tr>
