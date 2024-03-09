@@ -121,7 +121,7 @@
                                             <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e;" id="appRowDiv">
                                                 <thead>
                                                     <tr>
-                                                        <th width="30%">শিরোনাম<span class="required">*</span></th>
+                                                        <th width="30%">বাজেট শিরোনাম<span class="required">*</span></th>
                                                         <th width="30%">বাজেট কোড<span class="required">*</span></th>
                                                         <th width="30%">বাজেট পরিমাণ</th>
                                                         <th width="10%">অ্যাকশন </th>

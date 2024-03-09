@@ -166,7 +166,7 @@
                                                     <thead>
                                                         <tr>
                                                           
-                                                            <th width="30%">শিরোনাম<span class="required">*</span></th>
+                                                            <th width="30%">বাজেট শিরোনাম<span class="required">*</span></th>
                                                             <th width="30%">বাজেট কোড<span class="required">*</span></th>
                                                             <th width="30%">বাজেট টোকেন <span class="required">*</span></th>
                                                             <th width="30%">বাজেট পরিমাণ</th>
