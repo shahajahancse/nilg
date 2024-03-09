@@ -53,7 +53,7 @@
                                     <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                         <br>
                                         <div class="col-md-3">
-                                            <label for="title" class="control-label">টাইটেল : </label>
+                                            <label for="title" class="control-label">শিরোনাম : </label>
                                             <input type="text" class="form-control input-sm" name="title"
                                                 style="min-height: 33px;" value="" required>
                                         </div>
@@ -69,7 +69,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-2">
-                                            <label for="quarter" class="control-label">কোয়াটার</label>
+                                            <label for="quarter" class="control-label">কোয়ার্টার</label>
                                             <select name="quarter" id="quarter" class="form-control input-sm" required>
                                             <!-- enum('1st', '2nd', '3rd', '4th', 'others') -->
                                                 <option value="">নির্বাচন করুন</option>
@@ -81,7 +81,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-2">
-                                            <label for="type" class="control-label">বাজেট টাইপে</label>
+                                            <label for="type" class="control-label">বাজেট টাইপ</label>
                                             <select name="type" id="type" class="form-control input-sm" required>
                                                 <option value="">নির্বাচন করুন</option>
                                                 <option value="1">Revenue</option>
