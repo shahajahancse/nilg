@@ -39,7 +39,7 @@
                             <?=$this->session->flashdata('error');;?>
                         </div>
                         <?php endif; ?>
-                        <?php 
+                        <?php
                             $attributes = array('id' => 'jsvalidate');
                             echo form_open_multipart("budgets/budget_entry_create",$attributes);
                             echo validation_errors();
@@ -48,7 +48,7 @@
                             <div class="col-md-12">
                                 <fieldset style="background: #fff !important;">
                                     <legend>বাজেট তথ্য</legend>
-                                    <div class="row form-row" style="font-size: 16px; color: black;">
+                                    <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px">
                                         <br>
                                         <div class="col-md-3">
                                             <label for="title" class="control-label">টাইটেল : </label>
@@ -123,7 +123,7 @@
 
                                                     </tbody>
                                                 </table>
-                                                
+
                                             </div>
                                         </div>
                                     </div>

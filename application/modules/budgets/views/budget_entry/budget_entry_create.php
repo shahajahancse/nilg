@@ -13,7 +13,7 @@
             <li><a href="<?=base_url('dashboard')?>" class="active" > Dashboard </a></li>
             <li><a href="<?=base_url('budget/budget_nilg_create')?>" class="active"><?=$module_name?></a></li>
             <li><?=$meta_title; ?></li>
-            
+
         </ul>
 
         <style type="text/css">
@@ -41,7 +41,7 @@
                         </div>
                         <?php endif; ?>
 
-                        <?php 
+                        <?php
                             $attributes = array('id' => 'jsvalidate');
                             echo form_open_multipart("budgets/budget_entry_create",$attributes);
                             echo validation_errors();
@@ -50,7 +50,7 @@
                             <div class="col-md-12">
                                 <fieldset style="background: #fff !important;">
                                     <legend>বাজেট তথ্য</legend>
-                                    <div class="row form-row" style="font-size: 16px; color: black;">
+                                    <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                         <br>
                                         <div class="col-md-3">
                                             <label for="title" class="control-label">টাইটেল : </label>
@@ -129,7 +129,7 @@
                                                    <div class="col-md-2" >
                                                       <img id="loading" src="<?=base_url('img/loading.gif') ?>" style="height: 47px;margin-top: 14px;display: none;">
                                                    </div>
-                                                   <div class="col-md-3" style="visibility: hidden"> 
+                                                   <div class="col-md-3" style="visibility: hidden">
                                                       <label for="">বাকি টাকা</label>
                                                       <input type="number" value="0" min="0" class="form-control input-sm" name="rest_amount" id="rest_amount" readonly>
 
@@ -144,15 +144,15 @@
                                                     <thead>
                                                        <tr>
                                                            <th width="30%">বাজেট হেড<span class="required">*</span></th>
-                                                           <th width="30%">বাজেট সাব হেড <span class="required">*</span></th>
-                                                           <th width="30%">বাজেট আমাউন্ট</th>
+                                                           <th width="30%">বাজেট কোড<span class="required">*</span></th>
+                                                           <th width="30%">পরিমাণ</th>
                                                            <th width="10%">অ্যাকশন</th>
                                                        </tr>
                                                     </thead>
                                                     <tbody id="tbody">
                                                     </tbody>
                                                 </table>
-                                                
+
                                             </div>
                                         </div>
                                     </div>
@@ -200,8 +200,8 @@ function removeRow(id) {
            success: function(data) {
             var data=JSON.parse(data);
             var tr=`<tr>
-                        <td style="padding:0px 10px">${data.budget_head_name}</td>
                         <td style="padding:0px 10px">${data.name_bn}</td>
+                        <td style="padding:0px 10px">${data.bd_code}</td>
                         <td style="padding:0px 10px">
                         <input type="hidden" name="head_id[]" value="${data.budget_head_id}" >
                         <input type="hidden" name="head_sub_id[]" value="${data.id}" >
@@ -213,7 +213,7 @@ function removeRow(id) {
             $("#loading").hide();
            }
        })
-       
+
    }
 </script>
 <script>
@@ -230,7 +230,7 @@ function removeRow(id) {
 <script>
       $(document).ready(function() {
          calculateTotal()
-        
+
       })
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
