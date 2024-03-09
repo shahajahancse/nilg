@@ -52,11 +52,11 @@
                         </div>
                         <?php endif; ?>
 
-                        <?php 
-                  $attributes = array('id' => 'jsvalidate');
-                  echo form_open_multipart("budgets/budget_field_edit",$attributes);
-                  echo validation_errors();
-                  ?>
+                        <?php
+                            $attributes = array('id' => 'jsvalidate');
+                            echo form_open_multipart("budgets/budget_field_edit",$attributes);
+                            echo validation_errors();
+                        ?>
 
                         <div class="row">
                             <div class="col-md-12">
@@ -69,11 +69,11 @@
                                     <input type="hidden" name="budget_field_id" value="<?= $budget_field->id?>">
 
                                     <div class="row form-row" style="font-size: 16px; color: black;">
-                                    <div class="col-md-12" style="display: flex;gap: 74px;padding-bottom: 14px;" >
+                                        <div class="col-md-12" style="display: flex;gap: 74px;padding-bottom: 14px;" >
                                             <div style="width:fit-content;">
                                                 আবেদনকারীর নাম: <strong><?=$info->name_bn?></strong>
                                             </div>
-                                            
+
                                             <div style="width:fit-content;">
                                                 পদবীর নাম: <strong><?=$info->current_desig_name?></strong>
                                             </div>
@@ -123,108 +123,100 @@
                                         <div class="col-md-12">
                                             <h4 class="semi-bold margin_left_15">বাজেট তালিকা</h4>
                                             <style type="text/css">
-                                            #appRowDiv td {
-                                                padding: 5px;
-                                                border-color: #ccc;
-                                            }
+                                                #appRowDiv td {
+                                                    padding: 5px;
+                                                    border-color: #ccc;
+                                                }
 
-                                            #appRowDiv th {
-                                                padding: 5px;
-                                                text-align: center;
-                                                border-color: #ccc;
-                                                color: black;
-                                            }
+                                                #appRowDiv th {
+                                                    padding: 5px;
+                                                    text-align: center;
+                                                    border-color: #ccc;
+                                                    color: black;
+                                                }
                                             </style>
-                                            <div class="col-md-12">
-                                                <div class="col-md-12" style="margin:0px;padding:0px">
-                                                    <div class="col-md-4 margin_top_10 " style="margin:0px;padding:0px">
+
+                                            <div class="col-md-12" style="margin:0px;padding:0px">
+                                                <div class="col-md-4 margin_top_10 " style="margin:0px;padding:0px">
                                                     <label for="">বাজেট হেড নির্বাচন করুন</label>
-                                                        <select name="head" id="head_id" class="form-control"
-                                                            onchange="addNewRow(this.value)">
-                                                            <option value="">বাজেট হেড নির্বাচন করুন</option>               
-                                                            <?php foreach ($budget_head_sub as $key => $value) {
-                                                              echo '<option value="'.$value->id.'">'.$value->budget_head_name.'>>'.$value->name_bn.' ('.$value->bd_code.')'.'</option>';
+                                                    <select name="head" id="head_id" class="form-control"
+                                                        onchange="addNewRow(this.value)">
+                                                        <option value="">বাজেট হেড নির্বাচন করুন</option>
+                                                        <?php foreach ($budget_head_sub as $key => $value) {
+                                                            echo '<option value="'.$value->id.'">'.$value->budget_head_name.'>>'.$value->name_bn.' ('.$value->bd_code.')'.'</option>';
 
-                                                         }?>
-                                                        </select>
-                                                    </div>
-                                                    <!-- <div class="col-md-4">
-                                                        <img id="loading" src="<?=base_url('img/loading.gif') ?>"
-                                                            style="height: 47px;margin-top: 14px;display: none;">
-                                                    </div> -->
-                                                    <div class="col-md-4">
-                                                        <label for="">সর্বমোট পরিমান</label>
-                                                        <input type="number" class="form-control input-sm"
-                                                            name="total_amount" id="total_amount" readonly>
-
-                                                    </div>
-
+                                                        }?>
+                                                    </select>
                                                 </div>
 
-                                                <table class="col-md-12" width="100%" border="1"
-                                                    style="border:1px solid #a09e9e;" id="appRowDiv">
-                                                    <thead>
+                                                <div class="col-md-4">
+                                                    <label for="">সর্বমোট পরিমান</label>
+                                                    <input type="number" class="form-control input-sm"
+                                                        name="total_amount" id="total_amount" readonly>
+                                                </div>
+                                            </div>
+
+                                            <table class="col-md-12" width="100%" border="1"
+                                                style="border:1px solid #a09e9e;" id="appRowDiv">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="30%">শিরোনাম <span class="required">*</span></th>
+                                                        <th width="30%">বাজেট কোড<span class="required">*</span></th>
+                                                        <th width="30%">বাজেট টোকেন <span class="required">*</span></th>
+                                                        <th width="30%">বাজেট পরিমাণ</th>
+                                                        <th width="10%">অ্যাকশন </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tbody">
+                                                    <?php  foreach($budget_field_details as $key => $value):?>
                                                         <tr>
-                                                            <th width="30%">শিরোনাম <span class="required">*</span></th>
-                                                            <th width="30%">বাজেট কোড<span class="required">*</span></th>
-                                                            <th width="30%">বাজেট টোকেন <span class="required">*</span></th>
-                                                            <th width="30%">বাজেট পরিমাণ</th>
-                                                            <th width="10%">অ্যাকশন </th>
+                                                            <td><?=$value->name_bn?></td>
+                                                            <td><?=$value->bd_code?></td>
+                                                            <td>
+                                                                <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e;">
+                                                                <thead>
+                                                                        <tr>
+                                                                            <td>Token</td>
+                                                                            <td>Number</td>
+                                                                            <td><a href="javascript:void(0)" onclick="add_token_Row(<?=$value->head_sub_id?>)" class="btn btn-primary btn-sm" style="padding: 3px;"><i class="fa fa-plus"></i></a></td>
+                                                                        </tr>
+                                                                </thead>
+                                                                <tbody id="token-row-<?=$value->head_sub_id?>">
+                                                                <?php  foreach( json_decode($value->token) as $token){ ?>
+                                                                        <tr>
+                                                                            <td><input type="text" name="token-<?=$value->head_sub_id?>[]" value="<?=$token->token?>" class="form-control input-sm" readonly></td>
+                                                                            <td><input type="text" value="<?=$token->amount?>" min="1" name="token_amount-<?=$value->head_sub_id?>[]" onkeyup="calculateTotal_token(<?=$value->head_sub_id?>)" class="form-control input-sm"></td>
+                                                                        </tr>
+                                                                        <?php }?>
+                                                                </tbody>
+                                                                </table>
+                                                            </td>
+                                                            <td>
+                                                            <input type="hidden" name="head_sub_id[]" value="<?=$value->head_sub_id?>" >
+                                                            <input value="<?=$value->total_amt?>" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm token_amount_<?=$value->head_sub_id?>">
+                                                            </td>
+                                                            <td><a href="javascript:void(0)" onclick="removeRow(this,<?=$value->id?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
                                                         </tr>
-                                                    </thead>
-                                                    <tbody id="tbody">
-                                                        <?php  foreach($budget_field_details as $key => $value):?>
-                                                            <tr>
-                                                                <td><?=$value->name_bn?></td>
-                                                                <td><?=$value->bd_code?></td>
-                                                                <td>
-                                                                    <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e;">
-                                                                    <thead>
-                                                                            <tr>
-                                                                                <td>Token</td>
-                                                                                <td>Number</td>
-                                                                                <td><a href="javascript:void(0)" onclick="add_token_Row(<?=$value->head_sub_id?>)" class="btn btn-primary btn-sm" style="padding: 3px;"><i class="fa fa-plus"></i></a></td>
-                                                                            </tr>
-                                                                    </thead>
-                                                                    <tbody id="token-row-<?=$value->head_sub_id?>">
-                                                                    <?php  foreach( json_decode($value->token) as $token){ ?>
-                                                                            <tr>
-                                                                                <td><input type="text" name="token-<?=$value->head_sub_id?>[]" value="<?=$token->token?>" class="form-control input-sm" readonly></td>
-                                                                                <td><input type="text" value="<?=$token->amount?>" min="1" name="token_amount-<?=$value->head_sub_id?>[]" onkeyup="calculateTotal_token(<?=$value->head_sub_id?>)" class="form-control input-sm"></td>
-                                                                            </tr>
-                                                                            <?php }?>
-                                                                    </tbody>
-                                                                    </table>
-                                                                </td>
-                                                                <td>
-                                                                <input type="hidden" name="head_sub_id[]" value="<?=$value->head_sub_id?>" >
-                                                                <input value="<?=$value->total_amt?>" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm token_amount_<?=$value->head_sub_id?>">
-                                                                </td>
-                                                                <td><a href="javascript:void(0)" onclick="removeRow(this,<?=$value->id?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
-                                                            </tr>
-                                                        <?php endforeach;?>
-                                                    </tbody>
-                                                </table>
-                                                <br>
-                                                <br>
+                                                    <?php endforeach;?>
+                                                </tbody>
+                                            </table>
+                                            <br>
+                                            <br>
 
-                                                <div class="col-md-12" style="margin-top: 10px; padding: 0px;">
-                                                    <div class="form-group margin_top_10">
-                                                        <label for=""> বিবরণ:</label>
-                                                        <textarea class="form-control" name="description"
-                                                            style="height: 300px;" id="description"> <?= $budget_field->description?></textarea>
-                                                    </div>
+                                            <div class="col-md-12" style="margin-top: 10px; padding: 0px;">
+                                                <div class="form-group margin_top_10">
+                                                    <label for=""> বিবরণ:</label>
+                                                    <textarea class="form-control" name="description"
+                                                        style="height: 300px;" id="description"> <?= $budget_field->description?></textarea>
                                                 </div>
+                                            </div>
+                                            <div class="pull-right">
+                                                <input type="submit" name="submit" value="সংরক্ষণ করুন"
+                                                    class="btn btn-primary btn-cons">
                                             </div>
                                         </div>
                                     </div>
                                 </fieldset>
-                            </div>
-                        </div>
-                        <div class="form-actions">
-                            <div class="pull-right">
-                                <input type="submit" name="submit" value="সংরক্ষণ করুন"
-                                    class="btn btn-primary btn-cons">
                             </div>
                         </div>
                         <?php echo form_close();?>
@@ -259,7 +251,7 @@ function removeRow(row,id) {
 <script>
 function remove_token_Row(el,head_sub_id) {
     $(el).closest("tr").remove();
-    calculateTotal_token(head_sub_id) 
+    calculateTotal_token(head_sub_id)
     calculateTotal()
 }
 </script>
@@ -367,7 +359,7 @@ $(document).ready(function() {
     $('#office_type').trigger('change');
     setTimeout(function() {
         $('#office_type').trigger('change');
-        
+
     } , 1000);
 });
 </script>
@@ -392,7 +384,7 @@ function getofficeid() {
     if (office_id == "") {
         return false;
     }
-    $("#loading").css("display", "flex"); 
+    $("#loading").css("display", "flex");
     $.ajax({
         type: "POST",
         url: "<?= base_url('budgets/get_office_id_by_type') ?>",
@@ -400,7 +392,7 @@ function getofficeid() {
             office_type: office_id
         },
         success: function(data) {
-            $("#loading").css("display", "none"); 
+            $("#loading").css("display", "none");
             data = JSON.parse(data);
             $("#office_id").append('<option value="">-- নির্বাচন করুন --</option>');
             var selected_id='<?= $budget_field->office_id?>';

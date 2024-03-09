@@ -41,18 +41,17 @@
                         <?php endif; ?>
 
                         <?php
-                  $attributes = array('id' => 'jsvalidate');
-                  echo form_open_multipart("budgets/budget_nilg_create",$attributes);
-                  echo validation_errors();
-                  ?>
+                        $attributes = array('id' => 'jsvalidate');
+                        echo form_open_multipart("budgets/budget_nilg_create",$attributes);
+                        echo validation_errors();
+                        ?>
 
                         <div class="row">
                             <div class="col-md-12">
-                                <fieldset style="background: #fff !important; ">
+                                <fieldset style="background: #fff !important;">
                                     <legend>বাজেট তথ্য</legend>
 
                                     <div class="row form-row" style="font-size: 16px; color: black;">
-
                                         <div class="col-md-12" style="display: flex;gap: 74px;padding-bottom: 7px;" >
                                             <div style="width:fit-content;">
                                                 আবেদনকারীর নাম: <strong><?=$info->name_bn?></strong>
@@ -87,7 +86,8 @@
                                     <div class="row form-row">
                                         <div class="col-md-12">
                                             <h4 class="semi-bold margin_left_15">বাজেট তালিকা</h4>
-                                            <style type="text/css">
+                                        </div>
+                                        <style type="text/css">
                                             #appRowDiv td {
                                                 padding: 5px;
                                                 border-color: #ccc;
@@ -99,59 +99,55 @@
                                                 border-color: #ccc;
                                                 color: black;
                                             }
-                                            </style>
-                                            <div class="col-md-12" >
-                                                <div class="col-md-12" style="margin:0px;padding:0px">
-                                                   <div class="col-md-4 margin_top_10 " style="margin:0px;padding:0px">
-                                                   <label for="">বাজেট হেড নির্বাচন করুন</label>
-                                                        <select name="head" id="head_id" class="form-control"
-                                                            onchange="addNewRow(this.value)">
-                                                            <option value="">বাজেট হেড নির্বাচন করুন</option>               
-                                                            <?php foreach ($budget_head_sub as $key => $value) {
-                                                              echo '<option value="'.$value->id.'">'.$value->budget_head_name.'>>'.$value->name_bn.' ('.$value->bd_code.')'.'</option>';
-
-                                                         }?>
-                                                        </select>
-                                                   </div>
-                                                   <div class="col-md-4" >
-                                                      <img id="loading" src="<?=base_url('img/loading.gif') ?>" style="height: 47px;margin-top: 14px;display: none;">
-                                                   </div>
-                                                   <div class="col-md-4">
-                                                      <label for="">সর্বমোট পরিমান</label>
-                                                      <input type="number" class="form-control input-sm" name="total_amount" id="total_amount" readonly>
-
-                                                   </div>
-
+                                        </style>
+                                        <div class="col-md-12" >
+                                            <div class="col-md-12" style="margin:0px;padding:0px">
+                                                <div class="col-md-4 margin_top_10 " style="margin:0px;padding:0px">
+                                                <label for="">বাজেট হেড নির্বাচন করুন</label>
+                                                    <select name="head" id="head_id" class="form-control"
+                                                        onchange="addNewRow(this.value)">
+                                                        <option value="">বাজেট হেড নির্বাচন করুন</option>
+                                                        <?php foreach ($budget_head_sub as $key => $value) {
+                                                            echo '<option value="'.$value->id.'">'.$value->budget_head_name.'>>'.$value->name_bn.' ('.$value->bd_code.')'.'</option>';
+                                                        }?>
+                                                    </select>
                                                 </div>
-                                                <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
-                                                    <thead>
-                                                       <tr>
-                                                           <!-- <th width="30%">বাজেট হেড<span class="required">*</span></th> -->
-                                                           <th width="30%">বাজেট শিরোনাম<span class="required">*</span></th>
-                                                           <th width="30%">বাজেট কোড<span class="required">*</span></th>
-                                                           <th width="30%">বাজেট পরিমাণ</th>
-                                                           <th width="10%">অ্যাকশন </th>
-                                                       </tr>
-                                                    </thead>
-                                                    <tbody id="tbody">
-                                                    </tbody>
-                                                </table>
-
-                                                <div class="col-md-12" style="margin-top: 20px; padding: 0px;">
-                                                    <div class="form-group margin_top_10">
-                                                      <label for=""> বিবরণ:</label>
-                                                    <textarea class="form-control" name="description" style="height: 300px;" id="description"></textarea>
-                                                   </div>
+                                                <div class="col-md-4" >
+                                                    <img id="loading" src="<?=base_url('img/loading.gif') ?>" style="height: 47px;margin-top: 14px;display: none;">
                                                 </div>
+                                                <div class="col-md-4">
+                                                    <label for="">সর্বমোট পরিমান</label>
+                                                    <input type="number" class="form-control input-sm" name="total_amount" id="total_amount" readonly>
+                                                </div>
+                                            </div>
+                                            <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
+                                                <thead>
+                                                    <tr>
+                                                        <th width="30%">বাজেট শিরোনাম<span class="required">*</span></th>
+                                                        <th width="30%">বাজেট কোড<span class="required">*</span></th>
+                                                        <th width="30%">বাজেট পরিমাণ</th>
+                                                        <th width="10%">অ্যাকশন </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="tbody">
+                                                </tbody>
+                                            </table>
+
+                                            <div class="col-md-12" style="margin-top: 20px; padding: 0px;">
+                                                <div class="form-group margin_top_10">
+                                                    <label for=""> বিবরণ:</label>
+                                                <textarea class="form-control" name="description" style="height: 300px;" id="description"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-12" >
+                                            <div class="pull-right">
+                                                <input type="submit" name="submit" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
                                             </div>
                                         </div>
                                     </div>
                                 </fieldset>
-                            </div>
-                        </div>
-                        <div class="form-actions">
-                            <div class="pull-right">
-                                <input type="submit" name="submit" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
                             </div>
                         </div>
                         <?php echo form_close();?>
