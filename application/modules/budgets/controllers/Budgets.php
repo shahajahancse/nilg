@@ -668,12 +668,13 @@ class Budgets extends Backend_Controller
         $office_id = $this->data['userDetails']->crrnt_office_id;
         $dept_id = $this->data['userDetails']->crrnt_dept_id;
         $office_type = $this->data['userDetails']->office_type;
-        if ($office_type == 7) {
+
+        if ($office_type == 7 && !$this->ion_auth->in_group(array('admin')) ) {
             $results = $this->Budgets_model->get_budget_field($limit, $offset, null, null, $dept_id);
         } else if ($this->ion_auth->in_group(array('uz', 'ddlg'))) {
             $results = $this->Budgets_model->get_budget_field($limit, $offset, $office_id);
         } else {
-            $results = $this->Budgets_model->get_budget($limit, $offset);
+            $results = $this->Budgets_model->get_budget_field($limit, $offset);
         }
 
         $this->data['results'] = $results['rows'];
