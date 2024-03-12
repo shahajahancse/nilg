@@ -155,7 +155,7 @@
                                                 <div class="col-md-12" style="margin-top: 20px; padding: 0px;">
                                                     <div class="form-group margin_top_10">
                                                       <label for=""> বিবরণ:</label>
-                                                    <textarea class="form-control" name="description" style="height: 300px;" id="description"></textarea>
+                                                    <textarea class="form-control" name="description" style="height: 300px;" id="description"><p></p><p></p></textarea>
                                                    </div>
                                                 </div>
                                             </div>
