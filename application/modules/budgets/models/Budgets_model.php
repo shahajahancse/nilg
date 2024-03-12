@@ -10,22 +10,25 @@ class Budgets_model extends CI_Model {
     public function get_budget($limit, $offset, $arr = array(), $dept_id = null, $user_id = null) {
 
       // result query
-      $this->db->select('q.*,session_year.session_name');
+      $this->db->select('
+                  q.*,session_year.session_name,
+                  dpt.name_en,
+                  dpt.dept_name,
+                ');
       $this->db->from('budget_nilg as q');
       $this->db->join('session_year','q.fcl_year=session_year.id','left');
+      $this->db->join('department dpt', 'q.dept_id = dpt.id', 'left');
 
       if (!empty($arr)) {
           $this->db->where_in('q.status', $arr);
       }
-
       if (!empty($dept_id)) {
           $this->db->where('q.dept_id', $dept_id);
       }
-      
       if (!empty($user_id)) {
           $this->db->where('q.created_by', $user_id);
       }
-      
+
       $this->db->limit($limit);
       $this->db->offset($offset);
       $this->db->order_by('q.id', 'DESC');
