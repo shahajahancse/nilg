@@ -111,16 +111,12 @@
                             <td>
                                 <?php
                                 echo "$value->budget_head_name:$value->name_bn:&nbsp&nbsp";
-                                $token=json_decode($value->token);
-                                foreach ($token as  $v) {
-                                    echo $v->token.'&nbsp'.number_bangla_format($v->amount).'/-&nbsp&nbsp&nbsp';
-                                }
-                                echo "&nbsp&nbsp(";
-                                foreach ($token as  $v) {
-                                    echo '&nbsp'.number_bangla_format($v->amount).'*';
-                                }
-                                echo ")";
                                 ?>
+                                <?=  number_bangla_format($value->amount).''; ?> টাকা &nbsp 
+                                <?=  number_bangla_format($value->participants).''; ?> জন &nbsp
+                                <?=  number_bangla_format($value->days).''; ?> দিন &nbsp&nbsp
+                                (<?= number_bangla_format($value->amount) ?>&times<?= number_bangla_format($value->participants) ?>&times<?= number_bangla_format($value->days) ?>)
+
                             </td>
                             <td>
                                 <?php

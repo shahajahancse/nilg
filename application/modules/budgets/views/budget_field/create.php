@@ -152,14 +152,34 @@
                                                 style="border:1px solid #a09e9e;" id="appRowDiv">
                                                 <thead>
                                                     <tr>
-                                                        <th width="30%">বাজেট শিরোনাম<span class="required">*</span></th>
-                                                        <th width="30%">বাজেট কোড<span class="required">*</span></th>
-                                                        <th width="30%">বাজেট টোকেন <span class="required">*</span></th>
-                                                        <th width="30%">বাজেট পরিমাণ</th>
-                                                        <th width="10%">অ্যাকশন </th>
+                                                        <th>বাজেট শিরোনাম<span class="required">*</span></th>
+                                                        <th>বাজেট কোড<span class="required">*</span></th>
+                                                        <th>অংশগ্রহণকারী <span class="required">*</span></th>
+                                                        <th>দিন/বার<span class="required">*</span></th>
+                                                        <th>পরিমান<span class="required">*</span></th>
+                                                        <th>বাজেট পরিমাণ</th>
+                                                        <th>অ্যাকশন </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tbody">
+                                                    <?php foreach ($budget_head_sub as $key => $data) { ?>
+                                                        <tr>
+                                                            <td><?=$data->name_bn?></td>
+                                                            <td><?=$data->bd_code?></td>
+                                                            <td>
+                                                                <input type="number" value="1" min="1" name="token_participant[]" onkeyup="calculateTotal_token(this)" class="form-control input-sm token_participant"></td>
+                                                            <td>
+                                                                <input type="number" value="1" min="1" name="token_day[]" onkeyup="calculateTotal_token(this)" class="form-control input-sm token_day"></td>
+                                                            <td>
+                                                                <input type="number" value="1" min="1" name="token_amount[]" onkeyup="calculateTotal_token(this)" class="form-control input-sm token_amount"></td>
+                                                            <td>
+                                                            <input type="hidden" name="head_id[]" value="<?=$data->budget_head_id?>" >
+                                                            <input type="hidden" name="head_sub_id[]" value="<?=$data->id?>" >
+                                                            <input value="1" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm token_amount_<?=$data->id?>">
+                                                            </td>
+                                                            <td><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
+                                                        </tr>
+                                                    <?php } ?>
                                                 </tbody>
                                             </table>
                                             <br>
@@ -221,42 +241,23 @@ function addNewRow(id) {
             head_id: head_id
         },
         success: function(data) {
-            var data = JSON.parse(data);
+            var $data = JSON.parse(data);
             var tr = `<tr>
-                        <td>${data.name_bn}</td>
-                        <td>${data.bd_code}</td>
+                        <td>${$data.name_bn}</td>
+                        <td>${$data.bd_code}</td>
                         <td>
-                            <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e;">
-                               <thead>
-                                    <tr>
-                                        <td>Token</td>
-                                        <td>Number</td>
-                                        <td><a href="javascript:void(0)" onclick="add_token_Row(${data.id})" class="btn btn-primary btn-sm" style="padding: 3px;"><i class="fa fa-plus"></i></a></td>
-                                    </tr>
-                               </thead>
-                               <tbody id="token-row-${data.id}">
-                                    <tr>
-                                        <td><input type="text" name="token-${data.id}[]" value="Amount" class="form-control input-sm" readonly></td>
-                                        <td><input type="text" value="1" min="1" name="token_amount-${data.id}[]" onkeyup="calculateTotal_token(${data.id})" class="form-control input-sm"></td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="text" name="token-${data.id}[]" value="Day" class="form-control input-sm" readonly></td>
-                                        <td><input type="text" value="1" min="1" name="token_amount-${data.id}[]" onkeyup="calculateTotal_token(${data.id})" class="form-control input-sm"></td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="text" name="token-${data.id}[]" value="Participants" class="form-control input-sm" readonly></td>
-                                        <td><input type="text" value="1" min="1" name="token_amount-${data.id}[]" onkeyup="calculateTotal_token(${data.id})" class="form-control input-sm"></td>
-                                    </tr>
-                               </tbody>
-                            </table>
-                        </td>
+                            <input type="number" value="1" min="1" name="token_participant[]" onkeyup="calculateTotal_token(this)" class="form-control input-sm token_participant"></td>
                         <td>
-                        <input type="hidden" name="head_id[]" value="${data.budget_head_id}" >
-                        <input type="hidden" name="head_sub_id[]" value="${data.id}" >
-                        <input value="0" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm token_amount_${data.id}">
+                            <input type="number" value="1" min="1" name="token_day[]" onkeyup="calculateTotal_token(this)" class="form-control input-sm token_day"></td>
+                        <td>
+                            <input type="number" value="1" min="1" name="token_amount[]" onkeyup="calculateTotal_token(this)" class="form-control input-sm token_amount"></td>                                    
+                        <td>
+                        <input type="hidden" name="head_id[]" value="${$data.budget_head_id}" >
+                        <input type="hidden" name="head_sub_id[]" value="${$data.id}" >
+                        <input value="1" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm token_amount_${$data.id}">
                         </td>
                         <td><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
-                     </tr>`
+                    </tr>`
             $("#tbody").append(tr);
             $("#loading").hide();
         }
@@ -264,17 +265,7 @@ function addNewRow(id) {
 
 }
 </script>
-<script>
-    function add_token_Row(id){
-        var head_sub_id = id;
-        var row =` <tr>
-                        <td><input type="text" name="token-${head_sub_id}[]" class="form-control input-sm"></td>
-                        <td><input type="text" name="token_amount-${head_sub_id}[]" value="1" min="1" onkeyup="calculateTotal_token(${head_sub_id})" class="form-control input-sm"></td>
-                        <td><a href="javascript:void(0)" onclick="remove_token_Row(this,${head_sub_id})" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i></a></td>
-                    </tr>`
-        $("#token-row-"+head_sub_id).append(row);
-    }
-</script>
+
 <script>
 function calculateTotal() {
     var total = 0;
@@ -283,12 +274,13 @@ function calculateTotal() {
     })
     $("#total_amount").val(total);
 }
-function calculateTotal_token(id) {
-    var total = 1; // Initialize total to 1 for multiplication
-    $("input[name='token_amount-"+id+"[]']").each(function() {
-        total *= parseInt($(this).val());
-    });
-    $(".token_amount_"+id).val(total);
+function calculateTotal_token(el) {
+    var total = 1;
+    var token_participant=$(el).closest("tr").find(".token_participant").val()
+    var token_day=$(el).closest("tr").find(".token_day").val()
+    var token_amount=$(el).closest("tr").find(".token_amount").val()
+    total=token_participant*token_day*token_amount
+    $(el).closest("tr").find(".amount").val(total)
     calculateTotal();
 }
 </script>
