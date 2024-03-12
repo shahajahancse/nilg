@@ -110,9 +110,27 @@ class Budgets_model extends CI_Model {
 
     // Manage Budget office list
     public function get_budget_field($limit, $offset, $office_id = null, $user_id = null, $dept_id = null) {
-      $this->db->select('q.*');
-      $this->db->from('budget_field as q');
+      $this->db->select('b.*, o.office_name');
+      $this->db->from('budget_field as b');
+      $this->db->join('office as o','o.id=b.office_id','left');
 
+      if (!empty($office_id)) {
+          $this->db->where('b.office_id', $office_id);
+      }
+      if (!empty($user_id)) {
+          $this->db->where('b.created_by', $user_id);
+      }
+      if (!empty($dept_id)) {
+          $this->db->where_in('b.dept_id', $dept_id);
+      }
+
+      $this->db->limit($limit);
+      $this->db->offset($offset);
+      $this->db->order_by('b.id', 'DESC');
+      $result['rows'] = $this->db->get()->result();
+      // count query
+      $this->db->select('COUNT(*) as count');
+      $this->db->from('budget_field as q');
       if (!empty($office_id)) {
           $this->db->where('q.office_id', $office_id);
       }
@@ -122,14 +140,6 @@ class Budgets_model extends CI_Model {
       if (!empty($dept_id)) {
           $this->db->where_in('q.dept_id', $dept_id);
       }
-
-      $this->db->limit($limit);
-      $this->db->offset($offset);
-      $this->db->order_by('q.id', 'DESC');
-      $result['rows'] = $this->db->get()->result();
-      // count query
-      $this->db->select('COUNT(*) as count');
-      $this->db->from('budget_field');
       $tmp = $this->db->get()->result();
       $result['num_rows'] = $tmp[0]->count;
       return $result;

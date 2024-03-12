@@ -12,7 +12,9 @@
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">
-                     <a href="<?=base_url('budgets/budget_field_create')?>" class="btn btn-blueviolet btn-xs btn-mini">বাজেট তৈরি করুণ</a>
+                     <?php if (!$this->ion_auth->in_group(array('uz', 'ddlg'))) { ?>
+                        <a href="<?=base_url('budgets/budget_field_create')?>" class="btn btn-blueviolet btn-xs btn-mini">বাজেট তৈরি করুণ</a>
+                     <?php } ?>
                   </div>
                </div>
 
@@ -28,8 +30,8 @@
                            <th> ক্রম </th>
                            <th>শিরোনাম</th>
                            <th>কোড</th>
-                            <th>পরিমাণ</th>
-                           <!-- <th>ডেস্কিপশন</th> -->
+                           <th>অফিস</th>
+                           <th>পরিমাণ</th>
                            <th>স্ট্যাটাস</th>
                            <th>আপডেট তারিখ</th>
                            <th style="text-align: right;">অ্যাকশন</th>
@@ -46,6 +48,7 @@
                            <td class="v-align-middle"><?=$row->title; ?></td>
                            <td class="v-align-middle"><?=$row->code; ?></td>
                            <td class="v-align-middle"><?=$row->amount; ?></td>
+                           <td class="v-align-middle"><?=$row->office_name; ?></td>
 
                            <!-- <td class="v-align-middle" style="width: 200px; white-space: normal;overflow: hidden" title="<?=$row->description; ?>"><?=$row->description; ?></td> -->
                            <td class="v-align-middle">
