@@ -138,6 +138,7 @@
             </div>
         </footer>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.1/html2pdf.bundle.min.js"></script>
+        <?php if($type==null): ?>
         <script>
             window.onload = function() {
                 html2pdf(document.body, {
@@ -151,5 +152,12 @@
                 });
             }
         </script>
+        <?php else: ?>
+            <style>
+                body {
+                margin: 0 10%;
+            }
+          
+        <?php endif; ?>
     </body>
 </html>

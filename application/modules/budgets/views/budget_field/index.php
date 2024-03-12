@@ -75,9 +75,10 @@
                                 <button class="btn btn-mini btn-primary">অ্যাকশন</button>
                                 <button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
                                 <ul class="dropdown-menu pull-right">
-                                  <li><a href="<?php echo base_url('budgets/budget_field_details/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
-
-                                  <li><a href="<?php echo base_url('budgets/budget_field_print/'.encrypt_url($row->id))?>" target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট </a></li>
+                                  <li><a href="<?php echo base_url('budgets/budget_field_details/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> সম্পাদনা করুন </a></li>
+                                  <li><a href="<?php echo base_url('budgets/budget_field_clone/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i>ক্লোন করুন </a></li>
+                                  <li><a href="<?php echo base_url('budgets/budget_field_print/'.encrypt_url($row->id))?>/no" target="_blank"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
+                                  <li><a href="<?php echo base_url('budgets/budget_field_print/'.encrypt_url($row->id))?>" target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট করুন</a></li>
                                 </ul>
                               </div>
                            </td>
@@ -85,7 +86,6 @@
                      <?php endforeach;?>
                   </tbody>
                </table>
-
                <div class="row">
                   <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> সর্বমোট <span style="color: green; font-weight: bold;"><?php echo eng2bng($total_rows); ?> বাজেট  </span></div>
                   <div class="col-sm-8 col-md-8 text-right">
