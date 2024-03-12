@@ -699,29 +699,19 @@ class Budgets extends Backend_Controller
                 'dept_id' => $user->crrnt_dept_id,
                 'created_by' => $user->id,
             );
-
             if ($this->Common_model->save('budget_field', $form_data)) {
                 $insert_id = $this->db->insert_id();
                 $this->generator_qrcode($insert_id, $this->input->post('office_type'));
-
                 for ($i = 0; $i < sizeof($_POST['head_id']); $i++) {
-                    //     dept_id    created_by
-                    $token = [];
-                    foreach ($_POST['token-' . $_POST['head_sub_id'][$i]] as $key => $value) {
-                        $token[$key] = [
-                            'token' => $value,
-                            'amount' => $_POST['token_amount-' . $_POST['head_sub_id'][$i]][$key],
-                        ];
-                    }
                     $form_data2 = array(
                         'budget_field_id' => $insert_id,
                         'head_sub_id' => $_POST['head_sub_id'][$i],
                         'office_type' => $this->input->post('office_type'),
                         'type' => 1,
-                        'token' => json_encode($token),
-                        'amount' => '',
-                        'days' => '',
-                        'participants' => '',
+                        'token' => '',
+                        'amount' => $_POST['token_amount'][$i],
+                        'days' => $_POST['token_day'][$i],
+                        'participants' => $_POST['token_participant'][$i],
                         'total_amt' => $_POST['amount'][$i],
                         'status' => 1,
                         'office_id' => $this->input->post('office_id'),
@@ -736,7 +726,13 @@ class Budgets extends Backend_Controller
 
         }
 
-        $this->db->select('budget_head_sub.id,budget_head_sub.bd_code, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name');
+        $this->db->select('
+        budget_head_sub.id,
+        budget_head_sub.bd_code,
+         budget_head_sub.name_bn,
+         budget_head.name_bn as budget_head_name,
+         budget_head.id as budget_head_id
+         ');
         $this->db->from('budget_head_sub');
         $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
         $this->data['budget_head_sub'] = $this->db->get()->result();
@@ -827,22 +823,15 @@ class Budgets extends Backend_Controller
                 $this->db->where('budget_field_id', $insert_id);
                 $this->db->delete('budget_field_details');
                 for ($i = 0; $i < sizeof($_POST['head_id']); $i++) {
-                    $token = [];
-                    foreach ($_POST['token-' . $_POST['head_sub_id'][$i]] as $key => $value) {
-                        $token[$key] = [
-                            'token' => $value,
-                            'amount' => $_POST['token_amount-' . $_POST['head_sub_id'][$i]][$key],
-                        ];
-                    }
                     $form_data2 = array(
                         'budget_field_id' => $insert_id,
                         'head_sub_id' => $_POST['head_sub_id'][$i],
                         'office_type' => $this->input->post('office_type'),
                         'type' => 1,
-                        'token' => json_encode($token),
-                        'amount' => '',
-                        'days' => '',
-                        'participants' => '',
+                        'token' => '',
+                        'amount' => $_POST['token_amount'][$i],
+                        'days' => $_POST['token_day'][$i],
+                        'participants' => $_POST['token_participant'][$i],
                         'total_amt' => $_POST['amount'][$i],
                         'status' => 1,
                         'office_id' => $this->input->post('office_id'),
