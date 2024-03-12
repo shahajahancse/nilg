@@ -164,7 +164,7 @@ class Budget_head extends Backend_Controller {
    {
         // dd($_POST);
 
-        $this->form_validation->set_rules('title', 'টাইটেল', 'required|trim');
+        $this->form_validation->set_rules('title', 'শিরোনাম', 'required|trim');
         $this->form_validation->set_rules('office_type', 'অফিসের ধরণ', 'required|trim');
         $this->form_validation->set_rules('details', 'বর্ণনা', 'required|trim');
         // Insert Data
@@ -190,7 +190,7 @@ class Budget_head extends Backend_Controller {
    // description
    public function budget_description_edit($id)
    {
-        $this->form_validation->set_rules('title', 'টাইটেল', 'required|trim');
+        $this->form_validation->set_rules('title', 'শিরোনাম', 'required|trim');
         $this->form_validation->set_rules('office_type', 'অফিসের ধরণ', 'required|trim');
         $this->form_validation->set_rules('details', 'বর্ণনা', 'required|trim');
         // Insert Data

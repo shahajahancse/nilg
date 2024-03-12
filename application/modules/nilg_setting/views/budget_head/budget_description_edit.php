@@ -33,7 +33,7 @@
 
             <div class="row form-row">   
               <div class="col-md-6 p5">
-                  <label class="form-label">টাইটেল <span class="required">*</span></label>
+                  <label class="form-label">শিরোনাম <span class="required">*</span></label>
                   <?php echo form_error('title'); ?>
                   <input name="title" class="form-control input-sm"  value="<?= $info->title ?>" />
               </div>

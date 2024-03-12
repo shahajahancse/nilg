@@ -44,7 +44,7 @@
               <thead class="cf">
                 <tr>
                   <th width="20">ক্রম</th>
-                  <th>টাইটেল</th>
+                  <th>শিরোনাম</th>
                   <th>বর্ণনা</th>
                   <th>অফিস টাইপ</th>
                   <th>স্ট্যাটাস</th>

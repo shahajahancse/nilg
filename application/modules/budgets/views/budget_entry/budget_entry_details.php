@@ -51,7 +51,7 @@
                                     <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px">
                                         <br>
                                         <div class="col-md-3">
-                                            <label for="title" class="control-label">টাইটেল : </label>
+                                            <label for="title" class="control-label">শিরোনাম : </label>
                                             <strong><?php  echo $budgets->title; ?></strong>
                                         </div>
                                         <div class="col-md-2">

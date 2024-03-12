@@ -76,7 +76,7 @@
                                         </div>
                                         <br>
                                         <div class="col-md-3">
-                                            <label for="title" class="control-label">টাইটেল : </label>
+                                            <label for="title" class="control-label">শিরোনাম : </label>
                                             <input type="text" class="form-control input-sm" name="title"
                                                 style="min-height: 33px;" value="" required>
                                         </div>
