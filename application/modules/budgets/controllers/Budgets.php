@@ -82,7 +82,13 @@ class Budgets extends Backend_Controller
 
         }
 
-        $this->db->select('budget_head_sub.id,budget_head_sub.bd_code, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name');
+        $this->db->select('
+                            budget_head_sub.id,
+                            budget_head_sub.bd_code,
+                            budget_head_sub.name_bn,
+                            budget_head.name_bn as budget_head_name,
+                            budget_head.id as budget_head_id
+                            ');
         $this->db->from('budget_head_sub');
         $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
         $this->data['budget_head_sub'] = $this->db->get()->result();
@@ -93,6 +99,22 @@ class Budgets extends Backend_Controller
         $this->data['meta_title'] = 'বাজেট তৈরি করুন';
         $this->data['subview'] = 'budget_nilg/budget_nilg_create';
         $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function add_new_row()
+    {
+      $id = $this->input->post('head_id');
+
+      $this->db->select('
+                budget_head_sub.id,
+                budget_head_sub.name_bn,
+                budget_head_sub.bd_code,
+                budget_head.name_bn as budget_head_name,
+                budget_head.id as budget_head_id
+            ');
+      $this->db->from('budget_head_sub');
+      $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+      $this->db->where('budget_head_sub.id', $id);
+      echo json_encode($this->db->get()->row());
     }
 
     public function budget_nilg_details($encid)
@@ -513,22 +535,7 @@ class Budgets extends Backend_Controller
             exit;
         }
     }
-    public function add_new_row()
-    {
-      $id = $this->input->post('head_id');
-
-      $this->db->select('
-                budget_head_sub.id,
-                budget_head_sub.name_bn,
-                budget_head_sub.bd_code,
-                budget_head.name_bn as budget_head_name,
-                budget_head.id as budget_head_id
-            ');
-      $this->db->from('budget_head_sub');
-      $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
-      $this->db->where('budget_head_sub.id', $id);
-      echo json_encode($this->db->get()->row());
-    }
+   
     function ajax_get_budget_details_nilg(){
       $id = (int) decrypt_url($_POST['id']);
       $budget_nilg = $this->Common_model->get_single_data('budget_nilg', $id);

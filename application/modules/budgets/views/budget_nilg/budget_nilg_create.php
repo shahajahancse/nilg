@@ -67,7 +67,7 @@
                                         </div>
                                         <br>
                                         <div class="col-md-4">
-                                            <label for="title" class="control-label">টাইটেল : </label>
+                                            <label for="title" class="control-label">শিরোনাম : </label>
                                             <input type="text" class="form-control input-sm" name="title"
                                                 style="min-height: 33px;" value="" required>
                                         </div>
@@ -134,6 +134,21 @@
                                                        </tr>
                                                     </thead>
                                                     <tbody id="tbody">
+                                                    <?php  foreach ($budget_head_sub as $key => $data) {?>
+                                                        
+                                                  
+                                                    <tr>
+                                                        <td style="padding:0px 10px"><?=$data->name_bn?></td>
+                                                        <td style="padding:0px 10px"><?=$data->bd_code?></td>
+                                                        <td style="padding:0px 10px">
+                                                        <input type="hidden" name="head_id[]" value="<?=$data->budget_head_id?>" >
+                                                        <input type="hidden" name="head_sub_id[]" value="<?=$data->id?>" >
+                                                        <input value="0" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm">
+                                                        </td>
+                                                        <td style="padding:0px 10px"><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
+                                                    </tr>
+                                                   <?php   } ?>
+
                                                     </tbody>
                                                 </table>
 
