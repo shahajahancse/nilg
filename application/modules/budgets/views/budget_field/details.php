@@ -85,7 +85,7 @@
                                         <div class="col-md-3">
                                             <label for="title" class="control-label">শিরোনাম : </label>
                                             <input type="text" class="form-control input-sm" name="title"
-                                                style="min-height: 33px;" value="<?=$budget_field->title?>" required>
+                                                style="min-height: 33px;" value="<?= htmlspecialchars($this->security->xss_clean($budget_field->title), ENT_QUOTES, 'UTF-8') ?>" required>
                                         </div>
                                         <div class="col-md-3">
                                             <?php $session_year=$this->db->get('session_year')->result();?>
