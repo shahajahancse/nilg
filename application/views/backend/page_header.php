@@ -366,7 +366,15 @@
                   </li>
                <?php } ?>
 
-               <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg', 'bdh', 'acc')) || $userDetails->office_type == 7) { ?>
+               <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg', 'bdh', 'acc', 'uz', 'ddlg')) || $userDetails->office_type == 7) { ?>
+                  <?php if ($this->ion_auth->in_group(array('uz', 'ddlg'))) { ?>
+                     <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">বাজেট</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                        <ul class="sub-menu">
+                           <li class="start <?= backend_activate_menu_method('budget_field') ?>"> <a href="<?= base_url('budgets/budget_field'); ?>">বাজেট</a> </li>
+                        </ul>
+                     </li>
+                  <?php } else { ?>
+
                   <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">বাজেট</span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
                         <li class="start <?= backend_activate_menu_method('budget_nilg') ?>"> <a href="<?= base_url('budgets/budget_nilg'); ?>">বাজেট এনআইএলজি</a> </li>
@@ -375,18 +383,15 @@
                         <li class="start <?= backend_activate_menu_method('budget_entry') ?>"> <a href="<?= base_url('budgets/budget_report'); ?>">বাজেট রিপোর্ট</a> </li>
                      </ul>
                   </li>
-               <?php } ?>
-
+               <?php } } ?>
 
                <?php if ($this->ion_auth->in_group('cc')) { ?>
-
                   <li class="start <?= backend_activate_menu_class('qbank') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">এনআইএলজি সেটিংস</span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
                         <li> <a href="<?= base_url('nilg_setting/qbank'); ?>">প্রশ্ন ব্যাংক</a> </li>
                      </ul>
                   </li>
                <?php } ?>
-
 
 
                <?php if ($this->ion_auth->in_group(array('admin', 'cc'))) { ?>

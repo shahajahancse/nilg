@@ -535,7 +535,7 @@ class Budgets extends Backend_Controller
             exit;
         }
     }
-   
+
     function ajax_get_budget_details_nilg(){
       $id = (int) decrypt_url($_POST['id']);
       $budget_nilg = $this->Common_model->get_single_data('budget_nilg', $id);
@@ -623,7 +623,6 @@ class Budgets extends Backend_Controller
         $this->load->view('backend/_layout_main', $this->data);
     }
 
-
     public function nilg_revenue_summary()
     {
         $dept_id = $this->input->post('dept_id');
@@ -660,11 +659,23 @@ class Budgets extends Backend_Controller
     }
     // End Budget Nilg
 
+
     // Manage Budget field list
     public function budget_field($offset = 0)
     {
         $limit = 15;
-        $results = $this->Budgets_model->get_budget_field($limit, $offset);
+        $user_id = $this->data['userDetails']->id;
+        $office_id = $this->data['userDetails']->crrnt_office_id;
+        $dept_id = $this->data['userDetails']->crrnt_dept_id;
+        $office_type = $this->data['userDetails']->office_type;
+        if ($office_type == 7) {
+            $results = $this->Budgets_model->get_budget_field($limit, $offset, null, null, $dept_id);
+        } else if ($this->ion_auth->in_group(array('uz', 'ddlg'))) {
+            $results = $this->Budgets_model->get_budget_field($limit, $offset, $office_id);
+        } else {
+            $results = $this->Budgets_model->get_budget($limit, $offset);
+        }
+
         $this->data['results'] = $results['rows'];
         $this->data['total_rows'] = $results['num_rows'];
 
@@ -999,7 +1010,7 @@ class Budgets extends Backend_Controller
     ***************************************************************************/
     public function budget_report(){
         $this->data['division'] = $this->Common_model->get_division();
-        
+
         // $this->data['course_list'] = $this->Common_model->get_nilg_course();
         $this->data['course_list'] = $this->Common_model->get_course();
         // $this->data['datasheet_status'] = $this->Common_model->get_datasheet_status();

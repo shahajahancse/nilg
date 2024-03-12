@@ -109,13 +109,20 @@ class Budgets_model extends CI_Model {
 
 
     // Manage Budget office list
-    public function get_budget_field($limit, $offset) {
-
-      // result query
-      // $this->db->select('q.*,session_year.session_name');
+    public function get_budget_field($limit, $offset, $office_id = null, $user_id = null, $dept_id = null) {
       $this->db->select('q.*');
       $this->db->from('budget_field as q');
-      // $this->db->join('session_year','q.fcl_year=session_year.id','left');
+
+      if (!empty($office_id)) {
+          $this->db->where('q.office_id', $office_id);
+      }
+      if (!empty($user_id)) {
+          $this->db->where('q.created_by', $user_id);
+      }
+      if (!empty($dept_id)) {
+          $this->db->where_in('q.dept_id', $dept_id);
+      }
+
       $this->db->limit($limit);
       $this->db->offset($offset);
       $this->db->order_by('q.id', 'DESC');
@@ -127,6 +134,7 @@ class Budgets_model extends CI_Model {
       $result['num_rows'] = $tmp[0]->count;
       return $result;
     }
+
     public function get_budget_sub_head_office($id){
       $data['0'] = '-- Select Item --';
       $this->db->select('id, name_bn');

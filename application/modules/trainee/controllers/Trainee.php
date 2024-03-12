@@ -116,7 +116,7 @@ class Trainee extends Backend_Controller
             // $this->form_validation->set_rules('designation', 'nilg designation', 'required');
         }else{
             redirect('dashboard');
-        }        
+        }
 
         // Validate and Insert to DB
         if ($this->form_validation->run() == true){
@@ -138,7 +138,7 @@ class Trainee extends Backend_Controller
 
             // Make Array Data
             $additional_data = array(
-                'is_verify'         => 1,                
+                'is_verify'         => 1,
                 'office_type'       => $officeType,
                 'employee_type'     => $empType,
                 'crrnt_office_id'   => $officeID,
@@ -373,7 +373,7 @@ class Trainee extends Backend_Controller
         //     $results = $this->Trainee_model->get_all_pr($limit, $offset, $office->crrnt_office_id);
 
         } elseif ($this->ion_auth->in_group('cc')) {
-            // NILG (Group=2) (Office Type=7) 
+            // NILG (Group=2) (Office Type=7)
             if ($office->office_type == 7) {
                 $results = $this->Trainee_model->get_all_pr($limit, $offset);
             } else {
@@ -835,7 +835,7 @@ class Trainee extends Backend_Controller
             $results = $this->Trainee_model->get_all_employee($limit, $offset);*/
 
         } elseif ($this->ion_auth->in_group('cc')) {
-            // NILG (Group=2) (Office Type=7) 
+            // NILG (Group=2) (Office Type=7)
             if ($office->office_type == 7) {
                 $results = $this->Trainee_model->get_all_employee($limit, $offset);
             } else {
@@ -860,7 +860,7 @@ class Trainee extends Backend_Controller
         $this->data['meta_title'] = 'কর্মকর্তা / কর্মচারীর তালিকা';
         $this->data['subview'] = 'all_employee';
         $this->load->view('backend/_layout_main', $this->data);
-    }    
+    }
 
     public function details_employee($id){
         // Check Auth
@@ -1172,7 +1172,7 @@ class Trainee extends Backend_Controller
             redirect('dashboard');
         }
 
-        // Decrypt Data        
+        // Decrypt Data
         $dataID = (int) decrypt_url($userID); //exit;
         // Check Exists
         if (!$this->Common_model->exists('users', 'id', $dataID)) {
@@ -1326,7 +1326,7 @@ class Trainee extends Backend_Controller
         $this->data['meta_title'] = 'ব্যাক্তিগত বা সাধারণ তথ্য সংশোধন ফর্ম';
         $this->data['subview'] = 'edit_trainee_general_info';
         $this->load->view('backend/_layout_main', $this->data);
-    }    
+    }
 
     // PR Official Info
     public function edit_trainee_pr_official($userID)
@@ -1337,7 +1337,7 @@ class Trainee extends Backend_Controller
             redirect('dashboard');
         }
 
-        // Decrypt Data        
+        // Decrypt Data
         $dataID = (int) decrypt_url($userID); //exit;
         // Check Exists
         if (!$this->Common_model->exists('users', 'id', $dataID)) {
@@ -1348,7 +1348,7 @@ class Trainee extends Backend_Controller
         // Validation
         if($this->ion_auth->is_admin()){
             $this->form_validation->set_rules('crrnt_office_id', 'current office', 'required|trim');
-        }        
+        }
         $this->form_validation->set_rules('crrnt_elected_year', 'current elected year', 'required|trim');
         $this->form_validation->set_rules('crrnt_attend_date', 'current attend date', 'required|trim');
 
@@ -1450,7 +1450,7 @@ class Trainee extends Backend_Controller
             redirect('dashboard');
         }
 
-        // Decrypt Data        
+        // Decrypt Data
         $dataID = (int) decrypt_url($userID); //exit;
         // Check Exists
         if (!$this->Common_model->exists('users', 'id', $dataID)) {
@@ -1558,7 +1558,7 @@ class Trainee extends Backend_Controller
             redirect('dashboard');
         }
 
-        // Decrypt Data        
+        // Decrypt Data
         $dataID = (int) decrypt_url($userID); //exit;
         // Check Exists
         if (!$this->Common_model->exists('users', 'id', $dataID)) {
@@ -1622,13 +1622,13 @@ class Trainee extends Backend_Controller
 
     // NILG Training
     public function edit_nilg_training($userID)
-    {   
+    {
         // Check Auth
         if(!$this->ion_auth->in_group(array('admin', 'nilg', 'city', 'zp', 'ddlg', 'uz', 'paura', 'up', 'partner', 'cc'))){
             redirect('dashboard');
         }
 
-        // Decrypt Data        
+        // Decrypt Data
         $dataID = (int) decrypt_url($userID); //exit;
         // Check Exists
         if (!$this->Common_model->exists('users', 'id', $dataID)) {
@@ -1681,7 +1681,7 @@ class Trainee extends Backend_Controller
             }
         }
         // Message
-        
+
         // load view data
         $this->data['info'] = $results['info'];
         $this->data['nilg_training'] = $results['nilg_training'];
@@ -1702,7 +1702,7 @@ class Trainee extends Backend_Controller
             redirect('dashboard');
         }
 
-        // Decrypt Data        
+        // Decrypt Data
         $dataID = (int) decrypt_url($userID); //exit;
         // Check Exists
         if (!$this->Common_model->exists('users', 'id', $dataID)) {
@@ -1769,7 +1769,7 @@ class Trainee extends Backend_Controller
             redirect('dashboard');
         }
 
-        // Decrypt Data        
+        // Decrypt Data
         $dataID = (int) decrypt_url($userID); //exit;
         // Check Exists
         if (!$this->Common_model->exists('users', 'id', $dataID)) {
@@ -1826,7 +1826,7 @@ class Trainee extends Backend_Controller
         $this->load->view('backend/_layout_main', $this->data);
     }
 
-    // Promotion 
+    // Promotion
     public function edit_trainee_promotion($userID)
     {
         // Check Auth
@@ -1834,10 +1834,10 @@ class Trainee extends Backend_Controller
             redirect('dashboard');
         }
 
-        // Decrypt Data        
+        // Decrypt Data
         $dataID = (int) decrypt_url($userID); //exit;
         // Check Exists
-        if (!$this->Common_model->exists('users', 'id', $dataID)) {            
+        if (!$this->Common_model->exists('users', 'id', $dataID)) {
             show_404('trainee > edit_trainee_promotion', TRUE);
         }
 
@@ -1935,14 +1935,14 @@ class Trainee extends Backend_Controller
 
         } elseif ($this->ion_auth->in_group('nilg')) {
             $results = $this->Trainee_model->get_application_request($limit, $offset);
-            
+
         } elseif ($this->ion_auth->in_group('cc')) {
             if ($office->office_type == 7) {
                 $results = $this->Trainee_model->get_application_request($limit, $offset);
             } else {
                 $results = $this->Trainee_model->get_application_request($limit, $offset, $officeID);
             }
-            
+
         } else {
             $results = $this->Trainee_model->get_application_request($limit, $offset);
             // count($this->data['results']);
@@ -2052,7 +2052,7 @@ class Trainee extends Backend_Controller
             /*if($userType == 1){
                 $dataStatus = 2; // Public Representative
             }else{
-                $dataStatus = 1; // Employee 
+                $dataStatus = 1; // Employee
             }*/
 
             $form_data = array(
@@ -2073,7 +2073,7 @@ class Trainee extends Backend_Controller
                 }else{
                     $this->session->set_flashdata('success', 'আবেদনটি বাতিল করা হয়েছে');
                 }
-                
+
                 // Redirect
                 redirect('trainee/request');
             }
@@ -2099,7 +2099,7 @@ class Trainee extends Backend_Controller
             redirect('dashboard');
         }
 
-        // Decrypt Data        
+        // Decrypt Data
         $dataID = (int) decrypt_url($id); //exit;
         // Check Exists
         if (!$this->Common_model->exists('users', 'id', $dataID)) {
@@ -2242,7 +2242,7 @@ class Trainee extends Backend_Controller
 
                 // Message
                 $this->session->set_flashdata('success', 'ইউজার রোল সফলভাবে পরিবর্তন করা হয়েছে');
-                if ($userType == 1) 
+                if ($userType == 1)
                 {
                     redirect('trainee/all_pr');
                 } else {
@@ -2255,14 +2255,14 @@ class Trainee extends Backend_Controller
         $allUserGroup = $this->ion_auth->groups()->result_array();
         // dd($allUserGroup);
         if($this->ion_auth->in_group('uz')){
-            $this->data['groups'] = func_array_except($allUserGroup, [0,1,2,3,4,5,6,7,11,12,13,14,15,16,17,18]);
+            $this->data['groups'] = func_array_except($allUserGroup, [0,1,2,3,4,5,6,7,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25]);
         }else{
             $this->data['groups'] = func_array_except($allUserGroup, [0,1,2,3,4,5,6,7,11,12,13,14,18]);
         }
-        // dd($allUserGroup);
+        // dd($this->data['groups']);
         // $this->data['groups'] = $this->ion_auth->groups()->result_array();
         $this->data['currentGroups'] = $this->ion_auth->get_users_groups($dataID)->result();
-        
+
         // Load Page
         $this->data['meta_title'] = 'ইউজার রোল পরিবর্তন';
         $this->data['subview'] = 'change_user_group';
@@ -2274,7 +2274,7 @@ class Trainee extends Backend_Controller
         if(!$this->ion_auth->in_group(array('admin', 'nilg', 'city', 'zp', 'ddlg', 'uz', 'paura', 'up', 'partner', 'cc'))){
             redirect('dashboard');
         }
-        
+
         // Decrypt Data
         $dataID = (int) decrypt_url($id); //exit;
         // Check Exists
@@ -2301,7 +2301,7 @@ class Trainee extends Backend_Controller
             if ($change){
                 // if the password was successfully changed
                 $this->session->set_flashdata('success', 'পাসওয়ার্ড সফলভাবে পরিবর্তন করা হয়েছে');
-                if ($userType == 1) 
+                if ($userType == 1)
                 {
                     redirect('trainee/all_pr');
                 } else {
@@ -2327,7 +2327,7 @@ class Trainee extends Backend_Controller
            'class'   => 'form-control input-sm font-opensans',
            'pattern' => '^.{' . $this->data['min_password_length'] . '}.*$',
            );
-        
+
         // Load Page
         $this->data['meta_title'] = 'পাসওয়ার্ড পরিবর্তন';
         $this->data['subview'] = 'change_password';
@@ -2339,7 +2339,7 @@ class Trainee extends Backend_Controller
         if(!$this->ion_auth->in_group(array('admin', 'nilg', 'city', 'zp', 'ddlg', 'uz', 'paura', 'up', 'partner', 'cc'))){
             redirect('dashboard');
         }
-        
+
         // Decrypt Data
         $dataID = (int) decrypt_url($id); //exit;
         // Check Exists
@@ -2366,7 +2366,7 @@ class Trainee extends Backend_Controller
             if ($this->Common_model->edit('users', $dataID, 'id', $form_data)){
                 // if the password was successfully changed
                 $this->session->set_flashdata('success', 'সফলভাবে পরিবর্তন করা হয়েছে');
-                if (in_array($this->data['info']->employee_type, array(2,3))) 
+                if (in_array($this->data['info']->employee_type, array(2,3)))
                 {
                     redirect('trainee/all_pr');
                 } else {
@@ -2553,11 +2553,11 @@ class Trainee extends Backend_Controller
         $this->load->helper('file');
         $allowed_mime_type_arr = array('image/gif','image/jpeg','image/png','image/x-png');
         $mime = get_mime_by_extension($_FILES['signature']['name']);
-        $file_size = 1050000; 
+        $file_size = 1050000;
         $size_kb = '1 MB';
 
         if(isset($_FILES['signature']['name']) && $_FILES['signature']['name']!=""){
-            if(!in_array($mime, $allowed_mime_type_arr)){                
+            if(!in_array($mime, $allowed_mime_type_arr)){
                 $this->form_validation->set_message('file_check', 'Please select only jpg, jpeg, png, gif file.');
                 return false;
             }elseif($_FILES["signature"]["size"] > $file_size){
@@ -2579,13 +2579,13 @@ class Trainee extends Backend_Controller
             show_404('Trainee - details - exists', TRUE);
         }
 
-       
+
         $id = (int) decrypt_url($id);
         if(!$this->Common_model->exists('users', 'id', $id)){
             show_404('Trainee - request_verification - exists', TRUE);
         }
         $this->data['info'] = $this->Trainee_model->get_user_info($id);
-   
+
 
         // Get all information
         $results = $this->Trainee_model->get_details_info($dataID);
@@ -3526,7 +3526,7 @@ class Trainee extends Backend_Controller
         echo $this->Common_model->exists_national_id($id);
     }*/
 
-    
+
 
     //**********************************************************************************//
     // Setup my profile
