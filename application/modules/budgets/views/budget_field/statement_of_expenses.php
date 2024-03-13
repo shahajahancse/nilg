@@ -121,7 +121,9 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tbody">
-                                                    <?php  foreach($budget_field_details as $key => $data):?>
+                                                    <?php $boraddo=0;  foreach($budget_field_details as $key => $data):
+                                                        $boraddo+=$data->total_amt;
+                                                        ?>
                                                         <tr>
                                                             <td style="text-align: center;width:fit-content;"><?=++$key?></td>
                                                             <td style="width:fit-content;"><?=$data->name_bn?>(<?=$data->bd_code?>) (<?=$data->participants>=1 ? $data->participants.'*' : '' ?> <?=$data->days>=1 ? $data->days.'*' : ''?> <?=$data->amount>=1 ? $data->amount .'*' : ''?>) </td>
@@ -138,6 +140,16 @@
                                                         </tr>
                                                     <?php endforeach;?>
                                                 </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td colspan="2">Total</td>
+                                                        <td><?= $boraddo ?></td>
+                                                        <td id="total_real_expense"></td>
+                                                        <td id="total_vat"></td>
+                                                        <td id="total_it_kor"></td>
+                                                        <td id="total_overall_expense"></td>
+                                                        <td></td>
+                                                </tfoot>
                                             </table>
                                             <br>
                                             <br>
@@ -171,32 +183,55 @@
         var it_kor = $(el).closest("tr").find(".it_kor").val();
         var overall_expense = parseFloat(real_expense) + parseFloat(vat) + parseFloat(it_kor);
         $(el).closest("tr").find(".overall_expense").val(overall_expense);
+        calt()
     }
 </script>
-
-
-
 <script>
-$(document).ready(function() {
-    calculateTotal()
-
-})
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
+    function calt() {
+        var total_real_expense=0
+        var total_vat=0
+        var total_it_kor=0
+        var total_overall_expense=0
+        $(".real_expense").each(function() {
+            var val = parseInt($(this).val());
+            if (!isNaN(val)) {
+                total_real_expense += val;
+            }
+        })
+        $(".vat").each(function() {
+            var val = parseInt($(this).val());
+            if (!isNaN(val)) {
+                total_vat += val;
+           }
+        })
+        $(".it_kor").each(function() {
+            var val = parseInt($(this).val());
+            if (!isNaN(val)) {
+                total_it_kor += val;
+            }
+        })
+        $(".overall_expense").each(function() {
+            var val = parseInt($(this).val());
+            if (!isNaN(val)) {
+                total_overall_expense += val;
+            }
+        })
+        $("#total_real_expense").text(total_real_expense);
+        $("#total_vat").text(total_vat);
+        $("#total_it_kor").text(total_it_kor);
+        $("#total_overall_expense").text(total_overall_expense);
+    }
+</script> 
 <script>
-$(document).ready(function() {
-    $('#fcl_year').chosen();
-    $('#head_id').chosen();
-    $('#office_type').chosen();
-    $('#office_id').chosen();
-    $('#office_type').trigger('change');
-    setTimeout(function() {
-        $('#office_type').trigger('change');
-
-    } , 1000);
-});
+    $(document).ready(function() {
+        calt()
+    })
 </script>
 
+
+
+
+<!-- 
 
 <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
 <script>
@@ -208,5 +243,5 @@ ClassicEditor
     .catch(error => {
         console.error(error);
     });
-</script>
+</script> -->
 
