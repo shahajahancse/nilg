@@ -26,6 +26,12 @@
               </div>
             <?php endif; ?>
 
+            <?php if($this->session->flashdata('error')):?>
+              <div class="alert alert-danger">
+                <?php echo $this->session->flashdata('error');?>
+              </div>
+            <?php endif; ?>
+
             <style type="text/css">
               .btt-m, .btt-m:focus, .btt-m:active:focus, .btt-m.active:focus {
                 outline: none !important;

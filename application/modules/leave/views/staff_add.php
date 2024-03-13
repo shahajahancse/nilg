@@ -1,11 +1,15 @@
-<div class="page-content">     
-  <div class="content">  
+<div class="page-content">
+  <div class="content">
     <ul class="breadcrumb" style="margin-bottom: 20px;">
       <li> <a href="<?=base_url()?>" class="active"> ড্যাশবোর্ড </a> </li>
       <li> <a href="<?=base_url('leave')?>" class="active"> <?=$module_title; ?> </a></li>
       <li><?=$meta_title; ?></li>
       <div class="pull-right" style="margin-right: 15px;">
-        <span href="<?=base_url('leave')?>"><strong style="font-size:18px; color: #683091;">মোট ছুটি : <?php echo eng2bng($total_leave); ?></strong></span>,&nbsp <span><strong style="font-size:18px; color: #0aa699;">অবশিষ্ট : <?php echo eng2bng($total_leave - $used_leave); ?></strong></span>
+        <span href="<?=base_url('leave')?>"><strong style="font-size:18px; color: #683091;">নৈমিত্তিক : <?php echo eng2bng($total_leave[0]->yearly_total_leave); ?></strong></span> &nbsp
+        <span><strong style="font-size:18px; color: #0aa699;">অবশিষ্ট :  <?php echo eng2bng($total_leave[0]->yearly_total_leave - $used_leave->casual_leave); ?></strong></span>&nbsp&nbsp | &nbsp&nbsp
+
+        <span><strong style="font-size:18px; color: #683091;">ঐচ্ছিক : <?php echo eng2bng($total_leave[1]->yearly_total_leave); ?></strong></span>&nbsp
+      <span><strong style="font-size:18px; color: #0aa699;">অবশিষ্ট : <?php echo eng2bng($total_leave[1]->yearly_total_leave - $used_leave->optional_leave); ?></strong></span>
       </div>
     </ul>
 
@@ -20,17 +24,22 @@
           </div>
 
           <div class="grid-body">
-            <?php 
+            <?php
             $attributes = array('id' => 'validate');
             echo form_open_multipart("leave/add", $attributes);
             ?>
 
             <div><?php echo validation_errors(); ?></div>
             <?php if($this->session->flashdata('success')):?>
-              <div class="alert alert-success">            
+              <div class="alert alert-success">
                 <?php echo $this->session->flashdata('success');;?>
               </div>
-            <?php endif; ?>              
+            <?php endif; ?>
+            <?php if($this->session->flashdata('error')):?>
+              <div class="alert alert-danger">
+                <?php echo $this->session->flashdata('error');?>
+              </div>
+            <?php endif; ?>
 
             <div class="row form-row">
               <div class="col-md-3">
@@ -80,13 +89,13 @@
               </div>
             </div>
 
-            <div class="form-actions">  
+            <div class="form-actions">
               <div class="pull-right">
                 <?php echo form_submit('submit', 'সংরক্ষণ করুন', "class='btn btn-primary btn-cons font-big-bold'"); ?>
               </div>
             </div>
             <?php echo form_close();?>
-          </div>  <!-- END GRID BODY -->              
+          </div>  <!-- END GRID BODY -->
         </div> <!-- END GRID -->
       </div>
 
@@ -99,7 +108,7 @@
 <script type="text/javascript">
  $(document).ready(function() {
   $('#validate').validate({
-      // focusInvalid: false, 
+      // focusInvalid: false,
       ignore: "",
       rules: {
         user_id: { required: true},
@@ -107,31 +116,31 @@
         from_date: { required: true},
         to_date: { required: true},
       },
-      errorPlacement: function (label, element) { 
-        // render error placement for each input type            
+      errorPlacement: function (label, element) {
+        // render error placement for each input type
         $('<span class="error"></span>').insertAfter(element).append(label)
         var parent = $(element).parent('.input-with-icon');
-        parent.removeClass('success-control').addClass('error-control');  
+        parent.removeClass('success-control').addClass('error-control');
       },
       highlight: function (element) { // hightlight error inputs
         var parent = $(element).parent();
-        parent.removeClass('success-control').addClass('error-control'); 
+        parent.removeClass('success-control').addClass('error-control');
       },
-      unhighlight: function (element) { 
+      unhighlight: function (element) {
       // revert the change done by hightlight
     },
 
     success: function (label, element) {
       var parent = $(element).parent('.input-with-icon');
-      parent.removeClass('error-control').addClass('success-control'); 
+      parent.removeClass('error-control').addClass('success-control');
     },
 
     submitHandler: function (form) {
-      form.submit(); 
+      form.submit();
     }
 
   });
 
-});   
+});
 
 </script>

@@ -27,7 +27,12 @@
               <div class="alert alert-success">            
                 <?php echo $this->session->flashdata('success');;?>
               </div>
-            <?php endif; ?>              
+            <?php endif; ?>    
+            <?php if($this->session->flashdata('error')):?>
+              <div class="alert alert-danger">
+                <?php echo $this->session->flashdata('error');?>
+              </div>
+            <?php endif; ?>        
 
             <div class="row form-row">
               <div class="col-md-3">

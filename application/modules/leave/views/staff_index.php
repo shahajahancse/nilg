@@ -1,12 +1,16 @@
 
-<div class="page-content">     
+<div class="page-content">
   <div class="content">
     <ul class="breadcrumb" style="margin-bottom: 20px;">
       <li> <a href="<?=base_url()?>" class="active"> ড্যাশবোর্ড </a> </li>
       <li> <a href="<?=base_url('qbank')?>" class="active"> <?=$module_title?> </a></li>
       <li><?=$meta_title; ?> </li>
       <div class="pull-right" style="margin-right: 15px;">
-        <span href="<?=base_url('leave')?>"><strong style="font-size:18px; color: #683091;">মোট ছুটি : <?php echo eng2bng($total_leave); ?></strong></span>,&nbsp <span><strong style="font-size:18px; color: #0aa699;">অবশিষ্ট : <?php echo eng2bng($total_leave - $used_leave); ?></strong></span>
+        <span href="<?=base_url('leave')?>"><strong style="font-size:18px; color: #683091;">নৈমিত্তিক : <?php echo eng2bng($total_leave[0]->yearly_total_leave); ?></strong></span> &nbsp
+        <span><strong style="font-size:18px; color: #0aa699;">অবশিষ্ট :  <?php echo eng2bng($total_leave[0]->yearly_total_leave - $used_leave->casual_leave); ?></strong></span>&nbsp&nbsp | &nbsp&nbsp
+
+        <span><strong style="font-size:18px; color: #683091;">ঐচ্ছিক : <?php echo eng2bng($total_leave[1]->yearly_total_leave); ?></strong></span>&nbsp
+      <span><strong style="font-size:18px; color: #0aa699;">অবশিষ্ট : <?php echo eng2bng($total_leave[1]->yearly_total_leave - $used_leave->optional_leave); ?></strong></span>
       </div>
     </ul>
 
@@ -17,14 +21,20 @@
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
             <div class="pull-right">
               <a href="<?=base_url('leave/add')?>" class="btn btn-primary btn-xs btn-mini"> ছুটি যুক্ত করুন</a>
-            </div>            
-          </div>          
+            </div>
+          </div>
 
           <div class="grid-body table-responsive">
-            <div id="infoMessage"><?php echo $message;?></div>   
+            <div id="infoMessage"><?php echo $message;?></div>
             <?php if($this->session->flashdata('success')):?>
               <div class="alert alert-success">
                 <?php echo $this->session->flashdata('success');?>
+              </div>
+            <?php endif; ?>
+
+            <?php if($this->session->flashdata('error')):?>
+              <div class="alert alert-danger">
+                <?php echo $this->session->flashdata('error');?>
               </div>
             <?php endif; ?>
 
@@ -72,7 +82,7 @@
                   <th>ক্রম</th>
                   <th>নাম</th>
                   <th>ডিপার্টমেন্ট</th>
-                  <th>পদবি</th>                  
+                  <th>পদবি</th>
                   <th>ছুটির টাইপ</th>
                   <th>আরম্ভ তারিখ</th>
                   <th>সমাপ্তি তারিখ</th>
@@ -82,7 +92,7 @@
                 </tr>
               </thead>
               <tbody>
-                <?php 
+                <?php
                 $sl = $pagination['current_page'];
                 foreach ($results as $row){
                   $sl++;
@@ -91,7 +101,7 @@
                      $status = '<span class="label label-success">অনুমোদিত</span>';
                   }elseif($row->status == 3) {
                      $status = '<span class="label label- important">প্রত্যাখ্যাত</span>';
-                  }else if($row->status == 1){ 
+                  }else if($row->status == 1){
                      $status = '<span class="label label-warning">অপেক্ষমাণ</span>';
                   }
                   ?>
