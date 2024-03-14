@@ -55,21 +55,24 @@
                 <div class="form-group">
                   <label class="form-label">ছুটির টাইপ <span class="required">*</span></label>
                   <?php echo form_error('leave_type'); ?>
-                    <?php $more_attr = 'class="form-control input-sm" id="leave_type" style="height: 20px !important" onchange="leave_validation()"';
-                      echo form_dropdown('leave_type', $leave_type, set_value('leave_type'), $more_attr);
-                  ?>
+                  <select onchange="leave_validation()" name="leave_type" id="leave_type" class="form-control input-sm" style="width: 100%; height: 28px !important;" <?php echo isset($total_leave) ? '' : 'disabled' ?> <?php echo isset($total_leave) ? '' : 'title="No leave type available"' ?>>
+                    <option value="" selected>-- নির্বাচন করুন --</option>
+                    <?php foreach ($total_leave as $key => $v): ?>
+                      <option value="<?= $v->id ?>"><?= $v->leave_name_bn ?></option>
+                    <?php endforeach; ?>
+                  </select>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="form-group">
                   <label class="form-label">শুরুর তারিখঃ <span class="required">*</span></label>
-                  <input name="from_date" type="text" value="<?=set_value('from_date')?>" id="from_date" class="datetime form-control input-sm" autocomplete="off">
+                  <input onchange="leave_validation()" name="from_date" type="text" value="<?=set_value('from_date')?>" id="from_date" class="datetime form-control input-sm" autocomplete="off">
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="form-group">
                   <label class="form-label">শেষ তারিখঃ <span class="required">*</span></label>
-                  <input name="to_date" type="text" value="<?=set_value('to_date')?>"  id="to_date" class="datetime form-control input-sm" autocomplete="off">
+                  <input onchange="leave_validation()" name="to_date" type="text" value="<?=set_value('to_date')?>"  id="to_date" class="datetime form-control input-sm" autocomplete="off">
                 </div>
               </div>
             </div>
@@ -106,91 +109,102 @@
 
 
 <script type="text/javascript">
- $(document).ready(function() {
-  $('#validate').validate({
-      // focusInvalid: false,
-      ignore: "",
-      rules: {
-        user_id: { required: true},
-        leave_type: { required: true},
-        from_date: { required: true},
-        to_date: { required: true},
+  $(document).ready(function() {
+    $('#validate').validate({
+        // focusInvalid: false,
+        ignore: "",
+        rules: {
+          user_id: { required: true},
+          leave_type: { required: true},
+          from_date: { required: true},
+          to_date: { required: true},
+        },
+        errorPlacement: function (label, element) {
+          // render error placement for each input type
+          $('<span class="error"></span>').insertAfter(element).append(label)
+          var parent = $(element).parent('.input-with-icon');
+          parent.removeClass('success-control').addClass('error-control');
+        },
+        highlight: function (element) { // hightlight error inputs
+          var parent = $(element).parent();
+          parent.removeClass('success-control').addClass('error-control');
+        },
+        unhighlight: function (element) {
+        // revert the change done by hightlight
       },
-      errorPlacement: function (label, element) {
-        // render error placement for each input type
-        $('<span class="error"></span>').insertAfter(element).append(label)
+
+      success: function (label, element) {
         var parent = $(element).parent('.input-with-icon');
-        parent.removeClass('success-control').addClass('error-control');
+        parent.removeClass('error-control').addClass('success-control');
       },
-      highlight: function (element) { // hightlight error inputs
-        var parent = $(element).parent();
-        parent.removeClass('success-control').addClass('error-control');
-      },
-      unhighlight: function (element) {
-      // revert the change done by hightlight
-    },
 
-    success: function (label, element) {
-      var parent = $(element).parent('.input-with-icon');
-      parent.removeClass('error-control').addClass('success-control');
-    },
+      submitHandler: function (form) {
+        form.submit();
+      }
 
-    submitHandler: function (form) {
-      form.submit();
-    }
-
+    });
   });
-
-});
-
 </script>
 
 
 <script>
+  var casual_leave = <?php echo isset($total_leave[0]->yearly_total_leave) ? $total_leave[0]->yearly_total_leave - $used_leave->casual_leave : 0 ?>;
+  var max_leave_for_cas = <?php echo isset($total_leave[0]->max_apply_leave) ? $total_leave[0]->max_apply_leave : 0 ?>;
+  var optional_leave = <?php echo isset($total_leave[1]->yearly_total_leave) ? $total_leave[1]->yearly_total_leave - $used_leave->optional_leave : 0 ?>;
+  var max_leave_for_opt = <?php echo isset($total_leave[1]->max_apply_leave) ? $total_leave[1]->max_apply_leave : 0 ?>;
 
-var casual_leave=<?= $total_leave[0]->yearly_total_leave - $used_leave->casual_leave ?>
-var optional_leave=<?= $total_leave[1]->yearly_total_leave - $used_leave->optional_leave ?>
-var max_leave_for_cas =<?= $total_leave[0]->max_apply_leave ?>
-var max_leave_for_opt =<?= $total_leave[1]->max_apply_leave ?>
-
-
-  var max_cas=0;
+  var max_cas = 0;
   if (casual_leave < max_leave_for_cas) {
-    max_cas = casual_leave
-  }else{
-    max_cas = max_leave_for_cas
+    max_cas = casual_leave;
+  } else {
+    max_cas = max_leave_for_cas;
   }
-var max_opt=0;
+
+  var max_opt = 0;
   if (optional_leave < max_leave_for_opt) {
-    max_opt = optional_leave
-  }else{
-    max_opt = max_leave_for_opt
+    max_opt = optional_leave;
+  } else {
+    max_opt = max_leave_for_opt;
   }
-
-
-
 
   function leave_validation() {
-      var leave_type=$('#leave_type').val();
-      var max=0
-      if (leave_type == 8) {
-        max = max_cas
-      }
+    if ($('#to_date').val()=='') {
+      return false;
+    }
+    if ($('#from_date').val()=='') {
+      return false;
+    }
+    if ($('#from_date').val() > $('#to_date').val()) {
+      $('#to_date').val('');
+      return false;
+    }
+    if ($('#leave_type').val()=='') {
+      return false;
+    }
 
-      if (leave_type == 12) {
-        max = max_opt
-      }
+    var leave_type = document.getElementById('leave_type').value;
+    var max = 0;
+    if (leave_type == 8) {
+      max = max_cas;
+    } else if (leave_type == 12) {
+      max = max_opt;
+    }
 
-      var from_date=$('#from_date').val();
-      var to_date=$('.to_date').val();
-      var oneDay = 24*60*60*1000;
-      var diffDays = Math.round(Math.abs((new Date(to_date).getTime() - new Date(from_date).getTime())/(oneDay)));
+    var from_date = document.getElementById('from_date').value;
+    var to_date = document.getElementById('to_date').value;
+
+    if (from_date && to_date) {
+      var oneDay = 24 * 60 * 60 * 1000;
+      var diffDays = Math.round(Math.abs((new Date(to_date).getTime() - new Date(from_date).getTime()) / (oneDay)));
+      diffDays = diffDays + 1;
       console.log(diffDays);
-
       if (diffDays > max) {
-        alert('আপনি এই তারিখের মাত্রা পাওয়া যাবেনি');
+        $('#to_date').val('');
+        alert('আপনার ছুটির আবেদন বেশি হয়েছে। দয়া করে আবার চেষ্টা করুন।');
+        return false;
       }
-
+    }
   }
 
 </script>
+

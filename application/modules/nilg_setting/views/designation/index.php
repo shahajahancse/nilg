@@ -1,4 +1,4 @@
-<div class="page-content">     
+<div class="page-content">
   <div class="content">
     <ul class="breadcrumb" style="margin-bottom: 20px;">
       <li> <a href="<?=base_url()?>" class="active"> ড্যাশবোর্ড </a> </li>
@@ -13,11 +13,11 @@
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
             <div class="pull-right">
               <a href="<?=base_url('nilg_setting/designation/add')?>" class="btn btn-primary btn-xs btn-mini"> এন্ট্রি করুন</a>
-            </div>            
+            </div>
           </div>
 
           <div class="grid-body ">
-            <div id="infoMessage"><?php echo $message;?></div>   
+            <div id="infoMessage"><?php echo $message;?></div>
             <?php if($this->session->flashdata('success')):?>
               <div class="alert alert-success">
                 <?php echo $this->session->flashdata('success');;?>
@@ -33,7 +33,7 @@
                     echo form_dropdown('office', $office_type, set_value('office'), $more_attr);
                     ?>
                   </div>
-                </div>                
+                </div>
                 <div class="col-md-4 p5">
                   <div class="form-group">
                     <input name="name" type="text" value="<?=set_value('name') ?>" class="bangla form-control" contenteditable="TRUE" placeholder="পদবির নাম" style="min-height: 34px !important;">
@@ -46,8 +46,8 @@
                     echo form_dropdown('employee_type', $employee_type, set_value('employee_type'), $more_attr);
                     ?>
                   </div>
-                </div> 
-                
+                </div>
+
                 <div class="col-md-1 p5" style="width: 50px;height: 50px;">
                   <div class="form-group">
                     <button type="submit" class="btn btn-primary"><i class="fa fa-search" aria-hidden="true"></i></button>
@@ -70,7 +70,7 @@
                 </tr>
               </thead>
               <tbody>
-                <?php 
+                <?php
                 $sl = $pagination['current_page'];
                 foreach ($results as $row){
                   $sl++;
@@ -101,7 +101,7 @@
                             <li class="divider"></li>
                             <!-- <li><a href="<?=base_url("designations/delete/".$row->id)?>" onclick="return confirm('Be careful! Are you sure you want to delete this data?');">Delete </a></li> -->
                           </ul>
-                        </div> 
+                        </div>
                       </td>
                     </tr>
                     <?php } ?>

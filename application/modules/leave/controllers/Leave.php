@@ -101,7 +101,7 @@ class Leave extends Backend_Controller {
                     'reason'       => $this->input->post('reason'),
                     'status'       => 1,
                     'file_name'    => $uploadedFile,
-                    'created_date' => "Y-m-d",
+                    'created_date' => date("Y-m-d"),
                 );
                 if($this->Common_model->save('leave_employee', $form_data)){
                     $this->session->set_flashdata('success', 'ছুটিটি সংরক্ষণ করা হয়েছে.');
