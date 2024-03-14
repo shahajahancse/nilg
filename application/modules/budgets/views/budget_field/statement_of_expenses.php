@@ -23,7 +23,7 @@
     <div class="content">
         <ul class="breadcrumb">
             <li><a href="<?=base_url('dashboard')?>" class="active"> Dashboard </a></li>
-            <li><a href="<?=base_url('budget/budget_field_create')?>" class="active"><?=$module_name?></a></li>
+            <li><a href="<?=base_url('budget/budget_field_statement_of_expenses')?>" class="active"><?=$module_name?></a></li>
             <li><?=$meta_title; ?></li>
         </ul>
 
@@ -54,7 +54,7 @@
 
                         <?php
                             $attributes = array('id' => 'jsvalidate');
-                            echo form_open_multipart("budgets/budget_field_edit",$attributes);
+                            echo form_open_multipart("budgets/statement_of_expenses_create",$attributes);
                             echo validation_errors();
                         ?>
 
@@ -128,14 +128,15 @@
                                                             <td style="text-align: center;width:fit-content;"><?=++$key?></td>
                                                             <td style="width:fit-content;"><?=$data->name_bn?>(<?=$data->bd_code?>) (<?=$data->participants>=1 ? $data->participants.'*' : '' ?> <?=$data->days>=1 ? $data->days.'*' : ''?> <?=$data->amount>=1 ? $data->amount .'*' : ''?>) </td>
                                                             <td style="text-align: center;width:fit-content;">
+                                                            <input type="hidden" name="budget_field_details_id[]" value="<?=$data->budget_field_details_id?>" >
                                                             <input type="hidden" name="head_id[]" value="<?=$data->budget_head_id?>" >
-                                                            <input type="hidden" name="head_sub_id[]" value="<?=$data->id?>" >
+                                                            <input type="hidden" name="head_sub_id[]" value="<?=$data->head_sub_id?>" >
                                                             <?=$data->total_amt?>
                                                             </td>
-                                                            <td><input  style="width:100%" type="number" min=0 value=0 name="real_expense[]" class="real_expense" onkeyup="calculate_overall_expense(this)"></td>
-                                                            <td><input  style="width:100%" type="number" min=0 value=0 name="vat[]" class="vat" onkeyup="calculate_overall_expense(this)"></td>
-                                                            <td><input  style="width:100%" type="number" min=0 value=0 name="it_kor[]" class="it_kor" onkeyup="calculate_overall_expense(this)"></td>
-                                                            <td><input  style="width:100%" type="number" min=0 value=0 name="overall_expense[]" class="overall_expense" readonly></td>
+                                                            <td><input  style="width:100%" type="number" min=0 value=<?=$data->real_expense==''?0:$data->real_expense ?> name="real_expense[]" class="real_expense" onkeyup="calculate_overall_expense(this)"></td>
+                                                            <td><input  style="width:100%" type="number" min=0 value=<?=$data->vat==''?0:$data->vat ?> name="vat[]" class="vat" onkeyup="calculate_overall_expense(this)"></td>
+                                                            <td><input  style="width:100%" type="number" min=0 value=<?=$data->it_kor==''?0:$data->it_kor ?> name="it_kor[]" class="it_kor" onkeyup="calculate_overall_expense(this)"></td>
+                                                            <td><input  style="width:100%" type="number" min=0 value=<?=$data->overall_expense==''?0:$data->overall_expense ?> name="overall_expense[]" class="overall_expense" readonly></td>
                                                             <td><input  style="width:100%" type="file"  id=""></td>
                                                         </tr>
                                                     <?php endforeach;?>
@@ -148,7 +149,7 @@
                                                         <td id="total_vat"></td>
                                                         <td id="total_it_kor"></td>
                                                         <td id="total_overall_expense"></td>
-                                                        <td></td>
+                                                        <td><input type="hidden" name="total_overall_expense" id="total_overall_expense_input"></td>
                                                 </tfoot>
                                             </table>
                                             <br>
@@ -220,6 +221,7 @@
         $("#total_vat").text(total_vat);
         $("#total_it_kor").text(total_it_kor);
         $("#total_overall_expense").text(total_overall_expense);
+        $("#total_overall_expense_input").val(total_overall_expense);
     }
 </script> 
 <script>
