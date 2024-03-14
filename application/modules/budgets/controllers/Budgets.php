@@ -801,26 +801,57 @@ class Budgets extends Backend_Controller
             ->where('budget_field.id', $id);
         $budget_field = $this->db->get()->row();
         $this->data['budget_field'] = $budget_field;
-        $this->db->select('budget_field_details.*,budget_field_details.id as budget_field_details_id,budget_head_sub.bd_code,budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name,budget_head.id as budget_head_id');
+        $this->db->select('
+        budget_field_details.*,
+        budget_field_details.id as budget_field_details_id,
+        budget_head_sub.bd_code,budget_head_sub.id,
+         budget_head_sub.name_bn,
+         budget_head.name_bn as budget_head_name,
+         budget_head.id as budget_head_id,
+         budget_field_expenses.real_expense,
+         budget_field_expenses.vat,
+         budget_field_expenses.it_kor,
+         budget_field_expenses.overall_expense
+         ');
         $this->db->from('budget_field_details');
         $this->db->join('budget_head_sub', 'budget_field_details.head_sub_id = budget_head_sub.id');
         $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->db->join('budget_field_expenses', 'budget_field_details.id = budget_field_expenses.budget_field_details_id', 'left');
         $this->db->where('budget_field_details.budget_field_id', $id);
         $this->db->where('budget_field_details.modify_soft_d', 1);
         $budget_field_details = $this->db->get()->result();
         $this->data['budget_field_details'] = $budget_field_details;
 
-        $this->db->select('budget_head_sub.id,budget_head_sub.bd_code, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name');
-        $this->db->from('budget_head_sub');
-        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
-        $this->data['budget_head_sub'] = $this->db->get()->result();
+
         //Dropdown
-        $this->data['budget_head'] = $this->Common_model->get_dropdown('budget_head', 'name_bn', 'id');
         $this->data['info'] = $this->Common_model->get_user_details($this->data['budget_field']->created_by);
 
         $this->data['meta_title'] = 'বাজেট ব্যয় বিবরণী ';
         $this->data['subview'] = 'budget_field/statement_of_expenses';
         $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function statement_of_expenses_create(){
+        // dd($this->input->post());
+        // CREATE TABLE `nilg_erp`.`budget_field_expenses` ( `id` INT NOT NULL ,  `budget_field_id` INT NOT NULL ,  `head_id` INT NOT NULL ,  `head_sub_id` INT NOT NULL ,  `real_expense` INT NOT NULL ,  `vat` INT NOT NULL ,  `it_kor` INT NOT NULL ,  `overall_expense` INT NOT NULL ,  `total_overall_expense` INT NOT NULL ,  `create_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,  `update_at` DATE NULL DEFAULT NULL ) ENGINE = InnoDB;
+       
+        $this->db->where('budget_field_id', $this->input->post('budget_field_id'));
+        $this->db->delete('budget_field_expenses');
+        foreach ($this->input->post('head_sub_id') as $key => $value) {
+            $data['budget_field_id'] = $this->input->post('budget_field_id');
+            $data['budget_field_details_id'] = $this->input->post('budget_field_details_id')[$key];
+            $data['head_sub_id'] = $value;
+            $data['real_expense'] = $this->input->post('real_expense')[$key];
+            $data['vat'] = $this->input->post('vat')[$key];
+            $data['it_kor'] = $this->input->post('it_kor')[$key];
+            $data['overall_expense'] = $this->input->post('overall_expense')[$key];
+            $data['update_at'] = date('Y-m-d H:i:s');
+            $this->db->insert('budget_field_expenses', $data);
+        }
+        $this->db->where('id', $this->input->post('budget_field_id'));
+        $this->db->update('budget_field', array('total_overall_expense' => $this->input->post('total_overall_expense')));
+        $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+        redirect("budgets/budget_field");
     }
     public function budget_field_clone($encid)
     {
