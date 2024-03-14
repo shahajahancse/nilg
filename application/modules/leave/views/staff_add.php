@@ -55,7 +55,7 @@
                 <div class="form-group">
                   <label class="form-label">ছুটির টাইপ <span class="required">*</span></label>
                   <?php echo form_error('leave_type'); ?>
-                    <?php $more_attr = 'class="form-control input-sm" style="height: 20px !important"';
+                    <?php $more_attr = 'class="form-control input-sm" id="leave_type" style="height: 20px !important" onchange="leave_validation()"';
                       echo form_dropdown('leave_type', $leave_type, set_value('leave_type'), $more_attr);
                   ?>
                 </div>
@@ -63,13 +63,13 @@
               <div class="col-md-3">
                 <div class="form-group">
                   <label class="form-label">শুরুর তারিখঃ <span class="required">*</span></label>
-                  <input name="from_date" type="text" value="<?=set_value('from_date')?>" class="datetime form-control input-sm" autocomplete="off">
+                  <input name="from_date" type="text" value="<?=set_value('from_date')?>" id="from_date" class="datetime form-control input-sm" autocomplete="off">
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="form-group">
                   <label class="form-label">শেষ তারিখঃ <span class="required">*</span></label>
-                  <input name="to_date" type="text" value="<?=set_value('to_date')?>" class="datetime form-control input-sm" autocomplete="off">
+                  <input name="to_date" type="text" value="<?=set_value('to_date')?>"  id="to_date" class="datetime form-control input-sm" autocomplete="off">
                 </div>
               </div>
             </div>
@@ -142,5 +142,55 @@
   });
 
 });
+
+</script>
+
+
+<script>
+
+var casual_leave=<?= $total_leave[0]->yearly_total_leave - $used_leave->casual_leave ?>
+var optional_leave=<?= $total_leave[1]->yearly_total_leave - $used_leave->optional_leave ?>
+var max_leave_for_cas =<?= $total_leave[0]->max_apply_leave ?>
+var max_leave_for_opt =<?= $total_leave[1]->max_apply_leave ?>
+
+
+  var max_cas=0;
+  if (casual_leave < max_leave_for_cas) {
+    max_cas = casual_leave
+  }else{
+    max_cas = max_leave_for_cas
+  }
+var max_opt=0;
+  if (optional_leave < max_leave_for_opt) {
+    max_opt = optional_leave
+  }else{
+    max_opt = max_leave_for_opt
+  }
+
+
+
+
+  function leave_validation() {
+      var leave_type=$('#leave_type').val();
+      var max=0
+      if (leave_type == 8) {
+        max = max_cas
+      }
+
+      if (leave_type == 12) {
+        max = max_opt
+      }
+
+      var from_date=$('#from_date').val();
+      var to_date=$('.to_date').val();
+      var oneDay = 24*60*60*1000;
+      var diffDays = Math.round(Math.abs((new Date(to_date).getTime() - new Date(from_date).getTime())/(oneDay)));
+      console.log(diffDays);
+
+      if (diffDays > max) {
+        alert('আপনি এই তারিখের মাত্রা পাওয়া যাবেনি');
+      }
+
+  }
 
 </script>
