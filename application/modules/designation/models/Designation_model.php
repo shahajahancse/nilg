@@ -10,9 +10,9 @@ class Designation_model extends CI_Model {
     public function get_data($limit = 1000, $offset = 0) {
         // result query
         $this->db->select('*');
-        $this->db->from('designation');
+        $this->db->from('designations');
         // $this->db->limit($limit);
-        // $this->db->offset($offset);        
+        // $this->db->offset($offset);
         $this->db->order_by('desig_name', 'ASC');
         // $query = $this->db->get();
         $result['rows'] = $this->db->get()->result();
@@ -20,8 +20,8 @@ class Designation_model extends CI_Model {
 
         // count query
         $q = $this->db->select('COUNT(*) as count');
-        $this->db->from('designation');
-        
+        $this->db->from('designations');
+
         $tmp = $this->db->get()->result();
         $result['num_rows'] = $tmp[0]->count;
 
@@ -43,6 +43,6 @@ class Designation_model extends CI_Model {
     //     return $query->row();
     // }
 
-    
-   
+
+
 }

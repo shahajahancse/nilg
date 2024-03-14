@@ -1,5 +1,5 @@
-<div class="page-content">     
-   <div class="content">  
+<div class="page-content">
+   <div class="content">
       <ul class="breadcrumb">
          <li> <a href="<?=base_url()?>" class="active"> ড্যাশবোর্ড </a> </li>
          <li>  জেনারেল সেটিংস </li>
@@ -11,7 +11,7 @@
             <div class="grid simple horizontal red">
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
-                  <div class="pull-right">                
+                  <div class="pull-right">
                   </div>
                </div>
                <div class="grid-body">
@@ -41,21 +41,16 @@
                         </select>
                      </div>
                   </div>
-
-
                   <hr>
                   <div class="row form-row" id="load_desig">
 
-                  </div>   
+                  </div>
 
 
-
-               </div>  <!-- END GRID BODY -->              
+               </div>  <!-- END GRID BODY -->
             </div> <!-- END GRID -->
          </div>
-
       </div> <!-- END ROW -->
-
    </div>
 </div>
 

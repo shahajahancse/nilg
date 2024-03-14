@@ -417,13 +417,15 @@
                      } ?>
                      <span class="arrow"></span> </a>
                      <ul class="sub-menu">
-                        <?php if($this->ion_auth->in_group(array('admin', 'nilg'))){ ?>
-                        <li> <a href="<?= base_url('leave'); ?>"> অনুমোদিত তালিকা </a> </li>
-                        <li class="start <?= backend_activate_menu_method('pending_list') ?>"><a href="<?= base_url('leave/pending_list') ?>">অপেক্ষমাণ তালিকা
-                           <?php if ($leave_notify > 0) {
-                              echo '<span class="badge badge-danger pull-right" style="margin-right:10px">' . eng2bng($leave_notify) . '</span>';
-                           } ?>
+                        <?php //if($this->ion_auth->in_group(array('admin', 'nilg'))){ ?>
+                        <?php if($this->ion_auth->in_group(array('admin', 'leave_jd', 'leave_dg', 'leave_director'))){ ?>
+                           <li> <a href="<?= base_url('leave'); ?>"> ছুটির তালিকা </a> </li>
+                           <li class="start <?= backend_activate_menu_method('pending_list') ?>"><a href="<?= base_url('leave/pending_list') ?>">অপেক্ষমাণ তালিকা
+                              <?php if ($leave_notify > 0) {
+                                 echo '<span class="badge badge-danger pull-right" style="margin-right:10px">' . eng2bng($leave_notify) . '</span>';
+                              } ?>
                         </a></li>
+                        <li> <a href="<?= base_url('leave'); ?>"> অনুমোদিত তালিকা </a> </li>
                         <li class="start <?= backend_activate_menu_method('rejected_list') ?>"><a href="<?= base_url('leave/rejected_list') ?>">প্রত্যাখ্যাত তালিকা
                         </a></li>
                         <li class="start <?= backend_activate_menu_method('leave_reports') ?>"><a href="<?= base_url('leave/leave_reports') ?>">রিপোর্ট</a></li>
