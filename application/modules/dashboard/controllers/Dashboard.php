@@ -39,6 +39,14 @@ class Dashboard extends Backend_Controller
 
 		}elseif ($this->ion_auth->in_group('acc')) { // ddlg (14) Dashboard 
 
+
+			$this->data['budget_field'] = $this->db->get('budget_field')->result();
+			$this->data['budget_nilg'] = $this->db->get('budget_nilg')->result();
+			$this->data['budgets_entry'] = $this->db->get('budgets')->result();
+
+
+
+
 			
 			$this->data['info'] = $this->Dashboard_model->get_office_info();      
 			$this->data['meta_title'] = 'অ্যাকাউন্ট ড্যাশবোর্ড';
