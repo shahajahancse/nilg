@@ -112,7 +112,7 @@ class Budgets_model extends CI_Model {
     public function get_budget_field($limit, $offset, $office_id = null, $user_id = null, $dept_id = null) {
       $this->db->select('b.*, o.office_name');
       $this->db->from('budget_field as b');
-      $this->db->join('office as o','o.id=b.office_id','left');
+      $this->db->join('office as o','o.id=b.office_id', 'left');
 
       if (!empty($office_id)) {
           $this->db->where('b.office_id', $office_id);

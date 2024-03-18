@@ -669,7 +669,7 @@ class Budgets extends Backend_Controller
         $dept_id = $this->data['userDetails']->crrnt_dept_id;
         $office_type = $this->data['userDetails']->office_type;
 
-        if ($office_type == 7 && !$this->ion_auth->in_group(array('admin')) ) {
+        if ($office_type == 7 && $this->ion_auth->in_group(array('bdh'))) {
             $results = $this->Budgets_model->get_budget_field($limit, $offset, null, null, $dept_id);
         } else if ($this->ion_auth->in_group(array('uz', 'ddlg'))) {
             $results = $this->Budgets_model->get_budget_field($limit, $offset, $office_id);
@@ -786,7 +786,7 @@ class Budgets extends Backend_Controller
     public function budget_field_statement_of_expenses($encid)
     {
 
-       
+
         $id = (int) decrypt_url($encid);
             $this->db->select('
             budget_field.*,
@@ -831,9 +831,9 @@ class Budgets extends Backend_Controller
         $this->load->view('backend/_layout_main', $this->data);
     }
 
-    public function statement_of_expenses_create(){ 
-        
-    
+    public function statement_of_expenses_create(){
+
+
         $this->db->where('budget_field_id', $this->input->post('budget_field_id'));
         $this->db->delete('budget_field_expenses');
         foreach ($this->input->post('head_sub_id') as $key => $value) {
