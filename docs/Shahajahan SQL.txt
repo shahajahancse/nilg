@@ -1,7 +1,7 @@
 14-02-2024 Shahajahan
 //leave module
 RENAME TABLE `nilg_erp`.`employee_leave` TO `nilg_erp`.`leave_employee`;
-ALTER TABLE `leave_employee` CHANGE `created_date` `created_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+ALTER TABLE `leave_employee` CHANGE `created_date` `created_date` DATE NULL DEFAULT NULL;
 ALTER TABLE `leave_employee` ADD `dept_id` INT NOT NULL AFTER `user_id`, ADD `desig_id` INT NOT NULL AFTER `dept_id`, ADD INDEX (`dept_id`), ADD INDEX (`desig_id`);
 
 ALTER TABLE `leave_type` CHANGE `status` `status` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '1=active, 2=inactive';

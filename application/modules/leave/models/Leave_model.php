@@ -61,6 +61,64 @@ class Leave_model extends CI_Model {
         return $result;
     }
 
+    public function get_list($limit = 1000, $offset = 0, $status = null, $desig_array = array(), $dept_id=null) {
+        // result query
+        $this->db->select('el.*, et.leave_name_bn, et.leave_name_en, users.name_bn, dg.dept_name, cd.desig_name');
+        $this->db->from('leave_employee el');
+        $this->db->join('leave_type et', 'et.id = el.leave_type', 'LEFT');
+        $this->db->join('users', 'users.id = el.user_id', 'LEFT');
+        $this->db->join('department dg', 'dg.id = users.crrnt_dept_id', 'LEFT');
+        $this->db->join('designations cd', 'cd.id = users.crrnt_desig_id', 'LEFT');
+        $this->db->limit($limit);
+        $this->db->offset($offset);
+        $this->db->order_by('el.id', 'DESC');
+        // Filter
+        if($status != null){
+            $this->db->where('el.status', $status);
+        }
+        if(!empty($desig_array)){
+            $this->db->where_in('el.desig_id', $desig_array);
+        }
+        if($dept_id != null){
+            $this->db->where('el.dept_id', $dept_id);
+        }
+        if($this->input->get('user_id')){
+            $this->db->where('el.user_id', $this->input->get('user_id'));
+        }
+        if($this->input->get('from_date') && $this->input->get('to_date')){
+            $this->db->where('el.from_date >=', $this->input->get('from_date'));
+            $this->db->where('el.from_date <=', $this->input->get('to_date'));
+        }
+        // $query = $this->db->get();
+        $result['rows'] = $this->db->get()->result();
+        // echo $this->db->last_query(); exit;
+
+
+        // count query
+        $q = $this->db->select('COUNT(*) as count');
+        $this->db->from('leave_employee as el');
+        // Filter
+        if($status != null){
+            $this->db->where('el.status', $status);
+        }
+        if(!empty($desig_array)){
+            $this->db->where_in('el.desig_id', $desig_array);
+        }
+        if($dept_id != null){
+            $this->db->where('el.dept_id', $dept_id);
+        }
+        if($this->input->get('from_date') && $this->input->get('to_date')){
+            $this->db->where('el.from_date >=', $this->input->get('from_date'));
+            $this->db->where('el.from_date <=', $this->input->get('to_date'));
+        }
+        if($this->input->get('user_id')){
+            $this->db->where('el.user_id', $this->input->get('user_id'));
+        }
+        $tmp = $this->db->get()->result();
+        $result['num_rows'] = $tmp[0]->count;
+        return $result;
+    }
+
     public function get_user($table) {
         $this->db->select('*');
         $this->db->from($table);

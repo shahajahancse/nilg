@@ -101,7 +101,7 @@ class Leave extends Backend_Controller {
                     'reason'       => $this->input->post('reason'),
                     'status'       => 1,
                     'file_name'    => $uploadedFile,
-                    'created_date' => "Y-m-d",
+                    'created_date' => date("Y-m-d"),
                 );
                 if($this->Common_model->save('leave_employee', $form_data)){
                     $this->session->set_flashdata('success', 'ছুটিটি সংরক্ষণ করা হয়েছে.');
@@ -218,8 +218,6 @@ class Leave extends Backend_Controller {
         $this->load->view('backend/_layout_main', $this->data);
     }
 
-
-
     public function delete($dataID){
         $dataID = (int) decrypt_url($dataID);
         // Check Exists
@@ -236,27 +234,38 @@ class Leave extends Backend_Controller {
     {
         // Manage list the users
         $limit = 50;
+        $desig_array = array();
+        $dept_id = $this->data['userDetails']->crrnt_dept_id;
 
-        $results = $this->Leave_model->get_data($limit, $offset, 1);
-        $this->data['results'] = $results['rows'];
-        $this->data['total_rows'] = $results['num_rows'];
+        if (!empty($dept_id) && !empty($this->data['userDetails']->crrnt_desig_id) || $this->ion_auth->is_admin()) {
+            if ($this->ion_auth->in_group(array('leave_jd'))) {
+                $desig_array = $this->get_manage_designation_array(21, $dept_id);
+            } else if ($this->ion_auth->in_group(array('leave_director'))) {
+                $desig_array = $this->get_manage_designation_array(22, $dept_id);
+            } else if ($this->ion_auth->in_group(array('leave_dg'))) {
+                $desig_array = $this->get_manage_designation_array(23, $dept_id);
+                $dept_id = null;
+            }
 
-        /*echo '<pre>';
-        print_r($this->data['results']); exit;*/
+            $results = $this->Leave_model->get_list($limit, $offset, 1, $desig_array, $dept_id);
+            $this->data['results'] = $results['rows'];
+            $this->data['total_rows'] = $results['num_rows'];
 
-        //pagination
-        $this->data['pagination'] = create_pagination('leave/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+            //pagination
+            $this->data['pagination'] = create_pagination('leave/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+            $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
-        $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-
-        // Dropdown List
-        $this->data['users'] = $this->Common_model->get_nilg_employee();
-        $this->data['info'] = $this->Leave_model->get_info('users',$this->session->userdata('user_id'));
-
-        //Load page
-        $this->data['subview'] = 'pending_list';
-        $this->data['meta_title'] = 'অপেক্ষমাণ ছুটির তালিকা';
-        $this->load->view('backend/_layout_main', $this->data);
+            // Dropdown List
+            $this->data['users'] = $this->Common_model->get_nilg_employee();
+            $this->data['info'] = $this->Leave_model->get_info('users',$this->session->userdata('user_id'));
+            //Load page
+            $this->data['subview'] = 'pending_list';
+            $this->data['meta_title'] = 'অপেক্ষমাণ ছুটির তালিকা';
+            $this->load->view('backend/_layout_main', $this->data);
+        } else {
+            $this->session->set_flashdata('error', 'Please update profile first');
+            redirect('leave');
+        }
     }
 
     public function rejected_list($offset=0)
@@ -281,6 +290,18 @@ class Leave extends Backend_Controller {
         $this->data['subview'] = 'rejected_list';
         $this->data['meta_title'] = 'প্রত্যাখ্যাত ছুটির তালিকা';
         $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function get_manage_designation_array($group_id, $dept_id)
+    {
+        $this->db->select('dm.desig_id as id');
+        $this->db->from('leave_dasignation_manage as dm');
+        $this->db->where('dm.groups_id', $group_id);
+        $this->db->where('dm.dept_id', $dept_id);
+        $dgss = $this->db->get()->result();
+        $data1 = array();
+        foreach ($dgss as $key => $r) { $data1[$key] = $r->id; }
+        return $data1;
     }
 
     //========= leave system report here  =============//
