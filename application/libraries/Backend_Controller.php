@@ -207,8 +207,19 @@ class Backend_Controller extends MY_Controller
 				// $this->data['request_trainer_no'] = $this->Common_model->get_applicaiton_trainer_request_count();
 			}
 			// exit('o9');
+			
+
+
+
+
+
+
+
 		}
 		// exit('10');
+
+
+
 
 		// Default Value
 		$this->data['meta_title'] = 'জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি)';

@@ -37,7 +37,17 @@ class Dashboard extends Backend_Controller
 			$this->data['subview'] = $page;
 			$this->load->view('backend/_layout_main', $this->data);
 
-		} elseif ($this->ion_auth->in_group('trainee')) { // Trainee (10) Dashboard 
+		}elseif ($this->ion_auth->in_group('acc')) { // ddlg (14) Dashboard 
+
+			
+			$this->data['info'] = $this->Dashboard_model->get_office_info();      
+			$this->data['meta_title'] = 'অ্যাকাউন্ট ড্যাশবোর্ড';
+			$this->data['subview'] = 'acc_dashboard';
+			$this->load->view('backend/_layout_main', $this->data);
+
+
+
+		}   elseif ($this->ion_auth->in_group('trainee')) { // Trainee (10) Dashboard 
 			// echo 'Hello'; exit;
 			// Get all information
 			$results = $this->Dashboard_model->get_trainee_all_data();
@@ -177,7 +187,7 @@ class Dashboard extends Backend_Controller
 			$this->load->view('backend/_layout_main', $this->data);
 		*/
 
-		} elseif ($this->ion_auth->is_admin()) { // Admin (1) Dashboard
+		}elseif ($this->ion_auth->is_admin()) { // Admin (1) Dashboard
 			// dd($this->data['courseStatistics']);
 
 			// Total Data 
