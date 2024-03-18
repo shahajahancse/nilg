@@ -51,13 +51,11 @@
                             <?=$this->session->flashdata('error');;?>
                         </div>
                         <?php endif; ?>
-
                         <?php
                             $attributes = array('id' => 'jsvalidate');
                             echo form_open_multipart("budgets/statement_of_expenses_create",$attributes);
                             echo validation_errors();
                         ?>
-
                         <div class="row">
                             <div class="col-md-12">
                                 <div id="loading">
@@ -246,4 +244,3 @@ ClassicEditor
         console.error(error);
     });
 </script> -->
-

@@ -831,10 +831,9 @@ class Budgets extends Backend_Controller
         $this->load->view('backend/_layout_main', $this->data);
     }
 
-    public function statement_of_expenses_create(){
-        // dd($this->input->post());
-        // CREATE TABLE `nilg_erp`.`budget_field_expenses` ( `id` INT NOT NULL ,  `budget_field_id` INT NOT NULL ,  `head_id` INT NOT NULL ,  `head_sub_id` INT NOT NULL ,  `real_expense` INT NOT NULL ,  `vat` INT NOT NULL ,  `it_kor` INT NOT NULL ,  `overall_expense` INT NOT NULL ,  `total_overall_expense` INT NOT NULL ,  `create_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ,  `update_at` DATE NULL DEFAULT NULL ) ENGINE = InnoDB;
-       
+    public function statement_of_expenses_create(){ 
+        
+    
         $this->db->where('budget_field_id', $this->input->post('budget_field_id'));
         $this->db->delete('budget_field_expenses');
         foreach ($this->input->post('head_sub_id') as $key => $value) {
