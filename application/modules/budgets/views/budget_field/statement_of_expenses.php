@@ -51,6 +51,7 @@
                             <?=$this->session->flashdata('error');;?>
                         </div>
                         <?php endif; ?>
+
                         <?php
                             $attributes = array('id' => 'jsvalidate');
                             echo form_open_multipart("budgets/statement_of_expenses_create",$attributes);
