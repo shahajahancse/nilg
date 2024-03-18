@@ -72,7 +72,7 @@
                                                 style="min-height: 33px;" value="" required>
                                         </div>
                                         <div class="col-md-4">
-                                        <?php $session_year=$this->db->get('session_year')->result();?>
+                                        <?php $session_year=$this->db->order_by('id','desc')->get('session_year')->result();?>
 
                                             <label for="fcl_year" class="control-label">অর্থবছর</label>
                                             <select name="fcl_year" id="fcl_year" class="form-control input-sm">
