@@ -43,6 +43,20 @@ class Dashboard extends Backend_Controller
 			$this->data['budget_field'] = $this->db->get('budget_field')->result();
 			$this->data['budget_nilg'] = $this->db->get('budget_nilg')->result();
 			$this->data['budgets_entry'] = $this->db->get('budgets')->result();
+			$budgets = $this->db->get('budgets')->result();
+			$in_amount = 0;
+			foreach ($budgets as $budget) {
+				if (isset($budget->amount)) {
+					$in_amount += $budget->amount;
+				}
+			}
+			$this->data['in_amount'] =  $in_amount;
+
+
+
+
+
+
 
 
 

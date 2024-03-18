@@ -73,7 +73,7 @@
                         <div class="tiles white text-center">
                             <h2 class="semi-bold text-error no-margin"
                                 style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;">
-                                <?=eng2bng(count($budgets_entry))?></h2>
+                                <?=eng2bng($in_amount)?></h2>
                             <div class="tiles-title red m-b-5">টোটাল ইন আমাউন্ট</div>
                             <div class="clearfix"></div>
                         </div>
