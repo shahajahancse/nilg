@@ -20,7 +20,8 @@ class Leave extends Backend_Controller {
         $userDetails = $this->data['userDetails'];
     }
 
-    public function index($offset=0){
+    public function index($status = null){
+        $offset=0;
         $this->load->model('Common_model');
         $this->data['userDetails'] = $this->Common_model->get_office_info_by_session();
         $userDetails = $this->data['userDetails'];
@@ -28,7 +29,7 @@ class Leave extends Backend_Controller {
         $limit = 50;
 
         if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
-            $results = $this->Leave_model->get_data($limit, $offset, 2);
+            $results = $this->Leave_model->get_data($limit, $offset, $status);
         } elseif (func_nilg_auth($userDetails->office_type) == 'employee') {
             $results = $this->Leave_model->get_data($limit, $offset, null, $userDetails->id);
         }
@@ -247,7 +248,11 @@ class Leave extends Backend_Controller {
                 $dept_id = null;
             }
 
-            $results = $this->Leave_model->get_list($limit, $offset, 1, $desig_array, $dept_id);
+            if ($this->ion_auth->is_admin()) {
+                $results = $this->Leave_model->get_list($limit, $offset, 1);
+            } else {
+                $results = $this->Leave_model->get_list($limit, $offset, 1, $desig_array, $dept_id);
+            }
             $this->data['results'] = $results['rows'];
             $this->data['total_rows'] = $results['num_rows'];
 

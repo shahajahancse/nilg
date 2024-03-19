@@ -425,7 +425,7 @@
                                  echo '<span class="badge badge-danger pull-right" style="margin-right:10px">' . eng2bng($leave_notify) . '</span>';
                               } ?>
                         </a></li>
-                        <li> <a href="<?= base_url('leave'); ?>"> অনুমোদিত তালিকা </a> </li>
+                        <li> <a href="<?= base_url('leave/index/2'); ?>"> অনুমোদিত তালিকা </a> </li>
                         <li class="start <?= backend_activate_menu_method('rejected_list') ?>"><a href="<?= base_url('leave/rejected_list') ?>">প্রত্যাখ্যাত তালিকা
                         </a></li>
                         <li class="start <?= backend_activate_menu_method('leave_reports') ?>"><a href="<?= base_url('leave/leave_reports') ?>">রিপোর্ট</a></li>
