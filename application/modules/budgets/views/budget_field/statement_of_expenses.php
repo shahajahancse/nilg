@@ -17,7 +17,10 @@
     justify-content: center;
 }
 input {
-    padding: 3px;
+    width: 100%;
+    padding: 7px !important;
+    height: 29px;
+    min-height: 26px;
 }
 </style>
 
@@ -135,11 +138,11 @@ input {
                                                             <input type="hidden" name="head_sub_id[]" value="<?=$data->head_sub_id?>" >
                                                             <?=$data->total_amt?>
                                                             </td>
-                                                            <td><input  style="width:100%" type="number" min=0 value=<?=$data->real_expense==''?0:$data->real_expense ?> name="real_expense[]" class="real_expense" onkeyup="calculate_overall_expense(this)"></td>
-                                                            <td><input  style="width:100%" type="number" min=0 value=<?=$data->vat==''?0:$data->vat ?> name="vat[]" class="vat" onkeyup="calculate_overall_expense(this)"></td>
-                                                            <td><input  style="width:100%" type="number" min=0 value=<?=$data->it_kor==''?0:$data->it_kor ?> name="it_kor[]" class="it_kor" onkeyup="calculate_overall_expense(this)"></td>
-                                                            <td><input  style="width:100%" type="number" min=0 value=<?=$data->overall_expense==''?0:$data->overall_expense ?> name="overall_expense[]" class="overall_expense" readonly></td>
-                                                            <td><input  style="width:100%" type="file"  id=""></td>
+                                                            <td><input  style="width: 100%;padding: 5px !important;height: 24px;min-height: 18px;" type="number" min=0 value=<?=$data->real_expense==''?0:$data->real_expense ?> name="real_expense[]" class="real_expense" onkeyup="calculate_overall_expense(this)"></td>
+                                                            <td><input  style="width: 100%;padding: 5px !important;height: 24px;min-height: 18px;" type="number" min=0 value=<?=$data->vat==''?0:$data->vat ?> name="vat[]" class="vat" onkeyup="calculate_overall_expense(this)"></td>
+                                                            <td><input  style="width: 100%;padding: 5px !important;height: 24px;min-height: 18px;" type="number" min=0 value=<?=$data->it_kor==''?0:$data->it_kor ?> name="it_kor[]" class="it_kor" onkeyup="calculate_overall_expense(this)"></td>
+                                                            <td><input  style="width: 100%;padding: 5px !important;height: 24px;min-height: 18px;" type="number" min=0 value=<?=$data->overall_expense==''?0:$data->overall_expense ?> name="overall_expense[]" class="overall_expense" readonly></td>
+                                                            <td><input  style="width: 60%;padding: 3px !important;height: 24px;min-height: 18px;border: none;" type="file"  id=""></td>
                                                         </tr>
                                                     <?php endforeach;?>
                                                 </tbody>
