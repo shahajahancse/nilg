@@ -1,11 +1,6 @@
 <div class="page-content">
     <div class="content">
-        <!-- <div class="page-title"> <i class="fa fa-dashboard"></i>
-            <h3>ড্যাশবোর্ড</h3>
-        </div> -->
-
         <?php //$this->load->view('filter'); ?>
-
         <div class="row">
             <!-- raw start -->
             <div class="col-md-4 m-b-20">
@@ -74,7 +69,7 @@
                             <h2 class="semi-bold text-error no-margin"
                                 style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;">
                                 <?=eng2bng($in_amount)?></h2>
-                            <div class="tiles-title red m-b-5">টোটাল ইন আমাউন্ট</div>
+                            <div class="tiles-title red m-b-5">সর্বমোট গৃহীত পরিমাণ</div>
                             <div class="clearfix"></div>
                         </div>
                     </div>
@@ -91,8 +86,8 @@
                         <div class="tiles white text-center">
                             <h2 class="semi-bold text-error no-margin"
                                 style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;">
-                                <?=eng2bng(count($budgets_entry))?></h2>
-                            <div class="tiles-title red m-b-5">টোটাল আউট আমাউন্ট</div>
+                                <?=eng2bng(count(4000))?></h2>
+                            <div class="tiles-title red m-b-5">ছাড়কৃত পরিমাণ</div>
                             <div class="clearfix"></div>
                         </div>
                     </div>
@@ -109,8 +104,8 @@
                         <div class="tiles white text-center">
                             <h2 class="semi-bold text-error no-margin"
                                 style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;">
-                                <?=eng2bng(count($budgets_entry))?></h2>
-                            <div class="tiles-title red m-b-5">টোটাল রেস্ট আমাউন্ট</div>
+                                <?=eng2bng(count(15000))?></h2>
+                            <div class="tiles-title red m-b-5">অবশিষ্ট পরিমাণ</div>
                             <div class="clearfix"></div>
                         </div>
                     </div>

@@ -109,7 +109,6 @@
 
                 <div class="row form-row">
                   <div class="col-md-12" style="text-align: center; border:1px solid #0aa699; padding:10px 5px 20px 5px; position: relative; margin-top: 40px">
-<<<<<<< HEAD
                     <label class="head"> সংখ্যা ভিত্তিক রিপোর্ট</label>
 
                     <button type="submit" name="btnsubmit" value="pdf_rep_number_divisional" onclick="return validFunc()" class="btn btn-info btn-cons margin-top"> বিভাগ ভিত্তিক রিপোর্ট</button>
@@ -136,15 +135,10 @@
                     <button type="submit" name="btnsubmit" value="pdf_rep_number_elected" class="btn btn-info btn-cons margin-top"> একাধিকবার নির্বাচিতদের তালিকা</button>
 
                     <button type="submit" name="btnsubmit" value="pdf_rep_nilg_course_complete" onclick="return validFunc5()" class="btn btn-info btn-cons margin-top"> এনআইএলজি থেকে প্রাপ্ত প্রশিক্ষণের তালিকা</button>
-=======
-                    <label class="head">বাজেট ফিল্ড রিপোর্ট</label>
-                     <button type="submit" name="btnsubmit" value="pdf_trained_list" onclick="return validFunc1()" class="btn btn-info btn-cons margin-top"> প্রশিক্ষিত ব্যক্তির রিপোর্ট</button>
->>>>>>> 51cbde445e073438c466b8c5f065e85109586875
                   </div>
                 </div>
                 <div class="row form-row">
                   <div class="col-md-12" style="text-align: center; border:1px solid #0aa699; padding:10px 5px 20px 5px; position: relative; margin-top: 40px">
-<<<<<<< HEAD
                     <label class="head"> তালিকা ভিত্তিক রিপোর্ট</label>
 
                     <button type="submit" name="btnsubmit" value="pdf_rep_list_union" onclick="return validFunc3()" class="btn btn-info btn-cons margin-top"> ইউনিয়ন পরিষদের রিপোর্ট</button>
@@ -159,45 +153,9 @@
 
                     <button type="submit" name="btnsubmit" value="pdf_untrained_list" onclick="return validFunc1()" class="btn btn-info btn-cons margin-top"> অপ্রশিক্ষিত ব্যক্তির রিপোর্ট</button>
                     <button type="submit" name="btnsubmit" value="pdf_trained_list" onclick="return validFunc1()" class="btn btn-info btn-cons margin-top"> প্রশিক্ষিত ব্যক্তির রিপোর্ট</button>
-=======
-                    <label class="head">বাজেট এন্ট্রি  রিপোর্ট</label>
-                     <button type="submit" name="btnsubmit" value="pdf_trained_list" onclick="return validFunc1()" class="btn btn-info btn-cons margin-top"> প্রশিক্ষিত ব্যক্তির রিপোর্ট</button>
->>>>>>> 51cbde445e073438c466b8c5f065e85109586875
                   </div>
                 </div>
               </div> <!-- /col-md-8 -->
-<<<<<<< HEAD
-=======
-
-              <!-- <div class="col-md-4">
-                <div style="padding: 5px 15px 15px 15px; background:#eee; font-style: italic;">
-                  <div id="errors" style="display: none;">
-                    <div class="alert alert-danger">এই রিপোর্ট দেখার জন্য পদবি নির্বাচন করুন।</div>
-                  </div>
-                  <label class="form-label">পদবি সমূহ</label>
-                  <div style="border:1px solid #0aa699; padding: 4px 0; background: #0aa699; color: #fff;">
-                    <div class="row-fluid">
-                      <div class="checkbox check-danger">
-                        <input id="checkboxall" type="checkbox" value="1">
-                        <label for="checkboxall" style="color: #fff">সব নির্বাচন করুন</label>
-                      </div>
-                    </div>
-                    <div id="budget_sub_head_id2" style="max-height: 350px; overflow-y: scroll; background: #fff; padding-top: 5px;">
-
-                      <?php foreach ($designations as $row) { ?>
-                      <div class="row-fluid">
-                        <div class="checkbox check-primary">
-                          <input id="checkbox<?=$row->id?>" type="checkbox" name="designations[]" class="select" value="<?=$row->id?>">
-                          <label for="checkbox<?=$row->id?>"><?=$row->desig_name?></label>
-                        </div>
-                      </div>
-                      <?php } ?>
-
-                    </div>
-                  </div>
-                </div>
-              </div>  -->
->>>>>>> 51cbde445e073438c466b8c5f065e85109586875
             </div>
             <?php form_close(); ?>
 
