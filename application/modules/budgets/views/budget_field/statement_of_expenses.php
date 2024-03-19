@@ -131,7 +131,7 @@ input {
                                                         ?>
                                                         <tr>
                                                             <td style="text-align: center;width:fit-content;"><?=++$key?></td>
-                                                            <td style="width:fit-content;"><?=$data->name_bn?>(<?=$data->bd_code?>) (<?=$data->participants>=1 ? $data->participants.'*' : '' ?> <?=$data->days>=1 ? $data->days.'*' : ''?> <?=$data->amount>=1 ? $data->amount .'*' : ''?>) </td>
+                                                            <td style="width:fit-content;"><?=$data->name_bn?> (<?=$data->participants>=1 ? $data->participants.'*' : '' ?> <?=$data->days>=1 ? $data->days.'*' : ''?> <?=$data->amount>=1 ? $data->amount .'*' : ''?>) </td>
                                                             <td style="text-align: center;width:fit-content;">
                                                             <input type="hidden" name="budget_field_details_id[]" value="<?=$data->budget_field_details_id?>" >
                                                             <input type="hidden" name="head_id[]" value="<?=$data->budget_head_id?>" >
