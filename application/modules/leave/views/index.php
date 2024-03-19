@@ -1,6 +1,6 @@
 
 
-<div class="page-content">     
+<div class="page-content">
   <div class="content">
     <ul class="breadcrumb" style="margin-bottom: 20px;">
       <li> <a href="<?=base_url()?>" class="active"> ড্যাশবোর্ড </a> </li>
@@ -15,11 +15,11 @@
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
             <div class="pull-right">
               <a href="<?=base_url('leave/add')?>" class="btn btn-primary btn-xs btn-mini"> ছুটি যুক্ত করুন</a>
-            </div>            
-          </div>          
+            </div>
+          </div>
 
           <div class="grid-body table-responsive">
-            <div id="infoMessage"><?php echo $message;?></div>   
+            <div id="infoMessage"><?php echo $message;?></div>
             <?php if($this->session->flashdata('success')):?>
               <div class="alert alert-success">
                 <?php echo $this->session->flashdata('success');?>
@@ -56,7 +56,7 @@
                       echo form_dropdown('user_id', $users, set_value('user_id'), $more_attr);
                     ?>
                 </div>
-              </div> 
+              </div>
               <div class="col-md-3 p5">
                 <div class="form-group">
                   <label class="form-label">শুরুর তারিখঃ <span class="required">*</span></label>
@@ -86,21 +86,29 @@
                   <th>ক্রম</th>
                   <th>নাম</th>
                   <th>ডিপার্টমেন্ট</th>
-                  <th>পদবি</th>                  
+                  <th>পদবি</th>
                   <th>ছুটির টাইপ</th>
                   <th>আরম্ভ তারিখ</th>
                   <th>সমাপ্তি তারিখ</th>
                   <th>সময়কাল</th>
                   <th>ছুটির কারণ</th>
+                  <th>স্ট্যাটাস</th>
                   <th>অ্যাকশন</th>
                 </tr>
               </thead>
               <tbody>
-                <?php 
+                <?php
                 $sl = $pagination['current_page'];
                 foreach ($results as $row){
                   $sl++;
                   // $answer = $row->answer != NULL?"<span class='label label-success'>হ্যাঁ</span>":"<span class='label label-danger'>না</span>";
+                  if($row->status == 2) {
+                     $status = '<span class="label label-success">অনুমোদিত</span>';
+                  }elseif($row->status == 3) {
+                     $status = '<span class="label label- important">প্রত্যাখ্যাত</span>';
+                  }else if($row->status == 1){
+                     $status = '<span class="label label-warning">অপেক্ষমাণ</span>';
+                  }
                   ?>
                   <tr>
                     <td><?=eng2bng($sl).'.'?></td>
@@ -112,8 +120,9 @@
                     <td><?=date_bangla_calender_format($row->to_date)?></td>
                     <td><?=$row->leave_days?></td>
                     <td><?=$row->reason?></td>
+                    <td> <?=$status?></td>
                     <td>
-                      <div class="btn-group"> 
+                      <div class="btn-group">
                         <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> অ্যাকশন <span class="caret"></span> </a>
                         <ul class="dropdown-menu pull-right">
                           <!-- <li><a href="<?=base_url('leave/change_status/'.encrypt_url($row->id).'/3');?>">প্রত্যাখ্যাত করুন</a></li> -->

@@ -637,18 +637,19 @@ class Budgets extends Backend_Controller
                         bhs.bd_code,
                     ');
         $this->db->from('budget_nilg_details bd');
-        $this->db->join('budget_nilg as b', 'b.id = bd.budget_nilg_id');
-        $this->db->join('budget_head_sub as bhs', 'bhs.id = bd.head_sub_id');
+        $this->db->join('budget_nilg as b', 'b.id = bd.budget_nilg_id', 'left');
+        $this->db->join('budget_head_sub as bhs', 'bhs.id = bd.head_sub_id', 'left');
 
         if (!empty( $dept_id)) {
             $this->db->where('b.dept_id', $dept_id);
         }
         $this->db->where('b.fcl_year', $fcy->id);
-        $this->db->where_in('b.status', array(3,4,5,6));
+        $this->db->where_in('b.status', array(1,2,3,4,5,6));
         $this->db->order_by('bd.head_sub_id','ASC')->group_by('bd.head_sub_id');
 
         $this->data['summary'] = $this->db->get()->result();
         $this->data['fcl'] = $fcy;
+        // dd($this->data['summary']);
 
         $this->data['meta_title'] = 'বাজেট সামারী ';
         $html = $this->load->view('budget_nilg/nilg_revenue_summary', $this->data, true);

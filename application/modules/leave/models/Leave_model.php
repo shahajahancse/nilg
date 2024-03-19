@@ -55,6 +55,9 @@ class Leave_model extends CI_Model {
         if($this->input->get('user_id')){
             $this->db->where('el.user_id', $this->input->get('user_id'));
         }
+         if($status != null){
+            $this->db->where('el.status', $status);
+        }
         $tmp = $this->db->get()->result();
         $result['num_rows'] = $tmp[0]->count;
 
