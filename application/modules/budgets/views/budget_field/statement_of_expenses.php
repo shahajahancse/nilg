@@ -16,6 +16,9 @@
     flex-wrap: wrap;
     justify-content: center;
 }
+input {
+    padding: 3px;
+}
 </style>
 
 <div class="page-content">
@@ -142,7 +145,7 @@
                                                 </tbody>
                                                 <tfoot>
                                                     <tr>
-                                                        <td colspan="2">Total</td>
+                                                        <td colspan="2">মোট ব্যয়</td>
                                                         <td><?= $boraddo ?></td>
                                                         <td id="total_real_expense"></td>
                                                         <td id="total_vat"></td>
