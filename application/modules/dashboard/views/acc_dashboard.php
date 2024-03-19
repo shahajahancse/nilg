@@ -86,7 +86,7 @@
                         <div class="tiles white text-center">
                             <h2 class="semi-bold text-error no-margin"
                                 style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;">
-                                <?=eng2bng(count(4000))?></h2>
+                                <?=eng2bng(4000)?></h2>
                             <div class="tiles-title red m-b-5">ছাড়কৃত পরিমাণ</div>
                             <div class="clearfix"></div>
                         </div>
@@ -104,7 +104,7 @@
                         <div class="tiles white text-center">
                             <h2 class="semi-bold text-error no-margin"
                                 style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;">
-                                <?=eng2bng(count(15000))?></h2>
+                                <?=eng2bng(15000)?></h2>
                             <div class="tiles-title red m-b-5">অবশিষ্ট পরিমাণ</div>
                             <div class="clearfix"></div>
                         </div>
