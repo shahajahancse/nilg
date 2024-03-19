@@ -122,7 +122,7 @@ input {
                                                         <th width="fit-content">*ভ্যাট</th>
                                                         <th width="fit-content">*আইটি/উৎস কর</th>
                                                         <th width="fit-content">মোট ব্যয়</th>
-                                                        <th style="width: 106px;">ভাউচার</th>
+                                                        <th style="width: 11%;">ভাউচার</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tbody">
