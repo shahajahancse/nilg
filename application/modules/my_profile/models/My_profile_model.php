@@ -189,11 +189,7 @@ class My_profile_model extends CI_Model {
         $this->db->from('per_foreign_org_training');
         $this->db->where('data_id', $this->userSeessID);
         $query['foreign_training'] = $this->db->get()->result();
-
-        // Leave
-        /*$this->db->from('per_leave');        
-        $this->db->where('data_id', $id);                
-        $query['leave'] = $this->db->get()->result();  */      
+   
 
         // echo $this->db->last_query(); exit;
         return $query;

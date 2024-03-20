@@ -195,7 +195,7 @@ class Common extends Backend_Controller {
 
     function ajax_leave_del($id)
     {
-        $this->Common_model->delete('per_leave', 'id', $id);
+        $this->Common_model->delete('leave_employee', 'id', $id);
         echo 'এই তথ্যটি ডাটাবেজ থেকে সম্পূর্ণভাবে মুছে ফেলা হয়েছে।';
     }
 

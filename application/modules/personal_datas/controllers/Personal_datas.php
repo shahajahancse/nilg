@@ -286,7 +286,7 @@ class Personal_datas extends Backend_Controller
                         'leave_from' => $_POST['leave_from'][$i],
                         'leave_to' => $_POST['leave_to'][$i],
                     );
-                    $this->Common_model->save('per_leave', $leave_data);
+                    $this->Common_model->save('leave_employee', $leave_data);
                 }
                 // Education 
                 for ($i = 0; $i < sizeof($_POST['edu_exam_id']); $i++) {
@@ -523,7 +523,7 @@ class Personal_datas extends Backend_Controller
                 // Leave 
                 for ($i = 0; $i < sizeof($_POST['leave_type_id']); $i++) {
                     //check exists data
-                    @$data_exists = $this->Common_model->exists('per_leave', 'id', $_POST['hide_leave_id'][$i]);
+                    @$data_exists = $this->Common_model->exists('leave_employee', 'id', $_POST['hide_leave_id'][$i]);
                     if ($data_exists) {
                         $data = array(
                             'leave_type_id' => $_POST['leave_type_id'][$i],
@@ -531,7 +531,7 @@ class Personal_datas extends Backend_Controller
                             'leave_from' => $_POST['leave_from'][$i],
                             'leave_to' => $_POST['leave_to'][$i],
                         );
-                        $this->Common_model->edit('per_leave', $_POST['hide_leave_id'][$i], 'id', $data);
+                        $this->Common_model->edit('leave_employee', $_POST['hide_leave_id'][$i], 'id', $data);
                     } else {
                         $data = array(
                             'data_id' => $dataID,
@@ -540,7 +540,7 @@ class Personal_datas extends Backend_Controller
                             'leave_from' => $_POST['leave_from'][$i],
                             'leave_to' => $_POST['leave_to'][$i],
                         );
-                        $this->Common_model->save('per_leave', $data);
+                        $this->Common_model->save('leave_employee', $data);
                     }
                 }
 
@@ -1418,7 +1418,7 @@ class Personal_datas extends Backend_Controller
 
     function ajax_leave_del($id)
     {
-        $this->Common_model->delete('per_leave', 'id', $id);
+        $this->Common_model->delete('leave_employee', 'id', $id);
         echo 'এই তথ্যটি ডাটাবেজ থেকে সম্পূর্ণভাবে মুছে ফেলা হয়েছে।';
     }
 
