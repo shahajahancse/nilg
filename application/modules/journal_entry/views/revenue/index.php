@@ -12,7 +12,7 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right" style="display: flex;align-content: center;justify-content: center;flex-wrap: wrap;gap: 8px;">
-                            <a href="<?=base_url('budgets/budget_nilg_create')?>" class="btn btn-blueviolet btn-xs btn-mini">রাজস্ব তৈরি করুণ</a>
+                            <a href="<?=base_url('journal_entry/revenue_entry_create')?>" class="btn btn-blueviolet btn-xs btn-mini">রাজস্ব তৈরি করুণ</a>
                         </div>
                     </div>
 
@@ -54,7 +54,7 @@
                                     <th>প্রদানের তারিখ</th>
                                     <th>স্ট্যাটাস</th>
                                     <th>রেফারেন্স</th>
-                                    <th>বর্ণনা</th>
+                                    <!-- <th>বর্ণনা</th> -->
                                     <th style="text-align: right;">অ্যাকশন</th>
                                 </tr>
                             </thead>
@@ -64,10 +64,10 @@
                                     <td class="v-align-middle"><?=$sl.'.'?></td>
                                     <td class="v-align-middle"><?=$row->voucher_no; ?></td>
                                     <td class="v-align-middle"><?=$row->amount; ?></td>
-                                    <td class="v-align-middle"><?=$row->type; ?></td>
                                     <td class="v-align-middle"><?=$row->issue_date; ?></td>
+                                    <td class="v-align-middle"><?=$row->type; ?></td>
                                     <td class="v-align-middle"><?=$row->reference; ?></td>
-                                    <td class="v-align-middle"><?=$row->description; ?></td>
+                                    <!-- <td class="v-align-middle"><?=$row->description; ?></td> -->
                                     <td align="right">
                                         <div class="btn-group">
                                             <button class="btn btn-mini btn-primary">অ্যাকশন</button>
@@ -75,20 +75,13 @@
                                                 data-toggle="dropdown"> <span class="caret"></span> </button>
                                             <ul class="dropdown-menu pull-right">
                                                 <li><a
-                                                        href="<?php echo base_url('budgets/budget_nilg_details/'.encrypt_url($row->id))?>"><i
+                                                        href="<?php echo base_url('journal_entry/revenue_entry_details/'.encrypt_url($row->id))?>"><i
                                                             class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
                                                 <li><a
-                                                        href="<?php echo base_url('budgets/budget_nilg_details/'.encrypt_url($row->id))?>"><i
+                                                        href="<?php echo base_url('journal_entry/revenue_entry_edit/'.encrypt_url($row->id))?>"><i
                                                             class="fa fa-pencil-square"></i> সংশোধন করুন </a></li>
-                                                <li><a id="modalId" data-toggle="modal" data-target="#myModal"
-                                                        data-id="<?=encrypt_url($row->id) ?>" href=""><i
-                                                            class="fa fa-user"></i> রিভিও</a></li>
-
-                                                <li>
-                                                    <a href="<?php echo base_url('budgets/budget_nilg_print/'.encrypt_url($row->id))?>"
-                                                        target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট করুন
-                                                    </a>
-                                                </li>
+                                                <li><a href="<?php echo base_url('journal_entry/revenue_entry_delete/'.encrypt_url($row->id))?>"><i
+                                                            class="fa fa-pencil-square"></i>ডিলিট করুন</a></li>
                                             </ul>
                                         </div>
                                     </td>

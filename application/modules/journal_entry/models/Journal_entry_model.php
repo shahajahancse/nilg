@@ -7,9 +7,9 @@ class Journal_entry_model extends CI_Model {
         parent::__construct();
     }
 
-    public function revenue_entry($limit, $offset) {
+    public function lists ($limit, $offset,$table) {
         $this->db->select('b.*');
-        $this->db->from('budget_j_gov_revenue_register as b');
+        $this->db->from($table.' as b');
         $this->db->limit($limit);
         $this->db->offset($offset);
         $this->db->order_by('b.id', 'DESC');
@@ -17,11 +17,9 @@ class Journal_entry_model extends CI_Model {
         // count query
 
         $this->db->select('COUNT(*) as count');
-        $this->db->from('budget_j_gov_revenue_register as q');
+        $this->db->from($table.' as q');
         $tmp = $this->db->get()->result();
         $result['num_rows'] = $tmp[0]->count;
         return $result;
     }
-
-
 }
