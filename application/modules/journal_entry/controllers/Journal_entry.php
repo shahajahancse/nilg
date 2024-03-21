@@ -18,18 +18,19 @@ class Journal_entry extends Backend_Controller
         // $this->data['module_title'] = 'Inventory';
     }
 
+
+    // start revenew 
+
     public function revenue_entry($offset = 0)
     {
         $limit = 15;
         $user_id = $this->data['userDetails']->id;
         $dept_id = $this->data['userDetails']->crrnt_dept_id;
-        $results = $this->Journal_entry_model->revenue_entry($limit, $offset);
-
+        $results = $this->Journal_entry_model->lists($limit, $offset, 'budget_j_gov_revenue_register');
         $this->data['results'] = $results['rows'];
         $this->data['total_rows'] = $results['num_rows'];
         //pagination
         $this->data['pagination'] = create_pagination('journal_entry/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
-
         // Load view
         $this->data['meta_title'] = 'রাজস্ব এর তালিকা';
         $this->data['subview'] = 'revenue/index';
@@ -38,53 +39,47 @@ class Journal_entry extends Backend_Controller
 
     public function revenue_entry_create()
     {
-        $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
+        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
         if ($this->form_validation->run() == true) {
             $user = $this->ion_auth->user()->row();
+            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
             $form_data = array(
-                'title' => $this->input->post('title'),
-                'amount' => $this->input->post('total_amount'),
-                'fcl_year' => $this->input->post('fcl_year'),
-                'dept_id' => $user->crrnt_dept_id,
+                'voucher_no' => $this->input->post('voucher_no'),
+                'amount' => $this->input->post('amount'),
+                'type' => 1,
+                'reference' => $this->input->post('reference'),
                 'description' => $this->input->post('description'),
-                'created_by' => $user->id,
+                'issue_date' => $this->input->post('issue_date'),
             );
-            if ($this->Common_model->save('budget_nilg', $form_data)) {
-                $insert_id = $this->db->insert_id();
-                for ($i = 0; $i < sizeof($_POST['head_id']); $i++) {
-                    $form_data2 = array(
-                        'budget_nilg_id' => $insert_id,
-                        'head_id' => $_POST['head_id'][$i],
-                        'head_sub_id' => $_POST['head_sub_id'][$i],
-                        'amount' => $_POST['amount'][$i],
-                        'fcl_year' => $_POST['fcl_year'],
-                        'created_by' => $user->id,
-                    );
-                    $this->Common_model->save('budget_nilg_details', $form_data2);
-                }
-                $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
-                redirect("budgets/budget_nilg");
+            if ($this->Common_model->save('budget_j_gov_revenue_register', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('journal_entry/revenue_entry');
             }
-
         }
-
-        $this->db->select('
-                            budget_head_sub.id,
-                            budget_head_sub.bd_code,
-                            budget_head_sub.name_bn,
-                            budget_head.name_bn as budget_head_name,
-                            budget_head.id as budget_head_id
-                            ');
-        $this->db->from('budget_head_sub');
-        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
-        $this->data['budget_head_sub'] = $this->db->get()->result();
-        //Dropdown
-        $this->data['budget_head'] = $this->Common_model->get_dropdown('budget_head', 'name_bn', 'id');
         $this->data['info'] = $this->Common_model->get_user_details();
         //Load view
-        $this->data['meta_title'] = 'বাজেট তৈরি করুন';
-        $this->data['subview'] = 'budget_nilg/budget_nilg_create';
+        $this->data['meta_title'] = 'রাজস্ব তৈরি করুন';
+        $this->data['subview'] = 'revenue/entry';
         $this->load->view('backend/_layout_main', $this->data);
     }
+    public function revenue_entry_details(){
+
+
+
+        
+    }
+    public function revenue_entry_edit(){
+
+
+
+
+    }
+    public function revenue_entry_delete(){
+
+
+
+
+    }
+    // end revenew
 }
 
