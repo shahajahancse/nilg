@@ -395,12 +395,11 @@
                      </ul>
                   </li>
 
-                  <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব সেটিংস</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                  <li class="start <?= backend_activate_menu_class('budget_head') ?> <?= backend_activate_menu_class('budget_sub_head') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব সেটিংস</span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
-                        <li class="start <?= backend_activate_menu_method('budget_nilg') ?>"> <a href="<?= base_url('budgets/budget_nilg'); ?>">বাজেট এনআইএলজি</a> </li>
-                        <li class="start <?= backend_activate_menu_method('budget_field') ?>"> <a href="<?= base_url('budgets/budget_field'); ?>">বাজেট অফিস</a> </li>
-                        <li class="start <?= backend_activate_menu_method('budget_entry') ?>"> <a href="<?= base_url('budgets/budget_entry'); ?>">বাজেট এন্ট্রি </a> </li>
-                        <li class="start <?= backend_activate_menu_method('budget_entry') ?>"> <a href="<?= base_url('budgets/budget_report'); ?>">বাজেট রিপোর্ট</a> </li>
+                        <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_head'); ?>">বাজেট হেড</a> </li>
+                        <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_sub_head'); ?>">বাজেট সাব হেড</a> </li>
+                        <li class="start <?= backend_activate_menu_method('budget_description') ?>"> <a href="<?= base_url('nilg_setting/budget_head/budget_description'); ?>">বাজেট সামারি</a> </li>
                      </ul>
                   </li>
 
@@ -420,14 +419,6 @@
                      <a href="<?= base_url('training_management'); ?>"> <i class="fa fa-book"></i> <span class="title">প্রশিক্ষণ ব্যবস্থাপনা</span></a>
                   </li> -->
                <?php } ?>
-
-               <?php
-                  /*if ($this->ion_auth->in_group(array('admin', 'nilg'))) { ?>
-                  <li class="start <?= backend_activate_menu_class('qbank') ?>">
-                     <a href="<?= base_url('qbank'); ?>"> <i class="fa fa-book"></i> <span class="title">প্রশ্ন ব্যাংক</span></a>
-                  </li>
-                  <?php }
-               */ ?>
 
 
                <?php if($this->ion_auth->in_group(array('admin', 'nilg')) || func_nilg_auth($userDetails->office_type) == 'employee'){ ?>
@@ -456,38 +447,6 @@
                      </ul>
                   </li>
                <?php } ?>
-
-
-               <!--  <?php
-               /*if (func_nilg_auth($userDetails->office_type) == 'employee' && !in_array(func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id), $people)) { ?>
-               <li class="start <?= backend_activate_menu_class('inventory') ?>">
-                  <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title">ইনভেন্টরি</span> <span class="selected"></span>
-                     <?php if ($request_staff_no > 0 || $un_available_item_notify > 0) {
-                        echo '<span class="badge badge-danger pull-right">' . ($request_staff_no + $un_available_item_notify) . '</span>';
-                     } ?>
-                     <span class="arrow"></span> </a>
-                     <ul class="sub-menu">
-                        <li class="start <?= backend_activate_menu_class('inventory') ?>">
-                           <a href="<?= base_url('inventory/my_requisition'); ?>"><span class="title">মাই রিকুইজিশন</span>
-                              <?php if ($request_staff_no > 0) {
-                                 echo '<span class="badge badge-danger pull-right" style="margin-right:15px;">' . $request_staff_no . '</span>';
-                              } ?>
-                           </a>
-                        </li>
-                        <li class="start <?= backend_activate_menu_class('inventory') ?>">
-                           <a href="<?= base_url('inventory/again_requisition_list/'.encrypt_url($userDetails->id)); ?>"><span class="title">পুনরায় রিকুইজিশন</span>
-                              <?php if ($un_available_item_notify > 0) {
-                                 echo '<span class="badge badge-danger pull-right" style="margin-right:15px;">' . $un_available_item_notify . '</span>';
-                              } ?>
-                           </a>
-                        </li>
-                     </ul>
-               </li>
-               <?php } */ ?> -->
-
-
-               <?php $people = array("sk", "jd", "dg", "admin");?>
-               <?php //echo $userDetails->crrnt_desig_id; exit; ?>
 
                <?php if(!$this->ion_auth->in_group(array('nilg'))){
                   if ($this->ion_auth->in_group(array('admin', "jd", "dg")) || (func_nilg_auth($userDetails->office_type) == 'employee')) { ?>
@@ -579,13 +538,6 @@
                   <?php  } ?>
                <?php } ?>
 
-
-               <?php if ($this->ion_auth->is_admin()) { ?>
-                  <!-- <li class="start <?= backend_activate_menu_class('training_entry') ?>">
-                     <a href="<?= base_url('training_entry'); ?>"> <i class="fa fa-user"></i> <span class="title">এনআইএলজি প্রশিক্ষণ এন্ট্রি</span></a>
-                  </li> -->
-               <?php } ?>
-
                <?php if ($this->ion_auth->is_admin() && !$this->ion_auth->in_group('nilg')) { ?>
                   <li class="start <?= backend_activate_menu_class('reports') ?>">
                      <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title"><?= lang('reports_all') ?></span> <span class="selected"></span> <span class="arrow"></span> </a>
@@ -628,12 +580,9 @@
                <?php } ?>
 
                <?php if ($this->ion_auth->is_admin() || $this->ion_auth->in_group('nilg')) { ?>
-                  <li class="start  <?= backend_activate_menu_class('budget_head') ?> <?= backend_activate_menu_class('qbank') ?> <?= backend_activate_menu_class('office') ?> <?= backend_activate_menu_class('designation') ?> <?= backend_activate_menu_class('course') ?> <?= backend_activate_menu_class('evaluation_subject') ?> <?= backend_activate_menu_class('training_material') ?> <?= backend_activate_menu_class('dev_partner') ?>">
+                  <li class="start <?= backend_activate_menu_class('qbank') ?> <?= backend_activate_menu_class('office') ?> <?= backend_activate_menu_class('designation') ?> <?= backend_activate_menu_class('course') ?> <?= backend_activate_menu_class('evaluation_subject') ?> <?= backend_activate_menu_class('training_material') ?> <?= backend_activate_menu_class('dev_partner') ?>">
                      <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">এনআইএলজি সেটিংস</span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
-                        <li> <a href="<?= base_url('nilg_setting/budget_head'); ?>">বাজেট হেড</a> </li>
-                        <li> <a href="<?= base_url('nilg_setting/budget_sub_head'); ?>">বাজেট সাব হেড</a> </li>
-                        <li> <a href="<?= base_url('nilg_setting/budget_head/budget_description'); ?>">বাজেট সামারি</a> </li>
                         <li> <a href="<?= base_url('nilg_setting/qbank'); ?>">প্রশ্ন ব্যাংক</a> </li>
                         <li> <a href="<?= base_url('nilg_setting/office'); ?>">অফিসের তালিকা</a> </li>
                         <li> <a href="<?= base_url('nilg_setting/calendar'); ?>">ট্রেনিং ক্যালেন্ডার</a> </li>
