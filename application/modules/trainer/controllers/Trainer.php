@@ -371,12 +371,6 @@ class Trainer extends Backend_Controller
         echo 'এই তথ্যটি ডাটাবেজ থেকে সম্পূর্ণভাবে মুছে ফেলা হয়েছে।';
     }
 
-    function ajax_leave_del($id)
-    {
-        $this->Common_model->delete('per_leave', 'id', $id);
-        echo 'এই তথ্যটি ডাটাবেজ থেকে সম্পূর্ণভাবে মুছে ফেলা হয়েছে।';
-    }
-
     function ajax_promotion_del($id)
     {
         $this->Common_model->delete('per_promotion', 'id', $id);

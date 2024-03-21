@@ -309,11 +309,6 @@ class Trainee_model extends CI_Model {
         $this->db->where('data_id', $id);
         $query['foreign_training'] = $this->db->get()->result();
 
-        // Leave
-        /*$this->db->from('per_leave');
-        $this->db->where('data_id', $id);
-        $query['leave'] = $this->db->get()->result();  */
-
         // echo $this->db->last_query(); exit;
         return $query;
     }
@@ -410,10 +405,7 @@ class Trainee_model extends CI_Model {
         $this->db->where('data_id', $id);
         $query['foreign_training'] = $this->db->get()->result();
 
-        // Leave
-        /*$this->db->from('per_leave');
-        $this->db->where('data_id', $id);
-        $query['leave'] = $this->db->get()->result();  */
+
 
         // echo $this->db->last_query(); exit;
         return $query;
@@ -688,8 +680,8 @@ class Trainee_model extends CI_Model {
         $query['promotion'] = $this->db->get()->result();
 
         //Leave
-        $this->db->from('per_leave');
-        $this->db->where('data_id', $id);
+        $this->db->from('leave_employee');
+        $this->db->where('user_id', $id);
         $query['leave'] = $this->db->get()->result();
 
         // NILG Training

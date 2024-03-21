@@ -145,7 +145,7 @@ foreach ($materials as $key => $value) {
                 */ ?>
 
                 <div class="row" style="margin-top: 20px; margin-bottom: 20px;">
-                  <div class="col-md-6">
+                  <div class="col-md-8">
                     <div class="form-group">
                       <label class="form-label">কোর্সের ধরণ <span class="required">*</span></label>
                       <?php echo form_error('course_type');
@@ -155,7 +155,7 @@ foreach ($materials as $key => $value) {
                     </div>
                   </div>
 
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                     <div class="form-group">
                       <label class="form-label">এলজিআই এর ধরণ <span class="required">*</span></label>
                       <?php echo form_error('lgi_type');
@@ -165,12 +165,12 @@ foreach ($materials as $key => $value) {
                     </div>
                   </div>
 
-                  <div class="col-md-3">
+                  <!-- <div class="col-md-3">
                     <div class="form-group">
-                      <label class="form-label">বাজেট কোড <!-- <span class="required">*</span> --></label>
+                      <label class="form-label">বাজেট কোড</label>
                       <input name="budget_code" type="text" class="form-control input-sm" placeholder="" value="<?= set_value('budget_code') ?>">
                     </div>
-                  </div>
+                  </div> -->
 
                   <div class="col-md-12">
                     <label class="form-label">মূল্যায়ন পদ্ধতি ও নম্বর বিভাজন </label>

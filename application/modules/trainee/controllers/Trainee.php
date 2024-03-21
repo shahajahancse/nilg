@@ -2509,7 +2509,7 @@ class Trainee extends Backend_Controller
 
     function ajax_leave_del($id)
     {
-        $this->Common_model->delete('per_leave', 'id', $id);
+        $this->Common_model->delete('leave_employee', 'id', $id);
         echo 'এই তথ্যটি ডাটাবেজ থেকে সম্পূর্ণভাবে মুছে ফেলা হয়েছে।';
     }
 
@@ -2780,17 +2780,7 @@ class Trainee extends Backend_Controller
                         );
                     $this->Common_model->save('per_promotion', $promotion_data);
                 }
-                // Leave
-                for ($i = 0; $i < sizeof($_POST['leave_type_id']); $i++) {
-                    $leave_data = array(
-                        'data_id' => $lastID,
-                        'leave_type_id' => $_POST['leave_type_id'][$i],
-                        'leave_app' => $_POST['leave_app'][$i],
-                        'leave_from' => $_POST['leave_from'][$i],
-                        'leave_to' => $_POST['leave_to'][$i],
-                        );
-                    $this->Common_model->save('per_leave', $leave_data);
-                }
+
                 // Education
                 for ($i = 0; $i < sizeof($_POST['edu_exam_id']); $i++) {
                     $education_data = array(
@@ -3020,30 +3010,6 @@ class Trainee extends Backend_Controller
                             'promo_comments' => $_POST['promo_comments'][$i],
                             );
                         $this->Common_model->save('per_promotion', $data);
-                    }
-                }
-
-                // Leave
-                for ($i = 0; $i < sizeof($_POST['leave_type_id']); $i++) {
-                    //check exists data
-                    @$data_exists = $this->Common_model->exists('per_leave', 'id', $_POST['hide_leave_id'][$i]);
-                    if ($data_exists) {
-                        $data = array(
-                            'leave_type_id' => $_POST['leave_type_id'][$i],
-                            'leave_app' => $_POST['leave_app'][$i],
-                            'leave_from' => $_POST['leave_from'][$i],
-                            'leave_to' => $_POST['leave_to'][$i],
-                            );
-                        $this->Common_model->edit('per_leave', $_POST['hide_leave_id'][$i], 'id', $data);
-                    } else {
-                        $data = array(
-                            'data_id' => $dataID,
-                            'leave_type_id' => $_POST['leave_type_id'][$i],
-                            'leave_app' => $_POST['leave_app'][$i],
-                            'leave_from' => $_POST['leave_from'][$i],
-                            'leave_to' => $_POST['leave_to'][$i],
-                            );
-                        $this->Common_model->save('per_leave', $data);
                     }
                 }
 
