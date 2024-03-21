@@ -377,12 +377,33 @@
 
                   <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
+                        <li class="start <?= backend_activate_menu_method('budget_setting') ?>"> <a href="<?= base_url('budget_setting'); ?>">বাজেট এনআইএলজি</a> </li>
+                        <li class="start <?= backend_activate_menu_method('budget_field') ?>"> <a href="<?= base_url('budgets/budget_field'); ?>">বাজেট অফিস</a> </li>
+                        <li class="start <?= backend_activate_menu_method('budget_entry') ?>"> <a href="<?= base_url('budgets/budget_entry'); ?>">বাজেট এন্ট্রি </a> </li>
+                        <li class="start <?= backend_activate_menu_method('budget_entry') ?>"> <a href="<?= base_url('budgets/budget_report'); ?>">বাজেট রিপোর্ট</a> </li>
+                     </ul>
+                  </li>
+
+                  <li class="start <?= backend_activate_menu_class('journal_entry') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">জার্নাল এন্ট্রি</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                     <ul class="sub-menu">
+                        <li class="start <?= backend_activate_menu_method('revenue_entry') ?>"> <a href="<?= base_url('journal_entry/revenue_entry'); ?>">রাজস্ব রেজিস্টার এন্ট্রি</a> </li>
+                        <li class="start <?= backend_activate_menu_method('hostel_entry') ?>"> <a href="<?= base_url('journal_entry/hostel_entry'); ?>">হোস্টেল রেজিস্টার এন্ট্রি </a> </li>
+                        <li class="start <?= backend_activate_menu_method('publication_entry') ?>"> <a href="<?= base_url('journal_entry/publication_entry'); ?>">প্রকাশনা রেজিস্টার এন্ট্রি</a> </li>
+                        <li class="start <?= backend_activate_menu_method('gpf_entry') ?>"> <a href="<?= base_url('journal_entry/gpf_entry'); ?>">জিপিএফ রেজিস্টার এন্ট্রি</a> </li>
+                        <li class="start <?= backend_activate_menu_method('pension_entry') ?>"> <a href="<?= base_url('journal_entry/pension_entry'); ?>">পেনশন রেজিস্টার এন্ট্রি</a> </li>
+                        <li class="start <?= backend_activate_menu_method('miscellaneous_entry') ?>"> <a href="<?= base_url('journal_entry/miscellaneous_entry'); ?>">বিবিধ রেজিস্টার এন্ট্রি</a> </li>
+                     </ul>
+                  </li>
+
+                  <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব সেটিংস</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                     <ul class="sub-menu">
                         <li class="start <?= backend_activate_menu_method('budget_nilg') ?>"> <a href="<?= base_url('budgets/budget_nilg'); ?>">বাজেট এনআইএলজি</a> </li>
                         <li class="start <?= backend_activate_menu_method('budget_field') ?>"> <a href="<?= base_url('budgets/budget_field'); ?>">বাজেট অফিস</a> </li>
                         <li class="start <?= backend_activate_menu_method('budget_entry') ?>"> <a href="<?= base_url('budgets/budget_entry'); ?>">বাজেট এন্ট্রি </a> </li>
                         <li class="start <?= backend_activate_menu_method('budget_entry') ?>"> <a href="<?= base_url('budgets/budget_report'); ?>">বাজেট রিপোর্ট</a> </li>
                      </ul>
                   </li>
+
                <?php } } ?>
 
                <?php if ($this->ion_auth->in_group('cc')) { ?>
