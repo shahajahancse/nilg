@@ -40,6 +40,8 @@ class Journal_entry extends Backend_Controller
     public function revenue_entry_create()
     {
         $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
+        $user = $this->ion_auth->user()->row();
+
         if ($this->form_validation->run() == true) {
             $user = $this->ion_auth->user()->row();
             // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
@@ -50,6 +52,7 @@ class Journal_entry extends Backend_Controller
                 'reference' => $this->input->post('reference'),
                 'description' => $this->input->post('description'),
                 'issue_date' => $this->input->post('issue_date'),
+                'create_by' => $user->id,
             );
             if ($this->Common_model->save('budget_j_gov_revenue_register', $form_data)) {
                 $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
@@ -62,23 +65,64 @@ class Journal_entry extends Backend_Controller
         $this->data['subview'] = 'revenue/entry';
         $this->load->view('backend/_layout_main', $this->data);
     }
-    public function revenue_entry_details(){
-
-
-
-        
+    public function revenue_entry_details($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->select('q.*,u.name_bn as create_by');
+        $this->db->from('budget_j_gov_revenue_register as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['budget_j_gov_revenue_register'] = $this->db->get()->row();
+         //Dropdown
+         $this->data['info'] = $this->Common_model->get_user_details();
+         //Load view
+         $this->data['meta_title'] = 'রাজস্ব বিস্তারিত';
+         $this->data['subview'] = 'revenue/details';
+         $this->load->view('backend/_layout_main', $this->data);
     }
-    public function revenue_entry_edit(){
-
-
-
-
+    public function revenue_entry_edit($encid=null){
+        if ($encid==null) {
+            $id = $this->input->post('id');
+        }else{
+            $id = (int) decrypt_url($encid);
+        }
+        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
+        $user = $this->ion_auth->user()->row();
+        if ($this->form_validation->run() == true) {
+            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
+            $form_data = array(
+                'amount' => $this->input->post('amount'),
+                'reference' => $this->input->post('reference'),
+                'description' => $this->input->post('description'),
+                'issue_date' => $this->input->post('issue_date'),
+            );
+           $this->db->where('id', $id);
+            if ($this->db->update('budget_j_gov_revenue_register', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
+                redirect('journal_entry/revenue_entry');
+            }
+        }
+        $this->db->select('q.*,u.name_bn as create_by');
+        $this->db->from('budget_j_gov_revenue_register as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['budget_j_gov_revenue_register'] = $this->db->get()->row();
+         //Dropdown
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'রাজস্ব বিস্তারিত';
+        $this->data['subview'] = 'revenue/edit';
+        $this->load->view('backend/_layout_main', $this->data);
     }
-    public function revenue_entry_delete(){
-
-
-
-
+    public function revenue_entry_delete($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->where('id', $id);
+        if ($this->db->delete('budget_j_gov_revenue_register')) {
+            $this->session->set_flashdata('success', 'তথ্য মুছে ফেলা হয়েছে');
+            redirect('journal_entry/revenue_entry');
+        }else{
+            $this->session->set_flashdata('error', 'তথ্য মুছে ফেলা হয়নি');
+            redirect('journal_entry/revenue_entry');
+        }
     }
     // end revenew
 }

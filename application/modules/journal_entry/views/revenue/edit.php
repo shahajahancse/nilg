@@ -1,4 +1,5 @@
 
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
 <style>
    .chosen-single {
@@ -43,9 +44,11 @@
 
                         <?php
                             $attributes = array('id' => 'jsvalidate');
-                            echo form_open_multipart("journal_entry/revenue_entry_create",$attributes);
+                            echo form_open_multipart("journal_entry/revenue_entry_edit",$attributes);
                             echo validation_errors();
                         ?>
+                       
+                        <input type="hidden" name="id" value="<?=$budget_j_gov_revenue_register->id?>">
                         <div class="row">
                             <div class="col-md-12">
                                 <fieldset style="background: #fff !important;">
@@ -53,28 +56,26 @@
                                     <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                         <br>
                                         <div class="col-md-3">
-                                            <label for="title" class="control-label">ভাউচার নাঃ </label>
-                                            <input type="text"  value="<?php echo 'JR'.date('Ymdhis'); ?>" class="form-control input-sm" name="voucher_no"
-                                                style="min-height: 33px;"  required readonly>
+                                            <label for="title" class="control-label">ভাউচার নাঃ </label> <span> <?= $budget_j_gov_revenue_register->voucher_no ?></span>
                                         </div>
                                         <div class="col-md-3">
                                             <label for="title" class="control-label">রেফারেন্স:</label>
-                                            <input type="text"  value="" class="form-control input-sm" name="reference"
+                                            <input type="text"  value="<?=$budget_j_gov_revenue_register->reference?>" class="form-control input-sm" name="reference"
                                                 style="min-height: 33px;">
                                         </div>
                                         <div class="col-md-3">
                                             <label for="title" class="control-label">তারিখ:</label>
-                                            <input type="date"  value="" class="form-control input-sm" name="issue_date"
+                                            <input type="date"  value="<?=$budget_j_gov_revenue_register->issue_date?>" class="form-control input-sm" name="issue_date"
                                                 style="min-height: 33px;" required>
                                         </div>
                                         <div class="col-md-3">
                                             <label for="title" class="control-label"> পরিমান:</label>
-                                            <input type="number"  value="" class="form-control input-sm" name="amount"
+                                            <input type="number"  value="<?=$budget_j_gov_revenue_register->amount?>" class="form-control input-sm" name="amount"
                                                 style="min-height: 33px;" required>
                                         </div>
                                         <div class="col-md-12">
                                             <label for="title" class="control-label">বর্ণনা:</label>
-                                            <textarea name="description" id="" style="width: 100%; height: 85px;"></textarea>
+                                            <textarea name="description" id="" style="width: 100%; height: 85px;"><?=$budget_j_gov_revenue_register->description?></textarea>
                                         </div>
 
                                     </div>
@@ -93,3 +94,4 @@
         </div> <!-- END ROW -->
     </div>
 </div>
+
