@@ -27,13 +27,13 @@
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right">
                             <a href="<?=base_url('journal_entry/cheque_entry')?>"
-                                class="btn btn-blueviolet btn-xs btn-mini">রাজস্ব তালিকা</a>
+                                class="btn btn-blueviolet btn-xs btn-mini"> চেক তালিকা</a>
                         </div>
                     </div>
                     <div class="grid-body">
                         <?php if($this->session->flashdata('success')):?>
                         <div class="alert alert-success">
-                            <?=$this->session->flashdata('success');;?>
+                            <?=$this->session->flashdata('success');?>
                         </div>
                         <?php endif; ?>  <?php if($this->session->flashdata('error')):?>
                         <div class="alert alert-danger">

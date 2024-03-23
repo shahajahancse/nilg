@@ -26,7 +26,7 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right">
-                            <a href="<?=base_url('journal_entry/revenue_entry')?>"
+                            <a href="<?=base_url('journal_entry/cheque_entry')?>"
                                 class="btn btn-blueviolet btn-xs btn-mini">চেক তালিকা</a>
                         </div>
                     </div>
