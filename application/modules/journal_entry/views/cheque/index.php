@@ -65,9 +65,13 @@
                                     <td class="v-align-middle"><?=$row->cheque_no; ?></td>
                                     <td class="v-align-middle"><?=$row->amount; ?></td>
                                     <td class="v-align-middle"><?=$row->issue_date; ?></td>
-                                    <td class="v-align-middle"><?=$row->type; ?></td>
+                                    <?php if ($row->type == 1) {
+                                        $type = 'গৃহীত পরিমাণ';
+                                    } else {
+                                        $type = 'ছাড়কৃত পরিমাণ';
+                                    } ?>
+                                    <td class="v-align-middle"><?=$type; ?></td>
                                     <td class="v-align-middle"><?=$row->reference; ?></td>
-                                    <!-- <td class="v-align-middle"><?=$row->description; ?></td> -->
                                     <td align="right">
                                         <div class="btn-group">
                                             <button class="btn btn-mini btn-primary">অ্যাকশন</button>
