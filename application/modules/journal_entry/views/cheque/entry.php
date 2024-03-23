@@ -26,7 +26,7 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right">
-                            <a href="<?=base_url('journal_entry/revenue_entry')?>"
+                            <a href="<?=base_url('journal_entry/cheque_entry')?>"
                                 class="btn btn-blueviolet btn-xs btn-mini">রাজস্ব তালিকা</a>
                         </div>
                     </div>
@@ -43,19 +43,19 @@
 
                         <?php
                             $attributes = array('id' => 'jsvalidate');
-                            echo form_open_multipart("journal_entry/revenue_entry_create",$attributes);
+                            echo form_open_multipart("journal_entry/cheque_entry_create",$attributes);
                             echo validation_errors();
                         ?>
                         <div class="row">
                             <div class="col-md-12">
                                 <fieldset style="background: #fff !important;">
-                                    <legend>রাজস্ব তথ্য</legend>
+                                    <legend>চেক তথ্য</legend>
                                     <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                         <br>
                                         <div class="col-md-3">
-                                            <label for="title" class="control-label">ভাউচার নাঃ </label>
-                                            <input type="text"  value="<?php echo 'JR'.date('Ymdhis'); ?>" class="form-control input-sm" name="voucher_no"
-                                                style="min-height: 33px;"  required readonly>
+                                            <label for="title" class="control-label">চেক  নাঃ </label>
+                                            <input type="text"  value="" class="form-control input-sm" name="cheque_no"
+                                                style="min-height: 33px;"  required>
                                         </div>
                                         <div class="col-md-3">
                                             <label for="title" class="control-label">রেফারেন্স:</label>
