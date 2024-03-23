@@ -26,35 +26,35 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right">
-                            <a href="<?=base_url('journal_entry/revenue_entry')?>"
-                                class="btn btn-blueviolet btn-xs btn-mini">চেক তালিকা</a>
+                            <a href="<?=base_url('journal_entry/gpf_entry')?>"
+                                class="btn btn-blueviolet btn-xs btn-mini"> জিপিএফ  তালিকা</a>
                         </div>
                     </div>
                     <div class="grid-body">
                         <div class="row">
                             <div class="col-md-12">
                                 <fieldset style="background: #fff !important;">
-                                    <legend>রাজস্ব তথ্য</legend>
+                                    <legend> জিপিএফ  তথ্য</legend>
                                     <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                         <br>
                                         <div class="col-md-3">
-                                            <strong>চেক নাঃ <span><?= $budget_j_cheque_register->cheque_no ?></span></strong>
+                                            <strong>ভাউচার নাঃ <span><?= $budget_j_gpf_register->voucher_no ?></span></strong>
                                         </div>
                                         <div class="col-md-3">
-                                            <strong>রেফারেন্স: <span><?= $budget_j_cheque_register->reference ?></span></strong>
+                                            <strong>রেফারেন্স: <span><?= $budget_j_gpf_register->reference ?></span></strong>
                                         </div>
                                         <div class="col-md-3">
-                                            <strong>তারিখ: <span><?= $budget_j_cheque_register->issue_date ?></span></strong>
+                                            <strong>তারিখ: <span><?= $budget_j_gpf_register->issue_date ?></span></strong>
                                         </div>
                                         <div class="col-md-3">
-                                           <strong>পরিমান: <span><?= $budget_j_cheque_register->amount ?></span></strong> 
+                                           <strong>পরিমান: <span><?= $budget_j_gpf_register->amount ?></span></strong> 
                                         </div>
                                         <div class="col-md-12">
-                                           <strong>তৈরি কারক: <span><?= $budget_j_cheque_register->create_by ?></span></strong> 
+                                           <strong>তৈরি কারক: <span><?= $budget_j_gpf_register->create_by ?></span></strong> 
                                         </div>
                                         <div class="col-md-12">
                                             <label for="title" class="control-label">বর্ণনা:</label>
-                                           <p><?= $budget_j_cheque_register->description ?></p>
+                                           <p><?= $budget_j_gpf_register->description ?></p>
                                         </div>
                                     </div>
                                 </fieldset>
