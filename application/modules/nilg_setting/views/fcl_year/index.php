@@ -74,10 +74,6 @@
                                                 <li>
                                                     <a href="<?php echo base_url('nilg_setting/fcl_edit/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> সংশোধন করুন </a>
                                                 </li>
-                                                <li>
-                                                    <a href="<?php echo base_url('nilg_setting/fcl_delete/'.encrypt_url($row->id))?>"><i
-                                                            class="fa fa-pencil-square"></i>ডিলিট করুন</a>
-                                                </li>
                                             </ul>
                                         </div>
                                     </td>

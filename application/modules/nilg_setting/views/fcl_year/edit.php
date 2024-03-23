@@ -1,4 +1,5 @@
 
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
 <style>
    .chosen-single {
@@ -14,10 +15,6 @@
             <li><a href="<?=base_url('nilg_setting/session_year')?>" class="active"><?=$module_name?></a></li>
             <li><?=$meta_title; ?></li>
         </ul>
-
-        <style type="text/css">
-        /*#appointment, #invitation { display: none; }*/
-        </style>
 
         <div class="row">
             <div class="col-md-12">
@@ -41,9 +38,10 @@
 
                         <?php
                             $attributes = array('id' => 'jsvalidate');
-                            echo form_open_multipart("nilg_setting/fcl_create",$attributes);
+                            echo form_open(current_url(), $attributes);
                             echo validation_errors();
                         ?>
+
                         <div class="row">
                             <div class="col-md-12">
                                 <fieldset style="background: #fff !important;">
@@ -52,13 +50,13 @@
                                         <br>
                                         <div class="col-md-3">
                                             <label for="title" class="control-label">অর্থ বছর:</label>
-                                            <input value="<?= date('Y').'-'.(date('Y')+1) ?>" class="form-control input-sm" name="session_name" style="min-height: 33px;">
+                                            <input type="text"  value="<?=$row->session_name?>" class="form-control input-sm" name="session_name" style="min-height: 33px;">
                                         </div>
                                         <div class="col-md-3">
                                             <label for="title" class="control-label">স্ট্যাটাস:</label>
                                             <select name="status" class="form-control input-sm" >
-                                                <option value="1">এনাবল</option>
-                                                <option value="2">ডিজেবল</option>
+                                                <option <?= $row->status==1? 'selected':'' ?> value="1">এনাবল</option>
+                                                <option <?= $row->status==2? 'selected':'' ?> value="2">ডিজেবল</option>
                                             </select>
                                         </div>
                                     </div>
@@ -77,3 +75,4 @@
         </div> <!-- END ROW -->
     </div>
 </div>
+

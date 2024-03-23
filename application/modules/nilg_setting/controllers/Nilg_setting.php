@@ -39,6 +39,7 @@ class Nilg_setting extends Backend_Controller {
         if ($this->form_validation->run() == true) {
             $form_data = array(
                 'session_name' => $this->input->post('session_name'),
+                'status' => $this->input->post('status'),
             );
             if ($this->Common_model->save('session_year', $form_data)) {
                 $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
@@ -52,5 +53,25 @@ class Nilg_setting extends Backend_Controller {
         $this->load->view('backend/_layout_main', $this->data);
     }
 
+    public function fcl_edit($encid=null){
+        $id = (int) decrypt_url($encid);
+        $this->form_validation->set_rules('session_name', 'অর্থ বছর', 'required|trim');
+        if ($this->form_validation->run() == true) {
+            $form_data = array(
+                'session_name' => $this->input->post('session_name'),
+                'status' => $this->input->post('status'),
+            );
+           $this->db->where('id', $id);
+            if ($this->db->update('session_year', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংশোধন করা হয়েছে');
+                redirect('nilg_setting/session_year');
+            }
+        }
+        $this->data['row'] = $this->db->select('q.*')->where('id', $id)->get('session_year as q')->row();
+        //Load view
+        $this->data['meta_title'] = 'অর্থ বছর বিস্তারিত';
+        $this->data['subview'] = 'fcl_year/edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
 
 }
