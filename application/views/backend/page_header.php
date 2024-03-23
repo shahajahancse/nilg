@@ -379,8 +379,9 @@
                      <ul class="sub-menu">
                         <li class="start <?= backend_activate_menu_method('budget_setting') ?>"> <a href="<?= base_url('budget_setting'); ?>">বাজেট এনআইএলজি</a> </li>
                         <li class="start <?= backend_activate_menu_method('budget_field') ?>"> <a href="<?= base_url('budgets/budget_field'); ?>">বাজেট অফিস</a> </li>
-                        <li class="start <?= backend_activate_menu_method('budget_entry') ?>"> <a href="<?= base_url('budgets/budget_entry'); ?>">বাজেট এন্ট্রি </a> </li>
-                        <li class="start <?= backend_activate_menu_method('budget_entry') ?>"> <a href="<?= base_url('budgets/budget_report'); ?>">বাজেট রিপোর্ট</a> </li>
+                        <li class="start <?= backend_activate_menu_method('budget_entry') ?>"> <a href="<?= base_url('budgets/budget_entry'); ?>">এন্ট্রি </a> </li>
+                        <li class="start <?= backend_activate_menu_method('chahida_potro') ?>"> <a href="<?= base_url('budgets/chahida_potro'); ?>">চাহিদা পত্র</a> </li>
+                        <li class="start <?= backend_activate_menu_method('budget_entry') ?>"> <a href="<?= base_url('budgets/budget_report'); ?>">রিপোর্ট</a> </li>
                      </ul>
                   </li>
 
