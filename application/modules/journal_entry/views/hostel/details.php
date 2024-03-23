@@ -44,13 +44,13 @@
                                             <strong>রেফারেন্স: <span><?= $budget_j_hostel_register->reference ?></span></strong>
                                         </div>
                                         <div class="col-md-3">
-                                            <strong>তারিখ: <span><?= $budget_j_hostel_register->issue_date ?></span></strong>
+                                            <strong>তারিখ: <span><?= $budget_j_hostel_register->date ?></span></strong>
                                         </div>
                                         <div class="col-md-3">
-                                           <strong>পরিমান: <span><?= $budget_j_hostel_register->amount ?></span></strong> 
+                                           <strong>পরিমান: <span><?= $budget_j_hostel_register->amount ?></span></strong>
                                         </div>
                                         <div class="col-md-12">
-                                           <strong>তৈরি কারক: <span><?= $budget_j_hostel_register->create_by ?></span></strong> 
+                                           <strong>তৈরি কারক: <span><?= $budget_j_hostel_register->create_by ?></span></strong>
                                         </div>
                                         <div class="col-md-12">
                                             <label for="title" class="control-label">বর্ণনা:</label>

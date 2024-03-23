@@ -12,7 +12,7 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right" style="display: flex;align-content: center;justify-content: center;flex-wrap: wrap;gap: 8px;">
-                            <a href="<?=base_url('journal_entry/gpf_entry_create')?>" class="btn btn-blueviolet btn-xs btn-mini">পেনশন তৈরি করুণ</a>
+                            <a href="<?=base_url('journal_entry/gpf_entry_create')?>" class="btn btn-blueviolet btn-xs btn-mini">জিপিএফ তৈরি করুণ</a>
                         </div>
                     </div>
 
@@ -65,9 +65,13 @@
                                     <td class="v-align-middle"><?=$row->voucher_no; ?></td>
                                     <td class="v-align-middle"><?=$row->amount; ?></td>
                                     <td class="v-align-middle"><?=$row->issue_date; ?></td>
-                                    <td class="v-align-middle"><?=$row->type; ?></td>
+                                    <?php if ($row->type == 1) {
+                                        $type = 'গৃহীত পরিমাণ';
+                                    } else {
+                                        $type = 'ছাড়কৃত পরিমাণ';
+                                    } ?>
+                                    <td class="v-align-middle"><?=$type; ?></td>
                                     <td class="v-align-middle"><?=$row->reference; ?></td>
-                                    <!-- <td class="v-align-middle"><?=$row->description; ?></td> -->
                                     <td align="right">
                                         <div class="btn-group">
                                             <button class="btn btn-mini btn-primary">অ্যাকশন</button>
@@ -93,7 +97,7 @@
                         <div class="row">
                             <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> সর্বমোট <span
                                     style="color: green; font-weight: bold;"><?php echo eng2bng($total_rows); ?>
-                                    বাজেট  </span></div>
+                                    জিপিএফ  </span></div>
                             <div class="col-sm-8 col-md-8 text-right">
                                 <?php echo $pagination['links']; ?>
                             </div>

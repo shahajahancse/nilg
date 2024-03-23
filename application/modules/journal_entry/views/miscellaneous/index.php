@@ -65,7 +65,12 @@
                                     <td class="v-align-middle"><?=$row->voucher_no; ?></td>
                                     <td class="v-align-middle"><?=$row->amount; ?></td>
                                     <td class="v-align-middle"><?=$row->issue_date; ?></td>
-                                    <td class="v-align-middle"><?=$row->type; ?></td>
+                                    <?php if ($row->type == 1) {
+                                        $type = 'গৃহীত পরিমাণ';
+                                    } else {
+                                        $type = 'ছাড়কৃত পরিমাণ';
+                                    } ?>
+                                    <td class="v-align-middle"><?=$type; ?></td>
                                     <td class="v-align-middle"><?=$row->reference; ?></td>
                                     <!-- <td class="v-align-middle"><?=$row->description; ?></td> -->
                                     <td align="right">
@@ -93,7 +98,7 @@
                         <div class="row">
                             <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> সর্বমোট <span
                                     style="color: green; font-weight: bold;"><?php echo eng2bng($total_rows); ?>
-                                    বাজেট  </span></div>
+                                    বিবিধ  </span></div>
                             <div class="col-sm-8 col-md-8 text-right">
                                 <?php echo $pagination['links']; ?>
                             </div>

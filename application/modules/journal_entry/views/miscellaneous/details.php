@@ -27,14 +27,14 @@
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right">
                             <a href="<?=base_url('journal_entry/miscellaneous_entry')?>"
-                                class="btn btn-blueviolet btn-xs btn-mini"> অন্যান্য  তালিকা</a>
+                                class="btn btn-blueviolet btn-xs btn-mini"> বিবিধ  তালিকা</a>
                         </div>
                     </div>
                     <div class="grid-body">
                         <div class="row">
                             <div class="col-md-12">
                                 <fieldset style="background: #fff !important;">
-                                    <legend> অন্যান্য  তথ্য</legend>
+                                    <legend> বিবিধ  তথ্য</legend>
                                     <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                         <br>
                                         <div class="col-md-3">
@@ -47,10 +47,10 @@
                                             <strong>তারিখ: <span><?= $budget_j_miscellaneous_register->issue_date ?></span></strong>
                                         </div>
                                         <div class="col-md-3">
-                                           <strong>পরিমান: <span><?= $budget_j_miscellaneous_register->amount ?></span></strong> 
+                                           <strong>পরিমান: <span><?= $budget_j_miscellaneous_register->amount ?></span></strong>
                                         </div>
                                         <div class="col-md-12">
-                                            <strong>তৈরি কারক: <span><?= $budget_j_miscellaneous_register->create_by ?></span></strong> 
+                                            <strong>তৈরি কারক: <span><?= $budget_j_miscellaneous_register->create_by ?></span></strong>
                                         </div>
                                         <div class="col-md-12">
                                             <label for="title" class="control-label">বর্ণনা:</label>
