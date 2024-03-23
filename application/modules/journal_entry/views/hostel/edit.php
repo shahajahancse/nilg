@@ -65,7 +65,7 @@
                                         </div>
                                         <div class="col-md-3">
                                             <label for="title" class="control-label">তারিখ:</label>
-                                            <input type="date"  value="<?=$budget_j_hostel_register->issue_date?>" class="form-control input-sm" name="issue_date"
+                                            <input type="date"  value="<?=$budget_j_hostel_register->date?>" class="form-control input-sm" name="issue_date"
                                                 style="min-height: 33px;" required>
                                         </div>
                                         <div class="col-md-3">
