@@ -26,8 +26,8 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right">
-                            <a href="<?=base_url('journal_entry/hostel_entry')?>"
-                                class="btn btn-blueviolet btn-xs btn-mini">হোস্টেল তালিকা</a>
+                            <a href="<?=base_url('journal_entry/gpf_entry')?>"
+                                class="btn btn-blueviolet btn-xs btn-mini"> জিপিএফ  তালিকা</a>
                         </div>
                     </div>
                     <div class="grid-body">
@@ -43,13 +43,13 @@
 
                         <?php
                             $attributes = array('id' => 'jsvalidate');
-                            echo form_open_multipart("journal_entry/hostel_entry_create",$attributes);
+                            echo form_open_multipart("journal_entry/gpf_entry_create",$attributes);
                             echo validation_errors();
                         ?>
                         <div class="row">
                             <div class="col-md-12">
                                 <fieldset style="background: #fff !important;">
-                                    <legend>হোস্টেল তথ্য</legend>
+                                    <legend> জিপিএফ  তথ্য</legend>
                                     <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                         <br>
                                         <div class="col-md-3">

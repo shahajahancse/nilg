@@ -12,7 +12,7 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right" style="display: flex;align-content: center;justify-content: center;flex-wrap: wrap;gap: 8px;">
-                            <a href="<?=base_url('journal_entry/hostel_entry_create')?>" class="btn btn-blueviolet btn-xs btn-mini">হোস্টেল তৈরি করুণ</a>
+                            <a href="<?=base_url('journal_entry/gpf_entry_create')?>" class="btn btn-blueviolet btn-xs btn-mini">পেনশন তৈরি করুণ</a>
                         </div>
                     </div>
 
@@ -75,12 +75,12 @@
                                                 data-toggle="dropdown"> <span class="caret"></span> </button>
                                             <ul class="dropdown-menu pull-right">
                                                 <li><a
-                                                        href="<?php echo base_url('journal_entry/hostel_entry_details/'.encrypt_url($row->id))?>"><i
+                                                        href="<?php echo base_url('journal_entry/gpf_entry_details/'.encrypt_url($row->id))?>"><i
                                                             class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
                                                 <li><a
-                                                        href="<?php echo base_url('journal_entry/hostel_entry_edit/'.encrypt_url($row->id))?>"><i
+                                                        href="<?php echo base_url('journal_entry/gpf_entry_edit/'.encrypt_url($row->id))?>"><i
                                                             class="fa fa-pencil-square"></i> সংশোধন করুন </a></li>
-                                                <li><a href="<?php echo base_url('journal_entry/hostel_entry_delete/'.encrypt_url($row->id))?>"><i
+                                                <li><a href="<?php echo base_url('journal_entry/gpf_entry_delete/'.encrypt_url($row->id))?>"><i
                                                             class="fa fa-pencil-square"></i>ডিলিট করুন</a></li>
                                             </ul>
                                         </div>

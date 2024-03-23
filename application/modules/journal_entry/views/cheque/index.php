@@ -75,12 +75,12 @@
                                                 data-toggle="dropdown"> <span class="caret"></span> </button>
                                             <ul class="dropdown-menu pull-right">
                                                 <li><a
-                                                        href="<?php echo base_url('journal_entry/revenue_entry_details/'.encrypt_url($row->id))?>"><i
+                                                        href="<?php echo base_url('journal_entry/cheque_entry_details/'.encrypt_url($row->id))?>"><i
                                                             class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
                                                 <li><a
-                                                        href="<?php echo base_url('journal_entry/revenue_entry_edit/'.encrypt_url($row->id))?>"><i
+                                                        href="<?php echo base_url('journal_entry/cheque_entry_edit/'.encrypt_url($row->id))?>"><i
                                                             class="fa fa-pencil-square"></i> সংশোধন করুন </a></li>
-                                                <li><a href="<?php echo base_url('journal_entry/revenue_entry_delete/'.encrypt_url($row->id))?>"><i
+                                                <li><a href="<?php echo base_url('journal_entry/cheque_entry_delete/'.encrypt_url($row->id))?>"><i
                                                             class="fa fa-pencil-square"></i>ডিলিট করুন</a></li>
                                             </ul>
                                         </div>
