@@ -242,7 +242,7 @@ class Journal_entry extends Backend_Controller
            //pagination
            $this->data['pagination'] = create_pagination('journal_entry/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
            // Load view
-           $this->data['meta_title'] = 'রাজস্ব এর তালিকা';
+           $this->data['meta_title'] = 'হোস্টেল এর তালিকা';
            $this->data['subview'] = 'hostel/index';
            $this->load->view('backend/_layout_main', $this->data);
        }
