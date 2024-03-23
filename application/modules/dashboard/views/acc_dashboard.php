@@ -24,7 +24,7 @@
             <div class="col-md-4 m-b-20">
                 <div class="row tiles-container">
                     <div class="col-md-4 no-padding">
-                        <div class="tiles blue" style="padding:20px;background: #00adef;">
+                        <div class="tiles blue" style="padding:20px;background: #78c72f;">
                             <i class="fa fa-dashboard" style="font-size: 38px;"></i>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
             <div class="col-md-4 m-b-20">
                 <div class="row tiles-container">
                     <div class="col-md-4 no-padding">
-                        <div class="tiles blue" style="padding:20px;background: #00adef;">
+                        <div class="tiles blue" style="padding:20px;background: #ff940b;">
                             <i class="fa fa-dashboard" style="font-size: 38px;"></i>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
             <div class="col-md-4 m-b-20">
                 <div class="row tiles-container">
                     <div class="col-md-4 no-padding">
-                        <div class="tiles blue" style="padding:20px;background: #00adef;">
+                        <div class="tiles blue" style="padding:20px;background: #9424b8;">
                             <i class="fa fa-dashboard" style="font-size: 38px;"></i>
                         </div>
                     </div>
@@ -78,7 +78,7 @@
             <div class="col-md-4 m-b-20">
                 <div class="row tiles-container">
                     <div class="col-md-4 no-padding">
-                        <div class="tiles blue" style="padding:20px;background: #00adef;">
+                        <div class="tiles blue" style="padding:20px;background: #0aa699;">
                             <i class="fa fa-dashboard" style="font-size: 38px;"></i>
                         </div>
                     </div>
