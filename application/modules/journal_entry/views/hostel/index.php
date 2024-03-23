@@ -64,7 +64,7 @@
                                     <td class="v-align-middle"><?=$sl.'.'?></td>
                                     <td class="v-align-middle"><?=$row->voucher_no; ?></td>
                                     <td class="v-align-middle"><?=$row->amount; ?></td>
-                                    <td class="v-align-middle"><?=$row->issue_date; ?></td>
+                                    <td class="v-align-middle"><?=$row->date; ?></td>
                                     <td class="v-align-middle"><?=$row->type; ?></td>
                                     <td class="v-align-middle"><?=$row->reference; ?></td>
                                     <!-- <td class="v-align-middle"><?=$row->description; ?></td> -->
