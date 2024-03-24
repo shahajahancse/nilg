@@ -1,6 +1,6 @@
 <div class="page-content">
     <div class="content">
-
+        <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg', 'bdh', 'acc'))) { ?>
         <div class="row">
             <!-- raw start -->
             <div class="col-md-4 m-b-20">
@@ -57,6 +57,7 @@
                     </div>
                 </div>
             </div>
+            <?php if ($this->ion_auth->in_group(array('bdg', 'acc', 'nilg', 'admin'))) { ?>
             <div class="col-md-4 m-b-20">
                 <div class="row tiles-container">
                     <div class="col-md-4 no-padding">
@@ -107,8 +108,10 @@
                     </div>
                 </div>
             </div>
+            <?php } ?>
             <!-- row end -->
         </div> <!-- /row -->
+        <?php } ?>
 
         <div class="row"> <!-- /row -->
             <div class="col-md-4 col-sm-6">

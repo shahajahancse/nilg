@@ -10,15 +10,15 @@ class Dashboard extends Backend_Controller
 			redirect('login');
 		endif;
 
-		// dd($this->session->all_userdata());		
+		// dd($this->session->all_userdata());
 		$this->userID = $this->session->userdata('user_id');
 		$this->load->model('Dashboard_model');
-		$this->load->model('training/Training_model');		
+		$this->load->model('training/Training_model');
 	}
 
 	public function index()
 	{
-		if ($this->ion_auth->in_group('guest')) { // Guest User (15) Dashboard 
+		if ($this->ion_auth->in_group('guest')) { // Guest User (15) Dashboard
 
 			/*
 			// Get user information
@@ -32,269 +32,124 @@ class Dashboard extends Backend_Controller
 			// $this->data['info'] = $this->Common_model->get_user_submitted_info();
 			$page = 'guest_dashboard_trainee';
 
-			// Load page       
+			// Load page
 			$this->data['meta_title'] = 'গেস্ট ইউজারের ড্যাশবোর্ড';
 			$this->data['subview'] = $page;
 			$this->load->view('backend/_layout_main', $this->data);
 
-		}elseif ($this->ion_auth->in_group('acc')) { // ddlg (14) Dashboard 
-
-
+		}elseif ($this->ion_auth->in_group('acc','bdg','bdh','bho','bli') || ($this->data['userDetails']->office_type == 7 && !$this->ion_auth->is_admin())) { // ddlg (14) Dashboard
 			$this->data['budget_field'] = $this->db->get('budget_field')->result();
 			$this->data['budget_nilg'] = $this->db->get('budget_nilg')->result();
 			$this->data['budgets_entry'] = $this->db->get('budgets')->result();
-			$budgets = $this->db->get('budgets')->result();
-			$in_amount = 0;
-			foreach ($budgets as $budget) {
-				if (isset($budget->amount)) {
-					$in_amount += $budget->amount;
-				}
-			}
-			$this->data['in_amount'] =  $in_amount;
-
-
-
-
-
-
-
-
-
-
-			
-			$this->data['info'] = $this->Dashboard_model->get_office_info();      
+			$budgets = $this->db->select('SUM(amount) as amount')->get('budgets')->row();
+			$this->data['in_amount'] =  round($budgets->amount);
+			$this->data['info'] = $this->Dashboard_model->get_office_info();
 			$this->data['meta_title'] = 'অ্যাকাউন্ট ড্যাশবোর্ড';
 			$this->data['subview'] = 'acc_dashboard';
 			$this->load->view('backend/_layout_main', $this->data);
-
-
-
-		}   elseif ($this->ion_auth->in_group('trainee')) { // Trainee (10) Dashboard 
+		} elseif ($this->ion_auth->in_group('trainee')) { // Trainee (10) Dashboard
 			// echo 'Hello'; exit;
 			// Get all information
 			$results = $this->Dashboard_model->get_trainee_all_data();
 			// dd($results['info']);
 			$this->data['info'] = $results['info'];
-
 			// Details of Public Representative (PR) and Empployee
 			if ($this->data['info']->employee_type == 1) {
 				$page = 'trainee_pr_dashboard';
 			} else {
 				$page = 'trainee_employee_dashboard';
 			}
-
-			// Load page       
+			// Load page
 			$this->data['meta_title'] = 'প্রশিক্ষণার্থীর ড্যাশবোর্ড';
 			$this->data['subview'] = $page;
 			$this->load->view('backend/_layout_main', $this->data);
-
-			
-		} elseif ($this->ion_auth->in_group('trainer')) { // Trainee (11) Dashboard 
-
-			// Get user information
-			// $this->data['info'] = $this->Common_model->get_user_submitted_info();
-			// dd($user);
-
-			// Load page       
+		} elseif ($this->ion_auth->in_group('trainer')) { // Trainee (11) Dashboard
+			// Load page
 			$this->data['meta_title'] = 'প্রশিক্ষকের ড্যাশবোর্ড';
 			$this->data['subview'] = 'trainer_dashboard';
 			$this->load->view('backend/_layout_main', $this->data);
-
-
-		} elseif ($this->ion_auth->in_group('up')) { 
-			/*
-			@Group ID:		7
-			@Group Name:	up		
-			@Office Type:	Union Parishad (1)
-			*/
-
+		} elseif ($this->ion_auth->in_group('up')) {
 			$this->data['info'] = $this->Dashboard_model->get_office_info();
 			// dd($this->data['info']);
-
-			// Load page       
+			// Load page
 			$this->data['meta_title'] = 'ইউনিয়ন পরিষদের ড্যাশবোর্ড';
 			$this->data['subview'] = 'up_dashboard';
 			$this->load->view('backend/_layout_main', $this->data);
 
-		} elseif ($this->ion_auth->in_group('paura')) {	// Paurashava (6) Dashboard 
-
+		} elseif ($this->ion_auth->in_group('paura')) {	// Paurashava (6) Dashboard
 			$this->data['info'] = $this->Dashboard_model->get_office_info();
 			// dd($this->data['info']);
-
-			// Load page       
+			// Load page
 			$this->data['meta_title'] = 'পৌরসভার ড্যাশবোর্ড';
 			$this->data['subview'] = 'paura_dashboard';
 			$this->load->view('backend/_layout_main', $this->data);
-
-			
-		} elseif ($this->ion_auth->in_group('uz')) {	// Paurashava (6) Dashboard 
-
+		} elseif ($this->ion_auth->in_group('uz')) {	// Paurashava (6) Dashboard
 			$this->data['info'] = $this->Dashboard_model->get_office_info();
 			// dd($this->data['info']);
-
-			// Load page       
+			// Load page
 			$this->data['meta_title'] = 'উপজেলা পরিষদের ড্যাশবোর্ড';
 			$this->data['subview'] = 'uz_dashboard';
 			$this->load->view('backend/_layout_main', $this->data);
-
-			
-		} elseif ($this->ion_auth->in_group('zp')) {	// Paurashava (6) Dashboard 
-
+		} elseif ($this->ion_auth->in_group('zp')) {	// Paurashava (6) Dashboard
 			$this->data['info'] = $this->Dashboard_model->get_office_info();
 			// dd($this->data['info']);
-
-			// Load page       
+			// Load page
 			$this->data['meta_title'] = 'জেলা পরিষদের ড্যাশবোর্ড';
 			$this->data['subview'] = 'zp_dashboard';
 			$this->load->view('backend/_layout_main', $this->data);
-
-			
-		} elseif ($this->ion_auth->in_group('city')) {	// Paurashava (6) Dashboard 
-
+		} elseif ($this->ion_auth->in_group('city')) {	// Paurashava (6) Dashboard
 			$this->data['info'] = $this->Dashboard_model->get_office_info();
 			// dd($this->data['info']);
-
-			// Load page       
+			// Load page
 			$this->data['meta_title'] = 'সিটি কর্পোরেশন ড্যাশবোর্ড';
 			$this->data['subview'] = 'city_dashboard';
 			$this->load->view('backend/_layout_main', $this->data);
-
-			
-		} elseif ($this->ion_auth->in_group('partner')) { // Partner (12) Dashboard 
-
+		} elseif ($this->ion_auth->in_group('partner')) { // Partner (12) Dashboard
 			// Get user application information
 			$this->data['info'] = $this->Dashboard_model->get_office_info();
 			// $this->data['info'] = $this->Common_model->get_user_details();
 			// dd($this->data['info']);
 			// $this->data['info'] = $this->Common_model->get_user_submitted_info();
-
-
-			// Load page       
+			// Load page
 			$this->data['meta_title'] = 'ডেভেলপমেন্ট পার্টনার ড্যাশবোর্ড';
 			$this->data['subview'] = 'partner_dashboard';
 			$this->load->view('backend/_layout_main', $this->data);
-
-
-		} elseif ($this->ion_auth->in_group('nilg')) { // Partner (12) Dashboard 
-
+		} elseif ($this->ion_auth->in_group('nilg')) { // Partner (12) Dashboard
 			// Get user application information
 			$this->data['info'] = $this->Dashboard_model->get_office_info();
 			// $this->data['info'] = $this->Common_model->get_user_details();
 			// dd($this->data['info']);
 			// $this->data['info'] = $this->Common_model->get_user_submitted_info();
-
-
-			// Load page       
+			// Load page
 			$this->data['meta_title'] = 'এনআইএলজি ড্যাশবোর্ড';
 			$this->data['subview'] = 'nilg_dashboard';
 			$this->load->view('backend/_layout_main', $this->data);
-
-		} elseif ($this->ion_auth->in_group('ddlg')) { // ddlg (14) Dashboard 
+		} elseif ($this->ion_auth->in_group('ddlg')) { // ddlg (14) Dashboard
 			$this->data['info'] = $this->Dashboard_model->get_office_info();
 			// dd($this->data['info']);
-
-			// Load page       
+			// Load page
 			$this->data['meta_title'] = 'ডিডিএলজি ড্যাশবোর্ড';
 			$this->data['subview'] = 'ddlg_dashboard';
 			$this->load->view('backend/_layout_main', $this->data);
-
-		/*
-		} elseif ($this->ion_auth->in_group('urt')) { // urt (13) Dashboard 
-			$this->data['info'] = $this->Dashboard_model->get_office_info();
-			// dd($this->data['info']);
-
-			// Load page       
-			$this->data['meta_title'] = 'ডিআরটি ড্যাশবোর্ড';
-			$this->data['subview'] = 'urt_dashboard';
-			$this->load->view('backend/_layout_main', $this->data);
-		*/
-
 		}elseif ($this->ion_auth->is_admin()) { // Admin (1) Dashboard
 			// dd($this->data['courseStatistics']);
-
-			// Total Data 
+			// Total Data
 			$this->data['totalData'] = $this->Dashboard_model->get_count_user_second();
 			$this->data['totalTraining'] = $this->Dashboard_model->get_count_training();
 			$this->data['totalOffice'] = $this->Dashboard_model->get_count_office();
-			$this->data['totalOfficeUser'] = $this->Dashboard_model->get_count_user_office();			
-			// Training summary 
+			$this->data['totalOfficeUser'] = $this->Dashboard_model->get_count_user_office();
+			// Training summary
 			$this->data['finances'] = $this->Dashboard_model->get_count_training_second();
-
-			// Box summary data			
-			// Details summary data Representative
-			/*$this->data['totalData'] = $this->Dashboard_model->get_count_user();
-			$this->data['total_representative'] = $this->Dashboard_model->get_count_user(array(1,2,3,4,5,7), 1);
-			$this->data['rep_union'] = $this->Dashboard_model->get_count_user(array(1), 1);
-			$this->data['rep_paurashova'] = $this->Dashboard_model->get_count_user(array(2), 1);
-			$this->data['rep_upazila'] = $this->Dashboard_model->get_count_user(array(3), 1);
-			$this->data['rep_zila'] = $this->Dashboard_model->get_count_user(array(4), 1);
-			$this->data['rep_city'] = $this->Dashboard_model->get_count_user(array(5), 1);
-			$this->data['rep_nilg'] = $this->Dashboard_model->get_count_user(array(7), 1);*/
-
-			// Details summary data Kormokorta
-			/*$this->data['total_kormokorta'] = $this->Dashboard_model->get_count_user(array(1,2,3,4,5,7), '2');
-			$this->data['emp1_union'] = $this->Dashboard_model->get_count_user(array(1), 2);
-			$this->data['emp1_paurashova'] = $this->Dashboard_model->get_count_user(array(2), 2);
-			$this->data['emp1_upazila'] = $this->Dashboard_model->get_count_user(array(3), 2);
-			$this->data['emp1_zila'] = $this->Dashboard_model->get_count_user(array(4), 2);
-			$this->data['emp1_city'] = $this->Dashboard_model->get_count_user(array(5), 2);
-			$this->data['emp1_nilg'] = $this->Dashboard_model->get_count_user(array(7), 2);*/
-
-			// Details summary data Kormochari
-			/*$this->data['total_kormocari'] = $this->Dashboard_model->get_count_user(array(1,2,3,4,5,7), '3');
-			$this->data['emp2_union'] = $this->Dashboard_model->get_count_user(array(1), 3);
-			$this->data['emp2_pourashova'] = $this->Dashboard_model->get_count_user(array(2), 3);
-			$this->data['emp2_upazila'] = $this->Dashboard_model->get_count_user(array(3), 3);
-			$this->data['emp2_zila'] = $this->Dashboard_model->get_count_user(array(4), 3);
-			$this->data['emp2_city'] = $this->Dashboard_model->get_count_user(array(5), 3);
-			$this->data['emp2_nilg'] = $this->Dashboard_model->get_count_user(array(7), 3);*/
-
-			// Details summary data Kormokorta
-			/*$this->data['total_nilg_kormokorta'] = $this->Dashboard_model->get_count_user(array(7), 2);
-			$this->data['total_nilg_kormocari'] = $this->Dashboard_model->get_count_user(array(7), 3);
-			$this->data['nilg_emp1_male'] = $this->Dashboard_model->get_count_user(array(7), 2, null, 'Male');
-			$this->data['nilg_emp1_female'] = $this->Dashboard_model->get_count_user(array(7), 2, null, 'Female');
-			$this->data['nilg_emp2_male'] = $this->Dashboard_model->get_count_user(array(7), 3, null, 'Male');
-			$this->data['nilg_emp2_female'] = $this->Dashboard_model->get_count_user(array(7), 3, null, 'Female');*/
-
-
-			// Training summary 
-			/*$this->data['training_revenue'] = $this->Dashboard_model->get_count_training(1);
-			$this->data['training_undp'] = $this->Dashboard_model->get_count_training(2);
-			$this->data['training_jica'] = $this->Dashboard_model->get_count_training(3);
-			$this->data['training_unicef'] = $this->Dashboard_model->get_count_training(4);
-			$this->data['training_helvetas'] = $this->Dashboard_model->get_count_training(5);
-			$this->data['training_swiss'] = $this->Dashboard_model->get_count_training(6);
-			$this->data['training_uicdp'] = $this->Dashboard_model->get_count_training(7);
-			$this->data['training_p4d'] = $this->Dashboard_model->get_count_training(8);*/
-
-			// Office wise statistics			
-			/*$this->data['officeUnion'] = $this->Dashboard_model->get_count_user(array(1));
-			$this->data['officePaurashava'] = $this->Dashboard_model->get_count_user(array(2));
-			$this->data['officeUpazila'] = $this->Dashboard_model->get_count_user(array(3));
-			$this->data['officeDdlg'] = $this->Dashboard_model->get_count_user(array(8));
-			$this->data['officeZila'] = $this->Dashboard_model->get_count_user(array(4));
-			$this->data['officeCity'] = $this->Dashboard_model->get_count_user(array(5));
-			$this->data['officeNilg'] = $this->Dashboard_model->get_count_user(array(7));
-			$this->data['officeMinistry'] = $this->Dashboard_model->get_count_user(array(9));
-			$this->data['officeDirectorate'] = $this->Dashboard_model->get_count_user(array(10));
-			$this->data['officeDevlopment'] = $this->Dashboard_model->get_count_user(array(6));*/
-
-			
-
 			// Course Statistics
 			$this->data['courseStatistics'] = $this->Dashboard_model->get_count_training_of_course();
-
 			//echo '<pre>';
 			//print_r($this->data['monthly_prosikhon_count']); exit;
-			//Load page       
+			//Load page
 			$this->data['meta_title'] = 'Dashboard';
 			$this->data['subview'] = 'superadmin_dashboard';
-			$this->load->view('backend/_layout_main', $this->data);		
-
-		} else {		
-
-			//Load page       
+			$this->load->view('backend/_layout_main', $this->data);
+		} else {
+			//Load page
 			$this->data['meta_title'] = 'Dashboard';
 			$this->data['subview'] = 'member_dashboard';
 			$this->load->view('backend/_layout_main', $this->data);
@@ -326,7 +181,7 @@ class Dashboard extends Backend_Controller
       // Pagination
 		$this->data['pagination'] = create_pagination('dashboard/search/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
 
-		//Load page       
+		//Load page
 		$this->data['meta_title'] = 'অনুসন্ধানের ফলাফল';
 		$this->data['subview'] = 'search';
 		$this->load->view('backend/_layout_main', $this->data);
@@ -349,7 +204,7 @@ class Dashboard extends Backend_Controller
 		// Results
 		$this->data['results'] = $this->Dashboard_model->get_my_training();
 		// dd($this->data['results']);
-		// $t=$this->Common_model->get_training_info(1);  
+		// $t=$this->Common_model->get_training_info(1);
 		// dd($t);
 
 		// View
@@ -365,7 +220,7 @@ class Dashboard extends Backend_Controller
 			redirect('dashboard');
 		}
 
-		// Decrypt Data        
+		// Decrypt Data
      	$dataID = (int) decrypt_url($id); //exit;
       // Check Exists
      	if (!$this->Common_model->exists('training', 'id', $dataID)) {
@@ -390,7 +245,7 @@ class Dashboard extends Backend_Controller
      		redirect('dashboard');
      	}
 
-		// Decrypt Data        
+		// Decrypt Data
 		$scheduleID = (int) decrypt_url($id); //exit;
 		// Check Exists
 		if (!$this->Common_model->exists('training_schedule', 'id', $scheduleID)) {
@@ -423,7 +278,7 @@ class Dashboard extends Backend_Controller
 
 	public function course_application($id)
 	{
-		// Decrypt Data        
+		// Decrypt Data
      	$dataID = (int) decrypt_url($id); //exit;
       // Check Exists
      	if (!$this->Common_model->exists('training', 'id', $dataID)) {
@@ -485,7 +340,7 @@ class Dashboard extends Backend_Controller
      	}
 
 		// Results
-     	$this->data['info'] = $this->Dashboard_model->get_course_info($dataID);      
+     	$this->data['info'] = $this->Dashboard_model->get_course_info($dataID);
 
 		// dd($this->data['info']);
 		//subjects list for trainer
@@ -542,7 +397,7 @@ class Dashboard extends Backend_Controller
 					$uploadData = $this->upload->data();
 					$uploadedFile = $uploadData['file_name'];
 
-					// $source_path = $this->file_path.'/'.$uploadedFile; 
+					// $source_path = $this->file_path.'/'.$uploadedFile;
 					// $target_path = $this->img_path.'/thumb_'. $uploadedFile;
 					//$this->resize($source_path, $target_path);
 					// dd($uploadedFile);
@@ -566,7 +421,7 @@ class Dashboard extends Backend_Controller
 		redirect("dashboard/selected_subject");
 	}*/
 
-	
+
 
 	public function pdf_training_material($id)
 	{
@@ -603,7 +458,7 @@ class Dashboard extends Backend_Controller
 		$userID = $this->data['info']->id;
 
 
-		// If not trainer 
+		// If not trainer
 		if ($this->data['info']->user_type != 2) {
 			redirect('registration/trainer_application_form');
 		}
@@ -645,7 +500,7 @@ class Dashboard extends Backend_Controller
 					);
 
 				if ($this->Common_model->edit('users', $userID, 'id', $form_data)) {
-					// Experiance 
+					// Experiance
 					for ($i = 0; $i < sizeof($_POST['exp_office_id']); $i++) {
 						$experience_data = array(
 							'data_id' => $userID,
@@ -655,7 +510,7 @@ class Dashboard extends Backend_Controller
 							);
 						$this->Common_model->save('per_experience', $experience_data);
 					}
-					// Education 
+					// Education
 					for ($i = 0; $i < sizeof($_POST['edu_exam_id']); $i++) {
 						$education_data = array(
 							'data_id' => $userID,
@@ -744,7 +599,7 @@ class Dashboard extends Backend_Controller
 					);
 
 				if ($this->Common_model->edit('users', $userID, 'id', $form_data)) {
-					// Experiance 
+					// Experiance
 					for ($i = 0; $i < sizeof($_POST['exp_office_id']); $i++) {
 						$experience_data = array(
 							'data_id' => $userID,
@@ -754,7 +609,7 @@ class Dashboard extends Backend_Controller
 							);
 						$this->Common_model->save('per_experience', $experience_data);
 					}
-					// promotion 
+					// promotion
 					for ($i = 0; $i < sizeof($_POST['promo_org_name']); $i++) {
 						$promotion_data = array(
 							'data_id' => $userID,
@@ -765,7 +620,7 @@ class Dashboard extends Backend_Controller
 							);
 						$this->Common_model->save('per_promotion', $promotion_data);
 					}
-					// Education 
+					// Education
 					for ($i = 0; $i < sizeof($_POST['edu_exam_id']); $i++) {
 						$education_data = array(
 							'data_id' => $userID,
@@ -838,7 +693,7 @@ class Dashboard extends Backend_Controller
 		}
 
 
-		// Load page       
+		// Load page
 		$this->data['meta_title'] = 'ব্যক্তিগত বা সাধারণ তথ্য সংশোধন ফর্ম';
 		$this->data['subview'] = $page;
 		$this->load->view('backend/_layout_main', $this->data);
