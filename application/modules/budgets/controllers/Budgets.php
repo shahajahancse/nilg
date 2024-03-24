@@ -1211,35 +1211,179 @@ class Budgets extends Backend_Controller
         $this->data['subview'] = 'chahida_potro/create';
         $this->load->view('backend/_layout_main', $this->data);
     }
-    public function budget_chahida_potro_details($uid){
+    public function budget_chahida_potro_details($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->select('q.*,office.office_name, department.name_en');
+        $this->db->from('budget_chahida_potro as q');
+        $this->db->join('office', 'q.office_id = office.id');
+        $this->db->join('department', 'q.dept_id = department.id');
+        $this->db->where('q.id', $id);
+        $this->data['chahida_potro'] = $this->db->get()->row();
+
+        $this->db->select('
+                        q.*,
+                        budget_head_sub.name_bn,
+                        budget_head_sub.bd_code, 
+                        budget_head.name_bn as budget_head_name, 
+                        budget_head_sub.id as budget_head_sub_id
+                        ');
+        $this->db->from('budget_chahida_potro_details as q');
+        $this->db->join('budget_head_sub', 'q.head_sub_id = budget_head_sub.id');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->db->where('q.chahida_potro_id', $id);
+        $this->data['details'] = $this->db->get()->result();
+
+        $this->data['info'] = $this->Common_model->get_user_details($this->data['chahida_potro']->created_by);
+
+         //Load view
+         $this->data['meta_title'] = 'চাহিদা পত্র তৈরি করুন';
+         $this->data['subview'] = 'chahida_potro/details';
+         $this->load->view('backend/_layout_main', $this->data);
+
         
        
     }
-    public function budget_chahida_potro_edit(){
-        $limit = 15;
-        $user_id = $this->data['userDetails']->id;
-        $dept_id = $this->data['userDetails']->crrnt_dept_id;
-        $results = $this->Budgets_model->get_chahida_potro($limit, $offset, array(), $dept_id, $user_id);
-        $this->data['results'] = $results['rows'];
-        $this->data['total_rows'] = $results['num_rows'];
-        $this->data['pagination'] = create_pagination('budget/chahida_potro/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
-        // Load view
-        $this->data['meta_title'] = 'চাহিদা পত্র এর তালিকা';
-        $this->data['subview'] = 'chahida_potro/index';
-        $this->load->view('backend/_layout_main', $this->data);
+    public function budget_chahida_potro_edit($encid=null){
+        if($encid == null){
+            $id=$this->input->post('id');
+        }else{
+            $id = (int) decrypt_url($encid);
+        }
+
+
+        $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
+        if ($this->form_validation->run() == true) {
+            // dd($_POST);
+            $form_data = array(
+                'title' => $this->input->post('title'),
+                'amount' => $this->input->post('total_amount'),
+                'status' => 1,
+                'description' => $this->input->post('description'),
+            );
+            if ($this->db->update('budget_chahida_potro', $form_data, array('id' => $id))) {
+                $insert_id = $id;
+                $this->db->delete('budget_chahida_potro_details', array('chahida_potro_id' => $insert_id));
+                $user = $this->ion_auth->user($this->input->post('created_by'))->row();
+                for ($i = 0; $i < sizeof($_POST['head_id']); $i++) {
+                    $form_data2 = array(
+                        'chahida_potro_id' => $insert_id,
+                        'head_sub_id' => $_POST['head_sub_id'][$i],
+                        'amount' => $_POST['amount'][$i],
+                        'office_id' => $user->office_id,
+                        'dept_id' => $user->crrnt_dept_id,
+                        'created_by' => $user->id,
+                    );
+                    $this->Common_model->save('budget_chahida_potro_details', $form_data2);
+                }
+                $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+                redirect("budgets/chahida_potro");
+            }
+        }
+
+        $this->db->select('
+        budget_head_sub.id,
+        budget_head_sub.bd_code,
+         budget_head_sub.name_bn,
+         budget_head.name_bn as budget_head_name,
+         budget_head.id as budget_head_id
+         ');
+        $this->db->from('budget_head_sub');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->data['budget_head_sub'] = $this->db->get()->result();
+
+
+
+
+
+        $this->db->select('q.*,office.office_name, department.name_en');
+        $this->db->from('budget_chahida_potro as q');
+        $this->db->join('office', 'q.office_id = office.id');
+        $this->db->join('department', 'q.dept_id = department.id');
+        $this->db->where('q.id', $id);
+        $this->data['chahida_potro'] = $this->db->get()->row();
+        $this->db->select('
+                        q.*,
+                        budget_head_sub.name_bn,
+                        budget_head_sub.bd_code, 
+                        budget_head.name_bn as budget_head_name, 
+                        budget_head.id as budget_head_id, 
+                        budget_head_sub.id as budget_head_sub_id
+                        ');
+        $this->db->from('budget_chahida_potro_details as q');
+        $this->db->join('budget_head_sub', 'q.head_sub_id = budget_head_sub.id');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->db->where('q.chahida_potro_id', $id);
+        $this->data['details'] = $this->db->get()->result();
+
+        $this->data['info'] = $this->Common_model->get_user_details($this->data['chahida_potro']->created_by);
+
+         //Load view
+         $this->data['meta_title'] = 'চাহিদা পত্র তৈরি করুন';
+         $this->data['subview'] = 'chahida_potro/edit';
+         $this->load->view('backend/_layout_main', $this->data);
+
     }
-    public function budget_chahida_potro_print(){
-        $limit = 15;
-        $user_id = $this->data['userDetails']->id;
-        $dept_id = $this->data['userDetails']->crrnt_dept_id;
-        $results = $this->Budgets_model->get_chahida_potro($limit, $offset, array(), $dept_id, $user_id);
-        $this->data['results'] = $results['rows'];
-        $this->data['total_rows'] = $results['num_rows'];
-        $this->data['pagination'] = create_pagination('budget/chahida_potro/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
-        // Load view
-        $this->data['meta_title'] = 'চাহিদা পত্র এর তালিকা';
-        $this->data['subview'] = 'chahida_potro/index';
-        $this->load->view('backend/_layout_main', $this->data);
+    public function budget_chahida_potro_statement($encid=null){
+        if($encid == null){
+            $id=$this->input->post('id');
+        }else{
+            $id = (int) decrypt_url($encid);
+        }
+
+
+        $this->form_validation->set_rules('total_overall_expense', 'বাজেট নাম', 'required|trim');
+        if ($this->form_validation->run() == true) {
+
+            foreach ($this->input->post('chahida_potro_details_id') as $key => $value) {
+                $form_data = array(
+                    'chahida_potro_details_id' => $value,
+                    'overall_expense' => $this->input->post('overall_expense')[$key],
+                
+                );
+                $this->db->where('chahida_potro_details_id', $value);
+                $pr=$this->db->get('budget_chahida_potro_expenses')->row();
+                if(empty($pr)){
+                    dd($pr);
+                    $this->db->insert('budget_chahida_potro_expenses', $form_data);
+                }else{
+                    $this->db->update('budget_chahida_potro_expenses', $form_data, array('id' => $value));
+                } 
+            }
+            $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+            redirect("budgets/chahida_potro");
+        
+        }
+        $this->db->select('q.*,office.office_name, department.name_en');
+        $this->db->from('budget_chahida_potro as q');
+        $this->db->join('office', 'q.office_id = office.id');
+        $this->db->join('department', 'q.dept_id = department.id');
+        $this->db->where('q.id', $id);
+        $this->data['budget_field'] = $this->db->get()->row();
+
+        $this->db->select('
+                        q.*,
+                        q.id as budget_chahida_potro_details_id,
+                        budget_head_sub.name_bn,
+                        budget_head_sub.bd_code, 
+                        budget_head.name_bn as budget_head_name, 
+                        budget_head_sub.id as budget_head_sub_id,
+                        budget_chahida_potro_expenses.*
+                        ');
+        $this->db->from('budget_chahida_potro_details as q');
+        $this->db->join('budget_head_sub', 'q.head_sub_id = budget_head_sub.id');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->db->join('budget_chahida_potro_expenses', 'q.id = budget_chahida_potro_expenses.chahida_potro_details_id', 'left');
+        $this->db->where('q.chahida_potro_id', $id);
+        $this->data['budget_field_details'] = $this->db->get()->result();
+
+        $this->data['info'] = $this->Common_model->get_user_details($this->data['budget_field']->created_by);
+
+         //Load view
+         $this->data['meta_title'] = 'চাহিদা পত্র স্টেটমেন্ট তৈরি করুন';
+         $this->data['subview'] = 'chahida_potro/statement'; 
+         $this->load->view('backend/_layout_main', $this->data);
+
+        
     }
 
 
