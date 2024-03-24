@@ -13,6 +13,7 @@ class Reports extends Backend_Controller {
         $this->load->model('Personal_datas_model');
         $this->load->model('Reports_model');
         $this->load->model('Common_model');
+        $this->load->model('budgets/Budgets_model');
         $this->load->model('general_setting/General_setting_model');
         $this->load->model('exam_names/Exam_names_model');
         set_time_limit(0) ;
@@ -430,6 +431,126 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
 
             }
+
+        }
+    }
+    public function budget_report(){
+        $this->form_validation->set_rules('division', 'division', 'trim');
+        $this->form_validation->set_rules('district', 'district', 'trim');
+        $this->form_validation->set_rules('upazila', 'upazila', 'trim');
+
+        if($this->form_validation->run() == true){
+            // $district=$this->input->post('district');
+            // $upazila=$this->input->post('upazila');
+            $division_id = $this->input->post('division_id');
+            $district_id = $this->input->post('district_id');
+            $upazila_id = $this->input->post('upazila_id');
+            $union_id = $this->input->post('union_id');
+            $course_id = $this->input->post('course_id');
+            $status = $this->input->post('status');
+
+            $this->data['division_info'] = $this->Common_model->get_info('divisions', $division_id);
+            $this->data['district_info'] = $this->Common_model->get_info('districts', $district_id);
+            $this->data['upazila_info'] = $this->Common_model->get_info('upazilas', $upazila_id);        
+            $this->data['union_info'] = $this->Common_model->get_info('unions', $union_id);    
+
+            if($this->input->post('btnsubmit') == 'nilg_report_draft') {
+                $this->data['results']= $this->Budgets_model->get_budget(1000000, 0, [1], null, null);
+                $this->data['headding'] = 'বাজেট রিপোর্ট';
+                $html = $this->load->view('budget_report_nilg_draft', $this->data, true);
+                // $html = $this->load->view('pdf_rep_number_divisional', $this->data, true); //01-02-2023
+                // $html= $this->load->view('pdf_number_elected_representative', $this->data, true);
+
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
+                // $mpdf->output('report.pdf', "D");
+
+            } elseif ($this->input->post('btnsubmit') == 'budget_report_nilg_pending') {
+                $this->data['results']= $this->Budgets_model->get_budget(1000000, 0, [2], null, null);
+                $this->data['headding'] = 'বাজেট রিপোর্ট';
+                $html = $this->load->view('budget_report_nilg_pending', $this->data, true);
+                // $html = $this->load->view('pdf_rep_number_divisional', $this->data, true); //01-02-2023
+                // $html= $this->load->view('pdf_number_elected_representative', $this->data, true);
+
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
+                // $mpdf->output('report.pdf', "D");
+
+            }  elseif ($this->input->post('btnsubmit') == 'budget_report_nilg_pending_dep') {
+                $this->data['results']= $this->Budgets_model->get_budget(1000000, 0, [3], null, null);
+                $this->data['headding'] = 'বাজেট রিপোর্ট';
+                $html = $this->load->view('budget_report_nilg_pending', $this->data, true);
+                // $html = $this->load->view('pdf_rep_number_divisional', $this->data, true); //01-02-2023
+                // $html= $this->load->view('pdf_number_elected_representative', $this->data, true);
+
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
+                // $mpdf->output('report.pdf', "D");
+
+            }  elseif ($this->input->post('btnsubmit') == 'budget_report_nilg_pending_dg') {
+                $this->data['results']= $this->Budgets_model->get_budget(1000000, 0, [5], null, null);
+                $this->data['headding'] = 'বাজেট রিপোর্ট';
+                $html = $this->load->view('budget_report_nilg_pending', $this->data, true);
+                // $html = $this->load->view('pdf_rep_number_divisional', $this->data, true); //01-02-2023
+                // $html= $this->load->view('pdf_number_elected_representative', $this->data, true);
+
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
+                // $mpdf->output('report.pdf', "D");
+
+            }  elseif ($this->input->post('btnsubmit') == 'budget_report_nilg_pending_acc') {
+                $this->data['results']= $this->Budgets_model->get_budget(1000000, 0, [4], null, null);
+                $this->data['headding'] = 'বাজেট রিপোর্ট';
+                $html = $this->load->view('budget_report_nilg_pending', $this->data, true);
+                // $html = $this->load->view('pdf_rep_number_divisional', $this->data, true); //01-02-2023
+                // $html= $this->load->view('pdf_number_elected_representative', $this->data, true);
+
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
+                // $mpdf->output('report.pdf', "D");
+
+            }  elseif ($this->input->post('btnsubmit') == 'nilg_report') {
+                $this->data['results']= $this->Budgets_model->get_budget(1000000, 0, null, null, null);
+                $this->data['headding'] = 'বাজেট রিপোর্ট';
+                $html = $this->load->view('budget_report_nilg_pending', $this->data, true);
+                // $html = $this->load->view('pdf_rep_number_divisional', $this->data, true); //01-02-2023
+                // $html= $this->load->view('pdf_number_elected_representative', $this->data, true);
+
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
+                // $mpdf->output('report.pdf', "D");
+
+            } elseif ($this->input->post('btnsubmit') == 'budget_report_nilg_approve') {
+                $this->data['results']= $this->Budgets_model->get_budget(1000000, 0, [6], null, null);
+                $this->data['headding'] = 'বাজেট রিপোর্ট';
+                $html = $this->load->view('budget_report_nilg_pending', $this->data, true);
+                // $html = $this->load->view('pdf_rep_number_divisional', $this->data, true); //01-02-2023
+                // $html= $this->load->view('pdf_number_elected_representative', $this->data, true);
+
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
+                // $mpdf->output('report.pdf', "D");
+
+            } elseif ($this->input->post('btnsubmit') == 'filed_report') {
+                $this->data['results']= $this->Budgets_model->get_budget_field(1000000, 0, $office_id = null, $user_id = null, $dept_id = null);
+                $this->data['headding'] = 'বাজেট রিপোর্ট';
+                $html = $this->load->view('budget_report_filed_pending', $this->data, true);
+                // $html = $this->load->view('pdf_rep_number_divisional', $this->data, true); //01-02-2023
+                // $html= $this->load->view('pdf_number_elected_representative', $this->data, true);
+
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
+                // $mpdf->output('report.pdf', "D");
+
+            } 
 
         }
     }

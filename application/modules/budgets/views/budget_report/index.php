@@ -24,12 +24,12 @@
             <?php endif; ?>
 
             <?php $attributes = array('id' => 'validate', 'target' => '_blank');
-              echo form_open_multipart("reports/representative_result", $attributes);
+              echo form_open_multipart("reports/budget_report", $attributes);
             ?>
 
             <div class="row">
               <div class="col-md-12">
-                <div style="text-align: center; border:1px solid #0aa699; padding:25px 15px 15px 15px; margin:0 -15px; position: relative; ">
+                <!-- <div style="text-align: center; border:1px solid #0aa699; padding:25px 15px 15px 15px; margin:0 -15px; position: relative; ">
                   <div id="error" style="display: none;">
                     <div class="alert alert-danger">এই রিপোর্ট দেখার জন্য লাল চিহ্নিত ফিল্ড গুলো পূরণ করুন।</div>
                   </div>
@@ -96,63 +96,34 @@
                   </div>
 
 
-                </div>
+                </div> -->
 
                 <div class="row form-row">
                   <div class="col-md-12" style="text-align: center; border:1px solid #0aa699; padding:10px 5px 20px 5px; position: relative; margin-top: 40px">
                     <label class="head">বাজেট NILG রিপোর্ট</label>
                     <div>
-                      <button type="submit" name="btnsubmit" value="pdf_rep_number_divisional" onclick="return validFunc()" class="btn btn-info btn-cons margin-top"> বিভাগ ভিত্তিক রিপোর্ট</button>
+                      <button type="submit" name="btnsubmit" value="nilg_report" class="btn btn-info btn-cons margin-top">সব রিপোর্ট</button>
+                      <button type="submit" name="btnsubmit" value="nilg_report_draft" class="btn btn-info btn-cons margin-top">ড্রাফট রিপোর্ট</button>
+                      <button type="submit" name="btnsubmit" value="budget_report_nilg_pending" class="btn btn-info btn-cons margin-top">পেন্ডিং রিপোর্ট</button>
+                      <button type="submit" name="btnsubmit" value="budget_report_nilg_pending_dep" class="btn btn-info btn-cons margin-top">ডিপার্টমেন্ট অনুমোদিত রিপোর্ট</button>
+                      <button type="submit" name="btnsubmit" value="budget_report_nilg_pending_dg" class="btn btn-info btn-cons margin-top">ডি জি অনুমোদিত রিপোর্ট</button>
+                      <button type="submit" name="btnsubmit" value="budget_report_nilg_pending_acc" class="btn btn-info btn-cons margin-top">আকাউন্ট অনুমোদিত রিপোর্ট</button>
+                      <button type="submit" name="btnsubmit" value="budget_report_nilg_approve" class="btn btn-info btn-cons margin-top"> অনুমোদিত রিপোর্ট</button>
                     </div>
                   </div>
                 </div>
-
                 <div class="row form-row">
                   <div class="col-md-12" style="text-align: center; border:1px solid #0aa699; padding:10px 5px 20px 5px; position: relative; margin-top: 40px">
-                    <label class="head"> সংখ্যা ভিত্তিক রিপোর্ট</label>
-
-                    <button type="submit" name="btnsubmit" value="pdf_rep_number_divisional" onclick="return validFunc()" class="btn btn-info btn-cons margin-top"> বিভাগ ভিত্তিক রিপোর্ট</button>
-
-                    <button type="submit" name="btnsubmit" value="pdf_rep_number_district" onclick="return validFunc1()" class="btn btn-info btn-cons margin-top"> জেলা ভিত্তিক রিপোর্ট</button>
-
-                    <button type="submit" name="btnsubmit" value="pdf_rep_number_upazila" onclick="return validFunc2()" class="btn btn-info btn-cons margin-top"> উপজেলা ভিত্তিক রিপোর্ট</button>
-
-                    <button type="submit" name="btnsubmit" value="pdf_rep_number_union" onclick="return validFunc3()" class="btn btn-info btn-cons margin-top"> ইউনিয়ন ভিত্তিক রিপোর্ট</button>
-
-                    <button type="submit" name="btnsubmit" value="pdf_rep_number_city" class="btn btn-info btn-cons margin-top"> সিটি কর্পোরেশন ভিত্তিক রিপোর্ট</button>
-                    <button type="submit" name="btnsubmit" value="pdf_rep_number_zila" onclick="return validFunc()" class="btn btn-info btn-cons margin-top"> জেলা পরিষদ ভিত্তিক রিপোর্ট</button>
-                    <button type="submit" name="btnsubmit" value="pdf_rep_number_pourashava" onclick="return validFunc1()" class="btn btn-info btn-cons margin-top"> পৌরসভা ভিত্তিক রিপোর্ট</button>
-
-                    <br>
-                    <button type="submit" name="btnsubmit" value="pdf_rep_number_designation" onclick="return validFunc4()" class="btn btn-info btn-cons margin-top"> পদবি ভিত্তিক রির্পোট</button>
-
-                    <button type="submit" name="btnsubmit" value="pdf_rep_number_education" class="btn btn-info btn-cons margin-top">শিক্ষাগত যোগ্যতা ভিত্তিক রির্পোট</button>
-
-                    <button type="submit" name="btnsubmit" value="pdf_rep_number_gender" class="btn btn-info btn-cons margin-top"> নারী/পরুষ ভিত্তিক রিপোর্ট</button>
-
-                    <button type="submit" name="btnsubmit" value="pdf_rep_number_age" class="btn btn-info btn-cons margin-top"> বয়স ভিত্তিক রিপোর্ট</button>
-
-                    <button type="submit" name="btnsubmit" value="pdf_rep_number_elected" class="btn btn-info btn-cons margin-top"> একাধিকবার নির্বাচিতদের তালিকা</button>
-
-                    <button type="submit" name="btnsubmit" value="pdf_rep_nilg_course_complete" onclick="return validFunc5()" class="btn btn-info btn-cons margin-top"> এনআইএলজি থেকে প্রাপ্ত প্রশিক্ষণের তালিকা</button>
-                  </div>
-                </div>
-                <div class="row form-row">
-                  <div class="col-md-12" style="text-align: center; border:1px solid #0aa699; padding:10px 5px 20px 5px; position: relative; margin-top: 40px">
-                    <label class="head"> তালিকা ভিত্তিক রিপোর্ট</label>
-
-                    <button type="submit" name="btnsubmit" value="pdf_rep_list_union" onclick="return validFunc3()" class="btn btn-info btn-cons margin-top"> ইউনিয়ন পরিষদের রিপোর্ট</button>
-
-                    <button type="submit" name="btnsubmit" value="pdf_rep_list_pourashava" onclick="return validFunc2()" class="btn btn-info btn-cons margin-top"> পৌরসভার রিপোর্ট</button>
-
-                    <button type="submit" name="btnsubmit" value="pdf_rep_list_upazila" onclick="return validFunc2()" class="btn btn-info btn-cons margin-top"> উপজেলা পরিষদের রিপোর্ট</button>
-
-                    <button type="submit" name="btnsubmit" value="pdf_rep_list_city" onclick="return validFunc()" class="btn btn-info btn-cons margin-top"> সিটি কর্পোরেশনের রিপোর্ট</button>
-
-                    <button type="submit" name="btnsubmit" value="pdf_rep_list_district" onclick="return validFunc1()" class="btn btn-info btn-cons margin-top"> জেলা পরিষদের রিপোর্ট</button>
-
-                    <button type="submit" name="btnsubmit" value="pdf_untrained_list" onclick="return validFunc1()" class="btn btn-info btn-cons margin-top"> অপ্রশিক্ষিত ব্যক্তির রিপোর্ট</button>
-                    <button type="submit" name="btnsubmit" value="pdf_trained_list" onclick="return validFunc1()" class="btn btn-info btn-cons margin-top"> প্রশিক্ষিত ব্যক্তির রিপোর্ট</button>
+                    <label class="head">বাজেট ফিল্ড রিপোর্ট</label>
+                    <div>
+                      <button type="submit" name="btnsubmit" value="filed_report" class="btn btn-info btn-cons margin-top">সব রিপোর্ট</button>
+                      <!-- <button type="submit" name="btnsubmit" value="filed_report_draft" class="btn btn-info btn-cons margin-top">ড্রাফট রিপোর্ট</button>
+                      <button type="submit" name="btnsubmit" value="budget_report_filed_pending" class="btn btn-info btn-cons margin-top">পেন্ডিং রিপোর্ট</button>
+                      <button type="submit" name="btnsubmit" value="budget_report_filed_pending_dep" class="btn btn-info btn-cons margin-top">ডিপার্টমেন্ট অনুমোদিত রিপোর্ট</button>
+                      <button type="submit" name="btnsubmit" value="budget_report_filed_pending_dg" class="btn btn-info btn-cons margin-top">ডি জি অনুমোদিত রিপোর্ট</button>
+                      <button type="submit" name="btnsubmit" value="budget_report_filed_pending_acc" class="btn btn-info btn-cons margin-top">আকাউন্ট অনুমোদিত রিপোর্ট</button>
+                      <button type="submit" name="btnsubmit" value="budget_report_filed_approve" class="btn btn-info btn-cons margin-top"> অনুমোদিত রিপোর্ট</button> -->
+                    </div>
                   </div>
                 </div>
               </div> <!-- /col-md-8 -->

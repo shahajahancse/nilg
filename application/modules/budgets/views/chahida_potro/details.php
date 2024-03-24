@@ -1,7 +1,6 @@
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
 <style>
-   .chosen-single {
+.chosen-single {
     height: 30px !important;
     border: 1px solid #00a59a !important;
 }
@@ -34,7 +33,7 @@
                         <div class="alert alert-success">
                             <?=$this->session->flashdata('success');;?>
                         </div>
-                        <?php endif; ?>  <?php if($this->session->flashdata('error')):?>
+                        <?php endif; ?> <?php if($this->session->flashdata('error')):?>
                         <div class="alert alert-danger">
                             <?=$this->session->flashdata('error');;?>
                         </div>
@@ -51,7 +50,7 @@
                                 <fieldset style="background: #fff !important; ">
                                     <legend>চাহিদাপত্র তথ্য</legend>
                                     <div class="row form-row" style="font-size: 16px; color: black;">
-                                        <div class="col-md-12" style="display: flex;gap: 74px;padding-bottom: 7px;" >
+                                        <div class="col-md-12" style="display: flex;gap: 74px;padding-bottom: 7px;">
                                             <div style="width:fit-content;">
                                                 আবেদনকারীর নাম: <strong><?=$info->name_bn?></strong>
                                             </div>
@@ -64,8 +63,9 @@
                                         </div>
                                         <br>
                                         <div class="col-md-4">
-                                            <label for="title" class="control-label">শিরোনাম : <span><?=$chahida_potro->title?></span> </label>
-                                            
+                                            <label for="title" class="control-label">শিরোনাম :
+                                                <span><?=$chahida_potro->title?></span> </label>
+
                                         </div>
                                     </div>
 
@@ -85,34 +85,36 @@
                                                 color: black;
                                             }
                                             </style>
-                                            <div class="col-md-12" >
-                                                <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
+                                            <div class="col-md-12">
+                                                <table class="col-md-12" width="100%" border="1"
+                                                    style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
                                                     <thead>
-                                                       <tr>
-                                                           <!-- <th width="30%">বাজেট হেড<span class="required">*</span></th> -->
-                                                           <th width="30%">শিরোনাম<span class="required">*</span></th>
-                                                           <th width="30%">কোড<span class="required">*</span></th>
-                                                           <th width="30%">পরিমাণ</th>
-                                                       </tr>
+                                                        <tr>
+                                                            <!-- <th width="30%">বাজেট হেড<span class="required">*</span></th> -->
+                                                            <th width="30%">শিরোনাম<span class="required">*</span></th>
+                                                            <th width="30%">কোড<span class="required">*</span></th>
+                                                            <th width="30%">পরিমাণ</th>
+                                                        </tr>
                                                     </thead>
                                                     <tbody id="tbody">
                                                         <?php foreach($details as $details){
                                                             ?>
                                                         <tr>
-                                                            <td><?=$details->budget_head_name?> <?=$details->name_bn?></td>
+                                                            <td><?=$details->budget_head_name?> <?=$details->name_bn?>
+                                                            </td>
                                                             <td><?=$details->bd_code?></td>
                                                             <td><?=$details->amount?></td>
                                                         </tr>
                                                         <?php }?>
-                                                   
+
                                                     </tbody>
                                                 </table>
 
                                                 <div class="col-md-12" style="margin-top: 20px; padding: 0px;">
                                                     <div class="form-group margin_top_10">
-                                                      <label for=""> বিবরণ:</label>
-                                                    <?=$chahida_potro->description?>
-                                                   </div>
+                                                        <label for=""> বিবরণ:</label>
+                                                        <?=$chahida_potro->description?>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -127,4 +129,3 @@
         </div> <!-- END ROW -->
     </div>
 </div>
-
