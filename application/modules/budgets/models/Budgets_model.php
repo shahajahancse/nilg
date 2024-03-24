@@ -180,5 +180,28 @@ class Budgets_model extends CI_Model {
       $result['num_rows'] = $tmp[0]->count;
       return $result;
     }
+
+
+    public function get_chahida_potro($limit, $offset) {
+
+        // result query
+        $this->db->select('
+                    q.*,
+                    dpt.name_en,
+                    dpt.dept_name,
+                  ');
+        $this->db->from('budget_chahida_potro as q');
+        $this->db->join('department dpt', 'q.dept_id = dpt.id', 'left');
+        $this->db->limit($limit);
+        $this->db->offset($offset);
+        $this->db->order_by('q.id', 'DESC');
+        $result['rows'] = $this->db->get()->result();
+        // count query
+        $this->db->select('COUNT(*) as count');
+        $this->db->from('budget_chahida_potro');
+        $tmp = $this->db->get()->result();
+        $result['num_rows'] = $tmp[0]->count;
+        return $result;
+      }
     // budgets entry end
 }
