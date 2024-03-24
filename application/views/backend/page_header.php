@@ -77,7 +77,11 @@
    <script src="<?= base_url('assets/js/loader.js'); ?>"></script>
 
 
-
+<style>
+   .required{
+      color: red;
+   }
+</style>
    <!-- <script src="https://code.highcharts.com/modules/exporting.js"></script> -->
 </head> <!-- END HEAD -->
 

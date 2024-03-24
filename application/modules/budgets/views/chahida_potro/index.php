@@ -26,28 +26,28 @@
                         <?php endif; ?>
 
                         <style type="text/css">
-                            .btt-m,
-                            .btt-m:focus,
-                            .btt-m:active:focus,
-                            .btt-m.active:focus {
-                                outline: none !important;
-                                padding: 5px 25px !important;
-                                margin-top: 0px;
-                            }
+                        .btt-m,
+                        .btt-m:focus,
+                        .btt-m:active:focus,
+                        .btt-m.active:focus {
+                            outline: none !important;
+                            padding: 5px 25px !important;
+                            margin-top: 0px;
+                        }
 
-                            .btt-t,
-                            .btt-t:focus,
-                            .btt-t:active:focus,
-                            .btt-t.active:focus,
-                            .btt-t:hover {
-                                outline: none !important;
-                                padding: 5px 25px !important;
-                                margin-top: 0px !important;
-                                width: 40px !important;
-                                background: #ddb90a;
-                            }
+                        .btt-t,
+                        .btt-t:focus,
+                        .btt-t:active:focus,
+                        .btt-t.active:focus,
+                        .btt-t:hover {
+                            outline: none !important;
+                            padding: 5px 25px !important;
+                            margin-top: 0px !important;
+                            width: 40px !important;
+                            background: #ddb90a;
+                        }
                         </style>
-                       
+
                         <table class="table table-hover table-condensed" border="0">
                             <thead>
                                 <tr>
@@ -89,10 +89,10 @@
                                                 <li><a
                                                         href="<?php echo base_url('budgets/budget_chahida_potro_edit/'.encrypt_url($row->id))?>"><i
                                                             class="fa fa-pencil-square"></i> সংশোধন করুন </a></li>
-                                              
+
                                                 <li>
                                                     <a href="<?php echo base_url('budgets/budget_chahida_potro_statement/'.encrypt_url($row->id))?>"
-                                                        target="_blank"><i class="fa fa-pencil-square"></i> সমন্বয় করুন 
+                                                        target="_blank"><i class="fa fa-pencil-square"></i> সমন্বয় করুন
                                                     </a>
                                                 </li>
                                             </ul>
@@ -106,7 +106,7 @@
                         <div class="row">
                             <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> সর্বমোট <span
                                     style="color: green; font-weight: bold;"><?php echo eng2bng($total_rows); ?>
-                                    বাজেট  </span></div>
+                                    বাজেট </span></div>
                             <div class="col-sm-8 col-md-8 text-right">
                                 <?php echo $pagination['links']; ?>
                             </div>

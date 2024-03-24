@@ -16,6 +16,7 @@
     flex-wrap: wrap;
     justify-content: center;
 }
+
 input {
     width: 100%;
     padding: 7px !important;
@@ -29,7 +30,8 @@ input {
     <div class="content">
         <ul class="breadcrumb">
             <li><a href="<?=base_url('dashboard')?>" class="active"> Dashboard </a></li>
-            <li><a href="<?=base_url('budget/budget_field_statement_of_expenses')?>" class="active"><?=$module_name?></a></li>
+            <li><a href="<?=base_url('budget/budget_field_statement_of_expenses')?>"
+                    class="active"><?=$module_name?></a></li>
             <li><?=$meta_title; ?></li>
         </ul>
 
@@ -42,14 +44,14 @@ input {
                 <div class="grid simple horizontal red">
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
-                      
+
                     </div>
                     <div class="grid-body">
                         <?php if($this->session->flashdata('success')):?>
                         <div class="alert alert-success">
                             <?=$this->session->flashdata('success');;?>
                         </div>
-                        <?php endif; ?>  <?php if($this->session->flashdata('error')):?>
+                        <?php endif; ?> <?php if($this->session->flashdata('error')):?>
                         <div class="alert alert-danger">
                             <?=$this->session->flashdata('error');;?>
                         </div>
@@ -67,7 +69,7 @@ input {
                                 </div>
                                 <fieldset>
                                     <legend>তথ্য</legend>
-                                 
+
                                     <input type="hidden" name="budget_field_id" value="<?= $budget_field->id?>">
 
                                     <div class="row form-row" style="font-size: 16px; color: black;">
@@ -86,26 +88,27 @@ input {
                                         <div class="col-md-12">
                                             <h4 class="semi-bold margin_left_15">তালিকা</h4>
                                             <style type="text/css">
-                                                #appRowDiv td {
-                                                    padding: 5px;
-                                                    border-color: #ccc;
-                                                }
+                                            #appRowDiv td {
+                                                padding: 5px;
+                                                border-color: #ccc;
+                                            }
 
-                                                #appRowDiv th {
-                                                    padding: 5px;
-                                                    text-align: center;
-                                                    border-color: #ccc;
-                                                    color: black;
-                                                }
+                                            #appRowDiv th {
+                                                padding: 5px;
+                                                text-align: center;
+                                                border-color: #ccc;
+                                                color: black;
+                                            }
                                             </style>
 
-                                       
+
                                             <table class="col-md-12" width="100%" border="1"
                                                 style="border:1px solid #a09e9e;" id="appRowDiv">
                                                 <thead>
                                                     <tr>
                                                         <th width="fit-content">ক্রমিক নং</th>
-                                                        <th width="fit-content">ব্যয়ের খাত<span class="required">*</span></th>
+                                                        <th width="fit-content">ব্যয়ের খাত<span
+                                                                class="required">*</span></th>
                                                         <th width="fit-content">বরাদ্দ</th>
                                                         <th width="fit-content">মোট ব্যয়</th>
                                                         <th style="width: 11%;">ভাউচার</th>
@@ -116,16 +119,24 @@ input {
                                                  
                                                         $boraddo+=$data->amount;
                                                         ?>
-                                                        <tr>
-                                                            <td style="text-align: center;width:fit-content;"><?=++$key?></td>
-                                                            <td style="width:fit-content;"><?=$data->name_bn?></td>
-                                                            <td style="text-align: center;width:fit-content;">
-                                                            <input type="hidden" name="chahida_potro_details_id[]" value="<?=$data->budget_chahida_potro_details_id?>" >
+                                                    <tr>
+                                                        <td style="text-align: center;width:fit-content;"><?=++$key?>
+                                                        </td>
+                                                        <td style="width:fit-content;"><?=$data->name_bn?></td>
+                                                        <td style="text-align: center;width:fit-content;">
+                                                            <input type="hidden" name="chahida_potro_details_id[]"
+                                                                value="<?=$data->budget_chahida_potro_details_id?>">
                                                             <?=$data->amount?>
-                                                            </td>                                        
-                                                            <td><input  style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;" type="number" onkeyup="calt()" min=0 value=<?=$data->overall_expense==''?0:$data->overall_expense ?> name="overall_expense[]" class="overall_expense"></td>
-                                                            <td><input  style="width: 100%;padding: 3px !important;height: 24px; min-height: 18px;border: none;" type="file" name="file[]"  id=""></td>
-                                                        </tr>
+                                                        </td>
+                                                        <td><input
+                                                                style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;"
+                                                                type="number" onkeyup="calt()" min=0
+                                                                value=<?=$data->overall_expense==''?0:$data->overall_expense ?>
+                                                                name="overall_expense[]" class="overall_expense"></td>
+                                                        <td><input
+                                                                style="width: 100%;padding: 3px !important;height: 24px; min-height: 18px;border: none;"
+                                                                type="file" name="file[]" id=""></td>
+                                                    </tr>
                                                     <?php endforeach;?>
                                                 </tbody>
                                                 <tfoot>
@@ -133,7 +144,8 @@ input {
                                                         <td colspan="2">মোট ব্যয়</td>
                                                         <td><?= $boraddo ?></td>
                                                         <td id="total_real_expense"></td>
-                                                        <td><input type="hidden" name="total_overall_expense" id="total_overall_expense_input"></td>
+                                                        <td><input type="hidden" name="total_overall_expense"
+                                                                id="total_overall_expense_input"></td>
                                                 </tfoot>
                                             </table>
                                             <br>
@@ -163,23 +175,22 @@ input {
 
 
 <script>
-    function calt() {
-        var total_real_expense=0
-        $(".overall_expense").each(function() {
-            var val = parseInt($(this).val());
-            if (!isNaN(val)) {
-                total_real_expense += val;
-            }
-        })
-        $("#total_real_expense").text(total_real_expense);
-        $("#total_overall_expense_input").val(total_real_expense);
-    }
-       
-</script> 
-<script>
-    $(document).ready(function() {
-        calt()
+function calt() {
+    var total_real_expense = 0
+    $(".overall_expense").each(function() {
+        var val = parseInt($(this).val());
+        if (!isNaN(val)) {
+            total_real_expense += val;
+        }
     })
+    $("#total_real_expense").text(total_real_expense);
+    $("#total_overall_expense_input").val(total_real_expense);
+}
+</script>
+<script>
+$(document).ready(function() {
+    calt()
+})
 </script>
 
 
