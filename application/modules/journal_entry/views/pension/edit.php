@@ -47,12 +47,12 @@
                             echo form_open_multipart("journal_entry/pension_entry_edit",$attributes);
                             echo validation_errors();
                         ?>
-                       
+
                         <input type="hidden" name="id" value="<?=$budget_j_pension_register->id?>">
                         <div class="row">
                             <div class="col-md-12">
                                 <fieldset style="background: #fff !important;">
-                                    <legend>হোস্টেল তথ্য</legend>
+                                    <legend>পেনশন তথ্য</legend>
                                     <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                         <br>
                                         <div class="col-md-3">

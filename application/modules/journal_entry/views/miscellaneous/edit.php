@@ -28,7 +28,7 @@
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right">
                             <a href="<?=base_url('journal_entry/miscellaneous_entry')?>"
-                                class="btn btn-blueviolet btn-xs btn-mini"> অন্যান্য  তালিকা</a>
+                                class="btn btn-blueviolet btn-xs btn-mini"> বিবিধ  তালিকা</a>
                         </div>
                     </div>
                     <div class="grid-body">
@@ -47,12 +47,12 @@
                             echo form_open_multipart("journal_entry/miscellaneous_entry_edit",$attributes);
                             echo validation_errors();
                         ?>
-                       
+
                         <input type="hidden" name="id" value="<?=$budget_j_miscellaneous_register->id?>">
                         <div class="row">
                             <div class="col-md-12">
                                 <fieldset style="background: #fff !important;">
-                                    <legend>অন্যান্য  তথ্য</legend>
+                                    <legend>বিবিধ  তথ্য</legend>
                                     <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                         <br>
                                         <div class="col-md-3">

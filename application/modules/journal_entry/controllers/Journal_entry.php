@@ -19,7 +19,7 @@ class Journal_entry extends Backend_Controller
     }
 
 
-    // start revenew 
+    // start revenew
 
     public function revenue_entry($offset = 0)
     {
@@ -230,7 +230,7 @@ class Journal_entry extends Backend_Controller
         }
     }
     // end cheque
-       // start hostel 
+       // start hostel
        public function hostel_entry($offset = 0)
        {
            $limit = 15;
@@ -246,7 +246,7 @@ class Journal_entry extends Backend_Controller
            $this->data['subview'] = 'hostel/index';
            $this->load->view('backend/_layout_main', $this->data);
        }
-   
+
        public function hostel_entry_create()
        {
            $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
@@ -334,7 +334,7 @@ class Journal_entry extends Backend_Controller
            }
        }
        // end hostel
-       // start budget_j_publication_register 
+       // start budget_j_publication_register
        public function publication_entry($offset = 0)
        {
            $limit = 15;
@@ -350,7 +350,7 @@ class Journal_entry extends Backend_Controller
            $this->data['subview'] = 'publication/index';
            $this->load->view('backend/_layout_main', $this->data);
        }
-   
+
        public function publication_entry_create()
        {
            $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
@@ -438,7 +438,7 @@ class Journal_entry extends Backend_Controller
            }
        }
        // end budget_j_publication_register
-       // start budget_j_pension_register 
+       // start budget_j_pension_register
        public function pension_entry($offset = 0)
        {
            $limit = 15;
@@ -454,7 +454,7 @@ class Journal_entry extends Backend_Controller
            $this->data['subview'] = 'pension/index';
            $this->load->view('backend/_layout_main', $this->data);
        }
-   
+
        public function pension_entry_create()
        {
            $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
@@ -542,7 +542,7 @@ class Journal_entry extends Backend_Controller
            }
        }
        // end budget_j_pension_register
-       // start budget_j_gpf_register 
+       // start budget_j_gpf_register
        public function gpf_entry($offset = 0)
        {
            $limit = 15;
@@ -558,7 +558,7 @@ class Journal_entry extends Backend_Controller
            $this->data['subview'] = 'gpf/index';
            $this->load->view('backend/_layout_main', $this->data);
        }
-   
+
        public function gpf_entry_create()
        {
            $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
@@ -647,8 +647,8 @@ class Journal_entry extends Backend_Controller
        }
        // end budget_j_gpf_register
 
-       
-       // start budget_j_miscellaneous_register 
+
+       // start budget_j_miscellaneous_register
        public function miscellaneous_entry($offset = 0)
        {
            $limit = 15;
@@ -664,7 +664,7 @@ class Journal_entry extends Backend_Controller
            $this->data['subview'] = 'miscellaneous/index';
            $this->load->view('backend/_layout_main', $this->data);
        }
-   
+
        public function miscellaneous_entry_create()
        {
            $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
