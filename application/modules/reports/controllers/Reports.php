@@ -435,11 +435,11 @@ class Reports extends Backend_Controller {
         }
     }
     public function budget_report(){
-        $this->form_validation->set_rules('division', 'division', 'trim');
-        $this->form_validation->set_rules('district', 'district', 'trim');
-        $this->form_validation->set_rules('upazila', 'upazila', 'trim');
+        // $this->form_validation->set_rules('division', 'division', 'trim');
+        // $this->form_validation->set_rules('district', 'district', 'trim');
+        // $this->form_validation->set_rules('upazila', 'upazila', 'trim');
 
-        if($this->form_validation->run() == true){
+        // if($this->form_validation->run() == true){
             // $district=$this->input->post('district');
             // $upazila=$this->input->post('upazila');
             $division_id = $this->input->post('division_id');
@@ -551,7 +551,7 @@ class Reports extends Backend_Controller {
                 // $mpdf->output('report.pdf', "D");
 
             } elseif ($this->input->post('btnsubmit') == 'hostel_report') {
-                $this->data['results']= $this->Budgets_model->get_hostel_report();
+                $this->data['results']= $this->Common_model->get_data('');
                 $this->data['headding'] = 'বাজেট রিপোর্ট';
                 $html = $this->load->view('budget_report_filed_pending', $this->data, true);
                 // $html = $this->load->view('pdf_rep_number_divisional', $this->data, true); //01-02-2023
@@ -564,7 +564,7 @@ class Reports extends Backend_Controller {
 
             } 
 
-        }
+        // }
     }
 
     public function training(){
