@@ -29,7 +29,13 @@ class Backend_Controller extends MY_Controller
 		$this->data['budget_nilg_ntfy'] = 0;
 		$this->data['budget_office_ntfy'] = 0;
 		$this->data['budget_chahida_ntfy'] = 0;
+		$this->data['budget_check_ntfy'] = 0;
+		$this->data['budget_revenue_ntfy'] = 0;
 		$this->data['budget_hostel_ntfy'] = 0;
+		$this->data['budget_public_ntfy'] = 0;
+		$this->data['budget_gpf_ntfy'] = 0;
+		$this->data['budget_pension_ntfy'] = 0;
+		$this->data['budget_other_ntfy'] = 0;
 
 		if ($this->ion_auth->logged_in()) {
 			// Get User Details
@@ -196,9 +202,16 @@ class Backend_Controller extends MY_Controller
 				// $this->data['request_trainer_no'] = $this->Common_model->get_applicaiton_trainer_request_count();
 			}
 
-			if ($this->ion_auth->in_group(array('bdg', 'acc'))) {
-			} elseif ($this->ion_auth->in_group(array('bdh'))) {
-			}
+			$this->data['budget_nilg_ntfy'] = $this->db->select('count(*) r')->get('budget_nilg')->row()->r;
+			$this->data['budget_office_ntfy'] = $this->db->select('count(*) r')->get('budget_field')->row()->r;
+			$this->data['budget_chahida_ntfy'] = $this->db->select('count(*) r')->get('budget_chahida_potro')->row()->r;
+			$this->data['budget_check_ntfy'] = $this->db->select('count(*) r')->get('budget_j_cheque_register')->row()->r;
+			$this->data['budget_revenue_ntfy'] = $this->db->select('count(*) r')->get('budget_j_gov_revenue_register')->row()->r;
+			$this->data['budget_hostel_ntfy'] = $this->db->select('count(*) r')->get('budget_j_hostel_register')->row()->r;
+			$this->data['budget_public_ntfy'] = $this->db->select('count(*) r')->get('budget_j_publication_register')->row()->r;
+			$this->data['budget_gpf_ntfy'] = $this->db->select('count(*) r')->get('budget_j_gpf_register')->row()->r;
+			$this->data['budget_pension_ntfy'] = $this->db->select('count(*) r')->get('budget_j_pension_register')->row()->r;
+			$this->data['budget_other_ntfy'] = $this->db->select('count(*) r')->get('budget_j_miscellaneous_register')->row()->r;
 
 		}
 		// exit('10');
