@@ -89,12 +89,7 @@
                                                 <li><a
                                                         href="<?php echo base_url('budgets/budget_chahida_potro_edit/'.encrypt_url($row->id))?>"><i
                                                             class="fa fa-pencil-square"></i> সংশোধন করুন </a></li>
-                                                
-                                                <li>
-                                                    <a href="<?php echo base_url('budgets/budget_chahida_potro_print/'.encrypt_url($row->id))?>"
-                                                        target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট করুন
-                                                    </a>
-                                                </li>
+                                              
                                                 <li>
                                                     <a href="<?php echo base_url('budgets/budget_chahida_potro_statement/'.encrypt_url($row->id))?>"
                                                         target="_blank"><i class="fa fa-pencil-square"></i> সমন্বয় করুন 
