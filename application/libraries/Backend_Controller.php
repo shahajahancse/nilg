@@ -26,6 +26,10 @@ class Backend_Controller extends MY_Controller
 		$this->data['module_exam_notify'] = 0;
 		$this->data['leave_notify'] = 0;
 		$this->data['un_available_item_notify'] = 0;
+		$this->data['budget_nilg_ntfy'] = 0;
+		$this->data['budget_office_ntfy'] = 0;
+		$this->data['budget_chahida_ntfy'] = 0;
+		$this->data['budget_hostel_ntfy'] = 0;
 
 		if ($this->ion_auth->logged_in()) {
 			// Get User Details
@@ -42,21 +46,6 @@ class Backend_Controller extends MY_Controller
 				$groups_array[$group->id] = $group->description;
 			}
 			$this->data['userGroups'] = implode(',', $groups_array);
-			// dd($this->data['userGroups']);
-			// dd($this->session->all_userdata()); 
-
-			// If not complete yet application submit
-			// if($this->data['userDetails']->is_verify == 0 && $this->data['userDetails']->is_applied == 0){
-			// echo 'Hello'; exit;
-			// Redirct 
-			// redirect('registration/information_form');
-			// header('Location: '.base_url('registration/information_form'));
-			// exit(); 
-
-			// dd($this->data['userDetails']->is_applied);				
-			// }
-
-
 			// Count Request
 			if ($this->ion_auth->in_group('up')) {
 				$office = $this->Common_model->get_office_info_by_session();
@@ -73,7 +62,7 @@ class Backend_Controller extends MY_Controller
 				// dd($office);
 
 				// New trainee request
-				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->crrnt_office_id);				
+				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->crrnt_office_id);
 				// dd($this->data['request_no']);
 
 			} elseif ($this->ion_auth->in_group('uz')) {
@@ -81,7 +70,7 @@ class Backend_Controller extends MY_Controller
 				// dd($office);
 
 				// New trainee request
-				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->crrnt_office_id);				
+				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->crrnt_office_id);
 				// dd($this->data['request_no']);
 
 				// New training application notification
@@ -92,7 +81,7 @@ class Backend_Controller extends MY_Controller
 				// dd($office);
 
 				// New trainee request
-				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->crrnt_office_id);				
+				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->crrnt_office_id);
 				// dd($this->data['request_no']);
 
 			} elseif ($this->ion_auth->in_group('ddlg')) {
@@ -100,7 +89,7 @@ class Backend_Controller extends MY_Controller
 				// dd($office);
 
 				// New trainee request
-				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->crrnt_office_id);				
+				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->crrnt_office_id);
 				// dd($this->data['request_no']);
 
 				// New training application notification
@@ -111,7 +100,7 @@ class Backend_Controller extends MY_Controller
 				// dd($office);
 
 				// New trainee request
-				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->crrnt_office_id);				
+				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->crrnt_office_id);
 				// dd($this->data['request_no']);
 
 			} elseif ($this->ion_auth->in_group('partner')) {
@@ -119,8 +108,8 @@ class Backend_Controller extends MY_Controller
 				// dd($office);
 
 				// New trainee request
-				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->crrnt_office_id);				
-				// dd($this->data['request_no']);			
+				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->crrnt_office_id);
+				// dd($this->data['request_no']);
 
 			//} elseif ($this->ion_auth->in_group('ddlg')) {
 				// exit('o1');
@@ -128,14 +117,14 @@ class Backend_Controller extends MY_Controller
 				// dd($office);
 
 				// New trainee request
-				// $this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->div_id, $office->dis_id, $office->upa_id, $office->union_id); 				
+				// $this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count($office->div_id, $office->dis_id, $office->upa_id, $office->union_id);
 				// dd($this->data['request_no']);
 
 			} elseif ($this->ion_auth->in_group('sm')) {
 				// nilg stor manager Notification
 				// exit('o5');
 				$this->data['request_stor_no'] = $this->Common_model->get_stor_manager_notify_count();
-				// echo "<pre>"; print_r($this->data['request_stor_no']); exit;		
+				// echo "<pre>"; print_r($this->data['request_stor_no']); exit;
 
 			} elseif ($this->ion_auth->in_group('jd')) {
 				// nilg joint director Notification
@@ -176,7 +165,7 @@ class Backend_Controller extends MY_Controller
 				// New trainer request
 				// $this->data['request_trainer_no'] = $this->Common_model->get_applicaiton_trainer_request_count();
 				// NILG employee pending leave count
-				$this->data['leave_notify'] = $this->Common_model->get_employee_leave_count();			
+				$this->data['leave_notify'] = $this->Common_model->get_employee_leave_count();
 				// dd($this->data['request_no']);
 
 				// New training application notification
@@ -191,7 +180,7 @@ class Backend_Controller extends MY_Controller
 				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count();
 				// $this->data['request_trainer_no'] = $this->Common_model->get_applicaiton_trainer_request_count();
 				// dd($this->data['request_no']);
-				// dd($this->data['request_trainer_no']); 
+				// dd($this->data['request_trainer_no']);
 
 				$this->data['request_stor_no'] = $this->Common_model->get_stor_manager_notify_count();
 				$this->data['Joint_director_no'] = $this->Common_model->get_joint_director_notify_count();
@@ -206,20 +195,13 @@ class Backend_Controller extends MY_Controller
 				// New trainer request
 				// $this->data['request_trainer_no'] = $this->Common_model->get_applicaiton_trainer_request_count();
 			}
-			// exit('o9');
-			
 
-
-
-
-
-
+			if ($this->ion_auth->in_group(array('bdg', 'acc'))) {
+			} elseif ($this->ion_auth->in_group(array('bdh'))) {
+			}
 
 		}
 		// exit('10');
-
-
-
 
 		// Default Value
 		$this->data['meta_title'] = 'জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি)';

@@ -399,6 +399,7 @@
 
                   <li class="start <?= backend_activate_menu_class('nilg_setting') ?> <?= backend_activate_menu_class('budget_head') ?> <?= backend_activate_menu_class('budget_sub_head') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব সেটিংস</span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
+                        <li class="start <?= backend_activate_menu_method('account_types') ?>"> <a href="<?= base_url('nilg_setting/account_types'); ?>">অ্যাকাউন্ট টাইপ </a> </li>
                         <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_head'); ?>">বাজেট হেড</a> </li>
                         <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_sub_head'); ?>">বাজেট সাব হেড</a> </li>
                         <li class="start <?= backend_activate_menu_method('budget_description') ?>"> <a href="<?= base_url('nilg_setting/budget_head/budget_description'); ?>">বাজেট সামারি</a> </li>

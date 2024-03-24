@@ -74,4 +74,65 @@ class Nilg_setting extends Backend_Controller {
         $this->load->view('backend/_layout_main', $this->data);
     }
 
+    public function account_types($offset = 0)
+    {
+        $limit = 15;
+        $results = $this->Nilg_setting_model->lists($limit, $offset, 'budget_accounts_type');
+        $this->data['results'] = $results['rows'];
+        $this->data['total_rows'] = $results['num_rows'];
+        //pagination
+        $this->data['pagination'] = create_pagination('nilg_setting/account_types/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+        // Load view
+        $this->data['meta_title'] = 'অ্যাকাউন্ট টাইপ এর তালিকা';
+        $this->data['subview'] = 'account_type/index';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function account_type_create()
+    {
+        $this->form_validation->set_rules('name_bn', 'নাম টাইপ (বাংলা)', 'required|trim');
+        $this->form_validation->set_rules('name_en', 'নাম টাইপ (ইংরেজী)', 'required|trim');
+        if ($this->form_validation->run() == true) {
+            $form_data = array(
+                'name_bn'     => $this->input->post('name_bn'),
+                'name_en'     => $this->input->post('name_en'),
+                'description' => $this->input->post('description'),
+                'status'      => $this->input->post('status'),
+            );
+            if ($this->Common_model->save('budget_accounts_type', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('nilg_setting/account_types');
+            }
+        }
+
+        //Load view
+        $this->data['meta_title'] = 'অ্যাকাউন্ট টাইপ তৈরি করুন';
+        $this->data['subview'] = 'account_type/entry';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function account_type_edit($encid=null){
+        $id = (int) decrypt_url($encid);
+        $this->form_validation->set_rules('name_bn', 'নাম টাইপ (বাংলা)', 'required|trim');
+        $this->form_validation->set_rules('name_en', 'নাম টাইপ (ইংরেজী)', 'required|trim');
+        if ($this->form_validation->run() == true) {
+            $form_data = array(
+                'name_bn'     => $this->input->post('name_bn'),
+                'name_en'     => $this->input->post('name_en'),
+                'description' => $this->input->post('description'),
+                'status'      => $this->input->post('status'),
+            );
+           $this->db->where('id', $id);
+            if ($this->db->update('budget_accounts_type', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংশোধন করা হয়েছে');
+                redirect('nilg_setting/account_types');
+            }
+        }
+        $this->data['row'] = $this->db->select('q.*')->where('id', $id)->get('budget_accounts_type as q')->row();
+        //Load view
+        $this->data['meta_title'] = 'অ্যাকাউন্ট টাইপ বিস্তারিত';
+        $this->data['subview'] = 'account_type/edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
 }
