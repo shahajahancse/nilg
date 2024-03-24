@@ -131,6 +131,11 @@
                     <label class="head">জার্নাল রিপোর্ট</label>
                     <div>
                       <button type="submit" name="btnsubmit" value="hostel_report" class="btn btn-info btn-cons margin-top">হোস্টেল রিপোর্ট</button>
+                      <button type="submit" name="btnsubmit" value="reveneu_report" class="btn btn-info btn-cons margin-top">রাজস্ব রিপোর্ট</button>
+                      <button type="submit" name="btnsubmit" value="publication_report" class="btn btn-info btn-cons margin-top">প্রকাশনা রিপোর্ট</button>
+                      <button type="submit" name="btnsubmit" value="gpf_report" class="btn btn-info btn-cons margin-top">জিপিএফ রিপোর্ট</button>
+                      <button type="submit" name="btnsubmit" value="pension_report" class="btn btn-info btn-cons margin-top">পেনশন রিপোর্ট</button>
+                      <button type="submit" name="btnsubmit" value="mel_report" class="btn btn-info btn-cons margin-top">বিবিধ রিপোর্ট</button>
                     </div>
                   </div>
                 </div>

@@ -42,12 +42,21 @@ class Common_model extends CI_Model
         $this->db->select('*');
         $this->db->from($table);
         $query =  $this->db->get();
+        
 
         if ($query->num_rows() > 0) {
             return $query->result();
         } else {
             return FALSE;
         }
+    }
+    public function get_data_O($table)
+    {
+        $this->db->select('*');
+        $this->db->from($table);
+        $query =  $this->db->get();
+        return $query->result();
+       
     }
 
     public function get_data_array($table, $id=null)
