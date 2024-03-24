@@ -1,13 +1,12 @@
 <?php if (!defined('BASEPATH')) {exit('No direct script access allowed');}
 
 class Reports extends Backend_Controller {
-	
+
     function __construct() {
-        parent::__construct();   
-        if (!$this->ion_auth->is_admin()):
-            // return show_error('You must be an administrator to view this page.');
+        parent::__construct();
+        /* if (!$this->ion_auth->is_admin()):
             redirect('dashboard');
-        endif;
+        endif; */
 
         // $this->load->library('form_validation');
         $this->load->model('Personal_datas_model');
@@ -21,7 +20,7 @@ class Reports extends Backend_Controller {
     }
 
     public function index(){
-        redirect('dashboard');    	
+        redirect('dashboard');
     }
 
     public function representative(){
@@ -29,8 +28,8 @@ class Reports extends Backend_Controller {
         $this->data['designations'] = $this->Common_model->get_designation_by_employee_type('pr');
         // print_r($this->data['designations']); exit;
 
-        // $this->data['course_list'] = $this->Common_model->get_nilg_course(); 
-        $this->data['course_list'] = $this->Common_model->get_course(); 
+        // $this->data['course_list'] = $this->Common_model->get_nilg_course();
+        $this->data['course_list'] = $this->Common_model->get_course();
         // $this->data['datasheet_status'] = $this->Common_model->get_datasheet_status();
         $this->data['datasheet_status'] = $this->Common_model->get_data_status();
 
@@ -57,8 +56,8 @@ class Reports extends Backend_Controller {
 
             $this->data['division_info'] = $this->Common_model->get_info('divisions', $division_id);
             $this->data['district_info'] = $this->Common_model->get_info('districts', $district_id);
-            $this->data['upazila_info'] = $this->Common_model->get_info('upazilas', $upazila_id);        
-            $this->data['union_info'] = $this->Common_model->get_info('unions', $union_id);    
+            $this->data['upazila_info'] = $this->Common_model->get_info('upazilas', $upazila_id);
+            $this->data['union_info'] = $this->Common_model->get_info('unions', $union_id);
 
             if($this->input->post('btnsubmit') == 'pdf_rep_number_divisional') {
                 $this->data['result_data'] = $this->Reports_model->get_pr_by_division(1, $status, $division_id);
@@ -227,11 +226,11 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
 
             }elseif($this->input->post('btnsubmit') == 'pdf_rep_number_designation') {
-                $data_arr = [];            
+                $data_arr = [];
 
                 foreach ($this->input->post('designations') as $key => $val) {
                     $data_arr[$val]['design'] = $this->Reports_model->get_item_info('designations', $val, 'id');
-                    $data_arr[$val]['total'] = $this->Reports_model->get_count_by_designation($val); 
+                    $data_arr[$val]['total'] = $this->Reports_model->get_count_by_designation($val);
                     //print_r($data_arr[$val]['total']); exit;
                 }
 
@@ -270,7 +269,7 @@ class Reports extends Backend_Controller {
                 $data_arr = [];
 
                 $data_arr['gender_male'] = $this->Reports_model->get_count_rep_by_gender(1, 'Male');
-                $data_arr['gender_female'] = $this->Reports_model->get_count_rep_by_gender(1, 'Female');                
+                $data_arr['gender_female'] = $this->Reports_model->get_count_rep_by_gender(1, 'Female');
                 $this->data['results'] = $data_arr;
                 //print_r($this->data['results']); exit;
 
@@ -286,7 +285,7 @@ class Reports extends Backend_Controller {
             }elseif($this->input->post('btnsubmit') == 'pdf_rep_number_age') {
                 $data_arr = [];
                 $start_age = 18;
-                for ($i=$start_age; $i < 60; $i++) { 
+                for ($i=$start_age; $i < 60; $i++) {
                     $data_arr[$i] = $this->Reports_model->get_count_age('1', $i);
                 }
 
@@ -305,7 +304,7 @@ class Reports extends Backend_Controller {
             }elseif($this->input->post('btnsubmit') == 'pdf_rep_number_elected') {
                 $data_arr = [];
                 $start = 1;
-                // for ($i=$start; $i < 6; $i++) { 
+                // for ($i=$start; $i < 6; $i++) {
                 //     $data_arr[$i] = $this->Reports_model->get_count_elected('1', $i);
                 // }
 
@@ -340,7 +339,7 @@ class Reports extends Backend_Controller {
                 $this->data['results'] = $this->Reports_model->get_list_pr(5,$division_id,NULL,NULL,NULL,$status);
                 // $this->data['results'] = $this->Reports_model->get_list_personal_data(1, 5, NULL, $district_id);
                 // echo $this->db->last_query(); exit;
-              
+
                 $this->data['headding'] = 'সিটি কর্পোরেশনের জনপ্রতিনিধির তালিকা';
                 $html = $this->load->view('pdf_list', $this->data, true);
                 // $html = $this->load->view('pdf_datasheet_list', $this->data, true);
@@ -353,7 +352,7 @@ class Reports extends Backend_Controller {
             }elseif($this->input->post('btnsubmit') == 'pdf_rep_list_district') {
                 $this->data['results'] = $this->Reports_model->get_list_pr(4,NULL,$district_id,NULL,NULL,$status);
                 // $this->data['results'] = $this->Reports_model->get_list_personal_data(1, 4, NULL, $district_id);
-              
+
                 $this->data['headding'] = 'জেলা পরিষদের জনপ্রতিনিধির তালিকা';
                 $html = $this->load->view('pdf_list', $this->data, true);
                 // $html = $this->load->view('pdf_datasheet_list', $this->data, true);
@@ -366,7 +365,7 @@ class Reports extends Backend_Controller {
             }elseif($this->input->post('btnsubmit') == 'pdf_rep_list_upazila') {
                 $this->data['results'] = $this->Reports_model->get_list_pr(3,NULL,NULL,$upazila_id,NULL,$status);
                 // $this->data['results'] = $this->Reports_model->get_list_personal_data(1, 3, NULL, NULL, $upazila_id);
-              
+
                 $this->data['headding'] = 'উপজেলা পরিষদের জনপ্রতিনিধির তালিকা';
                 $html = $this->load->view('pdf_list', $this->data, true);
                 // $html = $this->load->view('pdf_datasheet_list', $this->data, true);
@@ -379,7 +378,7 @@ class Reports extends Backend_Controller {
             }elseif($this->input->post('btnsubmit') == 'pdf_rep_list_pourashava') {
                 $this->data['results'] = $this->Reports_model->get_list_pr(2,NULL,NULL,$upazila_id,NULL,$status);
                 // $this->data['results'] = $this->Reports_model->get_list_personal_data(1, 2, NULL, NULL, $upazila_id);
-              
+
                 $this->data['headding'] = 'পৌরসভার জনপ্রতিনিধির তালিকা';
                 $html = $this->load->view('pdf_list', $this->data, true);
                 // $html = $this->load->view('pdf_datasheet_list', $this->data, true);
@@ -396,7 +395,7 @@ class Reports extends Backend_Controller {
                 // print_r($this->input->post());
                 // echo '<pre>';
                 // print_r($this->data['results']); exit;
-              
+
                 $this->data['headding'] = 'ইউনিয়ন পরিষদের জনপ্রতিনিধির তালিকা';
                 $html = $this->load->view('pdf_list', $this->data, true);
                 // $html = $this->load->view('pdf_datasheet_list', $this->data, true);
@@ -409,7 +408,7 @@ class Reports extends Backend_Controller {
             } elseif($this->input->post('btnsubmit') == 'pdf_untrained_list') {
 
                 $this->data['results'] = $this->Reports_model->get_untrained_repo_emp_list(1, $division_id, $district_id);
-              
+
                 $this->data['headding'] = 'জেলাওয়ারী অপ্রশিক্ষিত জনপ্রতিনিধির রিপোর্ট';
                 $html = $this->load->view('pdf_untrained_list', $this->data, true);
 
@@ -421,7 +420,7 @@ class Reports extends Backend_Controller {
             } elseif($this->input->post('btnsubmit') == 'pdf_trained_list') {
 
                 $this->data['results'] = $this->Reports_model->get_trained_repo_emp_list(1, $division_id, $district_id);
-              
+
                 $this->data['headding'] = 'জেলাওয়ারী প্রশিক্ষিত জনপ্রতিনিধির রিপোর্ট';
                 $html = $this->load->view('pdf_trained_list', $this->data, true);
 
@@ -451,8 +450,8 @@ class Reports extends Backend_Controller {
 
             $this->data['division_info'] = $this->Common_model->get_info('divisions', $division_id);
             $this->data['district_info'] = $this->Common_model->get_info('districts', $district_id);
-            $this->data['upazila_info'] = $this->Common_model->get_info('upazilas', $upazila_id);        
-            $this->data['union_info'] = $this->Common_model->get_info('unions', $union_id);    
+            $this->data['upazila_info'] = $this->Common_model->get_info('upazilas', $upazila_id);
+            $this->data['union_info'] = $this->Common_model->get_info('unions', $union_id);
 
             if($this->input->post('btnsubmit') == 'nilg_report_draft') {
                 $this->data['results']= $this->Budgets_model->get_budget(1000000, 0, [1], null, null);
@@ -574,7 +573,7 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
                 // $mpdf->output('report.pdf', "D");
 
-            } 
+            }
             elseif ($this->input->post('btnsubmit') == 'publication_report') {
                 $this->data['results']= $this->Common_model->get_data_O('budget_j_publication_register');
                 $this->data['headding'] = 'জার্নাল রিপোর্ট';
@@ -587,7 +586,7 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
                 // $mpdf->output('report.pdf', "D");
 
-            } 
+            }
             elseif ($this->input->post('btnsubmit') == 'gpf_report') {
                 $this->data['results']= $this->Common_model->get_data_O('budget_j_gpf_register');
                 $this->data['headding'] = 'জার্নাল রিপোর্ট';
@@ -600,7 +599,7 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
                 // $mpdf->output('report.pdf', "D");
 
-            } 
+            }
             elseif ($this->input->post('btnsubmit') == 'pension_report') {
                 $this->data['results']= $this->Common_model->get_data_O('budget_j_pension_register');
                 $this->data['headding'] = 'জার্নাল রিপোর্ট';
@@ -613,7 +612,7 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
                 // $mpdf->output('report.pdf', "D");
 
-            } 
+            }
             elseif ($this->input->post('btnsubmit') == 'mel_report') {
                 $this->data['results']= $this->Common_model->get_data_O('budget_j_miscellaneous_register');
                 $this->data['headding'] = 'জার্নাল রিপোর্ট';
@@ -626,7 +625,7 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
                 // $mpdf->output('report.pdf', "D");
 
-            } 
+            }
 
 
         // }
@@ -634,7 +633,7 @@ class Reports extends Backend_Controller {
 
     public function training(){
         // $this->data['division'] = $this->Common_model->get_division();
-        $this->data['financing_list'] = $this->Common_model->get_financing(); 
+        $this->data['financing_list'] = $this->Common_model->get_financing();
 
         //Load View
         $this->data['meta_title'] = 'প্রশিক্ষণ রিপোর্ট';
@@ -675,13 +674,13 @@ class Reports extends Backend_Controller {
     }
 
 
-    public function employee(){        
+    public function employee(){
         $this->data['division'] = $this->Common_model->get_division();
         // $this->data['designations'] = $this->Common_model->get_data('designation');
-        // $this->data['course_list'] = $this->Common_model->get_nilg_course(); 
+        // $this->data['course_list'] = $this->Common_model->get_nilg_course();
         $this->data['designations'] = $this->Common_model->get_designation_by_employee_type('employee');
         // dd($this->data['designations']);
-        $this->data['course_list'] = $this->Common_model->get_course(); 
+        $this->data['course_list'] = $this->Common_model->get_course();
 
         $this->data['data_type'] = array(''=>'-ডাটার ধরণ নির্বাচন করুন-', '2' => 'কর্মকর্তা', '3' => 'কর্মচারী');
         // $this->data['datasheet_status'] = $this->Common_model->get_datasheet_status();
@@ -703,8 +702,8 @@ class Reports extends Backend_Controller {
         if($this->form_validation->run() == true){
             $this->data['division_info'] = $this->Common_model->get_info('divisions', $this->input->post('division_id'));
             $this->data['district_info'] = $this->Common_model->get_info('districts', $this->input->post('district_id'));
-            $this->data['upazila_info'] = $this->Common_model->get_info('upazilas', $this->input->post('upazila_id'));     
-            $this->data['union_info'] = $this->Common_model->get_info('unions', $this->input->post('union_id'));         
+            $this->data['upazila_info'] = $this->Common_model->get_info('upazilas', $this->input->post('upazila_id'));
+            $this->data['union_info'] = $this->Common_model->get_info('unions', $this->input->post('union_id'));
 
             $data_sheet_type = $this->input->post('data_sheet_type');
             $division_id = $this->input->post('division_id');
@@ -947,12 +946,12 @@ class Reports extends Backend_Controller {
                 $this->load->view('pdf_nilg_employee_excel', $this->data);
 
             }elseif($this->input->post('btnsubmit') == 'pdf_nilg_number_designation') {
-                $data_arr = []; 
+                $data_arr = [];
                 // echo 'hello'; exit;
 
                 foreach ($this->input->post('designations') as $key => $val) {
                     $data_arr[$val]['design'] = $this->Reports_model->get_item_info('designations', $val, 'id');
-                    $data_arr[$val]['total'] = $this->Reports_model->get_count_by_designation($val); 
+                    $data_arr[$val]['total'] = $this->Reports_model->get_count_by_designation($val);
                     // print_r($data_arr[$val]['total']); exit;
                 }
 
@@ -1004,7 +1003,7 @@ class Reports extends Backend_Controller {
                 }
 
                 $data_arr['gender_male'] = $this->Reports_model->get_count_rep_by_gender($data_sheet_type, 'Male');
-                $data_arr['gender_female'] = $this->Reports_model->get_count_rep_by_gender($data_sheet_type, 'Female');                
+                $data_arr['gender_female'] = $this->Reports_model->get_count_rep_by_gender($data_sheet_type, 'Female');
                 $this->data['results'] = $data_arr;
                 //print_r($this->data['results']); exit;
 
@@ -1027,7 +1026,7 @@ class Reports extends Backend_Controller {
                 }
 
                 $start_age = 18;
-                for($i=$start_age; $i < 60; $i++) { 
+                for($i=$start_age; $i < 60; $i++) {
                     $data_arr[$i] = $this->Reports_model->get_count_age($data_sheet_type, $i);
                 }
 
@@ -1062,7 +1061,7 @@ class Reports extends Backend_Controller {
                 $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
                 $mpdf->WriteHtml($html);
                 $mpdf->output();
-                // $mpdf->output('report.pdf', "D");             
+                // $mpdf->output('report.pdf', "D");
 
             }elseif($this->input->post('btnsubmit') == 'pdf_emp_list_city') {
                 if($data_sheet_type == 2){
@@ -1073,7 +1072,7 @@ class Reports extends Backend_Controller {
 
                 // $this->data['results'] = $this->Reports_model->get_personal_data($data_sheet_type, 5,NULL, $district_id);
                 $this->data['results'] =$this->Reports_model->get_data_emp_pre($data_sheet_type, 5, $status, $division_id, $district_id);
-              
+
                 $this->data['headding'] = 'সিটি কর্পোরেশনের '.$this->data['type_details'].' তালিকা';
                 $html = $this->load->view('pdf_datasheet_list', $this->data, true);
 
@@ -1092,7 +1091,7 @@ class Reports extends Backend_Controller {
 
                 // $this->data['results'] = $this->Reports_model->get_personal_data($data_sheet_type, 4, NULL, $district_id);
                 $this->data['results'] =$this->Reports_model->get_data_emp_pre($data_sheet_type, 4, $status, $division_id, $district_id);
-              
+
                 $this->data['headding'] = 'জেলা পরিষদের '.$this->data['type_details'].' তালিকা';
                 $html = $this->load->view('pdf_datasheet_list', $this->data, true);
 
@@ -1128,7 +1127,7 @@ class Reports extends Backend_Controller {
 
                 // $this->data['results'] = $this->Reports_model->get_personal_data($data_sheet_type, 2, NULL, NULL, $upazila_id);
                 $this->data['results'] =$this->Reports_model->get_data_emp_pre($data_sheet_type, 2, $status, $division_id, $district_id, $upazila_id);
-              
+
                 $this->data['headding'] = 'পৌরসভার '.$this->data['type_details'].' তালিকা';
                 $html = $this->load->view('pdf_datasheet_list', $this->data, true);
 
@@ -1148,7 +1147,7 @@ class Reports extends Backend_Controller {
                 $this->data['results'] =$this->Reports_model->get_data_emp_pre($data_sheet_type, 1, $status, $division_id, $district_id, $upazila_id, $union_id);
 
                 // echo "<pre>"; print_r($this->data['results']); exit;
-              
+
                 $this->data['headding'] = 'ইউনিয়ন পরিষদের '.$this->data['type_details'].' তালিকা';
                 $html = $this->load->view('pdf_datasheet_list', $this->data, true);
 
@@ -1167,7 +1166,7 @@ class Reports extends Backend_Controller {
                 $this->data['data_status'] = $status;
 
                 $this->data['results'] = $this->Reports_model->get_untrained_repo_emp_list($data_sheet_type, $division_id, $district_id);
-              
+
                 $this->data['headding'] = 'জেলাওয়ারী অপ্রশিক্ষিত '.$this->data['type_details'].' রিপোর্ট';
                 $html = $this->load->view('pdf_untrained_list', $this->data, true);
 
@@ -1186,7 +1185,7 @@ class Reports extends Backend_Controller {
                 $this->data['data_status'] = $status;
 
                 $this->data['results'] = $this->Reports_model->get_trained_repo_emp_list($data_sheet_type, $division_id, $district_id);
-              
+
                 $this->data['headding'] = 'জেলাওয়ারী প্রশিক্ষিত '.$this->data['type_details'].' রিপোর্ট';
                 $html = $this->load->view('pdf_trained_list', $this->data, true);
 
@@ -1203,8 +1202,8 @@ class Reports extends Backend_Controller {
         // $this->data['division'] = $this->Common_model->get_division();
         $this->data['data_type'] = array(''=>'-ডাটার ধরণ নির্বাচন করুন-', '2' => 'এনআইএলজি কর্মকর্তা', '3' => 'এনআইএলজি কর্মচারী');
         $this->data['designations'] = $this->Common_model->get_data('designations');
-        // $this->data['course_list'] = $this->Common_model->get_nilg_course(); 
-        $this->data['course_list'] = $this->Common_model->get_course(); 
+        // $this->data['course_list'] = $this->Common_model->get_nilg_course();
+        $this->data['course_list'] = $this->Common_model->get_course();
         $this->data['datasheet_status'] = $this->Common_model->get_datasheet_status();
 
         //Load View
@@ -1244,12 +1243,12 @@ class Reports extends Backend_Controller {
                 // $mpdf->output('report.pdf', "D");
 
             }elseif($this->input->post('btnsubmit') == 'pdf_nilg_number_designation') {
-                $data_arr = []; 
+                $data_arr = [];
                 // echo 'hello'; exit;
 
                 foreach ($this->input->post('designations') as $key => $val) {
                     $data_arr[$val]['design'] = $this->Reports_model->get_item_info('designations', $val, 'id');
-                    $data_arr[$val]['total'] = $this->Reports_model->get_count_by_designation($val, 7); 
+                    $data_arr[$val]['total'] = $this->Reports_model->get_count_by_designation($val, 7);
                     // print_r($data_arr[$val]['total']); exit;
                 }
 
@@ -1300,7 +1299,7 @@ class Reports extends Backend_Controller {
                 }
 
                 $data_arr['gender_male'] = $this->Reports_model->get_count_rep_by_gender($data_sheet_type, 'Male', 7);
-                $data_arr['gender_female'] = $this->Reports_model->get_count_rep_by_gender($data_sheet_type, 'Female', 7);                
+                $data_arr['gender_female'] = $this->Reports_model->get_count_rep_by_gender($data_sheet_type, 'Female', 7);
                 $this->data['results'] = $data_arr;
                 //print_r($this->data['results']); exit;
 
@@ -1323,7 +1322,7 @@ class Reports extends Backend_Controller {
                 }
 
                 $start_age = 18;
-                for($i=$start_age; $i < 60; $i++) { 
+                for($i=$start_age; $i < 60; $i++) {
                     $data_arr[$i] = $this->Reports_model->get_count_age($data_sheet_type, $i, 7);
                 }
 
@@ -1360,7 +1359,7 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
                 // $mpdf->output('report.pdf', "D");
             }
-            
+
         }
     }
 
@@ -1369,7 +1368,7 @@ class Reports extends Backend_Controller {
         // $this->data['division'] = $this->Common_model->get_division();
         $this->data['data_type'] = array(''=>'-ডাটার ধরণ নির্বাচন করুন-', '6' => 'উন্নয়ন সহযোগী প্রতিষ্ঠান', '7' => 'এনজিও', '8' => 'অন্যান্য প্রতিষ্ঠান');
         $this->data['designations'] = $this->Common_model->get_data('designations');
-        $this->data['course_list'] = $this->Common_model->get_nilg_course(); 
+        $this->data['course_list'] = $this->Common_model->get_nilg_course();
         $this->data['datasheet_status'] = $this->Common_model->get_data_status();
 
         //Load View
@@ -1397,8 +1396,8 @@ class Reports extends Backend_Controller {
 
             $this->data['division_info'] = $this->Common_model->get_info('divisions', $division);
             $this->data['district_info'] = $this->Common_model->get_info('districts', $district);
-            $this->data['upazila_info'] = $this->Common_model->get_info('upazilas', $upazila);        
-            $this->data['union_info'] = $this->Common_model->get_info('unions', $union);    
+            $this->data['upazila_info'] = $this->Common_model->get_info('upazilas', $upazila);
+            $this->data['union_info'] = $this->Common_model->get_info('unions', $union);
 
 
             if($this->input->post('btnsubmit') == 'pdf_others_employee') {
@@ -1442,8 +1441,8 @@ class Reports extends Backend_Controller {
 
                 $this->data['division_info'] = $this->Common_model->get_info('divisions', $division);
                 $this->data['district_info'] = $this->Common_model->get_info('districts', $district);
-                $this->data['upazila_info'] = $this->Common_model->get_info('upazilas', $upazila);        
-                $this->data['union_info'] = $this->Common_model->get_info('unions', $union); 
+                $this->data['upazila_info'] = $this->Common_model->get_info('upazilas', $upazila);
+                $this->data['union_info'] = $this->Common_model->get_info('unions', $union);
 
                 $this->data['headding'] = 'রেজিস্ট্রেশন রিপোর্ট তালিকা';
                 $this->data['start_date'] = $start_date;
@@ -1466,14 +1465,14 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
             } elseif ($this->input->post('btnsubmit') == 'pdf_number_designation') {
 
-                $data_arr = [];     
+                $data_arr = [];
 
                 foreach ($this->input->post('designations') as $key => $val) {
                     $data_arr[$val]['design'] = $this->Reports_model->get_item_info('designations', $val, 'id');
-                    $data_arr[$val]['total'] = $this->Reports_model->get_count_by_designation($val,null,$division,$start_date,$end_date); 
+                    $data_arr[$val]['total'] = $this->Reports_model->get_count_by_designation($val,null,$division,$start_date,$end_date);
                     //print_r($data_arr[$val]['total']); exit;
                 }
-                // dd($data_arr);       
+                // dd($data_arr);
 
                 $this->data['results'] = $data_arr;
 
@@ -1486,11 +1485,11 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
             } elseif ($this->input->post('btnsubmit') == 'pdf_number_designation_mf') {
 
-                $data = [];     
+                $data = [];
 
                 $designation = $this->input->post('designations');
-                $data = $this->Reports_model->designation_count_by_mf($designation,$start_date,$end_date); 
-                // dd($data);       
+                $data = $this->Reports_model->designation_count_by_mf($designation,$start_date,$end_date);
+                // dd($data);
                 $this->data['results'] = $data;
                 $this->data['headding'] = ' পদবি ভিত্তিক নারী/পরুষ রিপোর্ট ('.eng2bng($start_date) .' হইতে '.eng2bng($end_date).')';
                 $html = $this->load->view('pdf_number_designation_mf', $this->data, true);
@@ -1501,11 +1500,11 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
             } elseif ($this->input->post('btnsubmit') == 'pdf_organization_report') {
 
-                $data = [];     
+                $data = [];
 
                 $designation = $this->input->post('designations');
-                $data = $this->Reports_model->pdf_organization_report($division,$start_date,$end_date); 
-                // dd($data);       
+                $data = $this->Reports_model->pdf_organization_report($division,$start_date,$end_date);
+                // dd($data);
                 $this->data['results'] = $data;
                 $this->data['headding'] = 'প্রশিক্ষণের তালিকা রিপোর্ট ('.eng2bng($start_date) .' হইতে '.eng2bng($end_date).')';
                 $html = $this->load->view('pdf_organization_report', $this->data, true);
@@ -1516,7 +1515,7 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
             }
         }
-        return redirect()->back(); 
+        return redirect()->back();
     }
 
     public function get_array_divDis_dUzUp($emp_type=null , $status=null, $division=null, $district=null, $upazila=null, $union=null, $start_date=null, $end_date=null, $desig=null){
@@ -1550,7 +1549,7 @@ class Reports extends Backend_Controller {
         }
         return $d;
     }
- 
+
 
 
 
@@ -1651,7 +1650,7 @@ public function add() {
         'telephone_mobile' => $this->input->post('telephone_mobile'),
         'email' => $email,
         'permanent_add' => $this->input->post('permanent_add'),
-        'present_add' => $this->input->post('present_add'),                
+        'present_add' => $this->input->post('present_add'),
         'first_org_id' => $this->input->post('first_org_id'),
         'first_desig_id' => $this->input->post('first_desig_id'),
         'first_attend_date' => $this->input->post('first_attend_date'),
@@ -1662,11 +1661,11 @@ public function add() {
         'job_per_date' => $this->input->post('job_per_date'),
         'retirement_prl_date' => $this->input->post('retirement_prl_date'),
         'retirement_date' => $this->input->post('retirement_date'),
-        'created' => date('Y-m-d')        
-        );          
+        'created' => date('Y-m-d')
+        );
             // print_r($form_data); exit;
 
-    if($this->Common_model->save('personal_datas', $form_data)){   
+    if($this->Common_model->save('personal_datas', $form_data)){
 
                 //last personal data id
        $lastID = $this->db->insert_id();
@@ -1682,8 +1681,8 @@ public function add() {
         );
        $this->ion_auth->register($identity, $password, $email, $additional_data);
 
-                // Experiance 
-       for ($i=0; $i<sizeof($_POST['exp_org_id']); $i++) { 
+                // Experiance
+       for ($i=0; $i<sizeof($_POST['exp_org_id']); $i++) {
            $experience_data = array(
             'data_id' => $lastID,
             'exp_org_id' => $_POST['exp_org_id'][$i],
@@ -1693,8 +1692,8 @@ public function add() {
            $this->Common_model->save('per_experience', $experience_data);
        }
 
-                // Promotion 
-       for ($i=0; $i<sizeof($_POST['promo_desig_id']); $i++) { 
+                // Promotion
+       for ($i=0; $i<sizeof($_POST['promo_desig_id']); $i++) {
         $promotion_data = array(
             'data_id' => $lastID,
             'promo_desig_id' => $_POST['promo_desig_id'][$i],
@@ -1705,8 +1704,8 @@ public function add() {
         $this->Common_model->save('per_promotion', $promotion_data);
     }
 
-                // Education 
-    for ($i=0; $i<sizeof($_POST['edu_exam_id']); $i++) { 
+                // Education
+    for ($i=0; $i<sizeof($_POST['edu_exam_id']); $i++) {
         $education_data = array(
             'data_id' => $lastID,
             'edu_exam_id' => $_POST['edu_exam_id'][$i],
@@ -1718,7 +1717,7 @@ public function add() {
     }
 
                 // NILG training
-    for ($i=0; $i<sizeof($_POST['nilg_desig_id']); $i++) { 
+    for ($i=0; $i<sizeof($_POST['nilg_desig_id']); $i++) {
         $local_org_data = array(
             'data_id' => $lastID,
             'nilg_desig_id' => $_POST['nilg_desig_id'][$i],
@@ -1730,7 +1729,7 @@ public function add() {
     }
 
                 // Local organization training
-    for ($i=0; $i<sizeof($_POST['local_course_id']); $i++) { 
+    for ($i=0; $i<sizeof($_POST['local_course_id']); $i++) {
         $local_org_data = array(
             'data_id' => $lastID,
             'local_course_id' => $_POST['local_course_id'][$i],
@@ -1742,7 +1741,7 @@ public function add() {
     }
 
                 // Foreign organization training
-    for ($i=0; $i<sizeof($_POST['foreign_course_id']); $i++) { 
+    for ($i=0; $i<sizeof($_POST['foreign_course_id']); $i++) {
         $foreign_org_data = array(
             'data_id' => $lastID,
             'foreign_course_id' => $_POST['foreign_course_id'][$i],
@@ -1773,8 +1772,8 @@ $data['designation'] = $this->Common_model->get_designation();
 $data['marital_status'] = $this->Common_model->get_marital_status();
 $data['nilg_trainings'] = $this->Common_model->get_nilg_trainings();
 
-$data['divisions'] = $this->Common_model->get_division();         
-$data['districts'] = $this->General_setting_model->get_district(); 
+$data['divisions'] = $this->Common_model->get_division();
+$data['districts'] = $this->General_setting_model->get_district();
 $data['exams'] = $this->Exam_names_model->get_all('*','exam_names','1');
 $data['subjects'] = $this->Exam_names_model->get_all('*','subjects','1');
 $data['boards'] = $this->Exam_names_model->get_all('*','boards','1');
@@ -1829,7 +1828,7 @@ public function edit($id){
             'telephone_mobile' => $this->input->post('telephone_mobile'),
             'email' => $this->input->post('email'),
             'permanent_add' => $this->input->post('permanent_add'),
-            'present_add' => $this->input->post('present_add'),                
+            'present_add' => $this->input->post('present_add'),
             'first_org_id' => $this->input->post('first_org_id'),
             'first_desig_id' => $this->input->post('first_desig_id'),
             'first_attend_date' => $this->input->post('first_attend_date'),
@@ -1840,8 +1839,8 @@ public function edit($id){
             'job_per_date' => $this->input->post('job_per_date'),
             'retirement_prl_date' => $this->input->post('retirement_prl_date'),
             'retirement_date' => $this->input->post('retirement_date'),
-            'modified' => date('Y-m-d')        
-            ); 
+            'modified' => date('Y-m-d')
+            );
 
             // echo '<pre>';
             // print_r($_POST);
@@ -1849,8 +1848,8 @@ public function edit($id){
 
         if($this->Common_model->edit('personal_datas', $id, 'id', $form_data)){
 
-                    // Experiance 
-            for ($i=0; $i<sizeof($_POST['exp_org_id']); $i++) { 
+                    // Experiance
+            for ($i=0; $i<sizeof($_POST['exp_org_id']); $i++) {
                         //check exists data
                 $data_exists = $this->Common_model->exists('per_experience', 'id', $_POST['hide_exp_id'][$i]);
                 if($data_exists){
@@ -1858,7 +1857,7 @@ public function edit($id){
                         'exp_org_id' => $_POST['exp_org_id'][$i],
                         'exp_desig_id' => $_POST['exp_desig_id'][$i],
                         'exp_duration' => $_POST['exp_duration'][$i],
-                        ); 
+                        );
                     $this->Common_model->edit('per_experience', $_POST['hide_exp_id'][$i], 'id', $data);
                 }else{
                     $data = array(
@@ -1871,8 +1870,8 @@ public function edit($id){
                 }
             }
 
-                    // Promotion 
-            for ($i=0; $i<sizeof($_POST['promo_desig_id']); $i++) { 
+                    // Promotion
+            for ($i=0; $i<sizeof($_POST['promo_desig_id']); $i++) {
                         //check exists data
                 $data_exists = $this->Common_model->exists('per_promotion', 'id', $_POST['hide_promo_id'][$i]);
                 if($data_exists){
@@ -1881,7 +1880,7 @@ public function edit($id){
                         'promo_org_id' => $_POST['promo_org_id'][$i],
                         'promo_salary_ratio' => $_POST['promo_salary_ratio'][$i],
                         'promo_comments' => $_POST['promo_comments'][$i],
-                        ); 
+                        );
                     $this->Common_model->edit('per_promotion', $_POST['hide_promo_id'][$i], 'id', $data);
                 }else{
                     $data = array(
@@ -1895,8 +1894,8 @@ public function edit($id){
                 }
             }
 
-                    // Education 
-            for ($i=0; $i<sizeof($_POST['edu_exam_id']); $i++) { 
+                    // Education
+            for ($i=0; $i<sizeof($_POST['edu_exam_id']); $i++) {
                         //check exists data
                 $data_exists = $this->Common_model->exists('per_education', 'id', $_POST['hide_edu_id'][$i]);
                 if($data_exists){
@@ -1905,7 +1904,7 @@ public function edit($id){
                         'edu_pass_year' => $_POST['edu_pass_year'][$i],
                         'edu_subject_id' => $_POST['edu_subject_id'][$i],
                         'edu_board_id' => $_POST['edu_board_id'][$i],
-                        ); 
+                        );
                     $this->Common_model->edit('per_education', $_POST['hide_edu_id'][$i], 'id', $data);
                 }else{
                     $data = array(
@@ -1919,8 +1918,8 @@ public function edit($id){
                 }
             }
 
-                    // NILG Training 
-            for ($i=0; $i<sizeof($_POST['nilg_desig_id']); $i++) { 
+                    // NILG Training
+            for ($i=0; $i<sizeof($_POST['nilg_desig_id']); $i++) {
                         //check exists data
                 $data_exists = $this->Common_model->exists('per_nilg_training', 'id', $_POST['hide_nilg_training_id'][$i]);
                 if($data_exists){
@@ -1929,7 +1928,7 @@ public function edit($id){
                         'nilg_course_id' => $_POST['nilg_course_id'][$i],
                         'nilg_time_duration' => $_POST['nilg_time_duration'][$i],
                         'nilg_duration' => $_POST['nilg_duration'][$i],
-                        ); 
+                        );
                     $this->Common_model->edit('per_nilg_training', $_POST['hide_nilg_training_id'][$i], 'id', $data);
                 }else{
                     $data = array(
@@ -1943,8 +1942,8 @@ public function edit($id){
                 }
             }
 
-                    // Local Training 
-            for ($i=0; $i<sizeof($_POST['local_course_id']); $i++) { 
+                    // Local Training
+            for ($i=0; $i<sizeof($_POST['local_course_id']); $i++) {
                         //check exists data
                 $data_exists = $this->Common_model->exists('per_local_org_training', 'id', $_POST['hide_local_training_id'][$i]);
                 if($data_exists){
@@ -1953,7 +1952,7 @@ public function edit($id){
                         'local_training_org_name_adds' => $_POST['local_training_org_name_adds'][$i],
                         'local_time_duration' => $_POST['local_time_duration'][$i],
                         'local_duration' => $_POST['local_duration'][$i],
-                        ); 
+                        );
                     $this->Common_model->edit('per_local_org_training', $_POST['hide_local_training_id'][$i], 'id', $data);
                 }else{
                     $data = array(
@@ -1967,8 +1966,8 @@ public function edit($id){
                 }
             }
 
-                    // Foreign Training 
-            for ($i=0; $i<sizeof($_POST['foreign_course_id']); $i++) { 
+                    // Foreign Training
+            for ($i=0; $i<sizeof($_POST['foreign_course_id']); $i++) {
                         //check exists data
                 $data_exists = $this->Common_model->exists('per_foreign_org_training', 'id', $_POST['hide_foreign_training_id'][$i]);
                 if($data_exists){
@@ -1977,7 +1976,7 @@ public function edit($id){
                         'foreign_training_org_name_adds' => $_POST['foreign_training_org_name_adds'][$i],
                         'foreign_time_duration' => $_POST['foreign_time_duration'][$i],
                         'foreign_duration' => $_POST['foreign_duration'][$i],
-                        ); 
+                        );
                     $this->Common_model->edit('per_foreign_org_training', $_POST['hide_foreign_training_id'][$i], 'id', $data);
                 }else{
                     $data = array(
@@ -2014,10 +2013,10 @@ public function edit($id){
     $this->data['marital_status'] = $this->Common_model->get_marital_status();
     $this->data['nilg_trainings'] = $this->Common_model->get_nilg_trainings();
 
-    $this->data['divisions'] = $this->Common_model->get_division();         
-    $this->data['districts'] = $this->Common_model->get_district();    
-    $this->data['up_thanas'] = $this->Common_model->get_upazila_thana();  
-        // $this->data['districts'] = $this->General_setting_model->get_district(); 
+    $this->data['divisions'] = $this->Common_model->get_division();
+    $this->data['districts'] = $this->Common_model->get_district();
+    $this->data['up_thanas'] = $this->Common_model->get_upazila_thana();
+        // $this->data['districts'] = $this->General_setting_model->get_district();
 
     $this->data['exams_2'] = $this->Common_model->get_exams();
     $this->data['subjects_2'] = $this->Common_model->get_subjects();
@@ -2052,7 +2051,7 @@ else
 
 $data['subview'] = 'all';
 $this->load->view('backend/_layout_main', $data);
-}   
+}
 
 public function jonoprothinidhi_report()
 {
@@ -2189,7 +2188,7 @@ public function trainer_reports_sum()
 
     $cnt = $this->$thismodel->get_all('distinct data_sheet_id,count(*) as cnt','trainers','nilg_training_id=20');
     $data['Computer_Application_English_Language']=$cnt[0]['cnt'];
-    
+
     $cnt = $this->$thismodel->get_all('distinct data_sheet_id,count(*) as cnt','trainers','nilg_training_id=18');
     $data['Training_on_Disaster_Control_Management']=$cnt[0]['cnt'];
 
@@ -2274,7 +2273,7 @@ public function exam_report()
     $data['exam_cnt'] = $this->$thismodel->exam_cnt();
 
     $exam_count[] = '';
-    for ($i=0; $i < count($data['exam_cnt']); $i++) { 
+    for ($i=0; $i < count($data['exam_cnt']); $i++) {
         $exam_count[] = $data['exam_cnt'][$i]->data_cnt;
     }
 
@@ -2284,7 +2283,7 @@ public function exam_report()
 
     $data['subview'] = 'exam_report';
     $this->load->view('backend/_layout_main', $data);
-}    
+}
 
 public function jonoprothinidhi_report_summ()
 {
@@ -2470,7 +2469,7 @@ public function jonoprothinidhi_report_summ()
     $cnt = $this->$thismodel->get_all('count(*) as cnt','personal_datas','data_sheet_type="1" and curr_desig_id=39');
     $data['fifty']=$cnt[0]['cnt'];
 
-    $data['meta_title'] = lang('jonoprothinidhi_report_summ'); 
+    $data['meta_title'] = lang('jonoprothinidhi_report_summ');
 
     $data['subview'] = 'jonoprothinidhi_report_summ';
     $this->load->view('backend/_layout_main', $data);
@@ -2668,7 +2667,7 @@ public function kormokorta_report_summ()
     $cnt = $this->$thismodel->get_all('count(*) as cnt','personal_datas','data_sheet_type="2" and curr_desig_id=39');
     $data['fifty']=$cnt[0]['cnt'];
 
-    $data['meta_title'] = 'কর্মকর্তা/কর্মচারীর সামারি রিপোর্ট'; 
+    $data['meta_title'] = 'কর্মকর্তা/কর্মচারীর সামারি রিপোর্ট';
 
     $data['subview'] = 'kormokorta_report_summ';
     $this->load->view('backend/_layout_main', $data);
@@ -2696,7 +2695,7 @@ public function getpostdate()
         $accountInfo[$data['allcolumns'][$i]['Field']]=$this->dbdateformat($this->input->post($data['allcolumns'][$i]['Field'], TRUE));
     else
         $accountInfo[$data['allcolumns'][$i]['Field']]=$this->input->post($data['allcolumns'][$i]['Field'], TRUE);
-}   
+}
 		//print_r($accountInfo);exit;
 return $accountInfo;
 }
@@ -2716,9 +2715,9 @@ public function return_columnsonly()
 
 public function delete(){
   $thismodel=$this->this_model();
-  $id = $this->input->get('id'); 
+  $id = $this->input->get('id');
   if ($this->db->delete($this->this_table(), array('id' => $id))) {
-    $this->session->set_flashdata('message', 'Deleted Successful'); 
+    $this->session->set_flashdata('message', 'Deleted Successful');
     redirect($this->this_table().'/all');
 }
 
