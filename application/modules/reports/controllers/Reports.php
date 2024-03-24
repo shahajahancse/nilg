@@ -550,6 +550,18 @@ class Reports extends Backend_Controller {
                 $mpdf->output();
                 // $mpdf->output('report.pdf', "D");
 
+            } elseif ($this->input->post('btnsubmit') == 'hostel_report') {
+                $this->data['results']= $this->Budgets_model->get_hostel_report();
+                $this->data['headding'] = 'বাজেট রিপোর্ট';
+                $html = $this->load->view('budget_report_filed_pending', $this->data, true);
+                // $html = $this->load->view('pdf_rep_number_divisional', $this->data, true); //01-02-2023
+                // $html= $this->load->view('pdf_number_elected_representative', $this->data, true);
+
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
+                // $mpdf->output('report.pdf', "D");
+
             } 
 
         }

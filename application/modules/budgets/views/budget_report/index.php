@@ -126,6 +126,14 @@
                     </div>
                   </div>
                 </div>
+                <div class="row form-row">
+                  <div class="col-md-12" style="text-align: center; border:1px solid #0aa699; padding:10px 5px 20px 5px; position: relative; margin-top: 40px">
+                    <label class="head">জার্নাল রিপোর্ট</label>
+                    <div>
+                      <button type="submit" name="btnsubmit" value="hostel_report" class="btn btn-info btn-cons margin-top">হোস্টেল রিপোর্ট</button>
+                    </div>
+                  </div>
+                </div>
               </div> <!-- /col-md-8 -->
             </div>
             <?php form_close(); ?>
