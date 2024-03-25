@@ -1263,6 +1263,36 @@ class Budgets extends Backend_Controller
         
        
     }
+    public function budget_chahida_potro_print($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->select('q.*,office.office_name, department.name_en');
+        $this->db->from('budget_chahida_potro as q');
+        $this->db->join('office', 'q.office_id = office.id');
+        $this->db->join('department', 'q.dept_id = department.id');
+        $this->db->where('q.id', $id);
+        $this->data['chahida_potro'] = $this->db->get()->row();
+
+        $this->db->select('
+                        q.*,
+                        budget_head_sub.name_bn,
+                        budget_head_sub.bd_code, 
+                        budget_head.name_bn as budget_head_name, 
+                        budget_head_sub.id as budget_head_sub_id
+                        ');
+        $this->db->from('budget_chahida_potro_details as q');
+        $this->db->join('budget_head_sub', 'q.head_sub_id = budget_head_sub.id');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->db->where('q.chahida_potro_id', $id);
+        $this->data['details'] = $this->db->get()->result();
+
+        $this->data['info'] = $this->Common_model->get_user_details($this->data['chahida_potro']->created_by);
+
+        $this->data['headding'] = 'চাহিদা পত্র';
+        echo $html = $this->load->view('chahida_potro/print', $this->data, true);
+
+        
+       
+    }
     public function budget_chahida_potro_edit($encid=null){
         if($encid == null){
             $id=$this->input->post('id');
