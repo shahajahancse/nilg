@@ -55,7 +55,6 @@
                                     <th>শিরোনাম</th>
                                     <th>বিভাগ</th>
                                     <th>পরিমাণ</th>
-                                    <th>স্ট্যাটাস</th>
                                     <th style="text-align: right;">অ্যাকশন</th>
                                 </tr>
                             </thead>
@@ -69,12 +68,7 @@
                                     <td class="v-align-middle"><?=$row->title; ?></td>
                                     <td class="v-align-middle"><?=$row->dept_name; ?></td>
                                     <td class="v-align-middle"><?=$row->amount; ?></td>
-                                    <td class="v-align-middle">
-                                        <?php if($row->status==1){
-                                            echo '<span class="label label-info">Draft </span>';
-                                        }
-                                        ?>
-                                    </td>
+                                  
 
                                     </td>
                                     <td align="right">
