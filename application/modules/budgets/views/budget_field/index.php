@@ -84,6 +84,7 @@
                                        <li><a href="<?php echo base_url('budgets/budget_field_print/'.encrypt_url($row->id))?>/no" target="_blank"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
                                        <li><a href="<?php echo base_url('budgets/budget_field_print/'.encrypt_url($row->id))?>" target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট </a></li>
                                        <li><a href="<?php echo base_url('budgets/budget_field_statement_of_expenses/'.encrypt_url($row->id))?>/no" target="_blank"><i class="fa fa-hand-o-right"></i> ব্যয় বিবরণী  </a></li>
+                                       <li><a href="<?php echo base_url('budgets/budget_field_statement_of_expenses_print/'.encrypt_url($row->id))?>/no" target="_blank"><i class="fa fa-hand-o-right"></i> ব্যয় বিবরণী প্রিন্ট </a></li>
                                        <?php
                                     // } else{
                                        ?>

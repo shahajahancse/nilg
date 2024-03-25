@@ -829,6 +829,46 @@ class Budgets extends Backend_Controller
         $this->data['subview'] = 'budget_field/statement_of_expenses';
         $this->load->view('backend/_layout_main', $this->data);
     }
+    public function budget_field_statement_of_expenses_print($encid)
+    {
+        $id = (int) decrypt_url($encid);
+            $this->db->select('
+            budget_field.*,
+            office_type.office_type_name,
+            office.office_name,
+            session_year.session_name
+            ')
+            ->from('budget_field')
+            ->join('office', 'budget_field.office_id = office.id', 'left')
+            ->join('office_type', 'office.office_type = office_type.id', 'left')
+            ->join('session_year', 'budget_field.fcl_year = session_year.id', 'left')
+            ->where('budget_field.id', $id);
+        $budget_field = $this->db->get()->row();
+        $this->data['budget_field'] = $budget_field;
+        $this->db->select('
+        budget_field_details.*,
+        budget_field_details.id as budget_field_details_id,
+        budget_head_sub.bd_code,budget_head_sub.id,
+         budget_head_sub.name_bn,
+         budget_head.name_bn as budget_head_name,
+         budget_head.id as budget_head_id,
+         budget_field_expenses.real_expense,
+         budget_field_expenses.vat,
+         budget_field_expenses.it_kor,
+         budget_field_expenses.overall_expense
+         ');
+        $this->db->from('budget_field_details');
+        $this->db->join('budget_head_sub', 'budget_field_details.head_sub_id = budget_head_sub.id');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->db->join('budget_field_expenses', 'budget_field_details.id = budget_field_expenses.budget_field_details_id', 'left');
+        $this->db->where('budget_field_details.budget_field_id', $id);
+        $this->db->where('budget_field_details.modify_soft_d', 1);
+        $budget_field_details = $this->db->get()->result();
+        $this->data['budget_field_details'] = $budget_field_details;
+        //Dropdown
+
+        echo $this->load->view('budget_field/statement_of_expenses_print', $this->data);
+    }
 
     public function statement_of_expenses_create(){
 
@@ -1191,7 +1231,7 @@ class Budgets extends Backend_Controller
                 'title' => $this->input->post('title'),
                 'amount' => $this->input->post('total_amount'),
                 'status' => 1,
-                'office_id' => $user->office_id,
+                'office_id' => ($user->office_id)? $user->office_id: 0,
                 'description' => $this->input->post('description'),
                 'dept_id' => $user->crrnt_dept_id,
                 'created_by' => $user->id,
@@ -1432,6 +1472,38 @@ class Budgets extends Backend_Controller
          $this->data['meta_title'] = 'চাহিদা পত্র স্টেটমেন্ট তৈরি করুন';
          $this->data['subview'] = 'chahida_potro/statement'; 
          $this->load->view('backend/_layout_main', $this->data);
+
+        
+    }
+    public function budget_chahida_potro_statement_print($encid=null){
+     
+            $id = (int) decrypt_url($encid);
+        $this->db->select('q.*,office.office_name, department.name_en');
+        $this->db->from('budget_chahida_potro as q');
+        $this->db->join('office', 'q.office_id = office.id');
+        $this->db->join('department', 'q.dept_id = department.id');
+        $this->db->where('q.id', $id);
+        $this->data['budget_field'] = $this->db->get()->row();
+
+        $this->db->select('
+                        q.*,
+                        q.id as budget_chahida_potro_details_id,
+                        budget_head_sub.name_bn,
+                        budget_head_sub.bd_code, 
+                        budget_head.name_bn as budget_head_name, 
+                        budget_head_sub.id as budget_head_sub_id,
+                        budget_chahida_potro_expenses.*
+                        ');
+        $this->db->from('budget_chahida_potro_details as q');
+        $this->db->join('budget_head_sub', 'q.head_sub_id = budget_head_sub.id');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->db->join('budget_chahida_potro_expenses', 'q.id = budget_chahida_potro_expenses.chahida_potro_details_id', 'left');
+        $this->db->where('q.chahida_potro_id', $id);
+        $this->data['budget_field_details'] = $this->db->get()->result();
+
+        $this->data['info'] = $this->Common_model->get_user_details($this->data['budget_field']->created_by);
+
+       echo $this->load->view('chahida_potro/statement_print', $this->data);
 
         
     }

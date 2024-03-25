@@ -91,6 +91,11 @@
                                                         target="_blank"><i class="fa fa-pencil-square"></i> সমন্বয় করুন
                                                     </a>
                                                 </li>
+                                                <li>
+                                                    <a href="<?php echo base_url('budgets/budget_chahida_potro_statement_print/'.encrypt_url($row->id))?>"
+                                                        target="_blank"><i class="fa fa-pencil-square"></i> সমন্বয় প্রিন্ট করুন
+                                                    </a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </td>
