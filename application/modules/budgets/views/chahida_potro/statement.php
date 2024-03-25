@@ -79,7 +79,7 @@ input {
                                         </div>
                                         <br>
                                         <br>
-                                        <div class="col-md-4">
+                                        <div class="col-md-12">
                                             <strong>অফিস :</strong><span><?= $budget_field->office_name ?></span>
                                         </div>
                                     </div>
@@ -131,7 +131,7 @@ input {
                                                         <td><input
                                                                 style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;"
                                                                 type="number" onkeyup="calt()" min=0
-                                                                value=<?=$data->overall_expense==''?0:$data->overall_expense ?>
+                                                                value=<?=$data->overall_expense==''? $data->amount:$data->overall_expense ?>
                                                                 name="overall_expense[]" class="overall_expense"></td>
                                                         <td><input
                                                                 style="width: 100%;padding: 3px !important;height: 24px; min-height: 18px;border: none;"
