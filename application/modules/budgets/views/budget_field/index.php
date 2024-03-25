@@ -17,7 +17,7 @@
                      <?php } ?>
                   </div>
                </div>
-            
+
                <div class="grid-body ">
                   <?php if($this->session->flashdata('success')):?>
                      <div class="alert alert-success">
@@ -85,6 +85,7 @@
                                   <li><a href="<?php echo base_url('budgets/budget_field_details/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> সম্পাদনা করুন </a></li>
                                   <li><a href="<?php echo base_url('budgets/budget_field_clone/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i>ক্লোন করুন </a></li>
                                   <li><a href="<?php echo base_url('budgets/budget_field_print/'.encrypt_url($row->id))?>/no" target="_blank"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
+                                  <li><a href="<?php echo base_url('budgets/budget_field_statement_of_expenses/'.encrypt_url($row->id))?>/no" target="_blank"><i class="fa fa-hand-o-right"></i> ব্যয় বিবরণী  </a></li>
                                   <li><a href="<?php echo base_url('budgets/budget_field_print/'.encrypt_url($row->id))?>" target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট করুন</a></li>
                                  <?php } ?>
                                  </ul>

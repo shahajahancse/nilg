@@ -74,30 +74,30 @@
 
 						<td class="text-center">নং</td>
 						<td class="text-left">ভাউচার নং</td>
-						<td class="text-right">পরিমাণ</td> 
-						<td class="text-right">টাইপ</td> 
-						<td class="text-right">তারিখঃ</td> 
+						<td class="text-right">পরিমাণ</td>
+						<td class="text-right">টাইপ</td>
+						<td class="text-right">তারিখঃ</td>
 						</tr>
 				</thead>
 
 				<tbody>
 					<?php
 					// dd($results);
-					
-					$i=1; foreach ($results as $row) { 
+
+					$i=1; foreach ($results as $row) {
 						?>
 					<tr>
 						<td class="text-center"><?=eng2bng($i)?>.</td>
 						<td class="text-left"><?=$row->voucher_no?></td>
 						<td class="text-right"><?=number_format($row->amount,2)?></td>
 						<td class="text-right"><?=($row->type)?'ক্যাশ ইন':'ক্যাশ আউট'?></td>
-						<td class="text-right"><?=($row->date)?date_bangla_calender_format($row->date):date_bangla_calender_format($row->issue_date)?></td>
+						<td class="text-right"><?= isset($row->date)?date_bangla_calender_format($row->date):date_bangla_calender_format($row->issue_date) ?></td>
 					</tr>
 					<?php $i++; } ?>
 				</tbody>
-			</table>			
+			</table>
 		</div>
-		
+
 	</div>
 
 	</body>
