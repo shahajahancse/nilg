@@ -78,16 +78,23 @@
                                 <button class="btn btn-mini btn-primary">অ্যাকশন</button>
                                 <button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
                                 <ul class="dropdown-menu pull-right">
-                                    <?php if ($this->ion_auth->in_group(array('uz', 'ddlg'))){ ?>
+                                    <?php
+                                     //if ($this->ion_auth->in_group(array('uz', 'ddlg'))){ 
+                                       ?>
                                        <li><a href="<?php echo base_url('budgets/budget_field_print/'.encrypt_url($row->id))?>/no" target="_blank"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
+                                       <li><a href="<?php echo base_url('budgets/budget_field_print/'.encrypt_url($row->id))?>" target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট </a></li>
                                        <li><a href="<?php echo base_url('budgets/budget_field_statement_of_expenses/'.encrypt_url($row->id))?>/no" target="_blank"><i class="fa fa-hand-o-right"></i> ব্যয় বিবরণী  </a></li>
-                                       <?php } else{?>
+                                       <?php
+                                    // } else{
+                                       ?>
                                   <li><a href="<?php echo base_url('budgets/budget_field_details/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> সম্পাদনা করুন </a></li>
                                   <li><a href="<?php echo base_url('budgets/budget_field_clone/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i>ক্লোন করুন </a></li>
                                   <li><a href="<?php echo base_url('budgets/budget_field_print/'.encrypt_url($row->id))?>/no" target="_blank"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
                                   <li><a href="<?php echo base_url('budgets/budget_field_statement_of_expenses/'.encrypt_url($row->id))?>/no" target="_blank"><i class="fa fa-hand-o-right"></i> ব্যয় বিবরণী  </a></li>
                                   <li><a href="<?php echo base_url('budgets/budget_field_print/'.encrypt_url($row->id))?>" target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট করুন</a></li>
-                                 <?php } ?>
+                                 <?php
+                              // } 
+                               ?>
                                  </ul>
                               </div>
                            </td>

@@ -81,9 +81,8 @@
                                             <button class="btn btn-mini btn-primary dropdown-toggle"
                                                 data-toggle="dropdown"> <span class="caret"></span> </button>
                                             <ul class="dropdown-menu pull-right">
-                                                <li><a
-                                                        href="<?php echo base_url('budgets/budget_entry_details/' . encrypt_url($row->id)) ?>"><i
-                                                            class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
+                                                <li><a href="<?php echo base_url('budgets/budget_entry_details/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
+                                                <li><a href="<?php echo base_url('budgets/budget_entry_print/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> প্রিন্ট  </a></li>
                                             </ul>
                                         </div>
                                     </td>
