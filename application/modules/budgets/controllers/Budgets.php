@@ -659,8 +659,6 @@ class Budgets extends Backend_Controller
         $mpdf->output();
     }
     // End Budget Nilg
-
-
     // Manage Budget field list
     public function budget_field($offset = 0)
     {
@@ -1090,6 +1088,28 @@ class Budgets extends Backend_Controller
          $this->data['meta_title'] = 'বাজেট তৈরি করুন';
          $this->data['subview'] = 'budget_entry/budget_entry_details';
          $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function budget_entry_print($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->select('q.*,session_year.session_name');
+        $this->db->from('budgets as q');
+        $this->db->join('session_year','q.fcl_year=session_year.id','left');
+        $this->db->where('q.id', $id);
+        $this->data['budgets'] = $this->db->get()->row();
+
+        $this->db->select('q.*,budget_head_sub.name_bn, budget_head.name_bn as budget_head_name, budget_head_sub.id as budget_head_sub_id');
+        $this->db->from('budget_details as q');
+        $this->db->join('budget_head_sub', 'q.head_sub_id = budget_head_sub.id');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->db->where('q.budgets_id', $id);
+        $this->data['details'] = $this->db->get()->result();
+
+         //Dropdown
+         $this->data['info'] = $this->Common_model->get_user_details();
+         //Load view
+         $this->data['info'] = $this->Common_model->get_user_details($this->data['budgets']->created_by);
+        $this->data['headding'] = 'বাজেট';
+        echo $html = $this->load->view('budget_entry/print', $this->data, true);
     }
     // Budget Entry part end
 

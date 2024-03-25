@@ -4,10 +4,10 @@ class Reports extends Backend_Controller {
 	
     function __construct() {
         parent::__construct();   
-        if (!$this->ion_auth->is_admin()):
-            // return show_error('You must be an administrator to view this page.');
-            redirect('dashboard');
-        endif;
+        // if (!$this->ion_auth->is_admin()):
+        //     // return show_error('You must be an administrator to view this page.');
+        //     redirect('dashboard');
+        // endif;
 
         // $this->load->library('form_validation');
         $this->load->model('Personal_datas_model');
@@ -38,6 +38,7 @@ class Reports extends Backend_Controller {
         $this->data['meta_title'] = 'জনপ্রতিনিধির রিপোর্ট';
         $this->data['subview'] = 'representative';
         $this->load->view('backend/_layout_main', $this->data);
+
     }
 
     public function representative_result(){
