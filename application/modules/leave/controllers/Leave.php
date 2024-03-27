@@ -58,6 +58,9 @@ class Leave extends Backend_Controller {
         }
         $this->load->view('backend/_layout_main', $this->data);
     }
+    public function form(){
+        $this->load->view('leave/form');
+    }
 
     public function add(){
         $this->load->model('Common_model');
