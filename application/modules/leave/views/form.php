@@ -77,6 +77,11 @@ if (isset($leave_address->district_id)) {
     th {
         width: 280px;
     }
+    @media print {
+        .no-print{
+            display: none !important;
+        }
+    }
     </style>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -84,6 +89,7 @@ if (isset($leave_address->district_id)) {
 </head>
 
 <body>
+    <a style="position: absolute;right: 31px;color: white;top: 30;" class="btn btn-primary btn-sm no-print" onclick="window.print()">Print</a>
 
     <div class="header">
         <h3>গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</h3>
