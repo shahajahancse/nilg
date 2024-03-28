@@ -129,6 +129,7 @@
                           <?php if (!empty($row->file_name)) { ?>
                             <li><a target="_blank" href="<?=base_url('uploads/leave/'.$row->file_name);?>">নথিপত্র</a></li>
                           <?php } ?>
+                          <li><a href="<?=base_url('leave/form_print/'.encrypt_url($row->id));?>">প্রিন্ট</a></li>
                           <li><a onclick="return confirm('আপনি সত্যিই  কি এই তথ্যটি ডাটাবেজ থেকে সম্পূর্ণভাবে মুছতে চান?');" href="<?=base_url('leave/delete/'.encrypt_url($row->id));?>">মুছে ফেলুন</a></li>
                         </ul>
                       </div>

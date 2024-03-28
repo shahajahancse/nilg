@@ -58,13 +58,20 @@ class Leave extends Backend_Controller {
         }
         $this->load->view('backend/_layout_main', $this->data);
     }
-    public function form(){
-        $this->load->view('leave/form');
+
+    public function form_print($uid){
+        $id = (int) decrypt_url($uid);
+    
+
+        $this->data['row'] = $this->Leave_model->get_info('leave_employee', $id);
+        $this->load->view('leave/form' , $this->data);
     }
 
     public function add(){
         $this->load->model('Common_model');
         $userDetails = $this->data['userDetails'];
+        $this->data['division'] = $this->Common_model->get_division();
+
         // Validation
         $this->form_validation->set_rules('user_id', 'স্টাফ নাম', 'required|trim');
         $this->form_validation->set_rules('leave_type', 'ছুটির টাইপ', 'required|trim');
@@ -94,14 +101,27 @@ class Leave extends Backend_Controller {
                     }
                 }
                 $total_days = $this->Leave_model->GetDays($this->input->post('from_date'), $this->input->post('to_date'));
+                $leave_address_arr=[
+                    'father_name' => $this->input->post('father_name'),
+                    'division_id' => $this->input->post('division_id'),
+                    'district_id' => $this->input->post('district_id'),
+                    'upazila_id' => $this->input->post('upazila_id'),
+                    'village' => $this->input->post('village'),
+                    'post_office' => $this->input->post('post_office'),
+                    'mobile_number'=> $this->input->post('mobile_number')
+                ];
+                $leave_address = json_encode($leave_address_arr);
+                
                 $form_data = array(
                     'user_id'      => $this->input->post('user_id'),
                     'dept_id'      => $user_info->crrnt_dept_id,
                     'desig_id'     => $user_info->crrnt_desig_id,
                     'leave_type'   => $this->input->post('leave_type'),
+                    'assign_person'=> $this->input->post('assign_person'),
                     'from_date'    => $this->input->post('from_date'),
                     'to_date'      => $this->input->post('to_date'),
                     'leave_days'   => count($total_days),
+                    'leave_address'      => $leave_address,
                     'reason'       => $this->input->post('reason'),
                     'status'       => 1,
                     'file_name'    => $uploadedFile,
@@ -130,6 +150,8 @@ class Leave extends Backend_Controller {
             $this->data['subview'] = 'add';
         } elseif (func_nilg_auth($userDetails->office_type) == 'employee') {
             $results = $this->Leave_model->get_yearly_leave_count($userDetails->id);
+            $this->data['users'] = $this->Common_model->get_nilg_employee();
+
             // dd($results);
             $this->data['total_leave'] = $results['total_leave'];
             $this->data['used_leave'] = $results['used_leave'];
@@ -220,18 +242,6 @@ class Leave extends Backend_Controller {
         $this->data['meta_title'] = 'সম্পাদনা করুন';
         $this->data['subview'] = 'change_status';
         $this->load->view('backend/_layout_main', $this->data);
-    }
-
-    public function delete($dataID){
-        $dataID = (int) decrypt_url($dataID);
-        // Check Exists
-        if (!$this->Common_model->exists('leave_employee', 'id', $dataID)) {
-            redirect('dashboard');
-        }
-        if ($this->db->delete('leave_employee', array('id' => $dataID))) {
-            $this->session->set_flashdata('success', 'এই তথ্যটি ডাটাবেজ থেকে সম্পূর্ণভাবে মুছে ফেলা হয়েছে।');
-            redirect('leave');
-        }
     }
 
     public function pending_list($offset=0)
