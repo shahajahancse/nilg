@@ -1,17 +1,11 @@
 
+
 <div class="page-content">
   <div class="content">
     <ul class="breadcrumb" style="margin-bottom: 20px;">
       <li> <a href="<?=base_url()?>" class="active"> ড্যাশবোর্ড </a> </li>
       <li> <a href="<?=base_url('qbank')?>" class="active"> <?=$module_title?> </a></li>
       <li><?=$meta_title; ?> </li>
-      <div class="pull-right" style="margin-right: 15px;">
-        <span href="<?=base_url('leave')?>"><strong style="font-size:18px; color: #683091;">নৈমিত্তিক : <?php echo eng2bng($total_leave[0]->yearly_total_leave); ?></strong></span> &nbsp
-        <span><strong style="font-size:18px; color: #0aa699;">অবশিষ্ট :  <?php echo eng2bng($total_leave[0]->yearly_total_leave - $used_leave->casual_leave); ?></strong></span>&nbsp&nbsp | &nbsp&nbsp
-
-        <span><strong style="font-size:18px; color: #683091;">ঐচ্ছিক : <?php echo eng2bng($total_leave[1]->yearly_total_leave); ?></strong></span>&nbsp
-      <span><strong style="font-size:18px; color: #0aa699;">অবশিষ্ট : <?php echo eng2bng($total_leave[1]->yearly_total_leave - $used_leave->optional_leave); ?></strong></span>
-      </div>
     </ul>
 
     <div class="row">
@@ -31,11 +25,13 @@
                 <?php echo $this->session->flashdata('success');?>
               </div>
             <?php endif; ?>
+
             <?php if($this->session->flashdata('error')):?>
               <div class="alert alert-danger">
                 <?php echo $this->session->flashdata('error');?>
               </div>
             <?php endif; ?>
+
             <style type="text/css">
               .btt-m, .btt-m:focus, .btt-m:active:focus, .btt-m.active:focus {
                 outline: none !important;
@@ -54,10 +50,20 @@
             <form action="<?=base_url('leave');?>" method="get" style="margin-top: -10px">
               <div class="col-md-3 p5">
                 <div class="form-group">
+                  <label class="form-label">নাম <span class="required">*</span></label>
+                    <?php echo form_error('user_id'); ?>
+                    <?php $more_attr = 'class="form-control input-sm" style="height: 20px !important"';
+                      echo form_dropdown('user_id', $users, set_value('user_id'), $more_attr);
+                    ?>
+                </div>
+              </div>
+              <div class="col-md-3 p5">
+                <div class="form-group">
                   <label class="form-label">শুরুর তারিখঃ <span class="required">*</span></label>
                   <input name="from_date" type="text" value="<?=set_value('from_date')?>" class="datetime form-control input-sm" autocomplete="off">
                 </div>
               </div>
+              <input type="hidden" name="status" value="2">
               <div class="col-md-3 p5">
                 <div class="form-group">
                   <div class="input-group">
@@ -87,6 +93,7 @@
                   <th>সময়কাল</th>
                   <th>ছুটির কারণ</th>
                   <th>স্ট্যাটাস</th>
+                  <th>অ্যাকশন</th>
                 </tr>
               </thead>
               <tbody>
@@ -114,13 +121,26 @@
                     <td><?=$row->leave_days?></td>
                     <td><?=$row->reason?></td>
                     <td> <?=$status?></td>
+                    <td>
+                      <div class="btn-group">
+                        <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> অ্যাকশন <span class="caret"></span> </a>
+                        <ul class="dropdown-menu pull-right">
+                          <!-- <li><a href="<?=base_url('leave/change_status/'.encrypt_url($row->id).'/3');?>">প্রত্যাখ্যাত করুন</a></li> -->
+                          <?php if (!empty($row->file_name)) { ?>
+                            <li><a target="_blank" href="<?=base_url('uploads/leave/'.$row->file_name);?>">নথিপত্র</a></li>
+                          <?php } ?>
+                          <li><a href="<?=base_url('leave/form_print/'.encrypt_url($row->id));?>">প্রিন্ট</a></li>
+                          <li><a href="<?=base_url('leave/ass_edit/'.encrypt_url($row->id));?>">সংশোধন</a></li>
+                        </ul>
+                      </div>
+                    </td>
                   </tr>
                   <?php } ?>
                 </tbody>
               </table>
 
               <div class="row">
-                <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> মোট <span style="color: green; font-weight: bold;"><?=eng2bng($total_rows)?>টি তালিকা</span></div>
+                <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> মোট <span style="color: green; font-weight: bold;"><?=eng2bng($total_rows)?>টি প্রশ্ন</span></div>
                 <div class="col-sm-8 col-md-8 text-right">
                   <?php echo $pagination['links']; ?>
                 </div>
@@ -136,3 +156,4 @@
 
   </div>
 </div>
+

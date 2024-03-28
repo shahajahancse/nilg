@@ -244,6 +244,67 @@ class Leave extends Backend_Controller {
         $this->load->view('backend/_layout_main', $this->data);
     }
 
+    public function assign_list($offset=0){
+        $offset=0;
+        $this->load->model('Common_model');
+        $this->data['userDetails'] = $this->Common_model->get_office_info_by_session();
+        $userDetails = $this->data['userDetails'];
+        // Manage list the users
+        $limit = 50;
+        $assign=$userDetails->id;
+
+        $results = $this->Leave_model->get_data($limit = 1000, $offset = 0, $status = null, $user = null,$assign);
+        $this->data['users'] = $this->Common_model->get_nilg_employee();
+
+
+        $this->data['results'] = $results['rows'];
+        $this->data['total_rows'] = $results['num_rows'];
+
+        //pagination
+        $this->data['pagination'] = create_pagination('leave/assign_list/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+
+        $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+        
+        $this->data['meta_title'] = 'অনুমোদিত ছুটির তালিকা';
+        $this->data['subview'] = 'assign_list';
+       
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function ass_edit($uid){
+        $uid = (int) decrypt_url($uid);
+        $this->data['row'] = $this->Leave_model->get_info('leave_employee', $uid);
+        $this->data['users'] = $this->Common_model->get_nilg_employee();
+        $this->data['leave_type'] = $this->Leave_model->get_leave_type();
+        $results = $this->Leave_model->get_yearly_leave_count($this->data['row']->user_id);
+        $this->data['total_leave'] = $results['total_leave'];
+        $this->data['used_leave'] = $results['used_leave'];
+        $this->data['info'] = $this->Leave_model->get_info('users',$this->data['row']->user_id);
+
+        // View
+        $this->data['meta_title'] = 'সম্পাদনা করুন';
+        $this->data['subview'] = 'ass_edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function ass_update(){
+        $id = $this->input->post('id');
+        $form_data = array(
+            'leave_type'  => $this->input->post('leave_type'),
+            'from_date'  => $this->input->post('from_date'),
+            'to_date'  => $this->input->post('to_date'),
+            'leave_days'  => $this->input->post('leave_days'),
+            'reason'  => $this->input->post('reason'),
+            'assign_remark'  => $this->input->post('assign_remark'),
+            'status'  =>2,
+        );
+        $this->db->where('id', $id);
+        if($this->db->update('leave_employee', $form_data)){
+            $this->session->set_flashdata('success', 'সফলভাবে পরিবর্তন করা হয়েছে ।');
+            redirect('leave/assign_list');
+        }else{
+            $this->session->set_flashdata('error', 'দুঃখিত, পরিবর্তন হয়নি ।');
+        }
+    }
+
     public function pending_list($offset=0)
     {
         // Manage list the users
