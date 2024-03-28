@@ -19,15 +19,17 @@
           <div class="grid-title">
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
             <div class="pull-right">
-              <a href="<?=base_url('leave')?>" class="btn btn-primary btn-xs btn-mini"> তালিকা</a>
+              <a href="<?=base_url('leave/assign_list')?>" class="btn btn-primary btn-xs btn-mini"> তালিকা</a>
             </div>
           </div>
 
           <div class="grid-body">
             <?php
             $attributes = array('id' => 'validate');
-            echo form_open_multipart("leave/add", $attributes);
+            echo form_open_multipart("leave/ass_update", $attributes);
             ?>
+
+            <?php echo form_hidden('id', $row->id); ?>
 
             <div><?php echo validation_errors(); ?></div>
             <?php if($this->session->flashdata('success')):?>
@@ -51,6 +53,30 @@
                   <?php echo form_error('user_id'); ?>
                 </div>
               </div>
+              <?php
+
+//               dd($row);
+              
+// stdClass Object
+// (
+//     [id] => 4
+//     [user_id] => 177
+//     [dept_id] => 3
+//     [desig_id] => 100
+//     [leave_type] => 8
+//     [from_date] => 2024-03-28
+//     [to_date] => 2024-03-28
+//     [leave_days] => 1
+//     [reason] => sdsfdsfds
+//     [status] => 1
+//     [assign_person] => 181
+//     [assign_remark] => 
+//     [leave_address] => {"father_name":"Md. Nahid","division_id":"6","district_id":"47","upazila_id":"273","village":"Dolapara","post_office":"Magura"}
+//     [file_name] => 
+//     [created_date] => 2024-03-28
+// )
+              
+              ?>
               <div class="col-md-3">
                 <div class="form-group">
                   <label class="form-label">ছুটির টাইপ <span class="required">*</span></label>
@@ -58,7 +84,7 @@
                   <select onchange="leave_validation()" name="leave_type" id="leave_type" class="form-control input-sm" style="width: 100%; height: 28px !important;" <?php echo isset($total_leave) ? '' : 'disabled' ?> <?php echo isset($total_leave) ? '' : 'title="No leave type available"' ?>>
                     <option value="" selected>-- নির্বাচন করুন --</option>
                     <?php foreach ($total_leave as $key => $v): ?>
-                      <option value="<?= $v->id ?>"><?= $v->leave_name_bn ?></option>
+                      <option <?= $row->leave_type == $v->id ? 'selected' : '' ?> value="<?= $v->id ?>"><?= $v->leave_name_bn ?></option>
                     <?php endforeach; ?>
                   </select>
                 </div>
@@ -66,13 +92,13 @@
               <div class="col-md-3">
                 <div class="form-group">
                   <label class="form-label">শুরুর তারিখঃ <span class="required">*</span></label>
-                  <input onchange="leave_validation()" name="from_date" type="text" value="<?=set_value('from_date')?>" id="from_date" class="datetime form-control input-sm" autocomplete="off">
+                  <input onchange="leave_validation()" name="from_date" type="text" value="<?=$row->from_date?>" id="from_date" class="datetime form-control input-sm" autocomplete="off">
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="form-group">
                   <label class="form-label">শেষ তারিখঃ <span class="required">*</span></label>
-                  <input onchange="leave_validation()" name="to_date" type="text" value="<?=set_value('to_date')?>"  id="to_date" class="datetime form-control input-sm" autocomplete="off">
+                  <input onchange="leave_validation()" name="to_date" type="text" value="<?=$row->to_date?>"  id="to_date" class="datetime form-control input-sm" autocomplete="off">
                 </div>
               </div>
             </div>
@@ -81,13 +107,15 @@
               <div class="col-md-9">
                 <div class="form-group">
                   <label class="form-label">ছুটির কারণ</label>
-                  <textarea name="reason" class="form-control"></textarea>
+                  <textarea name="reason" class="form-control"> <?=$row->reason?></textarea>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="form-group">
                   <label class="form-label">ছুটির ফাইল</label>
-                  <input name="userfile" type="file">
+                  <?php if($row->file_name != ''): ?>
+                  <a href="<?=base_url('uploads/leave/'.$row->file_name)?>" download class="btn btn-primary btn-sm"> Download</a>
+                  <?php endif; ?>
                 </div>
               </div>
             </div>
@@ -98,64 +126,68 @@
                   <select name="assign_person" id="assign_person">
                     <option value="">নির্বাচন করুন</option>
                     <?php foreach($users as $key => $value): ?>
-                      <option value="<?=$key?>"><?=$value?></option>
+                      <option <?php echo $row->assign_person == $key ? 'selected' : '' ?>  value="<?=$key?>"><?=$value?></option>
                     <?php endforeach; ?>
                   </select>
                 </div>
               </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="form-label">ছুটিকালীন বিকল্প কর্মকর্তার বক্তব্য</label>
+                  <textarea name="assign_remark" id="" class="form-control"><?= $row->assign_remark?></textarea>
+                  
+                </div>
+              </div>
+
             </div>
             <div class="row form-row">
               <h4 class="col-md-12">ছুটিকালীন ঠিকানা (কেবলমাত্র কর্মস্থল ত্যাগের ক্ষেত্রে প্রযোজ্য)</h4>
+              <?php
+              $leave_add=json_decode($row->leave_address);
+              ?>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label class="form-label">পিতারনাম/প্রযন্ত্রে</label>
-                        <input type="text" name="father_name" id="father_name"
-                            class="form-control input-sm">
+                         <?=$leave_add->father_name?>
                     </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
-                    <label class="form-label pull-left">বিভাগ </label>
-                    <?php echo form_error('division_id');
-                    $more_attr = 'class="form-control input-sm" id="division" name="division_id"';
-                    echo form_dropdown('division_id', $division, set_value('division_id'), $more_attr);
-                    ?>
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
                     <label class="form-label pull-left">জেলা </label>
-                    <?php echo form_error('district_id');?>
-                    <select name="district_id" <?=set_value('district_id')?> class="form-control input-sm district_val" id="district">
-                      <option value=""> <?=lang('select_district')?></option>
-                    </select>
+                    <?php
+                      if (isset($leave_add->upazila_id)) {
+                        $upazila= $this->db->get_where('upazilas',array('id'=>$leave_add->upazila_id))->row();
+                      }
+                      // dd($upazila);
+                      if (isset($leave_add->district_id)) {
+                        $district= $this->db->get_where('districts',array('id'=>$leave_add->district_id))->row();
+                      }
+                    ?>
+                    <?=  isset($district->dis_name_bn)?$district->dis_name_bn:''?>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="form-label pull-left">উপজেলা / থানা </label>
-                    <?php echo form_error('upazila_id');?>
-                    <select name="upazila_id" <?=set_value('upazila_id')?> class="upazila_val form-control input-sm" id="upazila">
-                      <option value=""> <?=lang('select_up_thana')?></option>
-                    </select>
+                    <?=  isset($upazila->upa_name_bn)?$upazila->upa_name_bn:''?>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="form-label">গ্রাম/মহল্লা:</label>
-                    <input type="text" name="village" id="village" class="form-control input-sm">
+                    <?=  isset($leave_add->village)?$leave_add->village:'' ?>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="form-label">ডাকঘর:</label>
-                    <input type="text" name="post_office" id="post_office" class="form-control input-sm">
+                    <?=  isset($leave_add->post_office)?$leave_add->post_office:'' ?>
                   </div>
                 </div>
                 <div class="col-md-4">
                   <div class="form-group">
                     <label class="form-label">মোবাইল নাম্বার:</label>
-                    <input type="text" name="mobile_number" id="mobile_number" class="form-control input-sm">
+                    <?=  isset($leave_add->mobile)?$leave_add->mobile:'' ?>
                   </div>
                 </div>
             </div>

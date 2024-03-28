@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
 <div class="page-content">     
   <div class="content">  
     <ul class="breadcrumb" style="margin-bottom: 20px;">
@@ -39,7 +40,7 @@
                 <div class="form-group">
                   <label class="form-label">নাম <span class="required">*</span></label>
                   <?php echo form_error('user_id'); ?>
-                  <?php $more_attr = 'class="form-control input-sm" style="height: 20px !important"';
+                  <?php $more_attr = 'class="form-control input-sm" style="height: 20px !important" required id="user_id"';
                     echo form_dropdown('user_id', $users, set_value('user_id'), $more_attr);
                   ?>
                 </div>
@@ -76,12 +77,80 @@
               </div>
               <div class="col-md-3">
                 <div class="form-group">
-                  <label class="form-label">ছুটির কারণ</label>
+                  <label class="form-label">ছুটির সাথে ফাইল</label>
                   <input name="userfile" type="file">
                 </div>
               </div>
             </div>
 
+            <div class="row form-row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="form-label">ছুটিকালীন বিকল্প কর্মকর্তা</label>
+                  <select name="assign_person" id="assign_person">
+                    <option value="">নির্বাচন করুন</option>
+                    <?php foreach($users as $key => $value): ?>
+                      <option value="<?=$key?>"><?=$value?></option>
+                    <?php endforeach; ?>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="row form-row">
+              <h4 class="col-md-12">ছুটিকালীন ঠিকানা (কেবলমাত্র কর্মস্থল ত্যাগের ক্ষেত্রে প্রযোজ্য)</h4>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="form-label">পিতারনাম/প্রযন্ত্রে</label>
+                        <input type="text" name="father_name" id="father_name"
+                            class="form-control input-sm">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-label pull-left">বিভাগ </label>
+                    <?php echo form_error('division_id');
+                    $more_attr = 'class="form-control input-sm" id="division" name="division_id"';
+                    echo form_dropdown('division_id', $division, set_value('division_id'), $more_attr);
+                    ?>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-label pull-left">জেলা </label>
+                    <?php echo form_error('district_id');?>
+                    <select name="district_id" <?=set_value('district_id')?> class="form-control input-sm district_val" id="district">
+                      <option value=""> <?=lang('select_district')?></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-label pull-left">উপজেলা / থানা </label>
+                    <?php echo form_error('upazila_id');?>
+                    <select name="upazila_id" <?=set_value('upazila_id')?> class="upazila_val form-control input-sm" id="upazila">
+                      <option value=""> <?=lang('select_up_thana')?></option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-label">গ্রাম/মহল্লা:</label>
+                    <input type="text" name="village" id="village" class="form-control input-sm">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-label">ডাকঘর:</label>
+                    <input type="text" name="post_office" id="post_office" class="form-control input-sm">
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label class="form-label">মোবাইল নাম্বার:</label>
+                    <input type="text" name="mobile_number" id="mobile_number" class="form-control input-sm">
+                  </div>
+                </div>
+            </div>
             <div class="form-actions">  
               <div class="pull-right">
                 <?php echo form_submit('submit', 'সংরক্ষণ করুন', "class='btn btn-primary btn-cons font-big-bold'"); ?>
@@ -137,3 +206,11 @@
 });   
 
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
+<script>
+  $(document).ready(function(){
+   $('#assign_person').chosen();
+   $('#user_id').chosen();
+  });
+</script>
+

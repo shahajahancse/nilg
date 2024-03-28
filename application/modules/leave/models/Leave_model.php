@@ -7,7 +7,7 @@ class Leave_model extends CI_Model {
         parent::__construct();
     }
 
-    public function get_data($limit = 1000, $offset = 0, $status = null, $user = null) {
+    public function get_data($limit = 1000, $offset = 0, $status = null, $user = null,$assign=null) {
         // result query
         $this->db->select('el.*, et.leave_name_bn, et.leave_name_en, users.name_bn, dg.dept_name, cd.desig_name');
         $this->db->from('leave_employee el');
@@ -27,6 +27,9 @@ class Leave_model extends CI_Model {
         if($user != null){
             $this->db->where('el.user_id', $user);
         }
+        // if($assign != null){
+        //     $this->db->where('el.assign_person', $assign);
+        // }
 
         if($this->input->get('user_id')){
             $this->db->where('el.user_id', $this->input->get('user_id'));
@@ -48,14 +51,24 @@ class Leave_model extends CI_Model {
         $this->db->from('leave_employee as el');
         // Filter
         if($this->input->get('from_date') && $this->input->get('to_date')){
-            // ->where("start_date BETWEEN '$fDate' AND '$lDate'")
             $this->db->where('el.from_date >=', $this->input->get('from_date'));
             $this->db->where('el.from_date <=', $this->input->get('to_date'));
         }
+        if($user != null){
+            $this->db->where('el.user_id', $user);
+        }
+        // if($assign != null){
+        //     $this->db->where('el.assign_person', $assign);
+        // }
+
         if($this->input->get('user_id')){
             $this->db->where('el.user_id', $this->input->get('user_id'));
         }
-         if($status != null){
+
+        if($this->input->get('status')){
+            $this->db->where('el.status', $this->input->get('status'));
+        }
+        if($status != null){
             $this->db->where('el.status', $status);
         }
         $tmp = $this->db->get()->result();
