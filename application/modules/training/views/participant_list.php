@@ -14,8 +14,8 @@
   .tg .tg-mtwr{background-color:#efefef;vertical-align:top; font-weight: bold; text-align: center; font-size: 16px;text-decoration: underline;}
 </style>
 
-<div class="page-content">     
-  <div class="content">  
+<div class="page-content">
+  <div class="content">
     <ul class="breadcrumb" style="margin-bottom: 20px;">
       <li> <a href="<?=base_url('dashboard')?>" class="active"> ড্যাশবোর্ড </a> </li>
       <li> <a href="<?=base_url('training')?>" class="active"> <?=$module_title; ?> </a></li>
@@ -32,14 +32,14 @@
 
               <a href="<?=base_url('training/pdf_attendance/'.$training->id)?>" class="btn btn-primary btn-mini" target="_blank"> দৈনিক হাজিরা সীট </a>
               <!-- <a href="<?=base_url('training/pdf_attendance_no/'.$training->id)?>" class="btn btn-primary btn-mini" target="_blank"> দৈনিক হাজিরা সীট (নম্বর)</a> -->
-              <a href="<?=base_url('training/pdf_trainee_list/'.$training->id)?>" class="btn btn-primary btn-xs btn-mini" target="_blank">প্রশিক্ষণার্থী</a>  
+              <a href="<?=base_url('training/pdf_trainee_list/'.$training->id)?>" class="btn btn-primary btn-xs btn-mini" target="_blank">প্রশিক্ষণার্থী</a>
               <a href="<?=base_url('training')?>" class="btn btn-primary btn-xs btn-mini"> তালিকা</a>
-              <div class="btn-group"> 
+              <div class="btn-group">
                 <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> <span class="fa fa-ellipsis-v"></span> </a>
                 <ul class="dropdown-menu pull-right">
-                  <?php $this->load->view('navigation')?> 
+                  <?php $this->load->view('navigation')?>
                 </ul>
-              </div>  
+              </div>
             </div>
           </div>
           <div class="grid-body" id="printableArea">
@@ -52,7 +52,7 @@
                 <?php endif; ?>
                 <span class="training-title"><?=func_training_title($training->id)?></span>
                 <span class="training-date"><?=func_training_date($training->start_date, $training->end_date)?></span>
-              </div>     
+              </div>
             </div>
 
             <h3 style="text-align: center; margin-top: 20px;"><span class="semi-bold">প্রশিক্ষণে অংশগ্রহণকারীর তালিকা</span></h3>
@@ -66,7 +66,7 @@
                   </div>
                   <div class="col-md-1 p5" style="width: 50px;height: 50px;">
                     <div class="form-group">
-                      <button type="submit" class="btn btn-primary btn-mini mini-btn-padding"><i class="fa fa-search" aria-hidden="true"></i></button>                      
+                      <button type="submit" class="btn btn-primary btn-mini mini-btn-padding"><i class="fa fa-search" aria-hidden="true"></i></button>
                       <?php //echo form_submit('submit', '<i class="fa fa-search" aria-hidden="true"></i>', "class='btn btn-primary'"); ?>
                     </div>
                   </div>
@@ -74,10 +74,15 @@
                     <a href="<?=base_url('training/participant_list/'.$training->id)?>" class="btn btn-blueviolet btn-mini mini-btn-padding">রিসেট</a>
                   </div>
                 </form>
-
                 <div class="row">
                   <div class="col-md-12">
-                    <table class="tg" id="example">
+                    <div class="pull-right">
+                      <form action="<?php echo current_url(); ?>" method="get">
+                        <input type="hidden" name="excel" value="1">
+                        <button class="btn btn-default btn-mini ">Excel</button>
+                      </form>
+                    </div>
+                    <table class="tg" id="">
                       <thead>
                         <tr>
                           <th class="tg-71hr" width="20">ক্রম</th>
@@ -97,14 +102,14 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <?php 
+                        <?php
                         $sl=0;
                         $exp='';
-                        foreach ($results as $row) { 
+                        foreach ($results as $row) {
                           $sl++;
                           $exp = explode(',', $row->office_name);
                           $officeName = $exp[0];
-                          ?>                      
+                          ?>
                           <tr>
                             <td class="tg-031e"><?=eng2bng($sl)?></td>
                             <td class="tg-031e"><strong><?=$row->name_bn?></strong></td>
@@ -120,7 +125,7 @@
                             <td class="tg-031e font-opensans"><?=$row->mobile_no?></td>
                             <td class="tg-031e font-opensans"><?=$row->so?></td>
                             <td class="tg-031e">
-                             
+
                             <div style="position: absolute;margin-top: -20px;">
                                 <a class="btn btn-primary btn-mini dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">অ্যাকশন <span class="glyphicon glyphicon-chevron-down"></span></a>
                                 <ul class="dropdown-menu small-ul" aria-labelledby="dropdownMenuLink">
@@ -128,7 +133,7 @@
                                     <a href="<?=base_url('training/participant_edit/'.$row->id)?>" class="btn btn-primary btn-mini mini-btn-padding" style="background-color: #8dc641;"> সংশোধন <span class="glyphicon glyphicon-edit"></span> </a>
                                     <a href="<?=base_url('training/participant_delete/'.$row->id)?>" class="btn btn-danger btn-mini mini-btn-padding" style="background-color: #ff0000;color: aliceblue;" onclick="return confirm('Are you sure you want to delete this data?');">ডিলিট <span class="glyphicon glyphicon-trash"></span></a>
 
-                                  
+
                                   </li>
                                   <?php
                                          $note = $this->db
@@ -139,17 +144,13 @@
                                          ->note;
                                          if($note){
                                           $note_array=json_decode($note);
-                                        
+
                                          ?>
                                   <li class="dropdown dropend ">
                                     <a style="background-color: #68308F;color: white;" class="dropdown-item dropdown-toggle"id="multilevelDropdownMenu1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">নোট <span class="glyphicon glyphicon-chevron-down"></span></a>
                                     <ul style="border: 1px solid #68308f;" class="dropdown-menu small-ul" aria-labelledby="multilevelDropdownMenu1">
-                                  <?php     
-                                    foreach($note_array as $key => $value){
-                                    ?>
-                                     
-
-                                         <li style="border: 1px solid #971ff3;padding: 0px;width: 92px;margin: -3px;height: 37px;border-radius: 10px;"><a class="dropdown-item" href="<?=base_url('uploads/note/'. $value)?>">নোট  <?=$key+1?></a></li>
+                                      <?php foreach($note_array as $key => $value){ ?>
+                                      <li style="border: 1px solid #971ff3;padding: 0px;width: 92px;margin: -3px;height: 37px;border-radius: 10px;"><a class="dropdown-item" href="<?=base_url('uploads/note/'. $value)?>">নোট  <?=$key+1?></a></li>
                                       <?php }?>
                                     </ul>
                                   </li>
@@ -158,19 +159,14 @@
                                   ?>
                                 </ul>
                               </div>
-                         
-                                    
-                           
-                           
-                           
                             </td>
                           </tr>
                           <?php } ?>
                         </tbody>
                       </table>
-                    </div>  
+                    </div>
 
-                  </div>   
+                  </div>
                 </div>
               </div>
 
@@ -207,17 +203,17 @@ dropdowns.forEach((dd)=>{
       paging: false,
       bFilter: false,
       ordering: false,
-      searching: false, 
-      columnDefs: [ { targets: 'no-sort', orderable: false } ] ,  
+      searching: false,
+      columnDefs: [ { targets: 'no-sort', orderable: false } ] ,
     });
 
     function func_participant_list(){
-      $.ajax({        
+      $.ajax({
         method: "GET",
         url: "<?=base_url('training/ajax_training_participant_list/')?>",
-        data: { 
-          user_id: $("#national_id").val(), 
-          training_id: $("#training_hide_id").val(), 
+        data: {
+          user_id: $("#national_id").val(),
+          training_id: $("#training_hide_id").val(),
           hide_id: $("#participant_hide_id").val() }
         })
       .done(function( msg ) {
@@ -227,13 +223,13 @@ dropdowns.forEach((dd)=>{
         }
         if(detailsarr[1]!=''){
           $('#print_ajax_result').html(detailsarr[1]);
-        }      
+        }
       });
     }
 
     function func_delete_participant(delid){
       if(confirm('Are you sure you want to delete this data?')){
-        $.ajax({        
+        $.ajax({
           method: "GET",
           url: "<?=base_url('training/ajax_training_participant_list/')?>",
           data: { delete_id: delid, training_id: $("#training_hide_id").val()}
@@ -247,7 +243,7 @@ dropdowns.forEach((dd)=>{
             $('#print_ajax_result').html(detailsarr[1]);
           }
 
-        }); 
+        });
       }
     }
 
@@ -257,7 +253,7 @@ dropdowns.forEach((dd)=>{
       func_participant_list();
 
       $('#training_participant_list').validate({
-      // focusInvalid: false, 
+      // focusInvalid: false,
       ignore: "",
       rules: {
         national_id: {
@@ -266,22 +262,22 @@ dropdowns.forEach((dd)=>{
       },
 
       invalidHandler: function (event, validator) {
-        //display error alert on form submit    
+        //display error alert on form submit
       },
 
-      errorPlacement: function (label, element) { // render error placement for each input type   
+      errorPlacement: function (label, element) { // render error placement for each input type
         if (element.attr("name") == "national_id") {
           label.insertAfter("#typeerror");
         } else {
           $('<span class="error"></span>').insertAfter(element).append(label)
           var parent = $(element).parent('.input-with-icon');
-          parent.removeClass('success-control').addClass('error-control');  
+          parent.removeClass('success-control').addClass('error-control');
         }
       },
 
       highlight: function (element) { // hightlight error inputs
         var parent = $(element).parent();
-        parent.removeClass('success-control').addClass('error-control'); 
+        parent.removeClass('success-control').addClass('error-control');
       },
 
       unhighlight: function (element) { // revert the change done by hightlight
@@ -289,7 +285,7 @@ dropdowns.forEach((dd)=>{
 
       success: function (label, element) {
         var parent = $(element).parent('.input-with-icon');
-        parent.removeClass('error-control').addClass('success-control'); 
+        parent.removeClass('error-control').addClass('success-control');
       },
 
       submitHandler: function (form) {
@@ -298,7 +294,7 @@ dropdowns.forEach((dd)=>{
       }
     });
 
-    });   
+    });
 
 
   </script>

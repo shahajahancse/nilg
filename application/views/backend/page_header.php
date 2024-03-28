@@ -588,7 +588,7 @@
                            <?php } ?>
 
                            <?php if ($this->ion_auth->in_group(array('admin','sm','asm'))) { ?>
-                              <li class="start <?= backend_activate_menu_method('index') ?>"><a href="<?= base_url('inventory/index') ?>">রিকুইজিশনের তালিকা</a></li>
+                              <!-- <li class="start <?php // echo backend_activate_menu_method('index') ?>"><a href="<?php // echo base_url('inventory/index') ?>">রিকুইজিশনের তালিকা</a></li> -->
                               <li class="start <?= backend_activate_menu_method('pending_list') ?>">
                                  <a href="<?= base_url('inventory/pending_list') ?>">পেন্ডিং তালিকা
                                  <?php if ($request_stor_no['pending'] > 0) {

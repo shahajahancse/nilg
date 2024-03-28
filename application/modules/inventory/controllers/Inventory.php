@@ -19,7 +19,7 @@ class Inventory extends Backend_Controller {
 
   public function index($offset=0){
       $limit = 15;
-      $results = $this->inventory_model->get_requisition($limit, $offset); 
+      $results = $this->inventory_model->get_requisition($limit, $offset);
       $this->data['results'] = $results['rows'];
       $this->data['total_rows'] = $results['num_rows'];
 
@@ -39,7 +39,7 @@ class Inventory extends Backend_Controller {
 
       $form_data = array(
         'user_id'   => $user->id,
-        'department_id' => ($user->crrnt_dept_id !== null)?$user->crrnt_dept_id:0, 
+        'department_id' => ($user->crrnt_dept_id !== null)?$user->crrnt_dept_id:0,
         'designation_id' => ($user->crrnt_desig_id !== null)?$user->crrnt_desig_id:0,
         'f_year_id'   => 0,
         // 'current_desk'     => 1,
@@ -47,13 +47,13 @@ class Inventory extends Backend_Controller {
         'updated'   => date('Y-m-d H:i:s')
       );
 
-      // dd($form_data); 
-      if($this->Common_model->save('requisitions', $form_data)){     
+      // dd($form_data);
+      if($this->Common_model->save('requisitions', $form_data)){
         // Schedule Type Appointment
         $insert_id = $this->db->insert_id();
         // Insert Scout Unit under a group
 
-        for ($i=0; $i<sizeof($_POST['item_id']); $i++) { 
+        for ($i=0; $i<sizeof($_POST['item_id']); $i++) {
            $form_data2 = array(
               'requisition_id'     => $insert_id,
               'item_cate_id'       => $_POST['item_cate_id'][$i],
@@ -61,7 +61,7 @@ class Inventory extends Backend_Controller {
               'item_id'            => $_POST['item_id'][$i],
               'dept_id'            => ($user->crrnt_dept_id !== null)?$user->crrnt_dept_id:0,
               'fiscal_year_id'     => 0,
-              'qty_request'        => $_POST['qty_request'][$i],           
+              'qty_request'        => $_POST['qty_request'][$i],
               'remark'             => $_POST['remark'][$i]
               );
            $this->Common_model->save('requisition_item', $form_data2);
@@ -84,7 +84,7 @@ class Inventory extends Backend_Controller {
 
   public function pending_list($offset=0){
       $limit = 25;
-      $results = $this->inventory_model->get_requisition($limit, $offset, '1'); 
+      $results = $this->inventory_model->get_requisition($limit, $offset, '1');
       $this->data['results'] = $results['rows'];
       $this->data['total_rows'] = $results['num_rows'];
 
@@ -100,12 +100,12 @@ class Inventory extends Backend_Controller {
   public function requisition_details($id)
   {
     $dataID = (int) decrypt_url($id); //exit;
-    if (!$this->Common_model->exists('requisitions', 'id', $dataID)) { 
+    if (!$this->Common_model->exists('requisitions', 'id', $dataID)) {
        show_404('inventory - details - exitsts', TRUE);
     }
 
     $this->data['info'] = $this->inventory_model->get_requisition_by_id($dataID);
-    $this->data['items'] = $this->inventory_model->get_requisition_items($dataID); 
+    $this->data['items'] = $this->inventory_model->get_requisition_items($dataID);
 
     // Load page
     $this->data['meta_title'] = 'রিকুইজিশন বর্ণনা';
@@ -122,10 +122,10 @@ class Inventory extends Backend_Controller {
       'status'         => 1,
       'current_desk'   => 1,
       'updated'        => date('Y-m-d H:i:s')
-    ); 
+    );
     // dd($form_data);
 
-    if($this->Common_model->edit('requisitions',  $requisition_id, 'id', $form_data)){     
+    if($this->Common_model->edit('requisitions',  $requisition_id, 'id', $form_data)){
       $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
       header('Content-Type: application/x-json; charset=utf-8');
       echo json_encode(array('status' => true));
@@ -140,7 +140,7 @@ class Inventory extends Backend_Controller {
        $requisition_id = (int) decrypt_url($requisition_id);
     }
 
-    $this->data['rows'] = $this->inventory_model->get_requisition_items($requisition_id); 
+    $this->data['rows'] = $this->inventory_model->get_requisition_items($requisition_id);
     // dd($this->data['rows']);
 
     if (isset($_POST['submit'])) {
@@ -151,20 +151,20 @@ class Inventory extends Backend_Controller {
           'status'         => 1,
           'current_desk'   => 1,
           'updated'        => date('Y-m-d H:i:s')
-        ); 
+        );
       } else {
         $form_data = array(
           'status'         => 6,
           'current_desk'   => 5,
           'updated'        => date('Y-m-d H:i:s')
-        ); 
+        );
       }
 
       // print_r($form_data); exit;
-      if($this->Common_model->edit('requisitions',  $requisition_id, 'id', $form_data)){     
+      if($this->Common_model->edit('requisitions',  $requisition_id, 'id', $form_data)){
         // Insert Scout Unit under a group
 
-        for ($i=0; $i<sizeof($_POST['item_id']); $i++) { 
+        for ($i=0; $i<sizeof($_POST['item_id']); $i++) {
           if(empty($_POST['item_id'][$i])) {
             continue;
           }
@@ -172,9 +172,9 @@ class Inventory extends Backend_Controller {
           if($data_exists){
             $data = array(
               'qty_request'  => $_POST['qty_request'][$i]
-            ); 
+            );
             $this->Common_model->edit('requisition_item', $_POST['hide_id'][$i], 'id', $data);
-          } else { 
+          } else {
             $form_data2 = array(
               'requisition_id'     => $requisition_id,
               'item_cate_id'       => $_POST['item_cate_id'][$i],
@@ -183,7 +183,7 @@ class Inventory extends Backend_Controller {
               'user_id'            => $user->id,
               'dept_id'            => ($user->crrnt_dept_id !== null)?$user->crrnt_dept_id:0,
               'fiscal_year_id'     => 0,
-              'qty_request'        => $_POST['qty_request'][$i],           
+              'qty_request'        => $_POST['qty_request'][$i],
               'remark'             => $_POST['remark'][$i]
             );
             $this->Common_model->save('requisition_item', $form_data2);
@@ -227,7 +227,7 @@ class Inventory extends Backend_Controller {
       $user = $this->ion_auth->user()->row();
       $form_data = array(
         'user_id'   => $user->id,
-        'department_id' => ($user->crrnt_dept_id !== null)?$user->crrnt_dept_id:0, 
+        'department_id' => ($user->crrnt_dept_id !== null)?$user->crrnt_dept_id:0,
         'designation_id' => ($user->crrnt_desig_id !== null)?$user->crrnt_desig_id:0,
         'f_year_id'   => 0,
         'current_desk'     => 1,
@@ -236,12 +236,12 @@ class Inventory extends Backend_Controller {
       );
 
       // print_r($form_data); exit;
-      if($this->Common_model->save('requisitions', $form_data)){     
+      if($this->Common_model->save('requisitions', $form_data)){
         // Schedule Type Appointment
         $insert_id = $this->db->insert_id();
         // Insert Scout Unit under a group
 
-        for ($i=0; $i<sizeof($_POST['item_id']); $i++) { 
+        for ($i=0; $i<sizeof($_POST['item_id']); $i++) {
            $form_data2 = array(
               'requisition_id'     => $insert_id,
               'item_cate_id'       => $_POST['item_cate_id'][$i],
@@ -249,7 +249,7 @@ class Inventory extends Backend_Controller {
               'item_id'            => $_POST['item_id'][$i],
               'dept_id'            => ($user->crrnt_dept_id !== null)?$user->crrnt_dept_id:0,
               'fiscal_year_id'     => 0,
-              'qty_request'        => $_POST['qty_request'][$i],           
+              'qty_request'        => $_POST['qty_request'][$i],
               'remark'             => $_POST['remark'][$i]
               );
            $this->Common_model->save('requisition_item', $form_data2);
@@ -273,11 +273,11 @@ class Inventory extends Backend_Controller {
   {
     $limit = 15;
     $dataID = (int) decrypt_url($id); //exit;
-    if (!$this->Common_model->exists('requisition_item', 'id', $dataID)) { 
+    if (!$this->Common_model->exists('requisition_item', 'id', $dataID)) {
        show_404('inventory - details - exitsts', TRUE);
     }
     // check item & user info
-    $results = $this->inventory_model->get_unavailable_items($limit, null, $dataID); 
+    $results = $this->inventory_model->get_unavailable_items($limit, null, $dataID);
     $this->data['info'] = $this->inventory_model->get_requisition_by_id($results['row']->requisition_id);
 
     //Validation
@@ -289,7 +289,7 @@ class Inventory extends Backend_Controller {
         'user_id'      => $this->data['info']->user_id,
         'comments'     => $this->input->post('comments'),
         'is_delete'    => 3,
-      );           
+      );
 
        // message
        if($this->Common_model->edit('requisition_item', $dataID, 'id', $form_data)){
@@ -334,12 +334,12 @@ class Inventory extends Backend_Controller {
 
       // $dataID = $id; //exit;
       $dataID = (int) decrypt_url($id); //exit;
-      if (!$this->Common_model->exists('requisitions', 'id', $dataID)) { 
+      if (!$this->Common_model->exists('requisitions', 'id', $dataID)) {
         show_404('inventory - update - exitsts', TRUE);
       }
 
       $this->data['info'] = $this->inventory_model->get_requisition_by_id($dataID);
-      //Validation      
+      //Validation
       $this->form_validation->set_rules('status', ' status','required|trim');
 
       //Validate and input data
@@ -366,28 +366,28 @@ class Inventory extends Backend_Controller {
 
           if($this->Common_model->edit('requisitions',  $dataID, 'id', $form_data)){
 
-              // Requisition Data 
+              // Requisition Data
               for ($i=0; $i<sizeof($_POST['hide_id']); $i++) {
                  //check exists data
                  @$data_exists = $this->Common_model->exists('requisition_item', 'id', $_POST['hide_id'][$i]);
                  if($data_exists){
                     $data = array(
                        'sm_qty_approve'  => $_POST['qty_approve'][$i]
-                       ); 
+                       );
                     $this->Common_model->edit('requisition_item', $_POST['hide_id'][$i], 'id', $data);
                  }
               }
 
               $this->session->set_flashdata('success', 'Update information successfully.');
-              redirect("inventory");
+              redirect("inventory/pending_list");
           }
       }
 
       // dd($this->data['info']);
       //Dropdown
-      $this->data['status'] = $this->inventory_model->get_requisition_status(); 
+      $this->data['status'] = $this->inventory_model->get_requisition_status();
       //Results
-      $this->data['items'] = $this->inventory_model->get_requisition_items($dataID);  
+      $this->data['items'] = $this->inventory_model->get_requisition_items($dataID);
 
       //Load view
       $this->data['meta_title'] = 'অ্যাপ্রভ স্ট্যাটাস';
@@ -414,8 +414,8 @@ class Inventory extends Backend_Controller {
       } else {
           redirect('dashboard');
       }
-      
-      $results = $this->inventory_model->request_requisition_list($limit, $offset, $status, $desk); 
+
+      $results = $this->inventory_model->request_requisition_list($limit, $offset, $status, $desk);
       $this->data['results'] = $results['rows'];
       $this->data['total_rows'] = $results['num_rows'];
 
@@ -446,12 +446,12 @@ class Inventory extends Backend_Controller {
 
       // $dataID = $id; //exit;
       $dataID = (int) decrypt_url($id); //exit;
-      if (!$this->Common_model->exists('requisitions', 'id', $dataID)) { 
+      if (!$this->Common_model->exists('requisitions', 'id', $dataID)) {
         show_404('inventory - update - exitsts', TRUE);
       }
 
       $this->data['info'] = $this->inventory_model->get_requisition_by_id($dataID);
-      //Validation      
+      //Validation
       $this->form_validation->set_rules('status', ' status','required|trim');
 
       //Validate and input data
@@ -484,7 +484,7 @@ class Inventory extends Backend_Controller {
           // dd($form_data); exit;
           if($this->Common_model->edit('requisitions',  $dataID, 'id', $form_data)){
 
-              // Requisition Data 
+              // Requisition Data
               if ($this->ion_auth->in_group(array('jd'))) {
                 for ($i=0; $i<sizeof($_POST['hide_id']); $i++) {
                    //check exists data
@@ -492,7 +492,7 @@ class Inventory extends Backend_Controller {
                    if($data_exists){
                       $data = array(
                          'jd_qty_approve'     => $_POST['qty_approve'][$i]
-                         ); 
+                         );
                       $this->Common_model->edit('requisition_item', $_POST['hide_id'][$i], 'id', $data);
                    }
                 }
@@ -503,7 +503,7 @@ class Inventory extends Backend_Controller {
                    if($data_exists){
                       $data = array(
                          'qty_approve'     => $_POST['qty_approve'][$i]
-                         ); 
+                         );
                       $this->Common_model->edit('requisition_item', $_POST['hide_id'][$i], 'id', $data);
                    }
                 }
@@ -515,9 +515,9 @@ class Inventory extends Backend_Controller {
       }
 
       //Dropdown
-      // $this->data['status'] = $this->inventory_model->get_requisition_status(); 
+      // $this->data['status'] = $this->inventory_model->get_requisition_status();
       //Results
-      $this->data['items'] = $this->inventory_model->get_requisition_items($dataID);  
+      $this->data['items'] = $this->inventory_model->get_requisition_items($dataID);
 
       //Load view
       $this->data['meta_title'] = 'Approval Status';
@@ -527,7 +527,7 @@ class Inventory extends Backend_Controller {
 
   public function approve_list($offset=0){
       $limit = 25;
-      $results = $this->inventory_model->get_requisition($limit, $offset, '4'); 
+      $results = $this->inventory_model->get_requisition($limit, $offset, '4');
       $this->data['results'] = $results['rows'];
       $this->data['total_rows'] = $results['num_rows'];
 
@@ -551,7 +551,7 @@ class Inventory extends Backend_Controller {
 
     // $dataID = $id; //exit;
     $dataID = (int) decrypt_url($id); //exit;
-    if (!$this->Common_model->exists('requisitions', 'id', $dataID)) { 
+    if (!$this->Common_model->exists('requisitions', 'id', $dataID)) {
        show_404('inventory - delivery_product - exitsts', TRUE);
     }
 
@@ -572,8 +572,8 @@ class Inventory extends Backend_Controller {
         // print_r($form_data); exit;
         if($this->Common_model->edit('requisitions',  $dataID, 'id', $form_data)){
 
-            $items = $this->inventory_model->get_requisition_items($dataID);  
-            foreach($items as $item){          
+            $items = $this->inventory_model->get_requisition_items($dataID);
+            foreach($items as $item){
                $this->db->query("UPDATE items SET quantity = quantity - $item->qty_approve where id =$item->item_id");
             }
 
@@ -585,7 +585,7 @@ class Inventory extends Backend_Controller {
 
     //Results
     $this->data['items'] = $this->inventory_model->get_requisition_items($dataID);
-    
+
     //Load view
     $this->data['meta_title'] = 'ডেলিভেরি আইটেম';
     $this->data['subview'] = 'delivery_product';
@@ -595,7 +595,7 @@ class Inventory extends Backend_Controller {
   public function delivered_list($offset=0, $user_id = null){
     $limit = 25;
     $user_id = (int) decrypt_url($user_id); //exit;
-    $results = $this->inventory_model->get_requisition($limit, $offset, 5, $user_id); 
+    $results = $this->inventory_model->get_requisition($limit, $offset, 5, $user_id);
     $this->data['results'] = $results['rows'];
     $this->data['total_rows'] = $results['num_rows'];
 
@@ -611,15 +611,15 @@ class Inventory extends Backend_Controller {
   public function ajax_delivered_list_list($offset=0, $user_id = null){
     $limit = 25;
     $user_id = (int) decrypt_url($user_id); //exit;
-    $results = $this->inventory_model->get_requisition($limit, $offset, 5, $user_id); 
-    
+    $results = $this->inventory_model->get_requisition($limit, $offset, 5, $user_id);
+
     $text = $this->load->view('ajax_delivered_list_list', $results, TRUE);
-    set_output($text); 
+    set_output($text);
   }
 
   public function rejected_list($offset=0){
       $limit = 25;
-      $results = $this->inventory_model->get_requisition($limit, $offset, '3'); 
+      $results = $this->inventory_model->get_requisition($limit, $offset, '3');
       $this->data['results'] = $results['rows'];
       $this->data['total_rows'] = $results['num_rows'];
 
@@ -634,7 +634,7 @@ class Inventory extends Backend_Controller {
 
   public function unavailable_list($offset=0){
       $limit = 25;
-      $results = $this->inventory_model->get_unavailable_items($limit, $offset); 
+      $results = $this->inventory_model->get_unavailable_items($limit, $offset);
       $this->data['results'] = $results['rows'];
       $this->data['total_rows'] = $results['num_rows'];
 
@@ -680,7 +680,7 @@ class Inventory extends Backend_Controller {
           'item_name'     => $this->input->post('item_name'),
           'quantity'      => $this->input->post('quantity'),
           'order_level'   => $this->input->post('order_level')
-          );           
+          );
 
        if($this->Common_model->save('items', $form_data)){
           $this->session->set_flashdata('success', 'Item create successfully.');
@@ -700,14 +700,14 @@ class Inventory extends Backend_Controller {
 
   public function item_edit($id){
     $dataID = (int) decrypt_url($id); //exit;
-    if (!$this->Common_model->exists('items', 'id', $dataID)) { 
+    if (!$this->Common_model->exists('items', 'id', $dataID)) {
        show_404('items - edit - exitsts', TRUE);
     }
 
     //Validation
     $this->form_validation->set_rules('cat_id', 'select category', 'required|trim');
     $this->form_validation->set_rules('unit_id', 'select unit', 'required|trim');
-    $this->form_validation->set_rules('sub_cate_id', 'select sub category', 'required|trim');    
+    $this->form_validation->set_rules('sub_cate_id', 'select sub category', 'required|trim');
     $this->form_validation->set_rules('item_name', 'item name', 'required|trim');
     $this->form_validation->set_rules('status', 'Status', 'required|trim');
 
@@ -720,7 +720,7 @@ class Inventory extends Backend_Controller {
           'quantity'    => $this->input->post('quantity'),
           'order_level' => $this->input->post('order_level'),
           'status'      => $this->input->post('status')
-          );           
+          );
 
        // print_r($form_data); exit;
        if($this->Common_model->edit('items', $dataID, 'id', $form_data)){
@@ -749,7 +749,7 @@ class Inventory extends Backend_Controller {
     $this->data['info'] = $this->inventory_model->hard_delete('items',$id);
 
     $this->session->set_flashdata('success', 'Item delete successfully.');
-    redirect('inventory/item_setup');     
+    redirect('inventory/item_setup');
   }
 
     public function item_purchase_list($offset=0)
@@ -757,7 +757,7 @@ class Inventory extends Backend_Controller {
       $limit = 25;
 
       //Results
-      $results = $this->inventory_model->get_purchase($limit, $offset); 
+      $results = $this->inventory_model->get_purchase($limit, $offset);
       $this->data['results'] = $results['rows'];
       $this->data['total_rows'] = $results['num_rows'];
 
@@ -768,7 +768,7 @@ class Inventory extends Backend_Controller {
       $this->data['meta_title'] = 'পার্সেস তালিকা';
       $this->data['subview'] = 'purchase_list';
       $this->load->view('backend/_layout_main', $this->data);
-    }    
+    }
 
     public function item_purchase_create()
     {
@@ -780,23 +780,23 @@ class Inventory extends Backend_Controller {
             $user = $this->ion_auth->user()->row();
 
             $form_data = array(
-                'user_id'         => $user->id,            
+                'user_id'         => $user->id,
                 'supplier_name'   => $this->input->post('title'),
                 'f_year_id'       => 0,
                 'created'         => date('Y-m-d H:i:s')
             );
 
-            if($this->Common_model->save('purchase', $form_data)){     
+            if($this->Common_model->save('purchase', $form_data)){
 
                 // Schedule Type Appointment
                 $insert_id = $this->db->insert_id();
                 // Insert Scout Unit under a group
 
-                for ($i=0; $i<sizeof($_POST['pur_item_id']); $i++) { 
+                for ($i=0; $i<sizeof($_POST['pur_item_id']); $i++) {
                     $form_data2 = array(
                         'purchase_id'        => $insert_id,
                         'pur_item_id'        => $_POST['pur_item_id'][$i],
-                        'pur_quantity'       => $_POST['pur_quantity'][$i],                             
+                        'pur_quantity'       => $_POST['pur_quantity'][$i],
                         'pur_fiscal_year_id' => 0,
                         'pur_remark'         => $_POST['pur_remark'][$i]
                     );
@@ -811,7 +811,7 @@ class Inventory extends Backend_Controller {
                 $this->session->set_flashdata('success', 'Purchase Create successfully.');
                 redirect("inventory/item_purchase_list");
             }
-        } 
+        }
 
 
         //Dropdown
@@ -822,23 +822,23 @@ class Inventory extends Backend_Controller {
         $this->data['meta_title'] = 'আইটেম পার্সেস';
         $this->data['subview'] = 'item_purchase_create';
         $this->load->view('backend/_layout_main', $this->data);
-    } 
+    }
 
     public function purchase_details($id)
     {
       $dataID = (int) decrypt_url($id); //exit;
-      if (!$this->Common_model->exists('purchase', 'id', $dataID)) { 
+      if (!$this->Common_model->exists('purchase', 'id', $dataID)) {
          show_404('Purchase - details - exitsts', TRUE);
-      }      
+      }
 
       //Results
       $this->data['info'] = $this->inventory_model->get_purchase_info($dataID);
-      $this->data['items'] = $this->inventory_model->get_purchase_items($dataID); 
+      $this->data['items'] = $this->inventory_model->get_purchase_items($dataID);
 
       // Load page
       $this->data['meta_title'] = 'আইটেম পার্সেস বিস্তারিত';
       $this->data['subview'] = 'purchase_details';
-      $this->load->view('backend/_layout_main', $this->data); 
+      $this->load->view('backend/_layout_main', $this->data);
     }
 
     public function my_requisition($offset=0)
@@ -846,7 +846,7 @@ class Inventory extends Backend_Controller {
       $limit = 25;
 
       //Results
-      $results = $this->inventory_model->get_my_requisition($limit, $offset); 
+      $results = $this->inventory_model->get_my_requisition($limit, $offset);
       $this->data['results'] = $results['rows'];
       $this->data['total_rows'] = $results['num_rows'];
 
@@ -856,7 +856,7 @@ class Inventory extends Backend_Controller {
       // Load view
       $this->data['meta_title'] = 'রিকুইজিশন তালিকা';
       $this->data['subview'] = 'my_requisition';
-      $this->load->view('backend/_layout_main', $this->data);      
+      $this->load->view('backend/_layout_main', $this->data);
     }
 
 
@@ -866,11 +866,11 @@ class Inventory extends Backend_Controller {
         // echo "<pre>"; print_r($_POST); exit;
          if (isset($_POST['save']) && $_POST['save'] == "সংরক্ষণ করুন") {
             $user = $this->ion_auth->user()->row();
-           
+
             $form_data = array(
                 'user_id'   => $user->id,
-                'department_id' => $user->crrnt_dept_id, 
-                'designation_id' => $user->crrnt_desig_id, 
+                'department_id' => $user->crrnt_dept_id,
+                'designation_id' => $user->crrnt_desig_id,
                 // 'title'     => $this->input->post('title'),
                 // 'current_desk'     => 1,
                 'created'   => date('Y-m-d H:i:s'),
@@ -878,11 +878,11 @@ class Inventory extends Backend_Controller {
             );
 
 
-            if($this->Common_model->save('requisitions', $form_data)){     
+            if($this->Common_model->save('requisitions', $form_data)){
                 $insert_id = $this->db->insert_id();
                    // Insert Scout Unit under a group
 
-                for ($i=0; $i<sizeof($_POST['item_id']); $i++) { 
+                for ($i=0; $i<sizeof($_POST['item_id']); $i++) {
                    $form_data2 = array(
                       'requisition_id'     => $insert_id,
                       'item_cate_id'       => $_POST['item_cate_id'][$i],
@@ -890,7 +890,7 @@ class Inventory extends Backend_Controller {
                       'item_id'            => $_POST['item_id'][$i],
                       'user_id'            => $user->id,
                       'dept_id'            => $user->crrnt_dept_id,
-                      'qty_request'        => $_POST['qty_request'][$i],           
+                      'qty_request'        => $_POST['qty_request'][$i],
                       'remark'             => $_POST['remark'][$i]
                       );
                    $this->Common_model->save('requisition_item', $form_data2);
@@ -915,7 +915,7 @@ class Inventory extends Backend_Controller {
     public function my_requisition_details($id)
     {
       $dataID = (int) decrypt_url($id); //exit;
-      if (!$this->Common_model->exists('requisitions', 'id', $dataID)) { 
+      if (!$this->Common_model->exists('requisitions', 'id', $dataID)) {
          show_404('inventory/my_requisition - details - exitsts', TRUE);
       }
 
@@ -933,7 +933,7 @@ class Inventory extends Backend_Controller {
     public function my_requisition_print($id)
     {
       $dataID = (int) decrypt_url($id); //exit;
-      if (!$this->Common_model->exists('requisitions', 'id', $dataID)) { 
+      if (!$this->Common_model->exists('requisitions', 'id', $dataID)) {
          show_404('inventory/my_requisition - details - exitsts', TRUE);
       }
 
@@ -979,7 +979,7 @@ class Inventory extends Backend_Controller {
     $id = $this->input->post('id');
     $data = array(
      'is_delete'     => $this->input->post('type'),
-    ); 
+    );
     if ($this->Common_model->edit('requisition_item', $id, 'id', $data)) {
       echo true;
     } else {
@@ -994,11 +994,11 @@ class Inventory extends Backend_Controller {
 
     if( $btn_submit == 'item_report') {
         $this->data['date_from'] = $this->input->post('date_from');
-        $this->data['date_to'] = $this->input->post('date_to');        
+        $this->data['date_to'] = $this->input->post('date_to');
 
         // Results
         $this->data['results'] = $this->inventory_model->get_items();
-        // echo "<pre>"; print_r($this->data['results']); 
+        // echo "<pre>"; print_r($this->data['results']);
         // exit($btn_submit);
 
         // Generate PDF
@@ -1102,11 +1102,11 @@ class Inventory extends Backend_Controller {
     $this->data['users'] = $this->inventory_model->get_department();
     $this->data['categories'] = $this->Common_model->get_dropdown('categories', 'category_name', 'id');
     // echo "<pre>"; print_r($this->data['users']);exit;
-    // Load View 
+    // Load View
     $this->data['meta_title'] = 'ইনভেন্টরি রিপোর্ট';
     $this->data['subview'] = 'inventory_reports';
     $this->load->view('backend/_layout_main', $this->data);
-  }  
+  }
 
   public function ajax_requisition_del($id)
   {
@@ -1116,14 +1116,14 @@ class Inventory extends Backend_Controller {
     );
     $this->Common_model->edit('requisition_item',  $id, 'id', $form_data);
     echo 'এই তথ্যটি ডাটাবেজ থেকে সম্পূর্ণভাবে মুছে ফেলা হয়েছে।';
-  } 
+  }
 
   public function ajax_item_list()
   {
 
     $this->data['results'] = $this->inventory_model->ajax_item_list();
     $text = $this->load->view('ajax_item_list', $this->data, TRUE);
-    set_output($text); 
+    set_output($text);
   }
 
 }
