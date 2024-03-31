@@ -293,7 +293,6 @@
                   </li> -->
                <?php } ?>
 
-
                <?php if ($this->ion_auth->in_group(array('admin', 'nilg', 'uz', 'ddlg'))) { ?>
                   <li class="start <?= backend_activate_menu_class('training') ?>">
                      <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title">প্রশিক্ষণ</span> <span class="selected"></span>
@@ -331,7 +330,6 @@
                   </li>
                <?php } ?>
 
-
                <?php if ($this->ion_auth->in_group(array('admin', 'nilg', 'uz', 'ddlg', 'cc'))) { ?>
                   <li class="start <?= backend_activate_menu_class('evaluation') ?>">
                      <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title">প্রশিক্ষণ মূল্যায়ন</span> <span class="selected"></span> <span class="arrow"></span> </a>
@@ -346,6 +344,8 @@
                   </li>
                <?php } ?>
 
+
+               <!-- budget entry -->
                <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg', 'bdh', 'acc', 'uz', 'ddlg')) || $userDetails->office_type == 7) { ?>
                   <?php if ($this->ion_auth->in_group(array('uz', 'ddlg'))) { ?>
                      <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span> <span class="arrow"></span> </a>
@@ -394,7 +394,9 @@
                         <?php } ?>
                      </ul>
                   </li>
-                  <?php if ($this->ion_auth->in_group(array('admin','nilg','acc', 'bli', 'bho'))) { ?>
+               <?php } }  ?>
+
+               <?php if ($this->ion_auth->in_group(array('admin','nilg','acc'))) { ?>
                   <li class="start <?= backend_activate_menu_class('journal_entry') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">জার্নাল এন্ট্রি</span> <span class="selected"></span>
                      <?php if ($budget_check_ntfy > 0 || $budget_revenue_ntfy > 0 || $budget_hostel_ntfy > 0 || $budget_public_ntfy > 0 || $budget_gpf_ntfy > 0 || $budget_pension_ntfy > 0 || $budget_other_ntfy > 0) {
                            echo '<span class="badge badge-danger pull-right">' . eng2bng($budget_check_ntfy + $budget_revenue_ntfy + $budget_hostel_ntfy + $budget_public_ntfy + $budget_gpf_ntfy + $budget_pension_ntfy + $budget_other_ntfy) . '</span>';
@@ -445,19 +447,8 @@
                         </a> </li>
                      </ul>
                   </li>
-
-                  <li class="start <?= backend_activate_menu_class('nilg_setting') ?> <?= backend_activate_menu_class('budget_head') ?> <?= backend_activate_menu_class('budget_sub_head') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব সেটিংস</span> <span class="selected"></span> <span class="arrow"></span> </a>
-                     <ul class="sub-menu">
-                        <li class="start <?= backend_activate_menu_method('account_types') ?>"> <a href="<?= base_url('nilg_setting/account_types'); ?>">অ্যাকাউন্ট টাইপ </a> </li>
-                        <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_head'); ?>">বাজেট হেড</a> </li>
-                        <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_sub_head'); ?>">বাজেট সাব হেড</a> </li>
-                        <li class="start <?= backend_activate_menu_method('budget_description') ?>"> <a href="<?= base_url('nilg_setting/budget_head/budget_description'); ?>">বাজেট সামারি</a> </li>
-                        <li class="start <?= backend_activate_menu_method('session_year') ?>"> <a href="<?= base_url('nilg_setting/session_year'); ?>">অর্থ বছর</a> </li>
-                     </ul>
-                  </li>
-               <?php } } } ?>
-
-                  <?php if ($this->ion_auth->in_group(array('bli', 'bho'))) { ?>
+               <?php } else { ?>
+               <?php if ($this->ion_auth->in_group(array('bli', 'bho'))) { ?>
                   <li class="start <?= backend_activate_menu_class('journal_entry') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">জার্নাল এন্ট্রি</span> <span class="selected"></span>
                      <?php if ($budget_check_ntfy > 0 || $budget_revenue_ntfy > 0 || $budget_hostel_ntfy > 0 || $budget_public_ntfy > 0 || $budget_gpf_ntfy > 0 || $budget_pension_ntfy > 0 || $budget_other_ntfy > 0) {
                            echo '<span class="badge badge-danger pull-right">' . eng2bng($budget_check_ntfy + $budget_revenue_ntfy + $budget_hostel_ntfy + $budget_public_ntfy + $budget_gpf_ntfy + $budget_pension_ntfy + $budget_other_ntfy) . '</span>';
@@ -488,7 +479,21 @@
                         <?php } ?>
                      </ul>
                   </li>
-                  <?php } ?>
+               <?php } } ?>
+
+               <?php if ($this->ion_auth->in_group(array('admin','nilg','acc'))) { ?>
+                  <li class="start <?= backend_activate_menu_class('nilg_setting') ?> <?= backend_activate_menu_class('budget_head') ?> <?= backend_activate_menu_class('budget_sub_head') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব সেটিংস</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                     <ul class="sub-menu">
+                        <li class="start <?= backend_activate_menu_method('account_types') ?>"> <a href="<?= base_url('nilg_setting/account_types'); ?>">অ্যাকাউন্ট টাইপ </a> </li>
+                        <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_head'); ?>">বাজেট হেড</a> </li>
+                        <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_sub_head'); ?>">বাজেট সাব হেড</a> </li>
+                        <li class="start <?= backend_activate_menu_method('budget_description') ?>"> <a href="<?= base_url('nilg_setting/budget_head/budget_description'); ?>">বাজেট সামারি</a> </li>
+                        <li class="start <?= backend_activate_menu_method('session_year') ?>"> <a href="<?= base_url('nilg_setting/session_year'); ?>">অর্থ বছর</a> </li>
+                     </ul>
+                  </li>
+               <?php } ?>
+               <!-- budget entry -->
+
 
                <?php if ($this->ion_auth->in_group('cc')) { ?>
                   <li class="start <?= backend_activate_menu_class('qbank') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">এনআইএলজি সেটিংস</span> <span class="selected"></span> <span class="arrow"></span> </a>
@@ -498,13 +503,11 @@
                   </li>
                <?php } ?>
 
-
                <?php if ($this->ion_auth->in_group(array('admin', 'cc'))) { ?>
                   <!-- <li class="start <?= backend_activate_menu_class('training_management') ?>">
                      <a href="<?= base_url('training_management'); ?>"> <i class="fa fa-book"></i> <span class="title">প্রশিক্ষণ ব্যবস্থাপনা</span></a>
                   </li> -->
                <?php } ?>
-
 
                <?php if($this->ion_auth->in_group(array('admin', 'nilg')) || func_nilg_auth($userDetails->office_type) == 'employee'){ ?>
                   <li class="start <?= backend_activate_menu_class('leave') ?>">
@@ -588,7 +591,7 @@
                            <?php } ?>
 
                            <?php if ($this->ion_auth->in_group(array('admin','sm','asm'))) { ?>
-                              <li class="start <?= backend_activate_menu_method('index') ?>"><a href="<?= base_url('inventory/index') ?>">রিকুইজিশনের তালিকা</a></li>
+                              <!-- <li class="start <?php // echo backend_activate_menu_method('index') ?>"><a href="<?php // echo base_url('inventory/index') ?>">রিকুইজিশনের তালিকা</a></li> -->
                               <li class="start <?= backend_activate_menu_method('pending_list') ?>">
                                  <a href="<?= base_url('inventory/pending_list') ?>">পেন্ডিং তালিকা
                                  <?php if ($request_stor_no['pending'] > 0) {

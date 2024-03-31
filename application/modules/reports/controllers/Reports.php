@@ -37,7 +37,6 @@ class Reports extends Backend_Controller {
         $this->data['meta_title'] = 'জনপ্রতিনিধির রিপোর্ট';
         $this->data['subview'] = 'representative';
         $this->load->view('backend/_layout_main', $this->data);
-
     }
 
     public function representative_result(){

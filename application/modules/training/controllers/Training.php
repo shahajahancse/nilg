@@ -23,12 +23,12 @@ class Training extends Backend_Controller {
         $this->voucher_path = realpath(APPPATH . '../uploads/voucher');
         $this->video_path = realpath(APPPATH . '../uploads/video');
         $this->training_docs_path = realpath(APPPATH . '../uploads/training_docs');
-        $this->note_path = realpath(APPPATH . '../uploads/note');	
+        $this->note_path = realpath(APPPATH . '../uploads/note');
 
 
         // auto off training schedule after 7 day
         training_participant_auto_off();
-    }    
+    }
 
     public function index($offset=0)
     {
@@ -40,8 +40,8 @@ class Training extends Backend_Controller {
         $this->data['results'] = 0;
         $this->data['total_rows'] = 0;
         // dd($office);
-        
-        // Check Auth        
+
+        // Check Auth
         if($this->ion_auth->in_group('uz')){
             $results = $this->Training_model->get_training_data($limit, $offset, $officeID);
         }elseif($this->ion_auth->in_group('ddlg')){
@@ -93,8 +93,8 @@ class Training extends Backend_Controller {
         $this->data['results'] = 0;
         $this->data['total_rows'] = 0;
         // dd($office);
-        
-        // Check Auth        
+
+        // Check Auth
         if($this->ion_auth->in_group('uz')){
             $results = $this->Training_model->get_training_data($limit, $offset, $officeID);
         }elseif($this->ion_auth->in_group('ddlg')){
@@ -129,9 +129,9 @@ class Training extends Backend_Controller {
 
         $this->data['courses'] = $this->db->select('id, course_title')->from('course')->where('status', 1)->get();
         $this->data['divisions'] = $this->db->select('id, div_name_bn')->from('divisions')->get()->result();
-        
+
         $text = $this->load->view('ajax_training_list', $this->data, TRUE);
-        set_output($text); 
+        set_output($text);
     }
 
 
@@ -146,14 +146,17 @@ class Training extends Backend_Controller {
         }
 
         $this->data['training'] = $this->Training_model->get_training_info($id);
-        // dd($this->data['info']); exit();
         $this->data['results'] = $this->Training_model->get_participant_list($id);
-        
 
         // Load Page
         $this->data['meta_title'] = 'অংশগ্রহণকারী তালিকা';
-        $this->data['subview'] = 'participant_list';
-        $this->load->view('backend/_layout_main', $this->data);
+        if (!empty($this->input->get('excel'))) {
+        echo $this->load->view('participant_list_excel', $this->data, true);
+        exit;
+        } else {
+            $this->data['subview'] = 'participant_list';
+            $this->load->view('backend/_layout_main', $this->data);
+        }
     }
 
     public function participant_list_doc($id)
@@ -171,10 +174,10 @@ class Training extends Backend_Controller {
         // print_r($this->data['results']); exit;
         $this->data['headding'] = 'দৈনিক হাজিরা ';
 
-        header("Content-type: application/vnd.ms-word");  
-        header("Content-Disposition: attachment;Filename=".rand().".doc");  
-        header("Pragma: no-cache");  
-        header("Expires: 0"); 
+        header("Content-type: application/vnd.ms-word");
+        header("Content-Disposition: attachment;Filename=".rand().".doc");
+        header("Pragma: no-cache");
+        header("Expires: 0");
 
         echo $html = $this->load->view('word_participant', $this->data, true);
         exit;
@@ -203,7 +206,7 @@ class Training extends Backend_Controller {
                 'is_verified'   => 1
                 );
             // print_r($form_data); exit;
-            if($this->Common_model->save('training_participant', $form_data)){                
+            if($this->Common_model->save('training_participant', $form_data)){
                 $this->session->set_flashdata('success', 'প্রশিক্ষণার্থীকে প্রশিক্ষণ তালিকায় যুক্ত করা হয়েছে');
                 redirect('training/participant_list/'.$id);
             }
@@ -228,7 +231,7 @@ class Training extends Backend_Controller {
         $this->data['training'] = $this->Training_model->get_training_info($trainingID);
         // $this->data['results'] = $this->Training_model->get_participant_list($id);
 
-        // Validation        
+        // Validation
         $this->form_validation->set_rules('so', 'sort order', 'required|trim');
 
         // Validate Input Data
@@ -285,7 +288,7 @@ class Training extends Backend_Controller {
         $html = $this->load->view('pdf_attendance', $this->data, true);
 
         //PDF Generate
-        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);        
+        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
         $mpdf->WriteHtml($html);
         $mpdf->output();
     }
@@ -335,8 +338,8 @@ class Training extends Backend_Controller {
     }
 
     public function ajax_training_participant_list()
-    {   
-        // echo 'hello'; exit;     
+    {
+        // echo 'hello'; exit;
         //$updateid = $this->input->get('hide_id');
 
         $form_data = array(
@@ -488,7 +491,7 @@ class Training extends Backend_Controller {
         $this->data['meta_title'] = 'প্রশিক্ষণ কর্মসূচী সংশোধন';
         $this->data['subview'] = 'schedule_item_edit';
         $this->load->view('backend/_layout_main', $this->data);
-    } 
+    }
 
     public function schedule_add($id)
     {
@@ -518,7 +521,7 @@ class Training extends Backend_Controller {
                 'is_honorarium' => $this->input->post('is_honorarium')
                 );
             // print_r($form_data); exit;
-            if($this->Common_model->save('training_schedule', $form_data)){                
+            if($this->Common_model->save('training_schedule', $form_data)){
                 $this->session->set_flashdata('success', 'New record insert successfully.');
                 redirect('training/schedule/'.$id);
             }
@@ -628,8 +631,8 @@ class Training extends Backend_Controller {
             if ($tra_status == 1) {
                 $this->session->set_flashdata('success', 'ইতিমধ্যে রেকর্ড সন্নিবেশ করা হয়েছে');
                 redirect('training/allowance/'.$id);
-            } else { 
-                if($this->Common_model->save('training_allowance_change', $form_data)){  
+            } else {
+                if($this->Common_model->save('training_allowance_change', $form_data)){
                     $form_data = array(
                         'tra_status' => 1,
                     );
@@ -678,7 +681,7 @@ class Training extends Backend_Controller {
                 );
             // print_r($form_data); exit;
 
-            if($this->Common_model->edit('training_allowance_change', $id, 'training_id', $form_data)){  
+            if($this->Common_model->edit('training_allowance_change', $id, 'training_id', $form_data)){
                 $this->session->set_flashdata('success', 'রেকর্ড সম্পাদনা সফলভাবে সম্পন্ন হয়েছে.');
                 redirect('training/allowance/'.$id);
             }
@@ -702,7 +705,7 @@ class Training extends Backend_Controller {
             redirect('dashboard');
         }
 
-        // Get Data        
+        // Get Data
         $this->data['training'] = $this->Training_model->get_training_info($id);
         $this->data['results'] = $this->Training_model->get_allowance($id);
 
@@ -717,7 +720,7 @@ class Training extends Backend_Controller {
     }
 
     public function allowance_dress($id)
-    {   
+    {
         // Check Auth
         if(!$this->ion_auth->in_group(array('admin', 'uz', 'ddlg', 'nilg', 'cc'))){
             redirect('dashboard');
@@ -741,7 +744,7 @@ class Training extends Backend_Controller {
         }
 
         // Get Data
-        $this->data['training'] = $this->Training_model->get_training_info($id);        
+        $this->data['training'] = $this->Training_model->get_training_info($id);
         $this->data['results'] = $this->Training_model->get_allowance($id);
 
         // print_r($this->data['results']); exit;
@@ -791,7 +794,7 @@ class Training extends Backend_Controller {
         $html = $this->load->view('pdf_material', $this->data, true);
 
         //PDF Generate
-        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);        
+        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
         $mpdf->WriteHtml($html);
         $mpdf->output();
     }
@@ -823,7 +826,7 @@ class Training extends Backend_Controller {
         }
 
         // Get Data
-        $this->data['training'] = $this->Training_model->get_training_info($id);        
+        $this->data['training'] = $this->Training_model->get_training_info($id);
         $this->data['results'] = $this->Training_model->get_honorarium($id);
         // dd($this->data['results']);
 
@@ -858,7 +861,7 @@ class Training extends Backend_Controller {
         $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
         $mpdf->WriteHtml($html);
         $mpdf->output();
-    }    
+    }
 
 
     public function marksheet($id)
@@ -903,7 +906,7 @@ class Training extends Backend_Controller {
         $mpdf = new mPDF('', 'A4-L', 10, 'nikosh', 10, 10, 10, 5);
         $mpdf->WriteHtml($html);
         $mpdf->output();
-    }   
+    }
 
 
     /******************************* Certificate ******************************/
@@ -923,20 +926,20 @@ class Training extends Backend_Controller {
         $participantList = $this->Training_model->get_participant_is_not_complete($id);
         foreach ($participantList as $value) {
             // $arr[] = $value->data_sheet_id;
-            $form_data = array(                
+            $form_data = array(
                 'data_id' => $value->id,
                 'nilg_desig_id' => $value->crrnt_desig_id,
                 'nilg_course_id' => $this->data['training']->course_id,
                 'nilg_batch_no' => $this->data['training']->batch_no,
                 'nilg_training_start' => $this->data['training']->start_date,
                 'nilg_training_end' => $this->data['training']->end_date
-            );    
+            );
 
             //Insert data to Datasheet NILG training
             if($this->Common_model->save('per_nilg_training', $form_data)){
                 //Update participant list is_complete '1'
                 $updae_data = array('is_complete' => '1');
-                $this->Common_model->edit('training_participant', $value->id, 'id', $updae_data);    
+                $this->Common_model->edit('training_participant', $value->id, 'id', $updae_data);
             }
         }
         */
@@ -964,7 +967,7 @@ class Training extends Backend_Controller {
         $training = $this->Training_model->get_training_info($id);
                 // echo "<pre>"; print_r($training); die();
 
-        
+
         // Insert `per_nilg_training` Participant List
         $count_participant = count($this->input->post('participant_id'));
         if (!empty($count_participant)) {
@@ -974,7 +977,7 @@ class Training extends Backend_Controller {
                 $get_data_id = $this->db->where('tp.data_id', $get_data->app_user_id)->where('tp.nilg_course_id', $training->course_id)->get('per_nilg_training as tp')->num_rows();
 
 
-                $form_data = array(                
+                $form_data = array(
                     // 'app_user_id' => $desig_id->app_user_id,
                     'data_id' => $get_data->app_user_id,
                     'nilg_desig_id' => $get_data->crrnt_desig_id,
@@ -989,18 +992,18 @@ class Training extends Backend_Controller {
                 if ($get_data_id == 0) {
                     //Insert data to Datasheet NILG training
                     $this->Common_model->save('per_nilg_training', $form_data);
-                    //Update participant list is_complete '1'       
+                    //Update participant list is_complete '1'
                     $updae_data = array('is_complete' => '1', 'nilg_desig_id' => $get_data->crrnt_desig_id);
-                    $this->Common_model->edit('training_participant', $value, 'id', $updae_data);    
-                    
+                    $this->Common_model->edit('training_participant', $value, 'id', $updae_data);
+
                 } else {
                     //update data to Datasheet NILG training
-                    $this->db->where('data_id', $get_data->app_user_id)->where('nilg_course_id', $training->course_id)->update('per_nilg_training', $form_data); 
+                    $this->db->where('data_id', $get_data->app_user_id)->where('nilg_course_id', $training->course_id)->update('per_nilg_training', $form_data);
 
 
                     //Update participant list is_complete '1'
                     $updae_data = array('is_complete' => '1', 'nilg_desig_id' => $get_data->crrnt_desig_id);
-                    $this->Common_model->edit('training_participant', $value, 'id', $updae_data);    
+                    $this->Common_model->edit('training_participant', $value, 'id', $updae_data);
                 }
             }
             echo json_encode(array('success' => true,'message' => 'তথ্যটি সংরক্ষণ করা হয়েছে'));
@@ -1061,7 +1064,7 @@ class Training extends Backend_Controller {
         $mpdf->adjustFontDescLineheight = 2.14;
         $mpdf->WriteHtml($html);
         $mpdf->output('Certificate.pdf', 'I');
-    }    
+    }
 
     public function pdf_certificate_landscape($participantID)
     {
@@ -1106,7 +1109,7 @@ class Training extends Backend_Controller {
         $this->data['course_director']='';
         $this->data['dg']='';
         $this->data['jd']='';
-        
+
         // Get Info
         $this->data['info'] = $this->Training_model->get_certificate($participantID);
         $trainingID = $this->data['info']->training_id;
@@ -1132,7 +1135,7 @@ class Training extends Backend_Controller {
         $mpdf->adjustFontDescLineheight = 2.14;
         $mpdf->WriteHtml($html);
         $mpdf->output('Certificate.pdf', 'I');
-    }   
+    }
 
 
 
@@ -1169,7 +1172,7 @@ class Training extends Backend_Controller {
 
     // training_docs
     public function schedule_docs($scheduleID)
-    {        
+    {
         // Check Auth
         if(!$this->ion_auth->in_group(array('admin', 'uz', 'ddlg', 'nilg', 'cc', 'trainer'))){
             redirect('dashboard');
@@ -1181,7 +1184,7 @@ class Training extends Backend_Controller {
         $this->data['documents']= $this->Training_model->get_documents_by_schedule($scheduleID);
         // dd($this->data['info']);
 
-        // $scheduleID  = $this->input->post('schedule_id');        
+        // $scheduleID  = $this->input->post('schedule_id');
         $trainingID     = $this->input->post('training_id');
         $courseID       = $this->input->post('course_id');
         $documentName   = $this->input->post('document_name');
@@ -1302,7 +1305,7 @@ class Training extends Backend_Controller {
             $this->session->set_flashdata('success', 'Something is wrong.');
             redirect("training/schedule_docs/".$info->schedule_id);
         }
-    }    
+    }
 
 
 
@@ -1316,7 +1319,7 @@ class Training extends Backend_Controller {
         $limit = 50;
         $search = $this->input->post('search');
         if($this->ion_auth->is_admin()){
-            $results = $this->Training_model->get_data_admin($limit, $offset);            
+            $results = $this->Training_model->get_data_admin($limit, $offset);
         }elseif($this->ion_auth->in_group('urt')){
             $office = $this->Common_model->get_office_info_by_session();
             // dd($office);
@@ -1363,14 +1366,14 @@ class Training extends Backend_Controller {
         }
 
         $this->data['info'] = $this->Training_model->get_info($dataID);
-        $this->data['applicants'] = $this->Training_model->get_applicant($dataID);    
+        $this->data['applicants'] = $this->Training_model->get_applicant($dataID);
         // dd($this->data['applicants']);
 
         // Load page
         $this->data['meta_title'] = 'কোর্সে অংশগ্রহণকারী প্রশিক্ষণার্থীর তালিকা';
         $this->data['subview'] = 'course_applicant';
         $this->load->view('backend/_layout_main', $this->data);
-    }    
+    }
 
     public function applicant_verification($id)
     {
@@ -1389,7 +1392,7 @@ class Training extends Backend_Controller {
         // Get applicant info
         $this->data['info'] = $this->Training_model->get_applicant_info($dataID);
         // dd($this->data['info']);
-        
+
         // Validation
         // $this->form_validation->set_rules('verify_status', 'select verify status ', 'required|trim');
 
@@ -1398,10 +1401,10 @@ class Training extends Backend_Controller {
             $appID = $this->input->post('hide_app_id');
             $form_data = array(
                 'is_verified'     => $this->input->post('verify_status')
-                );            
+                );
             // dd($form_data);
 
-            if($this->Common_model->edit('training_participant', $appID, 'id', $form_data)){                
+            if($this->Common_model->edit('training_participant', $appID, 'id', $form_data)){
                 // echo $this->db->last_query(); exit;
                 if($this->input->post('verify_status') == 1){
                     $this->session->set_flashdata('success', 'আবেদনটি গ্রহন করা হয়েছে');
@@ -1412,7 +1415,7 @@ class Training extends Backend_Controller {
             }
         }*/
 
-        
+
         // print_r($this->data['info']); exit;
         // $this->data['verify_status'] = $this->Common_model->set_verification_status();
         // $this->data['participant_type'] = $this->Common_model->set_event_participant_type();
@@ -1458,7 +1461,7 @@ class Training extends Backend_Controller {
             if($info->employee_type == 1){
                 $dataStatus = 2; // Public Representative
             }else{
-                $dataStatus = 1; // Employee 
+                $dataStatus = 1; // Employee
             }
 
             $userData = array(
@@ -1477,11 +1480,11 @@ class Training extends Backend_Controller {
         // dd($groups_array);
 
 
-        // Approve Training Participaint        
+        // Approve Training Participaint
         $form_data = array(
             'is_apply'    => 0,
             'is_verified' => 1
-            );            
+            );
         // print_r($id);exit();
 
         if($this->Common_model->edit('training_participant', $dataID, 'id', $form_data)){
@@ -1515,21 +1518,21 @@ class Training extends Backend_Controller {
         // dd($info);
 
         // Delete Applican from training participant list
-        if($this->Common_model->delete('training_participant', 'id', $dataID)){   
+        if($this->Common_model->delete('training_participant', 'id', $dataID)){
             $this->session->set_flashdata('success', 'আবেদনটি বাতিল করা হয়েছে');
             redirect("training/course_applicant/".encrypt_url($info->training_id));
         }
 
         /*$form_data = array(
             'is_apply'    => 0
-            );            
+            );
             // print_r($id);exit();
 
-        if($this->Common_model->edit('training_participant', $dataID, 'id', $form_data)){            
+        if($this->Common_model->edit('training_participant', $dataID, 'id', $form_data)){
             $this->session->set_flashdata('success', 'আবেদনটি বাতিল করা হয়েছে');
             redirect("training/course_applicant/".encrypt_url($info->training_id));
         }*/
-    }   
+    }
 
     public function individual_marksheet($trainingID, $userID)
     {
@@ -1541,8 +1544,8 @@ class Training extends Backend_Controller {
         $this->data['info'] = $this->Training_model->get_info($trainingID);
         // $this->data['subjects'] = $this->Training_model->get_training_mark($trainingID);
 
-        $this->data['user'] = $this->Training_model->get_user_info($userID);            
-        $this->data['marksheet'] = $this->Training_model->get_marksheet($trainingID, $userID);    
+        $this->data['user'] = $this->Training_model->get_user_info($userID);
+        $this->data['marksheet'] = $this->Training_model->get_marksheet($trainingID, $userID);
         // dd($this->data['info']);
 
         // Load page
@@ -1560,11 +1563,11 @@ class Training extends Backend_Controller {
 
         // $this->data['subjects'] = $this->Training_model->get_training_mark($trainingID);
 
-        // $this->data['user'] = $this->Training_model->get_user_info($userID);            
-        $marksheet = $this->Training_model->get_marksheet($trainingID, $userID);  
+        // $this->data['user'] = $this->Training_model->get_user_info($userID);
+        $marksheet = $this->Training_model->get_marksheet($trainingID, $userID);
 
         $getMark=$totalMark=0;
-        foreach ($marksheet as $row) { 
+        foreach ($marksheet as $row) {
             $getMark += $row->mark;
             $totalMark += $row->set_training_mark;
         }
@@ -1574,7 +1577,7 @@ class Training extends Backend_Controller {
         // $grade = $this->gradeInWords($number);
         // dd($data);
 
-        return $data = [$getMark, $totalMark, $number]; 
+        return $data = [$getMark, $totalMark, $number];
     }
 
     function gradeInWords($grade) {
@@ -1635,7 +1638,7 @@ class Training extends Backend_Controller {
     }
 
     public function create()
-    {   
+    {
         // Check Auth
         if(!$this->ion_auth->in_group(array('admin', 'uz', 'ddlg', 'nilg', 'cc'))){
             redirect('dashboard');
@@ -1646,13 +1649,13 @@ class Training extends Backend_Controller {
 
         // Get office info
         $office = $this->Common_model->get_office_info_by_session();
-        // dd($office);        
+        // dd($office);
         $officeID   = $office->crrnt_office_id;
         $officeType = $office->office_type;
         $divisionID = $office->div_id;
         $districtID = $office->dis_id;
-        $upazilaID  = $office->upa_id;        
-        
+        $upazilaID  = $office->upa_id;
+
         // Validation
         $this->form_validation->set_rules('participant_name', 'অংশগ্রহণকারী', 'required|trim');
         $this->form_validation->set_rules('course_id', 'কোর্সের বিষয়', 'required|trim');
@@ -1664,7 +1667,7 @@ class Training extends Backend_Controller {
         $this->form_validation->set_rules('financing_id', 'অর্থায়নে', 'required|trim');
         /*if(@$_FILES['userfile']['size'] > 0){
             $this->form_validation->set_rules('userfile', '', 'callback_file_check');
-        } */       
+        } */
 
         // Validata and Insert Data
         if ($this->form_validation->run() == true){
@@ -1707,7 +1710,7 @@ class Training extends Backend_Controller {
 
                 // Course Coordinator manage training
                 if(isset($_POST['coordinator_id'])){
-                    for ($i=0; $i < sizeof($_POST['coordinator_id']); $i++) { 
+                    for ($i=0; $i < sizeof($_POST['coordinator_id']); $i++) {
                         $data_array = array(
                             'training_id'       => $lastID,
                             'user_id'           => $_POST['coordinator_id'][$i],
@@ -1718,8 +1721,8 @@ class Training extends Backend_Controller {
                 }
 
                 // Evaluation Training Mark
-                if(isset($_POST['subject_id'])){                           
-                    for ($i=0; $i<sizeof($_POST['subject_id']); $i++) { 
+                if(isset($_POST['subject_id'])){
+                    for ($i=0; $i<sizeof($_POST['subject_id']); $i++) {
                         $data_array = array(
                             'training_id'   => $lastID,
                             'subject_id'    => $_POST['subject_id'][$i],
@@ -1730,9 +1733,9 @@ class Training extends Backend_Controller {
                     }
                 }
 
-                // Training Material              
+                // Training Material
                 if(isset($_POST['tm_id'])){
-                    for ($i=0; $i < sizeof($_POST['tm_id']); $i++) { 
+                    for ($i=0; $i < sizeof($_POST['tm_id']); $i++) {
                         $data_array = array(
                             'training_id'   => $lastID,
                             'tm_id'         => $_POST['tm_id'][$i]
@@ -1749,14 +1752,14 @@ class Training extends Backend_Controller {
                     $files = $_FILES;
                     $cpt = count($_FILES['userfile']['name']);
                     for($i=0; $i<$cpt; $i++)
-                    {           
+                    {
                         $_FILES['userfile']['name']= $files['userfile']['name'][$i];
                         $_FILES['userfile']['type']= $files['userfile']['type'][$i];
                         $_FILES['userfile']['tmp_name']= $files['userfile']['tmp_name'][$i];
                         $_FILES['userfile']['error']= $files['userfile']['error'][$i];
-                        $_FILES['userfile']['size']= $files['userfile']['size'][$i]; 
+                        $_FILES['userfile']['size']= $files['userfile']['size'][$i];
 
-                        $file_name = time().$i.'-'.$lastID;   
+                        $file_name = time().$i.'-'.$lastID;
 
                         $this->upload->initialize($this->set_upload_options($file_name, $this->handbook_path));
 
@@ -1781,7 +1784,7 @@ class Training extends Backend_Controller {
                             } else {
                                 $user_data  = array($uploadedFile);
                             }
-                            
+
                             $file_data['handbook'] = json_encode($user_data);
 
                             $this->db->where('id', $lastID)->update('training', $file_data);
@@ -1800,14 +1803,14 @@ class Training extends Backend_Controller {
                     $files = $_FILES;
                     $cpt = count($_FILES['voucherfile']['name']);
                     for($i=0; $i<$cpt; $i++)
-                    {           
+                    {
                         $_FILES['voucherfile']['name']= $files['voucherfile']['name'][$i];
                         $_FILES['voucherfile']['type']= $files['voucherfile']['type'][$i];
                         $_FILES['voucherfile']['tmp_name']= $files['voucherfile']['tmp_name'][$i];
                         $_FILES['voucherfile']['error']= $files['voucherfile']['error'][$i];
-                        $_FILES['voucherfile']['size']= $files['voucherfile']['size'][$i]; 
+                        $_FILES['voucherfile']['size']= $files['voucherfile']['size'][$i];
 
-                        $file_name = time().$i.'-'.$lastID;   
+                        $file_name = time().$i.'-'.$lastID;
 
                         $this->upload->initialize($this->set_upload_options($file_name, $this->voucher_path));
                         if($this->upload->do_upload('voucherfile')) {
@@ -1829,7 +1832,7 @@ class Training extends Backend_Controller {
                             } else {
                                 $user_data  = array($uploadedFile);
                             }
-                            
+
                             $file_data['voucher'] = json_encode($user_data);
 
                             $this->db->where('id', $lastID)->update('training', $file_data);
@@ -1837,7 +1840,7 @@ class Training extends Backend_Controller {
                             $this->data['message'] = $this->upload->display_errors();
                         }
                     }
-                }          
+                }
 
                 // Video Upload
                 if($_FILES['videofile']['size'] > 0){
@@ -1871,7 +1874,7 @@ class Training extends Backend_Controller {
                     }else{
                         $this->data['message'] = $this->upload->display_errors();
                     }
-                }            
+                }
 
                 // Redirect and success message
                 $this->session->set_flashdata('success', 'প্রশিক্ষণটি ডাটাবেজে সংরক্ষণ করা হয়েছে');
@@ -1881,12 +1884,12 @@ class Training extends Backend_Controller {
 
         // $this->data['user_info'] = $this->ion_auth->user()->row();
         // Dropdown
-        $this->data['courses'] = $this->Common_model->get_course(); 
-        $this->data['course_type'] = $this->Common_model->get_course_type(); 
-        $this->data['course_designation'] = $this->Common_model->get_course_designation(); 
-        $this->data['lgi_type'] = $this->Common_model->get_lg_institute_type(); 
-        // $this->data['evaluation_subject'] = $this->Common_model->get_evaluation_subject(); 
-        // $this->data['mark_entry_type'] = $this->Common_model->set_mark_entry_type(); 
+        $this->data['courses'] = $this->Common_model->get_course();
+        $this->data['course_type'] = $this->Common_model->get_course_type();
+        $this->data['course_designation'] = $this->Common_model->get_course_designation();
+        $this->data['lgi_type'] = $this->Common_model->get_lg_institute_type();
+        // $this->data['evaluation_subject'] = $this->Common_model->get_evaluation_subject();
+        // $this->data['mark_entry_type'] = $this->Common_model->set_mark_entry_type();
         $this->data['financing_list'] = $this->Common_model->get_financing();
         $this->data['training_type'] = $this->Common_model->get_training_type();
         $this->data['certificate_templates'] = $this->Common_model->get_certificate_templates();
@@ -1902,9 +1905,9 @@ class Training extends Backend_Controller {
     public function edit($id, $offset = null)
     {
         ini_set( 'memory_limit', '500M' );
-        ini_set('upload_max_filesize', '500M');  
-        ini_set('post_max_size', '500M');  
-        ini_set('max_input_time', 3600);  
+        ini_set('upload_max_filesize', '500M');
+        ini_set('post_max_size', '500M');
+        ini_set('max_input_time', 3600);
         ini_set('max_execution_time', 3600);
         // Check Auth
         if(!$this->ion_auth->in_group(array('admin', 'uz', 'ddlg', 'nilg', 'cc'))){
@@ -1943,7 +1946,7 @@ class Training extends Backend_Controller {
                 'course_id'         => $this->input->post('course_id'),
                 'course_type'       => $this->input->post('course_type'),
                 'batch_no'          => $this->input->post('batch_no'),
-                'type_id'           => $this->input->post('type_id'),                
+                'type_id'           => $this->input->post('type_id'),
                 'reg_start_date'    => $this->input->post('reg_start_date'),
                 'reg_end_date'      => $this->input->post('reg_end_date'),
                 'start_date'        => $this->input->post('start_date'),
@@ -1956,8 +1959,8 @@ class Training extends Backend_Controller {
                 'honorarium_text'   => $this->input->post('honorarium_text'),
                 'signature'         => $this->input->post('signature'),
                 'financing_id'      => $this->input->post('financing_id'),
-                'certificate_id'    => $this->input->post('certificate_id'), 
-                'certificate_text'  => $this->input->post('certificate_text'), 
+                'certificate_id'    => $this->input->post('certificate_id'),
+                'certificate_text'  => $this->input->post('certificate_text'),
                 'is_published'      => $this->input->post('is_published'),
                 'status'            => $this->input->post('status'),
                 'updated'           => date('Y-m-d H:i:s')
@@ -1969,7 +1972,7 @@ class Training extends Backend_Controller {
 
                 // Course Coordinator manage training
                 if(isset($_POST['coordinator_id'])){
-                    for ($i=0; $i < sizeof($_POST['coordinator_id']); $i++) { 
+                    for ($i=0; $i < sizeof($_POST['coordinator_id']); $i++) {
                         //check exists data
                         @$data_exists = $this->Common_model->exists('training_coordinator', 'id', $_POST['hide_cc_row_id'][$i]);
                         if($data_exists){
@@ -1991,7 +1994,7 @@ class Training extends Backend_Controller {
 
                 // Training mark new insert and update
                 if(isset($_POST['subject_id'])){
-                    for ($i=0; $i<count($_POST['subject_id']); $i++) { 
+                    for ($i=0; $i<count($_POST['subject_id']); $i++) {
                         //check exists data
                         @$data_exists = $this->Common_model->exists('training_mark', 'id', $_POST['hide_id'][$i]);
                         if($data_exists){
@@ -1999,7 +2002,7 @@ class Training extends Backend_Controller {
                                 'subject_id' => $_POST['subject_id'][$i],
                                 'mark'       => $_POST['mark'][$i],
                                 'emt_id'     => func_eva_mark_type_id($_POST['subject_id'][$i])
-                                );                         
+                                );
                             $this->Common_model->edit('training_mark', $_POST['hide_id'][$i], 'id', $data);
                         }else{
                             $data = array(
@@ -2007,13 +2010,13 @@ class Training extends Backend_Controller {
                                 'subject_id' => $_POST['subject_id'][$i],
                                 'mark'       => $_POST['mark'][$i],
                                 'emt_id'     => func_eva_mark_type_id($_POST['subject_id'][$i])
-                                ); 
+                                );
                             $this->Common_model->save('training_mark', $data);
                         }
                     }
                 }
 
-                // Training Material              
+                // Training Material
                 if(isset($_POST['tm_id'])){
                     for ($i=0; $i < sizeof($_POST['tm_id']); $i++) {
                         //check exists data
@@ -2040,14 +2043,14 @@ class Training extends Backend_Controller {
                     $files = $_FILES;
                     $cpt = count($_FILES['userfile']['name']);
                     for($i=0; $i<$cpt; $i++)
-                    {           
+                    {
                         $_FILES['userfile']['name']= $files['userfile']['name'][$i];
                         $_FILES['userfile']['type']= $files['userfile']['type'][$i];
                         $_FILES['userfile']['tmp_name']= $files['userfile']['tmp_name'][$i];
                         $_FILES['userfile']['error']= $files['userfile']['error'][$i];
-                        $_FILES['userfile']['size']= $files['userfile']['size'][$i]; 
+                        $_FILES['userfile']['size']= $files['userfile']['size'][$i];
 
-                        $file_name = time().$i.'-'.$id;   
+                        $file_name = time().$i.'-'.$id;
 
                         $this->upload->initialize($this->set_upload_options($file_name, $this->handbook_path));
 
@@ -2072,7 +2075,7 @@ class Training extends Backend_Controller {
                             } else {
                                 $user_data  = array($uploadedFile);
                             }
-                            
+
                             $file_data['handbook'] = json_encode($user_data);
 
                             $this->db->where('id', $id)->update('training', $file_data);
@@ -2091,14 +2094,14 @@ class Training extends Backend_Controller {
                     $files = $_FILES;
                     $cpt = count($_FILES['voucherfile']['name']);
                     for($i=0; $i<$cpt; $i++)
-                    {           
+                    {
                         $_FILES['voucherfile']['name']= $files['voucherfile']['name'][$i];
                         $_FILES['voucherfile']['type']= $files['voucherfile']['type'][$i];
                         $_FILES['voucherfile']['tmp_name']= $files['voucherfile']['tmp_name'][$i];
                         $_FILES['voucherfile']['error']= $files['voucherfile']['error'][$i];
-                        $_FILES['voucherfile']['size']= $files['voucherfile']['size'][$i]; 
+                        $_FILES['voucherfile']['size']= $files['voucherfile']['size'][$i];
 
-                        $file_name = time().$i.'-'.$id;   
+                        $file_name = time().$i.'-'.$id;
 
                         $this->upload->initialize($this->set_upload_options($file_name, $this->voucher_path));
                         if($this->upload->do_upload('voucherfile')) {
@@ -2120,7 +2123,7 @@ class Training extends Backend_Controller {
                             } else {
                                 $user_data  = array($uploadedFile);
                             }
-                            
+
                             $file_data['voucher'] = json_encode($user_data);
 
                             $this->db->where('id', $id)->update('training', $file_data);
@@ -2170,7 +2173,7 @@ class Training extends Backend_Controller {
                         } else {
                             $user_data  = array($uploadedFile);
                         }
-                        
+
                         $file_data['video'] = json_encode($user_data);
 
 
@@ -2178,9 +2181,9 @@ class Training extends Backend_Controller {
                     }else{
                         $this->data['message'] = $this->upload->display_errors();
                     }
-                }      
+                }
 
-                // Redirct and success message                
+                // Redirct and success message
                 $this->session->set_flashdata('success', 'প্রশিক্ষণের তথ্য সংশোধন করা হয়েছে');
                 if($offset != 0) {
                     redirect('training/index/'.$offset);
@@ -2190,11 +2193,11 @@ class Training extends Backend_Controller {
         }
 
         // Dropdown
-        $this->data['courses'] = $this->Common_model->get_course(); 
-        $this->data['course_type'] = $this->Common_model->get_course_type(); 
-        $this->data['course_designation'] = $this->Common_model->get_course_designation(); 
-        $this->data['evaluation_subject'] = $this->Common_model->get_evaluation_subject($this->data['training']->course_type); 
-        $this->data['mark_entry_type'] = $this->Common_model->set_mark_entry_type(); 
+        $this->data['courses'] = $this->Common_model->get_course();
+        $this->data['course_type'] = $this->Common_model->get_course_type();
+        $this->data['course_designation'] = $this->Common_model->get_course_designation();
+        $this->data['evaluation_subject'] = $this->Common_model->get_evaluation_subject($this->data['training']->course_type);
+        $this->data['mark_entry_type'] = $this->Common_model->set_mark_entry_type();
         $this->data['financing_list'] = $this->Common_model->get_financing();
         $this->data['training_type'] = $this->Common_model->get_training_type();
         $this->data['training_status'] = $this->Common_model->get_training_status();
@@ -2208,11 +2211,11 @@ class Training extends Backend_Controller {
         $this->data['subview'] = 'edit';
         $this->load->view('backend/_layout_main', $this->data);
     }
-    
+
 
     //upload an image options
     private function set_upload_options($file_name, $path)
-    {   
+    {
         //upload an image options
         $config = array();
         $config['allowed_types']= 'jpg|png|jpeg|pdf|xlsx|xls';
@@ -2236,14 +2239,14 @@ class Training extends Backend_Controller {
 
         // echo $id;
         $this->data['user_info'] = $this->ion_auth->user()->row();
-        $this->data['course_list'] = $this->Common_model->get_nilg_course(); 
+        $this->data['course_list'] = $this->Common_model->get_nilg_course();
         $this->data['financing_list'] = $this->Common_model->get_financing();
         $this->data['training_type'] = $this->Common_model->get_training_type();
         $this->data['coordinator'] = $this->Training_model->get_coordinator();
 
         // Get Training Data
         $training = $this->Training_model->get_duplicate_info($id);
-        $schedule = $this->Training_model->get_schedule($id); 
+        $schedule = $this->Training_model->get_schedule($id);
 
         // Validation
         $this->form_validation->set_rules('participant_name', 'অংশগ্রহণকারী', 'required|trim');
@@ -2260,7 +2263,7 @@ class Training extends Backend_Controller {
                 'course_id'         => $training['info']->course_id,
                 'course_type'       => $training['info']->course_type,
                 'batch_no'          => $training['info']->batch_no,
-                'type_id'           => $training['info']->type_id,  
+                'type_id'           => $training['info']->type_id,
                 'course_no'         => $training['info']->course_no,
                 'reg_start_date'    => $training['info']->reg_start_date,
                 'reg_end_date'      => $training['info']->reg_end_date,
@@ -2304,9 +2307,9 @@ class Training extends Backend_Controller {
                 $this->qrcode_generator($lastID, $training['info']->lgi_type);
 
                 // Course Coordinator manage training
-                $coordinators = $this->db->where('training_id', $id)->get('training_coordinator'); 
+                $coordinators = $this->db->where('training_id', $id)->get('training_coordinator');
                 if ($coordinators->num_rows() > 0) {
-                    foreach ($coordinators->result() as $key => $value) { 
+                    foreach ($coordinators->result() as $key => $value) {
                         $data_array = array(
                             'training_id'        => $lastID,
                             'user_id'            => $value->user_id,
@@ -2319,9 +2322,9 @@ class Training extends Backend_Controller {
 
 
                 // Evaluation Training Mark
-                $marks = $this->db->where('training_id', $id)->get('training_mark'); 
+                $marks = $this->db->where('training_id', $id)->get('training_mark');
                 if ($marks->num_rows() > 0) {
-                    foreach ($marks->result() as $key => $value) {  
+                    foreach ($marks->result() as $key => $value) {
                         $data_array = array(
                             'training_id'   => $lastID,
                             'subject_id'    => $value->subject_id,
@@ -2332,8 +2335,8 @@ class Training extends Backend_Controller {
                     }
                 }
 
-                // Training Material     
-                $materials = $this->db->where('training_id', $id)->get('training_material'); 
+                // Training Material
+                $materials = $this->db->where('training_id', $id)->get('training_material');
                 if ($materials->num_rows() > 0) {
                     foreach ($materials->result() as $key => $value) {
                         $data_array = array(
@@ -2346,7 +2349,7 @@ class Training extends Backend_Controller {
 
 
                 // Insert Schedule
-                for ($i=0; $i<count($schedule); $i++) { 
+                for ($i=0; $i<count($schedule); $i++) {
                     $data = array(
                         'training_id'   => $lastID,
                         'program_date'  => $schedule[$i]->program_date,
@@ -2358,12 +2361,12 @@ class Training extends Backend_Controller {
                         'trainer_id'    => $schedule[$i]->trainer_id,
                         'honorarium'    => $schedule[$i]->honorarium,
                         'is_honorarium' => $schedule[$i]->is_honorarium
-                    ); 
+                    );
                     $this->Common_model->save('training_schedule', $data);
-                }  
+                }
 
                 // Insert to evaluation
-                $evaluation = $this->db->where('training_id', $id)->get('evaluation'); 
+                $evaluation = $this->db->where('training_id', $id)->get('evaluation');
                 if ($evaluation->num_rows() > 0) {
                     foreach ($evaluation->result() as $key => $value) {
                         $evu_data = array(
@@ -2373,18 +2376,18 @@ class Training extends Backend_Controller {
                             'course_id'        => $value->course_id,
                             'training_mark_id' => $value->training_mark_id,
                             'is_published'     => 0,
-                            'created'          => date('Y-m-d H:i:s')                
+                            'created'          => date('Y-m-d H:i:s')
                         );
 
-                        if($this->Common_model->save('evaluation', $evu_data)){  
+                        if($this->Common_model->save('evaluation', $evu_data)){
                             // Last insert id
-                            $evaluaID = $this->db->insert_id(); 
-                            $evaQS = $this->db->where('evaluation_id', $value->id)->get('evaluation_question'); 
+                            $evaluaID = $this->db->insert_id();
+                            $evaQS = $this->db->where('evaluation_id', $value->id)->get('evaluation_question');
 
-                            // Insert to Question 
+                            // Insert to Question
                             foreach ($evaQS->result() as $key => $va) {
                                $data_array = array(
-                                  'evaluation_id' => $evaluaID,                        
+                                  'evaluation_id' => $evaluaID,
                                   'question_id' => $va->question_id,
                                 );
                                $this->Common_model->save('evaluation_question', $data_array);
@@ -2485,7 +2488,7 @@ class Training extends Backend_Controller {
     }
 
     public function delete_training($id)
-    {   
+    {
         // Check Auth
         if (!$this->ion_auth->is_admin()) {
             redirect('dashboard');
@@ -2494,25 +2497,25 @@ class Training extends Backend_Controller {
         // Delete Training
         if ($this->db->delete('training', array('id' => $id))) {
             // Delete row from training_mark table .....
-            $this->db->delete('training_mark', array('training_id' => $id));             
-            $this->db->delete('training_attachment', array('training_id' => $id)); 
-            $this->db->delete('training_coordinator', array('training_id' => $id)); 
-            $this->db->delete('training_material', array('training_id' => $id)); 
-            $this->db->delete('training_participant', array('training_id' => $id)); 
-            $this->db->delete('training_schedule', array('training_id' => $id)); 
+            $this->db->delete('training_mark', array('training_id' => $id));
+            $this->db->delete('training_attachment', array('training_id' => $id));
+            $this->db->delete('training_coordinator', array('training_id' => $id));
+            $this->db->delete('training_material', array('training_id' => $id));
+            $this->db->delete('training_participant', array('training_id' => $id));
+            $this->db->delete('training_schedule', array('training_id' => $id));
 
-            $this->session->set_flashdata('success', 'Deleted traning successful'); 
+            $this->session->set_flashdata('success', 'Deleted traning successful');
             redirect('training');
         }
     }
 
-    
+
     /************************** Common Function ******************************
     ***************************************************************************/
 
     public function qrcode_generator($trainingID, $lgiType)
     {
-        // LGI Office 
+        // LGI Office
         // 1=UP-Union Parishad; 2=PA-Paurashava; 3=UZ-Upazila Parishad; 4=ZP-Zila Parishad; 5=CC-City Corporation; 7=N-NILG
         // Get last course no from training table accourding to LGI office type then +1 with course na and concatnate prefix.
 
@@ -2541,12 +2544,12 @@ class Training extends Backend_Controller {
         // Generate PIN Code
         //$randomNumber = rand(000000, 999999);
         $pin = $preFix.$batchNo.$courseNo;  //$randomNumber;
-        // exit; 
+        // exit;
 
-        $codeContents = $pin; //'URL: '.$url."\n"; 
+        $codeContents = $pin; //'URL: '.$url."\n";
 
         $data['img_url'] = "";
-        $this->load->library('ciqrcode');        
+        $this->load->library('ciqrcode');
         $qr_image = $trainingID.'.png';
         // print_r($codeContents); exit();
         // header("Content-Type: image/png");
@@ -2584,7 +2587,7 @@ class Training extends Backend_Controller {
         $size_kb = '10 MB'; // 10 MB
 
         if(isset($_FILES['userfile']['name']) && $_FILES['userfile']['name']!=""){
-            if(!in_array($mime, $allowed_mime_type_arr)){                
+            if(!in_array($mime, $allowed_mime_type_arr)){
                 $this->form_validation->set_message('file_check', 'Please select only jpg, jpeg, png, gif, pdf file.');
                 return false;
             }elseif($_FILES["userfile"]["size"] > $file_size){
@@ -2594,7 +2597,7 @@ class Training extends Backend_Controller {
                 return true;
             }
         } else if(isset($_FILES['voucherfile']['name']) && $_FILES['voucherfile']['name']!=""){
-            if(!in_array($mime1, $allowed_mime_type_arr)){                
+            if(!in_array($mime1, $allowed_mime_type_arr)){
                 $this->form_validation->set_message('file_check', 'Please select only jpg, jpeg, png, gif, pdf file.');
                 return false;
             }elseif($_FILES["voucherfile"]["size"] > $file_size){
@@ -2667,10 +2670,10 @@ class Training extends Backend_Controller {
         $html = $this->load->view('pdf_feedback_course', $this->data, true);
 
         //PDF Generate
-        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);        
+        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
         $mpdf->WriteHtml($html);
         $mpdf->output();
-    }    
+    }
 
     public function feedback_course($id)
     {
@@ -2728,7 +2731,7 @@ class Training extends Backend_Controller {
         $html = $this->load->view('pdf_feedback_topic', $this->data, true);
 
         //PDF Generate
-        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);        
+        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
         $mpdf->WriteHtml($html);
         $mpdf->output();
     }
@@ -2769,7 +2772,7 @@ class Training extends Backend_Controller {
             // echo '<pre>';
             // print_r($_POST); //exit;
             // echo sizeof($_POST['hide_topic_id']); exit;
-            for ($i=0; $i<sizeof($_POST['hide_topic_id']); $i++) { 
+            for ($i=0; $i<sizeof($_POST['hide_topic_id']); $i++) {
                 $topicID = $_POST['hide_topic_id'][$i];
                 $form_data = array(
                     'participant_id' => $this->input->post('participant_id'),
@@ -2842,7 +2845,7 @@ class Training extends Backend_Controller {
         $this->data['meta_title'] = 'প্রশিক্ষণ কর্মসূচী সংশোধন';
         $this->data['subview'] = 'schedule_item_edit';
         $this->load->view('backend/_layout_main', $this->data);
-    } 
+    }
 
 
     public function schedule_date_range_search()
@@ -2885,7 +2888,7 @@ class Training extends Backend_Controller {
         // Default Value
         $message = '';
         $results = $this->Training_model->get_training_management();
-        // dd($results);        
+        // dd($results);
 
         if(empty($results)){
             $message = 'No data found!';
@@ -2899,7 +2902,7 @@ class Training extends Backend_Controller {
                 'course_id'         => $row->course_id,
                 'course_type'       => NULL,
                 'batch_no'          => $row->batch_no,
-                'type_id'           => $row->type_id,                
+                'type_id'           => $row->type_id,
                 'start_date'        => $row->start_date,
                 'end_date'          => $row->end_date,
                 'ta'                => $row->ta,
@@ -2937,23 +2940,23 @@ class Training extends Backend_Controller {
 			$this->load->library('upload');
 			$files = $_FILES;
 			$cpt = count($_FILES['userfile']['name']);
-           
+
 			for($i=0; $i<$cpt; $i++)
-			{           
+			{
 				$_FILES['userfile']['name']= $files['userfile']['name'][$i];
 				$_FILES['userfile']['type']= $files['userfile']['type'][$i];
 				$_FILES['userfile']['tmp_name']= $files['userfile']['tmp_name'][$i];
 				$_FILES['userfile']['error']= $files['userfile']['error'][$i];
-				$_FILES['userfile']['size']= $files['userfile']['size'][$i]; 
+				$_FILES['userfile']['size']= $files['userfile']['size'][$i];
 
-				$file_name = time().$i.'-'.$id;  
-				
+				$file_name = time().$i.'-'.$id;
+
 
 				$this->upload->initialize($this->set_upload_options($file_name, $this->note_path));
 
 				if($this->upload->do_upload('userfile')) {
 					$uploadData = $this->upload->data();
-					
+
 
 					// print_r($uploadData);
 					// DB fields
@@ -2963,7 +2966,7 @@ class Training extends Backend_Controller {
 					// this is working
 
 					$note = $this->db->where('training_id', $id)->where('app_user_id', $this->userID)->get('training_participant')->row()->note;
-				
+
 
 					if ($note != '' && $note != null) {
 						if (is_array(json_decode($note))) {
@@ -2976,13 +2979,13 @@ class Training extends Backend_Controller {
 					} else {
 						$user_data  = array($uploadedFile);
 					}
-					
+
 					$file_data['note'] = json_encode($user_data);
 
 					$this->db->where('training_id', $id)->where('app_user_id', $this->userID)->update('training_participant', $file_data);
 					$this->session->set_flashdata('success', 'নোট ডাটাবেজে সংরক্ষণ করা হয়েছে');
-			        
-			 
+
+
 				}else{
 					$this->session->set_flashdata('error', $this->upload->display_errors());
 			       redirect('dashboard/my_training', 'refresh');
@@ -2990,13 +2993,13 @@ class Training extends Backend_Controller {
 				// }
 			}
             redirect('dashboard/my_training', 'refresh');
-			
-			
-			
+
+
+
 		}
 
- 
- 
+
+
 	}
 
 
@@ -3009,7 +3012,7 @@ class Training extends Backend_Controller {
         ->row()
         ->note;
         if($note){
-         
+
 
             $note_array=json_decode($note);
             $key = array_search($notename, $note_array);
@@ -3017,7 +3020,7 @@ class Training extends Backend_Controller {
                 if ($key !== false) {
                     unset($note_array[$key]);
                     $baseUrl = base_url();
-                    $fileToDelete = FCPATH . 'uploads/note/' . $notename;         
+                    $fileToDelete = FCPATH . 'uploads/note/' . $notename;
                                if(unlink($fileToDelete)){
                                     $file_data['note'] = json_encode(array_values($note_array));
                                     $this->db->where('training_id', $triningid)->where('app_user_id', $this->userID)->update('training_participant', $file_data);
@@ -3034,12 +3037,12 @@ class Training extends Backend_Controller {
 
 
                 }
-              
-               
-                   
+
+
+
 
         }
 
-        
+
     }
 }
