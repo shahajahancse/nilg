@@ -168,12 +168,6 @@ class Backend_Controller extends MY_Controller
 
 				// New trainee request
 				$this->data['request_trainee_no'] = $this->Common_model->get_applicaiton_trainee_request_count();
-				// New trainer request
-				// $this->data['request_trainer_no'] = $this->Common_model->get_applicaiton_trainer_request_count();
-				// NILG employee pending leave count
-				$this->data['leave_notify'] = $this->Common_model->get_employee_leave_count();
-				// dd($this->data['request_no']);
-
 				// New training application notification
 				$this->data['request_training_application_no'] = $this->Common_model->get_training_applicaiton_by_office_count($office->crrnt_office_id);
 
@@ -200,6 +194,12 @@ class Backend_Controller extends MY_Controller
 				$office = $this->Common_model->get_office_info_by_session();
 				// New trainer request
 				// $this->data['request_trainer_no'] = $this->Common_model->get_applicaiton_trainer_request_count();
+			}
+
+			if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
+				$this->data['leave_notify'] = $this->Common_model->get_employee_leave_count();
+			} else if ($userDetails->office_type == 7) {
+				$this->data['leave_notify'] = $this->Common_model->get_employee_leave_count($userDetails->id);
 			}
 
 			$this->data['budget_nilg_ntfy'] = $this->db->select('count(*) r')->get('budget_nilg')->row()->r;

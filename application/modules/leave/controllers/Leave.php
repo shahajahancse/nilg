@@ -61,7 +61,7 @@ class Leave extends Backend_Controller {
 
     public function form_print($uid){
         $id = (int) decrypt_url($uid);
-    
+
 
         $this->data['row'] = $this->Leave_model->get_info('leave_employee', $id);
         $this->load->view('leave/form' , $this->data);
@@ -111,7 +111,7 @@ class Leave extends Backend_Controller {
                     'mobile_number'=> $this->input->post('mobile_number')
                 ];
                 $leave_address = json_encode($leave_address_arr);
-                
+
                 $form_data = array(
                     'user_id'      => $this->input->post('user_id'),
                     'dept_id'      => $user_info->crrnt_dept_id,
@@ -206,6 +206,18 @@ class Leave extends Backend_Controller {
         $this->load->view('backend/_layout_main', $this->data);
     }
 
+    public function forward_change($id, $status = null){
+        $id = (int) decrypt_url($id);
+        // Check Exists
+            $form_data = array(
+                'status'      => $status,
+            );
+        if($this->Common_model->edit('leave_employee', $id, 'id', $form_data)){
+            $this->session->set_flashdata('success', 'সফলভাবে সংশোধন করা হয়েছে');
+            redirect('leave');
+        }
+    }
+
     public function change_status($id, $status = null){
         $id = (int) decrypt_url($id);
         // Check Exists
@@ -215,11 +227,12 @@ class Leave extends Backend_Controller {
 
         if (isset($_POST['submit']) && trim($_POST['submit']) == "সংরক্ষণ করুন") {
             if ($_POST['status'] == 2) {
-                $message = 'সফলভাবে অনুমোদন করা হয়েছে ।';
+                $message = 'সফলভাবে সংশোধন করা হয়েছে ।';
             } elseif ($_POST['status'] == 3) {
                 $message = 'সফলভাবে প্রত্যাখ্যাত করা হয়েছে ।';
             }
             $form_data = array(
+                'assign_remark'  => $_POST['assign_remark'],
                 'status'  => $_POST['status'],
             );
             // dd($form_data); exit;
@@ -264,10 +277,10 @@ class Leave extends Backend_Controller {
         $this->data['pagination'] = create_pagination('leave/assign_list/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
 
         $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-        
+
         $this->data['meta_title'] = 'অনুমোদিত ছুটির তালিকা';
         $this->data['subview'] = 'assign_list';
-       
+
         $this->load->view('backend/_layout_main', $this->data);
     }
     public function ass_edit($uid){
@@ -315,18 +328,20 @@ class Leave extends Backend_Controller {
         if (!empty($dept_id) && !empty($this->data['userDetails']->crrnt_desig_id) || $this->ion_auth->is_admin()) {
             if ($this->ion_auth->in_group(array('leave_jd'))) {
                 $desig_array = $this->get_manage_designation_array(21, $dept_id);
+                $results = $this->Leave_model->get_list($limit, $offset, 3, $desig_array, $dept_id);
             } else if ($this->ion_auth->in_group(array('leave_director'))) {
                 $desig_array = $this->get_manage_designation_array(22, $dept_id);
+                $results = $this->Leave_model->get_list($limit, $offset, 3, $desig_array, $dept_id);
             } else if ($this->ion_auth->in_group(array('leave_dg'))) {
                 $desig_array = $this->get_manage_designation_array(23, $dept_id);
                 $dept_id = null;
+                $results = $this->Leave_model->get_list($limit, $offset, 3, $desig_array, $dept_id);
+            } else if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
+                $results = $this->Leave_model->get_list($limit, $offset, 3);
+            } else {
+                $results = $this->Leave_model->get_list_assign($limit, $offset, $this->data['userDetails']->id, 2);
             }
 
-            if ($this->ion_auth->is_admin()) {
-                $results = $this->Leave_model->get_list($limit, $offset, 1);
-            } else {
-                $results = $this->Leave_model->get_list($limit, $offset, 1, $desig_array, $dept_id);
-            }
             $this->data['results'] = $results['rows'];
             $this->data['total_rows'] = $results['num_rows'];
 

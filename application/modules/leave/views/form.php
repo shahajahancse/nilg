@@ -1,10 +1,14 @@
 
 <?php
-
 $user = $this->ion_auth->user($row->user_id)->row();
-$user2 = $this->ion_auth->user($row->assign_person)->row();
+if (!empty($row->assign_person)) {
+    $user2 = $this->ion_auth->user($row->assign_person)->row();
+    $desig2 = $this->db->get_where('designation',array('id'=>$user2->crrnt_desig_id))->row();
+} else {
+    $desig2 = null;
+    $user2 = null;
+}
 $desig= $this->db->get_where('designation',array('id'=>$row->desig_id))->row();
-$desig2= $this->db->get_where('designation',array('id'=>$row->assign_person))->row();
 $results = $this->Leave_model->get_yearly_leave_count($row->user_id);
 $total_leave= $results['total_leave'];
 $used_leave= $results['used_leave'];
@@ -25,7 +29,7 @@ if (isset($leave_address->district_id)) {
 // [is_office] => 0
 // [office_type] => 7
 // [office_id] => 125
-// [partner_id] => 
+// [partner_id] =>
 // [employee_type] => 2
 // [name_bn] => মো: নাজিম উদ্দিন
 // [name_en] => MD. NAZIM UDDIN
@@ -35,7 +39,7 @@ if (isset($leave_address->district_id)) {
 // [mobile_no] => 01860673571
 // [email] => nazim.nilg@yahoo.com
 
-//dd($row) 
+//dd($row)
 
 ?>
 <!-- stdClass Object
@@ -51,9 +55,9 @@ if (isset($leave_address->district_id)) {
     [reason] => sdsfdsfds
     [status] => 1
     [assign_person] => 181
-    [assign_remark] => 
+    [assign_remark] =>
     [leave_address] => {"father_name":"Md. Nahid","division_id":"6","district_id":"47","upazila_id":"273","village":"Dolapara","post_office":"Magura"}
-    [file_name] => 
+    [file_name] =>
     [created_date] => 2024-03-28
 ) -->
 <html lang="en">
@@ -142,7 +146,13 @@ if (isset($leave_address->district_id)) {
                         <th>০৬. ছুটিকালীন বিকল্প কর্মকর্তার নাম ও পদবি</th>
                         <td>:</td>
                         <td>
-                            <?php echo $user2->name_bn . ' (' . $desig2->desig_name . ')'; ?>
+                            <?php
+                                if (!empty($user2)) {
+                                    echo $user2->name_bn . ' (' . $desig2->desig_name . ')';
+                                } else {
+                                    echo 'কর্মকর্তা নির্ধারিত করা হয়নি';
+                                }
+                            ?>
                         </td>
                     </tr>
                     <tr>
@@ -201,7 +211,7 @@ if (isset($leave_address->district_id)) {
     </div>
     <div class="col-md-12" style="width: 100%;padding:26px;">
         <span>জনাব/বেগম &nbsp&nbsp&nbsp&nbsp <?php echo $user->name_bn; ?>&nbsp&nbsp&nbsp&nbsp পদবি &nbsp&nbsp&nbsp&nbsp<?php echo $desig->desig_name; ?>&nbsp&nbsp&nbsp কে &nbsp&nbsp&nbsp
-         
+
             <?= date_bangla_calender_format($row->from_date) ?> থেকে <?= date_bangla_calender_format($row->to_date) ?> পর্যন্ত
                             মোট <?= eng2bng($row->leave_days) ?> দিন  &nbsp&nbsp&nbsp&nbsp <?=$leave_type->leave_name_bn?> &nbsp&nbsp&nbsp&nbsp
             মঞ্জুরী করা হল

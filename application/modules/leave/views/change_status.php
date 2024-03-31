@@ -77,23 +77,31 @@
                   <label class="form-label">অনুমোদন বা প্রত্যাখ্যাত করুন <span class="required">*</span></label>
                   <select name="status" class="form-control input-sm" style="height: 20px !important">
                     <option value="">-- নির্বাচন করুন --</option>
-                    <option value="2">অনুমোদন করুন</option>
-                    <option value="3">প্রত্যাখ্যাত করুন</option>
+                    <?php if ($this->ion_auth->in_group(array('leave_jd')) || $this->ion_auth->in_group(array('leave_director')) || $this->ion_auth->in_group(array('leave_dg'))) { ?>
+                      <option value="4">অনুমোদন করুন</option>
+                    <?php } else { ?>
+                      <option value="3">ফরওয়ার্ড টু অনুমোদন</option>
+                    <?php } ?>
+                    <option value="5">প্রত্যাখ্যাত করুন</option>
                   </select>
                 </div>
               </div>
               <div class="col-md-9">
-                <div class="form-group">
-                  <label class="form-label">ছুটির কারণ</label>
-                  <textarea name="reason" class="form-control"><?php echo $row->reason;?></textarea>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label">ছুটির কারণ</label>
+                      <p style="border: 1px solid #0aa699; padding: 5px;"><?php echo $row->reason;?></p>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label class="form-label">মন্তব্য </label>
+                      <textarea name="assign_remark" class="form-control"><?php echo $row->assign_remark;?></textarea>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <!-- <div class="col-md-3">
-                <div class="form-group">
-                  <label class="form-label">ছুটির কারণ</label>
-                  <input name="userfile" type="file">
-                </div>
-              </div> -->
             </div>
 
             <div class="form-actions">

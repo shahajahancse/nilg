@@ -509,7 +509,7 @@
                   </li> -->
                <?php } ?>
 
-               <?php if($this->ion_auth->in_group(array('admin', 'nilg')) || func_nilg_auth($userDetails->office_type) == 'employee'){ ?>
+               <?php if($this->ion_auth->in_group(array('admin', 'nilg')) || $userDetails->office_type == 7){ ?>
                   <li class="start <?= backend_activate_menu_class('leave') ?>">
                      <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title">ছুটির ব্যবস্থাপনা</span> <span class="selected"></span>
                      <?php if ($leave_notify > 0) {
@@ -517,7 +517,6 @@
                      } ?>
                      <span class="arrow"></span> </a>
                      <ul class="sub-menu">
-                        <?php //if($this->ion_auth->in_group(array('admin', 'nilg'))){ ?>
                         <?php if($this->ion_auth->in_group(array('admin', 'leave_jd', 'leave_dg', 'leave_director'))){ ?>
                            <li> <a href="<?= base_url('leave'); ?>"> ছুটির তালিকা </a> </li>
                            <li class="start <?= backend_activate_menu_method('pending_list') ?>"><a href="<?= base_url('leave/pending_list') ?>">অপেক্ষমাণ তালিকা
@@ -526,11 +525,11 @@
                               } ?>
                         </a></li>
                         <li> <a href="<?= base_url('leave/index/2'); ?>"> অনুমোদিত তালিকা </a> </li>
-                        <li class="start <?= backend_activate_menu_method('rejected_list') ?>"><a href="<?= base_url('leave/rejected_list') ?>">প্রত্যাখ্যাত তালিকা
-                        </a></li>
+                        <li class="start <?= backend_activate_menu_method('rejected_list') ?>"><a href="<?= base_url('leave/rejected_list') ?>">প্রত্যাখ্যাত তালিকা </a></li>
                         <li class="start <?= backend_activate_menu_method('leave_reports') ?>"><a href="<?= base_url('leave/leave_reports') ?>">রিপোর্ট</a></li>
-                        <?php } elseif (func_nilg_auth($userDetails->office_type) == 'employee') { ?>
-                        <li> <a href="<?= base_url('leave'); ?>"> ছুটির তালিকা </a> </li>
+                        <?php } elseif ($userDetails->office_type == 7) { ?>
+                           <li> <a href="<?= base_url('leave'); ?>"> ছুটির তালিকা </a> </li>
+                           <li class="start <?= backend_activate_menu_method('pending_list') ?>"><a href="<?= base_url('leave/pending_list') ?>">অপেক্ষমাণ তালিকা </a></li>
                         <?php } ?>
                      </ul>
                   </li>

@@ -87,6 +87,7 @@
                   <th>সময়কাল</th>
                   <th>ছুটির কারণ</th>
                   <th>স্ট্যাটাস</th>
+                  <th>অ্যাকশন</th>
                 </tr>
               </thead>
               <tbody>
@@ -94,13 +95,16 @@
                 $sl = $pagination['current_page'];
                 foreach ($results as $row){
                   $sl++;
-                  // $answer = $row->answer != NULL?"<span class='label label-success'>হ্যাঁ</span>":"<span class='label label-danger'>না</span>";
-                  if($row->status == 2) {
-                     $status = '<span class="label label-success">অনুমোদিত</span>';
-                  }elseif($row->status == 3) {
-                     $status = '<span class="label label- important">প্রত্যাখ্যাত</span>';
-                  }else if($row->status == 1){
-                     $status = '<span class="label label-warning">অপেক্ষমাণ</span>';
+                  if($row->status == 5) {
+                    $status = '<span class="label label-important">প্রত্যাখ্যাত</span>';
+                  } else if($row->status == 4){
+                    $status = '<span class="label label-primary">অনুমোদিত</span>';
+                  } else if($row->status == 3){
+                    $status = '<span class="label label-warning">দায়িত্বরত অনুমোদিত / অপেক্ষমাণ</span>';
+                  } else if($row->status == 2){
+                    $status = '<span class="label label-warning">অপেক্ষমাণ</span>';
+                  } else if($row->status == 1){
+                    $status = '<span class="label label-default">ড্রাফট</span>';
                   }
                   ?>
                   <tr>
@@ -114,6 +118,26 @@
                     <td><?=$row->leave_days?></td>
                     <td><?=$row->reason?></td>
                     <td> <?=$status?></td>
+                    <td>
+                      <div class="btn-group">
+                        <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> অ্যাকশন <span class="caret"></span> </a>
+                        <ul class="dropdown-menu pull-right">
+                          <li><a href="<?=base_url('leave/form_print/'.encrypt_url($row->id));?>">প্রিন্ট</a></li>
+                          <?php if (!empty($row->assign_person) && $row->status == 1) { ?>
+                            <li><a href="<?=base_url('leave/forward_change/'.encrypt_url($row->id).'/2');?>">ফরওয়ার্ড বিকল্প কর্মকর্তা</a></li>
+                            <?php } else if (empty($row->assign_person) && $row->status == 1) {  ?>
+                              <li><a href="<?=base_url('leave/forward_change/'.encrypt_url($row->id).'/3');?>">ফরওয়ার্ড টু অনুমোদন</a></li>
+                          <?php } ?>
+
+                          <?php if (!empty($row->file_name)) { ?>
+                            <li><a target="_blank" href="<?=base_url('uploads/leave/'.$row->file_name);?>">নথিপত্র</a></li>
+                          <?php } ?>
+                          <?php if ($row->status == 1) { ?>
+                            <li><a onclick="return confirm('আপনি সত্যিই  কি এই তথ্যটি ডাটাবেজ থেকে সম্পূর্ণভাবে মুছতে চান?');" href="<?=base_url('leave/delete/'.encrypt_url($row->id));?>">মুছে ফেলুন</a></li>
+                          <?php } ?>
+                        </ul>
+                      </div>
+                    </td>
                   </tr>
                   <?php } ?>
                 </tbody>

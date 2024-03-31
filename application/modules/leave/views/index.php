@@ -101,13 +101,16 @@
                 $sl = $pagination['current_page'];
                 foreach ($results as $row){
                   $sl++;
-                  // $answer = $row->answer != NULL?"<span class='label label-success'>হ্যাঁ</span>":"<span class='label label-danger'>না</span>";
-                  if($row->status == 2) {
-                     $status = '<span class="label label-success">অনুমোদিত</span>';
-                  }elseif($row->status == 3) {
-                     $status = '<span class="label label- important">প্রত্যাখ্যাত</span>';
-                  }else if($row->status == 1){
-                     $status = '<span class="label label-warning">অপেক্ষমাণ</span>';
+                  if($row->status == 5) {
+                    $status = '<span class="label label- important">প্রত্যাখ্যাত</span>';
+                  } else if($row->status == 4){
+                    $status = '<span class="label label-primary">অনুমোদিত</span>';
+                  } else if($row->status == 3){
+                    $status = '<span class="label label-warning">দায়িত্বরত ব্যক্তি অনুমোদিত/ অপেক্ষমাণ</span>';
+                  } else if($row->status == 2){
+                    $status = '<span class="label label-warning">অপেক্ষমাণ</span>';
+                  } else if($row->status == 1){
+                    $status = '<span class="label label-default">ড্রাফট</span>';
                   }
                   ?>
                   <tr>

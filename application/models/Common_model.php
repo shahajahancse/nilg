@@ -7,7 +7,7 @@ class Common_model extends CI_Model
     {
         parent::__construct();
         $this->userSessID = $this->session->userdata('user_id');
-    }    
+    }
 
     public function save($table, $data)
     {
@@ -42,7 +42,7 @@ class Common_model extends CI_Model
         $this->db->select('*');
         $this->db->from($table);
         $query =  $this->db->get();
-        
+
 
         if ($query->num_rows() > 0) {
             return $query->result();
@@ -56,7 +56,7 @@ class Common_model extends CI_Model
         $this->db->from($table);
         $query =  $this->db->get();
         return $query->result();
-       
+
     }
 
     public function get_data_array($table, $id=null)
@@ -134,7 +134,7 @@ class Common_model extends CI_Model
     }
 
 
-    // get nilg employee 
+    // get nilg employee
     public function get_nilg_employee()
     {
 
@@ -205,7 +205,7 @@ class Common_model extends CI_Model
     public function get_desig_by_type($office_type)
     {
         $this->db->select('id, desig_name');
-        $this->db->from('designations');        
+        $this->db->from('designations');
         $this->db->where('office_type', $office_type);
         $this->db->where('status', 1);
         $this->db->order_by('id', 'ASC');
@@ -217,7 +217,7 @@ class Common_model extends CI_Model
     public function get_designation_by_employee_type($empType)
     {
         $this->db->select('id, desig_name');
-        $this->db->from('designations');        
+        $this->db->from('designations');
         if ($empType == 'pr') {
             $this->db->where('employee_type', 1);
         } else if ($empType == 'employee'){
@@ -301,7 +301,7 @@ class Common_model extends CI_Model
 
     public function get_signature_by_designation($designationID) {
         $this->db->select('u.id, u.name_bn, u.designation, u.signature, dg.desig_name');
-        $this->db->from('users u'); 
+        $this->db->from('users u');
         $this->db->join('designations dg', 'dg.id = u.crrnt_desig_id', 'LEFT');
         $this->db->where('u.crrnt_desig_id', $designationID);
         $result = $this->db->get()->row();
@@ -430,7 +430,7 @@ class Common_model extends CI_Model
         $data[''] = '--- Select One ---';
         $this->db->select('id, session_name');
         $this->db->from('session_year');
-        $this->db->order_by('id', 'DESC');        
+        $this->db->order_by('id', 'DESC');
         $query = $this->db->get()->result_array();
 
         foreach ($query as $rows) {
@@ -494,7 +494,7 @@ class Common_model extends CI_Model
     }
 
 
-    public function get_employee_leave_count($office_id = null)
+    public function get_employee_leave_count($id = null)
     {
         // count query
         $this->db->select('COUNT(*) as count');
@@ -830,13 +830,13 @@ class Common_model extends CI_Model
         return $data;
     }
 
-    public function get_training_info($trainingID) {        
+    public function get_training_info($trainingID) {
         $this->db->select('t.*, c.course_title, f.finance_name');
         $this->db->from('training t');
-        $this->db->join('course c', 'c.id = t.course_id', 'LEFT');      
-        $this->db->join('financing f', 'f.id = t.financing_id', 'LEFT');  
+        $this->db->join('course c', 'c.id = t.course_id', 'LEFT');
+        $this->db->join('financing f', 'f.id = t.financing_id', 'LEFT');
         $this->db->where('t.id', $trainingID);
-        $result = $this->db->get()->row();                
+        $result = $this->db->get()->row();
 
         return $result;
     }
@@ -1101,11 +1101,11 @@ class Common_model extends CI_Model
     }
 
     // Get Coordinating Training IDs
-    public function get_training_ids_by_cc($userID){        
+    public function get_training_ids_by_cc($userID){
         $trainingIDs=[];
         $this->db->select('training_id');
         $this->db->from('training_coordinator');
-        $this->db->where('user_id', $userID);        
+        $this->db->where('user_id', $userID);
         $query = $this->db->get();
         //echo $this->db->last_query();
         if($query->num_rows()>0){
@@ -1113,8 +1113,8 @@ class Common_model extends CI_Model
             foreach ($query->result_array() as $value) {
                 $trainingIDs[]=$value['training_id'];
             }
-        }        
-        // dd($trainingIDs); 
+        }
+        // dd($trainingIDs);
 
         return $trainingIDs;
     }
@@ -2134,7 +2134,7 @@ class Common_model extends CI_Model
         $query = $this->db->get()->row();
 
         return $query;
-    }    
+    }
 
     // Check NILG Employee (trainee) Extra User Access by Designation
     public function get_nilg_user_access_by_current_designation($officeType, $userDesignation = NULL)
@@ -2168,10 +2168,10 @@ class Common_model extends CI_Model
     /*
     public function get_personal_data_by_office($officeType){
         $this->db->select('*');
-        $this->db->from('personal_datas');        
-        $this->db->where('is_migrate', 0);             
-        // $this->db->where('id', '9102');             
-        $this->db->where('office_type_id', $officeType);             
+        $this->db->from('personal_datas');
+        $this->db->where('is_migrate', 0);
+        // $this->db->where('id', '9102');
+        $this->db->where('office_type_id', $officeType);
         $this->db->order_by('id', 'ASC');
         $this->db->limit(300);
 
@@ -2264,7 +2264,7 @@ class Common_model extends CI_Model
     }
 
     public function make_status_type($type){
-        if($type == 1){ 
+        if($type == 1){
             return '1'; // Elected 2
         }elseif($type == 2){
             return '3';
@@ -2287,8 +2287,8 @@ class Common_model extends CI_Model
         $this->db->select('uni.*, CONCAT(uni.uni_name_bn, " ইউনিয়ন ", "পরিষদ", ", ", ut.upa_name_bn, ", ", d.dis_name_bn) AS text, uni.uni_name_bn, uni.uni_name_en, uni.status, d.dis_name_bn, d.dis_name_en, ut.upa_name_bn, ut.upa_name_en');
         $this->db->from('unions uni');
         $this->db->join('districts d', 'd.id=uni.uni_dis_id', 'LEFT');
-        $this->db->join('upazilas ut', 'ut.id=uni.uni_upa_id', 'LEFT');        
-        $this->db->where('uni.uni_dis_id', $districtID);             
+        $this->db->join('upazilas ut', 'ut.id=uni.uni_upa_id', 'LEFT');
+        $this->db->where('uni.uni_dis_id', $districtID);
         $this->db->order_by('uni.id', 'ASC');
 
         return $this->db->get()->result();
@@ -2310,7 +2310,7 @@ class Common_model extends CI_Model
         $this->db->from('pourashava p');
         $this->db->join('districts d', 'd.id=p.pou_dis_id', 'LEFT');
         $this->db->join('upazilas ut', 'ut.id=p.pou_upa_id', 'LEFT');
-        $this->db->where('p.pou_div_id', $divisionID);     
+        $this->db->where('p.pou_div_id', $divisionID);
         $this->db->order_by('p.id', 'DESC');
 
         return $this->db->get()->result();
@@ -2327,14 +2327,14 @@ class Common_model extends CI_Model
 
         return ($query->num_rows() >= 1);
     }
-    
+
     public function get_upazila_by_division($divisionID) {
         // result query
         $this->db->select('upa.*, CONCAT(upa.upa_name_bn, " উপজেলা ", "পরিষদ", ", ", d.dis_name_bn) AS text, upa.upa_name_bn, upa.upa_name_en, d.dis_name_bn, d.dis_name_en');
         $this->db->from('upazilas upa');
         $this->db->join('districts d', 'd.id=upa.upa_dis_id', 'LEFT');
-        $this->db->where('upa.upa_div_id', $divisionID);     
-        $this->db->where('upa.is_thana', 0);     
+        $this->db->where('upa.upa_div_id', $divisionID);
+        $this->db->where('upa.is_thana', 0);
         $this->db->order_by('upa.id', 'DESC');
 
         return $this->db->get()->result();
@@ -2351,19 +2351,19 @@ class Common_model extends CI_Model
 
         return ($query->num_rows() >= 1);
     }
-    
+
     public function get_district_by_division($divisionID) {
         // result query
         $this->db->select('dis.*, CONCAT(dis.dis_name_bn, " ডিডিএলজি ", "অফিস", ", ", div.div_name_bn) AS text, dis.dis_name_bn, dis.dis_name_en, div.div_name_bn, div.div_name_en');
         $this->db->from('districts dis');
         $this->db->join('divisions div', 'div.id=dis.dis_div_id', 'LEFT');
-        $this->db->where('dis.dis_div_id', $divisionID);     
+        $this->db->where('dis.dis_div_id', $divisionID);
         $this->db->order_by('dis.id', 'DESC');
 
         return $this->db->get()->result();
         // echo $this->db->last_query(); exit;
     }
-    
+
 
     public function get_office_filter($officeType)
     {
