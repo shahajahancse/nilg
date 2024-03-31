@@ -204,10 +204,10 @@ if (isset($leave_address->district_id)) {
         <h4 style="text-decoration: underline;line-height: 32px;">ছুটি মঞ্জুরী পত্র</h4>
     </div>
     <div class="col-md-12" style="width: 100%;padding:26px;">
-        <span>জনাব/বেগম &nbsp&nbsp&nbsp&nbsp <?php echo $user->name_bn; ?>&nbsp&nbsp&nbsp&nbsp পদবি &nbsp&nbsp&nbsp&nbsp<?php echo $desig->desig_name; ?>&nbsp&nbsp&nbsp কে &nbsp&nbsp&nbsp
+        <span>জনাব/বেগম &nbsp <?php echo $user->name_bn; ?>&nbsp পদবি &nbsp<?php echo $desig->desig_name; ?>&nbsp কে &nbsp
          
             <?= date_bangla_calender_format($row->from_date) ?> থেকে <?= date_bangla_calender_format($row->to_date) ?> পর্যন্ত
-                            মোট <?= eng2bng($row->leave_days) ?> দিন  &nbsp&nbsp&nbsp&nbsp <?=$leave_type->leave_name_bn?> &nbsp&nbsp&nbsp&nbsp
+                            মোট <?= eng2bng($row->leave_days) ?> দিন &nbsp <?=$leave_type->leave_name_bn?> &nbsp
             মঞ্জুরী করা হল
         </span>
     </div>
