@@ -210,7 +210,7 @@ class Evaluation_model extends CI_Model {
         $this->db->limit($limit);
         $this->db->offset($offset);
 
-        $this->db->where_in('t.course_id', array(1,2,3, 7,8,11, 13,14,16, 18,19,21, 22,23,24)); 
+        $this->db->where_in('t.course_id', array(1,2,3,4, 7,8,11, 13,14,16, 18,19,21, 22,23,24)); 
         if(!empty($_GET['course_id'])){
             $this->db->where('e.course_id', $_GET['course_id']);
         }
