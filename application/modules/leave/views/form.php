@@ -142,7 +142,11 @@ if (isset($leave_address->district_id)) {
                         <th>০৬. ছুটিকালীন বিকল্প কর্মকর্তার নাম ও পদবি</th>
                         <td>:</td>
                         <td>
-                            <?php echo $user2->name_bn . ' (' . $desig2->desig_name . ')'; ?>
+                            <?php if (!empty($user2)) {
+                                    echo $user2->name_bn . ' (' . $desig2->desig_name . ')'; 
+                                    
+                                } 
+                                ?>
                         </td>
                     </tr>
                     <tr>
