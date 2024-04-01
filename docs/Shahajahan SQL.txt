@@ -1,8 +1,8 @@
-28-03-2024 leave
-ALTER TABLE leave_employee ADD assign_person INT NULL DEFAULT NULL AFTER status, ADD leave_address TEXT NULL DEFAULT NULL AFTER assign_person, ADD INDEX (assign_person);
-ALTER TABLE leave_employee ADD assign_remark TEXT NULL DEFAULT NULL AFTER assign_person;
-ALTER TABLE leave_employee CHANGE status status TINYINT(1) NOT NULL COMMENT '1 = draft, 2 = pending, 3 = assign approve, 4 = approve, 5 = reject';
-ALTER TABLE leave_employee CHANGE status status TINYINT(1) NOT NULL DEFAULT '1' COMMENT '1 = draft, 2 = pending, 3 = assign approve, 4 = approve, 5 = reject';
+01-04-2024 leave
+ALTER TABLE `leave_employee` ADD `control_person` INT NULL DEFAULT NULL AFTER `assign_person`, ADD INDEX (`control_person`);
+ALTER TABLE `leave_employee` CHANGE `assign_remark` `control_remark` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `leave_employee` ADD `approve_person` INT NULL DEFAULT NULL AFTER `status`, ADD INDEX (`approve_person`);
+
 
 
 

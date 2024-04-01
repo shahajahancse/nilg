@@ -27,9 +27,6 @@ class Leave_model extends CI_Model {
         if($user != null){
             $this->db->where('el.user_id', $user);
         }
-        // if($assign != null){
-        //     $this->db->where('el.assign_person', $assign);
-        // }
 
         if($this->input->get('user_id')){
             $this->db->where('el.user_id', $this->input->get('user_id'));
@@ -148,7 +145,7 @@ class Leave_model extends CI_Model {
             $this->db->where('el.status', $status);
         }
         if($user_id != null){
-            $this->db->where('el.assign_person', $user_id);
+            $this->db->where('el.control_person', $user_id);
         }
         // $query = $this->db->get();
         $result['rows'] = $this->db->get()->result();
@@ -163,7 +160,7 @@ class Leave_model extends CI_Model {
             $this->db->where('el.status', $status);
         }
         if($user_id != null){
-            $this->db->where('el.assign_person', $user_id);
+            $this->db->where('el.control_person', $user_id);
         }
         $tmp = $this->db->get()->result();
         $result['num_rows'] = $tmp[0]->count;

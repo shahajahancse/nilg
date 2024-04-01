@@ -97,7 +97,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label class="form-label">মন্তব্য </label>
-                      <textarea name="assign_remark" class="form-control"><?php echo $row->assign_remark;?></textarea>
+                      <textarea name="control_remark" class="form-control"><?php echo $row->control_remark;?></textarea>
                     </div>
                   </div>
                 </div>

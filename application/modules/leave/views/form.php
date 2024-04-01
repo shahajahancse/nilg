@@ -1,6 +1,9 @@
 
 <?php
 $user = $this->ion_auth->user($row->user_id)->row();
+$app_user = $this->ion_auth->user($row->approve_person)->row();
+$con_user = $this->ion_auth->user($row->control_person)->row();
+
 if (!empty($row->assign_person)) {
     $user2 = $this->ion_auth->user($row->assign_person)->row();
     $desig2 = $this->db->get_where('designation',array('id'=>$user2->crrnt_desig_id))->row();
@@ -22,44 +25,8 @@ if (isset($leave_address->district_id)) {
     $district= $this->db->get_where('districts',array('id'=>$leave_address->district_id))->row();
 }
 
-// dd($desig);
-// dd($user);
-// [id] => 177
-// [username] => 3273133821
-// [is_office] => 0
-// [office_type] => 7
-// [office_id] => 125
-// [partner_id] =>
-// [employee_type] => 2
-// [name_bn] => মো: নাজিম উদ্দিন
-// [name_en] => MD. NAZIM UDDIN
-// [father_name] => মো: মোজাম্মেল হক
-// [mother_name] => মোসা: ছালেহা বেগম
-// [nid] => 3273133821
-// [mobile_no] => 01860673571
-// [email] => nazim.nilg@yahoo.com
-
-//dd($row)
-
 ?>
-<!-- stdClass Object
-(
-    [id] => 4
-    [user_id] => 177
-    [dept_id] => 3
-    [desig_id] => 100
-    [leave_type] => 8
-    [from_date] => 2024-03-28
-    [to_date] => 2024-03-28
-    [leave_days] => 1
-    [reason] => sdsfdsfds
-    [status] => 1
-    [assign_person] => 181
-    [assign_remark] =>
-    [leave_address] => {"father_name":"Md. Nahid","division_id":"6","district_id":"47","upazila_id":"273","village":"Dolapara","post_office":"Magura"}
-    [file_name] =>
-    [created_date] => 2024-03-28
-) -->
+
 <html lang="en">
 
 <head>
@@ -183,21 +150,38 @@ if (isset($leave_address->district_id)) {
                     </tr>
                 </table>
             </div>
+
             <div class="col-md-12"
                 style="display: flex;justify-content: space-between;width: 100%;margin-top: 32px;padding: 26px;">
-                <span>নিয়ন্ত্রণকারি কর্মকর্তার সুপারিশ : <br>তাঁকে ছুটি মঞ্জুর করা যেতে পারে/পারে না</span>
-                <span>আবেদনকারীর স্বাক্ষর ও তারিখ</span>
+                <span>নিয়ন্ত্রণকারি কর্মকর্তার সুপারিশ : <?php echo $row->control_remark; ?></span>
+                <span>
+                    <?php if (!empty($user->signature)) {
+                        $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $user->signature;
+                    } else {
+                        $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/blank.jpg';
+                    }?>
+                    <div><img src="<?= $url ?>" style="width:160; height: 50px; display: block;"></div>
+                    আবেদনকারীর স্বাক্ষর ও তারিখ
+                </span>
             </div>
-            <div class="col-md-12" style="display: flex;justify-content: space-between;width: 100%;padding: 9px 26px;">
-                <span>নিয়ন্ত্রণকারী কর্মকর্তার স্বাক্ষর ও তারিখ।</span>
-            </div>
-            <div class="col-md-12" style="display: flex;justify-content: space-between;width: 100%;padding: 9px 26px;">
-                <span>অফিস কর্তৃক পূরণীয়-</span>
-            </div>
+
             <div class="col-md-12" style="display: flex;justify-content: space-between;width: 100%;padding:26px;">
-                <span>সংশ্লিষ্ট উচ্চমান সহকারীর স্বাক্ষর ও তারিখ</span>
-                <span>প্রশাসনিক কর্মকর্তার স্বাক্ষর ও তারিখ</span>
-                <span>ছুটি অনুমোদনকারী কর্মকর্তার<br>
+                <span>
+                    <?php if (!empty($con_user->signature)) {
+                        $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $con_user->signature;
+                    } else {
+                        $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/blank.jpg';
+                    }?>
+                    <div><img src="<?= $url ?>" style="width:160; height: 50px; display: block;"></div>
+                    নিয়ন্ত্রণকারী কর্মকর্তার স্বাক্ষর ও তারিখ। </span>
+                <span>
+                    <?php if (!empty($app_user->signature)) {
+                        $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $con_user->signature;
+                    } else {
+                        $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/blank.jpg';
+                    }?>
+                    <div><img src="<?= $url ?>" style="width:160; height: 50px; display: block;"></div>
+                    ছুটি অনুমোদনকারী কর্মকর্তার<br>
                     স্বাক্ষর তারিখ ও সিলমোহর।</span>
             </div>
         </div>
@@ -219,7 +203,15 @@ if (isset($leave_address->district_id)) {
     </div>
     <div class="col-md-12" style="display: flex;justify-content: space-between;width: 100%;padding:26px;">
         <span></span>
-        <span>ছুটি অনুমোদনকারী কর্মকর্তার স্বাক্ষর,<br> তারিখ ও সিলমোহর।</span>
+        <span>
+            <?php if (!empty($app_user->signature)) {
+                $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $app_user->signature;
+            } else {
+                $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/blank.jpg';
+            }?>
+            <div><img src="<?= $url ?>" style="width:160; height: 50px; display: block;"></div>
+            ছুটি অনুমোদনকারী কর্মকর্তার <br> স্বাক্ষর, তারিখ ও সিলমোহর।
+        </span>
     </div>
 
 

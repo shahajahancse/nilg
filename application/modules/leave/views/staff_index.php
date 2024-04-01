@@ -100,7 +100,7 @@
                   } else if($row->status == 4){
                     $status = '<span class="label label-primary">অনুমোদিত</span>';
                   } else if($row->status == 3){
-                    $status = '<span class="label label-warning">দায়িত্বরত অনুমোদিত / অপেক্ষমাণ</span>';
+                    $status = '<span class="label label-warning">নিয়ন্ত্রণকারি অনুমোদিত / অপেক্ষমাণ</span>';
                   } else if($row->status == 2){
                     $status = '<span class="label label-warning">অপেক্ষমাণ</span>';
                   } else if($row->status == 1){
@@ -115,17 +115,20 @@
                     <td><?=$row->leave_name_bn?></td>
                     <td><?=date_bangla_calender_format($row->from_date)?></td>
                     <td><?=date_bangla_calender_format($row->to_date)?></td>
-                    <td><?=$row->leave_days?></td>
+                    <td><?=eng2bng($row->leave_days)?></td>
                     <td><?=$row->reason?></td>
                     <td> <?=$status?></td>
                     <td>
                       <div class="btn-group">
                         <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> অ্যাকশন <span class="caret"></span> </a>
                         <ul class="dropdown-menu pull-right">
+                          <?php if ($row->status == 1) { ?>
+                            <li><a href="<?=base_url('leave/edit/'.encrypt_url($row->id));?>">সংশোধন করুন</a></li>
+                          <?php } ?>
                           <li><a href="<?=base_url('leave/form_print/'.encrypt_url($row->id));?>">প্রিন্ট</a></li>
-                          <?php if (!empty($row->assign_person) && $row->status == 1) { ?>
-                            <li><a href="<?=base_url('leave/forward_change/'.encrypt_url($row->id).'/2');?>">ফরওয়ার্ড বিকল্প কর্মকর্তা</a></li>
-                            <?php } else if (empty($row->assign_person) && $row->status == 1) {  ?>
+                          <?php if (!empty($row->control_person) && $row->status == 1) { ?>
+                            <li><a href="<?=base_url('leave/forward_change/'.encrypt_url($row->id).'/2');?>">ফরওয়ার্ড নিয়ন্ত্রণকারি কর্মকর্তা</a></li>
+                            <?php } else if (empty($row->control_person) && $row->status == 1) {  ?>
                               <li><a href="<?=base_url('leave/forward_change/'.encrypt_url($row->id).'/3');?>">ফরওয়ার্ড টু অনুমোদন</a></li>
                           <?php } ?>
 
