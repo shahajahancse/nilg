@@ -1,8 +1,3 @@
-
-
-
-
-
 <div class="page-content">
     <div class="content">
         <ul class="breadcrumb" style="margin-bottom: 20px;">
@@ -25,7 +20,6 @@
                                 class="btn btn-blueviolet btn-xs btn-mini">বাজেট তৈরি করুণ</a>
                         </div>
                     </div>
-
                     <div class="grid-body ">
                         <?php if ($this->session->flashdata('success')): ?>
                         <div class="alert alert-success">
@@ -50,14 +44,14 @@
                                     foreach ($results as $row):
                                         $sl++;
                                         ?>
-	                                <tr>
-	                                    <td class="v-align-middle"><?=$sl . '.'?></td>
-	                                    <td class="v-align-middle"><?=$row->title;?></td>
-	                                    <td class="v-align-middle"><?=$row->amount;?></td>
-	                                    <td class="v-align-middle"><?=$row->session_name;?></td>
-	                                    <td class="v-align-middle">
-	                                        <!-- 1=revenue, 2=auditorium, 3=library, 4=publication, 5=others	 -->
-	                                        <?php
+                                <tr>
+                                    <td class="v-align-middle"><?=$sl . '.'?></td>
+                                    <td class="v-align-middle"><?=$row->title;?></td>
+                                    <td class="v-align-middle"><?=$row->amount;?></td>
+                                    <td class="v-align-middle"><?=$row->session_name;?></td>
+                                    <td class="v-align-middle">
+                                        <!-- 1=revenue, 2=auditorium, 3=library, 4=publication, 5=others	 -->
+                                        <?php
                                                     if ($row->type == 1) {
                                                         echo 'Revenue';
                                                     } elseif ($row->type == 2) {
@@ -70,7 +64,7 @@
                                                     echo 'Others';
                                                 }
                                                 ?>
-                                        </td>
+                                    </td>
 
 
                                     <td class="v-align-middle"><?=date_bangla_calender_format($row->created_at);?>
@@ -81,8 +75,12 @@
                                             <button class="btn btn-mini btn-primary dropdown-toggle"
                                                 data-toggle="dropdown"> <span class="caret"></span> </button>
                                             <ul class="dropdown-menu pull-right">
-                                                <li><a href="<?php echo base_url('budgets/budget_entry_details/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
-                                                <li><a href="<?php echo base_url('budgets/budget_entry_print/' . encrypt_url($row->id)) ?>" target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট  </a></li>
+                                                <li><a
+                                                        href="<?php echo base_url('budgets/budget_entry_details/' . encrypt_url($row->id)) ?>"><i
+                                                            class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
+                                                <li><a href="<?php echo base_url('budgets/budget_entry_print/' . encrypt_url($row->id)) ?>"
+                                                        target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট </a>
+                                                </li>
                                             </ul>
                                         </div>
                                     </td>
