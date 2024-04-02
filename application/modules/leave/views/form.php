@@ -156,9 +156,9 @@ if (isset($leave_address->district_id)) {
                 <span>নিয়ন্ত্রণকারি কর্মকর্তার সুপারিশ : <?php echo $row->control_remark; ?></span>
                 <span>
                     <?php if (!empty($user->signature)) {
-                        $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $user->signature;
+                        $url = base_url('uploads/signature/') . $user->signature;
                     } else {
-                        $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/blank.jpg';
+                        $url = base_url('uploads/signature/blank.jpg');
                     }?>
                     <div><img src="<?= $url ?>" style="width:160; height: 50px; display: block;"></div>
                     আবেদনকারীর স্বাক্ষর ও তারিখ
@@ -168,17 +168,17 @@ if (isset($leave_address->district_id)) {
             <div class="col-md-12" style="display: flex;justify-content: space-between;width: 100%;padding:26px;">
                 <span>
                     <?php if (!empty($con_user->signature)) {
-                        $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $con_user->signature;
+                        $url = base_url('uploads/signature/') . $con_user->signature;
                     } else {
-                        $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/blank.jpg';
+                        $url = base_url('uploads/signature/blank.jpg');
                     }?>
                     <div><img src="<?= $url ?>" style="width:160; height: 50px; display: block;"></div>
                     নিয়ন্ত্রণকারী কর্মকর্তার স্বাক্ষর ও তারিখ। </span>
                 <span>
                     <?php if (!empty($app_user->signature)) {
-                        $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $con_user->signature;
+                        $url = base_url('uploads/signature/') . $con_user->signature;
                     } else {
-                        $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/blank.jpg';
+                        $url = base_url('uploads/signature/blank.jpg');
                     }?>
                     <div><img src="<?= $url ?>" style="width:160; height: 50px; display: block;"></div>
                     ছুটি অনুমোদনকারী কর্মকর্তার<br>
@@ -205,9 +205,9 @@ if (isset($leave_address->district_id)) {
         <span></span>
         <span>
             <?php if (!empty($app_user->signature)) {
-                $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $app_user->signature;
+                $url = base_url('uploads/signature/') . $app_user->signature;
             } else {
-                $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/blank.jpg';
+                $url = base_url('uploads/signature/blank.jpg');
             }?>
             <div><img src="<?= $url ?>" style="width:160; height: 50px; display: block;"></div>
             ছুটি অনুমোদনকারী কর্মকর্তার <br> স্বাক্ষর, তারিখ ও সিলমোহর।
