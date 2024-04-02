@@ -14,7 +14,9 @@ class Inventory_model extends CI_Model {
       $this->db->join('users u', 'u.id = r.user_id', 'LEFT');
       $this->db->join('department dp', 'dp.id = u.crrnt_dept_id', 'LEFT');
       $this->db->join('designations dg', 'dg.id = u.crrnt_desig_id', 'LEFT');
-      // $this->db->where('r.status !=', 6);
+      if($status == NULL){
+        $this->db->where_not_in('r.status', array(3,6));
+      }
       if($status){
           $this->db->where('r.status', $status);
       }
@@ -36,13 +38,16 @@ class Inventory_model extends CI_Model {
 
       // count query
       $q = $this->db->select('COUNT(*) as count');
-      $this->db->from('requisitions'); 
+      $this->db->from('requisitions');
+      if($status == NULL){
+        $this->db->where_not_in('status', array(3,6));
+      }
       if($status){
           $this->db->where('status', $status);
-      }      
+      }
       if($user_id != null){
           $this->db->where('user_id', $user_id);
-      }      
+      }
       if(!empty($_GET['start_date']) && !empty($_GET['end_date'])){
         $start_time = $_GET['start_date'];
         $end_time = $_GET['end_date'];
@@ -51,7 +56,7 @@ class Inventory_model extends CI_Model {
       $query = $this->db->get()->result();
       $tmp = $query;
       $result['num_rows'] = $tmp[0]->count;
-      
+
       return $result;
   }
 
@@ -68,12 +73,12 @@ class Inventory_model extends CI_Model {
 
       // count query
       $q = $this->db->select('COUNT(*) as count');
-      $this->db->from('requisitions r'); 
+      $this->db->from('requisitions r');
       $this->db->where('r.status', $status);
       $this->db->where('r.current_desk', $desk);
       $query = $this->db->get()->result();
       $result['num_rows'] = $query[0]->count;
-      
+
       return $result;
   }
 
@@ -172,14 +177,14 @@ class Inventory_model extends CI_Model {
   //========= hard delete record not found after deleting row
   function hard_delete($table,$id) {
       $this->db->where('id', $id);
-      $this->db->delete($table);     
+      $this->db->delete($table);
       return TRUE;
   }
 
   public function get_sub_category_by_cate_id($id){
     $data['0'] = '-- সাব ক্যাটাগরি নির্বাচন করুন --';
     $this->db->select('id, sub_cate_name');
-    $this->db->from('sub_categories');        
+    $this->db->from('sub_categories');
     $this->db->where('cate_id', $id);
     $query = $this->db->get();
 
@@ -192,7 +197,7 @@ class Inventory_model extends CI_Model {
   public function get_items_by_sub_cate_id($id){
     $data['0'] = '-- Select Item --';
     $this->db->select('id, item_name');
-    $this->db->from('items');        
+    $this->db->from('items');
     $this->db->where('sub_cate_id', $id);
     $query = $this->db->get();
 
@@ -212,7 +217,7 @@ class Inventory_model extends CI_Model {
 
       // count query
     $q = $this->db->select('COUNT(*) as count');
-    $this->db->from('purchase'); 
+    $this->db->from('purchase');
     $query = $this->db->get()->result();
     $tmp = $query;
     $result['num_rows'] = $tmp[0]->count;
@@ -244,14 +249,14 @@ class Inventory_model extends CI_Model {
 
   public function get_requisition_by_id($id) {
     $this->db->select('
-          r.*, 
-          u.name_bn, 
-          u.signature, 
-          dp.dept_name, 
-          dg.desig_name, 
-          sm.signature as sm_signature, 
-          jd.signature as jd_signature, 
-          gd.signature as gd_signature, 
+          r.*,
+          u.name_bn,
+          u.signature,
+          dp.dept_name,
+          dg.desig_name,
+          sm.signature as sm_signature,
+          jd.signature as jd_signature,
+          gd.signature as gd_signature,
         ');
     $this->db->from('requisitions r');
     $this->db->join('users u', 'u.id = r.user_id', 'LEFT');
@@ -297,7 +302,7 @@ class Inventory_model extends CI_Model {
       $data[$rows['id']] = $rows['text'];
     }
    return $data;
-  } 
+  }
 
   public function get_requisition_report(array $inputs){
     $data = array();
@@ -311,7 +316,7 @@ class Inventory_model extends CI_Model {
     if($inputs['dpt']){
       $this->db->where('r.department_id', $inputs['dpt']);
     }
-    
+
     if($inputs['status']){
       $this->db->where('r.status', $inputs['status']);
     }
@@ -359,7 +364,7 @@ class Inventory_model extends CI_Model {
     // echo $this->db->last_query(); exit;
 
     return $query;
-  } 
+  }
 
   public function get_my_requisition($limit=1000, $offset=0, $status=NULL) {
     $this->db->select('r.*, u.name_bn as first_name');
@@ -375,7 +380,7 @@ class Inventory_model extends CI_Model {
 
       // count query
     $q = $this->db->select('COUNT(*) as count');
-    $this->db->from('requisitions'); 
+    $this->db->from('requisitions');
     $this->db->where('user_id', $this->session->userdata('user_id'));
     if($status){
        $this->db->where('status', $status);
@@ -385,7 +390,7 @@ class Inventory_model extends CI_Model {
     $result['num_rows'] = $tmp[0]->count;
 
     return $result;
-  } 
+  }
 
   public function get_department(){
     $data[''] = '-- বিভাগ নির্বাচন করুন --';
@@ -397,7 +402,7 @@ class Inventory_model extends CI_Model {
       $data[$rows['id']] = $rows['text'];
     }
    return $data;
-  } 
+  }
 
   public function get_categories() {
     $this->db->select('*');
