@@ -1896,7 +1896,7 @@ class Trainee extends Backend_Controller
             redirect('dashboard');
         }
 
-        $limit = 25;
+        $limit = 4;
         // $id = (int) decrypt_url($id);
         // Trainee_model = $this->this_model();  //exit;
         //$this->data['printcolumn'] = array('name_bangla', 'national_id', 'data_type_name', 'office_type_name', 'dis_name_bn', 'upa_name_bn', 'uni_name_bn', 'desig_name');
@@ -2026,13 +2026,14 @@ class Trainee extends Backend_Controller
         $this->load->view('backend/_layout_main', $this->data);
     }
 
-    public function request_verification($id){
+    public function request_verification($id, $offset = null){
         // Check Auth
         if(!$this->ion_auth->in_group(array('admin', 'nilg', 'city', 'zp', 'ddlg', 'uz', 'paura', 'up', 'partner', 'cc'))){
             redirect('dashboard');
         }
 
-        $id = (int) decrypt_url($id);
+        $offset = (int) decrypt_url($offset);
+
         // Check Exists
         if(!$this->Common_model->exists('users', 'id', $id)){
             show_404('Trainee > request_verification', TRUE);
@@ -2048,12 +2049,6 @@ class Trainee extends Backend_Controller
 
         // Validate and Input Data
         if ($this->form_validation->run() == true){
-            // Set Status
-            /*if($userType == 1){
-                $dataStatus = 2; // Public Representative
-            }else{
-                $dataStatus = 1; // Employee
-            }*/
 
             $form_data = array(
                 'is_applied'     => 0,
@@ -2075,6 +2070,9 @@ class Trainee extends Backend_Controller
                 }
 
                 // Redirect
+                if($offset != 0) {
+                    redirect('trainee/request/'.$offset);
+                }
                 redirect('trainee/request');
             }
         }
