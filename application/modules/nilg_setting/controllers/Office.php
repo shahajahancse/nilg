@@ -267,14 +267,6 @@ class Office extends Backend_Controller {
     
 
     public function delete($dataID){
-        //$thismodel=$this->this_model();
-        //$id = $this->input->get('id'); 
-
-        //$dataID = (int) decrypt_url($id); //exit;
-        //if(!$this->Common_model->exists('personal_datas', 'id', $dataID)){
-            //show_404('personal_datas - edit - exists', TRUE);
-        //}
-
         if ($this->db->delete('organizations', array('id' => $dataID))) {
             $this->session->set_flashdata('success', 'Deleted Successful'); 
             redirect('organizations');

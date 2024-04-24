@@ -113,13 +113,7 @@ if (isset($leave_address->district_id)) {
                         <th>০৬. ছুটিকালীন বিকল্প কর্মকর্তার নাম ও পদবি</th>
                         <td>:</td>
                         <td>
-                            <?php
-                                if (!empty($user2)) {
-                                    echo $user2->name_bn . ' (' . $desig2->desig_name . ')';
-                                } else {
-                                    echo 'কর্মকর্তা নির্ধারিত করা হয়নি';
-                                }
-                            ?>
+                            <?php echo $user2->name_bn . ' (' . $desig2->desig_name . ')'; ?>
                         </td>
                     </tr>
                     <tr>
@@ -197,7 +191,7 @@ if (isset($leave_address->district_id)) {
         <span>জনাব/বেগম &nbsp&nbsp&nbsp&nbsp <?php echo $user->name_bn; ?>&nbsp&nbsp&nbsp&nbsp পদবি &nbsp&nbsp&nbsp&nbsp<?php echo $desig->desig_name; ?>&nbsp&nbsp&nbsp কে &nbsp&nbsp&nbsp
 
             <?= date_bangla_calender_format($row->from_date) ?> থেকে <?= date_bangla_calender_format($row->to_date) ?> পর্যন্ত
-                            মোট <?= eng2bng($row->leave_days) ?> দিন  &nbsp&nbsp&nbsp&nbsp <?=$leave_type->leave_name_bn?> &nbsp&nbsp&nbsp&nbsp
+                            মোট <?= eng2bng($row->leave_days) ?> দিন &nbsp <?=$leave_type->leave_name_bn?> &nbsp
             মঞ্জুরী করা হল
         </span>
     </div>
