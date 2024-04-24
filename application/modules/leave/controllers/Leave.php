@@ -61,8 +61,6 @@ class Leave extends Backend_Controller {
 
     public function form_print($uid){
         $id = (int) decrypt_url($uid);
-
-
         $this->data['row'] = $this->Leave_model->get_info('leave_employee', $id);
         $this->load->view('leave/form' , $this->data);
     }

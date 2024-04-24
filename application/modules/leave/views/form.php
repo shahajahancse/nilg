@@ -6,12 +6,12 @@ $con_user = $this->ion_auth->user($row->control_person)->row();
 
 if (!empty($row->assign_person)) {
     $user2 = $this->ion_auth->user($row->assign_person)->row();
-    $desig2 = $this->db->get_where('designation',array('id'=>$user2->crrnt_desig_id))->row();
+    $desig2 = $this->db->get_where('designations',array('id'=>$user2->crrnt_desig_id))->row();
 } else {
     $desig2 = null;
     $user2 = null;
 }
-$desig= $this->db->get_where('designation',array('id'=>$row->desig_id))->row();
+$desig= $this->db->get_where('designations',array('id'=>$row->desig_id))->row();
 $results = $this->Leave_model->get_yearly_leave_count($row->user_id);
 $total_leave= $results['total_leave'];
 $used_leave= $results['used_leave'];
@@ -66,7 +66,7 @@ if (isset($leave_address->district_id)) {
         <h3>গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</h3>
         <p>জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি)</p>
         <p>২৯, আগারগাঁও, শেরে বাংলা নগর ঢাকা - ১২০৭</p>
-        <h4 style="text-decoration: underline;line-height: 32px;">নৈমিত্তিক ছুটির আবেদন পত্র</h4>
+        <h4 style="text-decoration: underline;line-height: 32px;">নৈমিত্তিক ছুটি মঞ্জুরী পত্র</h4>
     </div>
     <div class="container">
         <div class="row">
@@ -113,7 +113,11 @@ if (isset($leave_address->district_id)) {
                         <th>০৬. ছুটিকালীন বিকল্প কর্মকর্তার নাম ও পদবি</th>
                         <td>:</td>
                         <td>
-                            <?php echo $user2->name_bn . ' (' . $desig2->desig_name . ')'; ?>
+                            <?php
+                                if (!empty($user2->name_bn) && !empty($desig2->desig_name)) {
+                                    echo $user2->name_bn . ' (' . $desig2->desig_name . ')';
+                                }
+                            ?>
                         </td>
                     </tr>
                     <tr>
