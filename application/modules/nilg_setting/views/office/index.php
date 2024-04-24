@@ -105,7 +105,7 @@
                       <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> অ্যাকশন <span class="caret"></span> </a>
                       <ul class="dropdown-menu pull-right">
                       <li><a href="<?=base_url('nilg_setting/office/edit/'.$row->id)?>"><?=lang('common_edit')?></a></li>
-                       <li><a href="<?=base_url("office/delete/".$row->id)?>" onclick="return confirm('Be careful! Are you sure you want to delete this data?');">Delete </a></li>
+                       <li><a href="<?=base_url("nilg_setting/office/delete/".$row->id)?>" onclick="return confirm('Be careful! Are you sure you want to delete this data?');">Delete </a></li>
                       </ul>
                     </div>
                     <?php /*
