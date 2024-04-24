@@ -65,8 +65,6 @@
                                                 }
                                                 ?>
                                     </td>
-
-
                                     <td class="v-align-middle"><?=date_bangla_calender_format($row->created_at);?>
                                     </td>
                                     <td align="right">
