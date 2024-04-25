@@ -27,9 +27,6 @@ class Leave_model extends CI_Model {
         if($user != null){
             $this->db->where('el.user_id', $user);
         }
-        // if($assign != null){
-        //     $this->db->where('el.assign_person', $assign);
-        // }
 
         if($this->input->get('user_id')){
             $this->db->where('el.user_id', $this->input->get('user_id'));
@@ -57,9 +54,6 @@ class Leave_model extends CI_Model {
         if($user != null){
             $this->db->where('el.user_id', $user);
         }
-        // if($assign != null){
-        //     $this->db->where('el.assign_person', $assign);
-        // }
 
         if($this->input->get('user_id')){
             $this->db->where('el.user_id', $this->input->get('user_id'));
@@ -129,6 +123,44 @@ class Leave_model extends CI_Model {
         }
         if($this->input->get('user_id')){
             $this->db->where('el.user_id', $this->input->get('user_id'));
+        }
+        $tmp = $this->db->get()->result();
+        $result['num_rows'] = $tmp[0]->count;
+        return $result;
+    }
+
+    public function get_list_assign($limit = 1000, $offset = 0, $user_id, $status = null) {
+        // result query
+        $this->db->select('el.*, et.leave_name_bn, et.leave_name_en, users.name_bn, dg.dept_name, cd.desig_name');
+        $this->db->from('leave_employee el');
+        $this->db->join('leave_type et', 'et.id = el.leave_type', 'LEFT');
+        $this->db->join('users', 'users.id = el.user_id', 'LEFT');
+        $this->db->join('department dg', 'dg.id = users.crrnt_dept_id', 'LEFT');
+        $this->db->join('designations cd', 'cd.id = users.crrnt_desig_id', 'LEFT');
+        $this->db->limit($limit);
+        $this->db->offset($offset);
+        $this->db->order_by('el.id', 'DESC');
+        // Filter
+        if($status != null){
+            $this->db->where('el.status', $status);
+        }
+        if($user_id != null){
+            $this->db->where('el.control_person', $user_id);
+        }
+        // $query = $this->db->get();
+        $result['rows'] = $this->db->get()->result();
+        // echo $this->db->last_query(); exit;
+
+
+        // count query
+        $q = $this->db->select('COUNT(*) as count');
+        $this->db->from('leave_employee as el');
+        // Filter
+        if($status != null){
+            $this->db->where('el.status', $status);
+        }
+        if($user_id != null){
+            $this->db->where('el.control_person', $user_id);
         }
         $tmp = $this->db->get()->result();
         $result['num_rows'] = $tmp[0]->count;
@@ -206,7 +238,7 @@ class Leave_model extends CI_Model {
                 ');
         $this->db->where_in('el.leave_type', array(8, 12));
         $this->db->where('el.user_id', $user);
-        $this->db->where('el.status', 2);
+        $this->db->where('el.status', 4);
         $this->db->where('el.from_date >=', date('Y-01-01'));
         $this->db->where('el.from_date <=', date('Y-12-31'));
         $results['used_leave'] = $this->db->get('leave_employee el')->row();

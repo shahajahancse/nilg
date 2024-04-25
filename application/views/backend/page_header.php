@@ -346,6 +346,7 @@
 
 
                <!-- budget entry -->
+               <?php if ($this->ion_auth->in_group('ccddddddddddddd')) { ?>
                <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg', 'bdh', 'acc', 'uz', 'ddlg')) || $userDetails->office_type == 7) { ?>
                   <?php if ($this->ion_auth->in_group(array('uz', 'ddlg'))) { ?>
                      <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span> <span class="arrow"></span> </a>
@@ -448,7 +449,7 @@
                      </ul>
                   </li>
                <?php } else { ?>
-               <?php if ($this->ion_auth->in_group(array('bli', 'bho'))) { ?>
+                  <?php if ($this->ion_auth->in_group(array('bli', 'bho'))) { ?>
                   <li class="start <?= backend_activate_menu_class('journal_entry') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">জার্নাল এন্ট্রি</span> <span class="selected"></span>
                      <?php if ($budget_check_ntfy > 0 || $budget_revenue_ntfy > 0 || $budget_hostel_ntfy > 0 || $budget_public_ntfy > 0 || $budget_gpf_ntfy > 0 || $budget_pension_ntfy > 0 || $budget_other_ntfy > 0) {
                            echo '<span class="badge badge-danger pull-right">' . eng2bng($budget_check_ntfy + $budget_revenue_ntfy + $budget_hostel_ntfy + $budget_public_ntfy + $budget_gpf_ntfy + $budget_pension_ntfy + $budget_other_ntfy) . '</span>';
@@ -492,6 +493,7 @@
                      </ul>
                   </li>
                <?php } ?>
+               <?php } ?>
                <!-- budget entry -->
 
 
@@ -503,13 +505,8 @@
                   </li>
                <?php } ?>
 
-               <?php if ($this->ion_auth->in_group(array('admin', 'cc'))) { ?>
-                  <!-- <li class="start <?= backend_activate_menu_class('training_management') ?>">
-                     <a href="<?= base_url('training_management'); ?>"> <i class="fa fa-book"></i> <span class="title">প্রশিক্ষণ ব্যবস্থাপনা</span></a>
-                  </li> -->
-               <?php } ?>
-
-               <?php if($this->ion_auth->in_group(array('admin', 'nilg')) || func_nilg_auth($userDetails->office_type) == 'employee'){ ?>
+               <!-- leave -->
+               <?php if($this->ion_auth->in_group(array('admin', 'nilg')) || $userDetails->office_type == 7){ ?>
                   <li class="start <?= backend_activate_menu_class('leave') ?>">
                      <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title">ছুটির ব্যবস্থাপনা</span> <span class="selected"></span>
                      <?php if ($leave_notify > 0) {
@@ -517,7 +514,6 @@
                      } ?>
                      <span class="arrow"></span> </a>
                      <ul class="sub-menu">
-                        <?php //if($this->ion_auth->in_group(array('admin', 'nilg'))){ ?>
                         <?php if($this->ion_auth->in_group(array('admin', 'leave_jd', 'leave_dg', 'leave_director'))){ ?>
                            <li> <a href="<?= base_url('leave'); ?>"> ছুটির তালিকা </a> </li>
                            <li class="start <?= backend_activate_menu_method('pending_list') ?>"><a href="<?= base_url('leave/pending_list') ?>">অপেক্ষমাণ তালিকা
@@ -526,16 +522,18 @@
                               } ?>
                         </a></li>
                         <li> <a href="<?= base_url('leave/index/2'); ?>"> অনুমোদিত তালিকা </a> </li>
-                        <li class="start <?= backend_activate_menu_method('rejected_list') ?>"><a href="<?= base_url('leave/rejected_list') ?>">প্রত্যাখ্যাত তালিকা
-                        </a></li>
+                        <li class="start <?= backend_activate_menu_method('rejected_list') ?>"><a href="<?= base_url('leave/rejected_list') ?>">প্রত্যাখ্যাত তালিকা </a></li>
                         <li class="start <?= backend_activate_menu_method('leave_reports') ?>"><a href="<?= base_url('leave/leave_reports') ?>">রিপোর্ট</a></li>
-                        <?php } elseif (func_nilg_auth($userDetails->office_type) == 'employee') { ?>
-                        <li> <a href="<?= base_url('leave'); ?>"> ছুটির তালিকা </a> </li>
+                        <?php } elseif ($userDetails->office_type == 7) { ?>
+                           <li> <a href="<?= base_url('leave'); ?>"> ছুটির তালিকা </a> </li>
+                           <li class="start <?= backend_activate_menu_method('pending_list') ?>"><a href="<?= base_url('leave/pending_list') ?>">অপেক্ষমাণ তালিকা </a></li>
                         <?php } ?>
                      </ul>
                   </li>
                <?php } ?>
+               <!-- leave -->
 
+               <!-- inventory -->
                <?php if(!$this->ion_auth->in_group(array('nilg'))){
                   if ($this->ion_auth->in_group(array('admin', "jd", "dg")) || (func_nilg_auth($userDetails->office_type) == 'employee')) { ?>
                      <li class="start <?= backend_activate_menu_class('inventory') ?>">
@@ -577,21 +575,20 @@
                            </li>
 
                            <?php $people2 = array("jd", "dg", "admin");?>
-                           <?php /*if (in_array(func_nilg_auth($userDetails->office_type, $userDetails->crrnt_desig_id), $people2)) { */?>
-                           <?php if ($this->ion_auth->in_group(array('admin','jd','dg'))) { ?>
-                              <li class="start <?= backend_activate_menu_method('request_requisition_list') ?>">
-                                 <a href="<?= base_url('inventory/request_requisition_list') ?>">এপ্রোভড রিকুয়েস্ট
-                                    <?php if ($Joint_director_no > 0) {
-                                       echo '<span class="badge badge-danger pull-right" style="margin-right:15px;">' . $Joint_director_no . '</span>';
-                                    } else if ($director_general_no > 0) {
-                                       echo '<span class="badge badge-danger pull-right" style="margin-right:15px;">' . $director_general_no . '</span>';
-                                    } ?>
-                                 </a>
-                              </li>
-                           <?php } ?>
+                              <?php if ($this->ion_auth->in_group(array('admin','jd','dg'))) { ?>
+                                 <li class="start <?= backend_activate_menu_method('request_requisition_list') ?>">
+                                    <a href="<?= base_url('inventory/request_requisition_list') ?>">এপ্রোভড রিকুয়েস্ট
+                                       <?php if ($Joint_director_no > 0) {
+                                          echo '<span class="badge badge-danger pull-right" style="margin-right:15px;">' . $Joint_director_no . '</span>';
+                                       } else if ($director_general_no > 0) {
+                                          echo '<span class="badge badge-danger pull-right" style="margin-right:15px;">' . $director_general_no . '</span>';
+                                       } ?>
+                                    </a>
+                                 </li>
+                              <?php } ?>
 
                            <?php if ($this->ion_auth->in_group(array('admin','sm','asm'))) { ?>
-                              <!-- <li class="start <?php // echo backend_activate_menu_method('index') ?>"><a href="<?php // echo base_url('inventory/index') ?>">রিকুইজিশনের তালিকা</a></li> -->
+                              <li class="start <?php echo backend_activate_menu_method('index') ?>"><a href="<?php echo base_url('inventory/index') ?>">রিকুইজিশনের তালিকা</a></li>
                               <li class="start <?= backend_activate_menu_method('pending_list') ?>">
                                  <a href="<?= base_url('inventory/pending_list') ?>">পেন্ডিং তালিকা
                                  <?php if ($request_stor_no['pending'] > 0) {
@@ -625,6 +622,7 @@
                      </li>
                   <?php  } ?>
                <?php } ?>
+               <!-- inventory -->
 
                <?php if ($this->ion_auth->is_admin() && !$this->ion_auth->in_group('nilg')) { ?>
                   <li class="start <?= backend_activate_menu_class('reports') ?>">

@@ -35,10 +35,10 @@
 								</div> -->								
 								
 								<div class="row form-row">								
-									<?php
-									$attributes = array('id' => 'validate');
-									echo form_open("trainee/request_verification/".encrypt_url($info->id), $attributes);
-									?>
+									<?php 
+						            $attributes = array('id' => 'validate', 'autcomplete' => 'off');
+						            echo form_open_multipart(current_url(), $attributes);?>
+            
 									<div class="col-md-4 col-md-offset-2 divReason" style="margin-bottom: 20px; display: none;">
 										<label>বাতিলের কারণ</label>
 										<textarea name="decline_reason" id="decline_reason" class="form-control" rows="2"><?=set_value('decline_reason')?></textarea>

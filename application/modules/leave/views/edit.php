@@ -25,22 +25,32 @@
           </div>
 
           <div class="grid-body">
-            <?php
-            $attributes = array('id' => 'validate');
-            echo form_open_multipart(uri_string(), $attributes);
-            ?>
-
-            <div><?php echo validation_errors(); ?></div>
             <?php if($this->session->flashdata('success')):?>
               <div class="alert alert-success">
                 <?php echo $this->session->flashdata('success');;?>
               </div>
             <?php endif; ?>
+            <?php if($this->session->flashdata('error')):?>
+              <div class="alert alert-danger">
+                <?php echo $this->session->flashdata('error');?>
+              </div>
+            <?php endif; ?>
+
+            <div class="row">
+              <div style="text-align: center; margin: center; margin-bottom: 25px">
+                <h3 style="text-decoration: underline;line-height: 32px;">ছুটির আবেদন পত্র</h3>
+              </div>
+            </div>
+
+            <?php $attributes = array('id' => 'validate');
+            echo form_open_multipart(uri_string(), $attributes); ?>
+
+            <div><?php echo validation_errors(); ?></div>
 
             <div class="row form-row">
               <div class="col-md-3">
                 <div class="form-group">
-                  <label class="form-label">নাম <span class="required">*</span></label>
+                  <label class="form-label">কর্মকর্তা/কর্মচারীর নাম <span class="required">*</span></label>
                   <?php echo form_error('user_id'); ?>
                   <?php $more_attr = 'class="form-control input-sm" style="height: 20px !important"';
                     echo form_dropdown('user_id', $users, set_value('user_id',$row->user_id), $more_attr);
@@ -49,7 +59,7 @@
               </div>
               <div class="col-md-3">
                 <div class="form-group">
-                  <label class="form-label">ছুটির টাইপ <span class="required">*</span></label>
+                  <label class="form-label">ছুটির ধরণ <span class="required">*</span></label>
                   <?php echo form_error('leave_type'); ?>
                     <?php $more_attr = 'class="form-control input-sm" style="height: 20px !important"';
                       echo form_dropdown('leave_type', $leave_type, set_value('leave_type', $row->leave_type), $more_attr);
@@ -58,38 +68,121 @@
               </div>
               <div class="col-md-3">
                 <div class="form-group">
-                  <label class="form-label">শুরুর তারিখঃ <span class="required">*</span></label>
+                  <label class="form-label">ছুটি শুরুর তারিখঃ <span class="required">*</span></label>
                   <input name="from_date" type="text" value="<?php echo $row->from_date;?>" class="datetime form-control input-sm" autocomplete="off">
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="form-group">
-                  <label class="form-label">শেষ তারিখঃ <span class="required">*</span></label>
+                  <label class="form-label">ছুটি শেষ তারিখঃ <span class="required">*</span></label>
                   <input name="to_date" type="text" value="<?php echo $row->to_date;?>" class="datetime form-control input-sm" autocomplete="off">
                 </div>
               </div>
             </div>
 
-            <div class="row form-row">
-              <div class="col-md-12">
-                <div class="form-group">
-                  <label class="form-label">ছুটির কারণ</label>
-                  <textarea name="reason" class="form-control"><?php echo $row->reason;?></textarea>
+            <?php $leave_address = json_decode($row->leave_address); ?>
+              <div class="row form-row">
+                <h5 class="col-md-12">ছুটিকালীন ঠিকানা (কেবলমাত্র কর্মস্থল ত্যাগের ক্ষেত্রে প্রযোজ্য)</h5>
+                <div class="col-md-3">
+                  <div class="form-group" style="margin-bottom: 10px !important">
+                    <label class="form-label">পিতারনাম/প্রযন্ত্রে</label>
+                    <input type="text" value="<?php echo $leave_address->father_name;?>" name="father_name" id="father_name" class="form-control input-sm">
+                  </div>
                 </div>
-              </div>
-              <!-- <div class="col-md-3">
-                <div class="form-group">
-                  <label class="form-label">ছুটির কারণ</label>
-                  <input name="userfile" type="file">
-                </div>
-              </div> -->
-            </div>
 
-            <div class="form-actions">
-              <div class="pull-right">
-                <?php echo form_submit('submit', 'সংরক্ষণ করুন', "class='btn btn-primary btn-cons font-big-bold'"); ?>
+                <div class="col-md-3">
+                  <div class="form-group" style="margin-bottom: 10px !important">
+                    <label class="form-label pull-left">বিভাগ </label>
+                    <?php echo form_error('division_id');
+                    $more_attr = 'class="form-control input-sm" id="division" name="division_id" style="width: 100%; height: 28px !important;"'; echo form_dropdown('division_id', $division, set_value('division_id',$leave_address->division_id), $more_attr); ?>
+                  </div>
+                </div>
+                <?php $diss=$this->db->where('dis_div_id', $leave_address->division_id)->get('districts')->result();?>
+                <div class="col-md-3">
+                  <div class="form-group" style="margin-bottom: 10px !important">
+                    <label class="form-label pull-left">জেলা </label>
+                    <?php echo form_error('district_id');?>
+                    <select name="district_id" <?=set_value('district_id')?> class="form-control input-sm district_val" id="district" style="width: 100%; height: 28px !important;">
+                      <option value=""> <?=lang('select_district')?></option>
+                      <?php foreach ($diss as $key => $r) { ?>
+                      <option <?php if($leave_address->district_id==$r->id){echo 'selected';} ?> value="<?= $r->id ?>"><?= $r->dis_name_bn ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+                <?php $upas=$this->db->where('upa_dis_id', $leave_address->district_id)->get('upazilas')->result();?>
+                <div class="col-md-3">
+                  <div class="form-group" style="margin-bottom: 10px !important">
+                    <label class="form-label pull-left">উপজেলা / থানা </label>
+                    <?php echo form_error('upazila_id');?>
+                    <select name="upazila_id" <?=set_value('upazila_id')?> class="upazila_val form-control input-sm" id="upazila" style="width: 100%; height: 28px !important;">
+                      <option value=""> <?=lang('select_up_thana')?></option>
+                      <?php foreach ($upas as $key => $r) { ?>
+                      <option <?php if($leave_address->upazila_id==$r->id){echo 'selected';} ?> value="<?= $r->id ?>"><?= $r->upa_name_bn ?></option>
+                      <?php } ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-label">গ্রাম/মহল্লা:</label>
+                    <input type="text"  value="<?php echo $leave_address->village;?>" name="village" id="village" class="form-control input-sm">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-label">ডাকঘর:</label>
+                    <input type="text"  value="<?php echo $leave_address->post_office;?>" name="post_office" id="post_office" class="form-control input-sm">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-label">মোবাইল নাম্বার:</label>
+                    <input type="text"  value="<?php echo $leave_address->mobile_number;?>" name="mobile_number" id="mobile_number" class="form-control input-sm">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-label">ছুটির ফাইল</label>
+                    <input name="userfile" type="file">
+                  </div>
+                </div>
               </div>
-            </div>
+
+              <div class="row form-row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-label">নিয়ন্ত্রণকারি কর্মকর্তা</label>
+                    <select name="control_person" id="control_person" class="form-control" >
+                      <option value="">নির্বাচন করুন</option>
+                      <?php foreach($users as $key => $value): ?>
+                        <option <?php if($row->control_person==$key){echo 'selected';} ?> value="<?=$key?>"><?=$value?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-label">ছুটিকালীন বিকল্প কর্মকর্তা</label>
+                    <select name="assign_person" id="assign_person" class="form-control" >
+                      <option value="">নির্বাচন করুন</option>
+                      <?php foreach($users as $key => $value): ?>
+                        <option <?php if($row->assign_person==$key){echo 'selected';} ?> value="<?=$key?>"><?=$value?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="form-label">ছুটির কারণ</label>
+                    <textarea rows="1" name="reason" class="form-control"><?php echo $row->reason ?></textarea>
+                  </div>
+                </div>
+
+                <div class="pull-right">
+                  <?php echo form_submit('submit', 'সংরক্ষণ করুন', "class='btn btn-primary btn-cons font-big-bold'"); ?>
+                </div>
+              </div>
             <?php echo form_close();?>
           </div>  <!-- END GRID BODY -->
         </div> <!-- END GRID -->

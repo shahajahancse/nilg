@@ -24,12 +24,7 @@
           </div>
 
           <div class="grid-body">
-            <?php
-            $attributes = array('id' => 'validate');
-            echo form_open_multipart("leave/add", $attributes);
-            ?>
 
-            <div><?php echo validation_errors(); ?></div>
             <?php if($this->session->flashdata('success')):?>
               <div class="alert alert-success">
                 <?php echo $this->session->flashdata('success');;?>
@@ -41,130 +36,148 @@
               </div>
             <?php endif; ?>
 
-            <div class="row form-row">
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label class="form-label">নাম <span class="required">*</span></label>
-                    <select name="user_id" class="form-control input-sm" style="width: 100%; height: 28px !important;">
-                      <option value="<?= $info->id ?>" selected><?php echo $info->name_bn; ?></option>
-                  </select>
-                  <?php echo form_error('user_id'); ?>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label class="form-label">ছুটির টাইপ <span class="required">*</span></label>
-                  <?php echo form_error('leave_type'); ?>
-                  <select onchange="leave_validation()" name="leave_type" id="leave_type" class="form-control input-sm" style="width: 100%; height: 28px !important;" <?php echo isset($total_leave) ? '' : 'disabled' ?> <?php echo isset($total_leave) ? '' : 'title="No leave type available"' ?>>
-                    <option value="" selected>-- নির্বাচন করুন --</option>
-                    <?php foreach ($total_leave as $key => $v): ?>
-                      <option value="<?= $v->id ?>"><?= $v->leave_name_bn ?></option>
-                    <?php endforeach; ?>
-                  </select>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label class="form-label">শুরুর তারিখঃ <span class="required">*</span></label>
-                  <input onchange="leave_validation()" name="from_date" type="text" value="<?=set_value('from_date')?>" id="from_date" class="datetime form-control input-sm" autocomplete="off">
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label class="form-label">শেষ তারিখঃ <span class="required">*</span></label>
-                  <input onchange="leave_validation()" name="to_date" type="text" value="<?=set_value('to_date')?>"  id="to_date" class="datetime form-control input-sm" autocomplete="off">
-                </div>
+            <div class="row">
+              <div style="text-align: center; margin: center; margin-bottom: 25px">
+                <h3 style="text-decoration: underline;line-height: 32px;">ছুটির আবেদন পত্র</h3>
               </div>
             </div>
 
-            <div class="row form-row">
-              <div class="col-md-9">
-                <div class="form-group">
-                  <label class="form-label">ছুটির কারণ</label>
-                  <textarea name="reason" class="form-control"></textarea>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label class="form-label">ছুটির ফাইল</label>
-                  <input name="userfile" type="file">
-                </div>
-              </div>
-            </div>
-            <div class="row form-row">
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label class="form-label">ছুটিকালীন বিকল্প কর্মকর্তা</label>
-                  <select name="assign_person" id="assign_person">
-                    <option value="">নির্বাচন করুন</option>
-                    <?php foreach($users as $key => $value): ?>
-                      <option value="<?=$key?>"><?=$value?></option>
-                    <?php endforeach; ?>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="row form-row">
-              <h4 class="col-md-12">ছুটিকালীন ঠিকানা (কেবলমাত্র কর্মস্থল ত্যাগের ক্ষেত্রে প্রযোজ্য)</h4>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label class="form-label">পিতারনাম/প্রযন্ত্রে</label>
-                        <input type="text" name="father_name" id="father_name"
-                            class="form-control input-sm">
-                    </div>
-                </div>
-                <div class="col-md-4">
+            <?php $attributes = array('id' => 'validate');
+            echo form_open_multipart("leave/add", $attributes); ?>
+              <div><?php echo validation_errors(); ?></div>
+
+              <div class="row form-row">
+                <div class="col-md-3">
                   <div class="form-group">
+                    <label class="form-label">কর্মকর্তা/কর্মচারীর নাম <span class="required">*</span></label>
+                      <select name="user_id" class="form-control input-sm" style="width: 100%; height: 28px !important;">
+                        <option value="<?= $info->id ?>" selected><?php echo $info->name_bn; ?></option>
+                    </select>
+                    <?php echo form_error('user_id'); ?>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-label">ছুটির ধরণ <span class="required">*</span></label>
+                    <?php echo form_error('leave_type'); ?>
+                    <select onchange="leave_validation()" name="leave_type" id="leave_type" class="form-control input-sm" style="width: 100%; height: 28px !important;" <?php echo isset($total_leave) ? '' : 'disabled' ?> <?php echo isset($total_leave) ? '' : 'title="No leave type available"' ?>>
+                      <option value="" selected>-- নির্বাচন করুন --</option>
+                      <?php foreach ($total_leave as $key => $v): ?>
+                        <option value="<?= $v->id ?>"><?= $v->leave_name_bn ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-label">ছুটি শুরুর তারিখঃ <span class="required">*</span></label>
+                    <input onchange="leave_validation()" name="from_date" type="text" value="<?=set_value('from_date')?>" id="from_date" class="datetime form-control input-sm" autocomplete="off">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-label">ছুটি শেষ তারিখঃ <span class="required">*</span></label>
+                    <input onchange="leave_validation()" name="to_date" type="text" value="<?=set_value('to_date')?>"  id="to_date" class="datetime form-control input-sm" autocomplete="off">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row form-row">
+                <h5 class="col-md-12">ছুটিকালীন ঠিকানা (কেবলমাত্র কর্মস্থল ত্যাগের ক্ষেত্রে প্রযোজ্য)</h5>
+                <div class="col-md-3">
+                  <div class="form-group" style="margin-bottom: 10px !important">
+                      <label class="form-label">পিতারনাম/প্রযন্ত্রে</label>
+                      <input type="text" name="father_name" id="father_name"
+                          class="form-control input-sm">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group" style="margin-bottom: 10px !important">
                     <label class="form-label pull-left">বিভাগ </label>
                     <?php echo form_error('division_id');
-                    $more_attr = 'class="form-control input-sm" id="division" name="division_id"';
+                    $more_attr = 'class="form-control input-sm" id="division" name="division_id" style="width: 100%; height: 28px !important;"';
                     echo form_dropdown('division_id', $division, set_value('division_id'), $more_attr);
                     ?>
                   </div>
                 </div>
-                <div class="col-md-4">
-                  <div class="form-group">
+                <div class="col-md-3">
+                  <div class="form-group" style="margin-bottom: 10px !important">
                     <label class="form-label pull-left">জেলা </label>
                     <?php echo form_error('district_id');?>
-                    <select name="district_id" <?=set_value('district_id')?> class="form-control input-sm district_val" id="district">
+                    <select name="district_id" <?=set_value('district_id')?> class="form-control input-sm district_val" id="district" style="width: 100%; height: 28px !important;">
                       <option value=""> <?=lang('select_district')?></option>
                     </select>
                   </div>
                 </div>
-                <div class="col-md-4">
-                  <div class="form-group">
+                <div class="col-md-3">
+                  <div class="form-group" style="margin-bottom: 10px !important">
                     <label class="form-label pull-left">উপজেলা / থানা </label>
                     <?php echo form_error('upazila_id');?>
-                    <select name="upazila_id" <?=set_value('upazila_id')?> class="upazila_val form-control input-sm" id="upazila">
+                    <select name="upazila_id" <?=set_value('upazila_id')?> class="upazila_val form-control input-sm" id="upazila" style="width: 100%; height: 28px !important;">
                       <option value=""> <?=lang('select_up_thana')?></option>
                     </select>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label class="form-label">গ্রাম/মহল্লা:</label>
                     <input type="text" name="village" id="village" class="form-control input-sm">
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label class="form-label">ডাকঘর:</label>
                     <input type="text" name="post_office" id="post_office" class="form-control input-sm">
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                   <div class="form-group">
                     <label class="form-label">মোবাইল নাম্বার:</label>
                     <input type="text" name="mobile_number" id="mobile_number" class="form-control input-sm">
                   </div>
                 </div>
-            </div>
-
-            <div class="form-actions">
-              <div class="pull-right">
-                <?php echo form_submit('submit', 'সংরক্ষণ করুন', "class='btn btn-primary btn-cons font-big-bold'"); ?>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-label">ছুটির ফাইল</label>
+                    <input name="userfile" type="file">
+                  </div>
+                </div>
               </div>
-            </div>
+
+              <div class="row form-row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-label">নিয়ন্ত্রণকারি কর্মকর্তা</label>
+                    <select name="control_person" id="control_person" class="form-control" >
+                      <option value="">নির্বাচন করুন</option>
+                      <?php foreach($users as $key => $value): ?>
+                        <option value="<?=$key?>"><?=$value?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-label">ছুটিকালীন বিকল্প কর্মকর্তা</label>
+                    <select name="assign_person" id="assign_person" class="form-control" >
+                      <option value="">নির্বাচন করুন</option>
+                      <?php foreach($users as $key => $value): ?>
+                        <option value="<?=$key?>"><?=$value?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label class="form-label">ছুটির কারণ</label>
+                    <textarea rows="1" name="reason" class="form-control"></textarea>
+                  </div>
+                </div>
+
+                <div class="pull-right">
+                  <?php echo form_submit('submit', 'সংরক্ষণ করুন', "class='btn btn-primary btn-cons font-big-bold'"); ?>
+                </div>
+              </div>
             <?php echo form_close();?>
           </div>  <!-- END GRID BODY -->
         </div> <!-- END GRID -->

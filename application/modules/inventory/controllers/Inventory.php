@@ -18,7 +18,7 @@ class Inventory extends Backend_Controller {
   }
 
   public function index($offset=0){
-      $limit = 15;
+      $limit = 25;
       $results = $this->inventory_model->get_requisition($limit, $offset);
       $this->data['results'] = $results['rows'];
       $this->data['total_rows'] = $results['num_rows'];

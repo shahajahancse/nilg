@@ -76,6 +76,7 @@
                         <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> অ্যাকশন <span class="caret"></span> </a>
                         <ul class="dropdown-menu pull-right">
                           <li><a href="<?=base_url('trainee/details_pr/'.encrypt_url($row->id));?>"><?=lang('common_details')?></a></li>
+                          <li><a href="<?=base_url('trainee/transfer_pr/'.encrypt_url($row->id));?>"><?='বদলি করুণ'?></a></li>
                           <?php if ($this->ion_auth->is_admin() || $this->ion_auth->in_group(array('nilg','uz','cc'))){ ?>
                           <li><a href="<?=base_url('trainee/change_user_group/'.encrypt_url($row->id));?>">ইউজার রোল পরিবর্তন</a></li> 
                           <?php } ?>

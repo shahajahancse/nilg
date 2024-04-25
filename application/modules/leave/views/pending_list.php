@@ -85,7 +85,6 @@
                   <th>সমাপ্তি তারিখ</th>
                   <th>সময়কাল</th>
                   <th>ছুটির কারণ</th>
-                  <th>স্ট্যাটাস</th>
                   <th>অ্যাকশন</th>
                 </tr>
               </thead>
@@ -94,14 +93,6 @@
                 $sl = $pagination['current_page'];
                 foreach ($results as $row){
                   $sl++;
-                  // $answer = $row->answer != NULL?"<span class='label label-success'>হ্যাঁ</span>":"<span class='label label-danger'>না</span>";
-                  if($row->status == 2) {
-                     $status = '<span class="label label-success">অনুমোদিত</span>';
-                  }elseif($row->status == 3) {
-                     $status = '<span class="label label- important">প্রত্যাখ্যাত</span>';
-                  }else if($row->status == 1){
-                     $status = '<span class="label label-warning">অপেক্ষমাণ</span>';
-                  }
                   ?>
                   <tr>
                     <td><?=eng2bng($sl).'.'?></td>
@@ -113,14 +104,12 @@
                     <td><?=date_bangla_calender_format($row->to_date)?></td>
                     <td><?=$row->leave_days?></td>
                     <td><?=$row->reason?></td>
-                    <td> <?=$status?></td>
                     <td>
                       <div class="btn-group">
                         <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> অ্যাকশন <span class="caret"></span> </a>
                         <ul class="dropdown-menu pull-right">
                           <li><a href="<?=base_url('leave/edit/'.encrypt_url($row->id));?>">সংশোধন</a></li>
                           <li><a href="<?=base_url('leave/change_status/'.encrypt_url($row->id));?>">অনুমোদন/প্রত্যাখ্যাত করুন</a></li>
-                          <!-- <li><a href="<?=base_url('leave/change_status/'.$row->id.'/3');?>"></a></li> -->
                           <?php if (!empty($row->file_name)) { ?>
                             <li><a target="_blank" href="<?=base_url('uploads/leave/'.$row->file_name);?>">নথিপত্র</a></li>
                           <?php } ?>

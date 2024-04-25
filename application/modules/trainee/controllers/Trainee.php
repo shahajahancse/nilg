@@ -1896,7 +1896,7 @@ class Trainee extends Backend_Controller
             redirect('dashboard');
         }
 
-        $limit = 25;
+        $limit = 50;
         // $id = (int) decrypt_url($id);
         // Trainee_model = $this->this_model();  //exit;
         //$this->data['printcolumn'] = array('name_bangla', 'national_id', 'data_type_name', 'office_type_name', 'dis_name_bn', 'upa_name_bn', 'uni_name_bn', 'desig_name');
@@ -2026,13 +2026,14 @@ class Trainee extends Backend_Controller
         $this->load->view('backend/_layout_main', $this->data);
     }
 
-    public function request_verification($id){
+    public function request_verification($id, $offset = null){
         // Check Auth
         if(!$this->ion_auth->in_group(array('admin', 'nilg', 'city', 'zp', 'ddlg', 'uz', 'paura', 'up', 'partner', 'cc'))){
             redirect('dashboard');
         }
 
-        $id = (int) decrypt_url($id);
+        $offset = (int) decrypt_url($offset);
+
         // Check Exists
         if(!$this->Common_model->exists('users', 'id', $id)){
             show_404('Trainee > request_verification', TRUE);
@@ -2048,12 +2049,6 @@ class Trainee extends Backend_Controller
 
         // Validate and Input Data
         if ($this->form_validation->run() == true){
-            // Set Status
-            /*if($userType == 1){
-                $dataStatus = 2; // Public Representative
-            }else{
-                $dataStatus = 1; // Employee
-            }*/
 
             $form_data = array(
                 'is_applied'     => 0,
@@ -2075,6 +2070,9 @@ class Trainee extends Backend_Controller
                 }
 
                 // Redirect
+                if($offset != 0) {
+                    redirect('trainee/request/'.$offset);
+                }
                 redirect('trainee/request');
             }
         }
@@ -2090,7 +2088,7 @@ class Trainee extends Backend_Controller
     }
 
 
-    /*************** Transfer Employee / Change Password **************/
+    /*************** Transfer Employee Or Pr / Change Password **************/
     /******************************************************************/
     public function transfer_employee($id)
     {
@@ -2200,6 +2198,118 @@ class Trainee extends Backend_Controller
         // Load View
         $this->data['meta_title'] = ' কর্মকর্তা / কর্মচারীর বদলি ফর্ম';
         $this->data['subview'] = 'transfer_employee';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function transfer_pr($id)
+    {
+        // Check Auth
+        if(!$this->ion_auth->in_group(array('admin', 'nilg', 'city', 'zp', 'ddlg', 'uz', 'paura', 'up', 'partner', 'cc'))){
+            redirect('dashboard');
+        }
+
+        // Decrypt Data
+        $dataID = (int) decrypt_url($id); //exit;
+        // Check Exists
+        if (!$this->Common_model->exists('users', 'id', $dataID)) {
+            // redirect('dashboard');
+            show_404('trainee > request_verification', TRUE);
+        }
+
+        // Get user information
+        $results = $this->Trainee_model->get_details_info($dataID);
+
+        // Validation
+        $this->form_validation->set_rules('crrnt_office_id', 'office name', 'required|trim');
+        $this->form_validation->set_rules('transfer_join_date', 'transfer joining date', 'required|trim');
+        if ($this->form_validation->run() == true){
+            // new data
+            $end_date = date('Y-m-d', strtotime('-1 days', strtotime($this->input->post('transfer_join_date'))));
+
+            $crrnt_office_id = $this->input->post('crrnt_office_id');
+            $row = $this->db->select('*')->from('office')->where('id', $crrnt_office_id)->get()->row();
+
+            // Make Array Data
+            $transfer_data = array(
+                'user_id'             => $dataID,
+                'office_id'           => $results['info']->crrnt_office_id,
+                'transfer_office_id'  => $this->input->post('crrnt_office_id'),
+                'transfer_join_date'  => $this->input->post('transfer_join_date'),
+                'type'                => 2,
+                'transfer_order_file' => $this->input->post('transfer_order_file'),
+                'created_date'        => date('Y-m-d'),
+                );
+
+            $this->Common_model->save('per_transfer', $transfer_data);
+            $last_id = $this->db->insert_id();
+
+            // Make Array Data
+            $office_type = $this->db->where('id', $this->input->post('crrnt_office_id'))->get('office')->row();
+            $user_data = array(
+                'office_type'       => $office_type->office_type,
+                'crrnt_attend_date' => $this->input->post('transfer_join_date'),
+                'crrnt_office_id'   => $this->input->post('crrnt_office_id'),
+                'div_id'            => $row->div_id != NULL ? $row->div_id : NULL,
+                'dis_id'            => $row->dis_id != NULL ? $row->dis_id : NULL,
+                'upa_id'            => $row->upa_id != NULL ? $row->upa_id : NULL,
+                'union_id'          => $row->union_id != NULL ? $row->union_id : NULL,
+            );
+            $this->Common_model->edit('users', $dataID, 'id', $user_data);
+
+
+            $experienceData = array(
+                'data_id'       => $dataID,
+                'exp_office_id' => $results['info']->crrnt_office_id,
+                'exp_design_id' => $results['info']->crrnt_desig_id,
+                'exp_duration' => $results['info']->crrnt_attend_date.' - '.$end_date,
+            );
+            $this->Common_model->save('per_experience', $experienceData);
+
+
+            // order Upload
+            if(!empty($_FILES['transfer_order_file']) && $_FILES['transfer_order_file']['size'] > 0){
+                $new_file_name = time().'-'.$last_id;
+                $config['allowed_types']= 'pdf';
+                $config['upload_path']  = $this->order_path;
+                $config['file_name']    = $new_file_name;
+                $config['max_size']     = 600;
+
+                $this->load->library('upload', $config);
+                   //upload file to directory
+                if($this->upload->do_upload('transfer_order_file')){
+                    $uploadData = $this->upload->data();
+                    $config = array(
+                        'source_image' => $uploadData['full_path'],
+                        'new_image' => $this->order_path,
+                        'maintain_ratio' => TRUE,
+                        'width' => 800,
+                        'height' => 800
+                        );
+                    $this->load->library('image_lib',$config);
+                    $this->image_lib->initialize($config);
+                    $this->image_lib->resize();
+
+                    $uploadedFile = $uploadData['file_name'];
+                    // DB fields
+                    $form_data['transfer_order_file'] = $uploadedFile;
+                    $this->Common_model->edit('per_transfer', $last_id, 'id', $form_data);
+                }else{
+                    $this->data['message'] = $this->upload->display_errors();
+                }
+            }
+
+
+            // Success Message
+            $this->session->set_flashdata('success', 'আপনার প্রদত্ত তথ্য ডাটাবেজে সফলভাবে সংরক্ষিত হয়েছে');
+            redirect('trainee/all_pr');
+        }
+
+        // load view data
+        $this->data['info'] = $results['info'];
+
+        // Load View
+        $this->data['meta_title'] = ' জনপ্রতিনিধির বদলি ফর্ম';
+        $this->data['subview'] = 'transfer_pr';
         $this->load->view('backend/_layout_main', $this->data);
     }
 
@@ -2380,105 +2490,6 @@ class Trainee extends Backend_Controller
         $this->data['subview'] = 'type_change_emp_pr';
         $this->load->view('backend/_layout_main', $this->data);
     }
-
-    /*public function accept($id){
-        $id = (int) decrypt_url($id);
-        // $this->ion_auth->remove_from_group('', $id);
-        // $this->ion_auth->add_to_group('12', $id);
-        // dd('change guest');
-
-        // Check Exists
-        if(!$this->Common_model->exists('users', 'id', $id)){
-            show_404('Trainee - accept - exists', TRUE);
-        }
-
-        // Get Information
-        $result = $this->Trainee_model->get_user_info($id);
-        if($result->employee_type == 1){
-            $status = 2; // নির্বাচিত
-        }else{
-            $status = 1; // কর্মরত
-        }
-
-        $form_data = array(
-            'is_applied'    => 0,
-            'is_verify'     => 1,
-            'status'        => $status
-
-            );*/
-        // print_r($id);exit();
-
-        //if($this->Common_model->edit('users', $id, 'id', $form_data)){
-            /*$this->ion_auth->add_to_group('10', $id);
-            dd('sdfds');*/
-            // Change user group 'guest' to 'trainee'
-            /*$this->ion_auth->remove_from_group('', $id);
-            $this->ion_auth->add_to_group('10', $id);*/
-            // $message = 'আবেদনটি যাচাই করে প্রশিক্ষণার্থী হিসাবে নিবন্ধন করা হয়েছে';
-
-            // echo $this->db->last_query(); exit;
-            /*$this->session->set_flashdata('success', 'আবেদনটি যাচাই করে প্রশিক্ষণার্থী হিসাবে নিবন্ধন করা হয়েছে');
-            if($result->employee_type == 1){
-                redirect("trainee/all_pr");
-            }else{
-                redirect("trainee/all_employee");
-            }
-        }*/
-
-        /*// Validation
-        $this->form_validation->set_rules('verify_status', 'select verify status ', 'required|trim');
-
-        // Validate and Input Data
-        if ($this->form_validation->run() == true){
-
-            $form_data = array(
-                'is_applied'    => 0,
-                'is_verify'     => $this->input->post('verify_status')
-                );
-            // print_r($id);exit();
-
-            if($this->Common_model->edit('users', $id, 'id', $form_data)){
-
-                // Change user group and message
-                if($this->input->post('verify_status') == 1){
-                    // Change user group 'guest' to 'trainee'
-                    $this->ion_auth->remove_from_group('', $id);
-                    $this->ion_auth->add_to_group('10', $id);
-                    $message = 'আবেদনটি যাচাই করে প্রশিক্ষণার্থী হিসাবে নিবন্ধন করা হয়েছে';
-                }elseif($this->input->post('verify_status') == 2){
-                    $message = 'আবেদনটি বাতিল করা হয়েছে';
-                }
-
-                // echo $this->db->last_query(); exit;
-                $this->session->set_flashdata('success', $message);
-                redirect("trainee/all_pr");
-            }
-        }*/
-    //}
-
-    /*
-    public function decline($id){
-        $id = (int) decrypt_url($id);
-
-        // Check Exists
-        if(!$this->Common_model->exists('users', 'id', $id)){
-            show_404('Trainee - decline - exists', TRUE);
-        }
-
-        $form_data = array(
-            'is_applied'    => 0,
-            'is_verify'     => 2
-            );
-        // print_r($id);exit();
-
-        if($this->Common_model->edit('users', $id, 'id', $form_data)){
-            $message = 'আবেদনটি বাতিল করা হয়েছে';
-
-            $this->session->set_flashdata('success', $message);
-            redirect("trainee/decline_list");
-        }
-    }
-    */
 
     function ajax_get_district_by_div($id)
     {
