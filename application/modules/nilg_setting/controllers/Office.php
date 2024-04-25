@@ -263,14 +263,10 @@ class Office extends Backend_Controller {
         $this->data['subview'] = 'office/add_multi';
         $this->load->view('backend/_layout_main', $this->data);
     }
-
-    
-
     public function delete($dataID){
         if ($this->db->delete('office', array('id' => $dataID))) {
             $this->session->set_flashdata('success', 'Deleted Successful'); 
             redirect('office');
         }
     }
-
 }
