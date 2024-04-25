@@ -6,8 +6,7 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right">
-                            <a href="<?=base_url('trainee/all_pr')?>" class="btn btn-primary btn-xs btn-mini">
-                                জনপ্রতিনিধির তালিকা </a>
+                            <a href="<?=base_url('trainee/all_pr')?>" class="btn btn-primary btn-xs btn-mini"> জনপ্রতিনিধির তালিকা </a>
                         </div>
                     </div>
                     <div class="grid-body">

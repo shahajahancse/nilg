@@ -126,6 +126,7 @@
                                     <?php } ?>
                                     <th>অ্যাপ্রভ কোয়ান্টিটি</th>
                                     <th>অ্যাভেলেবল কোয়ান্টিটি</th>
+                                    <th>পূর্ববর্তী তথ্য</th>
                                     <th>অ্যাকশান</th>
                                  </tr>
                                  <?php foreach($items as $item){ ?>
@@ -141,6 +142,29 @@
                                     <?php } ?>
                                     <td><?=$item->quantity?> <?=$item->unit_name?></td>
                                     <input type="hidden" name="hide_id[]" value="<?=$item->id?>">
+                                    <td>
+                                       <?php
+                                       $item_id=$item->item_id;
+                                       $usern_id=$item->user_id;
+
+                                       $this->db->where('item_id', $item_id);
+                                       $this->db->where('user_id', $usern_id);
+                                       $this->db->order_by('id', 'desc');
+                                       $this->db->limit(1);
+                                       $query = $this->db->get('requisition_item');
+                                       $requisition = $query->row();
+                                       if (!empty($requisition)) {
+
+                                          $requisition_id=$requisition->requisition_id;
+                                          $this->db->where('id', $requisition_id);
+                                          $query = $this->db->get('requisitions')->row();
+
+                                          echo 'Date: ' . date('d-M-Y', strtotime($query->created)) . ' <br> Quantity: ' . $requisition->qty_approve;
+                                       }else{
+                                          echo 'NO Data';
+                                       }
+                                       ?>
+                                    </td>
                                     <td>
                                        <?php if ($item->quantity <= $item->qty_request || $item->quantity <= $item->order_level) { ?>
                                        <a data-id="<?php echo $item->id; ?>" class="btn btn-mini btn-primary unavailable">unavailable</a>
