@@ -267,9 +267,9 @@ class Office extends Backend_Controller {
     
 
     public function delete($dataID){
-        if ($this->db->delete('organizations', array('id' => $dataID))) {
+        if ($this->db->delete('office', array('id' => $dataID))) {
             $this->session->set_flashdata('success', 'Deleted Successful'); 
-            redirect('organizations');
+            redirect('office');
         }
     }
 

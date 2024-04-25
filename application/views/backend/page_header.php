@@ -347,7 +347,7 @@
 
                <!-- budget entry -->
                <?php if ($this->ion_auth->in_group('ccddddddddddddd')) { ?>
-               <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg', 'bdh', 'acc', 'uz', 'ddlg')) || $userDetails->office_type == 7) { ?>
+               <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg', 'bdh', 'acc', 'uz', 'ddlg',)) || $userDetails->office_type == 7) { ?>
                   <?php if ($this->ion_auth->in_group(array('uz', 'ddlg'))) { ?>
                      <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span> <span class="arrow"></span> </a>
                         <ul class="sub-menu">
