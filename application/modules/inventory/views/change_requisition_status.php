@@ -137,9 +137,12 @@
                                        <?php
                                        $item_id=$item->item_id;
                                        $usern_id=$item->user_id;
-
-                                       $this->db->where('item_id', $item_id);
-                                       $this->db->where('user_id', $usern_id);
+                                       $this->select('requisition_item.*,requisitions.*');
+                                       $this->from('requisition_item');
+                                       $this->join('requisitions', 'requisition_item.requisition_id = requisitions.id');
+                                       $this->db->where('requisition_item.item_id', $item_id);
+                                       $this->db->where('requisition_item.user_id', $usern_id);
+                                       $this->db->where('requisitions.status', 5);
                                        $this->db->order_by('id', 'desc');
                                        $this->db->limit(1);
                                        $query = $this->db->get('requisition_item');

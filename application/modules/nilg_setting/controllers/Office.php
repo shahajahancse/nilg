@@ -272,5 +272,4 @@ class Office extends Backend_Controller {
             redirect('nilg_setting/office');
         }
     }
-
 }
