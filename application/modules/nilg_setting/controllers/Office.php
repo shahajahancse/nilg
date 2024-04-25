@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Office extends Backend_Controller {
-	
+
 	public function __construct(){
         parent::__construct();
         // print_r($this->session->all_userdata());
@@ -16,10 +16,10 @@ class Office extends Backend_Controller {
     }
 
 
-    public function index($offset=0){        
+    public function index($offset=0){
         //Manage list the users
         $limit = 50;
-        
+
         $results = $this->Office_model->get_data($limit, $offset);
         $this->data['results'] = $results['rows'];
         $this->data['total_rows'] = $results['num_rows'];
@@ -33,8 +33,8 @@ class Office extends Backend_Controller {
         $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
         //Dropdown List
-        $this->data['office_type'] = $this->Common_model->get_office_type(); 
-        // $this->data['office_type'][10] = 'জেলা রিসোর্স টিম';        
+        $this->data['office_type'] = $this->Common_model->get_office_type();
+        // $this->data['office_type'][10] = 'জেলা রিসোর্স টিম';
         $this->data['division'] = $this->Common_model->get_division();
 
         //Load page
@@ -54,20 +54,20 @@ class Office extends Backend_Controller {
             // Union Parishad
             $this->form_validation->set_rules('division_id', 'division', 'required');
             $this->form_validation->set_rules('district_id', 'district', 'required');
-            $this->form_validation->set_rules('upazila_id', 'upazila', 'required');            
-            $this->form_validation->set_rules('union_id', 'union', 'required');            
+            $this->form_validation->set_rules('upazila_id', 'upazila', 'required');
+            $this->form_validation->set_rules('union_id', 'union', 'required');
         }elseif($this->input->post('office_type') == 2 || $this->input->post('office_type') == 3){
             // Upazila Parishad and Paurashava
             $this->form_validation->set_rules('division_id', 'division', 'required');
-            $this->form_validation->set_rules('district_id', 'district', 'required');    
-            $this->form_validation->set_rules('upazila_id', 'upazila', 'required');            
+            $this->form_validation->set_rules('district_id', 'district', 'required');
+            $this->form_validation->set_rules('upazila_id', 'upazila', 'required');
         }elseif($this->input->post('office_type') == 4){
             // Zila Parishad
-            $this->form_validation->set_rules('division_id', 'division', 'required'); 
-            $this->form_validation->set_rules('district_id', 'district', 'required');   
+            $this->form_validation->set_rules('division_id', 'division', 'required');
+            $this->form_validation->set_rules('district_id', 'district', 'required');
         }elseif($this->input->post('office_type') == 5){
             // City Corporation
-            $this->form_validation->set_rules('division_id', 'division', 'required'); 
+            $this->form_validation->set_rules('division_id', 'division', 'required');
         }elseif($this->input->post('office_type') == 6){
             // Development Partner
             $this->form_validation->set_rules('dev_partner', 'উন্নয়ন সহযোগী', 'required|trim');
@@ -85,16 +85,16 @@ class Office extends Backend_Controller {
                 'partner_id'  => $this->input->post('dev_partner'),
                 );
             // print_r($form_data); exit;
-            if($this->Common_model->save('office', $form_data)){                
+            if($this->Common_model->save('office', $form_data)){
                 $this->session->set_flashdata('success', 'তথ্যটি সংরক্ষণ করা হয়েছে');
                 // redirect('nilg_setting/office');
             }
         }
         */
-        
+
         //Dropdown List
         $this->data['office_type'] = $this->Common_model->get_office_type();
-        // $this->data['office_type'][10] = 'জেলা রিসোর্স টিম'; 
+        // $this->data['office_type'][10] = 'জেলা রিসোর্স টিম';
         // dd($this->data['office_type']);
         $this->data['division'] = $this->Common_model->get_division();
         $this->data['dev_partner'] = $this->Common_model->get_development_partner();
@@ -116,20 +116,20 @@ class Office extends Backend_Controller {
             // Union Parishad
             $this->form_validation->set_rules('division_id', 'division', 'required');
             $this->form_validation->set_rules('district_id', 'district', 'required');
-            $this->form_validation->set_rules('upazila_id', 'upazila', 'required');            
-            $this->form_validation->set_rules('union_id', 'union', 'required');            
+            $this->form_validation->set_rules('upazila_id', 'upazila', 'required');
+            $this->form_validation->set_rules('union_id', 'union', 'required');
         }elseif($this->input->post('office_type') == 2 || $this->input->post('office_type') == 3){
             // Upazila Parishad and Paurashava
             $this->form_validation->set_rules('division_id', 'division', 'required');
-            $this->form_validation->set_rules('district_id', 'district', 'required');    
-            $this->form_validation->set_rules('upazila_id', 'upazila', 'required');            
+            $this->form_validation->set_rules('district_id', 'district', 'required');
+            $this->form_validation->set_rules('upazila_id', 'upazila', 'required');
         }elseif($this->input->post('office_type') == 4){
             // Zila Parishad
-            $this->form_validation->set_rules('division_id', 'division', 'required'); 
-            $this->form_validation->set_rules('district_id', 'district', 'required');   
+            $this->form_validation->set_rules('division_id', 'division', 'required');
+            $this->form_validation->set_rules('district_id', 'district', 'required');
         }elseif($this->input->post('office_type') == 5){
             // City Corporation
-            $this->form_validation->set_rules('division_id', 'division', 'required'); 
+            $this->form_validation->set_rules('division_id', 'division', 'required');
         }elseif($this->input->post('office_type') == 6){
             // Development Partner
             $this->form_validation->set_rules('dev_partner', 'উন্নয়ন সহযোগী', 'required|trim');
@@ -150,7 +150,7 @@ class Office extends Backend_Controller {
                 );
             // $message = 'Ok';
             // print_r($form_data); exit;
-            if($this->Common_model->save('office', $form_data)){     
+            if($this->Common_model->save('office', $form_data)){
                 $message = '<div class="alert alert-success">প্রদত্ত তথ্যটি সঠিকভাবে সংরক্ষিত হয়েছে</div>';
                 // $this->session->set_flashdata('success', 'তথ্যটি সংরক্ষণ করা হয়েছে');
                 // redirect('nilg_setting/office');
@@ -158,7 +158,7 @@ class Office extends Backend_Controller {
         }
 
         echo $message = (validation_errors()) ? validation_errors() : $message;
-    }   
+    }
 
     public function edit($id){
         // Get Result
@@ -174,20 +174,20 @@ class Office extends Backend_Controller {
             // Union Parishad
             $this->form_validation->set_rules('division_id', 'division', 'required');
             $this->form_validation->set_rules('district_id', 'district', 'required');
-            $this->form_validation->set_rules('upazila_id', 'upazila', 'required');            
-            $this->form_validation->set_rules('union_id', 'union', 'required');            
+            $this->form_validation->set_rules('upazila_id', 'upazila', 'required');
+            $this->form_validation->set_rules('union_id', 'union', 'required');
         }elseif($this->input->post('office_type') == 2 || $this->input->post('office_type') == 3){
             // Upazila Parishad and Paurashava
             $this->form_validation->set_rules('division_id', 'division', 'required');
-            $this->form_validation->set_rules('district_id', 'district', 'required');    
-            $this->form_validation->set_rules('upazila_id', 'upazila', 'required');            
+            $this->form_validation->set_rules('district_id', 'district', 'required');
+            $this->form_validation->set_rules('upazila_id', 'upazila', 'required');
         }elseif($this->input->post('office_type') == 4){
             // Zila Parishad
-            $this->form_validation->set_rules('division_id', 'division', 'required'); 
-            $this->form_validation->set_rules('district_id', 'district', 'required');   
+            $this->form_validation->set_rules('division_id', 'division', 'required');
+            $this->form_validation->set_rules('district_id', 'district', 'required');
         }elseif($this->input->post('office_type') == 5){
             // City Corporation
-            $this->form_validation->set_rules('division_id', 'division', 'required'); 
+            $this->form_validation->set_rules('division_id', 'division', 'required');
         }elseif($this->input->post('office_type') == 6){
             // Development Partner
             $this->form_validation->set_rules('dev_partner', 'উন্নয়ন সহযোগী', 'required|trim');
@@ -196,15 +196,15 @@ class Office extends Backend_Controller {
         if ($this->form_validation->run() == true){
             $form_data = array(
                 'office_type' => $this->input->post('office_type'),
-                'office_name' => $this->input->post('office_name'),                
-                'office_name_en' => $this->input->post('office_name_en'),                
+                'office_name' => $this->input->post('office_name'),
+                'office_name_en' => $this->input->post('office_name_en'),
                 'division_id' => $this->input->post('division_id'),
                 'district_id' => $this->input->post('district_id'),
                 'upazila_id'  => $this->input->post('upazila_id'),
                 'union_id'    => $this->input->post('union_id'),
                 'partner_id'  => $this->input->post('dev_partner'),
                 );
-            
+
             if($this->Common_model->edit('office', $id, 'id', $form_data)){
                 $this->session->set_flashdata('success', 'Update information successfully.');
                 redirect('nilg_setting/office');
@@ -213,7 +213,7 @@ class Office extends Backend_Controller {
 
         //Dropdown List
         $this->data['office_type'] = $this->Common_model->get_office_type();
-        // $this->data['office_type'][10] = 'জেলা রিসোর্স টিম'; 
+        // $this->data['office_type'][10] = 'জেলা রিসোর্স টিম';
         $this->data['division'] = $this->Common_model->get_division();
         $this->data['district'] = $this->Common_model->get_district();
         $this->data['upazila'] = $this->Common_model->get_upazila_thana();
@@ -236,7 +236,7 @@ class Office extends Backend_Controller {
             /*echo '<pre>';
             print_r($_POST); exit;*/
 
-            // Dynamic Row 
+            // Dynamic Row
             for ($i = 0; $i < sizeof($_POST['office_name']); $i++) {
                 $data = array(
                     'office_type' => $this->input->post('office_type'),
@@ -253,7 +253,7 @@ class Office extends Backend_Controller {
             $this->session->set_flashdata('success', 'তথ্যটি সংরক্ষণ করা হয়েছে');
             redirect('nilg_setting/office');
         }
-        
+
         //Dropdown List
         $this->data['office_type'] = $this->Common_model->get_office_type();
         $this->data['division'] = $this->Common_model->get_division();
@@ -264,12 +264,12 @@ class Office extends Backend_Controller {
         $this->load->view('backend/_layout_main', $this->data);
     }
 
-    
+
 
     public function delete($dataID){
         if ($this->db->delete('office', array('id' => $dataID))) {
-            $this->session->set_flashdata('success', 'Deleted Successful'); 
-            redirect('office');
+            $this->session->set_flashdata('success', 'তথ্যটি মুছে ফেলা হয়েছে');
+            redirect('nilg_setting/office');
         }
     }
 
