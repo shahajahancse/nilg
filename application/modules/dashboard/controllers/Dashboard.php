@@ -107,9 +107,6 @@ class Dashboard extends Backend_Controller
 		} elseif ($this->ion_auth->in_group('partner')) { // Partner (12) Dashboard
 			// Get user application information
 			$this->data['info'] = $this->Dashboard_model->get_office_info();
-			// $this->data['info'] = $this->Common_model->get_user_details();
-			// dd($this->data['info']);
-			// $this->data['info'] = $this->Common_model->get_user_submitted_info();
 			// Load page
 			$this->data['meta_title'] = 'ডেভেলপমেন্ট পার্টনার ড্যাশবোর্ড';
 			$this->data['subview'] = 'partner_dashboard';
@@ -117,22 +114,29 @@ class Dashboard extends Backend_Controller
 		} elseif ($this->ion_auth->in_group('nilg')) { // Partner (12) Dashboard
 			// Get user application information
 			$this->data['info'] = $this->Dashboard_model->get_office_info();
-			// $this->data['info'] = $this->Common_model->get_user_details();
-			// dd($this->data['info']);
-			// $this->data['info'] = $this->Common_model->get_user_submitted_info();
 			// Load page
 			$this->data['meta_title'] = 'এনআইএলজি ড্যাশবোর্ড';
 			$this->data['subview'] = 'nilg_dashboard';
 			$this->load->view('backend/_layout_main', $this->data);
 		} elseif ($this->ion_auth->in_group('ddlg')) { // ddlg (14) Dashboard
 			$this->data['info'] = $this->Dashboard_model->get_office_info();
-			// dd($this->data['info']);
 			// Load page
 			$this->data['meta_title'] = 'ডিডিএলজি ড্যাশবোর্ড';
 			$this->data['subview'] = 'ddlg_dashboard';
 			$this->load->view('backend/_layout_main', $this->data);
+		} elseif ($this->ion_auth->in_group('bho')) { // ddlg (14) Dashboard
+			$this->data['info'] = $this->Dashboard_model->get_office_info();
+			// Load page
+			$this->data['meta_title'] = 'হোস্টেলিয়ান ড্যাশবোর্ড';
+			$this->data['subview'] = 'bho_dashboard';
+			$this->load->view('backend/_layout_main', $this->data);
+		} elseif ($this->ion_auth->in_group('bli')) { // ddlg (14) Dashboard
+			$this->data['info'] = $this->Dashboard_model->get_office_info();
+			// Load page
+			$this->data['meta_title'] = 'লাইব্রেরিয়ান ড্যাশবোর্ড';
+			$this->data['subview'] = 'bli_dashboard';
+			$this->load->view('backend/_layout_main', $this->data);
 		}elseif ($this->ion_auth->is_admin()) { // Admin (1) Dashboard
-			// dd($this->data['courseStatistics']);
 			// Total Data
 			$this->data['totalData'] = $this->Dashboard_model->get_count_user_second();
 			$this->data['totalTraining'] = $this->Dashboard_model->get_count_training();
@@ -142,9 +146,7 @@ class Dashboard extends Backend_Controller
 			$this->data['finances'] = $this->Dashboard_model->get_count_training_second();
 			// Course Statistics
 			$this->data['courseStatistics'] = $this->Dashboard_model->get_count_training_of_course();
-			//echo '<pre>';
-			//print_r($this->data['monthly_prosikhon_count']); exit;
-			//Load page
+
 			$this->data['meta_title'] = 'Dashboard';
 			$this->data['subview'] = 'superadmin_dashboard';
 			$this->load->view('backend/_layout_main', $this->data);

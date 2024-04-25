@@ -756,4 +756,24 @@ class Journal_entry extends Backend_Controller
            }
        }
        // end budget_j_miscellaneous_register
+
+
+       //entry Report 
+       public function entry_report()
+       {
+           $this->data['meta_title'] = 'রিপোর্ট';
+           $this->data['mudule_title'] = 'রিপোর্ট';
+           $this->data['subview'] = 'entry_report';
+           $this->load->view('backend/_layout_main', $this->data);
+       }
+
+
+
+
+
+
+
+
+
+
 }

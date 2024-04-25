@@ -30,8 +30,8 @@
                            <th> ক্রম </th>
                            <th>শিরোনাম</th>
                            <th>কোড</th>
-                           <th>অফিস</th>
                            <th>পরিমাণ</th>
+                           <th>অফিস</th>
                            <th>স্ট্যাটাস</th>
                            <th>আপডেট তারিখ</th>
                            <th style="text-align: right;">অ্যাকশন</th>
