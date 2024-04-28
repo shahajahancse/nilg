@@ -37,7 +37,7 @@ class Dashboard extends Backend_Controller
 			$this->data['subview'] = $page;
 			$this->load->view('backend/_layout_main', $this->data);
 
-		}elseif ($this->ion_auth->in_group('acc')) { // ddlg (14) Dashboard
+		} elseif ($this->ion_auth->in_group('acc')) { // ddlg (14) Dashboard
 			$this->data['budget_field'] = $this->db->get('budget_field')->result();
 			$this->data['budget_nilg'] = $this->db->get('budget_nilg')->result();
 			$this->data['budgets_entry'] = $this->db->get('budgets')->result();
@@ -46,6 +46,18 @@ class Dashboard extends Backend_Controller
 			$this->data['info'] = $this->Dashboard_model->get_office_info();
 			$this->data['meta_title'] = 'অ্যাকাউন্ট ড্যাশবোর্ড';
 			$this->data['subview'] = 'acc_dashboard';
+			$this->load->view('backend/_layout_main', $this->data);
+		} elseif ($this->ion_auth->in_group('bho')) { // ddlg (14) Dashboard
+			$this->data['info'] = $this->Dashboard_model->get_office_info();
+			// Load page
+			$this->data['meta_title'] = 'হোস্টেলিয়ান ড্যাশবোর্ড';
+			$this->data['subview'] = 'bho_dashboard';
+			$this->load->view('backend/_layout_main', $this->data);
+		} elseif ($this->ion_auth->in_group('bli')) { // ddlg (14) Dashboard
+			$this->data['info'] = $this->Dashboard_model->get_office_info();
+			// Load page
+			$this->data['meta_title'] = 'লাইব্রেরিয়ান ড্যাশবোর্ড';
+			$this->data['subview'] = 'bli_dashboard';
 			$this->load->view('backend/_layout_main', $this->data);
 		} elseif ($this->ion_auth->in_group('trainee')) { // Trainee (10) Dashboard
 			// echo 'Hello'; exit;
@@ -123,18 +135,6 @@ class Dashboard extends Backend_Controller
 			// Load page
 			$this->data['meta_title'] = 'ডিডিএলজি ড্যাশবোর্ড';
 			$this->data['subview'] = 'ddlg_dashboard';
-			$this->load->view('backend/_layout_main', $this->data);
-		} elseif ($this->ion_auth->in_group('bho')) { // ddlg (14) Dashboard
-			$this->data['info'] = $this->Dashboard_model->get_office_info();
-			// Load page
-			$this->data['meta_title'] = 'হোস্টেলিয়ান ড্যাশবোর্ড';
-			$this->data['subview'] = 'bho_dashboard';
-			$this->load->view('backend/_layout_main', $this->data);
-		} elseif ($this->ion_auth->in_group('bli')) { // ddlg (14) Dashboard
-			$this->data['info'] = $this->Dashboard_model->get_office_info();
-			// Load page
-			$this->data['meta_title'] = 'লাইব্রেরিয়ান ড্যাশবোর্ড';
-			$this->data['subview'] = 'bli_dashboard';
 			$this->load->view('backend/_layout_main', $this->data);
 		}elseif ($this->ion_auth->is_admin()) { // Admin (1) Dashboard
 			// Total Data
