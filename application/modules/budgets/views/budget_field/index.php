@@ -19,6 +19,11 @@
                </div>
 
                <div class="grid-body ">
+                  <?php if($this->session->flashdata('error')):?>
+                     <div class="alert alert-danger">
+                        <?=$this->session->flashdata('error');?>
+                     </div>
+                  <?php endif; ?>
                   <?php if($this->session->flashdata('success')):?>
                      <div class="alert alert-success">
                         <?=$this->session->flashdata('success');?>
@@ -79,7 +84,7 @@
                                 <button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
                                 <ul class="dropdown-menu pull-right">
                                     <?php
-                                     //if ($this->ion_auth->in_group(array('uz', 'ddlg'))){ 
+                                     //if ($this->ion_auth->in_group(array('uz', 'ddlg'))){
                                        ?>
                                        <li><a href="<?php echo base_url('budgets/budget_field_print/'.encrypt_url($row->id))?>/no" target="_blank"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
                                        <li><a href="<?php echo base_url('budgets/budget_field_print/'.encrypt_url($row->id))?>" target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট </a></li>
@@ -92,7 +97,7 @@
                                   <li><a href="<?php echo base_url('budgets/budget_field_clone/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i>ক্লোন করুন </a></li>
                                   <!-- <li><a href="<?php echo base_url('budgets/budget_field_print/'.encrypt_url($row->id))?>" target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট করুন</a></li> -->
                                  <?php
-                              // } 
+                              // }
                                ?>
                                  </ul>
                               </div>

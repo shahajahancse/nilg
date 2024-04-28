@@ -708,7 +708,7 @@ class Budgets extends Backend_Controller
         $user = $this->ion_auth->user()->row();
         if ($user->crrnt_dept_id == '') {
             $this->session->set_flashdata('error', 'Please update your profile first');
-                redirect("budgets/budget_field");
+            redirect("budgets/budget_field");
         }
 
         $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
@@ -754,12 +754,12 @@ class Budgets extends Backend_Controller
         }
 
         $this->db->select('
-        budget_head_sub.id,
-        budget_head_sub.bd_code,
-         budget_head_sub.name_bn,
-         budget_head.name_bn as budget_head_name,
-         budget_head.id as budget_head_id
-         ');
+            budget_head_sub.id,
+            budget_head_sub.bd_code,
+            budget_head_sub.name_bn,
+            budget_head.name_bn as budget_head_name,
+            budget_head.id as budget_head_id
+        ');
         $this->db->from('budget_head_sub');
         $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
         $this->data['budget_head_sub'] = $this->db->get()->result();
