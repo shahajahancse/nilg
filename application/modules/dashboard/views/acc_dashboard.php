@@ -142,11 +142,6 @@
                 <div class="tiles white added-margin new new2">
                     <div class="tiles-body">
                     <?php 
-                    //  <option value=1 >ট্রেইনিং</option>
-                    //  <option value=2 >হোস্টেল</option>
-                    //  <option value=3 >পাবলিকেশন</option>
-                    //  <option value=4 >অডিটোরিয়াম</option>
-                    //  <option value=5 >অফিস</option>
                         $this->db->select('
                         SUM(CASE WHEN payment_for = 1 THEN amount ELSE 0 END) AS total_trining_amount,
                         SUM(CASE WHEN payment_for = 2 THEN amount ELSE 0 END) AS total_hostel_amount,
@@ -191,7 +186,7 @@
                                         <td><?=eng2bng($total_amount_bli->total_oditorium_amount) ?></td>
                                     </tr>
                                     <tr>
-                                        <td>অফিস </td>
+                                        <td>অন্যান্য </td>
                                         <td class="sub-mark">:</td>
                                         <td><?=eng2bng($total_amount_bli->total_office_amount) ?></td>
                                     </tr>

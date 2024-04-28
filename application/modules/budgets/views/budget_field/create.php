@@ -117,7 +117,7 @@
                                                 <option value=2 >হোস্টেল</option>
                                                 <option value=3 >পাবলিকেশন</option>
                                                 <option value=4 >অডিটোরিয়াম</option>
-                                                <option value=5 >অফিস</option>
+                                                <option value=5 >Others</option>
 
                                              
                                             </select>
