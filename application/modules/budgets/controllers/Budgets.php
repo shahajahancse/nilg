@@ -678,13 +678,13 @@ class Budgets extends Backend_Controller
         $office_type = $this->data['userDetails']->office_type;
 
         if ($office_type == 7 && $this->ion_auth->in_group(array('bdh'))) {
-            $results = $this->Budgets_model->get_budget_field($limit, $offset, null, null, $dept_id);
-        } else if ($this->ion_auth->in_group(array('uz', 'ddlg'))) {
-            $results = $this->Budgets_model->get_budget_field($limit, $offset, $office_id);
-        } else if ($this->ion_auth->in_group(array('uz', 'ddlg'))) {
-            $results = $this->Budgets_model->get_budget_field($limit, $offset, $office_id);
-        } else if ($this->ion_auth->in_group(array('uz', 'ddlg'))) {
-            $results = $this->Budgets_model->get_budget_field($limit, $offset, $office_id);
+            $results = $this->Budgets_model->get_budget_field($limit, $offset, null, $user_id, $dept_id);
+        } else if ($office_type == 7 && $this->ion_auth->in_group(array('bho'))) {
+            $results = $this->Budgets_model->get_budget_field($limit, $offset, null, $user_id, $dept_id);
+        } else if ($office_type == 7 && $this->ion_auth->in_group(array('bod'))) {
+            $results = $this->Budgets_model->get_budget_field($limit, $offset, null, $user_id, $dept_id);
+        } else if ($office_type == 7 && $this->ion_auth->in_group(array('bli'))) {
+            $results = $this->Budgets_model->get_budget_field($limit, $offset, null, $user_id, $dept_id);
         } else if ($this->ion_auth->in_group(array('uz', 'ddlg'))) {
             $results = $this->Budgets_model->get_budget_field($limit, $offset, $office_id);
         } else {
