@@ -42,12 +42,11 @@
                     <div class="panel-body">
                         <h3 style="color: #ff6f61; font-weight: bold; font-size: 36px; margin-bottom: 10px;"
                             id="expenseCounter">৳
-                            <?=($total_amount->total_amount!='')?eng2bng($total_amount->total_amount):'০.০০'?></h3>
+                            <?=($total_amount->total_amount!='')?eng2bng($total_amount->total_amount):'০.০০'?></h3> 
                         <h4 style="color: #555; font-size: 20px; margin-bottom: 0;">মোট খরচ </h4>
                     </div>
                 </div>
             </div>
-
             <div class="col-md-4">
                 <div class="panel panel-default text-center"
                     style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); transition: 0.3s; border: none; border-radius: 10px; background-color: #fff; padding: 20px;">
