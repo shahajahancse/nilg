@@ -33,7 +33,7 @@
                         $this->db->select_sum('total_overall_expense');
                         $this->db->from('budget_field');
                         $this->db->where('status', 1);
-                        $out_amount = $this->db->get()->row()->amount;
+                        $out_amount = $this->db->get()->row();
                     ?>
                     <div class="col-md-9 no-padding">
                         <div class="tiles white text-center">
