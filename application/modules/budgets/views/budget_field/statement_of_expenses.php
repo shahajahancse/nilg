@@ -138,7 +138,7 @@ input {
                                                             <input type="hidden" name="head_sub_id[]" value="<?=$data->head_sub_id?>" >
                                                             <?=$data->total_amt?>
                                                             </td>
-                                                            <td><input  style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;" type="number" min=0 value=<?=$data->real_expense==''?$data->total_amt:$data->real_expense ?> name="real_expense[]" class="real_expense" onkeyup="calculate_overall_expense(this)"></td>
+                                                            <td><input  style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;" type="number" min=0 value=<?=$data->real_expense==''?$data->total_amt:$data->real_expense ?> name="real_expense[]" class="real_expense" onchange="calculate_overall_expense(this)" onkeyup="calculate_overall_expense(this)"></td>
                                                             <td><input  style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;" type="number" min=0 value=<?=$data->vat==''?0:$data->vat ?> name="vat[]" class="vat" onkeyup="calculate_overall_expense(this)"></td>
                                                             <td><input  style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;" type="number" min=0 value=<?=$data->it_kor==''?0:$data->it_kor ?> name="it_kor[]" class="it_kor" onkeyup="calculate_overall_expense(this)"></td>
                                                             <td><input  style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;" type="number" min=0 value=<?=$data->overall_expense==''?0:$data->overall_expense ?> name="overall_expense[]" class="overall_expense" readonly></td>
@@ -232,6 +232,11 @@ input {
 <script>
     $(document).ready(function() {
         calt()
+    })
+</script>
+<script>
+    $(document).ready(function() {
+        $(".real_expense").trigger("change")
     })
 </script>
 
