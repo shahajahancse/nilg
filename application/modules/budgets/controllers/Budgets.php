@@ -724,6 +724,7 @@ class Budgets extends Backend_Controller
                 'description' => $this->input->post('description'),
                 'dept_id' => $user->crrnt_dept_id,
                 'created_by' => $user->id,
+                'payment_for'=>$this->input->post('payment_for')
             );
             if ($this->Common_model->save('budget_field', $form_data)) {
                 $insert_id = $this->db->insert_id();
