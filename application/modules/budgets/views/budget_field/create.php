@@ -80,7 +80,7 @@
                                             <input type="text" class="form-control input-sm" name="title"
                                                 style="min-height: 33px;" value="" required>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <?php $session_year=$this->db->order_by('id','desc')->get('session_year')->result();?>
                                             <label for="fcl_year" class="control-label">অর্থবছর</label>
                                             <select name="fcl_year" id="fcl_year" class="form-control input-sm"
@@ -91,7 +91,7 @@
                                                    } ?>
                                             </select>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <?php $session_year=$this->db->get('office_type')->result();?>
                                             <label for="office_type" class="control-label">অফিস ধরণ</label>
                                             <select onchange="getofficeid(this.value)" name="office_type"
@@ -106,6 +106,20 @@
                                             <label for="office_id" class="control-label">অফিস</label>
                                             <select name="office_id" id="office_id" class="form-control input-sm"
                                                 required>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="payment_for" class="control-label">বিষয়</label>
+                                            <select name="payment_for" id="payment_for" class="form-control input-sm"
+                                                required>
+                                                <option value="">নির্বাচন করুন</option>
+                                                <option value=1 >ট্রেইনিং</option>
+                                                <option value=2 >হোস্টেল</option>
+                                                <option value=3 >পাবলিকেশন</option>
+                                                <option value=4 >অডিটোরিয়াম</option>
+                                                <option value=5 >অফিস</option>
+
+                                             
                                             </select>
                                         </div>
                                     </div>

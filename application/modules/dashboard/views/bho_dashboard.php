@@ -15,6 +15,8 @@
       SUM(CASE WHEN type = 1 THEN 1 ELSE 0 END) AS count,
       ');
       $total_amount_ay = $this->db->get(' budget_j_hostel_register')->row();
+
+
     ?>
         <div class="row">
             <div class="col-md-12">
