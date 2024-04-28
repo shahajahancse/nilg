@@ -27,10 +27,16 @@
                             <i class="fa fa-dashboard" style="font-size: 38px;"></i>
                         </div>
                     </div>
+                    <?php
+                        $this->db->select_sum('amount');
+                        $this->db->from('budget_field');
+                        $this->db->where('status', 1);
+                        $out_amount = $this->db->get()->row()->amount;
+                    ?>
                     <div class="col-md-9 no-padding">
                         <div class="tiles white text-center">
                             <h2 class="semi-bold text-error no-margin"
-                                style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;"><?=eng2bng(4000)?></h2>
+                                style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;"><?=eng2bng($out_amount)?></h2>
                             <div class="tiles-title red m-b-5">ছাড়কৃত পরিমাণ (রাজস্ব)</div>
                             <div class="clearfix"></div>
                         </div>
@@ -47,7 +53,7 @@
                     <div class="col-md-9 no-padding">
                         <div class="tiles white text-center">
                             <h2 class="semi-bold text-error no-margin"
-                                style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;"><?=eng2bng($in_amount - 4000)?> </h2>
+                                style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;"><?=eng2bng($in_amount - $out_amount)?> </h2>
                             <div class="tiles-title red m-b-5">অবশিষ্ট পরিমাণ (রাজস্ব)</div>
                             <div class="clearfix"></div>
                         </div>
