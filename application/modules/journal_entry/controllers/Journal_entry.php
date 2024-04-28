@@ -822,13 +822,13 @@ class Journal_entry extends Backend_Controller
             $btn=$s_array[0];
             $type=$s_array[1];
             if($btn == 'all_pending') {
-                $this->data['results']= $this->Budgets_model->all_journal($type,$from_date, $to_date,1);
+                $this->data['results']= $this->Journal_entry_model->all_journal($type,$from_date, $to_date,1);
             } 
             if($btn == 'all_approved') {
-                $this->data['results']= $this->Budgets_model->all_journal($type,$from_date, $to_date,2);
+                $this->data['results']= $this->Journal_entry_model->all_journal($type,$from_date, $to_date,2);
             } 
             if($btn == 'all_entry') {
-                $this->data['results']= $this->Budgets_model->all_journal($type,$from_date, $to_date);
+                $this->data['results']= $this->Journal_entry_model->all_journal($type,$from_date, $to_date);
             } 
 
             $this->data['headding'] = 'বাজেট এন্ট্রি রিপোর্ট';

@@ -211,37 +211,7 @@ class Budgets_model extends CI_Model {
 
     // report
 
-    public function all_journal($type,$from_date, $to_date,$status=null){
-        $this->db->select('*');
-        if(!empty($status)){
-        $this->db->where('status',$status);
-        }
-        if ($type == 'revenue') {
-            $this->db->where('issue_date BETWEEN "' . $from_date . '" and "' . $to_date . '"');
-            $data=$this->db->get('budget_j_gov_revenue_register')->result();
-        }elseif ($type == 'publication') {
-            $this->db->where('issue_date BETWEEN "' . $from_date . '" and "' . $to_date . '"');
-            $data=$this->db->get('budget_j_publication_register')->result();
-        }elseif ($type == 'miscellaneous') {
-            $this->db->where('issue_date BETWEEN "' . $from_date . '" and "' . $to_date . '"');
-            $data=$this->db->get('budget_j_miscellaneous_register')->result();
-        }elseif ($type == 'pension') {
-            $this->db->where('issue_date BETWEEN "' . $from_date . '" and "' . $to_date . '"');
-            $data=$this->db->get('budget_j_pension_register')->result();
-            
-        }elseif ($type == 'hostel') {
-            $this->db->where('date BETWEEN "' . $from_date . '" and "' . $to_date . '"');
-            $this->db->get('budget_j_hostel_register')->result();
-        }elseif ($type == 'gpf') {
-            $this->db->where('issue_date BETWEEN "' . $from_date . '" and "' . $to_date . '"');
-            $data=$this->db->get('budget_j_gpf_register')->result();
-            
-        }elseif ($type == 'cheque') {
-            $this->db->where('issue_date BETWEEN "' . $from_date . '" and "' . $to_date . '"');
-            $data=$this->db->get('budget_j_cheque_register')->result();
-        }
-        return $data;
-    }
+  
 
 
 

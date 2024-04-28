@@ -39,15 +39,40 @@
                   </fieldset> 
                   <fieldset class="col-md-12">      
                      <legend>হোস্টেল রিপোর্ট বাটন</legend>
-                     <button type="submit" name="btnsubmit" value="all_pending,hostel" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট আয়</button>
-                     <button type="submit" name="btnsubmit" value="all_approved,hostel"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট ব্যায়  </button>
+                     <button type="submit" name="btnsubmit" value="all_pending,hostel" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
+                     <button type="submit" name="btnsubmit" value="all_approved,hostel"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত  </button>
                      <button type="submit" name="btnsubmit" value="all_entry,hostel"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি  </button>
                   </fieldset> 
                   <fieldset class="col-md-12">      
                      <legend>পাবলিকেশন রিপোর্ট বাটন</legend>
-                     <button type="submit" name="btnsubmit" value="all_pending,publication" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট আয়</button>
-                     <button type="submit" name="btnsubmit" value="all_approved,publication"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট ব্যায়  </button>
+                     <button type="submit" name="btnsubmit" value="all_pending,publication" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
+                     <button type="submit" name="btnsubmit" value="all_approved,publication"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত  </button>
                      <button type="submit" name="btnsubmit" value="all_entry,publication"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি  </button>
+                  </fieldset> 
+
+                  <fieldset class="col-md-12">      
+                     <legend>রাজস্ব রিপোর্ট বাটন</legend>
+                     <button type="submit" name="btnsubmit" value="all_pending,revenue" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
+                     <button type="submit" name="btnsubmit" value="all_approved,revenue"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত  </button>
+                     <button type="submit" name="btnsubmit" value="all_entry,revenue"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি  </button>
+                  </fieldset> 
+                  <fieldset class="col-md-12">      
+                     <legend>বিবিধ রিপোর্ট বাটন</legend>
+                     <button type="submit" name="btnsubmit" value="all_pending,miscellaneous" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
+                     <button type="submit" name="btnsubmit" value="all_approved,miscellaneous"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত  </button>
+                     <button type="submit" name="btnsubmit" value="all_entry,miscellaneous"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি  </button>
+                  </fieldset> 
+                  <fieldset class="col-md-12">      
+                     <legend>পেনশন রিপোর্ট বাটন</legend>
+                     <button type="submit" name="btnsubmit" value="all_pending,pension" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
+                     <button type="submit" name="btnsubmit" value="all_approved,pension"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত  </button>
+                     <button type="submit" name="btnsubmit" value="all_entry,pension"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি  </button>
+                  </fieldset> 
+                  <fieldset class="col-md-12">      
+                     <legend>GPF রিপোর্ট বাটন</legend>
+                     <button type="submit" name="btnsubmit" value="all_pending,gpf" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
+                     <button type="submit" name="btnsubmit" value="all_approved,gpf"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত  </button>
+                     <button type="submit" name="btnsubmit" value="all_entry,gpf"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি  </button>
                   </fieldset> 
                   <div class="clearfix"></div>
                   <?php form_close(); ?>
