@@ -83,8 +83,16 @@
                     </div>
                     <div class="col-md-8 no-padding">
                         <div class="tiles white text-center">
+                            <?php 
+                            $this->db->select_sum('amount');
+                            $this->db->from('budget_field');
+                            $this->db->where('status', 1);
+                            $out_amount = $this->db->get()->row()->amount;
+                            
+                            
+                            ?>
                             <h2 class="semi-bold text-error no-margin"
-                                style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;"><?=eng2bng(4000)?></h2>
+                                style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;"><?=eng2bng($out_amount)?></h2>
                             <div class="tiles-title red m-b-5">ছাড়কৃত পরিমাণ</div>
                             <div class="clearfix"></div>
                         </div>
