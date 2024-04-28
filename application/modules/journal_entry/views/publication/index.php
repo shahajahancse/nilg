@@ -52,6 +52,7 @@
                                     <th>ভাউচার নং</th>
                                     <th>পরিমাণ</th>
                                     <th>প্রদানের তারিখ</th>
+                                    <th>ধরণ</th>
                                     <th>স্ট্যাটাস</th>
                                     <th>রেফারেন্স</th>
                                     <th style="text-align: right;">অ্যাকশন</th>
@@ -70,6 +71,12 @@
                                         $type = 'ছাড়কৃত পরিমাণ';
                                     } ?>
                                     <td class="v-align-middle"><?=$type; ?></td>
+                                    <?php if ($row->status == 1) {
+                                        $type = '<span class="label label-success">পেন্ডিং</span>';
+                                    } else {
+                                        $type = '<span class="label label-success">অনুমোদিত</span>';
+                                    } ?>
+                                    <td class="v-align-middle"><?=$type; ?></td>
                                     <td class="v-align-middle"><?=$row->reference; ?></td>
                                     <td align="right">
                                         <div class="btn-group">
@@ -85,6 +92,10 @@
                                                             class="fa fa-pencil-square"></i> সংশোধন করুন </a></li>
                                                 <li><a href="<?php echo base_url('journal_entry/publication_entry_delete/'.encrypt_url($row->id))?>"><i
                                                             class="fa fa-pencil-square"></i>ডিলিট করুন</a></li>
+                                                            <?php if ($row->status == 1) {?>
+                                                <li><a href="<?php echo base_url('journal_entry/chenge_status/publication/'.encrypt_url($row->id))?>"><i
+                                                            class="fa fa-pencil-square"></i> অ্যাপ্রুভ করুন</a></li>                                         
+                                            <?php } ?>
                                             </ul>
                                         </div>
                                     </td>

@@ -767,6 +767,57 @@ class Journal_entry extends Backend_Controller
            $this->load->view('backend/_layout_main', $this->data);
        }
 
+       public function chenge_status($type,$encid)
+       {
+        $id = (int) decrypt_url($encid);
+        if ($type == 'revenue') {
+            $this->db->where('id', $id);
+            $this->db->update('budget_j_gov_revenue_register', array('status' => 2));
+            $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
+            redirect('journal_entry/revenue_entry');
+
+        }elseif ($type == 'publication') {
+            $this->db->where('id', $id);
+            $this->db->update('budget_j_publication_register', array('status' => 2));
+            $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
+
+            redirect('journal_entry/publication_entry');
+
+        }elseif ($type == 'miscellaneous') {
+            $this->db->where('id', $id);
+            $this->db->update('budget_j_miscellaneous_register', array('status' => 2));
+            $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
+
+            redirect('journal_entry/miscellaneous_entry');
+
+        }elseif ($type == 'pension') {
+            $this->db->where('id', $id);
+            $this->db->update('budget_j_pension_register', array('status' => 2));
+            $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
+
+            redirect('journal_entry/pension_entry');
+
+        }elseif ($type == 'hostel') {
+            $this->db->where('id', $id);
+            $this->db->update('budget_j_hostel_register', array('status' => 2));
+            $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
+            redirect('journal_entry/hostel_entry');
+        }elseif ($type == 'gpf') {
+            $this->db->where('id', $id);
+            $this->db->update('budget_j_gpf_register', array('status' => 2));
+            $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
+            redirect('journal_entry/gpf_entry');
+        }elseif ($type == 'cheque') {
+            $this->db->where('id', $id);
+            $this->db->update('budget_j_cheque_register', array('status' => 2));
+            $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
+            redirect('journal_entry/cheque_entry');
+        }
+       }
+
+
+
+
 
 
 
