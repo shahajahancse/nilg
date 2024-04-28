@@ -33,7 +33,7 @@
                         $this->db->select_sum('total_overall_expense');
                         $this->db->from('budget_field');
                         $this->db->where('status', 1);
-                        $out_amount = $this->db->get()->row()->amount;
+                        $out_amount = $this->db->get()->row()->total_overall_expense;
                     ?>
                     <div class="col-md-9 no-padding">
                         <div class="tiles white text-center">
@@ -76,12 +76,14 @@
                 <div class="tiles white added-margin new new4">
                     <div class="tiles-body">
                                     <?php 
-                                        $reveneu=all_journal_amount('revenue');
-                                        $hostel=all_journal_amount('hostel');
-                                        $publication=all_journal_amount('publication');
-                                        $gpf=all_journal_amount('gpf');
-                                        $pension=all_journal_amount('pension');
-                                        $miscellaneous=all_journal_amount('miscellaneous');
+                                     $this->load->model('Common_model');
+
+                                        $reveneu=$this->Common_model->all_journal_amount('revenue');
+                                        $hostel=$this->Common_model->all_journal_amount('hostel');
+                                        $publication=$this->Common_model->all_journal_amount('publication');
+                                        $gpf=$this->Common_model->all_journal_amount('gpf');
+                                        $pension=$this->Common_model->all_journal_amount('pension');
+                                        $miscellaneous=$this->Common_model->all_journal_amount('miscellaneous');
                                     ?>
                         <div class="tiles-title"> জার্নাল গৃহীত সামারি রিপোর্ট </div>
                         <div class="row-fluid ">
@@ -100,35 +102,35 @@
                                     <tr>
                                         <td>রাজস্ব রেজিস্টার এন্ট্রি</td>
                                         <td class="sub-mark">:</td>
-                                        <td><?=eng2bng($reveneu) ?></td>
+                                        <td><?=eng2bng(($reveneu!='')?$reveneu:0) ?></td>
                                     </tr>
                                     <tr>
                                         <td>হোস্টেল রেজিস্টার এন্ট্রি</td>
                                         <td class="sub-mark">:</td>
                                       
-                                        <td><?=eng2bng($hostel) ?></td>
+                                        <td><?=eng2bng($hostel!=''?$hostel:0) ?></td>
                                     </tr>
                                     <tr>
                                         <td>প্রকাশনা রেজিস্টার এন্ট্রি</td>
                                         <td class="sub-mark">:</td>
                                        
-                                        <td><?=eng2bng($publication) ?></td>
+                                        <td><?=eng2bng($publication!=''?$publication:0) ?></td>
                                     </tr>
                                     <tr>
                                         <td>জিপিএফ রেজিস্টার এন্ট্রি</td>
                                         <td class="sub-mark">:</td>
                                        
-                                        <td><?=eng2bng($gpf) ?></td>
+                                        <td><?=eng2bng($gpf!=''?$gpf:0) ?></td>
                                     </tr>
                                     <tr>
                                         <td>পেনশন রেজিস্টার এন্ট্রি</td>
                                         <td class="sub-mark">:</td>
-                                        <td><?=eng2bng($pension) ?></td>
+                                        <td><?=eng2bng($pension!=''?$pension:0) ?></td>
                                     </tr>
                                     <tr>
                                         <td>বিবিধ রেজিস্টার এন্ট্রি</td>
                                         <td class="sub-mark">:</td>
-                                        <td><?=eng2bng($miscellaneous) ?></td>
+                                        <td><?=eng2bng($miscellaneous!=''?$miscellaneous:0) ?></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -190,6 +192,7 @@
                                         <td class="sub-mark">:</td>
                                         <td><?=eng2bng($total_amount_bli->total_office_amount) ?></td>
                                     </tr>
+                                    <tr><td>&nbsp;</td><td class="sub-mark">&nbsp;</td><td>&nbsp;</td></tr>
                                 </tbody>
                             </table>
                         </div>
