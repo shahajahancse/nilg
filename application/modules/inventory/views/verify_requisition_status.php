@@ -1,8 +1,8 @@
    <style type="text/css">
       .btn-cons{font-size: 20px;}
    </style>
-   <div class="page-content">     
-      <div class="content">  
+   <div class="page-content">
+      <div class="content">
          <ul class="breadcrumb">
             <li><a href="<?=base_url('dashboard')?>" class="active"> Dashboard </a></li>
             <li><a href="<?=base_url('inventory')?>" class="active"><?=$module_name?></a></li>
@@ -15,15 +15,15 @@
             .tg th{font-size:14px;font-weight:bold;padding:3px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#bbb;color:#493F3F;background-color:#bce2c5;text-align: center;}
             .tg .tg-khup{background-color:#efefef;vertical-align:top; color: black; text-align: right; width: 150px;}
             .tg .tg-ywa9{background-color:#ffffff;vertical-align:top; color: black;}
-         </style>  
+         </style>
 
          <div class="row">
             <div class="col-md-12">
                <div class="grid simple horizontal red">
                   <div class="grid-title">
                      <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
-                     <div class="pull-right">                
-                        <a href="<?=base_url('inventory/request_requisition_list')?>" class="btn btn-blueviolet btn-xs btn-mini">রিকুইজিশন তালিকা</a>  
+                     <div class="pull-right">
+                        <a href="<?=base_url('inventory/request_requisition_list')?>" class="btn btn-blueviolet btn-xs btn-mini">রিকুইজিশন তালিকা</a>
                      </div>
                   </div>
                   <div class="grid-body">
@@ -34,15 +34,15 @@
                         </div>
                      <?php endif; ?>
 
-                     <?php 
-                     echo validation_errors(); 
+                     <?php
+                     echo validation_errors();
                      $attributes = array('id' => 'jsvalidate');
                      echo form_open_multipart(uri_string(), $attributes);
                      ?>
 
                      <div class="row">
                         <div class="col-md-12">
-                           <fieldset >      
+                           <fieldset >
                               <legend>Chnage Approval</legend>
 
 
@@ -78,7 +78,7 @@
                                           <td class="tg-ywa9"><?=date('d M, Y h:i A', strtotime($info->updated)); ?></td>
                                           <th class="tg-khup"> Status </th>
                                           <td class="tg-ywa9"><?=$status?></td>
-                                       </tr> 
+                                       </tr>
                                     </table>
                                  </div>
                               </div>
@@ -95,7 +95,7 @@
                         <?php } elseif ($this->ion_auth->in_group(array('admin','dg'))) { ?>
                            <label class="form-label">Status Type <span class='required'>*</span></label>
                         <?php } ?>
-                           <input type="radio" name="status" value="2" <?=set_value('status')=='2'?'checked':'';?>> <span style="color: black; font-size: 14px;"><strong>অ্যাপ্রভ</strong></span> 
+                           <input type="radio" name="status" value="2" <?=set_value('status')=='2'?'checked':'';?>> <span style="color: black; font-size: 14px;"><strong>অ্যাপ্রভ</strong></span>
                            <input type="radio" name="status" value="3" <?=set_value('status')=='3'?'checked':'';?>> <span style="color: black; font-size: 14px;"><strong>রিজেক্ট</strong></span>
                            <div id="typeerror"></div>
                         </div>
@@ -106,15 +106,15 @@
 
                      </div>
 
-                     <div class="row form-row">                        
+                     <div class="row form-row">
                         <div class="col-md-12">
                            <style type="text/css">td{color: black; font-size: 15px;}</style>
-                           <fieldset>      
+                           <fieldset>
                               <legend>রিকুইজিশন তালিকা</legend>
                               <style type="text/css">
                                  #appRowDiv td{padding: 5px; border-color: #ccc;}
                                  #appRowDiv th{padding: 5px;text-align:center;border-color: #ccc; color: black;}
-                              </style>                              
+                              </style>
                               <div id="msgPerson"> </div>
                               <table width="100%" border="1" id="appRowDiv">
                                  <tr>
@@ -144,18 +144,17 @@
                                     <input type="hidden" name="hide_id[]" value="<?=$item->id?>">
                                     <td>
                                        <?php
-                                       $item_id=$item->item_id;
-                                       $usern_id=$item->user_id;
-                                       $this->select('requisition_item.*,requisitions.*');
-                                       $this->from('requisition_item');
-                                       $this->join('requisitions', 'requisition_item.requisition_id = requisitions.id');
+                                       $item_id = $item->item_id;
+                                       $usern_id = $item->user_id;
+                                       $this->db->select('requisition_item.*, requisitions.*');
+                                       $this->db->from('requisition_item');
+                                       $this->db->join('requisitions', 'requisition_item.requisition_id = requisitions.id');
                                        $this->db->where('requisition_item.item_id', $item_id);
                                        $this->db->where('requisition_item.user_id', $usern_id);
                                        $this->db->where('requisitions.status', 5);
-                                       $this->db->order_by('id', 'desc');
+                                       $this->db->order_by('requisition_item.id', 'desc');
                                        $this->db->limit(1);
-                                       $query = $this->db->get('requisition_item');
-                                       $requisition = $query->row();
+                                       $requisition = $this->db->get()->row();
                                        if (!empty($requisition)) {
 
                                           $requisition_id=$requisition->requisition_id;
@@ -190,7 +189,7 @@
                      <!-- <div class="form-actions"></div> -->
                      <?php echo form_close();?>
 
-                  </div>  <!-- END GRID BODY -->              
+                  </div>  <!-- END GRID BODY -->
                </div> <!-- END GRID -->
             </div>
 
@@ -215,7 +214,7 @@
                      if (response == "1") {
                         remove.remove();
                         setTimeout(() => {alert('Data delete successfull.')}, 400);
-                     } 
+                     }
                   }
                });
             } else {
@@ -237,38 +236,38 @@
                      if (response == "1") {
                         remove.remove();
                         setTimeout(() => {alert('Data delete successfull.')}, 400);
-                     } 
+                     }
                   }
                });
             } else {
                return
             }
          });
-      });   
-   </script> 
+      });
+   </script>
 
    <script type="text/javascript">
       $(document).ready(function() {
          $('#jsvalidate').validate({
-            // focusInvalid: false, 
+            // focusInvalid: false,
             ignore: "",
             rules: {
                status: { required: true }
             },
 
-            errorPlacement: function (label, element) { 
+            errorPlacement: function (label, element) {
                if (element.attr("name") == "status") {
                   label.insertAfter("#typeerror");
                } else {
                   $('<span class="error"></span>').insertAfter(element).append(label)
                   var parent = $(element).parent('.input-with-icon');
-                  parent.removeClass('success-control').addClass('error-control');  
+                  parent.removeClass('success-control').addClass('error-control');
                }
             },
 
             highlight: function (element) { // hightlight error inputs
                var parent = $(element).parent();
-               parent.removeClass('success-control').addClass('error-control'); 
+               parent.removeClass('success-control').addClass('error-control');
             },
 
             unhighlight: function (element) { // revert the change done by hightlight
@@ -277,12 +276,12 @@
 
             success: function (label, element) {
                var parent = $(element).parent('.input-with-icon');
-               parent.removeClass('error-control').addClass('success-control'); 
+               parent.removeClass('error-control').addClass('success-control');
             },
 
             submitHandler: function (form) {
                form.submit();
             }
          });
-      });   
-   </script>  
+      });
+   </script>
