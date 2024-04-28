@@ -61,60 +61,7 @@
                 </div>
             </div>
             <?php } ?>
-            <div class="col-md-4 m-b-20">
-                <div class="row tiles-container">
-                    <div class="col-md-4 no-padding">
-                        <div class="tiles blue" style="padding:20px;background: #00adef;">
-                            <i class="fa fa-dashboard" style="font-size: 38px;"></i>
-                        </div>
-                    </div>
-                    <div class="col-md-8 no-padding">
-                        <div class="tiles white text-center">
-                            <h2 class="semi-bold text-error no-margin"
-                                style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;">
-                                <?=eng2bng(count($budget_field))?></h2>
-                            <div class="tiles-title red m-b-5">বাজেট অফিস</div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 m-b-20">
-                <div class="row tiles-container">
-                    <div class="col-md-4 no-padding">
-                        <div class="tiles blue" style="padding:20px;background: #78c72f;">
-                            <i class="fa fa-dashboard" style="font-size: 38px;"></i>
-                        </div>
-                    </div>
-                    <div class="col-md-8 no-padding">
-                        <div class="tiles white text-center">
-                            <h2 class="semi-bold text-error no-margin"
-                                style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;">
-                                <?=eng2bng(count($budget_nilg))?></h2>
-                            <div class="tiles-title red m-b-5">বাজেট এনআইএলজি</div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 m-b-20">
-                <div class="row tiles-container">
-                    <div class="col-md-4 no-padding">
-                        <div class="tiles blue" style="padding:20px;background: #ff940b;">
-                            <i class="fa fa-dashboard" style="font-size: 38px;"></i>
-                        </div>
-                    </div>
-                    <div class="col-md-8 no-padding">
-                        <div class="tiles white text-center">
-                            <h2 class="semi-bold text-error no-margin"
-                                style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;">
-                                <?=eng2bng(count($budgets_entry))?></h2>
-                            <div class="tiles-title red m-b-5">বাজেট এন্ট্রি</div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
             <!-- row end -->
         </div> <!-- /row -->
         <?php } ?>
@@ -133,39 +80,52 @@
                             <table class="report-table">
                             <tbody>
                                 <tr>
-                                    <td>তথ্যের ধরণ</td>
-                                    <td></td>
-                                    <td>সংখ্যা</td>
-                                </tr>
-                                <tr>
                                     <td>রাজস্ব রেজিস্টার এন্ট্রি</td>
                                     <td class="sub-mark">:</td>
-                                    <td><?=eng2bng(9) ?></td>
+                                    <?php 
+                                    $reveneu=all_journal_amount('revenue')
+                                    ?>
+                                    <td><?=eng2bng($reveneu) ?></td>
                                 </tr>
                                 <tr>
                                     <td>হোস্টেল রেজিস্টার এন্ট্রি</td>
                                     <td class="sub-mark">:</td>
-                                    <td><?=eng2bng(7) ?></td>
+                                    <?php 
+                                    $hostel=all_journal_amount('hostel')
+                                    ?>
+                                    <td><?=eng2bng($hostel) ?></td>
                                 </tr>
                                 <tr>
                                     <td>প্রকাশনা রেজিস্টার এন্ট্রি</td>
                                     <td class="sub-mark">:</td>
-                                    <td><?=eng2bng(4) ?></td>
+                                    <?php 
+                                    $hostel=all_journal_amount('publication')
+                                    ?>
+                                    <td><?=eng2bng($hostel) ?></td>
                                 </tr>
                                 <tr>
                                     <td>জিপিএফ রেজিস্টার এন্ট্রি</td>
                                     <td class="sub-mark">:</td>
-                                    <td><?=eng2bng(1) ?></td>
+                                    <?php 
+                                    $hostel=all_journal_amount('gpf')
+                                    ?>
+                                    <td><?=eng2bng($hostel) ?></td>
                                 </tr>
                                 <tr>
                                     <td>পেনশন রেজিস্টার এন্ট্রি</td>
                                     <td class="sub-mark">:</td>
-                                    <td><?=eng2bng(1) ?></td>
+                                    <?php 
+                                    $hostel=all_journal_amount('pension')
+                                    ?>
+                                    <td><?=eng2bng($hostel) ?></td>
                                 </tr>
                                 <tr>
                                     <td>বিবিধ রেজিস্টার এন্ট্রি</td>
                                     <td class="sub-mark">:</td>
-                                    <td><?=eng2bng(3) ?></td>
+                                    <?php 
+                                        $hostel=all_journal_amount('miscellaneous')
+                                    ?>
+                                    <td><?=eng2bng($hostel) ?></td>
                                 </tr>
                             </tbody>
                             </table>

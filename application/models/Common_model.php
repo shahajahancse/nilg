@@ -2163,6 +2163,30 @@ class Common_model extends CI_Model
     }
 
 
+
+    public function all_journal_amount($type){
+        $this->db->select_sum('amount');
+       
+        $this->db->where('status',2);
+        if ($type == 'revenue') {
+            $data=$this->db->get('budget_j_gov_revenue_register')->result();
+        }elseif ($type == 'publication') {
+            $data=$this->db->get('budget_j_publication_register')->result();
+        }elseif ($type == 'miscellaneous') {
+            $data=$this->db->get('budget_j_miscellaneous_register')->result();
+        }elseif ($type == 'pension') {
+            $data=$this->db->get('budget_j_pension_register')->result();
+        }elseif ($type == 'hostel') {
+            $this->db->get('budget_j_hostel_register')->result();
+        }elseif ($type == 'gpf') {
+            $data=$this->db->get('budget_j_gpf_register')->result();
+        }elseif ($type == 'cheque') {
+            $data=$this->db->get('budget_j_cheque_register')->result();
+        }
+        return $data;
+    }
+
+
     /************************* User Insert Script ***************************/
     /************************************************************************/
     /*
