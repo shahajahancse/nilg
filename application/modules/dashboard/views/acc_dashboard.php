@@ -76,12 +76,15 @@
                 <div class="tiles white added-margin new new4">
                     <div class="tiles-body">
                                     <?php 
-                                        $reveneu=all_journal_amount('revenue');
-                                        $hostel=all_journal_amount('hostel');
-                                        $publication=all_journal_amount('publication');
-                                        $gpf=all_journal_amount('gpf');
-                                        $pension=all_journal_amount('pension');
-                                        $miscellaneous=all_journal_amount('miscellaneous');
+                                     $this->load->model('Common_model');
+
+
+                                        $reveneu=$this->Common_model->all_journal_amount('revenue');
+                                        $hostel=$this->Common_model->all_journal_amount('hostel');
+                                        $publication=$this->Common_model->all_journal_amount('publication');
+                                        $gpf=$this->Common_model->all_journal_amount('gpf');
+                                        $pension=$this->Common_model->all_journal_amount('pension');
+                                        $miscellaneous=$this->Common_model->all_journal_amount('miscellaneous');
                                     ?>
                         <div class="tiles-title"> জার্নাল গৃহীত সামারি রিপোর্ট </div>
                         <div class="row-fluid ">

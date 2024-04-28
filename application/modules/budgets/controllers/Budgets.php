@@ -708,7 +708,7 @@ class Budgets extends Backend_Controller
         $user = $this->ion_auth->user()->row();
         if ($user->crrnt_dept_id == '') {
             $this->session->set_flashdata('error', 'Please update your profile first');
-                redirect("budgets/budget_field");
+            redirect("budgets/budget_field");
         }
 
         $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
