@@ -149,6 +149,7 @@ class Budgets extends Backend_Controller
 
         $this->data['meta_title'] = 'বাজেট বিস্তারিত';
         if ($this->ion_auth->in_group(array('bdh'))) {
+            // dd('rrrddd');
             $this->data['subview'] = 'budget_nilg/details_dept_head';
         } else if ($this->ion_auth->in_group(array('acc')) &&  in_array($this->data['budget_nilg']->desk, array(5,6))) {
             $this->data['subview'] = 'budget_nilg/details_acc_final';
@@ -255,6 +256,7 @@ class Budgets extends Backend_Controller
                         'dpt_head_id' =>$this->ion_auth->user()->row()->id,
                         'desk' => 3,
                         'description' => $this->input->post('description'),
+                        'update_at' => date("Y-m-d H:i:s"),
                     );
                 $this->db->where('id', $this->input->post('budget_nilg_id'));
                 if ($this->db->update('budget_nilg', $form_data)) {
@@ -285,6 +287,7 @@ class Budgets extends Backend_Controller
                     'title' => $this->input->post('title'),
                     'dpt_amt' => $this->input->post('total_amount'),
                     'description' => $this->input->post('description'),
+                    'update_at' => date("Y-m-d H:i:s"),
                 );
                 $this->db->where('id', $this->input->post('budget_nilg_id'));
                 if ($this->db->update('budget_nilg', $form_data)) {
@@ -325,6 +328,7 @@ class Budgets extends Backend_Controller
                         'acc_head_id' =>$this->ion_auth->user()->row()->id,
                         'desk' => 4,
                         'description' => $this->input->post('description'),
+                        'update_at' => date("Y-m-d H:i:s"),
                     );
                 $this->db->where('id', $this->input->post('budget_nilg_id'));
                 if ($this->db->update('budget_nilg', $form_data)) {
@@ -355,6 +359,7 @@ class Budgets extends Backend_Controller
                     'title' => $this->input->post('title'),
                     'acc_amt' => $this->input->post('total_amount'),
                     'description' => $this->input->post('description'),
+                    'update_at' => date("Y-m-d H:i:s"),
                 );
                 $this->db->where('id', $this->input->post('budget_nilg_id'));
                 if ($this->db->update('budget_nilg', $form_data)) {
@@ -395,6 +400,7 @@ class Budgets extends Backend_Controller
                         'dg_user_id' =>$this->ion_auth->user()->row()->id,
                         'desk' => 5,
                         'description' => $this->input->post('description'),
+                        'update_at' => date("Y-m-d H:i:s"),
                     );
                 $this->db->where('id', $this->input->post('budget_nilg_id'));
                 if ($this->db->update('budget_nilg', $form_data)) {
@@ -425,6 +431,7 @@ class Budgets extends Backend_Controller
                     'title' => $this->input->post('title'),
                     'dg_amt' => $this->input->post('total_amount'),
                     'description' => $this->input->post('description'),
+                    'update_at' => date("Y-m-d H:i:s"),
                 );
                 $this->db->where('id', $this->input->post('budget_nilg_id'));
                 if ($this->db->update('budget_nilg', $form_data)) {
@@ -465,6 +472,7 @@ class Budgets extends Backend_Controller
                         'status' => 6,
                         'desk' => 6,
                         'description' => $this->input->post('description'),
+                        'update_at' => date("Y-m-d H:i:s"),
                     );
                 $this->db->where('id', $this->input->post('budget_nilg_id'));
                 if ($this->db->update('budget_nilg', $form_data)) {
@@ -495,6 +503,7 @@ class Budgets extends Backend_Controller
                     'title' => $this->input->post('title'),
                     'revenue_amt' => $this->input->post('total_amount'),
                     'description' => $this->input->post('description'),
+                    'update_at' => date("Y-m-d H:i:s"),
                 );
                 $this->db->where('id', $this->input->post('budget_nilg_id'));
                 if ($this->db->update('budget_nilg', $form_data)) {
@@ -1283,8 +1292,8 @@ class Budgets extends Backend_Controller
         $this->db->select('
                         q.*,
                         budget_head_sub.name_bn,
-                        budget_head_sub.bd_code, 
-                        budget_head.name_bn as budget_head_name, 
+                        budget_head_sub.bd_code,
+                        budget_head.name_bn as budget_head_name,
                         budget_head_sub.id as budget_head_sub_id
                         ');
         $this->db->from('budget_chahida_potro_details as q');
@@ -1300,8 +1309,8 @@ class Budgets extends Backend_Controller
          $this->data['subview'] = 'chahida_potro/details';
          $this->load->view('backend/_layout_main', $this->data);
 
-        
-       
+
+
     }
     public function budget_chahida_potro_print($encid){
         $id = (int) decrypt_url($encid);
@@ -1315,8 +1324,8 @@ class Budgets extends Backend_Controller
         $this->db->select('
                         q.*,
                         budget_head_sub.name_bn,
-                        budget_head_sub.bd_code, 
-                        budget_head.name_bn as budget_head_name, 
+                        budget_head_sub.bd_code,
+                        budget_head.name_bn as budget_head_name,
                         budget_head_sub.id as budget_head_sub_id
                         ');
         $this->db->from('budget_chahida_potro_details as q');
@@ -1330,8 +1339,8 @@ class Budgets extends Backend_Controller
         $this->data['headding'] = 'চাহিদা পত্র';
         echo $html = $this->load->view('chahida_potro/print', $this->data, true);
 
-        
-       
+
+
     }
     public function budget_chahida_potro_edit($encid=null){
         if($encid == null){
@@ -1394,9 +1403,9 @@ class Budgets extends Backend_Controller
         $this->db->select('
                         q.*,
                         budget_head_sub.name_bn,
-                        budget_head_sub.bd_code, 
-                        budget_head.name_bn as budget_head_name, 
-                        budget_head.id as budget_head_id, 
+                        budget_head_sub.bd_code,
+                        budget_head.name_bn as budget_head_name,
+                        budget_head.id as budget_head_id,
                         budget_head_sub.id as budget_head_sub_id
                         ');
         $this->db->from('budget_chahida_potro_details as q');
@@ -1428,7 +1437,7 @@ class Budgets extends Backend_Controller
                 $form_data = array(
                     'chahida_potro_details_id' => $value,
                     'overall_expense' => $this->input->post('overall_expense')[$key],
-                
+
                 );
                 $this->db->where('chahida_potro_details_id', $value);
                 $pr=$this->db->get('budget_chahida_potro_expenses')->row();
@@ -1437,11 +1446,11 @@ class Budgets extends Backend_Controller
                     $this->db->insert('budget_chahida_potro_expenses', $form_data);
                 }else{
                     $this->db->update('budget_chahida_potro_expenses', $form_data, array('id' => $value));
-                } 
+                }
             }
             $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
             redirect("budgets/chahida_potro");
-        
+
         }
         $this->db->select('q.*,office.office_name, department.name_en');
         $this->db->from('budget_chahida_potro as q');
@@ -1454,8 +1463,8 @@ class Budgets extends Backend_Controller
                         q.*,
                         q.id as budget_chahida_potro_details_id,
                         budget_head_sub.name_bn,
-                        budget_head_sub.bd_code, 
-                        budget_head.name_bn as budget_head_name, 
+                        budget_head_sub.bd_code,
+                        budget_head.name_bn as budget_head_name,
                         budget_head_sub.id as budget_head_sub_id,
                         budget_chahida_potro_expenses.*
                         ');
@@ -1470,13 +1479,13 @@ class Budgets extends Backend_Controller
 
          //Load view
          $this->data['meta_title'] = 'চাহিদা পত্র স্টেটমেন্ট তৈরি করুন';
-         $this->data['subview'] = 'chahida_potro/statement'; 
+         $this->data['subview'] = 'chahida_potro/statement';
          $this->load->view('backend/_layout_main', $this->data);
 
-        
+
     }
     public function budget_chahida_potro_statement_print($encid=null){
-     
+
             $id = (int) decrypt_url($encid);
         $this->db->select('q.*,office.office_name, department.name_en');
         $this->db->from('budget_chahida_potro as q');
@@ -1489,8 +1498,8 @@ class Budgets extends Backend_Controller
                         q.*,
                         q.id as budget_chahida_potro_details_id,
                         budget_head_sub.name_bn,
-                        budget_head_sub.bd_code, 
-                        budget_head.name_bn as budget_head_name, 
+                        budget_head_sub.bd_code,
+                        budget_head.name_bn as budget_head_name,
                         budget_head_sub.id as budget_head_sub_id,
                         budget_chahida_potro_expenses.*
                         ');
@@ -1505,7 +1514,7 @@ class Budgets extends Backend_Controller
 
        echo $this->load->view('chahida_potro/statement_print', $this->data);
 
-        
+
     }
 
 

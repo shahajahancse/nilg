@@ -3,6 +3,58 @@
         <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg', 'bdh', 'acc'))) { ?>
         <div class="row">
             <!-- raw start -->
+            <?php if ($this->ion_auth->in_group(array('bdg', 'acc', 'nilg', 'admin'))) { ?>
+            <div class="col-md-4 m-b-20">
+                <div class="row tiles-container">
+                    <div class="col-md-3 no-padding">
+                        <div class="tiles blue" style="padding:20px;background: #9424b8;">
+                            <i class="fa fa-dashboard" style="font-size: 38px;"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-9 no-padding">
+                        <div class="tiles white text-center">
+                            <h2 class="semi-bold text-error no-margin" style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;"><?=eng2bng($in_amount)?></h2>
+                            <div class="tiles-title red m-b-5">সর্বমোট গৃহীত পরিমাণ (রাজস্ব)</div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 m-b-20">
+                <div class="row tiles-container">
+                    <div class="col-md-3 no-padding">
+                        <div class="tiles blue" style="padding:20px;background: #0aa699;">
+                            <i class="fa fa-dashboard" style="font-size: 38px;"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-9 no-padding">
+                        <div class="tiles white text-center">
+                            <h2 class="semi-bold text-error no-margin"
+                                style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;"><?=eng2bng(4000)?></h2>
+                            <div class="tiles-title red m-b-5">ছাড়কৃত পরিমাণ (রাজস্ব)</div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 m-b-20">
+                <div class="row tiles-container">
+                    <div class="col-md-3 no-padding">
+                        <div class="tiles blue" style="padding:20px;background: #00adef;">
+                            <i class="fa fa-dashboard" style="font-size: 38px;"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-9 no-padding">
+                        <div class="tiles white text-center">
+                            <h2 class="semi-bold text-error no-margin"
+                                style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;"><?=eng2bng($in_amount - 4000)?> </h2>
+                            <div class="tiles-title red m-b-5">অবশিষ্ট পরিমাণ (রাজস্ব)</div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php } ?>
             <div class="col-md-4 m-b-20">
                 <div class="row tiles-container">
                     <div class="col-md-4 no-padding">
@@ -57,58 +109,6 @@
                     </div>
                 </div>
             </div>
-            <?php if ($this->ion_auth->in_group(array('bdg', 'acc', 'nilg', 'admin'))) { ?>
-            <div class="col-md-4 m-b-20">
-                <div class="row tiles-container">
-                    <div class="col-md-4 no-padding">
-                        <div class="tiles blue" style="padding:20px;background: #9424b8;">
-                            <i class="fa fa-dashboard" style="font-size: 38px;"></i>
-                        </div>
-                    </div>
-                    <div class="col-md-8 no-padding">
-                        <div class="tiles white text-center">
-                            <h2 class="semi-bold text-error no-margin" style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;"><?=eng2bng($in_amount)?></h2>
-                            <div class="tiles-title red m-b-5">সর্বমোট গৃহীত পরিমাণ</div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 m-b-20">
-                <div class="row tiles-container">
-                    <div class="col-md-4 no-padding">
-                        <div class="tiles blue" style="padding:20px;background: #0aa699;">
-                            <i class="fa fa-dashboard" style="font-size: 38px;"></i>
-                        </div>
-                    </div>
-                    <div class="col-md-8 no-padding">
-                        <div class="tiles white text-center">
-                            <h2 class="semi-bold text-error no-margin"
-                                style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;"><?=eng2bng(4000)?></h2>
-                            <div class="tiles-title red m-b-5">ছাড়কৃত পরিমাণ</div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 m-b-20">
-                <div class="row tiles-container">
-                    <div class="col-md-4 no-padding">
-                        <div class="tiles blue" style="padding:20px;background: #00adef;">
-                            <i class="fa fa-dashboard" style="font-size: 38px;"></i>
-                        </div>
-                    </div>
-                    <div class="col-md-8 no-padding">
-                        <div class="tiles white text-center">
-                            <h2 class="semi-bold text-error no-margin"
-                                style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;"><?=eng2bng($in_amount - 4000)?> </h2>
-                            <div class="tiles-title red m-b-5">অবশিষ্ট পরিমাণ</div>
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <?php } ?>
             <!-- row end -->
         </div> <!-- /row -->
         <?php } ?>

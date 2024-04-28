@@ -99,20 +99,9 @@
                                             </style>
                                             <div class="col-md-12">
                                                 <div class="col-md-12" style="margin:0px;padding:0px">
-                                                    <!-- <div class="col-md-4 margin_top_10" style="margin:0px;padding:0px">
-                                                                                                                 <label for="">বাজেট হেড নির্বাচন করুন</label>                                                        <select name="head" id="head_id" class="form-control" onchange="addNewRow(this.value)">
-   <label for="">বাজেট হেড নির্বাচন করুন</label>                                                            <?php
-                                                            // foreach ($budget_head_sub as $key => $value) {
-                                                               //                                                             echo '<option value="'.$value->id.'">'.$value->budget_head_name.'>>'.$value->name_bn.' ('.$value->bd_code.')'.'</option>';
-
-                                                            //}
-                                                            ?>
-                                                        </select>
-                                                    </div> -->
                                                     <div class="col-md-4">
                                                         <img id="loading" src="<?= base_url('img/loading.gif') ?>" style="height: 47px;margin-top: 14px;display: none;">
                                                     </div>
-
                                                 </div>
 
                                                 <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e;" id="appRowDiv">
@@ -140,7 +129,7 @@
                                                                 </td>
                                                                 <?php if ($this->ion_auth->in_group(array('acc'))) { ?>
                                                                 <td>
-                                                                    <input value="<?= $value->revenue_amt ?>" min="0" type="number" onkeyup="calculateTotal()" name="revenue_amt[]" class="form-control amount input-sm">
+                                                                    <input value="<?= $value->dg_amt ?>" min="0" type="number" onkeyup="calculateTotal()" name="revenue_amt[]" class="form-control amount input-sm">
                                                                 </td>
                                                                 <?php } ?>
                                                                 <td><a href="javascript:void(0)" onclick="removeRow(this,<?= $value->budget_nilg_details_id ?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>

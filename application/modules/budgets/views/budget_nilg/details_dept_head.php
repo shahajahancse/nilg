@@ -101,7 +101,7 @@
                                                     <label for="">বাজেট হেড নির্বাচন করুন</label>
                                                         <select name="head" id="head_id" class="form-control"
                                                             onchange="addNewRow(this.value)">
-                                                            <option value="">বাজেট হেড নির্বাচন করুন</option>               
+                                                            <option value="">বাজেট হেড নির্বাচন করুন</option>
                                                             <?php foreach ($budget_head_sub as $key => $value) {
                                                               echo '<option value="'.$value->id.'">'.$value->budget_head_name.'>>'.$value->name_bn.' ('.$value->bd_code.')'.'</option>';
 
@@ -139,7 +139,7 @@
                                                                 </td>
                                                                 <?php if ($this->ion_auth->in_group(array('bdh'))) { ?>
                                                                 <td>
-                                                                    <input value="<?= $value->dpt_amt ?>" min="0" type="number" onkeyup="calculateTotal()" name="dpt_amt[]" class="form-control amount input-sm">
+                                                                    <input value="<?= ($value->dpt_amt == '0.00')? $value->amount:$value->dpt_amt ?>" min="0" type="number" onkeyup="calculateTotal()" name="dpt_amt[]" class="form-control amount input-sm">
                                                                 </td>
                                                                 <?php } ?>
                                                                 <td><a href="javascript:void(0)" onclick="removeRow(this,<?= $value->budget_nilg_details_id ?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
