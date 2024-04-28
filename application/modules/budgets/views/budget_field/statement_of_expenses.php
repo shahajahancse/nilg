@@ -70,7 +70,7 @@ input {
                                 </div>
                                 <fieldset>
                                     <legend>বাজেট তথ্য</legend>
-                                 
+
                                     <input type="hidden" name="budget_field_id" value="<?= $budget_field->id?>">
 
                                     <div class="row form-row" style="font-size: 16px; color: black;">
@@ -82,7 +82,7 @@ input {
                                         <br>
                                         <div class="col-md-4">
                                             <strong>অর্থবছর :</strong> <span><?= $budget_field->session_name ?></span>
-                                           
+
                                         </div>
                                         <div class="col-md-4">
 
@@ -110,7 +110,7 @@ input {
                                                 }
                                             </style>
 
-                                       
+
                                             <table class="col-md-12" width="100%" border="1"
                                                 style="border:1px solid #a09e9e;" id="appRowDiv">
                                                 <thead>
@@ -138,7 +138,7 @@ input {
                                                             <input type="hidden" name="head_sub_id[]" value="<?=$data->head_sub_id?>" >
                                                             <?=$data->total_amt?>
                                                             </td>
-                                                            <td><input  style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;" type="number" min=0 value=<?=$data->real_expense==''?0:$data->real_expense ?> name="real_expense[]" class="real_expense" onkeyup="calculate_overall_expense(this)"></td>
+                                                            <td><input  style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;" type="number" min=0 value=<?=$data->real_expense==''?$data->total_amt:$data->real_expense ?> name="real_expense[]" class="real_expense" onkeyup="calculate_overall_expense(this)"></td>
                                                             <td><input  style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;" type="number" min=0 value=<?=$data->vat==''?0:$data->vat ?> name="vat[]" class="vat" onkeyup="calculate_overall_expense(this)"></td>
                                                             <td><input  style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;" type="number" min=0 value=<?=$data->it_kor==''?0:$data->it_kor ?> name="it_kor[]" class="it_kor" onkeyup="calculate_overall_expense(this)"></td>
                                                             <td><input  style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;" type="number" min=0 value=<?=$data->overall_expense==''?0:$data->overall_expense ?> name="overall_expense[]" class="overall_expense" readonly></td>
@@ -228,7 +228,7 @@ input {
         $("#total_overall_expense").text(total_overall_expense);
         $("#total_overall_expense_input").val(total_overall_expense);
     }
-</script> 
+</script>
 <script>
     $(document).ready(function() {
         calt()
@@ -238,7 +238,7 @@ input {
 
 
 
-<!-- 
+<!--
 
 <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
 <script>

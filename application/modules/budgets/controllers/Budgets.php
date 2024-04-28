@@ -801,7 +801,6 @@ class Budgets extends Backend_Controller
     public function budget_field_statement_of_expenses($encid)
     {
 
-
         $id = (int) decrypt_url($encid);
             $this->db->select('
             budget_field.*,
