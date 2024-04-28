@@ -756,17 +756,6 @@ class Journal_entry extends Backend_Controller
            }
        }
        // end budget_j_miscellaneous_register
-
-
-       //entry Report 
-       public function entry_report()
-       {
-           $this->data['meta_title'] = 'রিপোর্ট';
-           $this->data['mudule_title'] = 'রিপোর্ট';
-           $this->data['subview'] = 'entry_report';
-           $this->load->view('backend/_layout_main', $this->data);
-       }
-
        public function chenge_status($type,$encid)
        {
         $id = (int) decrypt_url($encid);
@@ -814,6 +803,46 @@ class Journal_entry extends Backend_Controller
             redirect('journal_entry/cheque_entry');
         }
        }
+
+       //entry Report 
+        public function entry_report()
+        {
+            $this->data['meta_title'] = 'রিপোর্ট';
+            $this->data['mudule_title'] = 'রিপোর্ট';
+            $this->data['subview'] = 'entry_report';
+            $this->load->view('backend/_layout_main', $this->data);
+        }
+        public function entry_report_view()
+        {
+
+            $from_date = $this->input->post('from_date');
+            $to_date = $this->input->post('to_date');
+            $btnsubmit = $this->input->post('btnsubmit');
+            $s_array=explode(',', $btnsubmit);
+            $btn=$s_array[0];
+            $type=$s_array[1];
+            if($btn == 'all_pending') {
+                $this->data['results']= $this->Journal_entry_model->all_journal($type,$from_date, $to_date,1);
+            } 
+            if($btn == 'all_approved') {
+                $this->data['results']= $this->Journal_entry_model->all_journal($type,$from_date, $to_date,2);
+            } 
+            if($btn == 'all_entry') {
+                $this->data['results']= $this->Journal_entry_model->all_journal($type,$from_date, $to_date);
+            } 
+
+            $this->data['headding'] = 'বাজেট এন্ট্রি রিপোর্ট';
+            $html = $this->load->view('all_journal_report', $this->data, true);
+            $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+            $mpdf->WriteHtml($html);
+            $mpdf->output();
+
+
+        // }
+            
+        }
+
+        
 
 
 

@@ -205,4 +205,15 @@ class Budgets_model extends CI_Model {
         return $result;
       }
     // budgets entry end
+
+
+
+
+    // report
+
+  
+
+
+
+
 }
