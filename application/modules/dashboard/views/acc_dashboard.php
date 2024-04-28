@@ -28,7 +28,7 @@
                         </div>
                     </div>
                     <?php
-                        $this->db->select_sum('amount');
+                        $this->db->select_sum('total_overall_expense');
                         $this->db->from('budget_field');
                         $this->db->where('status', 1);
                         $out_amount = $this->db->get()->row()->amount;
