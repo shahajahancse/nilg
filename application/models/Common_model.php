@@ -2165,25 +2165,31 @@ class Common_model extends CI_Model
 
 
     public function all_journal_amount($type){
+        $data=array();
         $this->db->select_sum('amount');
        
         $this->db->where('status',2);
         if ($type == 'revenue') {
-            $data=$this->db->get('budget_j_gov_revenue_register')->result();
+            $data=$this->db->get('budget_j_gov_revenue_register')->row();
         }elseif ($type == 'publication') {
-            $data=$this->db->get('budget_j_publication_register')->result();
+            $data=$this->db->get('budget_j_publication_register')->row();
         }elseif ($type == 'miscellaneous') {
-            $data=$this->db->get('budget_j_miscellaneous_register')->result();
+            $data=$this->db->get('budget_j_miscellaneous_register')->row();
         }elseif ($type == 'pension') {
-            $data=$this->db->get('budget_j_pension_register')->result();
+            $data=$this->db->get('budget_j_pension_register')->row();
         }elseif ($type == 'hostel') {
-            $this->db->get('budget_j_hostel_register')->result();
+            $this->db->get('budget_j_hostel_register')->row();
         }elseif ($type == 'gpf') {
-            $data=$this->db->get('budget_j_gpf_register')->result();
+            $data=$this->db->get('budget_j_gpf_register')->row();
         }elseif ($type == 'cheque') {
-            $data=$this->db->get('budget_j_cheque_register')->result();
+            $data=$this->db->get('budget_j_cheque_register')->row();
         }
-        return $data;
+
+        if (empty($data)) {
+            return 0;
+        }else{
+            return $data->amount;
+        }
     }
 
 
