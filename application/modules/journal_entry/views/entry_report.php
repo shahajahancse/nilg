@@ -20,7 +20,7 @@
                   
                   <?php 
                   $attributes = array('id' => 'validate', 'target'=>'_blank');
-                  echo form_open(uri_string(), $attributes);?>
+                  echo form_open("journal_entry/entry_report_view", $attributes);?>
                   <fieldset class="col-md-12">      
                      <legend>রিপোর্ট ফিল্টার</legend>
                      <div id="error" style="display: none;">
@@ -29,21 +29,26 @@
                      <div class="col-md-12">
                         <div class="form-group col-md-4">
                            <label class="form-label">শুরুর তারিখ</label>
-                           <input type="text" name="from_date" class="form-control datetime" value="<?=set_value('from')?>" placeholder="From Date">
+                           <input type="text" name="from_date" id="from_date" class="form-control datetime" value="<?=set_value('from')?>" placeholder="From Date">
                         </div>
                         <div class="form-group col-md-4">
                            <label class="form-label">শেষের তারিখ</label>
-                           <input type="text" name="to_date" class="form-control datetime" value="<?=set_value('from')?>" placeholder="To Date">
+                           <input type="text" name="to_date" id="to_date" class="form-control datetime" value="<?=set_value('from')?>" placeholder="To Date">
                         </div>
                      </div>
                   </fieldset> 
                   <fieldset class="col-md-12">      
-                     <legend>রিপোর্ট বাটন</legend>
-                     <button type="submit" name="btnsubmit" value="all_income" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট আয়</button>
-                     <button type="submit" name="btnsubmit" value="all_expense"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট ব্যায়  </button>
-                     <button type="submit" name="btnsubmit" value="all_entry"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি  </button>
+                     <legend>হোস্টেল রিপোর্ট বাটন</legend>
+                     <button type="submit" name="btnsubmit" value="all_pending,hostel" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট আয়</button>
+                     <button type="submit" name="btnsubmit" value="all_approved,hostel"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট ব্যায়  </button>
+                     <button type="submit" name="btnsubmit" value="all_entry,hostel"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি  </button>
                   </fieldset> 
-
+                  <fieldset class="col-md-12">      
+                     <legend>পাবলিকেশন রিপোর্ট বাটন</legend>
+                     <button type="submit" name="btnsubmit" value="all_pending,publication" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট আয়</button>
+                     <button type="submit" name="btnsubmit" value="all_approved,publication"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট ব্যায়  </button>
+                     <button type="submit" name="btnsubmit" value="all_entry,publication"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি  </button>
+                  </fieldset> 
                   <div class="clearfix"></div>
                   <?php form_close(); ?>
                </div> <!-- /grid-body -->
@@ -53,3 +58,14 @@
 
    </div> <!-- /content -->
 </div> <!-- /page-content -->
+<script>
+      $("#validate").submit(function() {
+         if ($("#from_date").val() == "" || $("#to_date").val() == "") {
+            $("#error").show();
+            return false;
+         }else{
+            $("#error").hide();
+            return true;
+         }
+      });
+</script>
