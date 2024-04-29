@@ -62,15 +62,24 @@
                                             <input type="text"  value="" class="form-control input-sm" name="reference"
                                                 style="min-height: 33px;">
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <label for="title" class="control-label">তারিখ:</label>
                                             <input type="date"  value="" class="form-control input-sm" name="issue_date"
                                                 style="min-height: 33px;" required>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <label for="title" class="control-label"> পরিমান:</label>
                                             <input type="number"  value="" class="form-control input-sm" name="amount"
                                                 style="min-height: 33px;" required>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="title" class="control-label"> ধরণ:</label>
+                                            <select name="type" id="" class="form-control input-sm" required>
+                                                <option value=""> Select Type</option>
+                                                <option value=1>Cash Deposit</option>
+                                                <option value=2>Payment Voucher</option>
+                                                <option value="3">Adjustment Voucher</option>
+                                            </select>
                                         </div>
                                         <div class="col-md-12">
                                             <label for="title" class="control-label">বর্ণনা:</label>

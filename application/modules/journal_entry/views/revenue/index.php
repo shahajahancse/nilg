@@ -66,9 +66,11 @@
                                     <td class="v-align-middle"><?=$row->amount; ?></td>
                                     <td class="v-align-middle"><?=$row->issue_date; ?></td>
                                     <?php if ($row->type == 1) {
-                                        $type = 'গৃহীত পরিমাণ';
-                                    } else {
-                                        $type = 'ছাড়কৃত পরিমাণ';
+                                        $type = '<span class="label label-success">Cash Deposit</span></span>';
+                                    } elseif($row->type == 2){
+                                        $type = '<span class="label label-success">Payment Voucher</span></span>';
+                                    }else{
+                                        $type = '<span class="label label-success">Adjuestment Voucher</span></span>';
                                     } ?>
                                     <td class="v-align-middle"><?=$type; ?></td>
                                     <?php if ($row->status == 1) {

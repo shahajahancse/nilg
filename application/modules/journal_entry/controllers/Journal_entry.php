@@ -48,7 +48,7 @@ class Journal_entry extends Backend_Controller
             $form_data = array(
                 'voucher_no' => $this->input->post('voucher_no'),
                 'amount' => $this->input->post('amount'),
-                'type' => 1,
+                'type' => $this->input->post('type'),
                 'reference' => $this->input->post('reference'),
                 'description' => $this->input->post('description'),
                 'issue_date' => $this->input->post('issue_date'),
@@ -153,7 +153,7 @@ class Journal_entry extends Backend_Controller
             $form_data = array(
                 'cheque_no' => $this->input->post('cheque_no'),
                 'amount' => $this->input->post('amount'),
-                'type' => 1,
+                'type' => $this->input->post('type'),
                 'reference' => $this->input->post('reference'),
                 'description' => $this->input->post('description'),
                 'issue_date' => $this->input->post('issue_date'),
@@ -257,7 +257,7 @@ class Journal_entry extends Backend_Controller
                $form_data = array(
                    'voucher_no' => $this->input->post('voucher_no'),
                    'amount' => $this->input->post('amount'),
-                   'type' => 1,
+                   'type' => $this->input->post('type'),
                    'reference' => $this->input->post('reference'),
                    'description' => $this->input->post('description'),
                    'date' => $this->input->post('issue_date'),
@@ -361,7 +361,7 @@ class Journal_entry extends Backend_Controller
                $form_data = array(
                    'voucher_no' => $this->input->post('voucher_no'),
                    'amount' => $this->input->post('amount'),
-                   'type' => 1,
+                   'type' => $this->input->post('type'),
                    'reference' => $this->input->post('reference'),
                    'description' => $this->input->post('description'),
                    'issue_date' => $this->input->post('issue_date'),
@@ -465,7 +465,7 @@ class Journal_entry extends Backend_Controller
                $form_data = array(
                    'voucher_no' => $this->input->post('voucher_no'),
                    'amount' => $this->input->post('amount'),
-                   'type' => 1,
+                   'type' => $this->input->post('type'),
                    'reference' => $this->input->post('reference'),
                    'description' => $this->input->post('description'),
                    'issue_date' => $this->input->post('issue_date'),
@@ -569,7 +569,7 @@ class Journal_entry extends Backend_Controller
                $form_data = array(
                    'voucher_no' => $this->input->post('voucher_no'),
                    'amount' => $this->input->post('amount'),
-                   'type' => 1,
+                   'type' => $this->input->post('type'),
                    'reference' => $this->input->post('reference'),
                    'description' => $this->input->post('description'),
                    'issue_date' => $this->input->post('issue_date'),
@@ -675,7 +675,7 @@ class Journal_entry extends Backend_Controller
                $form_data = array(
                    'voucher_no' => $this->input->post('voucher_no'),
                    'amount' => $this->input->post('amount'),
-                   'type' => 1,
+                   'type' => $this->input->post('type'),
                    'reference' => $this->input->post('reference'),
                    'description' => $this->input->post('description'),
                    'issue_date' => $this->input->post('issue_date'),
