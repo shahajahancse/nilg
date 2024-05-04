@@ -222,8 +222,24 @@ $(document).ready(function() {
             }*/
         ]
     });
+    $('.data_table').DataTable({
+        paging: false,
+        bFilter: false,
+        ordering: false,
+        searching: true,
+        dom: 'Bfrtip',
+        buttons: [
+             'excel','pdf'
+        ],
+        "sDom": 'T<"clear"><"search"f>lfrtip',
+        initComplete: function () {
+            var r = this.api().columns().header();
+            $(r).find('input').addClass('form-control input-sm');
+        }
+    });
 
 });
+        
 
 function confirmSubmit() {
     return confirm('আপনি কি নিশ্চিত? সবগুলো ফিল্ড সঠিকভাবে পূরণ করেছেন?');

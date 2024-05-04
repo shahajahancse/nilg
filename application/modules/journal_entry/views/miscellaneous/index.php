@@ -45,7 +45,7 @@
                                 background: #ddb90a;
                             }
                         </style>
-                        <table class="table table-hover table-condensed" border="0">
+                        <table class="table table-hover table-condensed data_table" border="0">
                             <thead>
                                 <tr>
                                     <th> ক্রম </th>
@@ -96,6 +96,8 @@
                                                             class="fa fa-pencil-square"></i> সংশোধন করুন </a></li>
                                                 <li><a href="<?php echo base_url('journal_entry/miscellaneous_entry_delete/'.encrypt_url($row->id))?>"><i
                                                             class="fa fa-pencil-square"></i>ডিলিট করুন</a></li>
+                                                            <li><a href="<?php echo base_url('journal_entry/print_singal/miscellaneous/'.encrypt_url($row->id))?>"><i
+                                                class="fa fa-pencil-square"></i> প্রিন্ট করুন</a></li>  
                                                             <?php if ($row->status == 1) {?>
                                                 <li><a href="<?php echo base_url('journal_entry/chenge_status/miscellaneous/'.encrypt_url($row->id))?>"><i
                                                             class="fa fa-pencil-square"></i> অ্যাপ্রুভ করুন</a></li>                                         

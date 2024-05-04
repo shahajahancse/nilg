@@ -45,7 +45,7 @@
                                 background: #ddb90a;
                             }
                         </style>
-                        <table class="table table-hover table-condensed" border="0">
+                        <table class="table table-hover table-condensed data_table" border="0">
                             <thead>
                                 <tr>
                                     <th> ক্রম </th>
@@ -63,7 +63,7 @@
                                 <?php $sl=$pagination['current_page']; foreach ($results as $row): $sl++; ?>
                                 <tr>
                                     <td class="v-align-middle"><?=$sl.'.'?></td>
-                                    <td class="v-align-middle"><?=$row->cheque_no; ?></td>
+                                     <td class="v-align-middle"><?=isset($row->cheque_no) ? $row->cheque_no : $row->voucher_no; ?></td>
                                     <td class="v-align-middle"><?=$row->amount; ?></td>
                                     <td class="v-align-middle"><?=$row->issue_date; ?></td>
                                     <?php if ($row->type == 1) {
@@ -95,6 +95,8 @@
                                                             class="fa fa-pencil-square"></i> সংশোধন করুন </a></li>
                                                 <li><a href="<?php echo base_url('journal_entry/cheque_entry_delete/'.encrypt_url($row->id))?>"><i
                                                             class="fa fa-pencil-square"></i>ডিলিট করুন</a></li>
+                                                            <li><a href="<?php echo base_url('journal_entry/print_singal/cheque/'.encrypt_url($row->id))?>"><i
+                                                class="fa fa-pencil-square"></i> প্রিন্ট করুন</a></li>  
                                                             <?php if ($row->status == 1) {?>
                                                 <li><a href="<?php echo base_url('journal_entry/chenge_status/cheque/'.encrypt_url($row->id))?>"><i
                                                             class="fa fa-pencil-square"></i> অ্যাপ্রুভ করুন</a></li>                                         

@@ -756,6 +756,7 @@ class Journal_entry extends Backend_Controller
            }
        }
        // end budget_j_miscellaneous_register
+
        public function chenge_status($type,$encid)
        {
         $id = (int) decrypt_url($encid);
@@ -803,6 +804,45 @@ class Journal_entry extends Backend_Controller
             redirect('journal_entry/cheque_entry');
         }
        }
+ 
+       public function print_singal($type,$encid)
+       {
+        $id = (int) decrypt_url($encid);
+        if ($type == 'revenue') {
+            $this->db->where('id', $id);
+            $data=$this->db->get('budget_j_gov_revenue_register')->row();
+            $this->data['headding'] = 'রাজস্ব এন্ট্রি স্লিপ';
+        }elseif ($type == 'publication') {
+            $this->db->where('id', $id);
+            $data=$this->db->get('budget_j_publication_register')->row();
+            $this->data['headding'] = 'পাবলিকেশন এন্ট্রি স্লিপ';
+        }elseif ($type == 'miscellaneous') {
+            $this->db->where('id', $id);
+            $data=$this->db->get('budget_j_miscellaneous_register')->row();
+            $this->data['headding'] = 'বিবিধ  এন্ট্রি স্লিপ';
+        }elseif ($type == 'pension') {
+            $this->db->where('id', $id);
+            $data=$this->db->get('budget_j_pension_register')->row();
+            $this->data['headding'] = 'পেনশন  এন্ট্রি স্লিপ';
+        }elseif ($type == 'hostel') {
+            $this->db->where('id', $id);
+            $data=$this->db->get('budget_j_hostel_register')->row();
+            $this->data['headding'] = 'হোস্টেল  এন্ট্রি স্লিপ';
+        }elseif ($type == 'gpf') {
+            $this->db->where('id', $id);
+            $data=$this->db->get('budget_j_gpf_register')->row();
+            $this->data['headding'] = 'GPF  এন্ট্রি স্লিপ';
+        }elseif ($type == 'cheque') {
+            $this->db->where('id', $id);
+            $data=$this->db->get('budget_j_cheque_register')->row();
+            $this->data['headding'] = 'চেক এন্ট্রি স্লিপ';
+        }
+        $this->data['data'] = $data;
+        $html = $this->load->view('print_singal', $this->data, true);            
+        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+        $mpdf->WriteHtml($html);
+        $mpdf->output();
+       }
 
        //entry Report 
         public function entry_report()
@@ -833,11 +873,10 @@ class Journal_entry extends Backend_Controller
 
             $this->data['headding'] = 'বাজেট এন্ট্রি রিপোর্ট';
             $html = $this->load->view('all_journal_report', $this->data, true);
+            
             $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
             $mpdf->WriteHtml($html);
             $mpdf->output();
-
-
         // }
             
         }

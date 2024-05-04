@@ -55,7 +55,21 @@
    <!-- <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script> -->
    <script src="<?= base_url('assets/js/bootstrap-datetimepicker.js'); ?>"></script>
 
-
+<style>
+   .dataTables_filter {
+    display: flex;
+    align-content: flex-end;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+div.dt-buttons {
+    float: right;
+    position: absolute;
+}
+input[type="search"] {
+    min-height: 25px!important;
+}
+</style>
    <!-- <link href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" type="text/css" /> -->
    <!-- <link href="//cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" type="text/css" /> -->
    <link href="<?= base_url('assets/css/jquery.dataTables.min.css') ?>" type="text/css" />

@@ -42,7 +42,7 @@ class Journal_entry_model extends CI_Model {
             
         }elseif ($type == 'hostel') {
             $this->db->where('date BETWEEN "' . $from_date . '" and "' . $to_date . '"');
-            $this->db->get('budget_j_hostel_register')->result();
+            $data=$this->db->get('budget_j_hostel_register')->result();
         }elseif ($type == 'gpf') {
             $this->db->where('issue_date BETWEEN "' . $from_date . '" and "' . $to_date . '"');
             $data=$this->db->get('budget_j_gpf_register')->result();

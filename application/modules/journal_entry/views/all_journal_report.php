@@ -215,7 +215,8 @@
 						?>
                     <tr>
                         <td class="v-align-middle"><?=$i.'.'?></td>
-                        <td class="v-align-middle"><?=$row->cheque_no; ?></td>
+                        <td class="v-align-middle"><?=isset($row->cheque_no) ? $row->cheque_no : $row->voucher_no; ?></td>
+
                         <td class="v-align-middle"><?=$row->amount; ?></td>
                         <td class="v-align-middle"><?=isset($row->issue_date) ? date('d-F-Y', strtotime($row->issue_date)) : date('d-F-Y', strtotime($row->date)); ?></td>
                         <?php if ($row->type == 1) {
