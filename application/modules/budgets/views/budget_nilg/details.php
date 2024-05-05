@@ -47,8 +47,14 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <fieldset>
-                                    <legend>বাজেট তথ্য</legend>
-                                    <input type="hidden" name="budget_nilg_id" value="<?= $budget_nilg->id ?>">
+                                <div class="col-md-12"
+                                        style="padding: 20px;display: flex;flex-direction: row;justify-content: center;align-items: center;">
+                                        <div>
+                                            <span
+                                                style="font-size: 22px;font-weight: bold;text-decoration: underline;">বাজেট
+                                                তৈরি করুন</span>
+                                        </div>
+                                    </div>                                    <input type="hidden" name="budget_nilg_id" value="<?= $budget_nilg->id ?>">
 
                                     <div class="row form-row" style="font-size: 16px; color: black; margin-bottom: 6px;">
                                         <div class="col-md-4">
