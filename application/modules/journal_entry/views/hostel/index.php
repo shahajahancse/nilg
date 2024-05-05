@@ -95,10 +95,11 @@
                                                 <li><a href="<?php echo base_url('journal_entry/hostel_entry_delete/'.encrypt_url($row->id))?>"><i
                                                             class="fa fa-pencil-square"></i>ডিলিট করুন</a></li>
                                                           
-                                                <li><a href="<?php echo base_url('journal_entry/print_singal/hostel/'.encrypt_url($row->id))?>"><i
-                                                class="fa fa-pencil-square"></i> প্রিন্ট করুন</a></li>  
-                                                              <?php if ($row->status == 1) {?>
-                                                <li><a href="<?php echo base_url('journal_entry/chenge_status/hostel/'.encrypt_url($row->id))?>"><i
+                                                <li><a href="<?php echo base_url('journal_entry/print_singal/hostel/'.encrypt_url($row->id))?>" target="_blank"><i
+                                                class="fa fa-pencil-square"></i> প্রিন্ট করুন</a></li>
+  
+                                                              <?php if ($row->status == 1 && $this->ion_auth->in_group(array('admin', 'nilg','acc'))) {?>
+                                                <li><a href="<?php echo base_url('journal_entry/chenge_status/hostel/'.encrypt_url($row->id))?>" ><i
                                                             class="fa fa-pencil-square"></i> অ্যাপ্রুভ করুন</a></li>                                         
                                             <?php } ?>
                                             </ul>

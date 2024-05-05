@@ -90,7 +90,7 @@
                                 </div> -->
                         </form>
                         <?php } ?>
-                        <table class="table table-hover table-condensed" border="0">
+                        <table class="table table-hover table-condensed data_table" border="0">
                             <thead>
                                 <tr>
                                     <th> ক্রম </th>

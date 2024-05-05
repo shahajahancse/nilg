@@ -69,6 +69,10 @@ div.dt-buttons {
 input[type="search"] {
     min-height: 25px!important;
 }
+.dt-search {
+    display: flex !important;
+    justify-content: flex-end !important;
+}
 </style>
    <!-- <link href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" type="text/css" /> -->
    <!-- <link href="//cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css" type="text/css" /> -->

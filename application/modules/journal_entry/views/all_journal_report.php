@@ -196,7 +196,7 @@
         </div>
 
         <div class="priview-demand">
-            <table class="table table-hover table-bordered report">
+            <table class="table table-hover table-bordered report" border="1" cellspacing="0">
                 <thead class="headding">
                     <tr>
                         <th> ক্রম </th>

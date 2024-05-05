@@ -838,10 +838,10 @@ class Journal_entry extends Backend_Controller
             $this->data['headding'] = 'চেক এন্ট্রি স্লিপ';
         }
         $this->data['data'] = $data;
-        $html = $this->load->view('print_singal', $this->data, true);            
-        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
-        $mpdf->WriteHtml($html);
-        $mpdf->output();
+        echo $this->load->view('print_singal', $this->data);            
+        // $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+        // $mpdf->WriteHtml($html);
+        // $mpdf->output();
        }
 
        //entry Report 
@@ -880,19 +880,4 @@ class Journal_entry extends Backend_Controller
         // }
             
         }
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
