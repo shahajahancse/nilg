@@ -127,3 +127,34 @@
         </div>
     </div> <!-- END Content -->
 </div>
+<script>
+$(document).ready(function() {
+    var html = `
+        <style>
+        .dataTables_filter {
+            display: flex;
+            align-content: flex-end;
+            flex-wrap: wrap;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        </style>
+        <div class="col-md-6" style="display: flex;justify-content: space-around;">
+            <div class="text-center" >
+                Date Range
+            </div>
+            <div>
+                <input type="date" id="min" onchange="filterDate()" class="form-control"style="min-height: 25px;">
+            </div>
+            <div class="text-center" >
+                to
+            </div>
+            <div >
+                <input type="date" id="max" onchange="filterDate()" class="form-control" style="min-height: 25px;">
+            </div>
+        </div>
+        `
+    $("#DataTables_Table_0_filter").prepend(html).css('display', 'content');
+});
+</script>

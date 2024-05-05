@@ -127,163 +127,34 @@
     </div> <!-- END Content -->
 </div>
 
-
-
-<!-- The Modal -->
-<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header priview-body" style="padding: 15px 15px 0px 15px !important;">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <?php $this->load->view('nilg_head'); ?>
-                <div class="heading-main">
-                    <div class="headding-title" id="heading_title"> </div>
-                </div>
+<script>
+$(document).ready(function() {
+    var html = `
+        <style>
+        .dataTables_filter {
+            display: flex;
+            align-content: flex-end;
+            flex-wrap: wrap;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
+        }
+        </style>
+        <div class="col-md-6" style="display: flex;justify-content: space-around;">
+            <div class="text-center" >
+                Date Range
             </div>
-
-            <div class="modal-body body-modal">
-                <table class="table table-hover table-condensed" border="0" id="addRow">
-                    <tr>
-                        <th>ক্রম</th>
-                        <th>বিষয়</th>
-                        <th>পরিমাণ</th>
-                        <th>ডিপার্টমেন্ট পরিমাণ</th>
-                        <th>আক্কাউন্ট পরিমাণ</th>
-                        <th>ডিজি পরিমাণ</th>
-                    </tr>
-                </table>
-
-                <div class="budget-main">
-                    <div class="budget-text" id="budget_text"> </div>
-                </div>
+            <div>
+                <input type="date" id="min" onchange="filterDate()" class="form-control"style="min-height: 25px;">
             </div>
-
-            <div class="modal-footer">
-                <!-- <button type="button" id="smSend" class="btn btn-info">প্রিন্ট করুন</button> -->
-                <button type="button" class="btn btn-default" data-dismiss="modal">বন্ধ করুন</button>
-                <!-- <button type="submit" id="smSend" class="btn btn-primary">সংরক্ষণ করুন</button> -->
+            <div class="text-center" >
+                to
+            </div>
+            <div >
+                <input type="date" id="max" onchange="filterDate()" class="form-control" style="min-height: 25px;">
             </div>
         </div>
-    </div>
-</div>
-
-<style type="text/css">
-.priview-body {
-    font-size: 16px;
-    color: #000;
-    border-bottom: 0px !important;
-}
-
-.priview-header div {
-    font-size: 18px;
-    text-align: center;
-}
-
-.priview-demand {
-    padding-bottom: 20px;
-    margin-top: 10px;
-}
-
-.heading-main {
-    text-align: center;
-}
-
-.headding-title {
-    font-size: 18px;
-    padding: 1px 5px !important;
-    display: initial;
-}
-
-.body-modal {
-    background: #fff !important;
-}
-
-#addRow {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-#addRow>tbody>tr>th,
-#addRow>tbody>tr>td,
-#addRow>tfoot>tr>td {
-    border: 1px solid #448dc7 !important;
-}
-
-.text-center {
-    text-align: center;
-}
-</style>
-
-
-
-<script type="text/javascript">
-$(document).ready(function() {
-    // requisition item delete
-    $(document).on("click", "#smSend", function() {
-        var id = $(this).attr('data-id');
-        var url = "<?php echo base_url('budgets/nilg_change_status'); ?>";
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: {
-                type: 1,
-                id: id
-            },
-            dataType: 'json',
-            success: function(response) {
-                if (response.status == 1) {
-                    $('#myModal').modal('hide');
-                }
-            }
-        });
-    });
-
-    $(document).on("click", "#modalId", function() {
-        var data_id = $(this).attr('data-id');
-
-        var sendData = {
-            type: 2,
-            id: data_id
-        };
-        var url = "<?php echo base_url('budgets/ajax_get_budget_details_nilg'); ?>";
-        $.ajax({
-            url: url,
-            data: sendData,
-            type: "POST",
-            success: function(response) {
-                var sl = 0;
-                $('.adds').remove();
-                $('#heading_title').empty().text('শিরোনাম : ' + response.budget_info.title);
-
-                $.each(response.budget_dtails, function(id, res) {
-                    sl = sl + 1;
-                    var items = '';
-                    items += '<tr class="adds">';
-                    items += '<td>' + sl + '</td>';
-                    items += '<td>' + res.name_bn + '</td>';
-                    items += '<td>' + res.amount + '</td>';
-                    items += '<td>' + res.dpt_amt + '</td>';
-                    items += '<td>' + res.acc_amt + '</td>';
-                    items += '<td>' + res.dg_amt + '</td>';
-                    items += '</tr>';
-                    $('#addRow tr:last').after(items);
-                });
-                var item = '';
-                item += '<tr class="adds">';
-                item += '<td colspan="2">Total</td>';
-                item += '<td>' + response.budget_info.amount + '</td>';
-                item += '<td>' + response.budget_info.dpt_amt + '</td>';
-                item += '<td>' + response.budget_info.acc_amt + '</td>';
-                item += '<td>' + response.budget_info.dg_amt + '</td>';
-                item += '</tr>';
-
-                $('#addRow tr:last').after(item);
-                $('#budget_text').empty().html(response.budget_info.description);
-
-                $('#smSend').attr('data-id', data_id);
-            }
-        });
-    });
+        `
+    $("#DataTables_Table_0_filter").prepend(html).css('display', 'content');
 });
 </script>

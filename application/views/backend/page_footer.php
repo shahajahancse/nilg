@@ -222,21 +222,24 @@ $(document).ready(function() {
             }*/
         ]
     });
-    $('.data_table').DataTable({
-        paging: false,
-        bFilter: false,
-        ordering: false,
-        searching: true,
-        dom: 'Bfrtip',
-        buttons: [
-             'excel','pdf'
-        ],
-        "sDom": 'T<"clear"><"search"f>lfrtip',
-        initComplete: function () {
-            var r = this.api().columns().header();
-            $(r).find('input').addClass('form-control input-sm');
-        }
-    });
+    // $('.data_table').DataTable({
+    //     paging: false,
+    //     bFilter: false,
+    //     ordering: false,
+    //     searching: true,
+    //     dom: 'Bfrtip',
+    //     buttons: [
+    //          'excel','pdf'
+    //     ],
+    //     "sDom": 'T<"clear"><"search"f>lfrtip',
+    //     initComplete: function () {
+    //         var r = this.api().columns().header();
+    //         $(r).find('input').addClass('form-control input-sm');
+    //     }
+    // });
+
+
+
 
 });
         
@@ -656,6 +659,56 @@ Sortable.create(list2, {
 </script>
 <?php } ?>
 
+<script>
+// Date range filter
+minDateFilter = "";
+maxDateFilter = "";
+
+$.fn.dataTableExt.afnFiltering.push(
+  function(oSettings, aData, iDataIndex) {
+    console.log(oSettings, aData, iDataIndex);
+
+    if (typeof aData._date == 'undefined') {
+      aData._date = new Date(aData[3]).getTime();
+    }
+    if (isNaN(minDateFilter)) {
+        minDateFilter = 0;
+    }
+
+    if (isNaN(maxDateFilter)) {
+        maxDateFilter = new Date().setHours(0,0,0,0);
+    }
+
+    if (minDateFilter && !isNaN(minDateFilter)) {
+      if (aData._date < minDateFilter) {
+        return false;
+      }
+    }
+
+    if (maxDateFilter && !isNaN(maxDateFilter)) {
+      if (aData._date > maxDateFilter) {
+        return false;
+      }
+    }
+    console.log(minDateFilter, maxDateFilter);
+
+    return true;
+  }
+);
+var table = $('.data_table').DataTable({
+    paging: false,
+    info: false,
+});
+
+// Event listener to the two range filtering inputs to redraw on input
+function filterDate() {
+    console.log('enter');
+    minDateFilter = new Date($('#min').val()).getTime();
+    maxDateFilter =  new Date($('#max').val()).getTime();
+    table.draw();
+};
+
+</script>
 </body>
 
 </html>
