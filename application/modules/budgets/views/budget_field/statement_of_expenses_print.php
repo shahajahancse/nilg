@@ -103,11 +103,17 @@
                             <th width="fit-content">*ভ্যাট</th>
                             <th width="fit-content">*আইটি/উৎস কর</th>
                             <th width="fit-content">মোট ব্যয়</th>
+                            <th width="fit-content">অবশিষ্ট বরাদ্দ</th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
-                        <?php $boraddo=0;  foreach($budget_field_details as $key => $data):
+                        <?php $boraddo=0; $total_real_expense=0; $total_vat=0; $total_it_kor=0; $total_overall_expense=0; $total_rest_amt=0;  foreach($budget_field_details as $key => $data):
                             $boraddo+=$data->total_amt;
+                            $total_real_expense+=$data->real_expense;
+                            $total_vat+=$data->vat;
+                            $total_it_kor+=$data->it_kor;
+                            $total_overall_expense+=$data->overall_expense;
+                            $total_rest_amt+=($data->total_amt-$data->overall_expense);
                             ?>
                             <tr>
                                 <td style="text-align: center;width:fit-content;"><?=++$key?></td>
@@ -119,6 +125,7 @@
                                 <td><?=$data->vat==''?0:$data->vat ?></td>
                                 <td><?=$data->it_kor==''?0:$data->it_kor ?> </td>
                                 <td><?=$data->overall_expense==''?0:$data->overall_expense ?></td>
+                                <td><?=$data->total_amt-$data->overall_expense?></td>
                             </tr>
                         <?php endforeach;?>
                     </tbody>
@@ -126,10 +133,11 @@
                         <tr>
                             <td colspan="2">মোট ব্যয়</td>
                             <td><?= $boraddo ?></td>
-                            <td id="total_real_expense"></td>
-                            <td id="total_vat"></td>
-                            <td id="total_it_kor"></td>
-                            <td id="total_overall_expense"></td>
+                            <td id="total_real_expense"><?= $total_real_expense?></td>
+                            <td id="total_vat"> <?= $total_vat?></td>
+                            <td id="total_it_kor"><?= $total_it_kor?></td>
+                            <td id="total_overall_expense"><?= $total_overall_expense ?></td>
+                            <td id="rest_amount"><?= $total_rest_amt ?></td>
                     </tfoot>
                 </table>
             </div>

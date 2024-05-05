@@ -122,6 +122,7 @@ input {
                                                         <th width="fit-content">*ভ্যাট</th>
                                                         <th width="fit-content">*আইটি/উৎস কর</th>
                                                         <th width="fit-content">মোট ব্যয়</th>
+                                                        <th width="fit-content">অবশিষ্ট বরাদ্দ</th>
                                                         <th style="width: 11%;">ভাউচার</th>
                                                     </tr>
                                                 </thead>
@@ -137,11 +138,15 @@ input {
                                                             <input type="hidden" name="head_id[]" value="<?=$data->budget_head_id?>" >
                                                             <input type="hidden" name="head_sub_id[]" value="<?=$data->head_sub_id?>" >
                                                             <?=$data->total_amt?>
+                                                            <input type="hidden" value="<?=$data->total_amt?>" class="total_amt">
                                                             </td>
                                                             <td><input  style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;" type="number" min=0 value=<?=$data->real_expense==''?$data->total_amt:$data->real_expense ?> name="real_expense[]" class="real_expense" onchange="calculate_overall_expense(this)" onkeyup="calculate_overall_expense(this)"></td>
                                                             <td><input  style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;" type="number" min=0 value=<?=$data->vat==''?0:$data->vat ?> name="vat[]" class="vat" onkeyup="calculate_overall_expense(this)"></td>
                                                             <td><input  style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;" type="number" min=0 value=<?=$data->it_kor==''?0:$data->it_kor ?> name="it_kor[]" class="it_kor" onkeyup="calculate_overall_expense(this)"></td>
                                                             <td><input  style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;" type="number" min=0 value=<?=$data->overall_expense==''?0:$data->overall_expense ?> name="overall_expense[]" class="overall_expense" readonly></td>
+
+                                                            <td><input  style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;" type="number" min=0 value='' name="rest_amount[]" class="rest_amount" readonly></td>
+
                                                             <td><input  style="width: 100%;padding: 3px !important;height: 24px; min-height: 18px;border: none;" type="file" name="file[]"  id=""></td>
                                                         </tr>
                                                     <?php endforeach;?>
@@ -154,6 +159,7 @@ input {
                                                         <td id="total_vat"></td>
                                                         <td id="total_it_kor"></td>
                                                         <td id="total_overall_expense"></td>
+                                                        <td id="total_rest_amount"></td>
                                                         <td><input type="hidden" name="total_overall_expense" id="total_overall_expense_input"></td>
                                                 </tfoot>
                                             </table>
@@ -184,11 +190,14 @@ input {
 
 <script>
     function calculate_overall_expense(el) {
+        var total_amt = $(el).closest("tr").find(".total_amt").val();
         var real_expense = $(el).closest("tr").find(".real_expense").val();
         var vat = $(el).closest("tr").find(".vat").val();
         var it_kor = $(el).closest("tr").find(".it_kor").val();
         var overall_expense = parseFloat(real_expense) + parseFloat(vat) + parseFloat(it_kor);
         $(el).closest("tr").find(".overall_expense").val(overall_expense);
+        var rest_amount = parseFloat(total_amt) - parseFloat(overall_expense);
+        $(el).closest("tr").find(".rest_amount").val(rest_amount);
         calt()
     }
 </script>
@@ -198,6 +207,7 @@ input {
         var total_vat=0
         var total_it_kor=0
         var total_overall_expense=0
+        var total_rest_amount=0
         $(".real_expense").each(function() {
             var val = parseInt($(this).val());
             if (!isNaN(val)) {
@@ -222,11 +232,19 @@ input {
                 total_overall_expense += val;
             }
         })
+        $(".rest_amount").each(function() {
+            var val = parseInt($(this).val());
+            if (!isNaN(val)) {
+                total_rest_amount += val;
+            }
+        })
+
         $("#total_real_expense").text(total_real_expense);
         $("#total_vat").text(total_vat);
         $("#total_it_kor").text(total_it_kor);
         $("#total_overall_expense").text(total_overall_expense);
         $("#total_overall_expense_input").val(total_overall_expense);
+        $("#total_rest_amount").text(total_rest_amount);
     }
 </script>
 <script>
