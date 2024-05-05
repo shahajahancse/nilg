@@ -360,11 +360,15 @@ class Journal_entry extends Backend_Controller
                // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
                $form_data = array(
                    'voucher_no' => $this->input->post('voucher_no'),
+                   'book_name' => $this->input->post('book_name'),
+                   'sbn_no' => $this->input->post('sbn_no'),
+                   'price' => $this->input->post('price'),
+                   'quantity' => $this->input->post('quantity'),
                    'amount' => $this->input->post('amount'),
                    'type' => $this->input->post('type'),
                    'reference' => $this->input->post('reference'),
                    'description' => $this->input->post('description'),
-                   'issue_date' => $this->input->post('issue_date'),
+                   'issue_date' => date('Y-m-d', strtotime($this->input->post('issue_date'))),
                    'create_by' => $user->id,
                );
                if ($this->Common_model->save('budget_j_publication_register', $form_data)) {
@@ -374,7 +378,7 @@ class Journal_entry extends Backend_Controller
            }
            $this->data['info'] = $this->Common_model->get_user_details();
            //Load view
-           $this->data['meta_title'] = 'পাবলিকেশন তৈরি করুন';
+           $this->data['meta_title'] = 'পাবলিকেশন রেজিস্টার';
            $this->data['subview'] = 'publication/entry';
            $this->load->view('backend/_layout_main', $this->data);
        }
@@ -804,7 +808,7 @@ class Journal_entry extends Backend_Controller
             redirect('journal_entry/cheque_entry');
         }
        }
- 
+
        public function print_singal($type,$encid)
        {
         $id = (int) decrypt_url($encid);
@@ -838,13 +842,13 @@ class Journal_entry extends Backend_Controller
             $this->data['headding'] = 'চেক এন্ট্রি স্লিপ';
         }
         $this->data['data'] = $data;
-        echo $this->load->view('print_singal', $this->data);            
+        echo $this->load->view('print_singal', $this->data);
         // $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
         // $mpdf->WriteHtml($html);
         // $mpdf->output();
        }
 
-       //entry Report 
+       //entry Report
         public function entry_report()
         {
             $this->data['meta_title'] = 'রিপোর্ট';
@@ -863,21 +867,21 @@ class Journal_entry extends Backend_Controller
             $type=$s_array[1];
             if($btn == 'all_pending') {
                 $this->data['results']= $this->Journal_entry_model->all_journal($type,$from_date, $to_date,1);
-            } 
+            }
             if($btn == 'all_approved') {
                 $this->data['results']= $this->Journal_entry_model->all_journal($type,$from_date, $to_date,2);
-            } 
+            }
             if($btn == 'all_entry') {
                 $this->data['results']= $this->Journal_entry_model->all_journal($type,$from_date, $to_date);
-            } 
+            }
 
             $this->data['headding'] = 'বাজেট এন্ট্রি রিপোর্ট';
             $html = $this->load->view('all_journal_report', $this->data, true);
-            
+
             $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
             $mpdf->WriteHtml($html);
             $mpdf->output();
         // }
-            
+
         }
 }

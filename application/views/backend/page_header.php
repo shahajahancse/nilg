@@ -383,7 +383,7 @@ input[type="search"] {
                         <ul class="sub-menu">
 
                            <li class="start <?= backend_activate_menu_method('budget_nilg') ?>">
-                              <a href="<?= base_url('budgets/budget_nilg'); ?>">বাজেট এনআইএলজি
+                              <a href="<?= base_url('budgets/budget_nilg'); ?>">বাজেট রাজস্ব
                               <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'acc'))) { ?>
                               <?php
                               if ($budget_nilg_ntfy > 0) {
@@ -513,7 +513,7 @@ input[type="search"] {
                         <?php } ?>
                         <?php if ($this->ion_auth->in_group(array('admin','nilg','acc','bli','bho','bod'))) { ?>
                            <li class="start <?= backend_activate_menu_method('entry_report') ?>">
-                              <a href="<?= base_url('journal_entry/entry_report'); ?>"> এন্ট্রি রিপোর্ট
+                              <a href="<?= base_url('journal_entry/entry_report'); ?>"> রিপোর্ট
                               </a>
                            </li>
                         <?php } ?>

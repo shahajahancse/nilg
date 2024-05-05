@@ -103,10 +103,10 @@
                                             <div class="col-md-12" >
                                                 <div class="col-md-12" style="margin:0px;padding:0px">
                                                    <div class="col-md-4 margin_top_10 " style="margin:0px;padding:0px">
-                                                   <label for="">বাজেট হেড নির্বাচন করুন</label>
+                                                        <label for="">বাজেট হেড নির্বাচন করুন</label>
                                                         <select name="head" id="head_id" class="form-control"
                                                             onchange="addNewRow(this.value)">
-                                                            <option value="">বাজেট হেড নির্বাচন করুন</option>               
+                                                            <option value="">বাজেট হেড নির্বাচন করুন</option>
                                                             <?php foreach ($budget_head_sub as $key => $value) {
                                                               echo '<option value="'.$value->id.'">'.$value->budget_head_name.'>>'.$value->name_bn.' ('.$value->bd_code.')'.'</option>';
 
@@ -119,10 +119,9 @@
                                                    <div class="col-md-4">
                                                       <label for="">সর্বমোট পরিমান</label>
                                                       <input type="number" class="form-control input-sm" name="total_amount" id="total_amount" readonly>
-
                                                    </div>
-
                                                 </div>
+
                                                 <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
                                                     <thead>
                                                        <tr>
@@ -135,8 +134,8 @@
                                                     </thead>
                                                     <tbody id="tbody">
                                                     <?php  foreach ($budget_head_sub as $key => $data) {?>
-                                                        
-                                                  
+
+
                                                     <tr>
                                                         <td style="padding:0px 10px"><?=$data->name_bn?></td>
                                                         <td style="padding:0px 10px"><?=$data->bd_code?></td>
@@ -232,7 +231,6 @@ function removeRow(id) {
 <script>
       $(document).ready(function() {
          calculateTotal()
-
       })
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>

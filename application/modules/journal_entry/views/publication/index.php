@@ -46,15 +46,18 @@
                             }
                         </style>
                         <table class="table table-hover table-condensed data_table" border="0">
-                            <thead>
+                            <thead style="background: #d2dee9;">
                                 <tr>
                                     <th> ক্রম </th>
                                     <th>ভাউচার নং</th>
+                                    <th>বই নাম</th>
+                                    <th>বইয়ের মূল্য</th>
                                     <th>পরিমাণ</th>
+                                    <th>মোট মূল্য</th>
                                     <th>প্রদানের তারিখ</th>
                                     <th>ধরণ</th>
                                     <th>স্ট্যাটাস</th>
-                                    <th>রেফারেন্স</th>
+                                    <!-- <th>রেফারেন্স</th> -->
                                     <th style="text-align: right;">অ্যাকশন</th>
                                 </tr>
                             </thead>
@@ -63,8 +66,11 @@
                                 <tr>
                                     <td class="v-align-middle"><?=$sl.'.'?></td>
                                     <td class="v-align-middle"><?=$row->voucher_no; ?></td>
-                                    <td class="v-align-middle"><?=$row->amount; ?></td>
-                                    <td class="v-align-middle"><?=$row->issue_date; ?></td>
+                                    <td class="v-align-middle"><?=$row->book_name; ?></td>
+                                    <td class="v-align-middle"><?= eng2bng($row->price); ?></td>
+                                    <td class="v-align-middle"><?= eng2bng($row->quantity); ?></td>
+                                    <td class="v-align-middle"><?= eng2bng($row->amount); ?></td>
+                                    <td class="v-align-middle"><?= date_bangla_calender_format($row->issue_date) ; ?></td>
                                     <?php if ($row->type == 1) {
                                         $type = '<span class="label label-success">Cash Deposit</span></span>';
                                     } elseif($row->type == 2){
@@ -79,7 +85,7 @@
                                         $type = '<span class="label label-success">অনুমোদিত</span>';
                                     } ?>
                                     <td class="v-align-middle"><?=$type; ?></td>
-                                    <td class="v-align-middle"><?=$row->reference; ?></td>
+                                    <!-- <td class="v-align-middle"><?=$row->reference; ?></td> -->
                                     <td align="right">
                                         <div class="btn-group">
                                             <button class="btn btn-mini btn-primary">অ্যাকশন</button>
@@ -96,10 +102,10 @@
                                                             class="fa fa-pencil-square"></i>ডিলিট করুন</a></li>
                                                             <li><a href="<?php echo base_url('journal_entry/print_singal/publication/'.encrypt_url($row->id))?>" target="_blank"><i
                                                 class="fa fa-pencil-square"target="_blank"></i> প্রিন্ট করুন</a></li>
- 
+
                                                             <?php if ($row->status == 1 && $this->ion_auth->in_group(array('admin', 'nilg','acc'))) {?>
                                                 <li><a href="<?php echo base_url('journal_entry/chenge_status/publication/'.encrypt_url($row->id))?>"><i
-                                                            class="fa fa-pencil-square"></i> অ্যাপ্রুভ করুন</a></li>                                         
+                                                            class="fa fa-pencil-square"></i> অ্যাপ্রুভ করুন</a></li>
                                             <?php } ?>
                                             </ul>
                                         </div>
