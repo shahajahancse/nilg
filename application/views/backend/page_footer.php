@@ -676,7 +676,7 @@ $.fn.dataTableExt.afnFiltering.push(
     }
 
     if (isNaN(maxDateFilter)) {
-        maxDateFilter = new Date().setHours(0,0,0,0);
+        maxDateFilter = new Date().getTime();
     }
 
     if (minDateFilter && !isNaN(minDateFilter)) {
