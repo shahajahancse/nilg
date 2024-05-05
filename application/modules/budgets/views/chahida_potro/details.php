@@ -74,7 +74,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="row form-row">
+                                    <div class="row form-row"> 
                                         <div class="col-md-12">
                                             
                                             <style type="text/css">
