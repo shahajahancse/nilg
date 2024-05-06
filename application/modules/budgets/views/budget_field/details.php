@@ -64,20 +64,25 @@
                                     <img src="<?=base_url('img/loading.gif') ?>" width="100" alt="">
                                 </div>
                                 <fieldset>
-                                    <legend>বাজেট তথ্য</legend>
-
+                                <div class="col-md-12"
+                                        style="padding: 20px;display: flex;flex-direction: row;justify-content: center;align-items: center;">
+                                        <div>
+                                            <span
+                                                style="font-size: 22px;font-weight: bold;text-decoration: underline;">বাজেট তৈরি করুন</span>
+                                        </div>
+                                    </div>
                                     <input type="hidden" name="budget_field_id" value="<?= $budget_field->id?>">
 
                                     <div class="row form-row" style="font-size: 16px; color: black;">
                                         <div class="col-md-12" style="display: flex;gap: 74px;padding-bottom: 14px;" >
-                                            <div style="width:fit-content;">
+                                            <div class="col-md-4">
                                                 আবেদনকারীর নাম: <strong><?=$info->name_bn?></strong>
                                             </div>
 
-                                            <div style="width:fit-content;">
+                                            <div class="col-md-4">
                                                 পদবীর নাম: <strong><?=$info->current_desig_name?></strong>
                                             </div>
-                                            <div style="width:fit-content;">
+                                            <div class="col-md-4">
                                                 ডিপার্টমেন্ট নাম: <strong><?=$info->current_dept_name?></strong>
                                             </div>
                                         </div>
@@ -121,7 +126,7 @@
 
                                     <div class="row form-row">
                                         <div class="col-md-12">
-                                            <h4 class="semi-bold margin_left_15">বাজেট তালিকা</h4>
+                                            
                                             <style type="text/css">
                                                 #appRowDiv td {
                                                     padding: 5px;

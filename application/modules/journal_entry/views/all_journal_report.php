@@ -8,7 +8,7 @@
     .priview-body {
         font-size: 16px;
         color: #000;
-        margin: 25px;
+        margin: 10px;
     }
 
     .priview-header {
@@ -177,14 +177,101 @@
         font-weight: 500;
     }
     </style>
+    <style>
+    .heading {
+        margin-top: 13px;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    /* Medium devices (desktops, 992px and up) */
+    .col-md-12 {
+        flex: 0 0 auto;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .col-md-6 {
+        flex: 0 0 auto;
+        width: 50%;
+        max-width: 50%;
+    }
+
+    .col-md-3 {
+        flex: 0 0 auto;
+        width: 25%;
+        max-width: 25%;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td,
+    th {
+        border: 1px solid black;
+        text-align: left;
+        padding: 4px;
+        font-size: 12px;
+    }
+
+    th {
+        text-align: center;
+    }
+
+    /* body {
+                margin: 0 17%;
+            }
+            @media print { */
+    body {
+        margin: 0 4%;
+        /* }  */
+    }
+    </style>
 </head>
 
 <body>
     <div class="priview-body">
-        <div class="priview-header">
-            <p class="text-center">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার <br><span style="font-size:20px;">জাতীয় স্থানীয় সরকার
-                    ইনস্টিটিউট</span><br> ২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ । <span
-                    style="font-size:12px;">www.nilg.gov.bd</span></p>
+        <div class="heading">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-3" style="display: flex;flex-wrap: wrap;align-content: center;">
+                        <?php
+                        $url = base_url('awedget/assets/img/nilg-logo.png');
+                        ?>
+                        <div
+                            style="display: flex;flex-wrap: wrap;align-content: center;justify-content: center;align-items: center;height: 80px;">
+                            <img style="height: 100%;width: 100%;" src="<?=$url?>" alt="logo">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="text-center" style="padding: 0;margin-bottom: 0;">
+                            <span style="font-size:13px;">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</span><br>
+                            <span style="font-size:13px;">স্থানীয় সরকার, পল্লী উন্নয়ন ও সমবায় মন্ত্রণালয়</span><br>
+                            <span style="font-size:14px; font-weight: bold;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি
+                                )</span><br>
+                            <span style="font-size:12px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
+                            <span style="font-size:12px;text-decoration: underline;color: #2246ff;">www.nilg.gov.bd
+                            </span>
+                        </h5>
+                    </div>
+                    <div class="col-md-3"
+                        style="display: flex;align-content: center;flex-wrap: wrap;right: 0;position: relative;justify-content: flex-end;">
+                        <div style="padding: 4px; border: 2px solid; font-size: 13px; float: right;">
+                            <span> শেখ হাসিনার মূলনীতি </span> <br>
+                            <span> গ্রাম শহরের উন্নতি </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="priview-memorandum">
@@ -196,7 +283,7 @@
         </div>
 
         <div class="priview-demand">
-            <table class="table table-hover table-bordered report" border="1" cellspacing="0">
+            <table class="" style="width: 100%;" border="1" cellspacing="0">
                 <thead class="headding">
                     <tr>
                         <th> ক্রম </th>
@@ -215,10 +302,13 @@
 						?>
                     <tr>
                         <td class="v-align-middle"><?=$i.'.'?></td>
-                        <td class="v-align-middle"><?=isset($row->cheque_no) ? $row->cheque_no : $row->voucher_no; ?></td>
+                        <td class="v-align-middle"><?=isset($row->cheque_no) ? $row->cheque_no : $row->voucher_no; ?>
+                        </td>
 
                         <td class="v-align-middle"><?=$row->amount; ?></td>
-                        <td class="v-align-middle"><?=isset($row->issue_date) ? date('d-F-Y', strtotime($row->issue_date)) : date('d-F-Y', strtotime($row->date)); ?></td>
+                        <td class="v-align-middle">
+                            <?=isset($row->issue_date) ? date('d-F-Y', strtotime($row->issue_date)) : date('d-F-Y', strtotime($row->date)); ?>
+                        </td>
                         <?php if ($row->type == 1) {
                                         $type = '<span class="label label-success">Cash Deposit</span></span>';
                                     } elseif($row->type == 2){
@@ -241,7 +331,20 @@
         </div>
 
     </div>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.1/html2pdf.bundle.min.js"></script>
+        <script>
+            window.onload = function() {
+                html2pdf(document.body, {
+                    margin: 2,
+                    filename: 'document.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 3 },
+                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+                }).then(function (pdf) {
+                    window.close();
+                });
+            }
+        </script>
 </body>
 
 </html>

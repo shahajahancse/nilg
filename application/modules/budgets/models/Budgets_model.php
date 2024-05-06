@@ -33,7 +33,6 @@ class Budgets_model extends CI_Model {
       $this->db->offset($offset);
       $this->db->order_by('q.id', 'DESC');
       $result['rows'] = $this->db->get()->result();
-
       // count query
       $this->db->select('COUNT(*) as count');
       $this->db->from('budget_nilg');

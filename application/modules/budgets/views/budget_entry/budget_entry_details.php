@@ -88,7 +88,7 @@
 
                                     <div class="row form-row">
                                         <div class="col-md-12">
-                                            <h4 class="semi-bold margin_left_15">বাজেট তালিকা</h4>
+                                            
                                             <style type="text/css">
                                             #appRowDiv td {
                                                 padding: 5px;

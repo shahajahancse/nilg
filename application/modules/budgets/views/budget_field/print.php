@@ -93,7 +93,7 @@
         </div>
         <div>
             <div class="col-md-12">
-                <table class="table" border="1">
+                <table class="" style="width: 100%;"  border="1" cellspacing="0">
                     <thead>
                         <tr style="width: 100%;">
                             <th style="width: 10%;">ক্রম নং</th>
@@ -138,11 +138,10 @@
             </div>
         </footer>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.1/html2pdf.bundle.min.js"></script>
-        <?php if($type==null): ?>
         <script>
             window.onload = function() {
                 html2pdf(document.body, {
-                    margin: 10,
+                    margin: 2,
                     filename: 'document.pdf',
                     image: { type: 'jpeg', quality: 0.98 },
                     html2canvas: { scale: 3 },
@@ -152,12 +151,6 @@
                 });
             }
         </script>
-        <?php else: ?>
-            <style>
-                body {
-                margin: 0 10%;
-            }
-          
-        <?php endif; ?>
+        
     </body>
 </html>
