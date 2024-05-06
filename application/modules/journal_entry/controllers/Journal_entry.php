@@ -876,11 +876,11 @@ class Journal_entry extends Backend_Controller
             }
 
             $this->data['headding'] = 'বাজেট এন্ট্রি রিপোর্ট';
-            $html = $this->load->view('all_journal_report', $this->data, true);
+            echo $html = $this->load->view('all_journal_report', $this->data, true);
 
-            $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
-            $mpdf->WriteHtml($html);
-            $mpdf->output();
+            // $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+            // $mpdf->WriteHtml($html);
+            // $mpdf->output();
         // }
 
         }

@@ -106,7 +106,7 @@
                                                         href="<?php echo base_url('journal_entry/cheque_entry_delete/'.encrypt_url($row->id))?>"><i
                                                             class="fa fa-pencil-square"></i>ডিলিট করুন</a></li>
                                                 <li><a
-                                                        href="<?php echo base_url('journal_entry/print_singal/cheque/'.encrypt_url($row->id))?>"><i
+                                                        href="<?php echo base_url('journal_entry/print_singal/cheque/'.encrypt_url($row->id))?>" target="_blank"><i
                                                             class="fa fa-pencil-square"></i> প্রিন্ট করুন</a></li>
 
                                                 <?php if ($row->status == 1 && $this->ion_auth->in_group(array('admin', 'nilg','acc')) ) {?>

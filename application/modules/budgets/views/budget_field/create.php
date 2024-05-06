@@ -39,13 +39,13 @@
                     </div>
                     <div class="grid-body">
                         <?php if($this->session->flashdata('success')):?>
-                            <div class="alert alert-success">
-                                <?=$this->session->flashdata('success');;?>
-                            </div>
-                        <?php endif; ?>  <?php if($this->session->flashdata('error')):?>
-                            <div class="alert alert-danger">
-                                <?=$this->session->flashdata('error');;?>
-                            </div>
+                        <div class="alert alert-success">
+                            <?=$this->session->flashdata('success');;?>
+                        </div>
+                        <?php endif; ?> <?php if($this->session->flashdata('error')):?>
+                        <div class="alert alert-danger">
+                            <?=$this->session->flashdata('error');;?>
+                        </div>
                         <?php endif; ?>
 
                         <?php
@@ -59,16 +59,17 @@
                                     <img src="<?=base_url('img/loading.gif') ?>" width="100" alt="">
                                 </div>
                                 <fieldset style="background: #fff !important;">
-                                <div class="col-md-12"
+                                    <div class="col-md-12"
                                         style="padding: 20px;display: flex;flex-direction: row;justify-content: center;align-items: center;">
                                         <div>
                                             <span
-                                                style="font-size: 22px;font-weight: bold;text-decoration: underline;">বাজেট তৈরি করুন</span>
+                                                style="font-size: 22px;font-weight: bold;text-decoration: underline;">বাজেট
+                                                তৈরি করুন</span>
                                         </div>
                                     </div>
 
                                     <div class="row form-row" style="font-size: 16px; color: black;">
-                                        <div class="col-md-12" style="display: flex;gap: 74px; padding-bottom: 7px;" >
+                                        <div class="col-md-12" style="display: flex;gap: 74px; padding-bottom: 7px;">
                                             <div class="col-md-4">
                                                 আবেদনকারীর নাম: <strong><?=$info->name_bn?></strong>
                                             </div>
@@ -119,33 +120,33 @@
                                             <select name="payment_for" id="payment_for" class="form-control input-sm"
                                                 required>
                                                 <option value="">নির্বাচন করুন</option>
-                                                <option value=1 >ট্রেইনিং</option>
-                                                <option value=2 >হোস্টেল</option>
-                                                <option value=3 >পাবলিকেশন</option>
-                                                <option value=4 >অডিটোরিয়াম</option>
-                                                <option value=5 >Others</option>
+                                                <option value=1>ট্রেইনিং</option>
+                                                <option value=2>হোস্টেল</option>
+                                                <option value=3>পাবলিকেশন</option>
+                                                <option value=4>অডিটোরিয়াম</option>
+                                                <option value=5>Others</option>
 
-                                             
+
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="row form-row">
                                         <div class="col-md-12">
-                                            
+
                                         </div>
                                         <style type="text/css">
-                                            #appRowDiv td {
-                                                padding: 5px;
-                                                border-color: #ccc;
-                                            }
+                                        #appRowDiv td {
+                                            padding: 5px;
+                                            border-color: #ccc;
+                                        }
 
-                                            #appRowDiv th {
-                                                padding: 5px;
-                                                text-align: center;
-                                                border-color: #ccc;
-                                                color: black;
-                                            }
+                                        #appRowDiv th {
+                                            padding: 5px;
+                                            text-align: center;
+                                            border-color: #ccc;
+                                            color: black;
+                                        }
                                         </style>
                                         <div class="col-md-12">
                                             <div class="col-md-12" style="margin:0px;padding:0px">
@@ -183,22 +184,38 @@
                                                 </thead>
                                                 <tbody id="tbody">
                                                     <?php foreach ($budget_head_sub as $key => $data) { ?>
-                                                        <tr>
-                                                            <td><?=$data->name_bn?></td>
-                                                            <td><?=$data->bd_code?></td>
-                                                            <td>
-                                                                <input type="number" value="1" min="1" name="token_participant[]" onkeyup="calculateTotal_token(this)" class="form-control input-sm token_participant"></td>
-                                                            <td>
-                                                                <input type="number" value="1" min="1" name="token_day[]" onkeyup="calculateTotal_token(this)" class="form-control input-sm token_day"></td>
-                                                            <td>
-                                                                <input type="number" value="1" min="1" name="token_amount[]" onkeyup="calculateTotal_token(this)" class="form-control input-sm token_amount"></td>
-                                                            <td>
-                                                            <input type="hidden" name="head_id[]" value="<?=$data->budget_head_id?>" >
-                                                            <input type="hidden" name="head_sub_id[]" value="<?=$data->id?>" >
-                                                            <input value="1" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm token_amount_<?=$data->id?>">
-                                                            </td>
-                                                            <td><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
-                                                        </tr>
+                                                    <tr>
+                                                        <td><?=$data->name_bn?></td>
+                                                        <td><?=$data->bd_code?></td>
+                                                        <td>
+                                                            <input type="number" value="1" min="1"
+                                                                name="token_participant[]"
+                                                                onkeyup="calculateTotal_token(this)"
+                                                                class="form-control input-sm token_participant">
+                                                        </td>
+                                                        <td>
+                                                            <input type="number" value="1" min="1" name="token_day[]"
+                                                                onkeyup="calculateTotal_token(this)"
+                                                                class="form-control input-sm token_day">
+                                                        </td>
+                                                        <td>
+                                                            <input type="number" value="1" min="1" name="token_amount[]"
+                                                                onkeyup="calculateTotal_token(this)"
+                                                                class="form-control input-sm token_amount">
+                                                        </td>
+                                                        <td>
+                                                            <input type="hidden" name="head_id[]"
+                                                                value="<?=$data->budget_head_id?>">
+                                                            <input type="hidden" name="head_sub_id[]"
+                                                                value="<?=$data->id?>">
+                                                            <input value="1" min="0" type="number"
+                                                                onkeyup="calculateTotal()" name="amount[]"
+                                                                class="form-control amount input-sm token_amount_<?=$data->id?>">
+                                                        </td>
+                                                        <td><a href="javascript:void(0)" onclick="removeRow(this)"
+                                                                class="btn btn-danger btn-sm" style="padding: 3px;"><i
+                                                                    class="fa fa-times"></i> Remove</a></td>
+                                                    </tr>
                                                     <?php } ?>
                                                 </tbody>
                                             </table>
@@ -216,7 +233,8 @@
 
                                         <div class="col-md-12">
                                             <div class="pull-right">
-                                                <input type="submit" name="submit" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
+                                                <input type="submit" name="submit" value="সংরক্ষণ করুন"
+                                                    class="btn btn-primary btn-cons">
                                             </div>
                                         </div>
                                     </div>
@@ -238,7 +256,7 @@ function removeRow(id) {
 }
 </script>
 <script>
-function remove_token_Row(el,head_sub_id) {
+function remove_token_Row(el, head_sub_id) {
     $(el).closest("tr").remove();
     calculateTotal_token(head_sub_id)
     calculateTotal()
@@ -294,12 +312,13 @@ function calculateTotal() {
     })
     $("#total_amount").val(total);
 }
+
 function calculateTotal_token(el) {
     var total = 1;
-    var token_participant=$(el).closest("tr").find(".token_participant").val()
-    var token_day=$(el).closest("tr").find(".token_day").val()
-    var token_amount=$(el).closest("tr").find(".token_amount").val()
-    total=token_participant*token_day*token_amount
+    var token_participant = $(el).closest("tr").find(".token_participant").val()
+    var token_day = $(el).closest("tr").find(".token_day").val()
+    var token_amount = $(el).closest("tr").find(".token_amount").val()
+    total = token_participant * token_day * token_amount
     $(el).closest("tr").find(".amount").val(total)
     calculateTotal();
 }

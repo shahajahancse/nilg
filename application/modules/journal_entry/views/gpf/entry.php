@@ -49,7 +49,13 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <fieldset style="background: #fff !important;">
-                                    <legend> জিপিএফ  তথ্য</legend>
+                                    <div class="col-md-12"
+                                        style="padding: 20px;display: flex;flex-direction: row;justify-content: center;align-items: center;">
+                                        <div>
+                                            <span
+                                                style="font-size: 22px;font-weight: bold;text-decoration: underline;"> জিপিএফ  তথ্য এন্ট্রি ফর্ম</span>
+                                        </div>
+                                    </div>
                                     <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                         <br>
                                         <div class="col-md-2">
