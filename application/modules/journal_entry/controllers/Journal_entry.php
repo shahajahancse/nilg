@@ -249,28 +249,40 @@ class Journal_entry extends Backend_Controller
     }
     public function hostel_entry_create()
     {
-        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
+        $this->form_validation->set_rules('title[]', 'শিরোনাম', 'required|trim');
+        $this->form_validation->set_rules('amount[]', 'পরিমাণ', 'required|trim');
         $user = $this->ion_auth->user()->row();
         if ($this->form_validation->run() == true) {
-            $user = $this->ion_auth->user()->row();
-            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
+            $this->db->trans_start();
             $form_data = array(
                 'voucher_no' => $this->input->post('voucher_no'),
-                'amount' => $this->input->post('amount'),
+                'amount' => $this->input->post('total'),
                 'type' => $this->input->post('type'),
                 'reference' => $this->input->post('reference'),
                 'description' => $this->input->post('description'),
                 'date' => $this->input->post('issue_date'),
                 'create_by' => $user->id,
             );
+
             if ($this->Common_model->save('budget_j_hostel_register', $form_data)) {
+                $insert_id = $this->db->insert_id();
+                foreach ($_POST['amount'] as $key => $row) {
+                    $data_details = array(
+                        'hostel_register_id' => $insert_id ,
+                        'title' => $_POST['title'][$key],
+                        'remark' => $_POST['remark'][$key],
+                        'amount' => $_POST['amount'][$key],
+                    );
+                    $this->db->insert('budget_j_hostel_register_details', $data_details);
+                }
+                $this->db->trans_complete();
                 $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
                 redirect('journal_entry/hostel_entry');
             }
         }
         $this->data['info'] = $this->Common_model->get_user_details();
         //Load view
-        $this->data['meta_title'] = 'হোস্টেল তৈরি করুন';
+        $this->data['meta_title'] = 'হোস্টেল তথ্য এন্ট্রি করুন';
         $this->data['subview'] = 'hostel/entry';
         $this->load->view('backend/_layout_main', $this->data);
     }
@@ -280,7 +292,10 @@ class Journal_entry extends Backend_Controller
         $this->db->from('budget_j_hostel_register as q');
         $this->db->join('users as u', 'u.id = q.create_by', 'left');
         $this->db->where('q.id', $id);
-        $this->data['budget_j_hostel_register'] = $this->db->get()->row();
+        $this->data['row'] = $this->db->get()->row();
+
+        $this->db->where('hostel_register_id', $id);
+        $this->data['details'] = $this->db->get('budget_j_hostel_register_details')->result();
         //Dropdown
         $this->data['info'] = $this->Common_model->get_user_details();
         //Load view
@@ -289,36 +304,54 @@ class Journal_entry extends Backend_Controller
         $this->load->view('backend/_layout_main', $this->data);
     }
     public function hostel_entry_edit($encid=null){
-        if ($encid==null) {
-            $id = $this->input->post('id');
-        }else{
-            $id = (int) decrypt_url($encid);
-        }
-        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
+        $id = (int) decrypt_url($encid);
+        $this->form_validation->set_rules('title[]', 'শিরোনাম', 'required|trim');
+        $this->form_validation->set_rules('amount[]', 'পরিমাণ', 'required|trim');
         $user = $this->ion_auth->user()->row();
         if ($this->form_validation->run() == true) {
-            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
+            $this->db->trans_start();
             $form_data = array(
-                'amount' => $this->input->post('amount'),
+                'amount' => $this->input->post('total'),
+                'type' => $this->input->post('type'),
                 'reference' => $this->input->post('reference'),
                 'description' => $this->input->post('description'),
                 'date' => $this->input->post('issue_date'),
             );
+
             $this->db->where('id', $id);
             if ($this->db->update('budget_j_hostel_register', $form_data)) {
-                $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
+                foreach ($_POST['amount'] as $key => $row) {
+                    $data_details = array(
+                        'hostel_register_id' => $id ,
+                        'title' => $_POST['title'][$key],
+                        'remark' => $_POST['remark'][$key],
+                        'amount' => $_POST['amount'][$key],
+                    );
+                    if (!empty($_POST['detail_id'][$key])) {
+                        $this->db->where('id', $_POST['detail_id'][$key]);
+                        $this->db->update('budget_j_hostel_register_details', $data_details);
+                    } else {
+                        $this->db->insert('budget_j_hostel_register_details', $data_details);
+                    }
+                }
+                $this->db->trans_complete();
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
                 redirect('journal_entry/hostel_entry');
             }
         }
+
         $this->db->select('q.*,u.name_bn as create_by');
         $this->db->from('budget_j_hostel_register as q');
         $this->db->join('users as u', 'u.id = q.create_by', 'left');
-        $this->db->where('q.id', $id);
-        $this->data['budget_j_hostel_register'] = $this->db->get()->row();
+        $this->data['row'] = $this->db->where('q.id', $id)->get()->row();
+
+        $this->db->where('hostel_register_id', $id);
+        $this->data['details'] = $this->db->get('budget_j_hostel_register_details')->result();
+
         //Dropdown
         $this->data['info'] = $this->Common_model->get_user_details();
         //Load view
-        $this->data['meta_title'] = 'হোস্টেল বিস্তারিত';
+        $this->data['meta_title'] = 'হোস্টেল এন্ট্রি ফর্ম';
         $this->data['subview'] = 'hostel/edit';
         $this->load->view('backend/_layout_main', $this->data);
     }
@@ -332,6 +365,48 @@ class Journal_entry extends Backend_Controller
             $this->session->set_flashdata('error', 'তথ্য মুছে ফেলা হয়নি');
             redirect('journal_entry/hostel_entry');
         }
+    }
+    public function hostel_removeItem($id){
+        $this->db->where('id', $id);
+        $prd = $this->db->get('budget_j_hostel_register_details')->row();
+        $main_id = $prd->hostel_register_id;
+
+        $this->db->where('id', $main_id);
+        $pr = $this->db->get('budget_j_hostel_register')->row();
+
+        $data = array(
+            'amount' => ($pr->amount - $prd->amount),
+        );
+        $this->db->where('id', $main_id)->update('budget_j_hostel_register', $data);
+
+        $this->db->where('id', $id);
+        $this->db->delete('budget_j_hostel_register_details');
+        $this->session->set_flashdata('success', 'তথ্য মুছে ফেলা হয়েছে');
+        return true;
+        exit();
+    }
+    public function hostel_print($id)
+    {
+        $id = (int) decrypt_url($id);
+        //Results
+        $this->db->select('q.*, u.name_bn as create_by, u.signature, ac.signature as acc_signature, d.dept_name');
+        $this->db->from('budget_j_hostel_register as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->join('users as ac', 'ac.id = q.acc_id', 'left');
+        $this->db->join('department as d', 'd.id = u.crrnt_dept_id', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['info'] = $this->db->get()->row();
+
+        $this->db->where('hostel_register_id', $id);
+        $this->data['items'] = $this->db->get('budget_j_hostel_register_details')->result();
+
+        // Generate PDF
+        $this->data['headding'] = 'হোস্টেল ভাউচার';
+        $html = $this->load->view('hostel/hostel_print', $this->data, true);
+
+        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+        $mpdf->WriteHtml($html);
+        $mpdf->output();
     }
     // end hostel
 
@@ -456,23 +531,6 @@ class Journal_entry extends Backend_Controller
             }
         }
 
-        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
-        $user = $this->ion_auth->user()->row();
-        if ($this->form_validation->run() == true) {
-            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
-            $form_data = array(
-                'amount' => $this->input->post('amount'),
-                'reference' => $this->input->post('reference'),
-                'description' => $this->input->post('description'),
-                'issue_date' => $this->input->post('issue_date'),
-            );
-            $this->db->where('id', $id);
-            if ($this->db->update('budget_j_publication_register', $form_data)) {
-                $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
-                redirect('journal_entry/publication_entry');
-            }
-        }
-
         $this->db->select('q.*,u.name_bn as create_by');
         $this->db->from('budget_j_publication_register as q');
         $this->db->join('users as u', 'u.id = q.create_by', 'left');
@@ -507,7 +565,6 @@ class Journal_entry extends Backend_Controller
         return true;
         exit();
     }
-
     public function publication_entry_delete($encid){
         $id = (int) decrypt_url($encid);
         $this->db->where('id', $id);
@@ -519,7 +576,6 @@ class Journal_entry extends Backend_Controller
             redirect('journal_entry/publication_entry');
         }
     }
-
     public function publication_print($id)
     {
         $id = (int) decrypt_url($id);

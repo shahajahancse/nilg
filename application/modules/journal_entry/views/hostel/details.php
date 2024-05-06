@@ -26,38 +26,84 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right">
-                            <a href="<?=base_url('journal_entry/hostel_entry')?>"
-                                class="btn btn-blueviolet btn-xs btn-mini">হোস্টেল তালিকা</a>
+                            <a href="<?=base_url('journal_entry/publication_entry')?>"
+                                class="btn btn-blueviolet btn-xs btn-mini">পাবলিকেশন তালিকা</a>
                         </div>
                     </div>
                     <div class="grid-body">
                         <div class="row">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-6">
+                                <h5 class="text-center" style="padding: 0;margin-bottom: 0;">
+                                    <span style="font-size:14px;">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</span><br>
+                                    <span style="font-size:14px;">স্থানীয় সরকার, পল্লী উন্নয়ন ও সমবায় মন্ত্রণালয়</span><br>
+                                    <span style="font-size:16px; font-weight: bold;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি )</span><br>
+                                    <span style="font-size:13px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
+                                    <span style="font-size:13px;text-decoration: underline;color: #2246ff;">www.nilg.gov.bd </span>
+                                </h5>
+                            </div>
+                            <div class="col-md-3"></div>
+                        </div>
+
+                        <div class="row">
+                            <br>
                             <div class="col-md-12">
-                                <fieldset style="background: #fff !important;">
-                                    <legend>হোস্টেল তথ্য</legend>
-                                    <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
-                                        <br>
-                                        <div class="col-md-3">
-                                            <strong>ভাউচার নাঃ <span><?= $budget_j_hostel_register->voucher_no ?></span></strong>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <strong>রেফারেন্স: <span><?= $budget_j_hostel_register->reference ?></span></strong>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <strong>তারিখ: <span><?= $budget_j_hostel_register->date ?></span></strong>
-                                        </div>
-                                        <div class="col-md-3">
-                                           <strong>পরিমান: <span><?= $budget_j_hostel_register->amount ?></span></strong>
-                                        </div>
-                                        <div class="col-md-12">
-                                           <strong>তৈরি কারক: <span><?= $budget_j_hostel_register->create_by ?></span></strong>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <label for="title" class="control-label">বর্ণনা:</label>
-                                           <p><?= $budget_j_hostel_register->description ?></p>
-                                        </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <strong> <h4>শিরোনাম : হোস্টেল ভাউচার </h4></strong>
                                     </div>
-                                </fieldset>
+                                    <div class="col-md-6">
+                                        <strong>রেফারেন্স: <span><?= $row->reference ?></span></strong>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <strong>ভাউচার নাঃ <span><?= $row->voucher_no ?></span></strong>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <strong>তৈরি কারক: <span><?= $row->create_by ?></span></strong>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <strong>তারিখ: <span><?= date_bangla_calender_format($row->date) ?></span></strong>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <strong>পরিমান: <span><?= eng2bng($row->amount) ?></span></strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-hover table-bordered report" style="margin-top: 15px;">
+                                    <thead class="headding" >
+                                        <tr>
+                                            <th rowspan="1" style="background-color: #c4d5d9 !important;">ক্রমিক নং</th>
+                                            <th rowspan="1" style="background-color: #c4d5d9 !important;">শিরোনাম</th>
+                                            <th rowspan="1" style="background-color: #c4d5d9 !important;">বিবরণ</th>
+                                            <th rowspan="1" style="background-color: #c4d5d9 !important;">পরিমান</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($details as $key => $r) { ?>
+                                            <tr>
+                                                <td><?php echo eng2bng($key + 1); ?></td>
+                                                <td><?php echo eng2bng($r->title); ?></td>
+                                                <td><?php echo eng2bng($r->remark); ?></td>
+                                                <td><?php echo eng2bng($r->amount); ?></td>
+                                            </tr>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-12">
+                                    <label for="title" class="control-label"><strong>বর্ণনা:</strong></label>
+                                    <?= $row->description ?>
+                                </div>
                             </div>
                         </div>
                     </div> <!-- END GRID BODY -->
