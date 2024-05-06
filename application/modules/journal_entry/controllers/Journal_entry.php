@@ -72,12 +72,12 @@ class Journal_entry extends Backend_Controller
         $this->db->join('users as u', 'u.id = q.create_by', 'left');
         $this->db->where('q.id', $id);
         $this->data['budget_j_gov_revenue_register'] = $this->db->get()->row();
-         //Dropdown
-         $this->data['info'] = $this->Common_model->get_user_details();
-         //Load view
-         $this->data['meta_title'] = 'রাজস্ব বিস্তারিত';
-         $this->data['subview'] = 'revenue/details';
-         $this->load->view('backend/_layout_main', $this->data);
+        //Dropdown
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'রাজস্ব বিস্তারিত';
+        $this->data['subview'] = 'revenue/details';
+        $this->load->view('backend/_layout_main', $this->data);
     }
     public function revenue_entry_edit($encid=null){
         if ($encid==null) {
@@ -95,7 +95,7 @@ class Journal_entry extends Backend_Controller
                 'description' => $this->input->post('description'),
                 'issue_date' => $this->input->post('issue_date'),
             );
-           $this->db->where('id', $id);
+        $this->db->where('id', $id);
             if ($this->db->update('budget_j_gov_revenue_register', $form_data)) {
                 $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
                 redirect('journal_entry/revenue_entry');
@@ -106,7 +106,7 @@ class Journal_entry extends Backend_Controller
         $this->db->join('users as u', 'u.id = q.create_by', 'left');
         $this->db->where('q.id', $id);
         $this->data['budget_j_gov_revenue_register'] = $this->db->get()->row();
-         //Dropdown
+        //Dropdown
         $this->data['info'] = $this->Common_model->get_user_details();
         //Load view
         $this->data['meta_title'] = 'রাজস্ব বিস্তারিত';
@@ -177,12 +177,12 @@ class Journal_entry extends Backend_Controller
         $this->db->join('users as u', 'u.id = q.create_by', 'left');
         $this->db->where('q.id', $id);
         $this->data['budget_j_cheque_register'] = $this->db->get()->row();
-         //Dropdown
-         $this->data['info'] = $this->Common_model->get_user_details();
-         //Load view
-         $this->data['meta_title'] = 'চেক বিস্তারিত';
-         $this->data['subview'] = 'cheque/details';
-         $this->load->view('backend/_layout_main', $this->data);
+        //Dropdown
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'চেক বিস্তারিত';
+        $this->data['subview'] = 'cheque/details';
+        $this->load->view('backend/_layout_main', $this->data);
     }
     public function cheque_entry_edit($encid=null){
         if ($encid==null) {
@@ -200,7 +200,7 @@ class Journal_entry extends Backend_Controller
                 'description' => $this->input->post('description'),
                 'issue_date' => $this->input->post('issue_date'),
             );
-           $this->db->where('id', $id);
+        $this->db->where('id', $id);
             if ($this->db->update('budget_j_cheque_register', $form_data)) {
                 $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
                 redirect('journal_entry/cheque_entry');
@@ -211,7 +211,7 @@ class Journal_entry extends Backend_Controller
         $this->db->join('users as u', 'u.id = q.create_by', 'left');
         $this->db->where('q.id', $id);
         $this->data['budget_j_cheque_register'] = $this->db->get()->row();
-         //Dropdown
+        //Dropdown
         $this->data['info'] = $this->Common_model->get_user_details();
         //Load view
         $this->data['meta_title'] = 'চেক বিস্তারিত';
@@ -230,620 +230,631 @@ class Journal_entry extends Backend_Controller
         }
     }
     // end cheque
-       // start hostel
-       public function hostel_entry($offset = 0)
-       {
-           $limit = 15;
-           $user_id = $this->data['userDetails']->id;
-           $dept_id = $this->data['userDetails']->crrnt_dept_id;
-           $results = $this->Journal_entry_model->lists($limit, $offset, 'budget_j_hostel_register');
-           $this->data['results'] = $results['rows'];
-           $this->data['total_rows'] = $results['num_rows'];
-           //pagination
-           $this->data['pagination'] = create_pagination('journal_entry/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
-           // Load view
-           $this->data['meta_title'] = 'হোস্টেল এর তালিকা';
-           $this->data['subview'] = 'hostel/index';
-           $this->load->view('backend/_layout_main', $this->data);
-       }
 
-       public function hostel_entry_create()
-       {
-           $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
-           $user = $this->ion_auth->user()->row();
-           if ($this->form_validation->run() == true) {
-               $user = $this->ion_auth->user()->row();
-               // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
-               $form_data = array(
-                   'voucher_no' => $this->input->post('voucher_no'),
-                   'amount' => $this->input->post('amount'),
-                   'type' => $this->input->post('type'),
-                   'reference' => $this->input->post('reference'),
-                   'description' => $this->input->post('description'),
-                   'date' => $this->input->post('issue_date'),
-                   'create_by' => $user->id,
-               );
-               if ($this->Common_model->save('budget_j_hostel_register', $form_data)) {
-                   $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
-                   redirect('journal_entry/hostel_entry');
-               }
-           }
-           $this->data['info'] = $this->Common_model->get_user_details();
-           //Load view
-           $this->data['meta_title'] = 'হোস্টেল তৈরি করুন';
-           $this->data['subview'] = 'hostel/entry';
-           $this->load->view('backend/_layout_main', $this->data);
-       }
-       public function hostel_entry_details($encid){
-           $id = (int) decrypt_url($encid);
-           $this->db->select('q.*,u.name_bn as create_by');
-           $this->db->from('budget_j_hostel_register as q');
-           $this->db->join('users as u', 'u.id = q.create_by', 'left');
-           $this->db->where('q.id', $id);
-           $this->data['budget_j_hostel_register'] = $this->db->get()->row();
-            //Dropdown
-            $this->data['info'] = $this->Common_model->get_user_details();
-            //Load view
-            $this->data['meta_title'] = 'হোস্টেল বিস্তারিত';
-            $this->data['subview'] = 'hostel/details';
-            $this->load->view('backend/_layout_main', $this->data);
-       }
-       public function hostel_entry_edit($encid=null){
-           if ($encid==null) {
-               $id = $this->input->post('id');
-           }else{
-               $id = (int) decrypt_url($encid);
-           }
-           $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
-           $user = $this->ion_auth->user()->row();
-           if ($this->form_validation->run() == true) {
-               // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
-               $form_data = array(
-                   'amount' => $this->input->post('amount'),
-                   'reference' => $this->input->post('reference'),
-                   'description' => $this->input->post('description'),
-                   'date' => $this->input->post('issue_date'),
-               );
-              $this->db->where('id', $id);
-               if ($this->db->update('budget_j_hostel_register', $form_data)) {
-                   $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
-                   redirect('journal_entry/hostel_entry');
-               }
-           }
-           $this->db->select('q.*,u.name_bn as create_by');
-           $this->db->from('budget_j_hostel_register as q');
-           $this->db->join('users as u', 'u.id = q.create_by', 'left');
-           $this->db->where('q.id', $id);
-           $this->data['budget_j_hostel_register'] = $this->db->get()->row();
-            //Dropdown
-           $this->data['info'] = $this->Common_model->get_user_details();
-           //Load view
-           $this->data['meta_title'] = 'হোস্টেল বিস্তারিত';
-           $this->data['subview'] = 'hostel/edit';
-           $this->load->view('backend/_layout_main', $this->data);
-       }
-       public function hostel_entry_delete($encid){
-           $id = (int) decrypt_url($encid);
-           $this->db->where('id', $id);
-           if ($this->db->delete('budget_j_hostel_register')) {
-               $this->session->set_flashdata('success', 'তথ্য মুছে ফেলা হয়েছে');
-               redirect('journal_entry/hostel_entry');
-           }else{
-               $this->session->set_flashdata('error', 'তথ্য মুছে ফেলা হয়নি');
-               redirect('journal_entry/hostel_entry');
-           }
-       }
-       // end hostel
-       // start budget_j_publication_register
-       public function publication_entry($offset = 0)
-       {
-           $limit = 15;
-           $user_id = $this->data['userDetails']->id;
-           $dept_id = $this->data['userDetails']->crrnt_dept_id;
-           $results = $this->Journal_entry_model->lists($limit, $offset, 'budget_j_publication_register');
-           $this->data['results'] = $results['rows'];
-           $this->data['total_rows'] = $results['num_rows'];
-           //pagination
-           $this->data['pagination'] = create_pagination('journal_entry/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
-           // Load view
-           $this->data['meta_title'] = 'পাবলিকেশন এর তালিকা';
-           $this->data['subview'] = 'publication/index';
-           $this->load->view('backend/_layout_main', $this->data);
-       }
+    // start hostel
+    public function hostel_entry($offset = 0)
+    {
+        $limit = 15;
+        $user_id = $this->data['userDetails']->id;
+        $dept_id = $this->data['userDetails']->crrnt_dept_id;
+        $results = $this->Journal_entry_model->lists($limit, $offset, 'budget_j_hostel_register');
+        $this->data['results'] = $results['rows'];
+        $this->data['total_rows'] = $results['num_rows'];
+        //pagination
+        $this->data['pagination'] = create_pagination('journal_entry/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+        // Load view
+        $this->data['meta_title'] = 'হোস্টেল এর তালিকা';
+        $this->data['subview'] = 'hostel/index';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function hostel_entry_create()
+    {
+        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
+        $user = $this->ion_auth->user()->row();
+        if ($this->form_validation->run() == true) {
+            $user = $this->ion_auth->user()->row();
+            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
+            $form_data = array(
+                'voucher_no' => $this->input->post('voucher_no'),
+                'amount' => $this->input->post('amount'),
+                'type' => $this->input->post('type'),
+                'reference' => $this->input->post('reference'),
+                'description' => $this->input->post('description'),
+                'date' => $this->input->post('issue_date'),
+                'create_by' => $user->id,
+            );
+            if ($this->Common_model->save('budget_j_hostel_register', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('journal_entry/hostel_entry');
+            }
+        }
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'হোস্টেল তৈরি করুন';
+        $this->data['subview'] = 'hostel/entry';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function hostel_entry_details($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->select('q.*,u.name_bn as create_by');
+        $this->db->from('budget_j_hostel_register as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['budget_j_hostel_register'] = $this->db->get()->row();
+        //Dropdown
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'হোস্টেল বিস্তারিত';
+        $this->data['subview'] = 'hostel/details';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function hostel_entry_edit($encid=null){
+        if ($encid==null) {
+            $id = $this->input->post('id');
+        }else{
+            $id = (int) decrypt_url($encid);
+        }
+        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
+        $user = $this->ion_auth->user()->row();
+        if ($this->form_validation->run() == true) {
+            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
+            $form_data = array(
+                'amount' => $this->input->post('amount'),
+                'reference' => $this->input->post('reference'),
+                'description' => $this->input->post('description'),
+                'date' => $this->input->post('issue_date'),
+            );
+            $this->db->where('id', $id);
+            if ($this->db->update('budget_j_hostel_register', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
+                redirect('journal_entry/hostel_entry');
+            }
+        }
+        $this->db->select('q.*,u.name_bn as create_by');
+        $this->db->from('budget_j_hostel_register as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['budget_j_hostel_register'] = $this->db->get()->row();
+        //Dropdown
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'হোস্টেল বিস্তারিত';
+        $this->data['subview'] = 'hostel/edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function hostel_entry_delete($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->where('id', $id);
+        if ($this->db->delete('budget_j_hostel_register')) {
+            $this->session->set_flashdata('success', 'তথ্য মুছে ফেলা হয়েছে');
+            redirect('journal_entry/hostel_entry');
+        }else{
+            $this->session->set_flashdata('error', 'তথ্য মুছে ফেলা হয়নি');
+            redirect('journal_entry/hostel_entry');
+        }
+    }
+    // end hostel
 
-       public function publication_entry_create()
-       {
-           $this->form_validation->set_rules('book_name[]', 'বই নাম', 'required|trim');
-           $this->form_validation->set_rules('sbn_no[]', 'এসবিএন নং', 'required|trim');
-           $this->form_validation->set_rules('price[]', 'বইয়ের মূল্য', 'required|trim');
-           $this->form_validation->set_rules('quantity[]', 'পরিমাণ', 'required|trim');
-           $user = $this->ion_auth->user()->row();
-           if ($this->form_validation->run() == true) {
-                // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
-                $this->db->trans_start();
-                $form_data = array(
-                   'voucher_no' => $this->input->post('voucher_no'),
-                   'amount' => $this->input->post('total'),
-                   'type' => $this->input->post('type'),
-                   'reference' => $this->input->post('reference'),
-                   'description' => $this->input->post('description'),
-                   'issue_date' => date('Y-m-d', strtotime($this->input->post('issue_date'))),
-                   'create_by' => $user->id,
-                );
+    // start budget_j_publication_register
+    public function publication_entry($offset = 0)
+    {
+        $limit = 15;
+        $user_id = $this->data['userDetails']->id;
+        $dept_id = $this->data['userDetails']->crrnt_dept_id;
+        $results = $this->Journal_entry_model->lists($limit, $offset, 'budget_j_publication_register');
+        $this->data['results'] = $results['rows'];
+        $this->data['total_rows'] = $results['num_rows'];
+        //pagination
+        $this->data['pagination'] = create_pagination('journal_entry/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+        // Load view
+        $this->data['meta_title'] = 'পাবলিকেশন এর তালিকা';
+        $this->data['subview'] = 'publication/index';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function publication_entry_create()
+    {
+        $this->form_validation->set_rules('book_name[]', 'বই নাম', 'required|trim');
+        $this->form_validation->set_rules('sbn_no[]', 'এসবিএন নং', 'required|trim');
+        $this->form_validation->set_rules('price[]', 'বইয়ের মূল্য', 'required|trim');
+        $this->form_validation->set_rules('quantity[]', 'পরিমাণ', 'required|trim');
+        $user = $this->ion_auth->user()->row();
+        if ($this->form_validation->run() == true) {
+            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
+            $this->db->trans_start();
+            $form_data = array(
+                'voucher_no' => $this->input->post('voucher_no'),
+                'amount' => $this->input->post('total'),
+                'type' => $this->input->post('type'),
+                'reference' => $this->input->post('reference'),
+                'description' => $this->input->post('description'),
+                'issue_date' => date('Y-m-d', strtotime($this->input->post('issue_date'))),
+                'create_by' => $user->id,
+            );
 
-               if ($this->Common_model->save('budget_j_publication_register', $form_data)) {
-                   $insert_id = $this->db->insert_id();
-                    foreach ($_POST['price'] as $key => $row) {
-                        $data_details = array(
-                            'publication_register_id' => $insert_id ,
-                            'book_name' => $_POST['book_name'][$key],
-                            'sbn_no' => $_POST['sbn_no'][$key],
-                            'price' => $_POST['price'][$key],
-                            'quantity' => $_POST['quantity'][$key],
-                            'amount' => $_POST['amount'][$key],
-                        );
+            if ($this->Common_model->save('budget_j_publication_register', $form_data)) {
+                $insert_id = $this->db->insert_id();
+                foreach ($_POST['price'] as $key => $row) {
+                    $data_details = array(
+                        'publication_register_id' => $insert_id ,
+                        'book_name' => $_POST['book_name'][$key],
+                        'sbn_no' => $_POST['sbn_no'][$key],
+                        'price' => $_POST['price'][$key],
+                        'quantity' => $_POST['quantity'][$key],
+                        'amount' => $_POST['amount'][$key],
+                    );
+                    $this->db->insert('budget_j_publication_register_details', $data_details);
+                }
+                $this->db->trans_complete();
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('journal_entry/publication_entry');
+            }
+        }
+
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'পাবলিকেশন রেজিস্টার';
+        $this->data['subview'] = 'publication/entry';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function publication_entry_details($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->select('q.*,u.name_bn as create_by');
+        $this->db->from('budget_j_publication_register as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['row'] = $this->db->get()->row();
+
+        $this->db->where('publication_register_id', $id);
+        $this->data['details'] = $this->db->get('budget_j_publication_register_details')->result();
+        //Dropdown
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'পাবলিকেশন বিস্তারিত';
+        $this->data['subview'] = 'publication/details';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function publication_entry_edit($encid=null){
+        $id = (int) decrypt_url($encid);
+        $this->form_validation->set_rules('book_name[]', 'বই নাম', 'required|trim');
+        $this->form_validation->set_rules('sbn_no[]', 'এসবিএন নং', 'required|trim');
+        $this->form_validation->set_rules('price[]', 'বইয়ের মূল্য', 'required|trim');
+        $this->form_validation->set_rules('quantity[]', 'পরিমাণ', 'required|trim');
+        $user = $this->ion_auth->user()->row();
+        if ($this->form_validation->run() == true) {
+            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
+            $this->db->trans_start();
+            $form_data = array(
+                'amount' => $this->input->post('total'),
+                'type' => $this->input->post('type'),
+                'reference' => $this->input->post('reference'),
+                'description' => $this->input->post('description'),
+                'issue_date' => date('Y-m-d', strtotime($this->input->post('issue_date'))),
+                'create_by' => $user->id,
+            );
+
+            $this->db->where('id', $id);
+            if ($this->db->update('budget_j_publication_register', $form_data)) {
+                foreach ($_POST['price'] as $key => $row) {
+                    $data_details = array(
+                        'publication_register_id' => $id,
+                        'book_name' => $_POST['book_name'][$key],
+                        'sbn_no' => $_POST['sbn_no'][$key],
+                        'price' => $_POST['price'][$key],
+                        'quantity' => $_POST['quantity'][$key],
+                        'amount' => $_POST['amount'][$key],
+                    );
+                    if (!empty($_POST['detail_id'][$key])) {
+                        $this->db->where('id', $_POST['detail_id'][$key]);
+                        $this->db->update('budget_j_publication_register_details', $data_details);
+                    } else {
                         $this->db->insert('budget_j_publication_register_details', $data_details);
                     }
-                    $this->db->trans_complete();
-                    $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
-                    redirect('journal_entry/publication_entry');
-               }
-           }
-
-           $this->data['info'] = $this->Common_model->get_user_details();
-           //Load view
-           $this->data['meta_title'] = 'পাবলিকেশন রেজিস্টার';
-           $this->data['subview'] = 'publication/entry';
-           $this->load->view('backend/_layout_main', $this->data);
-       }
-
-       public function publication_entry_details($encid){
-            $id = (int) decrypt_url($encid);
-            $this->db->select('q.*,u.name_bn as create_by');
-            $this->db->from('budget_j_publication_register as q');
-            $this->db->join('users as u', 'u.id = q.create_by', 'left');
-            $this->db->where('q.id', $id);
-            $this->data['row'] = $this->db->get()->row();
-
-            $this->db->where('publication_register_id', $id);
-            $this->data['details'] = $this->db->get('budget_j_publication_register_details')->result();
-            //Dropdown
-            $this->data['info'] = $this->Common_model->get_user_details();
-            //Load view
-            $this->data['meta_title'] = 'পাবলিকেশন বিস্তারিত';
-            $this->data['subview'] = 'publication/details';
-            $this->load->view('backend/_layout_main', $this->data);
-       }
-
-       public function publication_entry_edit($encid=null){
-            $id = (int) decrypt_url($encid);
-            $this->form_validation->set_rules('book_name[]', 'বই নাম', 'required|trim');
-            $this->form_validation->set_rules('sbn_no[]', 'এসবিএন নং', 'required|trim');
-            $this->form_validation->set_rules('price[]', 'বইয়ের মূল্য', 'required|trim');
-            $this->form_validation->set_rules('quantity[]', 'পরিমাণ', 'required|trim');
-            $user = $this->ion_auth->user()->row();
-            if ($this->form_validation->run() == true) {
-                // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
-                $this->db->trans_start();
-                $form_data = array(
-                    'amount' => $this->input->post('total'),
-                    'type' => $this->input->post('type'),
-                    'reference' => $this->input->post('reference'),
-                    'description' => $this->input->post('description'),
-                    'issue_date' => date('Y-m-d', strtotime($this->input->post('issue_date'))),
-                    'create_by' => $user->id,
-                );
-
-                $this->db->where('id', $id);
-                if ($this->db->update('budget_j_publication_register', $form_data)) {
-                    foreach ($_POST['price'] as $key => $row) {
-                        $data_details = array(
-                            'publication_register_id' => $id,
-                            'book_name' => $_POST['book_name'][$key],
-                            'sbn_no' => $_POST['sbn_no'][$key],
-                            'price' => $_POST['price'][$key],
-                            'quantity' => $_POST['quantity'][$key],
-                            'amount' => $_POST['amount'][$key],
-                        );
-                        if (!empty($_POST['detail_id'][$key])) {
-                            $this->db->where('id', $_POST['detail_id'][$key]);
-                            $this->db->update('budget_j_publication_register_details', $data_details);
-                        } else {
-                            $this->db->insert('budget_j_publication_register_details', $data_details);
-                        }
-                    }
-                    $this->db->trans_complete();
-                    $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
-                    redirect('journal_entry/publication_entry');
                 }
+                $this->db->trans_complete();
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('journal_entry/publication_entry');
             }
-
-            $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
-            $user = $this->ion_auth->user()->row();
-            if ($this->form_validation->run() == true) {
-               // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
-               $form_data = array(
-                   'amount' => $this->input->post('amount'),
-                   'reference' => $this->input->post('reference'),
-                   'description' => $this->input->post('description'),
-                   'issue_date' => $this->input->post('issue_date'),
-               );
-              $this->db->where('id', $id);
-               if ($this->db->update('budget_j_publication_register', $form_data)) {
-                   $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
-                   redirect('journal_entry/publication_entry');
-               }
-            }
-
-            $this->db->select('q.*,u.name_bn as create_by');
-            $this->db->from('budget_j_publication_register as q');
-            $this->db->join('users as u', 'u.id = q.create_by', 'left');
-            $this->data['row'] = $this->db->where('q.id', $id)->get()->row();
-
-            $this->db->where('publication_register_id', $id);
-            $this->data['details'] = $this->db->get('budget_j_publication_register_details')->result();
-
-             //Dropdown
-            $this->data['info'] = $this->Common_model->get_user_details();
-            //Load view
-            $this->data['meta_title'] = 'পাবলিকেশন তথ্য';
-            $this->data['subview'] = 'publication/edit';
-            $this->load->view('backend/_layout_main', $this->data);
         }
 
-        public function publication_removeItem($id){
-            $this->db->where('id', $id);
-            $prd = $this->db->get('budget_j_publication_register_details')->row();
-            $main_id = $prd->publication_register_id;
-
-            $this->db->where('id', $main_id);
-            $pr = $this->db->get('budget_j_publication_register')->row();
-
-            $data = array(
-                'amount' => ($pr->amount - $prd->amount),
+        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
+        $user = $this->ion_auth->user()->row();
+        if ($this->form_validation->run() == true) {
+            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
+            $form_data = array(
+                'amount' => $this->input->post('amount'),
+                'reference' => $this->input->post('reference'),
+                'description' => $this->input->post('description'),
+                'issue_date' => $this->input->post('issue_date'),
             );
-            $this->db->where('id', $main_id)->update('budget_j_publication_register', $data);
-
             $this->db->where('id', $id);
-            $this->db->delete('budget_j_publication_register_details');
-            $this->session->set_flashdata('success', 'তথ্য মুছে ফেলা হয়েছে');
-            return true;
-            exit();
-        }
-
-        public function publication_entry_delete($encid){
-            $id = (int) decrypt_url($encid);
-            $this->db->where('id', $id);
-            if ($this->db->delete('budget_j_publication_register')) {
-               $this->session->set_flashdata('success', 'তথ্য মুছে ফেলা হয়েছে');
-               redirect('journal_entry/publication_entry');
-            }else{
-               $this->session->set_flashdata('error', 'তথ্য মুছে ফেলা হয়নি');
-               redirect('journal_entry/publication_entry');
+            if ($this->db->update('budget_j_publication_register', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
+                redirect('journal_entry/publication_entry');
             }
         }
-       // end budget_j_publication_register
-       // start budget_j_pension_register
-       public function pension_entry($offset = 0)
-       {
-           $limit = 15;
-           $user_id = $this->data['userDetails']->id;
-           $dept_id = $this->data['userDetails']->crrnt_dept_id;
-           $results = $this->Journal_entry_model->lists($limit, $offset, 'budget_j_pension_register');
-           $this->data['results'] = $results['rows'];
-           $this->data['total_rows'] = $results['num_rows'];
-           //pagination
-           $this->data['pagination'] = create_pagination('journal_entry/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
-           // Load view
-           $this->data['meta_title'] = 'পেনশন  এর তালিকা';
-           $this->data['subview'] = 'pension/index';
-           $this->load->view('backend/_layout_main', $this->data);
-       }
 
-       public function pension_entry_create()
-       {
-           $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
-           $user = $this->ion_auth->user()->row();
-           if ($this->form_validation->run() == true) {
-               $user = $this->ion_auth->user()->row();
-               // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
-               $form_data = array(
-                   'voucher_no' => $this->input->post('voucher_no'),
-                   'amount' => $this->input->post('amount'),
-                   'type' => $this->input->post('type'),
-                   'reference' => $this->input->post('reference'),
-                   'description' => $this->input->post('description'),
-                   'issue_date' => $this->input->post('issue_date'),
-                   'create_by' => $user->id,
-               );
-               if ($this->Common_model->save('budget_j_pension_register', $form_data)) {
-                   $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
-                   redirect('journal_entry/pension_entry');
-               }
-           }
-           $this->data['info'] = $this->Common_model->get_user_details();
-           //Load view
-           $this->data['meta_title'] = 'পেনশন  তৈরি করুন';
-           $this->data['subview'] = 'pension/entry';
-           $this->load->view('backend/_layout_main', $this->data);
-       }
-       public function pension_entry_details($encid){
-           $id = (int) decrypt_url($encid);
-           $this->db->select('q.*,u.name_bn as create_by');
-           $this->db->from('budget_j_pension_register as q');
-           $this->db->join('users as u', 'u.id = q.create_by', 'left');
-           $this->db->where('q.id', $id);
-           $this->data['budget_j_pension_register'] = $this->db->get()->row();
+        $this->db->select('q.*,u.name_bn as create_by');
+        $this->db->from('budget_j_publication_register as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->data['row'] = $this->db->where('q.id', $id)->get()->row();
+
+        $this->db->where('publication_register_id', $id);
+        $this->data['details'] = $this->db->get('budget_j_publication_register_details')->result();
+
+            //Dropdown
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'পাবলিকেশন তথ্য';
+        $this->data['subview'] = 'publication/edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function publication_removeItem($id){
+        $this->db->where('id', $id);
+        $prd = $this->db->get('budget_j_publication_register_details')->row();
+        $main_id = $prd->publication_register_id;
+
+        $this->db->where('id', $main_id);
+        $pr = $this->db->get('budget_j_publication_register')->row();
+
+        $data = array(
+            'amount' => ($pr->amount - $prd->amount),
+        );
+        $this->db->where('id', $main_id)->update('budget_j_publication_register', $data);
+
+        $this->db->where('id', $id);
+        $this->db->delete('budget_j_publication_register_details');
+        $this->session->set_flashdata('success', 'তথ্য মুছে ফেলা হয়েছে');
+        return true;
+        exit();
+    }
+
+    public function publication_entry_delete($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->where('id', $id);
+        if ($this->db->delete('budget_j_publication_register')) {
+            $this->session->set_flashdata('success', 'তথ্য মুছে ফেলা হয়েছে');
+            redirect('journal_entry/publication_entry');
+        }else{
+            $this->session->set_flashdata('error', 'তথ্য মুছে ফেলা হয়নি');
+            redirect('journal_entry/publication_entry');
+        }
+    }
+    public function publication_print($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->where('id', $id);
+        if ($this->db->delete('budget_j_publication_register')) {
+            $this->session->set_flashdata('success', 'তথ্য মুছে ফেলা হয়েছে');
+            redirect('journal_entry/publication_entry');
+        }else{
+            $this->session->set_flashdata('error', 'তথ্য মুছে ফেলা হয়নি');
+            redirect('journal_entry/publication_entry');
+        }
+    }
+    // end budget_j_publication_register
+
+
+    // start budget_j_pension_register
+    public function pension_entry($offset = 0)
+    {
+        $limit = 15;
+        $user_id = $this->data['userDetails']->id;
+        $dept_id = $this->data['userDetails']->crrnt_dept_id;
+        $results = $this->Journal_entry_model->lists($limit, $offset, 'budget_j_pension_register');
+        $this->data['results'] = $results['rows'];
+        $this->data['total_rows'] = $results['num_rows'];
+        //pagination
+        $this->data['pagination'] = create_pagination('journal_entry/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+        // Load view
+        $this->data['meta_title'] = 'পেনশন  এর তালিকা';
+        $this->data['subview'] = 'pension/index';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function pension_entry_create()
+    {
+        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
+        $user = $this->ion_auth->user()->row();
+        if ($this->form_validation->run() == true) {
+            $user = $this->ion_auth->user()->row();
+            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
+            $form_data = array(
+                'voucher_no' => $this->input->post('voucher_no'),
+                'amount' => $this->input->post('amount'),
+                'type' => $this->input->post('type'),
+                'reference' => $this->input->post('reference'),
+                'description' => $this->input->post('description'),
+                'issue_date' => $this->input->post('issue_date'),
+                'create_by' => $user->id,
+            );
+            if ($this->Common_model->save('budget_j_pension_register', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('journal_entry/pension_entry');
+            }
+        }
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'পেনশন  তৈরি করুন';
+        $this->data['subview'] = 'pension/entry';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function pension_entry_details($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->select('q.*,u.name_bn as create_by');
+        $this->db->from('budget_j_pension_register as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['budget_j_pension_register'] = $this->db->get()->row();
             //Dropdown
             $this->data['info'] = $this->Common_model->get_user_details();
             //Load view
             $this->data['meta_title'] = 'পেনশন  বিস্তারিত';
             $this->data['subview'] = 'pension/details';
             $this->load->view('backend/_layout_main', $this->data);
-       }
-       public function pension_entry_edit($encid=null){
-           if ($encid==null) {
-               $id = $this->input->post('id');
-           }else{
-               $id = (int) decrypt_url($encid);
-           }
-           $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
-           $user = $this->ion_auth->user()->row();
-           if ($this->form_validation->run() == true) {
-               // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
-               $form_data = array(
-                   'amount' => $this->input->post('amount'),
-                   'reference' => $this->input->post('reference'),
-                   'description' => $this->input->post('description'),
-                   'issue_date' => $this->input->post('issue_date'),
-               );
-              $this->db->where('id', $id);
-               if ($this->db->update('budget_j_pension_register', $form_data)) {
-                   $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
-                   redirect('journal_entry/pension_entry');
-               }
-           }
-           $this->db->select('q.*,u.name_bn as create_by');
-           $this->db->from('budget_j_pension_register as q');
-           $this->db->join('users as u', 'u.id = q.create_by', 'left');
-           $this->db->where('q.id', $id);
-           $this->data['budget_j_pension_register'] = $this->db->get()->row();
+    }
+    public function pension_entry_edit($encid=null){
+        if ($encid==null) {
+            $id = $this->input->post('id');
+        }else{
+            $id = (int) decrypt_url($encid);
+        }
+        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
+        $user = $this->ion_auth->user()->row();
+        if ($this->form_validation->run() == true) {
+            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
+            $form_data = array(
+                'amount' => $this->input->post('amount'),
+                'reference' => $this->input->post('reference'),
+                'description' => $this->input->post('description'),
+                'issue_date' => $this->input->post('issue_date'),
+            );
+            $this->db->where('id', $id);
+            if ($this->db->update('budget_j_pension_register', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
+                redirect('journal_entry/pension_entry');
+            }
+        }
+        $this->db->select('q.*,u.name_bn as create_by');
+        $this->db->from('budget_j_pension_register as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['budget_j_pension_register'] = $this->db->get()->row();
             //Dropdown
-           $this->data['info'] = $this->Common_model->get_user_details();
-           //Load view
-           $this->data['meta_title'] = 'পেনশন  বিস্তারিত';
-           $this->data['subview'] = 'pension/edit';
-           $this->load->view('backend/_layout_main', $this->data);
-       }
-       public function pension_entry_delete($encid){
-           $id = (int) decrypt_url($encid);
-           $this->db->where('id', $id);
-           if ($this->db->delete('budget_j_pension_register')) {
-               $this->session->set_flashdata('success', 'তথ্য মুছে ফেলা হয়েছে');
-               redirect('journal_entry/pension_entry');
-           }else{
-               $this->session->set_flashdata('error', 'তথ্য মুছে ফেলা হয়নি');
-               redirect('journal_entry/pension_entry');
-           }
-       }
-       // end budget_j_pension_register
-       // start budget_j_gpf_register
-       public function gpf_entry($offset = 0)
-       {
-           $limit = 15;
-           $user_id = $this->data['userDetails']->id;
-           $dept_id = $this->data['userDetails']->crrnt_dept_id;
-           $results = $this->Journal_entry_model->lists($limit, $offset, 'budget_j_gpf_register');
-           $this->data['results'] = $results['rows'];
-           $this->data['total_rows'] = $results['num_rows'];
-           //pagination
-           $this->data['pagination'] = create_pagination('journal_entry/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
-           // Load view
-           $this->data['meta_title'] = 'জিপিএফ  এর তালিকা';
-           $this->data['subview'] = 'gpf/index';
-           $this->load->view('backend/_layout_main', $this->data);
-       }
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'পেনশন  বিস্তারিত';
+        $this->data['subview'] = 'pension/edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function pension_entry_delete($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->where('id', $id);
+        if ($this->db->delete('budget_j_pension_register')) {
+            $this->session->set_flashdata('success', 'তথ্য মুছে ফেলা হয়েছে');
+            redirect('journal_entry/pension_entry');
+        }else{
+            $this->session->set_flashdata('error', 'তথ্য মুছে ফেলা হয়নি');
+            redirect('journal_entry/pension_entry');
+        }
+    }
+    // end budget_j_pension_register
 
-       public function gpf_entry_create()
-       {
-           $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
-           $user = $this->ion_auth->user()->row();
-           if ($this->form_validation->run() == true) {
-               $user = $this->ion_auth->user()->row();
-               // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
-               $form_data = array(
-                   'voucher_no' => $this->input->post('voucher_no'),
-                   'amount' => $this->input->post('amount'),
-                   'type' => $this->input->post('type'),
-                   'reference' => $this->input->post('reference'),
-                   'description' => $this->input->post('description'),
-                   'issue_date' => $this->input->post('issue_date'),
-                   'create_by' => $user->id,
-               );
-               if ($this->Common_model->save('budget_j_gpf_register', $form_data)) {
-                   $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
-                   redirect('journal_entry/gpf_entry');
-               }
-           }
-           $this->data['info'] = $this->Common_model->get_user_details();
-           //Load view
-           $this->data['meta_title'] = 'জিপিএফ  তৈরি করুন';
-           $this->data['subview'] = 'gpf/entry';
-           $this->load->view('backend/_layout_main', $this->data);
-       }
-       public function gpf_entry_details($encid){
-           $id = (int) decrypt_url($encid);
-           $this->db->select('q.*,u.name_bn as create_by');
-           $this->db->from('budget_j_gpf_register as q');
-           $this->db->join('users as u', 'u.id = q.create_by', 'left');
-           $this->db->where('q.id', $id);
-           $this->data['budget_j_gpf_register'] = $this->db->get()->row();
+    // start budget_j_gpf_register
+    public function gpf_entry($offset = 0)
+    {
+        $limit = 15;
+        $user_id = $this->data['userDetails']->id;
+        $dept_id = $this->data['userDetails']->crrnt_dept_id;
+        $results = $this->Journal_entry_model->lists($limit, $offset, 'budget_j_gpf_register');
+        $this->data['results'] = $results['rows'];
+        $this->data['total_rows'] = $results['num_rows'];
+        //pagination
+        $this->data['pagination'] = create_pagination('journal_entry/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+        // Load view
+        $this->data['meta_title'] = 'জিপিএফ  এর তালিকা';
+        $this->data['subview'] = 'gpf/index';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function gpf_entry_create()
+    {
+        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
+        $user = $this->ion_auth->user()->row();
+        if ($this->form_validation->run() == true) {
+            $user = $this->ion_auth->user()->row();
+            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
+            $form_data = array(
+                'voucher_no' => $this->input->post('voucher_no'),
+                'amount' => $this->input->post('amount'),
+                'type' => $this->input->post('type'),
+                'reference' => $this->input->post('reference'),
+                'description' => $this->input->post('description'),
+                'issue_date' => $this->input->post('issue_date'),
+                'create_by' => $user->id,
+            );
+            if ($this->Common_model->save('budget_j_gpf_register', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('journal_entry/gpf_entry');
+            }
+        }
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'জিপিএফ  তৈরি করুন';
+        $this->data['subview'] = 'gpf/entry';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function gpf_entry_details($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->select('q.*,u.name_bn as create_by');
+        $this->db->from('budget_j_gpf_register as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['budget_j_gpf_register'] = $this->db->get()->row();
             //Dropdown
             $this->data['info'] = $this->Common_model->get_user_details();
             //Load view
             $this->data['meta_title'] = 'জিপিএফ  বিস্তারিত';
             $this->data['subview'] = 'gpf/details';
             $this->load->view('backend/_layout_main', $this->data);
-       }
-       public function gpf_entry_edit($encid=null){
-           if ($encid==null) {
-               $id = $this->input->post('id');
-           }else{
-               $id = (int) decrypt_url($encid);
-           }
-           $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
-           $user = $this->ion_auth->user()->row();
-           if ($this->form_validation->run() == true) {
-               // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
-               $form_data = array(
-                   'amount' => $this->input->post('amount'),
-                   'reference' => $this->input->post('reference'),
-                   'description' => $this->input->post('description'),
-                   'issue_date' => $this->input->post('issue_date'),
-               );
-              $this->db->where('id', $id);
-               if ($this->db->update('budget_j_gpf_register', $form_data)) {
-                   $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
-                   redirect('journal_entry/gpf_entry');
-               }
-           }
-           $this->db->select('q.*,u.name_bn as create_by');
-           $this->db->from('budget_j_gpf_register as q');
-           $this->db->join('users as u', 'u.id = q.create_by', 'left');
-           $this->db->where('q.id', $id);
-           $this->data['budget_j_gpf_register'] = $this->db->get()->row();
+    }
+    public function gpf_entry_edit($encid=null){
+        if ($encid==null) {
+            $id = $this->input->post('id');
+        }else{
+            $id = (int) decrypt_url($encid);
+        }
+        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
+        $user = $this->ion_auth->user()->row();
+        if ($this->form_validation->run() == true) {
+            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
+            $form_data = array(
+                'amount' => $this->input->post('amount'),
+                'reference' => $this->input->post('reference'),
+                'description' => $this->input->post('description'),
+                'issue_date' => $this->input->post('issue_date'),
+            );
+            $this->db->where('id', $id);
+            if ($this->db->update('budget_j_gpf_register', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
+                redirect('journal_entry/gpf_entry');
+            }
+        }
+        $this->db->select('q.*,u.name_bn as create_by');
+        $this->db->from('budget_j_gpf_register as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['budget_j_gpf_register'] = $this->db->get()->row();
             //Dropdown
-           $this->data['info'] = $this->Common_model->get_user_details();
-           //Load view
-           $this->data['meta_title'] = 'জিপিএফ  বিস্তারিত';
-           $this->data['subview'] = 'gpf/edit';
-           $this->load->view('backend/_layout_main', $this->data);
-       }
-       public function gpf_entry_delete($encid){
-           $id = (int) decrypt_url($encid);
-           $this->db->where('id', $id);
-           if ($this->db->delete('budget_j_gpf_register')) {
-               $this->session->set_flashdata('success', 'তথ্য মুছে ফেলা হয়েছে');
-               redirect('journal_entry/gpf_entry');
-           }else{
-               $this->session->set_flashdata('error', 'তথ্য মুছে ফেলা হয়নি');
-               redirect('journal_entry/gpf_entry');
-           }
-       }
-       // end budget_j_gpf_register
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'জিপিএফ  বিস্তারিত';
+        $this->data['subview'] = 'gpf/edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function gpf_entry_delete($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->where('id', $id);
+        if ($this->db->delete('budget_j_gpf_register')) {
+            $this->session->set_flashdata('success', 'তথ্য মুছে ফেলা হয়েছে');
+            redirect('journal_entry/gpf_entry');
+        }else{
+            $this->session->set_flashdata('error', 'তথ্য মুছে ফেলা হয়নি');
+            redirect('journal_entry/gpf_entry');
+        }
+    }
+    // end budget_j_gpf_register
 
 
-       // start budget_j_miscellaneous_register
-       public function miscellaneous_entry($offset = 0)
-       {
-           $limit = 15;
-           $user_id = $this->data['userDetails']->id;
-           $dept_id = $this->data['userDetails']->crrnt_dept_id;
-           $results = $this->Journal_entry_model->lists($limit, $offset, 'budget_j_miscellaneous_register');
-           $this->data['results'] = $results['rows'];
-           $this->data['total_rows'] = $results['num_rows'];
-           //pagination
-           $this->data['pagination'] = create_pagination('journal_entry/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
-           // Load view
-           $this->data['meta_title'] = 'বিবিধ  এর তালিকা';
-           $this->data['subview'] = 'miscellaneous/index';
-           $this->load->view('backend/_layout_main', $this->data);
-       }
+    // start budget_j_miscellaneous_register
+    public function miscellaneous_entry($offset = 0)
+    {
+        $limit = 15;
+        $user_id = $this->data['userDetails']->id;
+        $dept_id = $this->data['userDetails']->crrnt_dept_id;
+        $results = $this->Journal_entry_model->lists($limit, $offset, 'budget_j_miscellaneous_register');
+        $this->data['results'] = $results['rows'];
+        $this->data['total_rows'] = $results['num_rows'];
+        //pagination
+        $this->data['pagination'] = create_pagination('journal_entry/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+        // Load view
+        $this->data['meta_title'] = 'বিবিধ  এর তালিকা';
+        $this->data['subview'] = 'miscellaneous/index';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
 
-       public function miscellaneous_entry_create()
-       {
-           $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
-           $user = $this->ion_auth->user()->row();
-           if ($this->form_validation->run() == true) {
-               $user = $this->ion_auth->user()->row();
-               // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
-               $form_data = array(
-                   'voucher_no' => $this->input->post('voucher_no'),
-                   'amount' => $this->input->post('amount'),
-                   'type' => $this->input->post('type'),
-                   'reference' => $this->input->post('reference'),
-                   'description' => $this->input->post('description'),
-                   'issue_date' => $this->input->post('issue_date'),
-                   'create_by' => $user->id,
-               );
-               if ($this->Common_model->save('budget_j_miscellaneous_register', $form_data)) {
-                   $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
-                   redirect('journal_entry/miscellaneous_entry');
-               }
-           }
-           $this->data['info'] = $this->Common_model->get_user_details();
-           //Load view
-           $this->data['meta_title'] = 'বিবিধ  তৈরি করুন';
-           $this->data['subview'] = 'miscellaneous/entry';
-           $this->load->view('backend/_layout_main', $this->data);
-       }
+    public function miscellaneous_entry_create()
+    {
+        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
+        $user = $this->ion_auth->user()->row();
+        if ($this->form_validation->run() == true) {
+            $user = $this->ion_auth->user()->row();
+            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
+            $form_data = array(
+                'voucher_no' => $this->input->post('voucher_no'),
+                'amount' => $this->input->post('amount'),
+                'type' => $this->input->post('type'),
+                'reference' => $this->input->post('reference'),
+                'description' => $this->input->post('description'),
+                'issue_date' => $this->input->post('issue_date'),
+                'create_by' => $user->id,
+            );
+            if ($this->Common_model->save('budget_j_miscellaneous_register', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('journal_entry/miscellaneous_entry');
+            }
+        }
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'বিবিধ  তৈরি করুন';
+        $this->data['subview'] = 'miscellaneous/entry';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
 
-       public function miscellaneous_entry_details($encid)
-       {
-           $id = (int) decrypt_url($encid);
-           $this->db->select('q.*,u.name_bn as create_by');
-           $this->db->from('budget_j_miscellaneous_register as q');
-           $this->db->join('users as u', 'u.id = q.create_by', 'left');
-           $this->db->where('q.id', $id);
-           $this->data['budget_j_miscellaneous_register'] = $this->db->get()->row();
+    public function miscellaneous_entry_details($encid)
+    {
+        $id = (int) decrypt_url($encid);
+        $this->db->select('q.*,u.name_bn as create_by');
+        $this->db->from('budget_j_miscellaneous_register as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['budget_j_miscellaneous_register'] = $this->db->get()->row();
             //Dropdown
             $this->data['info'] = $this->Common_model->get_user_details();
             //Load view
             $this->data['meta_title'] = 'বিবিধ  বিস্তারিত';
             $this->data['subview'] = 'miscellaneous/details';
             $this->load->view('backend/_layout_main', $this->data);
-       }
-       public function miscellaneous_entry_edit($encid=null)
-       {
-           if ($encid==null) {
-               $id = $this->input->post('id');
-           }else{
-               $id = (int) decrypt_url($encid);
-           }
-           $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
-           $user = $this->ion_auth->user()->row();
-           if ($this->form_validation->run() == true) {
-               // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
-               $form_data = array(
-                   'amount' => $this->input->post('amount'),
-                   'reference' => $this->input->post('reference'),
-                   'description' => $this->input->post('description'),
-                   'issue_date' => $this->input->post('issue_date'),
-               );
-              $this->db->where('id', $id);
-               if ($this->db->update('budget_j_miscellaneous_register', $form_data)) {
-                   $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
-                   redirect('journal_entry/miscellaneous_entry');
-               }
-           }
-           $this->db->select('q.*,u.name_bn as create_by');
-           $this->db->from('budget_j_miscellaneous_register as q');
-           $this->db->join('users as u', 'u.id = q.create_by', 'left');
-           $this->db->where('q.id', $id);
-           $this->data['budget_j_miscellaneous_register'] = $this->db->get()->row();
+    }
+    public function miscellaneous_entry_edit($encid=null)
+    {
+        if ($encid==null) {
+            $id = $this->input->post('id');
+        }else{
+            $id = (int) decrypt_url($encid);
+        }
+        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
+        $user = $this->ion_auth->user()->row();
+        if ($this->form_validation->run() == true) {
+            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
+            $form_data = array(
+                'amount' => $this->input->post('amount'),
+                'reference' => $this->input->post('reference'),
+                'description' => $this->input->post('description'),
+                'issue_date' => $this->input->post('issue_date'),
+            );
+            $this->db->where('id', $id);
+            if ($this->db->update('budget_j_miscellaneous_register', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
+                redirect('journal_entry/miscellaneous_entry');
+            }
+        }
+        $this->db->select('q.*,u.name_bn as create_by');
+        $this->db->from('budget_j_miscellaneous_register as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['budget_j_miscellaneous_register'] = $this->db->get()->row();
             //Dropdown
-           $this->data['info'] = $this->Common_model->get_user_details();
-           //Load view
-           $this->data['meta_title'] = 'বিবিধ  বিস্তারিত';
-           $this->data['subview'] = 'miscellaneous/edit';
-           $this->load->view('backend/_layout_main', $this->data);
-       }
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'বিবিধ  বিস্তারিত';
+        $this->data['subview'] = 'miscellaneous/edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
 
-       public function miscellaneous_entry_delete($encid){
-           $id = (int) decrypt_url($encid);
-           $this->db->where('id', $id);
-           if ($this->db->delete('budget_j_miscellaneous_register')) {
-               $this->session->set_flashdata('success', 'তথ্য মুছে ফেলা হয়েছে');
-               redirect('journal_entry/miscellaneous_entry');
-           }else{
-               $this->session->set_flashdata('error', 'তথ্য মুছে ফেলা হয়নি');
-               redirect('journal_entry/miscellaneous_entry');
-           }
-       }
-       // end budget_j_miscellaneous_register
+    public function miscellaneous_entry_delete($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->where('id', $id);
+        if ($this->db->delete('budget_j_miscellaneous_register')) {
+            $this->session->set_flashdata('success', 'তথ্য মুছে ফেলা হয়েছে');
+            redirect('journal_entry/miscellaneous_entry');
+        }else{
+            $this->session->set_flashdata('error', 'তথ্য মুছে ফেলা হয়নি');
+            redirect('journal_entry/miscellaneous_entry');
+        }
+    }
+    // end budget_j_miscellaneous_register
 
-       public function chenge_status($type,$encid)
-       {
+    public function chenge_status($type,$encid)
+    {
         $id = (int) decrypt_url($encid);
         if ($type == 'revenue') {
             $this->db->where('id', $id);
@@ -888,10 +899,10 @@ class Journal_entry extends Backend_Controller
             $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
             redirect('journal_entry/cheque_entry');
         }
-       }
+    }
 
-       public function print_singal($type,$encid)
-       {
+    public function print_singal($type,$encid)
+    {
         $id = (int) decrypt_url($encid);
         if ($type == 'revenue') {
             $this->db->where('id', $id);
@@ -927,9 +938,9 @@ class Journal_entry extends Backend_Controller
         // $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
         // $mpdf->WriteHtml($html);
         // $mpdf->output();
-       }
+    }
 
-       //entry Report
+    //entry Report
         public function entry_report()
         {
             $this->data['meta_title'] = 'রিপোর্ট';
