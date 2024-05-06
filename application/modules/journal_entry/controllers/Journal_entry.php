@@ -519,16 +519,29 @@ class Journal_entry extends Backend_Controller
             redirect('journal_entry/publication_entry');
         }
     }
-    public function publication_print($encid){
-        $id = (int) decrypt_url($encid);
-        $this->db->where('id', $id);
-        if ($this->db->delete('budget_j_publication_register')) {
-            $this->session->set_flashdata('success', 'তথ্য মুছে ফেলা হয়েছে');
-            redirect('journal_entry/publication_entry');
-        }else{
-            $this->session->set_flashdata('error', 'তথ্য মুছে ফেলা হয়নি');
-            redirect('journal_entry/publication_entry');
-        }
+
+    public function publication_print($id)
+    {
+        $id = (int) decrypt_url($id);
+        //Results
+        $this->db->select('q.*, u.name_bn as create_by, u.signature, ac.signature as acc_signature, d.dept_name');
+        $this->db->from('budget_j_publication_register as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->join('users as ac', 'ac.id = q.acc_id', 'left');
+        $this->db->join('department as d', 'd.id = u.crrnt_dept_id', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['info'] = $this->db->get()->row();
+
+        $this->db->where('publication_register_id', $id);
+        $this->data['items'] = $this->db->get('budget_j_publication_register_details')->result();
+
+        // Generate PDF
+        $this->data['headding'] = 'পাবলিকেশন ভাউচার';
+        $html = $this->load->view('publication/publication_print', $this->data, true);
+
+        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+        $mpdf->WriteHtml($html);
+        $mpdf->output();
     }
     // end budget_j_publication_register
 
