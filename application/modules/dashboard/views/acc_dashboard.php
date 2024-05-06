@@ -39,7 +39,9 @@
                         <div class="tiles white text-center">
                             <h2 class="semi-bold text-error no-margin"
                                 style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;">
-                                <?=eng2bng($out_amount)?></h2>
+
+                                <?=eng2bng($out_amount?:0)?></h2>
+
                             <div class="tiles-title red m-b-5">ছাড়কৃত পরিমাণ (রাজস্ব)</div>
                             <div class="clearfix"></div>
                         </div>
@@ -156,7 +158,7 @@
                     ?>  
                         <div class="tiles-title"> জার্নাল ছাড়কৃত সামারি রিপোর্ট </div>
                         <div class="heading "> <span class="" data-value=""
-                                data-animation-duration="1000"></span><?=eng2bng($total_amount_bli->all_amount) ?> </div>
+                                data-animation-duration="1000"></span><?=eng2bng($total_amount_bli->all_amount?:0) ?> </div>
 
                         <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
                         <div class="description">
