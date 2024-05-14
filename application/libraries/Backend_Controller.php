@@ -202,16 +202,16 @@ class Backend_Controller extends MY_Controller
 				$this->data['leave_notify'] = $this->Common_model->get_employee_leave_count($userDetails->id);
 			}
 
-			$this->data['budget_nilg_ntfy'] = $this->db->select('count(*) r')->get('budget_nilg')->row()->r;
-			$this->data['budget_office_ntfy'] = $this->db->select('count(*) r')->get('budget_field')->row()->r;
-			$this->data['budget_chahida_ntfy'] = $this->db->select('count(*) r')->get('budget_chahida_potro')->row()->r;
-			$this->data['budget_check_ntfy'] = $this->db->select('count(*) r')->get('budget_j_cheque_register')->row()->r;
-			$this->data['budget_revenue_ntfy'] = $this->db->select('count(*) r')->get('budget_j_gov_revenue_register')->row()->r;
-			$this->data['budget_hostel_ntfy'] = $this->db->select('count(*) r')->get('budget_j_hostel_register')->row()->r;
-			$this->data['budget_public_ntfy'] = $this->db->select('count(*) r')->get('budget_j_publication_register')->row()->r;
-			$this->data['budget_gpf_ntfy'] = $this->db->select('count(*) r')->get('budget_j_gpf_register')->row()->r;
-			$this->data['budget_pension_ntfy'] = $this->db->select('count(*) r')->get('budget_j_pension_register')->row()->r;
-			$this->data['budget_other_ntfy'] = $this->db->select('count(*) r')->get('budget_j_miscellaneous_register')->row()->r;
+			$this->data['budget_nilg_ntfy'] = $this->db->select('count(*) r')->where('status',1)->get('budget_nilg')->row()->r;
+			$this->data['budget_office_ntfy'] = $this->db->select('count(*) r')->where('status',1)->get('budget_field')->row()->r;
+			$this->data['budget_chahida_ntfy'] = $this->db->select('count(*) r')->where('status',1)->get('budget_chahida_potro')->row()->r;
+			$this->data['budget_check_ntfy'] = $this->db->select('count(*) r')->where('status',1)->get('budget_j_cheque_register')->row()->r;
+			$this->data['budget_revenue_ntfy'] = $this->db->select('count(*) r')->where('status',1)->get('budget_j_gov_revenue_register')->row()->r;
+			$this->data['budget_hostel_ntfy'] = $this->db->select('count(*) r')->where('status',1)->get('budget_j_hostel_register')->row()->r;
+			$this->data['budget_public_ntfy'] = $this->db->select('count(*) r')->where('status',1)->get('budget_j_publication_register')->row()->r;
+			$this->data['budget_gpf_ntfy'] = $this->db->select('count(*) r')->where('status',1)->get('budget_j_gpf_register')->row()->r;
+			$this->data['budget_pension_ntfy'] = $this->db->select('count(*) r')->where('status',1)->get('budget_j_pension_register')->row()->r;
+			$this->data['budget_other_ntfy'] = $this->db->select('count(*) r')->where('status',1)->get('budget_j_miscellaneous_register')->row()->r;
 
 		}
 		// exit('10');

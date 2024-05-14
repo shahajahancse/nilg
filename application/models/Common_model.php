@@ -2167,8 +2167,8 @@ class Common_model extends CI_Model
     public function all_journal_amount($type){
         $data=array();
         $this->db->select_sum('amount');
-       
         $this->db->where('status',2);
+        $this->db->where('type',1);
         if ($type == 'revenue') {
             $data=$this->db->get('budget_j_gov_revenue_register')->row();
         }elseif ($type == 'publication') {
