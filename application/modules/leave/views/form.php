@@ -66,7 +66,7 @@ if (isset($leave_address->district_id)) {
         <h3>গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</h3>
         <p>জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি)</p>
         <p>২৯, আগারগাঁও, শেরে বাংলা নগর ঢাকা - ১২০৭</p>
-        <h4 style="text-decoration: underline;line-height: 32px;">নৈমিত্তিক ছুটি মঞ্জুরী পত্র</h4>
+        <h4 style="font-family: SutonnyMJ; text-decoration: underline; line-height: 32px;">‰bwgwËK QywU gÄyix cÎ</h4>
     </div>
     <div class="container">
         <div class="row">
@@ -174,7 +174,7 @@ if (isset($leave_address->district_id)) {
                     নিয়ন্ত্রণকারী কর্মকর্তার স্বাক্ষর ও তারিখ। </span>
                 <span>
                     <?php if (!empty($app_user->signature)) {
-                        $url = base_url('uploads/signature/') . $con_user->signature;
+                        $url = base_url('uploads/signature/') . $app_user->signature;
                     } else {
                         $url = base_url('uploads/signature/blank.jpg');
                     }?>
@@ -189,14 +189,14 @@ if (isset($leave_address->district_id)) {
         <h3>গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</h3>
         <p>জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি)</p>
         <p>২৯, আগারগাঁও, শেরে বাংলা নগর ঢাকা - ১২০৭</p>
-        <h4 style="text-decoration: underline;line-height: 32px;">ছুটি মঞ্জুরী পত্র</h4>
+        <h4 style="font-family: SutonnyMJ; text-decoration: underline; line-height: 32px;">‰bwgwËK QywU gÄyix cÎ</h4>
     </div>
     <div class="col-md-12" style="width: 100%;padding:26px;">
         <span>জনাব/বেগম &nbsp&nbsp&nbsp&nbsp <?php echo $user->name_bn; ?>&nbsp&nbsp&nbsp&nbsp পদবি &nbsp&nbsp&nbsp&nbsp<?php echo $desig->desig_name; ?>&nbsp&nbsp&nbsp কে &nbsp&nbsp&nbsp
 
             <?= date_bangla_calender_format($row->from_date) ?> থেকে <?= date_bangla_calender_format($row->to_date) ?> পর্যন্ত
                             মোট <?= eng2bng($row->leave_days) ?> দিন &nbsp <?=$leave_type->leave_name_bn?> &nbsp
-            মঞ্জুরী করা হল
+            <span style="font-family: SutonnyMJ; font-size: 22px;">gÄyi</span> করা হল
         </span>
     </div>
     <div class="col-md-12" style="display: flex;justify-content: space-between;width: 100%;padding:26px;">
