@@ -1322,8 +1322,27 @@ class Budgets extends Backend_Controller
     public function budget_chahida_approve($encid){
         $id = (int) decrypt_url($encid);
         $this->db->where('id', $id);
-        $this->db->update('budget_chahida_potro', array('status' => 2, 'acc_id' => $this->session->userdata('user_id')));
+        $this->db->update('budget_chahida_potro', array('status' => 2));
         $this->session->set_flashdata('success', 'অনুমোদন করা হয়েছে');
+        redirect('budgets/chahida_potro');
+    }
+    public function budget_chahida_approve_partial($type,$encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->where('id', $id);
+        if ($type == 'jod') {
+            $this->db->update('budget_chahida_potro', array('join_director_id' => $this->session->userdata('user_id'),'join_director_app_status'=>1));
+            $this->session->set_flashdata('success', 'অনুমোদন করা হয়েছে');
+
+        }elseif($type == 'dire'){
+            $this->db->update('budget_chahida_potro', array('director_id' => $this->session->userdata('user_id'),'director_app_status'=>1));
+            $this->session->set_flashdata('success', 'অনুমোদন করা হয়েছে');
+
+        }elseif($type == 'acc'){
+            $this->db->update('budget_chahida_potro', array('acc_id' => $this->session->userdata('user_id'),'acc_app_status'=>1));
+            $this->session->set_flashdata('success', 'অনুমোদন করা হয়েছে');
+        }else{
+            $this->session->set_flashdata('error', 'অনুমোদন করা হয়নি');
+        }
         redirect('budgets/chahida_potro');
     }
     public function budget_chahida_potro_print($encid){

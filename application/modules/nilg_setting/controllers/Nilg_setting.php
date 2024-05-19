@@ -134,5 +134,24 @@ class Nilg_setting extends Backend_Controller {
         $this->data['subview'] = 'account_type/edit';
         $this->load->view('backend/_layout_main', $this->data);
     }
+    public function chahida_potro_approval(){
+        
+        $this->data['row'] = $this->db->get('budget_chahida_potro_settings')->row();
+        $this->data['meta_title'] = 'চাহিদা পত্র অনুমোদন সেটিংস';
+        $this->data['subview'] = 'budget_chahida_potro_settings';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function budget_chahida_potro_settings_update(){
+        $form_data = array(
+            'acc_app' => $this->input->post('acc_app')?'1':'0',
+            'join_director_app' => $this->input->post('join_director_app')?'1':'0',
+            'director_app' => $this->input->post('director_app')?'1':'0',
+        );
+        $this->db->where('id', 1);
+        if ($this->db->update('budget_chahida_potro_settings', $form_data)) {
+            $this->session->set_flashdata('success', 'তথ্য সংশোধন করা হয়েছে');
+            redirect('nilg_setting/chahida_potro_approval');
+        }
+    }
 
 }
