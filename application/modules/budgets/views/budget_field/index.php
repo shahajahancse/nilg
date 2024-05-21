@@ -37,7 +37,7 @@
                            <th>কোড</th>
                            <th>পরিমাণ</th>
                            <th>অফিস</th>
-                           <th>স্ট্যাটাস</th>
+                           <!-- <th>স্ট্যাটাস</th> -->
                            <th>আপডেট তারিখ</th>
                            <th style="text-align: right;">অ্যাকশন</th>
                         </tr>
@@ -56,25 +56,26 @@
                            <td class="v-align-middle"><?=$row->office_name; ?></td>
 
                            <!-- <td class="v-align-middle" style="width: 200px; white-space: normal;overflow: hidden" title="<?=$row->description; ?>"><?=$row->description; ?></td> -->
-                           <td class="v-align-middle">
+                          <!-- <td class="v-align-middle"> -->
                            <!-- 1=pending,2=dpt. app., 3=reject, 4=acc., 5=dg, 6=draft, 7=revenue received -->
-                              <?php if($row->status==1){
-                                 echo '<span class="label label-warning">Pending </span>';
-                              }elseif($row->status==2){
-                                 echo '<span class="label label-success">DPT. Approve </span>';
-                              }elseif($row->status==3){
-                                 echo '<span class="label label-important">Rejected </span>';
-                              }elseif($row->status==4){
-                                 echo '<span class="label label-info">ACC. Approve </span>';
-                              }elseif($row->status==5){
-                                 echo '<span class="label label-success">DG. Approve </span>';
-                              }elseif($row->status==6){
-                                 echo '<span class="label label-info">Draft </span>';
-                              }elseif($row->status==7){
-                                 echo '<span class="label label-success">Revenue Received </span>';
-                              }
+                              <?php 
+                              // if($row->status==1){
+                              //    echo '<span class="label label-warning">Pending </span>';
+                              // }elseif($row->status==2){
+                              //    echo '<span class="label label-success">DPT. Approve </span>';
+                              // }elseif($row->status==3){
+                              //    echo '<span class="label label-important">Rejected </span>';
+                              // }elseif($row->status==4){
+                              //    echo '<span class="label label-info">ACC. Approve </span>';
+                              // }elseif($row->status==5){
+                              //    echo '<span class="label label-success">DG. Approve </span>';
+                              // }elseif($row->status==6){
+                              //    echo '<span class="label label-info">Draft </span>';
+                              // }elseif($row->status==7){
+                              //    echo '<span class="label label-success">Revenue Received </span>';
+                              // }
                               ?>
-                           </td>
+                           <!-- </td> -->
 
                            <td class="v-align-middle"><?=date_bangla_calender_format($row->created_at); ?>
                            </td>

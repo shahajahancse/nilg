@@ -41,8 +41,8 @@ class Dashboard extends Backend_Controller
 			$this->data['budget_field'] = $this->db->get('budget_field')->result();
 			$this->data['budget_nilg'] = $this->db->get('budget_nilg')->result();
 			$this->data['budgets_entry'] = $this->db->get('budgets')->result();
-			$budgets = $this->db->select('SUM(amount) as amount')->get('budgets')->row();
-			$this->data['in_amount'] =  round($budgets->amount);
+			$budgets = $this->db->select('SUM(revenue_amt) as amount')->get('budget_nilg')->row();
+			$this->data['in_amount'] =  $this->Common_model->all_journal_amount('revenue');
 			$this->data['info'] = $this->Dashboard_model->get_office_info();
 			$this->data['meta_title'] = 'অ্যাকাউন্ট ড্যাশবোর্ড';
 			$this->data['subview'] = 'acc_dashboard';

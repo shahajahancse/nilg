@@ -29,13 +29,13 @@
 
             <div class="row">
               <div class="col-md-12">
-                <!-- <div style="text-align: center; border:1px solid #0aa699; padding:25px 15px 15px 15px; margin:0 -15px; position: relative; ">
+                <div style="text-align: center; border:1px solid #0aa699; padding:25px 15px 15px 15px; margin:0 -15px; position: relative; ">
                   <div id="error" style="display: none;">
                     <div class="alert alert-danger">এই রিপোর্ট দেখার জন্য লাল চিহ্নিত ফিল্ড গুলো পূরণ করুন।</div>
                   </div>
 
                   <label class="head">ফলাফল প্রদর্শনের ফিল্টারিং ফিল্ড সমূহ</label>
-                  <div class="row form-row">
+                  <!-- <div class="row form-row">
                     <div class="col-md-3">
                       <div class="form-group">
                         <label class="form-label pull-left">শুরুর তারিখ</label>
@@ -93,11 +93,26 @@
                         </select>
                       </div>
                     </div>
+                  </div> -->
+                  <div class="row form-row">
+                      <div class="col-md-3">
+                          <div class="form-group">
+                              <label class="form-label pull-left">ডিপার্টমেন্ট</label>
+                                <?php
+                                $department = $this->db->get('department')->result_array();?>
+                                <select name="department_id" class="form-control input-sm" id="department">
+                                    <option value=""> ডিপার্টমেন্ট নির্বাচন করুন</option>
+                                    <?php
+                                    foreach ($department as $key => $value) {?>
+                                    <option value="<?= $value['id'] ?>"><?= $value['dept_name'] ?></option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select>
+                          </div>
+                      </div>
                   </div>
-
-
-                </div> -->
-
+                </div>
                 <div class="row form-row">
                   <div class="col-md-12" style="text-align: center; border:1px solid #0aa699; padding:10px 5px 20px 5px; position: relative; margin-top: 40px">
                     <label class="head">বাজেট NILG রিপোর্ট</label>

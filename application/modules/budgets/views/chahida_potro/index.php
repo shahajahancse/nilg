@@ -55,6 +55,7 @@
                                     <th>শিরোনাম</th>
                                     <th>বিভাগ</th>
                                     <th>পরিমাণ</th>
+                                    <th>স্ট্যাটাস</th>
                                     <th style="text-align: right;">অ্যাকশন</th>
                                 </tr>
                             </thead>
@@ -68,8 +69,12 @@
                                     <td class="v-align-middle"><?=$row->title; ?></td>
                                     <td class="v-align-middle"><?=$row->dept_name; ?></td>
                                     <td class="v-align-middle"><?=$row->amount; ?></td>
-                                  
-
+                                    <?php if ($row->status == 1) {
+                                        $type = '<span class="label label-success">পেন্ডিং</span>';
+                                    } else {
+                                        $type = '<span class="label label-success">অনুমোদিত</span>';
+                                    } ?>
+                                    <td class="v-align-middle"><?=$type; ?></td>
                                     </td>
                                     <td align="right">
                                         <div class="btn-group">
@@ -96,6 +101,37 @@
                                                         target="_blank"><i class="fa fa-pencil-square"></i> সমন্বয় প্রিন্ট করুন
                                                     </a>
                                                 </li>
+                                                <?php if ($row->status == 1 && $this->ion_auth->in_group(array('admin', 'nilg','acc')) ) {?>
+                                                        <li>
+                                                            <a href="<?php echo base_url('budgets/budget_chahida_approve/'.encrypt_url($row->id))?>"
+                                                                target="_blank"><i class="fa fa-pencil-square"></i>চূড়ান্ত অনুমোদন
+                                                            </a>
+                                                        </li>
+                                                <?php } ?>
+                                                <?php
+
+                                                $cum_data=$this->db->get('budget_chahida_potro_settings')->row();
+                                                if ($cum_data->join_director_app == 1 && $this->ion_auth->in_group(array('jod')) ) {?>
+                                                        <li>
+                                                            <a href="<?php echo base_url('budgets/budget_chahida_approve_partial/jod/'.encrypt_url($row->id))?>"
+                                                                target="_blank"><i class="fa fa-pencil-square"></i>অনুমোদন
+                                                            </a>
+                                                        </li>
+                                                <?php } ?>
+                                                <?php if ($cum_data->director_app == 1 && $this->ion_auth->in_group(array('dire')) ) {?>
+                                                        <li>
+                                                            <a href="<?php echo base_url('budgets/budget_chahida_approve_partial/dire/'.encrypt_url($row->id))?>"
+                                                                target="_blank"><i class="fa fa-pencil-square"></i>ডিরেক্টর অনুমোদন
+                                                            </a>
+                                                        </li>
+                                                <?php } ?>
+                                                <?php if ($cum_data->acc_app == 1 && $this->ion_auth->in_group(array('acc')) ) {?>
+                                                        <li>
+                                                            <a href="<?php echo base_url('budgets/budget_chahida_approve_partial/acc/'.encrypt_url($row->id))?>"
+                                                                target="_blank"><i class="fa fa-pencil-square"></i>আকউন্টার অনুমোদন
+                                                            </a> 
+                                                        </li>
+                                                <?php } ?>
                                             </ul>
                                         </div>
                                     </td>

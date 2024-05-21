@@ -59,16 +59,18 @@
                                     <img src="<?=base_url('img/loading.gif') ?>" width="100" alt="">
                                 </div>
                                 <fieldset style="background: #fff !important;">
-                                    <div class="col-md-12"  style="padding: 20px;display: flex;flex-direction: row;justify-content: center;align-items: center;">
-                                        <div >
+                                    <div class="col-md-12"
+                                        style="padding: 20px;display: flex;flex-direction: row;justify-content: center;align-items: center;">
+                                        <div>
                                             <span
                                                 style="font-size: 22px;font-weight: bold;text-decoration: underline;">বাজেট
                                                 তৈরি করুন</span>
                                         </div>
-                                        <div style="position: absolute;right: 0;font-size: large;font-weight: bold;"><p>অবশিষ্ট পরিমাণ <span>
+                                        <div style="position: absolute;right: 0;font-size: large;font-weight: bold;">
+                                            <p>অবশিষ্ট পরিমাণ <span>
                                             <?php 
-                                            $budgets = $this->db->select('SUM(amount) as amount')->get('budgets')->row();
-                                            $in_amount=  round($budgets->amount);
+                                            $budgets = $this->db->select('SUM(revenue_amt) as amount')->get('budget_nilg')->row();
+                                            $in_amount= $this->Common_model->all_journal_amount('revenue');
                                             $this->db->select_sum('total_overall_expense');
                                             $this->db->from('budget_field');
                                             $this->db->where('status', 1);
@@ -81,7 +83,8 @@
                                                 echo $a;
                                             }
                                             ?>
-                                        </span> </p></div>
+                                                </span> </p>
+                                        </div>
                                     </div>
 
                                     <div class="row form-row" style="font-size: 16px; color: black;">
@@ -323,27 +326,43 @@ function addNewRow(id) {
 <script>
 function calculateTotal() {
     var total = 0;
-    $(".amount").each(function() {
-        total += parseInt($(this).val());
-    })
+    var rest_amount_b = parseInt(<?php echo $a; ?>);
+    if (typeof rest_amount_b === "number" && !isNaN(rest_amount_b)) {
+        try {
+            $(".amount").each(function() {
+                var parsed_val = parseInt($(this).val());
+                if (typeof parsed_val === "number" && !isNaN(parsed_val)) {
+                    total += parsed_val;
+                }
+            });
 
-
-    var rest_amount_b= parseInt(<?php echo $a; ?>);
-    if (typeof rest_amount_b !== "number" || isNaN(rest_amount_b)) {
-        $('#submit_btn').prop('disabled', true);
-            $('#submit_btn').parent().prepend('<span class="error_balance" style="color: red;padding: 4px;border: 1px solid red;">অ্যাকাউন্টে পর্যাপ্ত পরিমাণ ব্যালেন্স নেই</span>');
-    } else {
-        if (total > rest_amount_b) {
+            if (total > rest_amount_b) {
+                $('#submit_btn').prop('disabled', true);
+                $('#submit_btn').parent().find('.error_balance').remove();
+                $('#submit_btn').parent().prepend(
+                    '<span class="error_balance" style="color: red;padding: 4px;border: 1px solid red;">অ্যাকাউন্টে পর্যাপ্ত পরিমাণ ব্যালেন্স নেই</span>'
+                );
+            } else {
+                $('#submit_btn').prop('disabled', false);
+                $('#submit_btn').parent().find('.error_balance').remove();
+            }
+            $("#total_amount").val(total);
+        } catch (e) {
+            console.error(e);
             $('#submit_btn').prop('disabled', true);
-            $('#submit_btn').parent().prepend('<span class="error_balance" style="color: red;padding: 4px;border: 1px solid red;">অ্যাকাউন্টে পর্যাপ্ত পরিমাণ ব্যালেন্স নেই</span>');
-        } else {
-            $('#submit_btn').prop('disabled', false);
-            $('.error_balance').remove();
+            $('#submit_btn').parent().find('.error_balance').remove();
+            $('#submit_btn').parent().prepend(
+                '<span class="error_balance" style="color: red;padding: 4px;border: 1px solid red;">অনুগ্রহ করে আবার চেষ্টা করুন</span>'
+            );
         }
+    } else {
+        $('#submit_btn').prop('disabled', true);
+        $('#submit_btn').parent().find('.error_balance').remove();
+        $('#submit_btn').parent().prepend(
+            '<span class="error_balance" style="color: red;padding: 4px;border: 1px solid red;">অনুগ্রহ করে আবার চেষ্টা করুন</span>'
+        );
     }
-    $("#total_amount").val(total);
 }
-
 function calculateTotal_token(el) {
     var total = 1;
     var token_participant = $(el).closest("tr").find(".token_participant").val()

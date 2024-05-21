@@ -8,6 +8,7 @@ class Budgets_model extends CI_Model {
     }
     // Manage Budget nilg list
     public function get_budget($limit, $offset, $arr = array(), $dept_id = null, $user_id = null) {
+        $dept_id=$_POST['department_id'];
 
       // result query
       $this->db->select('
@@ -109,6 +110,8 @@ class Budgets_model extends CI_Model {
 
     // Manage Budget office list
     public function get_budget_field($limit, $offset, $office_id = null, $user_id = null, $dept_id = null) {
+        $dept_id=$_POST['department_id'];
+
       $this->db->select('b.*, o.office_name');
       $this->db->from('budget_field as b');
       $this->db->join('office as o','o.id=b.office_id', 'left');
