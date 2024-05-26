@@ -1,3 +1,6 @@
+User: Superadmin
+passs :  N12345678
+
 মোঃ এরশাদ-ই-ইসলাম	2695041731312  (training user)
 এ জেহাদ সরকার	1479302182     (training user)
 মুক্তাদির হোসেন	8680992065     (dept head training)
@@ -7,15 +10,25 @@
 ড. খ ম কবিরুল ইসলাম	3707391243     (dept head evaluation)
 
 মোঃ মাহফুজ গাজী	8210673607 (accounts)
-মো: আবদুর রহমান           2806711236          (লাইব্রেরিয়ান)
-তপন কুমার কর্মকার          3214567890         (হোস্টেলিয়ান)
-শেখ মোঃ বাহার উদ্দিন      7778867478          (অডিটোরিয়াম)
+মো: আবদুর রহমান           2806711236          ( লাইব্রেরিয়ান )
+মোঃ আবদুল কাইয়ুম          8682538007         ( হোস্টেলিয়ান )
+শেখ মোঃ বাহার উদ্দিন      7778867478          ( অডিটোরিয়াম )
 মোঃ ইসরাত হোসেন খান   6411189258         (dg admin)
 
 
 uz@kotwali_jessore   (office)
+ddlg@maulvibazar 
 
 
 //leave
+মো: নাজিম উদ্দিন	3273133821  (user)
+মোতাছিম বিল্লাহ	2611038723696  (evaluation con user)
+ড. খ ম কবিরুল ইসলাম	3707391243  (evaluation leave dg)
+
 3707391243  jd 
 মোঃ এরশাদ-ই-ইসলাম	2695041731312  (user)
+
+
+ALTER TABLE `leave_employee` ADD `app_f_day` DATE NULL DEFAULT NULL AFTER `leave_days`, ADD `app_s_day` DATE NULL DEFAULT NULL AFTER `app_f_day`, ADD `app_days` TINYINT(1) NOT NULL DEFAULT '0' AFTER `app_s_day`;
+
+

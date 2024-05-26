@@ -53,30 +53,7 @@
                   <?php echo form_error('user_id'); ?>
                 </div>
               </div>
-              <?php
 
-//               dd($row);
-              
-// stdClass Object
-// (
-//     [id] => 4
-//     [user_id] => 177
-//     [dept_id] => 3
-//     [desig_id] => 100
-//     [leave_type] => 8
-//     [from_date] => 2024-03-28
-//     [to_date] => 2024-03-28
-//     [leave_days] => 1
-//     [reason] => sdsfdsfds
-//     [status] => 1
-//     [assign_person] => 181
-//     [assign_remark] => 
-//     [leave_address] => {"father_name":"Md. Nahid","division_id":"6","district_id":"47","upazila_id":"273","village":"Dolapara","post_office":"Magura"}
-//     [file_name] => 
-//     [created_date] => 2024-03-28
-// )
-              
-              ?>
               <div class="col-md-3">
                 <div class="form-group">
                   <label class="form-label">ছুটির টাইপ <span class="required">*</span></label>
@@ -135,7 +112,7 @@
                 <div class="form-group">
                   <label class="form-label">ছুটিকালীন বিকল্প কর্মকর্তার বক্তব্য</label>
                   <textarea name="assign_remark" id="" class="form-control"><?= $row->assign_remark?></textarea>
-                  
+
                 </div>
               </div>
 

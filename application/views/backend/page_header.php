@@ -396,8 +396,8 @@ input[type="search"] {
                <?php } ?>
 
 
-               <!-- budget entry -->
-               <?php //if ($this->ion_auth->in_group('ccddddddddddddd')) { ?>
+               <!-- budget entry start -->
+               <?php if ($this->ion_auth->in_group('ccddddddddddddd')) { ?> <!-- //  not live the module yet -->
                <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg', 'bdh', 'acc', 'uz', 'ddlg','bod','bho','bli')) || $userDetails->office_type == 7) { ?>
                   <?php if ($this->ion_auth->in_group(array('uz', 'ddlg'))) { ?>
                      <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span> <span class="arrow"></span> </a>
@@ -607,8 +607,8 @@ input[type="search"] {
                      </ul>
                   </li>
                <?php } ?>
-               <?php //} ?>
-               <!-- budget entry -->
+               <?php } ?>
+               <!-- budget entry end -->
 
 
                <?php if ($this->ion_auth->in_group('cc')) { ?>
@@ -635,7 +635,11 @@ input[type="search"] {
                                  echo '<span class="badge badge-danger pull-right" style="margin-right:10px">' . eng2bng($leave_notify) . '</span>';
                               } ?>
                         </a></li>
-                        <li> <a href="<?= base_url('leave/index/2'); ?>"> অনুমোদিত তালিকা </a> </li>
+                        <?php if($this->ion_auth->in_group(array('leave_jd', 'leave_dg', 'leave_director'))){ ?>
+                        <li> <a href="<?= base_url('leave/approved_list'); ?>"> অনুমোদিত তালিকা </a> </li>
+                        <?php } else { ?>
+                           <li> <a href="<?= base_url('leave/index/4'); ?>"> অনুমোদিত তালিকা </a> </li>
+                        <?php } ?>
                         <li class="start <?= backend_activate_menu_method('rejected_list') ?>"><a href="<?= base_url('leave/rejected_list') ?>">প্রত্যাখ্যাত তালিকা </a></li>
                         <li class="start <?= backend_activate_menu_method('leave_reports') ?>"><a href="<?= base_url('leave/leave_reports') ?>">রিপোর্ট</a></li>
                         <?php } elseif ($userDetails->office_type == 7) { ?>

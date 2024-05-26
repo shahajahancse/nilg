@@ -264,7 +264,12 @@ class Leave extends Backend_Controller {
                 $message = 'সফলভাবে প্রত্যাখ্যাত করা হয়েছে ।';
             }
 
+            $total_days = $this->Leave_model->GetDays($this->input->post('from_date'), $this->input->post('to_date'));
+
             $form_data = array(
+                'from_date'  => $_POST['from_date'],
+                'to_date'  => $_POST['to_date'],
+                'leave_days'   => count($total_days),
                 'control_remark'  => $_POST['control_remark'],
                 'status'          => $_POST['status'],
                 'approve_person'  => $this->data['userDetails']->id,
@@ -273,7 +278,7 @@ class Leave extends Backend_Controller {
 
             if($this->Common_model->edit('leave_employee', $id, 'id', $form_data)){
                 $this->session->set_flashdata('success', $message);
-                redirect('leave');
+                redirect('leave/pending_list');
             }
         }
 
@@ -350,6 +355,41 @@ class Leave extends Backend_Controller {
         }else{
             $this->session->set_flashdata('error', 'দুঃখিত, পরিবর্তন হয়নি ।');
         }
+    }
+
+    public function approved_list($offset=0)
+    {
+        $this->load->model('Common_model');
+        $this->data['userDetails'] = $this->Common_model->get_office_info_by_session();
+        $userDetails = $this->data['userDetails'];
+        // Manage list the users
+        $limit = 50;
+        $results = $this->Leave_model->get_data($limit, $offset, 4, null, $userDetails->id);
+        // dd($results);
+
+        $this->data['results'] = $results['rows'];
+        $this->data['total_rows'] = $results['num_rows'];
+
+        //pagination
+        $this->data['pagination'] = create_pagination('leave/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+
+        $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+        // Dropdown List
+        $this->data['users'] = $this->Common_model->get_nilg_employee();
+        $this->data['info'] = $this->Leave_model->get_info('users',$this->session->userdata('user_id'));
+
+        //Load page
+        if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
+            $this->data['meta_title'] = 'অনুমোদিত ছুটির তালিকা';
+            $this->data['subview'] = 'index';
+        } elseif (func_nilg_auth($userDetails->office_type) == 'employee') {
+            $results = $this->Leave_model->get_yearly_leave_count($userDetails->id);
+            $this->data['total_leave'] = $results['total_leave'];
+            $this->data['used_leave'] = $results['used_leave'];
+            $this->data['meta_title'] = 'ছুটির তালিকা';
+            $this->data['subview'] = 'staff_index';
+        }
+        $this->load->view('backend/_layout_main', $this->data);
     }
 
     public function pending_list($offset=0)

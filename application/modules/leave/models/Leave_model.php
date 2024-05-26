@@ -7,7 +7,7 @@ class Leave_model extends CI_Model {
         parent::__construct();
     }
 
-    public function get_data($limit = 1000, $offset = 0, $status = null, $user = null,$assign=null) {
+    public function get_data($limit = 1000, $offset = 0, $status = null, $user = null, $approve_person=null) {
         // result query
         $this->db->select('el.*, et.leave_name_bn, et.leave_name_en, users.name_bn, dg.dept_name, cd.desig_name');
         $this->db->from('leave_employee el');
@@ -19,13 +19,22 @@ class Leave_model extends CI_Model {
         $this->db->offset($offset);
         $this->db->order_by('el.id', 'DESC');
         // Filter
-        if($this->input->get('from_date') && $this->input->get('to_date')){
-            $this->db->where('el.from_date >=', $this->input->get('from_date'));
-            $this->db->where('el.from_date <=', $this->input->get('to_date'));
+
+        if($status != null){
+            $this->db->where('el.status', $status);
         }
 
         if($user != null){
             $this->db->where('el.user_id', $user);
+        }
+
+        if($approve_person != null){
+            $this->db->where('el.approve_person', $approve_person);
+        }
+
+        if($this->input->get('from_date') && $this->input->get('to_date')){
+            $this->db->where('el.from_date >=', $this->input->get('from_date'));
+            $this->db->where('el.from_date <=', $this->input->get('to_date'));
         }
 
         if($this->input->get('user_id')){
@@ -35,9 +44,7 @@ class Leave_model extends CI_Model {
         if($this->input->get('status')){
             $this->db->where('el.status', $this->input->get('status'));
         }
-        if($status != null){
-            $this->db->where('el.status', $status);
-        }
+
         // $query = $this->db->get();
         $result['rows'] = $this->db->get()->result();
         // echo $this->db->last_query(); exit;
@@ -51,8 +58,17 @@ class Leave_model extends CI_Model {
             $this->db->where('el.from_date >=', $this->input->get('from_date'));
             $this->db->where('el.from_date <=', $this->input->get('to_date'));
         }
+
+        if($status != null){
+            $this->db->where('el.status', $status);
+        }
+
         if($user != null){
             $this->db->where('el.user_id', $user);
+        }
+
+        if($approve_person != null){
+            $this->db->where('el.approve_person', $approve_person);
         }
 
         if($this->input->get('user_id')){
@@ -62,9 +78,7 @@ class Leave_model extends CI_Model {
         if($this->input->get('status')){
             $this->db->where('el.status', $this->input->get('status'));
         }
-        if($status != null){
-            $this->db->where('el.status', $status);
-        }
+
         $tmp = $this->db->get()->result();
         $result['num_rows'] = $tmp[0]->count;
 
