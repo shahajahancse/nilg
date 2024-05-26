@@ -18,6 +18,7 @@ class Dashboard extends Backend_Controller
 
 	public function index()
 	{
+		$this->data['dashboard_sorcart'] = 1;
 		if ($this->ion_auth->in_group('guest')) { // Guest User (15) Dashboard
 
 			/*

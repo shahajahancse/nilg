@@ -129,10 +129,25 @@ input {
                                                 <tbody id="tbody">
                                                     <?php $boraddo=0;  foreach($budget_field_details as $key => $data):
                                                         $boraddo+=$data->total_amt;
+                                                        if($data->head_sub_id==2147483647){
+                                                            $detail_id=$data->budget_field_details_id;
+                                                            $this->db->select('*');
+                                                            $this->db->from('budget_custom_sub_head');
+                                                            $this->db->where('details_id', $detail_id);
+                                                            $query =  $this->db->get()->row();
+                                                            
+                                                            $name_bn=$query->name;
+                                                        }else{
+                                                            $name_bn=$data->name_bn;
+                                                        }
+                                                        
+                                                        
+                                                        
                                                         ?>
+                                                        
                                                         <tr>
                                                             <td style="text-align: center;width:fit-content;"><?=++$key?></td>
-                                                            <td style="width:fit-content;"><?=$data->name_bn?> (<?=$data->participants>=1 ? $data->participants.'*' : '' ?> <?=$data->days>=1 ? $data->days.'*' : ''?> <?=$data->amount>=1 ? $data->amount .'*' : ''?>) </td>
+                                                            <td style="width:fit-content;"><?=$name_bn?> (<?=$data->participants>=1 ? $data->participants.'*' : '' ?> <?=$data->days>=1 ? $data->days.'*' : ''?> <?=$data->amount>=1 ? $data->amount .'*' : ''?>) </td>
                                                             <td style="text-align: center;width:fit-content;">
                                                             <input type="hidden" name="budget_field_details_id[]" value="<?=$data->budget_field_details_id?>" >
                                                             <input type="hidden" name="head_id[]" value="<?=$data->budget_head_id?>" >
@@ -141,7 +156,7 @@ input {
                                                             <input type="hidden" value="<?=$data->total_amt?>" class="total_amt">
                                                             </td>
                                                             <td><input  style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;" type="number" min=0 value=<?=$data->real_expense==''?$data->total_amt:$data->real_expense ?> name="real_expense[]" class="real_expense" onchange="calculate_overall_expense(this)" onkeyup="calculate_overall_expense(this)"></td>
-                                                            <td><input  style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;" type="number" min=0 value=<?=$data->vat==''?0:$data->vat ?> name="vat[]" class="vat" onkeyup="calculate_overall_expense(this)"></td>
+                                                            <td><input  style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;" type="number" min=0 value=<?=$data->vat==''?$data->vat_head:$data->vat ?> name="vat[]" class="vat" onkeyup="calculate_overall_expense(this)"></td>
                                                             <td><input  style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;" type="number" min=0 value=<?=$data->it_kor==''?0:$data->it_kor ?> name="it_kor[]" class="it_kor" onkeyup="calculate_overall_expense(this)"></td>
                                                             <td><input  style="width: 100%;padding: 5px !important;height: 24px; min-height: 18px;" type="number" min=0 value=<?=$data->overall_expense==''?0:$data->overall_expense ?> name="overall_expense[]" class="overall_expense" readonly></td>
 

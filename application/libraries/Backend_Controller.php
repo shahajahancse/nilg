@@ -30,6 +30,7 @@ class Backend_Controller extends MY_Controller
 		$this->data['budget_office_ntfy'] = 0;
 		$this->data['budget_chahida_ntfy'] = 0;
 		$this->data['budget_check_ntfy'] = 0;
+		$this->data['budget_bank_ntfy'] = 0;
 		$this->data['budget_revenue_ntfy'] = 0;
 		$this->data['budget_hostel_ntfy'] = 0;
 		$this->data['budget_public_ntfy'] = 0;
@@ -206,6 +207,7 @@ class Backend_Controller extends MY_Controller
 			$this->data['budget_office_ntfy'] = $this->db->select('count(*) r')->where('status',1)->get('budget_field')->row()->r;
 			$this->data['budget_chahida_ntfy'] = $this->db->select('count(*) r')->where('status',1)->get('budget_chahida_potro')->row()->r;
 			$this->data['budget_check_ntfy'] = $this->db->select('count(*) r')->where('status',1)->get('budget_j_cheque_register')->row()->r;
+			$this->data['budget_bank_ntfy'] = $this->db->select('count(*) r')->where('status',1)->get('budget_j_bank_register')->row()->r;
 			$this->data['budget_revenue_ntfy'] = $this->db->select('count(*) r')->where('status',1)->get('budget_j_gov_revenue_register')->row()->r;
 			$this->data['budget_hostel_ntfy'] = $this->db->select('count(*) r')->where('status',1)->get('budget_j_hostel_register')->row()->r;
 			$this->data['budget_public_ntfy'] = $this->db->select('count(*) r')->where('status',1)->get('budget_j_publication_register')->row()->r;

@@ -107,7 +107,23 @@
                         </tr>
                     </thead>
                     <tbody id="tbody">
-                        <?php $boraddo=0; $total_real_expense=0; $total_vat=0; $total_it_kor=0; $total_overall_expense=0; $total_rest_amt=0;  foreach($budget_field_details as $key => $data):
+                        <?php $boraddo=0; $total_real_expense=0; $total_vat=0; $total_it_kor=0; $total_overall_expense=0; $total_rest_amt=0;  
+                        foreach($budget_field_details as $key => $data): 
+                            if($data->head_sub_id==2147483647){
+                            $detail_id=$data->budget_field_details_id;
+                            $this->db->select('*');
+                            $this->db->from('budget_custom_sub_head');
+                            $this->db->where('details_id', $detail_id);
+                            $query =  $this->db->get()->row();
+                            
+                            $name_bn=$query->name;
+                        }else{
+                            $name_bn=$data->name_bn;
+                        }
+                        
+                        
+                   
+
                             $boraddo+=$data->total_amt;
                             $total_real_expense+=$data->real_expense;
                             $total_vat+=$data->vat;
@@ -117,7 +133,7 @@
                             ?>
                             <tr>
                                 <td style="text-align: center;width:fit-content;"><?=++$key?></td>
-                                <td style="width:fit-content;"><?=$data->name_bn?> (<?=$data->participants>=1 ? $data->participants.'*' : '' ?> <?=$data->days>=1 ? $data->days.'*' : ''?> <?=$data->amount>=1 ? $data->amount .'*' : ''?>) </td>
+                                <td style="width:fit-content;"><?=$name_bn?> (<?=$data->participants>=1 ? $data->participants.'*' : '' ?> <?=$data->days>=1 ? $data->days.'*' : ''?> <?=$data->amount>=1 ? $data->amount .'*' : ''?>) </td>
                                 <td style="text-align: center;width:fit-content;">
                                 <?=$data->total_amt?>
                                 </td>

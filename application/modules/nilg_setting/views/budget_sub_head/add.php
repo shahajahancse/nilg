@@ -62,6 +62,11 @@
                                     value="<?=set_value('bd_code')?>">
                             </div>
                             <div class="col-md-3">
+                                <label class="form-label">ভ্যাট <span class="required">*</span></label>
+                                <input name="vat" type="" class="form-control input-sm" placeholder="ভ্যাট"
+                                    value="<?=set_value('vat')?>">
+                            </div>
+                            <div class="col-md-3">
                                 <label class="form-label">স্ট্যাটাস <span class="required">*</span></label>
                                 <select name="status" id="">
                                     <option value="1">সক্রিয়</option>

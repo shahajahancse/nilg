@@ -104,6 +104,39 @@ input[type="search"] {
 </head> <!-- END HEAD -->
 
 <body class="">
+
+
+
+<div class="modal fade" id="modal_sort_cart">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Shortcut</h4>
+         </div>
+         <div class="modal-body">
+            <ul style="display: flex;flex-wrap: wrap;gap: 9px;">
+               <li style="list-style: none;box-shadow: 0px 0px 7px 2px #9f9d9d;padding: 8px;border-radius: 5px;font-weight: bold;">
+                  <a href="<?=base_url('my_profile') ?>">My Profile</a>
+               </li>
+               <li style="list-style: none;box-shadow: 0px 0px 7px 2px #9f9d9d;padding: 8px;border-radius: 5px;font-weight: bold;">
+                  <a href="<?=base_url('budgets/budget_nilg') ?>">Budgets</a>
+               </li>
+            </ul>
+            
+         </div>
+      </div>
+   </div>
+</div>
+
+
+
+
+
+
+
+
+
    <div class="header navbar navbar-inverse ">
       <div class="navbar-inner">
          <div class="header-seperation">
@@ -424,10 +457,11 @@ input[type="search"] {
 
                <?php if ($this->ion_auth->in_group(array('admin','nilg','acc','bod','bho','bli'))) { ?>
                   <li class="start <?= backend_activate_menu_class('journal_entry') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">জার্নাল এন্ট্রি</span> <span class="selected"></span>
-                     <?php if ($budget_check_ntfy > 0 || $budget_revenue_ntfy > 0 || $budget_hostel_ntfy > 0 || $budget_public_ntfy > 0 || $budget_gpf_ntfy > 0 || $budget_pension_ntfy > 0 || $budget_other_ntfy > 0) {
+                     <?php if ($budget_check_ntfy > 0 ||$budget_bank_ntfy > 0 || $budget_revenue_ntfy > 0 || $budget_hostel_ntfy > 0 || $budget_public_ntfy > 0 || $budget_gpf_ntfy > 0 || $budget_pension_ntfy > 0 || $budget_other_ntfy > 0) {
                            $too=0;
                            if ($this->ion_auth->in_group(array('admin','nilg','acc'))) {
                               $too+=$budget_check_ntfy;
+                              $too+=$budget_bank_ntfy;
                               $too+=$budget_revenue_ntfy;
                               $too+=$budget_hostel_ntfy;
                               $too+=$budget_public_ntfy;
@@ -451,6 +485,13 @@ input[type="search"] {
                            <li class="start <?= backend_activate_menu_method('cheque_entry') ?>"> <a href="<?= base_url('journal_entry/cheque_entry'); ?>">চেক রেজিস্টার এন্ট্রি
                               <?php if ($budget_check_ntfy > 0 ) {
                                     echo '<span style="margin-right:15px" class="badge badge-danger pull-right">' . eng2bng($budget_check_ntfy) . '</span>';
+                                 }
+                              ?>
+                              </a>
+                           </li>
+                           <li class="start <?= backend_activate_menu_method('bank_entry') ?>"> <a href="<?= base_url('journal_entry/bank_entry'); ?>">ব্যাংক রেজিস্টার এন্ট্রি
+                              <?php if ($budget_bank_ntfy > 0 ) {
+                                    echo '<span style="margin-right:15px" class="badge badge-danger pull-right">' . eng2bng($budget_bank_ntfy) . '</span>';
                                  }
                               ?>
                               </a>

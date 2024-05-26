@@ -175,9 +175,25 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tbody">
-                                                    <?php  foreach($budget_field_details as $key => $data):?>
+                                                    <?php  foreach($budget_field_details as $key => $data):
+                                                        if($data->head_sub_id==2147483647){
+                                                            $detail_id=$data->budget_field_details_id;
+                                                            $this->db->select('*');
+                                                            $this->db->from('budget_custom_sub_head');
+                                                            $this->db->where('details_id', $detail_id);
+                                                            $query =  $this->db->get()->row();
+                                                            
+                                                            $name_bn='<input type=""  name="custom_m[]" class="form-control input-sm"  value="'.$query->name.'"/>
+                                                            ';
+                                                        }else{
+                                                            $name_bn=$data->name_bn;
+                                                        }
+                                                        
+                                                        
+                                                        
+                                                        ?>
                                                         <tr>
-                                                            <td><?=$data->name_bn?></td>
+                                                            <td><?=$name_bn?></td>
                                                             <td><?=$data->bd_code?></td>
                                                             <td>
                                                                 <input type="number" value="<?=$data->participants?>" min="1" name="token_participant[]" onkeyup="calculateTotal_token(this)" class="form-control input-sm token_participant"></td>

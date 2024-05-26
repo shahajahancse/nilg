@@ -105,12 +105,30 @@
                         <?php
                         $total = 0;
                         foreach ($budget_field_details as $key => $value) {
-                        ?>
+
+
+                            if($data->head_sub_id==2147483647){
+                                $detail_id=$data->budget_field_details_id;
+                                $this->db->select('*');
+                                $this->db->from('budget_custom_sub_head');
+                                $this->db->where('details_id', $detail_id);
+                                $query =  $this->db->get()->row();
+                                
+                                $name_bn=$query->name;
+                            }else{
+                                $name_bn=$data->name_bn;
+                            }
+                            
+                            
+                            
+                            ?>
+                         
+                       
                         <tr>
                             <td style="text-align: center"><?=number_bangla_format($key+1);?></td>
                             <td>
                                 <?php
-                                echo "$value->budget_head_name:$value->name_bn:&nbsp&nbsp";
+                                echo "$value->budget_head_name:$name_bn:&nbsp&nbsp";
                                 ?>
                                 <?=  number_bangla_format($value->amount).''; ?> টাকা &nbsp 
                                 <?=  number_bangla_format($value->participants).''; ?> জন &nbsp

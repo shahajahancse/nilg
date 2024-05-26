@@ -49,6 +49,7 @@
                   <th>নাম বাংলা</th>
                   <th>হেড নাম</th>
                   <th>বিঃডিঃ কোড </th>
+                  <th>ভ্যাট</th>
                   <th>স্ট্যাটাস</th>
                   <th width="60">অ্যাকশন</th>
                 </tr>
@@ -65,6 +66,7 @@
                     <td><?=$row->name_bn?></td>
                     <td><?=$row->budget_head_name_bn?></td>
                     <td><?=$row->bd_code?></td>
+                    <td><?=$row->vat?></td>
                     <td><?=($row->status)?'সক্রিয়':'অসক্রিয়'?></td>
                     <td>
                       <div class="btn-group"> 

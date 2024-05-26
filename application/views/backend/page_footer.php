@@ -709,6 +709,15 @@ function filterDate() {
 };
 
 </script>
+<?php if(isset($dashboard_sorcart) && $dashboard_sorcart==1){ ?>
+<script>
+
+$(document).ready(function() {
+    $('#modal_sort_cart').modal('show');
+});
+
+</script>
+<?php } ?>
 </body>
 
 </html>

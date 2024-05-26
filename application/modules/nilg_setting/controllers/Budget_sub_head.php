@@ -56,6 +56,7 @@ class Budget_sub_head extends Backend_Controller {
         $this->form_validation->set_rules('name_bn', 'নাম (বাংলা)', 'required|trim');
         $this->form_validation->set_rules('bd_code', 'বিঃডিঃ কোড', 'required|trim');
         $this->form_validation->set_rules('head_id', 'বাজেট হেড', 'required|trim');
+        $this->form_validation->set_rules('vat', 'ভ্যাট', 'required');
 
         // Insert Data
         if ($this->form_validation->run() == true){
@@ -64,6 +65,7 @@ class Budget_sub_head extends Backend_Controller {
                 'name_bn'    => $this->input->post('name_bn'),
                 'head_id'    => $this->input->post('head_id'),
                 'bd_code'    => $this->input->post('bd_code'),
+                'vat_head'    => $this->input->post('vat'),
                 'status'     => $this->input->post('status'),
             );
             // print_r($form_data); exit;
@@ -90,6 +92,7 @@ class Budget_sub_head extends Backend_Controller {
                 'name_bn'    => $this->input->post('name_bn'),
                 'head_id'    => $this->input->post('head_id'),
                 'bd_code'    => $this->input->post('bd_code'),
+                'vat_head'    => $this->input->post('vat'),
                 'status'     => $this->input->post('status'),
             );
             // print_r($form_data); exit;

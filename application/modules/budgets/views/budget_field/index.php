@@ -12,8 +12,12 @@
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">
+                     <?php if ($this->ion_auth->in_group(array('acc'))) { ?>
+                        <a href="<?=base_url('budgets/budget_field_details_template').'/'.encrypt_url(1)?>" class="btn btn-blueviolet btn-xs btn-mini">বাজেট টেমপ্লেট সম্পাদনা করুণ</a>
+                     <?php } ?>
                      <?php if (!$this->ion_auth->in_group(array('uz', 'ddlg'))) { ?>
                         <a href="<?=base_url('budgets/budget_field_create')?>" class="btn btn-blueviolet btn-xs btn-mini">বাজেট তৈরি করুণ</a>
+                        <a class="btn btn-blueviolet btn-xs btn-mini" href="<?php echo base_url('budgets/budget_field_clone/'.encrypt_url(1))?>"><i class="fa fa-pencil-square"></i>টেমপ্লেট ক্লোন করুন </a>
                      <?php } ?>
                   </div>
                </div>

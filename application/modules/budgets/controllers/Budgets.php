@@ -729,6 +729,7 @@ class Budgets extends Backend_Controller
             if ($this->Common_model->save('budget_field', $form_data)) {
                 $insert_id = $this->db->insert_id();
                 $this->generator_qrcode($insert_id, $this->input->post('office_type'));
+                $custom=[];
                 for ($i = 0; $i < sizeof($_POST['head_id']); $i++) {
                     $form_data2 = array(
                         'budget_field_id' => $insert_id,
@@ -745,8 +746,23 @@ class Budgets extends Backend_Controller
                         'dept_id' => $user->crrnt_dept_id,
                         'created_by' => $user->id,
                     );
-                    $this->Common_model->save('budget_field_details', $form_data2);
+                    $this->db->insert('budget_field_details', $form_data2);
+                    $insert_id2 = $this->db->insert_id();
+                    if($_POST['head_sub_id'][$i]==2147483647){
+                        $custom[]= $insert_id2;
+                    }
                 }
+                if (!empty($custom)) {
+                    for ($i=0; $i < sizeof($custom); $i++) { 
+                        $form_data3 = array(
+                            'details_id'=>$custom[$i],
+                            'name'=>$_POST['custom_m'][$i],
+                        );
+                        $this->db->insert('budget_custom_sub_head', $form_data3);
+                    }
+                    # code...
+                }
+            
                 $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
                 redirect("budgets/budget_field");
             }
@@ -798,6 +814,32 @@ class Budgets extends Backend_Controller
         $this->data['subview'] = 'budget_field/details';
         $this->load->view('backend/_layout_main', $this->data);
     }
+    public function budget_field_details_template($encid)
+    {
+        $id = (int) decrypt_url($encid);
+        $budget_field = $this->Common_model->get_single_data('budget_field', $id);
+        $this->data['budget_field'] = $budget_field;
+        $this->db->select('budget_field_details.*,budget_field_details.id as budget_field_details_id,budget_head_sub.bd_code,budget_head_sub.id, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name,budget_head.id as budget_head_id');
+        $this->db->from('budget_field_details');
+        $this->db->join('budget_head_sub', 'budget_field_details.head_sub_id = budget_head_sub.id');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->db->where('budget_field_details.budget_field_id', $id);
+        $this->db->where('budget_field_details.modify_soft_d', 1);
+        $budget_field_details = $this->db->get()->result();
+        $this->data['budget_field_details'] = $budget_field_details;
+
+        $this->db->select('budget_head_sub.id,budget_head_sub.bd_code, budget_head_sub.name_bn,budget_head.name_bn as budget_head_name');
+        $this->db->from('budget_head_sub');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->data['budget_head_sub'] = $this->db->get()->result();
+        //Dropdown
+        $this->data['budget_head'] = $this->Common_model->get_dropdown('budget_head', 'name_bn', 'id');
+        $this->data['info'] = $this->Common_model->get_user_details($this->data['budget_field']->created_by);
+
+        $this->data['meta_title'] = 'বাজেট বিস্তারিত';
+        $this->data['subview'] = 'budget_field/details';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
     public function budget_field_statement_of_expenses($encid)
     {
 
@@ -820,6 +862,7 @@ class Budgets extends Backend_Controller
         budget_field_details.id as budget_field_details_id,
         budget_head_sub.bd_code,budget_head_sub.id,
          budget_head_sub.name_bn,
+         budget_head_sub.vat_head,
          budget_head.name_bn as budget_head_name,
          budget_head.id as budget_head_id,
          budget_field_expenses.real_expense,
@@ -932,6 +975,7 @@ class Budgets extends Backend_Controller
         $this->data['subview'] = 'budget_field/clone';
         $this->load->view('backend/_layout_main', $this->data);
     }
+  
     public function budget_field_print($encid, $type=null)
     {
         $id = (int) decrypt_url($encid);
@@ -1000,13 +1044,28 @@ class Budgets extends Backend_Controller
                         'dept_id' => $user->crrnt_dept_id,
                         'created_by' => $user->id,
                     );
-                    $this->Common_model->save('budget_field_details', $form_data2);
+                    $this->db->insert('budget_field_details', $form_data2);
+                    $insert_id2 = $this->db->insert_id();
+                    if($_POST['head_sub_id'][$i]==2147483647){
+                        $custom[]= $insert_id2;
+                    }
+                }
+                if (!empty($custom)) {
+                    for ($i=0; $i < sizeof($custom); $i++) { 
+                        $form_data3 = array(
+                            'details_id'=>$custom[$i],
+                            'name'=>$_POST['custom_m'][$i],
+                        );
+                        $this->db->insert('budget_custom_sub_head', $form_data3);
+                    }
+                    # code...
                 }
                 $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
                 redirect("budgets/budget_field");
             }
         }
     }
+    
     public function budgets_field_remove_row()
     {
         $id = $this->input->post('id');

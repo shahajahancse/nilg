@@ -144,8 +144,6 @@
                                                 <option value=3>পাবলিকেশন</option>
                                                 <option value=4>অডিটোরিয়াম</option>
                                                 <option value=5>Others</option>
-
-
                                             </select>
                                         </div>
                                     </div>
@@ -181,10 +179,20 @@
                                                     </select>
                                                 </div>
 
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <label for="">সর্বমোট পরিমান</label>
                                                     <input type="number" class="form-control input-sm"
                                                         name="total_amount" id="total_amount" readonly>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label for="">অংশগ্রহণকারী</label>
+                                                    <input type="number" class="form-control input-sm"
+                                                        name="all_per" id="all_per" onkeyup="set_all_person(this.value)">
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label for="">দিন/বার</label>
+                                                    <input type="number" class="form-control input-sm"
+                                                        name="all_day" id="all_day"  onkeyup="set_all_day(this.value)">
                                                 </div>
                                             </div>
 
@@ -202,7 +210,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tbody">
-                                                    <?php foreach ($budget_head_sub as $key => $data) { ?>
+                                                    <!-- <?php foreach ($budget_head_sub as $key => $data) { ?>
                                                     <tr>
                                                         <td><?=$data->name_bn?></td>
                                                         <td><?=$data->bd_code?></td>
@@ -235,7 +243,7 @@
                                                                 class="btn btn-danger btn-sm" style="padding: 3px;"><i
                                                                     class="fa fa-times"></i> Remove</a></td>
                                                     </tr>
-                                                    <?php } ?>
+                                                    <?php } ?> -->
                                                 </tbody>
                                             </table>
                                             <br>
@@ -299,7 +307,27 @@ function addNewRow(id) {
         },
         success: function(data) {
             var $data = JSON.parse(data);
-            var tr = `<tr>
+            if($data.id== 2147483647){
+                var tr = `<tr>
+                        <td>
+                            <input type=""  name="custom_m[]" class="form-control input-sm"></td>
+                        </td>
+                        <td>${$data.bd_code}</td>
+                        <td>
+                            <input type="number" value="1" min="1" name="token_participant[]" onkeyup="calculateTotal_token(this)" class="form-control input-sm token_participant"></td>
+                        <td>
+                            <input type="number" value="1" min="1" name="token_day[]" onkeyup="calculateTotal_token(this)" class="form-control input-sm token_day"></td>
+                        <td>
+                            <input type="number" value="1" min="1" name="token_amount[]" onkeyup="calculateTotal_token(this)" class="form-control input-sm token_amount"></td>                                    
+                        <td>
+                        <input type="hidden" name="head_id[]" value="${$data.budget_head_id}">
+                        <input type="hidden" name="head_sub_id[]" value="${$data.id}" >
+                        <input value="1" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm token_amount_${$data.id}">
+                        </td>
+                        <td><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
+                    </tr>`
+            }else{
+                var tr = `<tr>
                         <td>${$data.name_bn}</td>
                         <td>${$data.bd_code}</td>
                         <td>
@@ -315,6 +343,7 @@ function addNewRow(id) {
                         </td>
                         <td><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
                     </tr>`
+            }
             $("#tbody").append(tr);
             $("#loading").hide();
         }
@@ -429,5 +458,25 @@ function getofficeid(id) {
         }
     })
 
+}
+</script>
+
+<script>
+function set_all_person(vall) {
+    $('.token_participant').each(function() {
+        if($(this).val() !== undefined) {
+            $(this).val(vall);
+            calculateTotal_token(this)
+        }
+    });
+
+}
+function set_all_day(vall) {
+    $('.token_day').each(function() {
+        if($(this).val() !== undefined) {
+            $(this).val(vall);
+            calculateTotal_token(this)
+        }
+    });
 }
 </script>

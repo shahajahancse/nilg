@@ -110,11 +110,14 @@ class Budgets_model extends CI_Model {
 
     // Manage Budget office list
     public function get_budget_field($limit, $offset, $office_id = null, $user_id = null, $dept_id = null) {
-        $dept_id=$_POST['department_id'];
+        if (isset($_POST['department_id'])) {
+            $dept_id=$_POST['department_id'];
+        }
 
       $this->db->select('b.*, o.office_name');
       $this->db->from('budget_field as b');
       $this->db->join('office as o','o.id=b.office_id', 'left');
+      $this->db->where('b.id !=', 1);
 
       if (!empty($office_id)) {
           $this->db->where('b.office_id', $office_id);
@@ -122,7 +125,7 @@ class Budgets_model extends CI_Model {
       if (!empty($user_id)) {
           $this->db->where('b.created_by', $user_id);
       }
-      if (!empty($dept_id)) {
+      if (isset($dept_id) && !empty($dept_id)) {
           $this->db->where_in('b.dept_id', $dept_id);
       }
 
@@ -139,7 +142,7 @@ class Budgets_model extends CI_Model {
       if (!empty($user_id)) {
           $this->db->where('q.created_by', $user_id);
       }
-      if (!empty($dept_id)) {
+      if (isset($dept_id) && !empty($dept_id)) {
           $this->db->where_in('q.dept_id', $dept_id);
       }
       $tmp = $this->db->get()->result();
