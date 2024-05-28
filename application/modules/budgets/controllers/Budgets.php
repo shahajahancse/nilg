@@ -713,7 +713,6 @@ class Budgets extends Backend_Controller
 
         $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
         if ($this->form_validation->run() == true) {
-            // dd($_POST);
             $form_data = array(
                 'title' => $this->input->post('title'),
                 'office_type' => $this->input->post('office_type'),
@@ -737,6 +736,7 @@ class Budgets extends Backend_Controller
                         'office_type' => $this->input->post('office_type'),
                         'type' => 1,
                         'token' => '',
+                        'group_name' => $_POST['group_name'][$i],
                         'amount' => $_POST['token_amount'][$i],
                         'days' => $_POST['token_day'][$i],
                         'participants' => $_POST['token_participant'][$i],
@@ -799,6 +799,7 @@ class Budgets extends Backend_Controller
         $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
         $this->db->where('budget_field_details.budget_field_id', $id);
         $this->db->where('budget_field_details.modify_soft_d', 1);
+        $this->db->order_by('budget_field_details.group_name','asc');
         $budget_field_details = $this->db->get()->result();
         $this->data['budget_field_details'] = $budget_field_details;
 
@@ -825,6 +826,8 @@ class Budgets extends Backend_Controller
         $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
         $this->db->where('budget_field_details.budget_field_id', $id);
         $this->db->where('budget_field_details.modify_soft_d', 1);
+        $this->db->order_by('budget_field_details.group_name','asc');
+
         $budget_field_details = $this->db->get()->result();
         $this->data['budget_field_details'] = $budget_field_details;
 
@@ -876,6 +879,7 @@ class Budgets extends Backend_Controller
         $this->db->join('budget_field_expenses', 'budget_field_details.id = budget_field_expenses.budget_field_details_id', 'left');
         $this->db->where('budget_field_details.budget_field_id', $id);
         $this->db->where('budget_field_details.modify_soft_d', 1);
+        $this->db->order_by('budget_field_details.group_name','asc');
         $budget_field_details = $this->db->get()->result();
         $this->data['budget_field_details'] = $budget_field_details;
 
@@ -921,6 +925,8 @@ class Budgets extends Backend_Controller
         $this->db->join('budget_field_expenses', 'budget_field_details.id = budget_field_expenses.budget_field_details_id', 'left');
         $this->db->where('budget_field_details.budget_field_id', $id);
         $this->db->where('budget_field_details.modify_soft_d', 1);
+        $this->db->order_by('budget_field_details.group_name','asc');
+
         $budget_field_details = $this->db->get()->result();
         $this->data['budget_field_details'] = $budget_field_details;
         //Dropdown
@@ -960,6 +966,7 @@ class Budgets extends Backend_Controller
         $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
         $this->db->where('budget_field_details.budget_field_id', $id);
         $this->db->where('budget_field_details.modify_soft_d', 1);
+        $this->db->order_by('budget_field_details.group_name','asc');
         $budget_field_details = $this->db->get()->result();
         $this->data['budget_field_details'] = $budget_field_details;
 
@@ -987,6 +994,8 @@ class Budgets extends Backend_Controller
         $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
         $this->db->where('budget_field_details.budget_field_id', $id);
         $this->db->where('budget_field_details.modify_soft_d', 1);
+        $this->db->order_by('budget_field_details.group_name','asc');
+
         $budget_field_details = $this->db->get()->result();
         $this->data['budget_field_details'] = $budget_field_details;
         $this->data['type'] =  $type;
@@ -1035,6 +1044,7 @@ class Budgets extends Backend_Controller
                         'office_type' => $this->input->post('office_type'),
                         'type' => 1,
                         'token' => '',
+                        'group_name' => $_POST['group_name'][$i],
                         'amount' => $_POST['token_amount'][$i],
                         'days' => $_POST['token_day'][$i],
                         'participants' => $_POST['token_participant'][$i],
@@ -1317,6 +1327,7 @@ class Budgets extends Backend_Controller
                         'chahida_potro_id' => $insert_id,
                         'head_sub_id' => $_POST['head_sub_id'][$i],
                         'amount' => $_POST['amount'][$i],
+                        'group_name' => $_POST['group_name'][$i],
                         'office_id' => $user->office_id?: 0,
                         'dept_id' => $user->crrnt_dept_id?: 0,
                         'created_by' => $user->id,
@@ -1349,8 +1360,8 @@ class Budgets extends Backend_Controller
         $id = (int) decrypt_url($encid);
         $this->db->select('q.*,office.office_name, department.name_en');
         $this->db->from('budget_chahida_potro as q');
-        $this->db->join('office', 'q.office_id = office.id');
-        $this->db->join('department', 'q.dept_id = department.id');
+        $this->db->join('office', 'q.office_id = office.id', 'left');
+        $this->db->join('department', 'q.dept_id = department.id', 'left');
         $this->db->where('q.id', $id);
         $this->data['chahida_potro'] = $this->db->get()->row();
 
@@ -1365,6 +1376,8 @@ class Budgets extends Backend_Controller
         $this->db->join('budget_head_sub', 'q.head_sub_id = budget_head_sub.id');
         $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
         $this->db->where('q.chahida_potro_id', $id);
+        $this->db->order_by('q.group_name', 'asc');
+
         $this->data['details'] = $this->db->get()->result();
 
         $this->data['info'] = $this->Common_model->get_user_details($this->data['chahida_potro']->created_by);
@@ -1608,11 +1621,4 @@ class Budgets extends Backend_Controller
 
 
     }
-
-
-
-
-
-
 }
-

@@ -173,10 +173,58 @@
                                                 </div>
                                             </div>
 
+                                            <style>
+                                                .group-header {
+                                                    background-color: #d9edf7;
+                                                    color: #31708f;
+                                                    font-weight: bold;
+                                                    cursor: pointer;
+                                                    border: 2px solid #31708f;
+                                                    /* Border for group header */
+                                                    margin-top: 10px;
+                                                    /* Margin to separate groups visually */
+                                                }
+
+                                                .group-header:hover {
+                                                    background-color: #bce8f1;
+                                                }
+
+                                                .group-row {
+                                                    border-left: 2px solid #31708f;
+                                                    /* Left border for group rows */
+                                                    border-right: 2px solid #31708f;
+                                                    /* Right border for group rows */
+                                                }
+
+                                                .group-end-row {
+                                                    border-top: 2px solid #31708f;
+                                                    /* Bottom border for group rows */
+                                                }
+
+                                                .removable-row {
+                                                    background-color: #f2dede;
+                                                }
+
+                                                .removable-row td {
+                                                    color: #a94442;
+                                                }
+
+                                                .highlight {
+                                                    background-color: #dff0d8 !important;
+                                                }
+                                            </style>
+                                             <div class="col-md-12">
+                                                <input type="text" name="group_name" id="group_name"
+                                                    placeholder="Enter Group Name">
+                                                <a class="btn btn-success btn-sm" id="createGroup"
+                                                    href="javascript:void(0)">Create Group</a>
+                                            </div>
+
                                             <table class="col-md-12" width="100%" border="1"
                                                 style="border:1px solid #a09e9e;" id="appRowDiv">
                                                 <thead>
                                                     <tr>
+                                                        <th>Select</th>
                                                         <th>বাজেট শিরোনাম<span class="required">*</span></th>
                                                         <th>বাজেট কোড<span class="required">*</span></th>
                                                         <th>অংশগ্রহণকারী <span class="required">*</span></th>
@@ -187,23 +235,82 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tbody">
-                                                    <?php  foreach($budget_field_details as $key => $data):?>
-                                                        <tr>
-                                                            <td><?=$data->name_bn?></td>
-                                                            <td><?=$data->bd_code?></td>
-                                                            <td>
-                                                                <input type="number" value="<?=$data->participants?>" min="1" name="token_participant[]" onkeyup="calculateTotal_token(this)" class="form-control input-sm token_participant"></td>
-                                                            <td>
-                                                                <input type="number" value="<?=$data->days?>" min="1" name="token_day[]" onkeyup="calculateTotal_token(this)" class="form-control input-sm token_day"></td>
-                                                            <td>
-                                                                <input type="number" value="<?=$data->amount?>" min="1" name="token_amount[]" onkeyup="calculateTotal_token(this)" class="form-control input-sm token_amount"></td>
-                                                            <td>
-                                                            <input type="hidden" name="head_id[]" value="<?=$data->budget_head_id?>" >
-                                                            <input type="hidden" name="head_sub_id[]" value="<?=$data->id?>" >
-                                                            <input value="<?=$data->total_amt?>" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm token_amount_<?=$data->id?>">
+                                                    <?php 
+                                                    $group_name=''; 
+                                                    $end=false;
+                                                    $end1=false;
+                                                    foreach($budget_field_details as $key => $data):
+                                                        if($group_name!=$data->group_name && $data->group_name!='xnone'){
+                                                            echo '<tr class="group-header group-header-'.$data->group_name.'">
+                                                            <td colspan="8">
+                                                                <b>'.$data->group_name.'</b>
+                                                                <a href="javascript:void(0)" data-group_name="'.$data->group_name.'" class="btn btn-danger btn-sm remove-group" style="float: right;"><i class="fa fa-times"></i> Remove Group</a>
                                                             </td>
-                                                            <td><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
-                                                        </tr>
+                                                        </tr>';
+                                                            $group_name=$data->group_name;
+                                                        }elseif($data->group_name=='xnone'){
+                                                            $end=true;
+                                                            $group_name=$data->group_name;
+                                                        }
+
+                                                        if($data->head_sub_id==2147483647){
+                                                            $detail_id=$data->budget_field_details_id;
+                                                            $this->db->select('*');
+                                                            $this->db->from('budget_custom_sub_head');
+                                                            $this->db->where('details_id', $detail_id);
+                                                            $query =  $this->db->get()->row();
+                                                            
+                                                            $name_bn='<input type=""  name="custom_m[]" class="form-control input-sm"  value="'.$query->name.'"/>
+                                                            ';
+                                                        }else{
+                                                            $name_bn=$data->name_bn;
+                                                        }
+                                                        ?>
+
+                                                    <?php if($end==false){?>
+                                                    <tr class="group-row group-row-<?=$data->group_name?>">
+                                                        <td></td>
+                                                        <?php }elseif($end1==true && $end==false){ $end1=true;?>
+                                                    <tr class="group-end-row">
+                                                        <td><input type="checkbox" class="row-select"></td>
+                                                        <?php }else{?>
+                                                            <tr>
+                                                        <td><input type="checkbox" class="row-select"></td>
+                                                            <?php }?>
+                                                        <td><?=$name_bn?></td>
+                                                        <td><?=$data->bd_code?></td>
+                                                        <td>
+                                                            <input type="number" value="<?=$data->participants?>"
+                                                                min="1" name="token_participant[]"
+                                                                onkeyup="calculateTotal_token(this)"
+                                                                class="form-control input-sm token_participant">
+                                                        </td>
+                                                        <td>
+                                                            <input type="number" value="<?=$data->days?>" min="1"
+                                                                name="token_day[]" onkeyup="calculateTotal_token(this)"
+                                                                class="form-control input-sm token_day">
+                                                        </td>
+                                                        <td>
+                                                            <input type="number" value="<?=$data->amount?>" min="1"
+                                                                name="token_amount[]"
+                                                                onkeyup="calculateTotal_token(this)"
+                                                                class="form-control input-sm token_amount">
+                                                        </td>
+                                                        <td>
+                                                            <input type="hidden" class="group_name" name="group_name[]"
+                                                                value="<?=$data->group_name?>">
+                                                            <input type="hidden" name="head_id[]"
+                                                                value="<?=$data->budget_head_id?>">
+                                                            <input type="hidden" name="head_sub_id[]"
+                                                                value="<?=$data->id?>">
+                                                            <input value="<?=$data->total_amt?>" min="0" type="number"
+                                                                onkeyup="calculateTotal()" name="amount[]"
+                                                                class="form-control amount input-sm token_amount_<?=$data->id?>">
+                                                        </td>
+                                                        <td><a href="javascript:void(0)" onclick="removeRow(this)"
+                                                                class="btn btn-danger btn-sm" style="padding: 3px;"><i
+                                                                    class="fa fa-times"></i> Remove</a></td>
+                                                    </tr>
                                                     <?php endforeach;?>
                                                 </tbody>
                                             </table>
@@ -280,22 +387,53 @@ function addNewRow(id) {
         },
         success: function(data) {
             var $data = JSON.parse(data);
-            var tr = `<tr>
-                        <td>${$data.name_bn}</td>
+            if ($data.id == 2147483647) {
+                var tr = `
+                <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+
+                        <td>
+                            <input type=""  name="custom_m[]" class="form-control input-sm"></td>
+                        </td>
                         <td>${$data.bd_code}</td>
                         <td>
-                            <input type="number" value="1" min="1" name="token_participant[]" onkeyup="calculateTotal_token(this)" class="form-control input-sm token_participant"></td>
+                            <input type="number" value="1" min="1" name="token_participant[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_participant"></td>
                         <td>
-                            <input type="number" value="1" min="1" name="token_day[]" onkeyup="calculateTotal_token(this)" class="form-control input-sm token_day"></td>
+                            <input type="number" value="1" min="1" name="token_day[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_day"></td>
                         <td>
-                            <input type="number" value="1" min="1" name="token_amount[]" onkeyup="calculateTotal_token(this)" class="form-control input-sm token_amount"></td>                                    
+                            <input type="number" value="1" min="1" name="token_amount[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_amount"></td>                                    
                         <td>
-                            <input type="hidden" name="head_id[]" value="${$data.budget_head_id}" >
-                            <input type="hidden" name="head_sub_id[]" value="${$data.id}" >
-                            <input value="1" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm token_amount_${$data.id}">
+                        <input type="hidden" class="group_name" name="group_name[]"
+                                                                value="xnone" >
+                        <input type="hidden" name="head_id[]" value="${$data.budget_head_id}">
+                        <input type="hidden" name="head_sub_id[]" value="${$data.id}" >
+                        <input value="1" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm token_amount_${$data.id}">
                         </td>
                         <td><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
                     </tr>`
+            } else {
+                var tr = `
+                <tr>
+                        <td><input type="checkbox" class="row-select"></td>
+
+                        <td>${$data.name_bn}</td>
+                        <td>${$data.bd_code}</td>
+                        <td>
+                            <input type="number" value="1" min="1" name="token_participant[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_participant"></td>
+                        <td>
+                            <input type="number" value="1" min="1" name="token_day[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_day"></td>
+                        <td>
+                            <input type="number" value="1" min="1" name="token_amount[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_amount"></td>                                    
+                        <td>
+                        <input type="hidden" class="group_name" name="group_name[]"
+                                                                value="xnone" >
+                        <input type="hidden" name="head_id[]" value="${$data.budget_head_id}" >
+                        <input type="hidden" name="head_sub_id[]" value="${$data.id}" >
+                        <input value="1" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm token_amount_${$data.id}">
+                        </td>
+                        <td><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
+                    </tr>`
+            }
             $("#tbody").append(tr);
             $("#loading").hide();
         }
@@ -385,4 +523,119 @@ function getofficeid() {
     })
 
 }
+</script>
+<script>
+$(document).ready(function() {
+    $('#createGroup').on('click', function() {
+        const groupName = $('#group_name').val().trim().replace(/\s+/g, '_');
+        if (groupName === '') {
+            alert('Please enter a group name.');
+            return;
+        }
+
+        const selectedRows = $('#tbody .row-select:checked')
+            .closest('tr');
+        if (selectedRows.length === 0) {
+            alert(
+                'Please select at least one row to create a group.');
+            return;
+        }
+
+        // Create a new group header row with a remove button
+        const groupHeader = `
+                                                                <tr class="group-header group-header-${groupName}">
+                                                                    <td colspan="8">
+                                                                        <b>${groupName}</b>
+                                                                        <a href="javascript:void(0)" data-group_name="${groupName}" class="btn btn-danger btn-sm remove-group" style="float: right;"><i class="fa fa-times"></i> Remove Group</a>
+                                                                    </td>
+                                                                </tr>`;
+        $('#tbody').prepend(groupHeader);
+
+        // Move each selected row under the new group header
+        var i = 0;
+        selectedRows.each(function() {
+            i++;
+            $(this).find('.row-select')
+                .remove(); // Uncheck the checkbox
+            if (i == 1) {
+                $(this).addClass(
+                    `group-row group-row-${groupName} group-end-row`
+                );
+            } else {
+                $(this).addClass(
+                    `group-row group-row-${groupName}`
+                );
+            }
+            $('.group-header-' + groupName).after($(
+                this));
+
+            $('.group-row-' + groupName).find('.group_name').val(groupName);
+
+        });
+
+        $('#group_name').val(
+            ''); // Clear the group name input
+
+        // Make group header and rows draggable
+        // $(`.group-header-${groupName}, .group-row-${groupName}`)
+        //     .draggable({
+        //         helper: 'clone',
+        //         start: function(event, ui) {
+        //             $(this).addClass('highlight');
+        //         },
+        //         stop: function(event, ui) {
+        //             $(this).removeClass(
+        //             'highlight');
+        //         }
+        //     });
+
+        // Droppable area for rows
+        // $('#tbody').droppable({
+        //     accept: '.group-header, .group-row, .no-group',
+        //     drop: function(event, ui) {
+        //         if (ui.helper.hasClass(
+        //                 'group-header')) {
+        //             // Move the group header to the top
+        //             $(this).prepend(ui.helper);
+        //         } else {
+        //             // Move the row to the top
+        //             $('.group-header').first()
+        //                 .after(ui.helper);
+        //         }
+        //     }
+        // });
+    });
+    // $(document).ready(function() {
+    //     $('#tbody').droppable({
+    //         accept: '.group-header, .group-row, .no-group',
+    //         drop: function(event, ui) {
+    //             if (ui.helper.hasClass(
+    //                     'group-header')) {
+    //                 // Move the group header to the top
+    //                 $(this).prepend(ui.helper);
+    //             } else {
+    //                 // Move the row to the top
+    //                 $('.group-header').first()
+    //                     .after(ui.helper);
+    //             }
+    //         }
+    //     });
+    // })
+    // Remove group functionality
+    $(document).on('click', '.remove-group', function() {
+        const groupName = $(this).data('group_name');
+
+        const groupRows = $(`.group-row-${groupName}`);
+        const groupHeader = $(`.group-header-${groupName}`);
+
+        groupRows.addClass('removable-row').fadeOut(500,
+            function() {
+                $(this).remove();
+            });
+        groupHeader.addClass('removable-row').fadeOut(500,
+            function() {
+                $(this).remove();
+            });
+    });
+});
 </script>

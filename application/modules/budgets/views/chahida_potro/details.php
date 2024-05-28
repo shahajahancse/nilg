@@ -90,6 +90,49 @@
                                                 color: black;
                                             }
                                             </style>
+
+
+
+<style>
+                                                .group-header {
+                                                    background-color: #d9edf7;
+                                                    color: #31708f;
+                                                    font-weight: bold;
+                                                    cursor: pointer;
+                                                    border: 2px solid #31708f;
+                                                    /* Border for group header */
+                                                    margin-top: 10px;
+                                                    /* Margin to separate groups visually */
+                                                }
+
+                                                .group-header:hover {
+                                                    background-color: #bce8f1;
+                                                }
+
+                                                .group-row {
+                                                    border-left: 2px solid #31708f;
+                                                    /* Left border for group rows */
+                                                    border-right: 2px solid #31708f;
+                                                    /* Right border for group rows */
+                                                }
+
+                                                .group-end-row {
+                                                    border-top: 2px solid #31708f;
+                                                    /* Bottom border for group rows */
+                                                }
+
+                                                .removable-row {
+                                                    background-color: #f2dede;
+                                                }
+
+                                                .removable-row td {
+                                                    color: #a94442;
+                                                }
+
+                                                .highlight {
+                                                    background-color: #dff0d8 !important;
+                                                }
+                                            </style>
                                             <div class="col-md-12">
                                                 <table class="col-md-12" width="100%" border="1"
                                                     style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
@@ -102,9 +145,34 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody id="tbody">
-                                                        <?php foreach($details as $details){
+                                                        <?php 
+                                                          $group_name=''; 
+                                                          $end=false;
+                                                          $end1=false;
+                                                        
+                                                        foreach($details as $details){
+                                                            if($group_name!=$details->group_name && $details->group_name!='xnone'){
+                                                                echo '<tr class="group-header group-header-'.$details->group_name.'">
+                                                                <td colspan="5">
+                                                                    <b>'.$details->group_name.'</b>
+                                                                </td>
+                                                            </tr>';
+                                                                $group_name=$details->group_name;
+                                                            }elseif($details->group_name=='xnone'){
+                                                                $end=true;
+                                                                $group_name=$details->group_name;
+                                                            }
+    
+
+
                                                             ?>
-                                                        <tr>
+                                                        <?php if($end==false){?>
+                                                    <tr class="group-row group-row-<?=$details->group_name?>">
+                                                        <?php }elseif($end==true && $end1==false){ $end1=true;?>
+                                                    <tr class="group-end-row">
+                                                        <?php }else{?>
+                                                            <tr>
+                                                            <?php }?>
                                                             <td><?=$details->budget_head_name?> <?=$details->name_bn?>
                                                             </td>
                                                             <td><?=$details->bd_code?></td>
