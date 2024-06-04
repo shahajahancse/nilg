@@ -66,7 +66,7 @@
                     <td><?=$row->name_bn?></td>
                     <td><?=$row->budget_head_name_bn?></td>
                     <td><?=$row->bd_code?></td>
-                    <td><?=$row->vat?></td>
+                    <td><?=$row->vat_head?></td>
                     <td><?=($row->status)?'সক্রিয়':'অসক্রিয়'?></td>
                     <td>
                       <div class="btn-group"> 

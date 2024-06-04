@@ -102,44 +102,60 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-                        $total = 0;
-                        foreach ($budget_field_details as $key => $value) {
+                    <?php 
+                    $total=0;
+                                                    $group_name=''; 
+                                                    $end=false;
+                                                    $end1=false;
+                                                    foreach($budget_field_details as $key => $data){
+                                                        if($group_name!=$data->group_name && $data->group_name!='xnone'){
+                                                            echo '<tr class="group-header group-header-'.$data->group_name.'">
+                                                            <td colspan="3">
+                                                                <b>'.$data->group_name.'</b>
+                                                            </td>
+                                                        </tr>';
+                                                            $group_name=$data->group_name;
+                                                        }elseif($data->group_name=='xnone'){
+                                                            $end=true;
+                                                            $group_name=$data->group_name;
+                                                        }
 
+                                                        if($data->head_sub_id==2147483647){
+                                                            $detail_id=$data->budget_field_details_id;
+                                                            $this->db->select('*');
+                                                            $this->db->from('budget_custom_sub_head');
+                                                            $this->db->where('details_id', $detail_id);
+                                                            $query =  $this->db->get()->row();
+                                                            
+                                                            $name_bn='<input type=""  name="custom_m[]" class="form-control input-sm"  value="'.$query->name.'"/>
+                                                            ';
+                                                        }else{
+                                                            $name_bn=$data->name_bn;
+                                                        }
+                                                        ?>
 
-                            if($data->head_sub_id==2147483647){
-                                $detail_id=$data->budget_field_details_id;
-                                $this->db->select('*');
-                                $this->db->from('budget_custom_sub_head');
-                                $this->db->where('details_id', $detail_id);
-                                $query =  $this->db->get()->row();
-                                
-                                $name_bn=$query->name;
-                            }else{
-                                $name_bn=$data->name_bn;
-                            }
-                            
-                            
-                            
-                            ?>
-                         
-                       
-                        <tr>
+                                                    <?php if($end==false){?>
+                                                    <tr class="group-row group-row-<?=$data->group_name?>">
+                                                        <?php }elseif($end==true && $end1==false){ $end1=true;?>
+                                                    <tr class="group-end-row">
+                                                        <?php }else{?>
+                                                            <tr>
+                                                            <?php }?>
                             <td style="text-align: center"><?=number_bangla_format($key+1);?></td>
                             <td>
                                 <?php
-                                echo "$value->budget_head_name:$name_bn:&nbsp&nbsp";
+                                echo "$data->budget_head_name:$name_bn:&nbsp&nbsp";
                                 ?>
-                                <?=  number_bangla_format($value->amount).''; ?> টাকা &nbsp 
-                                <?=  number_bangla_format($value->participants).''; ?> জন &nbsp
-                                <?=  number_bangla_format($value->days).''; ?> দিন &nbsp&nbsp
-                                (<?= number_bangla_format($value->amount) ?>&times<?= number_bangla_format($value->participants) ?>&times<?= number_bangla_format($value->days) ?>)
+                                <?=  number_bangla_format($data->amount).''; ?> টাকা &nbsp 
+                                <?=  number_bangla_format($data->participants).''; ?> জন &nbsp
+                                <?=  number_bangla_format($data->days).''; ?> দিন &nbsp&nbsp
+                                (<?= number_bangla_format($data->amount) ?>&times<?= number_bangla_format($data->participants) ?>&times<?= number_bangla_format($data->days) ?>)
 
                             </td>
                             <td>
                                 <?php
-                                $total += $value->total_amt;
-                                echo number_bangla_format($value->total_amt).'';
+                                $total += $data->total_amt;
+                                echo number_bangla_format($data->total_amt).'';
                                 ?>
                             </td>
                         </tr>
