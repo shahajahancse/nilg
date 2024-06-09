@@ -128,12 +128,17 @@
                       <div class="btn-group">
                         <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> অ্যাকশন <span class="caret"></span> </a>
                         <ul class="dropdown-menu pull-right">
-                          <!-- <li><a href="<?=base_url('leave/change_status/'.encrypt_url($row->id).'/3');?>">প্রত্যাখ্যাত করুন</a></li> -->
+                          
+                          <?php if ($row->status == 4) { ?>
+                            <li><a href="<?=base_url('leave/form_print/'.encrypt_url($row->id));?>">প্রিন্ট</a></li>
+                          <?php } ?>
+
                           <?php if (!empty($row->file_name)) { ?>
                             <li><a target="_blank" href="<?=base_url('uploads/leave/'.$row->file_name);?>">নথিপত্র</a></li>
                           <?php } ?>
-                          <li><a href="<?=base_url('leave/form_print/'.encrypt_url($row->id));?>">প্রিন্ট</a></li>
+
                           <li><a onclick="return confirm('আপনি সত্যিই  কি এই তথ্যটি ডাটাবেজ থেকে সম্পূর্ণভাবে মুছতে চান?');" href="<?=base_url('leave/delete/'.encrypt_url($row->id));?>">মুছে ফেলুন</a></li>
+                          
                         </ul>
                       </div>
                     </td>

@@ -197,11 +197,36 @@ class Backend_Controller extends MY_Controller
 				// $this->data['request_trainer_no'] = $this->Common_model->get_applicaiton_trainer_request_count();
 			}
 
-			if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
-				$this->data['leave_notify'] = $this->Common_model->get_employee_leave_count();
-			} else if ($userDetails->office_type == 7) {
-				$this->data['leave_notify'] = $this->Common_model->get_employee_leave_count($userDetails->id);
-			}
+            // leave notification count
+            if ($this->ion_auth->in_group(array('admin', 'nilg')) || $userDetails->office_type == 7) {
+	            $dept_id = $userDetails->crrnt_dept_id;
+
+				if ($this->ion_auth->in_group(array('leave_jd'))) {
+
+	                $desig_array = $this->Common_model->get_manage_designation_array(21, $dept_id);
+	                $this->data['leave_notify'] =  $this->Common_model->get_employee_leave_count(array(3), $desig_array, $dept_id);
+
+	            } else if ($this->ion_auth->in_group(array('leave_director'))) {
+
+	                $desig_array = $this->Common_model->get_manage_designation_array(22, $dept_id);
+	                $this->data['leave_notify'] =  $this->Common_model->get_employee_leave_count(array(3), $desig_array, $dept_id);
+
+	            } else if ($this->ion_auth->in_group(array('leave_dg'))) {
+
+	                $desig_array = $this->Common_model->get_manage_designation_array(23, $dept_id);
+	                $dept_id = null;
+	                $this->data['leave_notify'] =  $this->Common_model->get_employee_leave_count( array(3), $desig_array, $dept_id);
+
+	            } else if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
+
+	                $this->data['leave_notify'] =  $this->Common_model->get_employee_leave_count(array(2, 3));
+
+	            } else {
+	                $this->data['leave_notify'] =  $this->Common_model->get_employee_leave_count_assign($userDetails->id, 2);
+	            }
+	        }
+	        // leave notification count end
+
 
 			$this->data['budget_nilg_ntfy'] = $this->db->select('count(*) r')->where('status',1)->get('budget_nilg')->row()->r;
 			$this->data['budget_office_ntfy'] = $this->db->select('count(*) r')->where('status',1)->get('budget_field')->row()->r;

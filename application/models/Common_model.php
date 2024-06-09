@@ -494,15 +494,50 @@ class Common_model extends CI_Model
     }
 
 
-    public function get_employee_leave_count($id = null)
+    public function get_employee_leave_count($status = array(), $desig_array = array(), $dept_id=null)
     {
         // count query
-        $this->db->select('COUNT(*) as count');
-        $this->db->from('leave_employee');
-        $this->db->where('status', 1);
-        $query = $this->db->get()->result();
+        $q = $this->db->select('COUNT(*) as count');
+        $this->db->from('leave_employee as el');
+        // Filter
+        if(!empty($status)){
+            $this->db->where_in('el.status', $status);
+        }
+        if(!empty($desig_array)){
+            $this->db->where_in('el.desig_id', $desig_array);
+        }
+        if($dept_id != null){
+            $this->db->where('el.dept_id', $dept_id);
+        }
 
-        return $query[0]->count;
+        return $this->db->get()->row()->count;
+    }
+
+    public function get_employee_leave_count_assign($user_id, $status)
+    {
+        // count query
+        $q = $this->db->select('COUNT(*) as count');
+        $this->db->from('leave_employee as el');
+        // Filter
+        if($status != null){
+            $this->db->where('el.status', $status);
+        }
+        if($user_id != null){
+            $this->db->where('el.control_person', $user_id);
+        }
+        return $this->db->get()->row()->count;
+    }
+
+    public function get_manage_designation_array($group_id, $dept_id)
+    {
+        $this->db->select('dm.desig_id as id');
+        $this->db->from('leave_dasignation_manage as dm');
+        $this->db->where('dm.groups_id', $group_id);
+        $this->db->where('dm.dept_id', $dept_id);
+        $dgss = $this->db->get()->result();
+        $data1 = array();
+        foreach ($dgss as $key => $r) { $data1[$key] = $r->id; }
+        return $data1;
     }
 
 

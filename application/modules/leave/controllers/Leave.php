@@ -402,16 +402,16 @@ class Leave extends Backend_Controller {
         if (!empty($dept_id) && !empty($this->data['userDetails']->crrnt_desig_id) || $this->ion_auth->is_admin()) {
             if ($this->ion_auth->in_group(array('leave_jd'))) {
                 $desig_array = $this->get_manage_designation_array(21, $dept_id);
-                $results = $this->Leave_model->get_list($limit, $offset, 3, $desig_array, $dept_id);
+                $results = $this->Leave_model->get_list($limit, $offset, array(3), $desig_array, $dept_id);
             } else if ($this->ion_auth->in_group(array('leave_director'))) {
                 $desig_array = $this->get_manage_designation_array(22, $dept_id);
-                $results = $this->Leave_model->get_list($limit, $offset, 3, $desig_array, $dept_id);
+                $results = $this->Leave_model->get_list($limit, $offset, array(3), $desig_array, $dept_id);
             } else if ($this->ion_auth->in_group(array('leave_dg'))) {
                 $desig_array = $this->get_manage_designation_array(23, $dept_id);
                 $dept_id = null;
-                $results = $this->Leave_model->get_list($limit, $offset, 3, $desig_array, $dept_id);
+                $results = $this->Leave_model->get_list($limit, $offset, array(3), $desig_array, $dept_id);
             } else if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
-                $results = $this->Leave_model->get_list($limit, $offset, 3);
+                $results = $this->Leave_model->get_list($limit, $offset, array(2, 3));
             } else {
                 $results = $this->Leave_model->get_list_assign($limit, $offset, $this->data['userDetails']->id, 2);
             }

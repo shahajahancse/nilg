@@ -397,7 +397,7 @@ input[type="search"] {
 
 
                <!-- budget entry start -->
-               <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg', 'bdh', 'acc', 'uz', 'ddlg','bod','bho','bli'))) { ?> <!-- //  not live the module yet -->
+               <?php if ($this->ion_auth->in_group(array('adminccccc'))) { ?> <!-- //  not live the module yet -->
                <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg', 'bdh', 'acc', 'uz', 'ddlg','bod','bho','bli')) || $userDetails->office_type == 7) { ?>
                   <?php if ($this->ion_auth->in_group(array('uz', 'ddlg'))) { ?>
                      <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span> <span class="arrow"></span> </a>
@@ -629,24 +629,31 @@ input[type="search"] {
                      } ?>
                      <span class="arrow"></span> </a>
                      <ul class="sub-menu">
-                        <?php if($this->ion_auth->in_group(array('admin', 'leave_jd', 'leave_dg', 'leave_director'))){ ?>
-                           <li> <a href="<?= base_url('leave'); ?>"> ছুটির তালিকা </a> </li>
-                           <li class="start <?= backend_activate_menu_method('pending_list') ?>"><a href="<?= base_url('leave/pending_list') ?>">অপেক্ষমাণ তালিকা
-                              <?php if ($leave_notify > 0) {
-                                 echo '<span class="badge badge-danger pull-right" style="margin-right:10px">' . eng2bng($leave_notify) . '</span>';
-                              } ?>
+                     <?php if($this->ion_auth->in_group(array('admin', 'leave_jd', 'leave_dg', 'leave_director'))){ ?>
+                        <li> <a href="<?= base_url('leave'); ?>"> ছুটির তালিকা </a> </li>
+                        <li class="start <?= backend_activate_menu_method('pending_list') ?>"><a href="<?= base_url('leave/pending_list') ?>">অপেক্ষমাণ তালিকা
+                           <?php if ($leave_notify > 0) {
+                              echo '<span class="badge badge-danger pull-right" style="margin-right:10px">' . eng2bng($leave_notify) . '</span>';
+                           } ?>
                         </a></li>
+
                         <?php if($this->ion_auth->in_group(array('leave_jd', 'leave_dg', 'leave_director'))){ ?>
                         <li> <a href="<?= base_url('leave/approved_list'); ?>"> অনুমোদিত তালিকা </a> </li>
                         <?php } else { ?>
                            <li> <a href="<?= base_url('leave/index/4'); ?>"> অনুমোদিত তালিকা </a> </li>
                         <?php } ?>
+
                         <li class="start <?= backend_activate_menu_method('rejected_list') ?>"><a href="<?= base_url('leave/rejected_list') ?>">প্রত্যাখ্যাত তালিকা </a></li>
                         <li class="start <?= backend_activate_menu_method('leave_reports') ?>"><a href="<?= base_url('leave/leave_reports') ?>">রিপোর্ট</a></li>
-                        <?php } elseif ($userDetails->office_type == 7) { ?>
-                           <li> <a href="<?= base_url('leave'); ?>"> ছুটির তালিকা </a> </li>
-                           <li class="start <?= backend_activate_menu_method('pending_list') ?>"><a href="<?= base_url('leave/pending_list') ?>">অপেক্ষমাণ তালিকা </a></li>
-                        <?php } ?>
+                     <?php } elseif ($userDetails->office_type == 7) { ?>
+                        <li> <a href="<?= base_url('leave'); ?>"> ছুটির তালিকা </a> </li>
+
+                        <li class="start <?= backend_activate_menu_method('pending_list') ?>"><a href="<?= base_url('leave/pending_list') ?>">অপেক্ষমাণ তালিকা
+                           <?php if ($leave_notify > 0) {
+                              echo '<span class="badge badge-danger pull-right" style="margin-right:10px">' . eng2bng($leave_notify) . '</span>';
+                           } ?>
+                        </a></li>
+                     <?php } ?>
                      </ul>
                   </li>
                <?php } ?>
