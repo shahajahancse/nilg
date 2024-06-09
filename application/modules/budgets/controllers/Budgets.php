@@ -1318,6 +1318,7 @@ class Budgets extends Backend_Controller
                 'office_id' => ($user->office_id)? $user->office_id: 0,
                 'description' => $this->input->post('description'),
                 'dept_id' => $user->crrnt_dept_id,
+                'fiscal_year' => $this->input->post('fiscal_year'),
                 'created_by' => $user->id,
             );
             if ($this->Common_model->save('budget_chahida_potro', $form_data)) {

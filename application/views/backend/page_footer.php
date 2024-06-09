@@ -709,11 +709,29 @@ function filterDate() {
 };
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <?php if(isset($dashboard_sorcart) && $dashboard_sorcart==1){ ?>
 <script>
 
 $(document).ready(function() {
-    $('#modal_sort_cart').modal('show');
+    Swal.fire({
+    title: "<strong>Shortcut</strong>",
+    html: `
+    <div style="display: flex;justify-content: center;align-items: center;gap: 7px;flex-wrap: wrap;">
+    <a class="btn btn-primary" style="font-size: large;font-family: fantasy;" href="<?=base_url('my_profile') ?>">মাই প্রোফাইল</a>
+    <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'acc'))) { ?>
+    <a class="btn btn-primary" style="font-size: large;font-family: fantasy;" href="<?=base_url('budgets/budget_nilg') ?>">বাজেট তৈরি করুন</a>
+    <?php } ?>
+    <?php if ($this->ion_auth->in_group(array('admin', 'nilg', 'uz', 'ddlg'))) { ?>
+    <a class="btn btn-primary" style="font-size: large;font-family: fantasy;" href="<?=base_url('training/create')?>">কোর্স তৈরি করুন</a>
+    <?php } ?>
+    </div>
+    `,
+    showCloseButton: true,
+    focusConfirm: false,
+    showConfirmButton: false,
+    showCancelButton: true,
+    });
 });
 
 </script>

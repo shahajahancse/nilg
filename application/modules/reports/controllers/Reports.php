@@ -511,13 +511,14 @@ class Reports extends Backend_Controller {
     public function training_result(){
         $this->form_validation->set_rules('financing_id', 'finance name', 'trim|required');
 
-        if($this->form_validation->run() == true){
+        //if($this->form_validation->run() == true){
             // $district=$this->input->post('district');
             // $upazila=$this->input->post('upazila');
             // $data_sheet_type = $this->input->post('data_sheet_type');
             $financing_id = $this->input->post('financing_id');
             $start_date = $this->input->post('start_date');
             $end_date = $this->input->post('end_date');
+            $fiscal_year = $this->input->post('fiscal_year');
 
             if($this->input->post('btnsubmit') == 'pdf_training') {
                 // echo 'Hello'; exit;
@@ -537,7 +538,42 @@ class Reports extends Backend_Controller {
                 // $mpdf->output('report.pdf', "D");
 
             }
-        }
+            if($this->input->post('btnsubmit') == 'fiscal_year_bay') {
+                // echo 'Hello'; exit;
+
+                $this->db->where('id', $fiscal_year);
+                $fiscal_year= $this->db->get('session_year')->row();
+
+                $this->db->select('training.*,tt.training_type, c.course_title, f.finance_name, o.office_name,budget_chahida_potro.amount as chahida_potro_amount,office_type.office_type_name as office_type_name_office');
+                $this->db->from('training');
+                $this->db->join('budget_chahida_potro', 'budget_chahida_potro.training_id = training.id', 'left');
+                $this->db->join('office', 'office.id = training.office_id', 'left');
+                $this->db->join('office_type', 'office_type.id = office.office_type', 'left');
+                $this->db->join('office o', 'o.id = training.office_id', 'LEFT');
+                $this->db->join('training_type tt', 'tt.id = training.course_type', 'LEFT');
+                $this->db->join('course c', 'c.id = training.course_id', 'LEFT');        
+                $this->db->join('financing f', 'f.id = training.financing_id', 'LEFT');
+                $this->db->where('budget_chahida_potro.fiscal_year', $fiscal_year->id);
+                $this->db->order_by('office_type.id', 'ASC');
+                $query = $this->db->get()->result();
+                //dd($query);
+                $this->data['results'] = $query;
+
+                $this->data['headding'] = $fiscal_year->session_name.'অর্থবছরের প্রশিক্ষণ কর্মসূচি ও ব্যয় বিভাজন ';
+                $html = $this->load->view('fiscal_year_bay', $this->data, true);
+                // echo $html;
+                // exit;
+
+                //Generate PDF
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
+                // $mpdf->output('report.pdf', "D");
+
+            }
+        // }else{
+            
+        // }
     }
 
 

@@ -61,7 +61,6 @@
                                             <div style="width:fit-content;">
                                                 আবেদনকারীর নাম: <strong><?=$info->name_bn?></strong>
                                             </div>
-
                                             <div style="width:fit-content;">
                                                 পদবীর নাম: <strong><?=$info->current_desig_name?></strong>
                                             </div>
@@ -74,6 +73,18 @@
                                             <label for="title" class="control-label">শিরোনাম : </label>
                                             <input type="text" class="form-control input-sm" name="title"
                                                 style="min-height: 33px;" value="" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="fiscal_year" class="control-label">অর্থবছর : </label>
+                                           <select name="fiscal_year" id="fiscal_year" class="form-control input-sm">
+                                               <option value="">নির্বাচন করুন</option>
+                                               <?php
+
+                                               $fiscal_year = $this->db->query("SELECT * FROM `session_year` ORDER BY `id` DESC")->result();
+                                               foreach ($fiscal_year as $key => $value) { ?>
+                                               <option value="<?=$value->id?>"><?=$value->session_name?></option>
+                                               <?php } ?>
+                                           </select>
                                         </div>
                                     </div>
 

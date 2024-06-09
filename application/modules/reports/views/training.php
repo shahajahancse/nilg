@@ -26,14 +26,14 @@
             echo form_open_multipart("reports/training_result", $attributes);?>
 
             <div class="row">
-              <div class="col-md-8">
+              <div class="col-md-12">
                 <div style="text-align: center; border:1px solid #0aa699; padding:25px 15px 15px 15px; margin:0 -15px; position: relative; ">
                   <div id="error" style="display: none;">
                     <div class="alert alert-danger">এই রিপোর্ট দেখার জন্য লাল চিহ্নিত ফিল্ড গুলো পূরণ করুন।</div>
                   </div>
                   <label class="head">ফলাফল প্রদর্শনের ফিল্টারিং ফিল্ড সমূহ</label>
                   <div class="row form-row">
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                       <div class="form-group">
                         <label class="form-label pull-left"> এনআইএলজি কর্মকর্তা/কর্মচারী ডাটা টাইপ</label>
                         <?php echo form_error('financing_id');
@@ -54,14 +54,28 @@
                         <input name="end_date" id="end_date" type="text" value="" class="form-control input-sm datetime" placeholder="">
                       </div>
                     </div>
+                    <div class="col-md-3">
+                      <div class="form-group">
+                      <label for="fiscal_year" class="control-label">অর্থবছর : </label>
+                        <select name="fiscal_year" id="fiscal_year" class="form-control input-sm">
+                            <option value="">নির্বাচন করুন</option>
+                            <?php
+
+                            $fiscal_year = $this->db->query("SELECT * FROM `session_year` ORDER BY `id` DESC")->result();
+                            foreach ($fiscal_year as $key => $value) { ?>
+                            <option value="<?=$value->id?>"><?=$value->session_name?></option>
+                            <?php } ?>
+                        </select>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
                 <div class="row form-row">
                   <div class="col-md-12" style="text-align: center; border:1px solid #0aa699; padding:10px 5px 20px 5px; position: relative; margin-top: 40px">
                     <label class="head">ফলাফল প্রদর্শনের বাটন সমূহ</label> 
-
                     <button type="submit" name="btnsubmit" value="pdf_training" onclick="return validFunc1()" class="btn btn-info btn-cons margin-top"> বাস্তবায়িত প্রশিক্ষণ কার্যক্রম রিপোর্ট </button>
+                    <button type="submit" name="btnsubmit" value="fiscal_year_bay" onclick="return validFunc2()" class="btn btn-info btn-cons margin-top">অর্থবছরের প্রশিক্ষণ কর্মসূচি ও ব্যয় বিভাজন </button>
 <!-- <a href="http://www.example.com" target="_blank">Example.com in a new tab</a> -->
                   </div>
                 </div>
@@ -104,6 +118,22 @@
         return false;
       }else{
         // window.open(hostname);
+        $("#validate").submit();
+      }
+    }
+    function validFunc2() {
+      var fiscal_year = document.getElementById("fiscal_year").value;
+     
+
+      if (fiscal_year == '') {        
+        $("#fiscal_year").css("border", "1px solid red");
+        submitOK = "false";
+      }
+    
+      if (submitOK == "false") {
+        $("#error").show();
+        return false;
+      }else{
         $("#validate").submit();
       }
     }

@@ -107,7 +107,7 @@ input[type="search"] {
 
 
 
-<div class="modal fade" id="modal_sort_cart">
+<!-- <div class="modal fade" id="modal_sort_cart">
    <div class="modal-dialog">
       <div class="modal-content">
          <div class="modal-header">
@@ -127,7 +127,7 @@ input[type="search"] {
          </div>
       </div>
    </div>
-</div>
+</div> -->
 
 
 
