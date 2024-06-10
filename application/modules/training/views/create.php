@@ -353,28 +353,13 @@ foreach ($materials as $key => $value) {
                     echo form_dropdown('certificate_id', $certificate_templates, set_value('certificate_id'), $more_attr);
                     ?>
                   </div>
+
                   <div class="col-md-12" style="margin-top: 10px;">
                     <label class="form-label">অর্থায়নে <span class="required">*</span></label>
                     <?php echo form_error('financing_id');
                     $more_attr = 'class="form-control input-sm" style="height: 24px !important;"';
                     echo form_dropdown('financing_id', $financing_list, set_value('financing_id'), $more_attr);
                     ?>
-                  </div>
-                  <div class="col-md-12" style="margin-top: 10px;">
-                    <label class="form-label">চাহিদা পত্র <span class="required">*</span></label>
-                    <?php echo form_error('financing_id'); ?>
-                    <?php
-                    $this->db->where('training_id', null);
-                    $chahida_potro = $this->db->get('budget_chahida_potro')->result();
-                    ?>
-                    <select name="chahida_potro" id="chahida_potro" class="form-control input-sm" required>
-                      <option value="">-- চাহিদা পত্র নির্বাচন করুন --</option>
-                      <?php
-                      foreach ($chahida_potro as $row) {
-                        echo '<option value="' . $row->id . '">' . $row->title . '</option>';
-                      }
-                      ?>
-                    </select>
                   </div>
                 </div>
 

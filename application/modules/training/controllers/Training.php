@@ -1666,7 +1666,7 @@ class Training extends Backend_Controller {
         $this->form_validation->set_rules('start_date', 'শুরুর তারিখ', 'required|trim');
         $this->form_validation->set_rules('end_date', 'শেষের তারিখ', 'required|trim');
         $this->form_validation->set_rules('financing_id', 'অর্থায়নে', 'required|trim');
-        $this->form_validation->set_rules('chahida_potro', 'চাহিদা পত্র', 'required|trim');
+        // $this->form_validation->set_rules('chahida_potro', 'চাহিদা পত্র', 'required|trim');
         /*if(@$_FILES['userfile']['size'] > 0){
             $this->form_validation->set_rules('userfile', '', 'callback_file_check');
         } */
@@ -1694,7 +1694,7 @@ class Training extends Backend_Controller {
                 'certificate_text'  => $this->input->post('certificate_text'),
                 'user_id'           => $this->userSessID,
                 'office_id'         => $officeID,
-                'chahida_potro_id'  => $this->input->post('chahida_potro'),
+                // 'chahida_potro_id'  => $this->input->post('chahida_potro'),
                 'division_id'       => $divisionID != NULL ? $divisionID : NULL,
                 'district_id'       => $districtID != NULL ? $districtID : NULL,
                 'upazila_id'        => $upazilaID != NULL ? $upazilaID : NULL,
@@ -1707,8 +1707,8 @@ class Training extends Backend_Controller {
 
                 // Last training id
                 $lastID = $this->db->insert_id();
-                $this->db->where('id', $this->input->post('chahida_potro'));
-                $this->db->update('budget_chahida_potro', array('training_id' => $lastID));
+                // $this->db->where('id', $this->input->post('chahida_potro'));
+                // $this->db->update('budget_chahida_potro', array('training_id' => $lastID));
                 // Generate QR Code
                 $this->qrcode_generator($lastID, $this->input->post('lgi_type'));
 
