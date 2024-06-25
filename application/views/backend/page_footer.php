@@ -709,11 +709,14 @@ function filterDate() {
 };
 
 </script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+
 <?php if(isset($dashboard_sorcart) && $dashboard_sorcart==1){ ?>
 <script>
 
-$(document).ready(function() {
+
+/*$(document).ready(function() {
     Swal.fire({
     title: "<strong>Shortcut</strong>",
     html: `
@@ -732,8 +735,7 @@ $(document).ready(function() {
     showConfirmButton: false,
     showCancelButton: true,
     });
-});
-
+});*/
 </script>
 <?php } ?>
 </body>
