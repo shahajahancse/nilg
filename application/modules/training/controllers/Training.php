@@ -1647,15 +1647,6 @@ class Training extends Backend_Controller {
         // Default Value
         $divisionID = $districtID = $upazilaID = NULL;
 
-        // Get office info
-        $office = $this->Common_model->get_office_info_by_session();
-        // dd($office);
-        $officeID   = $office->crrnt_office_id;
-        $officeType = $office->office_type;
-        $divisionID = $office->div_id;
-        $districtID = $office->dis_id;
-        $upazilaID  = $office->upa_id;
-
         // Validation
         $this->form_validation->set_rules('participant_name', 'অংশগ্রহণকারী', 'required|trim');
         $this->form_validation->set_rules('course_id', 'কোর্সের বিষয়', 'required|trim');
@@ -1672,6 +1663,26 @@ class Training extends Backend_Controller {
 
         // Validata and Insert Data
         if ($this->form_validation->run() == true){
+
+            // Get office info
+            $office = $this->Common_model->get_office_info_by_session();
+
+            $officeID   = $office->crrnt_office_id;
+            $officeType = $office->office_type;
+            $divisionID = $office->div_id;
+            $districtID = $office->dis_id;
+            $upazilaID  = $office->upa_id;
+
+            if (empty($office)) {
+                $this->session->set_flashdata('success', 'দয়া করে, আগে লগইন করেন');
+                redirect('login');
+            }
+            if (empty($this->userSessID)) {
+                $this->session->set_flashdata('success', 'দয়া করে, আগে লগইন করেন');
+                redirect('login');
+            }
+
+
             $form_data = array(
                 'participant_name'    => $this->input->post('participant_name'),
                 'course_id'         => $this->input->post('course_id'),
