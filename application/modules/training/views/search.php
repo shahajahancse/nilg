@@ -1,6 +1,10 @@
 <?php $c_id   = !empty(isset($_GET['course_id'])) ? $_GET['course_id'] : '';  ?>
 <?php $div_id = !empty(isset($_GET['division_id'])) ? $_GET['division_id'] : '';  ?>
-
+<style>
+  #course_code:focus {
+    border: 1px solid #00a59a;
+  }
+</style>
 <form action="" method="get">
 
   <div class="row">
@@ -35,12 +39,10 @@
       </select>
     </div>
     <div class="col-md-2">
-      <select name="course_code" class="form-control input-sm course_code" id="course_code" style="height: 24px !important;">
-        <option value="">কোর্স কোড</option>
-      </select>
+        <input style="height: 26px;padding: 13px 14px;width: 153px;border: 1px solid #00a59a;" class="ffff" placeholder="কোর্স কোড" name="course_code" id="course_code">
     </div>
     <div class="col-md-1">
-        <a href="<?=base_url('training')?>" class="btn btn-warning btn-mini">Clear</a>
+        <a href="<?=base_url('training')?>" class="btn btn-warning btn-mini ">Clear</a>
     </div>
 
   </div>

@@ -102,6 +102,7 @@ class Training extends Backend_Controller {
         }elseif($this->ion_auth->in_group('nilg')){
             $results = $this->Training_model->get_training_data($limit, $offset, $officeID);
         }elseif($this->ion_auth->in_group('cc')){
+            //dd('cc');
             $results = $this->Training_model->get_coordinate_training($limit, $offset, $this->userSessID);
         }elseif($this->ion_auth->is_admin()){
             $results = $this->Training_model->get_training_data($limit, $offset);

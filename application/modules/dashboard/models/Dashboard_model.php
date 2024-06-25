@@ -344,7 +344,7 @@ class Dashboard_model extends CI_Model {
     }
 
     public function get_my_training() {
-        $this->db->select('tp.*, t.start_date, t.end_date, t.handbook');
+        $this->db->select('tp.*, t.start_date, t.end_date, t.handbook,t.pin');
         $this->db->from('training_participant tp');
         $this->db->join('training t', 't.id = tp.training_id', 'RIGHT');   
         $this->db->where('tp.app_user_id', $this->userID);

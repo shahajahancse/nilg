@@ -148,7 +148,7 @@
 <script>
   // A $( document ).ready() block.
   $( document ).ready(function() {
-    $('#course_id, #division, #district, #upazila').change(function(){
+    $('#course_id, #division, #district, #upazila, #course_code').change(function(){
       $.ajax({
         type: "GET",
         // contentType: 'text/html',

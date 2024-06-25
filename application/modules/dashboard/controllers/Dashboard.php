@@ -206,7 +206,7 @@ class Dashboard extends Backend_Controller
 
 		// Results
 		$this->data['results'] = $this->Dashboard_model->get_my_training();
-		// dd($this->data['results']);
+		//dd($this->data['results']);
 		// $t=$this->Common_model->get_training_info(1);
 		// dd($t);
 

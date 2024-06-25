@@ -32,6 +32,9 @@ class Training_model extends CI_Model {
         if(!empty($_GET['upazila_id'])){
             $this->db->where('t.upazila_id', $_GET['upazila_id']);                      
         }     
+        if(!empty($_GET['course_code'])){
+            $this->db->where('t.pin', $_GET['course_code']);                      
+        }     
            
 
         $this->db->limit($limit);
@@ -470,6 +473,28 @@ class Training_model extends CI_Model {
             $this->db->offset($offset);        
             $this->db->order_by('t.id', 'DESC');
             $this->db->where_in('t.id', $trainingIDs);
+
+            if(!empty($_GET['course_id'])){
+                $this->db->where('t.course_id', $_GET['course_id']);                      
+            } 
+            if(!empty($_GET['division_id'])){
+                $this->db->where('t.division_id', $_GET['division_id']);                      
+            }  
+            if(!empty($_GET['district_id'])){
+                $this->db->where('t.district_id', $_GET['district_id']);                      
+            }  
+            if(!empty($_GET['upazila_id'])){
+                $this->db->where('t.upazila_id', $_GET['upazila_id']);                      
+            }     
+            if(!empty($_GET['course_code'])){
+                $this->db->where('t.pin', $_GET['course_code']);                      
+            }     
+               
+
+
+
+
+
             $result['rows'] = $this->db->get()->result();
             // echo $this->db->last_query(); exit;
 
@@ -477,6 +502,22 @@ class Training_model extends CI_Model {
             $q = $this->db->select('COUNT(*) as count');
             $this->db->from('training t');  
             $this->db->where_in('id', $trainingIDs);
+            if(!empty($_GET['course_id'])){
+                $this->db->where('t.course_id', $_GET['course_id']);                      
+            } 
+            if(!empty($_GET['division_id'])){
+                $this->db->where('t.division_id', $_GET['division_id']);                      
+            }  
+            if(!empty($_GET['district_id'])){
+                $this->db->where('t.district_id', $_GET['district_id']);                      
+            }  
+            if(!empty($_GET['upazila_id'])){
+                $this->db->where('t.upazila_id', $_GET['upazila_id']);                      
+            }     
+            if(!empty($_GET['course_code'])){
+                $this->db->where('t.pin', $_GET['course_code']);                      
+            }     
+               
             $tmp = $this->db->get()->result();
             $result['num_rows'] = $tmp[0]->count;
 
