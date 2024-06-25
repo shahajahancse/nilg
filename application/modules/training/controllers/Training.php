@@ -25,7 +25,6 @@ class Training extends Backend_Controller {
         $this->training_docs_path = realpath(APPPATH . '../uploads/training_docs');
         $this->note_path = realpath(APPPATH . '../uploads/note');
 
-
         // auto off training schedule after 7 day
         training_participant_auto_off();
     }
