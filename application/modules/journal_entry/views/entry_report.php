@@ -42,7 +42,7 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label class="form-label">গ্রুপ নির্বাচন করুন</label>
-                                        <select name="book_name" id="book_name" class="form-control input-sm">
+                                        <select name="group_name" id="book_name" class="form-control input-sm">
                                             <option value="">গ্রুপ নির্বাচন করুন</option>
                                             <?php foreach ($pgroups as $key => $r) { ?>
                                             <option value="<?=$r->id?>"><?=$r->name_bn?></option>

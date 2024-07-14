@@ -1193,11 +1193,11 @@ public function bank_entry_delete($encid){
                 $mpdf->WriteHtml($html);
                 $mpdf->output();
             } else if($btn == 'group_book' && empty($book_name)) {
-                $this->data['results'] = $this->Journal_entry_model->single_book_info($from_date, $to_date, $book_name);
+                $this->data['results'] = $this->Journal_entry_model->group_book_info($from_date, $to_date, $book_name);
                 // dd($this->data['results']);
                 // Generate PDF
-                $this->data['headding'] = 'স্টোর মজুত লেজার';
-                $html = $this->load->view('publication/single_book_info', $this->data, true);
+                $this->data['headding'] = 'গ্রুপ ভিত্তিক রিপোর্ট';
+                $html = $this->load->view('publication/group_book_info', $this->data, true);
 
                 $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
                 $mpdf->WriteHtml($html);
