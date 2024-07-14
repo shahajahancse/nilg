@@ -552,7 +552,7 @@ public function bank_entry_delete($encid){
             if ($this->Common_model->save('budget_j_publication_register', $form_data)) {
                 $insert_id = $this->db->insert_id();
                 foreach ($_POST['price'] as $key => $row) {
-                    $code='BS-PUB-'.$insert_id.''.$key.'-'.$_POST['book_id'][$key];
+                    $code='BS-PUB-'.$insert_id.''.$key.'-'.$_POST['book_id'][$key].''.time();
                     if ($this->input->post('type')==2) {
                         $type=$_POST['sell_type'][$key];
                     }elseif($this->input->post('type')==3){

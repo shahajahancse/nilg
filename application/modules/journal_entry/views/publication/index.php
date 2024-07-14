@@ -12,9 +12,9 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right" style="display: flex;align-content: center;justify-content: center;flex-wrap: wrap;gap: 8px;">
-                            <a href="<?=base_url('journal_entry/publication_entry_create/1')?>" class="btn btn-blueviolet btn-xs btn-mini">Book Add</a>
-                            <a href="<?=base_url('journal_entry/publication_entry_create/2')?>" class="btn btn-blueviolet btn-xs btn-mini">Book Out</a>
-                            <a href="<?=base_url('journal_entry/publication_entry_create/3')?>" class="btn btn-blueviolet btn-xs btn-mini">Book sell by KG</a>
+                            <a href="<?=base_url('journal_entry/publication_entry_create/1')?>" class="btn btn-blueviolet btn-xs btn-mini">বই এন্ট্রি</a>
+                            <a href="<?=base_url('journal_entry/publication_entry_create/2')?>" class="btn btn-blueviolet btn-xs btn-mini">বই বিক্রি</a>
+                            <a href="<?=base_url('journal_entry/publication_entry_create/3')?>" class="btn btn-blueviolet btn-xs btn-mini">কেজিতে বই বিক্রি</a>
                         </div>
                     </div>
                     <div class="grid-body ">
