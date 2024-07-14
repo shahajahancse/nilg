@@ -1123,15 +1123,25 @@ public function bank_entry_delete($encid){
             $this->data['subview'] = 'entry_report';
             $this->load->view('backend/_layout_main', $this->data);
         }
+
         public function entry_report_view()
         {
-
             $from_date = $this->input->post('from_date');
             $to_date = $this->input->post('to_date');
+            $book_name = $this->input->post('book_name');
             $btnsubmit = $this->input->post('btnsubmit');
             $s_array=explode(',', $btnsubmit);
             $btn=$s_array[0];
             $type=$s_array[1];
+
+            // publication start
+            if($btn == 'all_book') {
+                $this->data['results']= $this->Journal_entry_model->all_book($from_date, $to_date, $book_name);
+            }
+            // publication end
+
+
+
             if($btn == 'all_pending') {
                 $this->data['results']= $this->Journal_entry_model->all_journal($type,$from_date, $to_date,1);
             }
@@ -1144,11 +1154,6 @@ public function bank_entry_delete($encid){
 
             $this->data['headding'] = 'বাজেট এন্ট্রি রিপোর্ট';
             echo $html = $this->load->view('all_journal_report', $this->data, true);
-
-            // $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
-            // $mpdf->WriteHtml($html);
-            // $mpdf->output();
-        // }
 
         }
 }

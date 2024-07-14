@@ -105,38 +105,6 @@ input[type="search"] {
 
 <body class="">
 
-
-
-<!-- <div class="modal fade" id="modal_sort_cart">
-   <div class="modal-dialog">
-      <div class="modal-content">
-         <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Shortcut</h4>
-         </div>
-         <div class="modal-body">
-            <ul style="display: flex;flex-wrap: wrap;gap: 9px;">
-               <li style="list-style: none;box-shadow: 0px 0px 7px 2px #9f9d9d;padding: 8px;border-radius: 5px;font-weight: bold;">
-                  <a href="<?=base_url('my_profile') ?>">My Profile</a>
-               </li>
-               <li style="list-style: none;box-shadow: 0px 0px 7px 2px #9f9d9d;padding: 8px;border-radius: 5px;font-weight: bold;">
-                  <a href="<?=base_url('budgets/budget_nilg') ?>">Budgets</a>
-               </li>
-            </ul>
-            
-         </div>
-      </div>
-   </div>
-</div> -->
-
-
-
-
-
-
-
-
-
    <div class="header navbar navbar-inverse ">
       <div class="navbar-inner">
          <div class="header-seperation">
@@ -227,6 +195,7 @@ input[type="search"] {
                   </li>
                <?php } ?>
 
+               <!-- প্রশিক্ষণার্থী -->
                <?php if ($this->ion_auth->in_group(array('admin', 'nilg', 'city', 'ddlg', 'zp', 'uz', 'paura', 'up', 'cc'))) { ?>
                   <li class="start <?= backend_activate_menu_class('trainee') ?>">
                      <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title">প্রশিক্ষণার্থী</span> <span class="selected"></span>
@@ -250,8 +219,10 @@ input[type="search"] {
                         </a></li>
                      </ul>
                   </li>
-               <?php } ?>
+                  <?php } ?>
+                  <!-- প্রশিক্ষণার্থী -->
 
+               <!-- প্রশিক্ষণার্থী -->
                <?php if ($this->ion_auth->in_group(array('partner'))) { ?>
                   <li class="start <?= backend_activate_menu_class('trainee') ?>">
                      <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title">প্রশিক্ষণার্থী</span> <span class="selected"></span>
@@ -271,8 +242,9 @@ input[type="search"] {
                      </ul>
                   </li>
                <?php } ?>
+              <!-- প্রশিক্ষণার্থী  -->
 
-
+               <!-- প্রশিক্ষক -->
                <?php if ($this->ion_auth->in_group(array('admin', 'nilg'))) { ?>
                   <li class="start <?= backend_activate_menu_class('trainer') ?>">
                      <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title">প্রশিক্ষক</span> <span class="selected"></span>
@@ -283,14 +255,17 @@ input[type="search"] {
                      </ul>
                   </li>
                <?php } ?>
+               <!-- প্রশিক্ষক -->
 
-
+               <!-- কোর্স রেজিষ্ট্রেশন -->
                <?php if ($this->ion_auth->in_group(array('trainee', 'guest'))) { ?>
                   <li class="start ">
                      <a href="<?= base_url('dashboard/course_registration'); ?>"> <i class="fa fa-book"></i> <span class="title">কোর্স রেজিষ্ট্রেশন</span></a>
                   </li>
                <?php } ?>
+               <!-- কোর্স রেজিষ্ট্রেশন -->
 
+               <!-- মাই কোর্স -->
                <?php if ($this->ion_auth->in_group(array('trainee'))) { ?>
                   <li class="start <?= backend_activate_menu_method('my_training') ?>">
                      <a href="<?= base_url('dashboard/my_training'); ?>"> <i class="fa fa-book"></i> <span class="title">মাই কোর্স</span></a>
@@ -331,19 +306,18 @@ input[type="search"] {
                      </a>
                   </li>
                <?php } ?>
+               <!-- মাই কোর্স -->
 
+               <!-- নির্ধারিত বিষয় সমূহ -->
                <?php if ($this->ion_auth->in_group(array('trainer'))) { ?>
                   <li class="start">
                      <a href="<?= base_url('training/assigned_topic'); ?>"> <i class="fa fa-book"></i> <span class="title">নির্ধারিত বিষয় সমূহ</span></a>
                   </li>
                <?php } ?>
+               <!-- নির্ধারিত বিষয় সমূহ -->
 
-               <?php if ($this->ion_auth->in_group(array('city', 'zp', 'uz', 'paura', 'up'))) { ?>
-                  <!-- <li class="start <?= backend_activate_menu_class('office_profile') ?>">
-                     <a href="<?= base_url('office_profile'); ?>"> <i class="fa fa-briefcase"></i> <span class="title"><?= lang('office_profile') ?></span></a>
-                  </li> -->
-               <?php } ?>
 
+               <!-- প্রশিক্ষণ -->
                <?php if ($this->ion_auth->in_group(array('admin', 'nilg', 'uz', 'ddlg'))) { ?>
                   <li class="start <?= backend_activate_menu_class('training') ?>">
                      <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title">প্রশিক্ষণ</span> <span class="selected"></span>
@@ -368,7 +342,9 @@ input[type="search"] {
                      </ul>
                   </li>
                <?php } ?>
+               <!-- প্রশিক্ষণ -->
 
+               <!-- প্রশিক্ষণ cc -->
                <?php if ($this->ion_auth->in_group(array('cc'))) { ?>
                   <li class="start <?= backend_activate_menu_class('training') ?>">
                      <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title">প্রশিক্ষণ</span> <span class="selected"></span> <span class="arrow"></span> </a>
@@ -380,7 +356,9 @@ input[type="search"] {
                      </ul>
                   </li>
                <?php } ?>
+               <!-- প্রশিক্ষণ cc -->
 
+               <!-- প্রশিক্ষণ মূল্যায়ন -->
                <?php if ($this->ion_auth->in_group(array('admin', 'nilg', 'uz', 'ddlg', 'cc'))) { ?>
                   <li class="start <?= backend_activate_menu_class('evaluation') ?>">
                      <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title">প্রশিক্ষণ মূল্যায়ন</span> <span class="selected"></span> <span class="arrow"></span> </a>
@@ -394,10 +372,11 @@ input[type="search"] {
                      </ul>
                   </li>
                <?php } ?>
+               <!-- প্রশিক্ষণ মূল্যায়ন -->
 
 
                <!-- budget entry start -->
-               <?php if ($this->ion_auth->in_group(array('admin'))) { ?> <!-- //  not live the module yet -->
+               <!-- //  not live the module yet -->
                <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg', 'bdh', 'acc', 'uz', 'ddlg','bod','bho','bli')) || $userDetails->office_type == 7) { ?>
                   <?php if ($this->ion_auth->in_group(array('uz', 'ddlg'))) { ?>
                      <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span> <span class="arrow"></span> </a>
@@ -439,6 +418,7 @@ input[type="search"] {
                            <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg'))) { ?>
                               <li class="start <?= backend_activate_menu_method('budget_entry') ?>"> <a href="<?= base_url('budgets/budget_entry'); ?>">এন্ট্রি </a> </li>
                            <?php } ?>
+
                            <li class="start <?= backend_activate_menu_method('chahida_potro') ?>">
                               <a href="<?= base_url('budgets/chahida_potro'); ?>">চাহিদা পত্র
                               <?php
@@ -453,7 +433,7 @@ input[type="search"] {
                            <?php } ?>
                         </ul>
                      </li>
-               <?php } }  ?>
+               <?php }  ?>
 
                <?php if ($this->ion_auth->in_group(array('admin','nilg','acc','bod','bho','bli'))) { ?>
                   <li class="start <?= backend_activate_menu_class('journal_entry') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">জার্নাল এন্ট্রি</span> <span class="selected"></span>
@@ -481,7 +461,7 @@ input[type="search"] {
                         }
                      ?> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
-                     <?php if ($this->ion_auth->in_group(array('admin','nilg','acc'))) { ?>
+                        <?php if ($this->ion_auth->in_group(array('admin','nilg','acc'))) { ?>
                            <li class="start <?= backend_activate_menu_method('cheque_entry') ?>"> <a href="<?= base_url('journal_entry/cheque_entry'); ?>">চেক রেজিস্টার এন্ট্রি
                               <?php if ($budget_check_ntfy > 0 ) {
                                     echo '<span style="margin-right:15px" class="badge badge-danger pull-right">' . eng2bng($budget_check_ntfy) . '</span>';
@@ -524,6 +504,7 @@ input[type="search"] {
                               </a>
                            </li>
                         <?php } ?>
+
                         <?php if ($this->ion_auth->in_group(array('admin','nilg','acc'))) { ?>
                            <li class="start <?= backend_activate_menu_method('gpf_entry') ?>"> <a href="<?= base_url('journal_entry/gpf_entry'); ?>">জিপিএফ রেজিস্টার এন্ট্রি
                               <?php if ($budget_gpf_ntfy > 0 ) {
@@ -533,6 +514,7 @@ input[type="search"] {
                               </a>
                            </li>
                         <?php } ?>
+
                         <?php if ($this->ion_auth->in_group(array('admin','nilg','acc'))) { ?>
                            <li class="start <?= backend_activate_menu_method('pension_entry') ?>"> <a href="<?= base_url('journal_entry/pension_entry'); ?>">পেনশন রেজিস্টার এন্ট্রি
                               <?php if ($budget_pension_ntfy > 0 ) {
@@ -542,6 +524,7 @@ input[type="search"] {
                               </a>
                            </li>
                         <?php } ?>
+
                         <?php if ($this->ion_auth->in_group(array('admin','nilg','acc','bli','bho','bod'))) { ?>
                            <li class="start <?= backend_activate_menu_method('miscellaneous_entry') ?>">
                               <a href="<?= base_url('journal_entry/miscellaneous_entry'); ?>">বিবিধ রেজিস্টার এন্ট্রি
@@ -552,10 +535,10 @@ input[type="search"] {
                               </a>
                            </li>
                         <?php } ?>
+
                         <?php if ($this->ion_auth->in_group(array('admin','nilg','acc','bli','bho','bod'))) { ?>
                            <li class="start <?= backend_activate_menu_method('entry_report') ?>">
-                              <a href="<?= base_url('journal_entry/entry_report'); ?>"> রিপোর্ট
-                              </a>
+                              <a href="<?= base_url('journal_entry/entry_report'); ?>"> রিপোর্ট </a>
                            </li>
                         <?php } ?>
 
@@ -596,7 +579,8 @@ input[type="search"] {
                   </li>
                <?php } } ?>
 
-               <?php if ($this->ion_auth->in_group(array('admin','nilg','acc'))) { ?>
+               <!-- হিসাব সেটিংস -->
+                  <?php if ($this->ion_auth->in_group(array('admin','nilg','acc'))) { ?>
                   <li class="start <?= backend_activate_menu_class('nilg_setting') ?> <?= backend_activate_menu_class('budget_head') ?> <?= backend_activate_menu_class('budget_sub_head') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব সেটিংস</span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
                         <li class="start <?= backend_activate_menu_method('account_types') ?>"> <a href="<?= base_url('nilg_setting/account_types'); ?>">অ্যাকাউন্ট টাইপ </a> </li>
@@ -609,11 +593,12 @@ input[type="search"] {
                         <li class="start <?= backend_activate_menu_method('publication_book_list') ?>"> <a href="<?= base_url('nilg_setting/publication_book_list'); ?>">প্রকাশনা বুক তালিকা </a> </li>
                      </ul>
                   </li>
-               <?php } ?>
+                  <?php } ?>
+               <!-- হিসাব সেটিংস -->
                <?php } ?>
                <!-- budget entry end -->
 
-
+               <!-- এনআইএলজি সেটিংস cc-->
                <?php if ($this->ion_auth->in_group('cc')) { ?>
                   <li class="start <?= backend_activate_menu_class('qbank') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">এনআইএলজি সেটিংস</span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
@@ -621,6 +606,7 @@ input[type="search"] {
                      </ul>
                   </li>
                <?php } ?>
+               <!-- এনআইএলজি সেটিংস cc -->
 
                <!-- leave -->
                <?php if($this->ion_auth->in_group(array('admin', 'nilg')) || $userDetails->office_type == 7){ ?>
@@ -752,6 +738,7 @@ input[type="search"] {
                <?php } ?>
                <!-- inventory -->
 
+               <!-- all / general report -->
                <?php if ($this->ion_auth->is_admin() && !$this->ion_auth->in_group('nilg')) { ?>
                   <li class="start <?= backend_activate_menu_class('reports') ?>">
                      <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title"><?= lang('reports_all') ?></span> <span class="selected"></span> <span class="arrow"></span> </a>
@@ -776,23 +763,9 @@ input[type="search"] {
                      </ul>
                   </li>
                <?php } ?>
+               <!-- all / general report -->
 
-               <?php if ($this->ion_auth->is_admin() || $this->ion_auth->in_group('nilg')) { ?>
-                  <!-- <li class="start <?= backend_activate_menu_class('trainers') ?>">
-                     <a href="javascript:;" > <i class="fa fa-user"></i> <span class="title"><?= lang('trainers') ?></span> <span class="selected"></span> <span class="arrow"></span> </a>
-                     <ul class="sub-menu">
-                        <li> <a href="<?= base_url('trainers/all'); ?>"> <?= lang('traineer_list') ?></a></li>
-                     </ul>
-                  </li> -->
-               <?php } ?>
-
-
-               <?php if ($this->ion_auth->in_group(array('admin', 'cc'))) { ?>
-                  <!-- <li class="start <?= backend_activate_menu_class('trainer_register') ?>">
-                     <a href="<?= base_url('trainer_register'); ?>"> <i class="fa fa-user"></i>  <span class="title">প্রশিক্ষক নিবন্ধন</span></a>
-                  </li> -->
-               <?php } ?>
-
+               <!-- এনআইএলজি সেটিংস -->
                <?php if ($this->ion_auth->is_admin() || $this->ion_auth->in_group('nilg')) { ?>
                   <li class="start <?= backend_activate_menu_class('qbank') ?> <?= backend_activate_menu_class('office') ?> <?= backend_activate_menu_class('designation') ?> <?= backend_activate_menu_class('course') ?> <?= backend_activate_menu_class('evaluation_subject') ?> <?= backend_activate_menu_class('training_material') ?> <?= backend_activate_menu_class('dev_partner') ?>">
                      <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">এনআইএলজি সেটিংস</span> <span class="selected"></span> <span class="arrow"></span> </a>
@@ -809,7 +782,9 @@ input[type="search"] {
                      </ul>
                   </li>
                <?php } ?>
+               <!-- এনআইএলজি সেটিংস -->
 
+               <!-- general সেটিংস -->
                <?php if ($this->ion_auth->is_admin() || $this->ion_auth->in_group(array('sm', 'asm'))) { ?>
                   <li class="start <?= backend_activate_menu_class('general_setting') ?>"> <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title"><?= lang('setting_general') ?></span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
@@ -846,7 +821,9 @@ input[type="search"] {
                      </ul>
                   </li>
                <?php } ?>
+               <!-- general সেটিংস -->
 
+               <!-- acl -->
                <?php if ($this->ion_auth->is_admin()) { ?>
                   <li class="start <?= backend_activate_menu_class('acl') ?>"> <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title"><?= lang('user_management') ?></span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
@@ -855,6 +832,7 @@ input[type="search"] {
                      </ul>
                   </li>
                <?php } ?>
+               <!-- acl -->
 
                <li class="start"><a href="<?= base_url('login/logout') ?>"> <i class="fa fa-power-off"></i>
                   <span class="title">লগ আউট</span> </a></li>

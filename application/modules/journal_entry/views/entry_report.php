@@ -13,20 +13,34 @@
                     </div>
                     <div class="grid-body">
                         <?php if($this->session->flashdata('success')):?>
-                        <div class="alert alert-success">
-                            <?php echo $this->session->flashdata('success');?>
-                        </div>
+                            <div class="alert alert-success">
+                                <?php echo $this->session->flashdata('success');?>
+                            </div>
                         <?php endif; ?>
 
-                        <?php 
-                  $attributes = array('id' => 'validate', 'target'=>'_blank');
-                  echo form_open("journal_entry/entry_report_view", $attributes);?>
+                <?php $attributes = array('id' => 'validate', 'target'=>'_blank');
+                    echo form_open("journal_entry/entry_report_view", $attributes);?>
                         <fieldset class="col-md-12">
                             <legend>রিপোর্ট ফিল্টার</legend>
                             <div id="error" style="display: none;">
                                 <div class="alert alert-danger">Please fill up red level input filtering field.</div>
                             </div>
                             <div class="col-md-12">
+                                <?php if($this->ion_auth->in_group(array('admin','nilg','acc', 'bli'))){?>
+                                    <?php
+                                        $books = $this->db->where('status', 1)->get('budget_j_publication_book')->result();
+                                    ?>
+                                    <div class="form-group col-md-4">
+                                        <label class="form-label">বুক নির্বাচন করুন</label>
+                                        <select name="book_name" id="book_name" class="form-control">
+                                            <option value="">বুক নির্বাচন করুন</option>
+                                            <?php foreach ($books as $key => $row) { ?>
+                                            <option value="<?=$row->id?>"><?=$row->name_bn?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                <?php } ?>
+
                                 <div class="form-group col-md-4">
                                     <label class="form-label">শুরুর তারিখ</label>
                                     <input type="text" name="from_date" id="from_date" class="form-control datetime"
@@ -40,106 +54,101 @@
                             </div>
                         </fieldset>
 
-
                         <?php if ($this->ion_auth->in_group(array('admin','nilg','acc'))) { ?>
-                        <fieldset class="col-md-12">
-                            <legend>হোস্টেল রিপোর্ট বাটন</legend>
-                            <button type="submit" name="btnsubmit" value="all_pending,hostel"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
-                            <button type="submit" name="btnsubmit" value="all_approved,hostel"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
-                            <button type="submit" name="btnsubmit" value="all_entry,hostel"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
-                        </fieldset>
+                            <fieldset class="col-md-12">
+                                <legend>হোস্টেল রিপোর্ট বাটন</legend>
+                                <button type="submit" name="btnsubmit" value="all_pending,hostel"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
+                                <button type="submit" name="btnsubmit" value="all_approved,hostel"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
+                                <button type="submit" name="btnsubmit" value="all_entry,hostel"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
+                            </fieldset>
 
-                        <fieldset class="col-md-12">
-                            <legend>পাবলিকেশন রিপোর্ট বাটন</legend>
-                            <button type="submit" name="btnsubmit" value="all_pending,publication"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
-                            <button type="submit" name="btnsubmit" value="all_approved,publication"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
-                            <button type="submit" name="btnsubmit" value="all_entry,publication"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
-                        </fieldset>
+                            <fieldset class="col-md-12">
+                                <legend>পাবলিকেশন রিপোর্ট বাটন</legend>
+                                <button type="submit" name="btnsubmit" value="all_pending,publication"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
+                                <button type="submit" name="btnsubmit" value="all_approved,publication"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
+                                <button type="submit" name="btnsubmit" value="all_entry,publication"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
+                            </fieldset>
 
-                        <fieldset class="col-md-12">
-                            <legend>রাজস্ব রিপোর্ট বাটন</legend>
-                            <button type="submit" name="btnsubmit" value="all_pending,revenue"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
-                            <button type="submit" name="btnsubmit" value="all_approved,revenue"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
-                            <button type="submit" name="btnsubmit" value="all_entry,revenue"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
-                        </fieldset>
+                            <fieldset class="col-md-12">
+                                <legend>রাজস্ব রিপোর্ট বাটন</legend>
+                                <button type="submit" name="btnsubmit" value="all_pending,revenue"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
+                                <button type="submit" name="btnsubmit" value="all_approved,revenue"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
+                                <button type="submit" name="btnsubmit" value="all_entry,revenue"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
+                            </fieldset>
 
-                        <fieldset class="col-md-12">
-                            <legend>বিবিধ রিপোর্ট বাটন</legend>
-                            <button type="submit" name="btnsubmit" value="all_pending,miscellaneous"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
-                            <button type="submit" name="btnsubmit" value="all_approved,miscellaneous"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
-                            <button type="submit" name="btnsubmit" value="all_entry,miscellaneous"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
-                        </fieldset>
+                            <fieldset class="col-md-12">
+                                <legend>বিবিধ রিপোর্ট বাটন</legend>
+                                <button type="submit" name="btnsubmit" value="all_pending,miscellaneous"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
+                                <button type="submit" name="btnsubmit" value="all_approved,miscellaneous"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
+                                <button type="submit" name="btnsubmit" value="all_entry,miscellaneous"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
+                            </fieldset>
 
-                        <fieldset class="col-md-12">
-                            <legend>পেনশন রিপোর্ট বাটন</legend>
-                            <button type="submit" name="btnsubmit" value="all_pending,pension"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
-                            <button type="submit" name="btnsubmit" value="all_approved,pension"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
-                            <button type="submit" name="btnsubmit" value="all_entry,pension"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
-                        </fieldset>
+                            <fieldset class="col-md-12">
+                                <legend>পেনশন রিপোর্ট বাটন</legend>
+                                <button type="submit" name="btnsubmit" value="all_pending,pension"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
+                                <button type="submit" name="btnsubmit" value="all_approved,pension"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
+                                <button type="submit" name="btnsubmit" value="all_entry,pension"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
+                            </fieldset>
 
-                        <fieldset class="col-md-12">
-                            <legend>GPF রিপোর্ট বাটন</legend>
-                            <button type="submit" name="btnsubmit" value="all_pending,gpf"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
-                            <button type="submit" name="btnsubmit" value="all_approved,gpf"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
-                            <button type="submit" name="btnsubmit" value="all_entry,gpf"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
-                        </fieldset>
-
-
-
+                            <fieldset class="col-md-12">
+                                <legend>GPF রিপোর্ট বাটন</legend>
+                                <button type="submit" name="btnsubmit" value="all_pending,gpf"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
+                                <button type="submit" name="btnsubmit" value="all_approved,gpf"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
+                                <button type="submit" name="btnsubmit" value="all_entry,gpf"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
+                            </fieldset>
 
                         <?php  }else{ ?>
-                        <fieldset class="col-md-12">
-                            <legend>বিবিধ রিপোর্ট বাটন</legend>
-                            <button type="submit" name="btnsubmit" value="all_pending,miscellaneous"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
-                            <button type="submit" name="btnsubmit" value="all_approved,miscellaneous"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
-                            <button type="submit" name="btnsubmit" value="all_entry,miscellaneous"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
-                        </fieldset>
+                            <?php if($this->ion_auth->in_group(array('bli'))){?>
+                            <fieldset class="col-md-12">
+                                <legend>পাবলিকেশন রিপোর্ট বাটন</legend>
+                                <button type="submit" name="btnsubmit" value="all_book,publication"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট বইয়ের সংখ্যা</button>
+                                <button type="submit" name="btnsubmit" value="all_approved,publication"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
+                                <button type="submit" name="btnsubmit" value="all_entry,publication"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
+                            </fieldset>
+                            <?php } ?>
 
-
-                        <?php if($this->ion_auth->in_group(array('bho'))){?>
-                        <fieldset class="col-md-12">
-                            <legend>হোস্টেল রিপোর্ট বাটন</legend>
-                            <button type="submit" name="btnsubmit" value="all_pending,hostel"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
-                            <button type="submit" name="btnsubmit" value="all_approved,hostel"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
-                            <button type="submit" name="btnsubmit" value="all_entry,hostel"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
-                        </fieldset>
+                            <?php if($this->ion_auth->in_group(array('bho'))){?>
+                            <fieldset class="col-md-12">
+                                <legend>হোস্টেল রিপোর্ট বাটন</legend>
+                                <button type="submit" name="btnsubmit" value="all_pending,hostel"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
+                                <button type="submit" name="btnsubmit" value="all_approved,hostel"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
+                                <button type="submit" name="btnsubmit" value="all_entry,hostel"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
+                            </fieldset>
+                            <?php } ?>
+                            <fieldset class="col-md-12">
+                                <legend>বিবিধ রিপোর্ট বাটন</legend>
+                                <button type="submit" name="btnsubmit" value="all_pending,miscellaneous"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
+                                <button type="submit" name="btnsubmit" value="all_approved,miscellaneous"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
+                                <button type="submit" name="btnsubmit" value="all_entry,miscellaneous"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
+                            </fieldset>
                         <?php } ?>
-                        <?php if($this->ion_auth->in_group(array('bli'))){?>
-                        <fieldset class="col-md-12">
-                            <legend>পাবলিকেশন রিপোর্ট বাটন</legend>
-                            <button type="submit" name="btnsubmit" value="all_pending,publication"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
-                            <button type="submit" name="btnsubmit" value="all_approved,publication"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
-                            <button type="submit" name="btnsubmit" value="all_entry,publication"
-                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
-                        </fieldset>
-                        <?php    }
-                           } ?>
 
 
                         <div class="clearfix"></div>
