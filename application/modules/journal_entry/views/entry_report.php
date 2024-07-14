@@ -33,7 +33,7 @@
                                     ?>
                                     <div class="form-group col-md-4">
                                         <label class="form-label">বুক নির্বাচন করুন</label>
-                                        <select name="book_name" id="book_name" class="form-control input-sm">
+                                        <select name="book_name" id="book_name" class="form-control input-sm" onchange="block('group_name')">
                                             <option value="">বুক নির্বাচন করুন</option>
                                             <?php foreach ($books as $key => $row) { ?>
                                             <option value="<?=$row->id?>"><?=$row->name_bn?></option>
@@ -42,7 +42,7 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label class="form-label">গ্রুপ নির্বাচন করুন</label>
-                                        <select name="group_name" id="book_name" class="form-control input-sm">
+                                        <select name="group_name" id="group_name" class="form-control input-sm" onchange="block('book_name')">
                                             <option value="">গ্রুপ নির্বাচন করুন</option>
                                             <?php foreach ($pgroups as $key => $r) { ?>
                                             <option value="<?=$r->id?>"><?=$r->name_bn?></option>
@@ -178,4 +178,9 @@ $("#validate").submit(function() {
         return true;
     }
 });
+</script>
+<script>
+    function block(v){
+        $('#'+v).val('');
+    }
 </script>
