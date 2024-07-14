@@ -80,11 +80,13 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($details as $key => $r) { ?>
+                                        <?php foreach ($details as $key => $r) { 
+                                            //dd($r);
+                                            ?>
                                             <tr>
                                                 <td><?php echo eng2bng($key + 1); ?></td>
-                                                <td><?php echo $r->book_name; ?></td>
-                                                <td><?php echo $r->sbn_no; ?></td>
+                                                <td><?php echo $r->name_bn; ?></td>
+                                                <td><?php echo $r->isbn_number; ?></td>
                                                 <td><?php echo eng2bng($r->price); ?></td>
                                                 <td><?php echo eng2bng($r->quantity); ?></td>
                                                 <td><?php echo eng2bng($r->amount); ?></td>

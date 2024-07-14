@@ -53,9 +53,9 @@
                             <label for="status">স্টাটাস</label>
                             <select name="status" id="status" class="form-control" required>
                                 <option value="1" <?php if (set_value('status') == '1') echo 'selected'; ?>>
-                                    সক্রিয়াক্টিভ</option>
+                                    সক্রিয়</option>
                                 <option value="2" <?php if (set_value('status') == '2') echo 'selected'; ?>>
-                                    অসক্রিয়াক্টিভ</option>
+                                    অসক্রিয</option>
                             </select>
                         </div>
                         <div class="form-group">
