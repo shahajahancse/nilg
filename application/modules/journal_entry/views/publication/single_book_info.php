@@ -180,25 +180,25 @@
                             <?php if ($r->type == 1) { ?>
                                 <td><?php echo eng2bng($r->quantity); ?></td>
                             <?php } else { ?>
-                                <td>0</td>
+                                <td><?= eng2bng(0) ?></td>
                             <?php } ?>
 
                             <?php if ($r->type == 2) { ?>
                                 <td><?php echo eng2bng($r->quantity); ?></td>
                             <?php } else { ?>
-                                <td>0</td>
+                                <td><?= eng2bng(0) ?></td>
                             <?php } ?>
 
                             <?php if ($r->type == 3) { ?>
                                 <td><?php echo eng2bng($r->quantity); ?></td>
                             <?php } else { ?>
-                                <td>0</td>
+                                <td><?= eng2bng(0) ?></td>
                             <?php } ?>
 
                             <?php if ($r->type == 4) { ?>
                                 <td><?php echo eng2bng($r->quantity); ?></td>
                             <?php } else { ?>
-                                <td>0</td>
+                                <td><?= eng2bng(0) ?></td>
                             <?php } ?>
 
                             <td><?php echo eng2bng($r->rest_qty); ?></td>
