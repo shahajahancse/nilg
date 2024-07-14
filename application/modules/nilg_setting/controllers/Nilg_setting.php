@@ -154,4 +154,119 @@ class Nilg_setting extends Backend_Controller {
         }
     }
 
+
+    public function publication_group_setting()
+    {
+        $this->data['result'] = $this->db->get('budget_j_publication_group')->result_array();
+        $this->data['meta_title'] = 'পাবলিকেশন গ্রুপ সেটিংস';
+        $this->data['subview'] = 'publication_group_setting/index';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function publication_group_create()
+    {
+        $this->form_validation->set_rules('name_bn', 'পাবলিকেশন গ্রুপ নাম (বাংলা)', 'trim|required');
+        $this->form_validation->set_rules('name_en', 'পাবলিকেশন গ্রুপ নাম (ইংরেজী)', 'trim|required');
+
+        if ($this->form_validation->run() == TRUE) {
+            $form_data = array(
+                'id' => null,
+                'name_bn' => $this->input->post('name_bn'),
+                'name_en' => $this->input->post('name_en'),
+                'description' => $this->input->post('description'),
+                'created_at' => date('Y-m-d H:i:s'),
+                'create_by' => $this->data['userDetails']->id,
+            );
+
+            if ($this->db->insert('budget_j_publication_group', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('nilg_setting/publication_group_setting');
+            }
+        } else {
+            $this->data['result'] = $this->db->get('budget_j_publication_group')->result_array();
+            $this->data['meta_title'] = 'পাবলিকেশন গ্রুপ সেটিংস';
+            $this->data['subview'] = 'publication_group_setting/index';
+            $this->load->view('backend/_layout_main', $this->data);
+        }
+    }
+    public function publication_group_setting_update($id){
+        // $id = $this->input->post('id');
+        $this->form_validation->set_rules('name_bn', 'পাবলিকেশন গ্রুপ নাম (বাংলা)', 'trim|required');
+        $this->form_validation->set_rules('name_en', 'পাবলিকেশন গ্রুপ নাম (ইংরেজী)', 'trim|required');
+
+        if ($this->form_validation->run() == TRUE) {
+            $form_data = array(
+                'name_bn' => $this->input->post('name_bn'),
+                'name_en' => $this->input->post('name_en'),
+                'description' => $this->input->post('description'),
+            );
+            $this->db->where('id', $id);
+            if ($this->db->update('budget_j_publication_group', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('nilg_setting/publication_group_setting');
+            }
+        } else {
+            $this->db->where('id', $id);
+            $result= $this->db->get('budget_j_publication_group')->row();
+            echo json_encode($result);
+        }
+    }
+
+    public function publication_book_list()
+    {
+        $this->data['group'] = $this->db->get('budget_j_publication_group')->result();
+        $this->db->select('budget_j_publication_book.*, budget_j_publication_group.name_bn as group_name');
+        $this->db->from('budget_j_publication_book');
+        $this->db->join('budget_j_publication_group', 'budget_j_publication_book.group_id = budget_j_publication_group.id', 'left');
+        $this->data['result'] = $this->db->get()->result();
+        $this->data['meta_title'] = 'পাবলিকেশন বই সেটিংস';
+        $this->data['subview'] = 'publication_book_add/index';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function publication_book_add()
+    {
+        $this->data['group'] = $this->db->get('budget_j_publication_group')->result();
+        $this->form_validation->set_rules('name_bn', 'পাবলিকেশন গ্রুপ নাম (বাংলা)', 'trim|required');
+        $this->form_validation->set_rules('name_en', 'পাবলিকেশন গ্রুপ নাম (ইংরেজী)', 'trim|required');
+        if ($this->form_validation->run() == TRUE) {
+            $form_data = array(
+                'name_bn' => $this->input->post('name_bn'),
+                'name_en' => $this->input->post('name_en'),
+                'isbn_number' => $this->input->post('isbn_number'),
+                'prokash_kal' => $this->input->post('prokash_kal'),
+                'group_id' => $this->input->post('group_id'),
+                'price' => $this->input->post('price'),
+                'status' => 1,
+                'description' => $this->input->post('description'),
+                'create_by' => $this->session->userdata('user_id'),
+                'created_at' => date('Y-m-d H:i:s')
+            );
+
+            if ($this->db->insert('budget_j_publication_book', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('nilg_setting/publication_book_list');
+            }
+        } else {
+            $this->db->select('budget_j_publication_book.*, budget_j_publication_group.name_bn as group_name');
+            $this->db->from('budget_j_publication_book');
+            $this->db->join('budget_j_publication_group', 'budget_j_publication_book.group_id = budget_j_publication_group.id', 'left');
+            $this->data['result'] = $this->db->get()->result();
+            $this->data['meta_title'] = 'পাবলিকেশন বই সেটিংস';
+            $this->data['subview'] = 'publication_book_add/index';
+            $this->load->view('backend/_layout_main', $this->data);
+        }
+    }
+    public function publication_book_delete($id){
+        $this->db->where('book_id', $id);
+        $p_data=$this->db->get('budget_j_publication_register_details')->result();
+        if(!empty($p_data)){
+            $this->session->set_flashdata('error', 'এই পাবলিকেশন ব্যবহার করা হয়েছে');
+            redirect('nilg_setting/publication_book_list');
+        }else{
+            $this->db->where('id', $id);
+            $this->db->delete('budget_j_publication_book');
+            $this->session->set_flashdata('success', 'পাবলিকেশন গ্রুপ মুছে ফেলা হয়েছে');
+            redirect('nilg_setting/publication_book_list');
+        }
+    }
+
 }

@@ -397,7 +397,7 @@ input[type="search"] {
 
 
                <!-- budget entry start -->
-               <?php if ($this->ion_auth->in_group(array('adminccccc'))) { ?> <!-- //  not live the module yet -->
+               <?php if ($this->ion_auth->in_group(array('admin'))) { ?> <!-- //  not live the module yet -->
                <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg', 'bdh', 'acc', 'uz', 'ddlg','bod','bho','bli')) || $userDetails->office_type == 7) { ?>
                   <?php if ($this->ion_auth->in_group(array('uz', 'ddlg'))) { ?>
                      <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span> <span class="arrow"></span> </a>
@@ -605,6 +605,8 @@ input[type="search"] {
                         <li class="start <?= backend_activate_menu_method('budget_description') ?>"> <a href="<?= base_url('nilg_setting/budget_head/budget_description'); ?>">বাজেট সামারি</a> </li>
                         <li class="start <?= backend_activate_menu_method('session_year') ?>"> <a href="<?= base_url('nilg_setting/session_year'); ?>">অর্থ বছর</a> </li>
                         <li class="start <?= backend_activate_menu_method('chahida_potro_approval') ?>"> <a href="<?= base_url('nilg_setting/chahida_potro_approval'); ?>">চাহিদা পত্র অনুমোদন</a> </li>
+                        <li class="start <?= backend_activate_menu_method('publication_group_setting') ?>"> <a href="<?= base_url('nilg_setting/publication_group_setting'); ?>">প্রকাশনা গ্রুপ</a> </li>
+                        <li class="start <?= backend_activate_menu_method('publication_book_list') ?>"> <a href="<?= base_url('nilg_setting/publication_book_list'); ?>">প্রকাশনা বুক তালিকা </a> </li>
                      </ul>
                   </li>
                <?php } ?>
