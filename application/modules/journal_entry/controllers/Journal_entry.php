@@ -571,9 +571,9 @@ public function bank_entry_delete($encid){
                         }
                     } else {
                         if($type==1){
-                        $rest_qty = 0-$_POST['quantity'][$key];
+                        $rest_qty = $_POST['quantity'][$key];
                         }else{
-                            $rest_qty = $_POST['quantity'][$key];
+                            $rest_qty =0- $_POST['quantity'][$key];
                         }
                     }
                     $data_details = array(
