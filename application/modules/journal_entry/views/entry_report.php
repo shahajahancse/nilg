@@ -18,7 +18,7 @@
                             </div>
                         <?php endif; ?>
 
-                <?php $attributes = array('id' => 'validate', 'target'=>'_blank');
+                <?php $attributes = array('id' => 'validates', 'target'=>'_blank');
                     echo form_open("journal_entry/entry_report_view", $attributes);?>
                         <fieldset class="col-md-12">
                             <legend>রিপোর্ট ফিল্টার</legend>
@@ -121,6 +121,7 @@
                                 <legend>পাবলিকেশন রিপোর্ট বাটন</legend>
                                 <button type="submit" name="btnsubmit" value="all_book,publication"
                                     class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট বইয়ের সংখ্যা</button>
+
                                 <button type="submit" name="btnsubmit" value="all_approved,publication"
                                     class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
                                 <button type="submit" name="btnsubmit" value="all_entry,publication"

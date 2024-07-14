@@ -537,7 +537,7 @@ public function bank_entry_delete($encid){
         $this->form_validation->set_rules('book_id[]', 'বই নাম', 'required|trim');
         $user = $this->ion_auth->user()->row();
         if ($this->form_validation->run() == true) {
-          
+
             $this->db->trans_start();
             $form_data = array(
                 'voucher_no' => $this->input->post('voucher_no'),
@@ -1150,10 +1150,30 @@ public function bank_entry_delete($encid){
             $type=$s_array[1];
 
             // publication start
-            if($btn == 'all_book') {
-                $this->data['results']= $this->Journal_entry_model->all_book($from_date, $to_date, $book_name);
+            if($btn == 'all_book' && empty($book_name)) {
+                $this->data['results']= $this->Journal_entry_model->all_book($from_date, $to_date);
+
+                // Generate PDF
+                $this->data['headding'] = 'পাবলিকেশন সামারী রিপোর্ট';
+                $html = $this->load->view('publication/publication_summary_print', $this->data, true);
+
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
+            } else if($btn == 'all_book' && !empty($book_name)) {
+                $this->data['results'] = $this->Journal_entry_model->single_book_info($from_date, $to_date, $book_name);
+                // dd($this->data['results']);
+                // Generate PDF
+                $this->data['headding'] = 'একটি বইইয়ের রিপোর্ট';
+                $html = $this->load->view('publication/single_book_info', $this->data, true);
+
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
             }
             // publication end
+
+
 
 
 
@@ -1171,4 +1191,6 @@ public function bank_entry_delete($encid){
             echo $html = $this->load->view('all_journal_report', $this->data, true);
 
         }
+
+
 }
