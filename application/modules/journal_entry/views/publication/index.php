@@ -12,10 +12,11 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right" style="display: flex;align-content: center;justify-content: center;flex-wrap: wrap;gap: 8px;">
-                            <a href="<?=base_url('journal_entry/publication_entry_create')?>" class="btn btn-blueviolet btn-xs btn-mini">পাবলিকেশন তৈরি করুণ</a>
+                            <a href="<?=base_url('journal_entry/publication_entry_create/1')?>" class="btn btn-blueviolet btn-xs btn-mini">Book Add</a>
+                            <a href="<?=base_url('journal_entry/publication_entry_create/2')?>" class="btn btn-blueviolet btn-xs btn-mini">Book Out</a>
+                            <a href="<?=base_url('journal_entry/publication_entry_create/3')?>" class="btn btn-blueviolet btn-xs btn-mini">Book sell by KG</a>
                         </div>
                     </div>
-
                     <div class="grid-body ">
                         <?php if($this->session->flashdata('success')):?>
                         <div class="alert alert-success">
@@ -65,14 +66,17 @@
                                     <td class="v-align-middle"><?=$row->voucher_no; ?></td>
                                     <td class="v-align-middle"><?= eng2bng($row->amount); ?></td>
                                     <td class="v-align-middle"><?= date_bangla_calender_format($row->issue_date) ; ?></td>
-                                    <?php if ($row->type == 1) {
-                                        $type = '<span class="label label-success">Cash Deposit</span></span>';
-                                    } elseif($row->type == 2){
-                                        $type = '<span class="label label-success">Payment Voucher</span></span>';
-                                    }else{
-                                        $type = '<span class="label label-success">Adjuestment Voucher</span></span>';
-                                    } ?>
-                                    <td class="v-align-middle"><?=$type; ?></td>
+                                    <td class="v-align-middle">
+                                    <?php 
+                                        if ($row->type == 1) {
+                                        echo "<span>বই এন্ট্রি</span>";
+                                        }elseif ($row->type == 2) {
+                                        echo "<span>বই আউট</span>";
+                                        }elseif ($row->type == 3) {
+                                        echo "<span>কেজিতে বিক্রি</span>";
+                                        }
+                                    ?>
+                                    </td>
                                     <?php if ($row->status == 1) {
                                         $type = '<span class="label label-success">পেন্ডিং</span>';
                                     } else {
@@ -89,14 +93,13 @@
                                                 <li><a
                                                         href="<?php echo base_url('journal_entry/publication_entry_details/'.encrypt_url($row->id))?>"><i
                                                             class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
-                                                <li><a
+                                                <!-- <li><a
                                                         href="<?php echo base_url('journal_entry/publication_entry_edit/'.encrypt_url($row->id))?>"><i
-                                                            class="fa fa-pencil-square"></i> সংশোধন করুন </a></li>
+                                                            class="fa fa-pencil-square"></i> সংশোধন করুন </a></li> -->
                                                 <li><a href="<?php echo base_url('journal_entry/publication_entry_delete/'.encrypt_url($row->id))?>"><i
                                                             class="fa fa-pencil-square"></i>ডিলিট করুন</a></li>
                                                             <li><a href="<?php echo base_url('journal_entry/publication_print/'.encrypt_url($row->id))?>" target="_blank"><i
                                                 class="fa fa-pencil-square"target="_blank"></i> প্রিন্ট করুন</a></li>
-
                                                             <?php if ($row->status == 1 && $this->ion_auth->in_group(array('admin', 'nilg','acc'))) {?>
                                                 <li><a href="<?php echo base_url('journal_entry/chenge_status/publication/'.encrypt_url($row->id))?>"><i
                                                             class="fa fa-pencil-square"></i> অ্যাপ্রুভ করুন</a></li>

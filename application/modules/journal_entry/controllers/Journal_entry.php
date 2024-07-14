@@ -532,15 +532,12 @@ public function bank_entry_delete($encid){
         $this->data['subview'] = 'publication/index';
         $this->load->view('backend/_layout_main', $this->data);
     }
-    public function publication_entry_create()
+    public function publication_entry_create($type)
     {
-        $this->form_validation->set_rules('book_name[]', 'বই নাম', 'required|trim');
-        $this->form_validation->set_rules('sbn_no[]', 'এসবিএন নং', 'required|trim');
-        $this->form_validation->set_rules('price[]', 'বইয়ের মূল্য', 'required|trim');
-        $this->form_validation->set_rules('quantity[]', 'পরিমাণ', 'required|trim');
+        $this->form_validation->set_rules('book_id[]', 'বই নাম', 'required|trim');
         $user = $this->ion_auth->user()->row();
         if ($this->form_validation->run() == true) {
-            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
+          
             $this->db->trans_start();
             $form_data = array(
                 'voucher_no' => $this->input->post('voucher_no'),
@@ -555,10 +552,19 @@ public function bank_entry_delete($encid){
             if ($this->Common_model->save('budget_j_publication_register', $form_data)) {
                 $insert_id = $this->db->insert_id();
                 foreach ($_POST['price'] as $key => $row) {
+                    $code='BS-PUB-'.$insert_id.''.$key.'-'.$_POST['book_id'][$key];
+                    if ($this->input->post('type')==2) {
+                        $type=$_POST['sell_type'][$key];
+                    }elseif($this->input->post('type')==3){
+                        $type=4;
+                    }else{
+                        $type=1;
+                    }
                     $data_details = array(
                         'publication_register_id' => $insert_id ,
-                        'book_name' => $_POST['book_name'][$key],
-                        'sbn_no' => $_POST['sbn_no'][$key],
+                        'book_id' => $_POST['book_id'][$key],
+                        'code' => $code,
+                        'type' => $type,
                         'price' => $_POST['price'][$key],
                         'quantity' => $_POST['quantity'][$key],
                         'amount' => $_POST['amount'][$key],
@@ -572,6 +578,7 @@ public function bank_entry_delete($encid){
         }
 
         $this->data['info'] = $this->Common_model->get_user_details();
+        $this->data['type'] = $type;
         //Load view
         $this->data['meta_title'] = 'পাবলিকেশন রেজিস্টার';
         $this->data['subview'] = 'publication/entry';
@@ -585,8 +592,12 @@ public function bank_entry_delete($encid){
         $this->db->where('q.id', $id);
         $this->data['row'] = $this->db->get()->row();
 
+        $this->db->select('q.*,budget_j_publication_book.*,budget_j_publication_group.name_bn as group_name');
+        $this->db->from('budget_j_publication_register_details as q');
+        $this->db->join('budget_j_publication_book', 'budget_j_publication_book.id = q.book_id', 'left');
+        $this->db->join('budget_j_publication_group', 'budget_j_publication_group.id = budget_j_publication_book.group_id', 'left');
         $this->db->where('publication_register_id', $id);
-        $this->data['details'] = $this->db->get('budget_j_publication_register_details')->result();
+        $this->data['details'] = $this->db->get()->result();
         //Dropdown
         $this->data['info'] = $this->Common_model->get_user_details();
         //Load view
@@ -694,8 +705,12 @@ public function bank_entry_delete($encid){
         $this->db->where('q.id', $id);
         $this->data['info'] = $this->db->get()->row();
 
+        $this->db->select('q.*,budget_j_publication_book.*,budget_j_publication_group.name_bn as group_name');
+        $this->db->from('budget_j_publication_register_details as q');
+        $this->db->join('budget_j_publication_book', 'budget_j_publication_book.id = q.book_id', 'left');
+        $this->db->join('budget_j_publication_group', 'budget_j_publication_group.id = budget_j_publication_book.group_id', 'left');
         $this->db->where('publication_register_id', $id);
-        $this->data['items'] = $this->db->get('budget_j_publication_register_details')->result();
+        $this->data['items'] = $this->db->get()->result();
 
         // Generate PDF
         $this->data['headding'] = 'পাবলিকেশন ভাউচার';
