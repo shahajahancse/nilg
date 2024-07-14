@@ -164,7 +164,7 @@
         <div class="col-3" style="float: right;">
             <div>
                 <span>পোস্টিং তারিখ : </span>
-                <span style="font-size: 13px"><?php echo date("d/m/Y", strtotime($info->created_at)); ?></span>
+                <span style="font-size: 13px"><?php echo date_bangla_calender_format(date("Y-m-d", strtotime($info->created_at))); ?></span>
             </div>
             <div>
                 <span>ভাউচার নাঃ </span>
