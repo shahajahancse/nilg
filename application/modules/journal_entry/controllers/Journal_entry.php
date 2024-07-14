@@ -564,13 +564,18 @@ public function bank_entry_delete($encid){
                     $last_data=$this->db->where('book_id', $_POST['book_id'][$key])->get('budget_j_publication_register_details')->row();
 
                     if (!empty($last_data)) {
-                        $rest_qty = $last_data->rest_qty - $_POST['quantity'][$key];
+                        if($type==1){
+                            $rest_qty = $last_data->rest_qty + $_POST['quantity'][$key];
+                        }else{
+                            $rest_qty = $last_data->rest_qty - $_POST['quantity'][$key];
+                        }
                     } else {
+                        if($type==1){
                         $rest_qty = 0-$_POST['quantity'][$key];
+                        }else{
+                            $rest_qty = $_POST['quantity'][$key];
+                        }
                     }
-
-
-
                     $data_details = array(
                         'publication_register_id' => $insert_id ,
                         'book_id' => $_POST['book_id'][$key],
