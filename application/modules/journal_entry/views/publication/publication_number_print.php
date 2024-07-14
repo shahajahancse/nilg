@@ -152,25 +152,19 @@
     </div>
 
     <div class="priview-body">
-        <?php if (!empty($results[0])) { ?>
-            <p style="margin-top: -10px" > <strong>বইয়ের নাম : <?= $results[0]->name_bn ?> </strong> </p>
-        <?php } ?>
         <div class="priview-demand">
             <table class="table table-hover table-bordered report">
                 <thead class="headding">
                     <tr>
-                        <td rowspan="2" style="">তারিখ</td>
-                        <td rowspan="2" style="">দেয় পত্র নং</td>
-                        <td rowspan="2" style="">গ্রহণ</td>
-                        <td rowspan="1" colspan="3" style="">প্রদান </td>
-                        <td rowspan="2" style="">মজুত </td>
-                        <!-- <td rowspan="2" style="">মন্তব্য </td> -->
-                        <td rowspan="2" style="">মজুত মূল্য </td>
-                    </tr>
-                    <tr>
-                        <td rowspan="1" style="">বিক্রয়</td>
-                        <td rowspan="1" style="">সৌজন্য</td>
-                        <td colspan="1" style="">কেজিতে</td>
+                        <td rowspan="1" style="">ক্রমিক নং</td>
+                        <td rowspan="1" style="width: 20%;">বই নাম</td>
+                        <td rowspan="1" style="width: 10%;">ক্রয় সংখ্যা </td>
+                        <!-- <td rowspan="1" style="width: 10%;">ক্রয় মূল্য </td> -->
+                        <td rowspan="1" style="width: 10%;">বিক্রয় সংখ্যা</td>
+                        <td rowspan="1" style="width: 10%;">সৌজন্যমূলক</td>
+                        <td colspan="1" style="width: 10%;">কেজিতে বিক্রয়</td>
+                        <td colspan="1" style="width: 12%;">মোট বিক্রয়</td>
+                        <td colspan="1" style="width: 10%;">অবশিষ্ট পরিমাণ</td>
                     </tr>
                 </thead>
 
@@ -178,35 +172,16 @@
 
                     <?php foreach ($results as $key => $r) { ?>
                         <tr>
-                            <?php //$sale = $r->book_sale_amt + $r->book_give_amt + $r->sell_by_kg_amt; ?>
-                            <td><?php echo date_bangla_calender_format($r->issue_date); ?></td>
-                            <td><?php echo $r->code; ?></td>
-                            <?php if ($r->type == 1) { ?>
-                                <td><?php echo eng2bng($r->quantity); ?></td>
-                            <?php } else { ?>
-                                <td><?= eng2bng(0) ?></td>
-                            <?php } ?>
-
-                            <?php if ($r->type == 2) { ?>
-                                <td><?php echo eng2bng($r->quantity); ?></td>
-                            <?php } else { ?>
-                                <td><?= eng2bng(0) ?></td>
-                            <?php } ?>
-
-                            <?php if ($r->type == 3) { ?>
-                                <td><?php echo eng2bng($r->quantity); ?></td>
-                            <?php } else { ?>
-                                <td><?= eng2bng(0) ?></td>
-                            <?php } ?>
-
-                            <?php if ($r->type == 4) { ?>
-                                <td><?php echo eng2bng($r->quantity); ?></td>
-                            <?php } else { ?>
-                                <td><?= eng2bng(0) ?></td>
-                            <?php } ?>
-
-                            <td><?php echo eng2bng($r->rest_qty); ?></td>
-                            <td><?php echo eng2bng($r->	rest_amt); ?></td>
+                            <?php $sale = $r->book_sale + $r->book_give + $r->sell_by_kg; ?>
+                            <td><?php echo eng2bng($key + 1); ?></td>
+                            <td><?php echo $r->name_bn; ?></td>
+                            <td><?php echo eng2bng($r->book_in); ?></td>
+                            <!-- <td><?php //echo eng2bng($r->book_in_amt); ?></td> -->
+                            <td><?php echo eng2bng($r->book_sale); ?></td>
+                            <td><?php echo eng2bng($r->book_give); ?></td>
+                            <td><?php echo eng2bng($r->sell_by_kg); ?></td>
+                            <td><?php echo eng2bng($sale); ?></td>
+                            <td><?php echo eng2bng($r->book_in - $sale); ?></td>
                         </tr>
                     <?php } ?>
 

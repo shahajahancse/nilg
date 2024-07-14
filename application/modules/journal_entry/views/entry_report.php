@@ -25,30 +25,40 @@
                             <div id="error" style="display: none;">
                                 <div class="alert alert-danger">Please fill up red level input filtering field.</div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="row">
                                 <?php if($this->ion_auth->in_group(array('admin','nilg','acc', 'bli'))){?>
                                     <?php
                                         $books = $this->db->where('status', 1)->get('budget_j_publication_book')->result();
+                                        $pgroups = $this->db->get('budget_j_publication_group')->result();
                                     ?>
                                     <div class="form-group col-md-4">
                                         <label class="form-label">বুক নির্বাচন করুন</label>
-                                        <select name="book_name" id="book_name" class="form-control">
+                                        <select name="book_name" id="book_name" class="form-control input-sm">
                                             <option value="">বুক নির্বাচন করুন</option>
                                             <?php foreach ($books as $key => $row) { ?>
                                             <option value="<?=$row->id?>"><?=$row->name_bn?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
+                                    <div class="form-group col-md-4">
+                                        <label class="form-label">গ্রুপ নির্বাচন করুন</label>
+                                        <select name="book_name" id="book_name" class="form-control input-sm">
+                                            <option value="">গ্রুপ নির্বাচন করুন</option>
+                                            <?php foreach ($pgroups as $key => $r) { ?>
+                                            <option value="<?=$r->id?>"><?=$r->name_bn?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
                                 <?php } ?>
 
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-2">
                                     <label class="form-label">শুরুর তারিখ</label>
-                                    <input type="text" name="from_date" id="from_date" class="form-control datetime"
+                                    <input style="height: 33px" type="text" name="from_date" id="from_date" class="form-control datetime input-sm"
                                         value="<?=set_value('from')?>" placeholder="From Date">
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-2">
                                     <label class="form-label">শেষের তারিখ</label>
-                                    <input type="text" name="to_date" id="to_date" class="form-control datetime"
+                                    <input style="height: 33px" type="text" name="to_date" id="to_date" class="form-control datetime input-sm"
                                         value="<?=set_value('from')?>" placeholder="To Date">
                                 </div>
                             </div>
@@ -119,13 +129,10 @@
                             <?php if($this->ion_auth->in_group(array('bli'))){?>
                             <fieldset class="col-md-12">
                                 <legend>পাবলিকেশন রিপোর্ট বাটন</legend>
-                                <button type="submit" name="btnsubmit" value="all_book,publication"
-                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট বইয়ের সংখ্যা</button>
+                                <button type="submit" name="btnsubmit" value="all_book,number" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট বইয়ের সংখ্যা</button>
+                                <button type="submit" name="btnsubmit" value="group_book,number" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> গ্রুপ ভিত্তিক সংখ্যা</button>
+                                <button type="submit" name="btnsubmit" value="single_book,amount" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট বইয়ের মূল্য</button>
 
-                                <button type="submit" name="btnsubmit" value="all_approved,publication"
-                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
-                                <button type="submit" name="btnsubmit" value="all_entry,publication"
-                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
                             </fieldset>
                             <?php } ?>
 
@@ -140,7 +147,7 @@
                                     class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
                             </fieldset>
                             <?php } ?>
-                            <fieldset class="col-md-12">
+                            <!-- <fieldset class="col-md-12">
                                 <legend>বিবিধ রিপোর্ট বাটন</legend>
                                 <button type="submit" name="btnsubmit" value="all_pending,miscellaneous"
                                     class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
@@ -148,7 +155,7 @@
                                     class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
                                 <button type="submit" name="btnsubmit" value="all_entry,miscellaneous"
                                     class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
-                            </fieldset>
+                            </fieldset> -->
                         <?php } ?>
 
 

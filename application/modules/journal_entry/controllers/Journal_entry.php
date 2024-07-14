@@ -1171,17 +1171,32 @@ public function bank_entry_delete($encid){
                 $this->data['results']= $this->Journal_entry_model->all_book($from_date, $to_date);
 
                 // Generate PDF
-                $this->data['headding'] = 'পাবলিকেশন সামারী রিপোর্ট';
-                $html = $this->load->view('publication/publication_summary_print', $this->data, true);
+                if ($type == 'number') {
+                    $this->data['headding'] = 'পাবলিকেশন সংখ্যা ভিত্তিক রিপোর্ট';
+                    $html = $this->load->view('publication/publication_number_print', $this->data, true);
+                } else {
+                    $this->data['headding'] = 'পাবলিকেশন পরিমাণ ভিত্তিক রিপোর্ট';
+                    $html = $this->load->view('publication/publication_amount_print', $this->data, true);
+                }
 
                 $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
                 $mpdf->WriteHtml($html);
                 $mpdf->output();
-            } else if($btn == 'all_book' && !empty($book_name)) {
+            } else if($btn == 'single_book' && !empty($book_name)) {
                 $this->data['results'] = $this->Journal_entry_model->single_book_info($from_date, $to_date, $book_name);
                 // dd($this->data['results']);
                 // Generate PDF
-                $this->data['headding'] = 'একটি বইইয়ের রিপোর্ট';
+                $this->data['headding'] = 'স্টোর মজুত লেজার';
+                $html = $this->load->view('publication/single_book_info', $this->data, true);
+
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
+            } else if($btn == 'group_book' && empty($book_name)) {
+                $this->data['results'] = $this->Journal_entry_model->single_book_info($from_date, $to_date, $book_name);
+                // dd($this->data['results']);
+                // Generate PDF
+                $this->data['headding'] = 'স্টোর মজুত লেজার';
                 $html = $this->load->view('publication/single_book_info', $this->data, true);
 
                 $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
