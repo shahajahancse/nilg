@@ -71,7 +71,7 @@
                                         if ($row->type == 1) {
                                         echo "<span>বই এন্ট্রি</span>";
                                         }elseif ($row->type == 2) {
-                                        echo "<span>বই আউট</span>";
+                                        echo "<span>বই বিক্রয়</span>";
                                         }elseif ($row->type == 3) {
                                         echo "<span>কেজিতে বিক্রি</span>";
                                         }

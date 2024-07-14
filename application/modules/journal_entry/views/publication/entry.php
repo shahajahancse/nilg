@@ -49,7 +49,7 @@
                                 if ($type == 1) {
                                    echo "<span>বই এন্ট্রি ফর্ম</span>";
                                 }elseif ($type == 2) {
-                                   echo "<span>বই আউট ফর্ম</span>";
+                                   echo "<span>বই বিক্রয় ফর্ম</span>";
                                 }elseif ($type == 3) {
                                    echo "<span>কেজিতে বিক্রি ফর্ম</span>";
                                 }

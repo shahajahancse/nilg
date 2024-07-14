@@ -77,7 +77,7 @@
             <div class="col-md-4 col-sm-6">
                 <div class="tiles white added-margin new new4">
                     <div class="tiles-body">
-                                    <?php 
+                        <?php 
                                      $this->load->model('Common_model');
 
                                         $reveneu=$this->Common_model->all_journal_amount('revenue');
@@ -90,7 +90,8 @@
                         <div class="tiles-title"> জার্নাল গৃহীত সামারি রিপোর্ট </div>
                         <div class="row-fluid ">
                             <div class="heading"> <span class="" data-value=""
-                                    data-animation-duration="700"></span><?=eng2bng($reveneu+$hostel+$publication+$gpf+$pension+$miscellaneous) ?></div>
+                                    data-animation-duration="700"></span><?=eng2bng($reveneu+$hostel+$publication+$gpf+$pension+$miscellaneous) ?>
+                            </div>
                         </div>
                         <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
                         <div class="description">
@@ -109,19 +110,19 @@
                                     <tr>
                                         <td>হোস্টেল রেজিস্টার এন্ট্রি</td>
                                         <td class="sub-mark">:</td>
-                                      
+
                                         <td><?=eng2bng($hostel!=''?$hostel:0) ?></td>
                                     </tr>
                                     <tr>
                                         <td>প্রকাশনা রেজিস্টার এন্ট্রি</td>
                                         <td class="sub-mark">:</td>
-                                       
+
                                         <td><?=eng2bng($publication!=''?$publication:0) ?></td>
                                     </tr>
                                     <tr>
                                         <td>জিপিএফ রেজিস্টার এন্ট্রি</td>
                                         <td class="sub-mark">:</td>
-                                       
+
                                         <td><?=eng2bng($gpf!=''?$gpf:0) ?></td>
                                     </tr>
                                     <tr>
@@ -145,7 +146,7 @@
             <div class="col-md-4 col-sm-6">
                 <div class="tiles white added-margin new new2">
                     <div class="tiles-body">
-                    <?php 
+                        <?php 
                         $this->db->select('
                         SUM(CASE WHEN payment_for = 1 THEN amount ELSE 0 END) AS total_trining_amount,
                         SUM(CASE WHEN payment_for = 2 THEN amount ELSE 0 END) AS total_hostel_amount,
@@ -155,10 +156,11 @@
                         SUM(amount) AS all_amount
                         ', FALSE);
                         $total_amount_bli = $this->db->get('budget_field')->row();
-                    ?>  
+                    ?>
                         <div class="tiles-title"> জার্নাল ছাড়কৃত সামারি রিপোর্ট </div>
                         <div class="heading "> <span class="" data-value=""
-                                data-animation-duration="1000"></span><?=eng2bng($total_amount_bli->all_amount?:0) ?> </div>
+                                data-animation-duration="1000"></span><?=eng2bng($total_amount_bli->all_amount?:0) ?>
+                        </div>
 
                         <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
                         <div class="description">
@@ -194,7 +196,11 @@
                                         <td class="sub-mark">:</td>
                                         <td><?=eng2bng($total_amount_bli->total_office_amount) ?></td>
                                     </tr>
-                                    <tr><td>&nbsp;</td><td class="sub-mark">&nbsp;</td><td>&nbsp;</td></tr>
+                                    <tr>
+                                        <td>&nbsp;</td>
+                                        <td class="sub-mark">&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

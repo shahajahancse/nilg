@@ -560,6 +560,17 @@ public function bank_entry_delete($encid){
                     }else{
                         $type=1;
                     }
+
+                    $last_data=$this->db->where('book_id', $_POST['book_id'][$key])->get('budget_j_publication_register_details')->row();
+
+                    if (!empty($last_data)) {
+                        $rest_qty = $last_data->rest_qty - $_POST['quantity'][$key];
+                    } else {
+                        $rest_qty = 0-$_POST['quantity'][$key];
+                    }
+
+
+
                     $data_details = array(
                         'publication_register_id' => $insert_id ,
                         'book_id' => $_POST['book_id'][$key],
@@ -568,6 +579,8 @@ public function bank_entry_delete($encid){
                         'price' => $_POST['price'][$key],
                         'quantity' => $_POST['quantity'][$key],
                         'amount' => $_POST['amount'][$key],
+                        'rest_qty' => $rest_qty,
+                        'rest_amt' => $rest_qty * $_POST['price'][$key],
                     );
                     $this->db->insert('budget_j_publication_register_details', $data_details);
                 }
