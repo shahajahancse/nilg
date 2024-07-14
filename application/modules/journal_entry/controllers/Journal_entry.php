@@ -561,7 +561,7 @@ public function bank_entry_delete($encid){
                         $type=1;
                     }
 
-                    $last_data=$this->db->where('book_id', $_POST['book_id'][$key])->get('budget_j_publication_register_details')->row();
+                    $last_data=$this->db->where('book_id', $_POST['book_id'][$key])->order_by('id', 'desc')->get('budget_j_publication_register_details')->row();
 
                     if (!empty($last_data)) {
                         if($type==1){
