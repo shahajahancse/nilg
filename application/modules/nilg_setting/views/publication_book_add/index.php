@@ -101,6 +101,11 @@
                             <?=$this->session->flashdata('success');?>
                         </div>
                         <?php endif; ?>
+                        <?php if($this->session->flashdata('error')):?>
+                        <div class="alert alert-success">
+                            <?=$this->session->flashdata('error');?>
+                        </div>
+                        <?php endif; ?>
 
                         <!-- <form action="<?=base_url('nilg_setting/publication_book_add') ?>"
                             id="publication_group_setting_create_form" method="post">
