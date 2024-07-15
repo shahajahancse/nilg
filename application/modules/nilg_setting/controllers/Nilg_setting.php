@@ -259,7 +259,7 @@ class Nilg_setting extends Backend_Controller {
         $this->db->where('book_id', $id);
         $p_data=$this->db->get('budget_j_publication_register_details')->result();
         if(!empty($p_data)){
-            $this->session->set_flashdata('error', 'এই পাবলিকেশন ব্যবহার করা হয়েছে');
+            $this->session->set_flashdata('error', 'দুঃখিত! এই পাবলিকেশন ব্যবহার করা হয়েছে');
             redirect('nilg_setting/publication_book_list');
         }else{
             $this->db->where('id', $id);
@@ -267,6 +267,6 @@ class Nilg_setting extends Backend_Controller {
             $this->session->set_flashdata('success', 'পাবলিকেশন গ্রুপ মুছে ফেলা হয়েছে');
             redirect('nilg_setting/publication_book_list');
         }
-    }
+    } 
 
 }
