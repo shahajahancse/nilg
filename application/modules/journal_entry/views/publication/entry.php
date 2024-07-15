@@ -7,6 +7,22 @@
 }
 </style>
 
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="preview_pub_modal">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      </div>
+      <div class="modal-body" id="preview_pub" style="background-color: white;">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="save_publication()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="page-content">
     <div class="content">
         <ul class="breadcrumb">
@@ -244,9 +260,18 @@
             data: form,
             success: function(data)
             {
-                $('#preview').html(data);
+                $('#preview_pub_modal').modal('show');
+                $('#preview_pub').html(data);
             }
         });
+    }
+</script>
+
+<script>
+    function save_publication(){
+        $('#preview_pub_modal').modal('hide');
+        $("#submit_btn").click();
+
     }
 </script>
 

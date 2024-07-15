@@ -1207,11 +1207,6 @@ public function bank_entry_delete($encid){
                 $mpdf->output();
             }
             // publication end
-
-
-
-
-
             if($btn == 'all_pending') {
                 $this->data['results']= $this->Journal_entry_model->all_journal($type,$from_date, $to_date,1);
             }
@@ -1221,14 +1216,62 @@ public function bank_entry_delete($encid){
             if($btn == 'all_entry') {
                 $this->data['results']= $this->Journal_entry_model->all_journal($type,$from_date, $to_date);
             }
-
             $this->data['headding'] = 'বাজেট এন্ট্রি রিপোর্ট';
             echo $html = $this->load->view('all_journal_report', $this->data, true);
-
         }
-
         public function get_preview_pub(){
-            
-        }
+            $data_details = array();
+            $form_data = array(
+                'voucher_no' => $this->input->post('voucher_no'),
+                'amount' => $this->input->post('total'),
+                'type' => $this->input->post('type'),
+                'reference' => $this->input->post('reference'),
+                'description' => $this->input->post('description'),
+                'issue_date' => date('Y-m-d', strtotime($this->input->post('issue_date'))),
+            );
+                $insert_id = 1;
+                foreach ($_POST['price'] as $key => $row) {
+                    $code='BS-PUB-'.$insert_id.''.$key.'-'.$_POST['book_id'][$key].''.time();
+                    if ($this->input->post('type')==2) {
+                        $type=$_POST['sell_type'][$key];
+                    }elseif($this->input->post('type')==3){
+                        $type=4;
+                    }else{
+                        $type=1;
+                    }
 
+                    $last_data=$this->db->where('book_id', $_POST['book_id'][$key])->limit(1)->order_by('id', 'desc')->get('budget_j_publication_register_details')->last_row();
+                    if (!empty($last_data)) {
+                        if($type==1){
+                            $rest_qty = $last_data->rest_qty + $_POST['quantity'][$key];
+                        }else{
+                            $rest_qty = $last_data->rest_qty - $_POST['quantity'][$key];
+                        }
+                    } else {
+                        if($type==1){
+                        $rest_qty = $_POST['quantity'][$key];
+                        }else{
+                            $rest_qty =0- $_POST['quantity'][$key];
+                        }
+                    }
+                    $data_details[] = array(
+                        'publication_register_id' => $insert_id ,
+                        'book_id' => $_POST['book_id'][$key],
+                        'code' => $code,
+                        'type' => $type,
+                        'price' => $_POST['price'][$key],
+                        'quantity' => $_POST['quantity'][$key],
+                        'amount' => $_POST['amount'][$key],
+                        'rest_qty' => $rest_qty,
+                        'rest_amt' => $rest_qty * $_POST['price'][$key],
+                    );
+                }
+
+            $this->data['info'] = $form_data;
+            $this->data['items'] = $data_details;
+
+            $this->data['headding'] = 'পাবলিকেশন ভাউচার';
+            $html = $this->load->view('publication/publication_preview', $this->data, true);
+            echo $html;
+        }
 }
