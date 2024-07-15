@@ -104,7 +104,7 @@ th{
                             <td><?php echo eng2bng($total_sell_by_kg); ?></td>
                         </tr>
                         <tr>
-                            <th>ব্যালান্স</th>
+                            <th>অবশিষ্ট সংখ্যা </th>
                             <td>:</td>
 
                             <td><?php echo eng2bng($balance); ?></td>
@@ -138,7 +138,7 @@ th{
                             <td><?php echo eng2bng($total_sell_by_kg_amount); ?></td>
                         </tr>
                         <tr>
-                            <th>ব্যালান্স</th>
+                            <th>অবশিষ্ট পরিমাণ</th>
                             <td>:</td>
 
                             <td><?php echo eng2bng($balance_amount); ?></td>
