@@ -138,6 +138,7 @@
                                 <button type="submit" name="btnsubmit" value="all_book,amount" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট বইয়ের মূল্য</button>
                                 <button type="submit" onclick="return validFunc()" name="btnsubmit" value="single_book,amount" id="single_book" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> একটি বইয়ের রিপোর্ট</button>
                                 <button type="submit" name="btnsubmit" value="group_book,number" id="group_book" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> গ্রুপ ভিত্তিক সংখ্যা</button>
+                                <button type="submit" name="btnsubmit" value="excel_sheet,number" id="excel_sheet" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> এক্সেল শীট </button>
                             </fieldset>
                             <?php } ?>
 

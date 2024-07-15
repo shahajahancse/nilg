@@ -1205,7 +1205,17 @@ public function bank_entry_delete($encid){
                 $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
                 $mpdf->WriteHtml($html);
                 $mpdf->output();
+            } else if($btn == 'excel_sheet') {
+                $this->data['results'] = $this->Journal_entry_model->all_book($from_date, $to_date);
+                // dd($this->data['results']);
+
+                //Load View
+                $this->data['headding'] = 'এক্সেল শীট';
+                $this->data['meta_title'] = 'এক্সেল শীট';
+                $this->load->view('publication/excel_sheet', $this->data);
+                return true;
             }
+
             // publication end
 
 
