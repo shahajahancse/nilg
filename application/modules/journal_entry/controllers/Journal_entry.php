@@ -1227,5 +1227,8 @@ public function bank_entry_delete($encid){
 
         }
 
+        public function get_preview_pub(){
+            
+        }
 
 }

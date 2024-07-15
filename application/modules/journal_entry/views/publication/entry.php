@@ -147,6 +147,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="pull-right">
+                                        <a class="btn btn-primary btn-cons" onclick="get_preview()">View Preview</a>
                                         <input type="submit" name="submit" id="submit_btn" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
                                     </div>
                                 </div>
@@ -233,6 +234,21 @@
     }
 </script>
 
+<script>
+    function get_preview(){
+        var form = $('#jsvalidate').serializeArray();
+
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>journal_entry/get_preview_pub",
+            data: form,
+            success: function(data)
+            {
+                $('#preview').html(data);
+            }
+        });
+    }
+</script>
 
 
 
