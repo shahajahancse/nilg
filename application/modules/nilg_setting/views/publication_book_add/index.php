@@ -24,19 +24,19 @@
                         <div class="form-group">
                             <label for="isbn_number">ISBN নাম্বার</label>
                             <input type="text" name="isbn_number" id="isbn_number" class="form-control"
-                                placeholder="ISBN নাম্বার" value="<?=set_value('isbn_number')?>" required>
+                                placeholder="ISBN নাম্বার" value="<?=set_value('isbn_number')?>" >
                         </div>
                         <div class="form-group">
                             <label for="prokash_kal">প্রকাশনী</label>
                             <input type="text" name="prokash_kal" id="prokash_kal" class="form-control"
-                                placeholder="প্রকাশনী" value="<?=set_value('prokash_kal')?>" required>
+                                placeholder="প্রকাশনী" value="<?=set_value('prokash_kal')?>" >
                         </div>
                         <div class="form-group">
                             <label for="group_id">গ্রুপ আইডি</label>
                             <select name="group_id" id="group_id" class="form-control" required>
                                 <option value="">গ্রুপ নির্বাচন করুন</option>
                                 <?php foreach ($group as $row):
-                                    
+
                                     ?>
                                 <option value="<?= $row->id ?>"
                                     <?php if (set_value('group_id') == $row->id) echo 'selected'; ?>>

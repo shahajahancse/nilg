@@ -157,10 +157,10 @@
                 <thead class="headding">
                     <tr>
                         <td rowspan="1" style="">ক্রমিক নং</td>
-                        <td rowspan="1" style="width: 20%;">বই নাম</td>
+                        <td rowspan="1" style="width: 20%;">গ্রুপ নাম</td>
                         <!-- <td rowspan="1" style="width: 10%;">ক্রয় সংখ্যা </td> -->
-                        <td rowspan="1" style="width: 10%;">ক্রয় মূল্য </td>
-                        <td rowspan="1" style="width: 10%;">বিক্রয় মূল্য</td>
+                        <td rowspan="1" style="width: 10%;">মোট ক্রয় </td>
+                        <td rowspan="1" style="width: 10%;">বিক্রয়</td>
                         <td rowspan="1" style="width: 10%;">সৌজন্যমূলক</td>
                         <td colspan="1" style="width: 10%;">কেজিতে বিক্রয়</td>
                         <td colspan="1" style="width: 12%;">মোট বিক্রয়</td>
@@ -172,16 +172,15 @@
                     <?php if (!empty($results)) { ?>
                         <?php foreach ($results as $key => $r) { ?>
                             <tr>
-                                <?php $sale = $r->book_sale_amt + $r->book_give_amt + $r->sell_by_kg_amt; ?>
+                                <?php $sale = $r->book_sale + $r->book_give + $r->sell_by_kg; ?>
                                 <td><?php echo eng2bng($key + 1); ?></td>
                                 <td><?php echo $r->name_bn; ?></td>
-                                <!-- <td><?php //echo eng2bng($r->book_in); ?></td> -->
-                                <td><?php echo eng2bng($r->book_in_amt); ?></td>
-                                <td><?php echo eng2bng($r->book_sale_amt); ?></td>
-                                <td><?php echo eng2bng($r->book_give_amt); ?></td>
-                                <td><?php echo eng2bng($r->sell_by_kg_amt); ?></td>
+                                <td><?php echo eng2bng($r->book_in); ?></td>
+                                <td><?php echo eng2bng($r->book_sale); ?></td>
+                                <td><?php echo eng2bng($r->book_give); ?></td>
+                                <td><?php echo eng2bng($r->sell_by_kg); ?></td>
                                 <td><?php echo eng2bng($sale); ?></td>
-                                <td><?php echo eng2bng($r->book_in_amt - $sale); ?></td>
+                                <td><?php echo eng2bng($r->book_in - $sale); ?></td>
                             </tr>
                         <?php } ?>
                     <?php } else {
