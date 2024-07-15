@@ -1194,10 +1194,10 @@ public function bank_entry_delete($encid){
                 $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
                 $mpdf->WriteHtml($html);
                 $mpdf->output();
-            } else if($btn == 'group_book' && empty($book_name)) {
+            } else if($btn == 'group_book') {
                 $group_id = $this->input->post('group_name');
                 $this->data['results'] = $this->Journal_entry_model->group_book_info($from_date, $to_date, $group_id);
-                dd($this->data['results']);
+                // dd($this->data['results']);
                 // Generate PDF
                 $this->data['headding'] = 'গ্রুপ ভিত্তিক রিপোর্ট';
                 $html = $this->load->view('publication/group_book_info', $this->data, true);

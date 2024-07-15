@@ -169,21 +169,24 @@
                 </thead>
 
                 <tbody>
-
-                    <?php foreach ($results as $key => $r) { ?>
-                        <tr>
-                            <?php $sale = $r->book_sale + $r->book_give + $r->sell_by_kg; ?>
-                            <td><?php echo eng2bng($key + 1); ?></td>
-                            <td><?php echo $r->name_bn; ?></td>
-                            <td><?php echo eng2bng($r->book_in); ?></td>
-                            <!-- <td><?php //echo eng2bng($r->book_in_amt); ?></td> -->
-                            <td><?php echo eng2bng($r->book_sale); ?></td>
-                            <td><?php echo eng2bng($r->book_give); ?></td>
-                            <td><?php echo eng2bng($r->sell_by_kg); ?></td>
-                            <td><?php echo eng2bng($sale); ?></td>
-                            <td><?php echo eng2bng($r->book_in - $sale); ?></td>
-                        </tr>
-                    <?php } ?>
+                    <?php if (!empty($results)) { ?>
+                        <?php foreach ($results as $key => $r) { ?>
+                            <tr>
+                                <?php $sale = $r->book_sale + $r->book_give + $r->sell_by_kg; ?>
+                                <td><?php echo eng2bng($key + 1); ?></td>
+                                <td><?php echo $r->name_bn; ?></td>
+                                <td><?php echo eng2bng($r->book_in); ?></td>
+                                <!-- <td><?php //echo eng2bng($r->book_in_amt); ?></td> -->
+                                <td><?php echo eng2bng($r->book_sale); ?></td>
+                                <td><?php echo eng2bng($r->book_give); ?></td>
+                                <td><?php echo eng2bng($r->sell_by_kg); ?></td>
+                                <td><?php echo eng2bng($sale); ?></td>
+                                <td><?php echo eng2bng($r->book_in - $sale); ?></td>
+                            </tr>
+                        <?php } ?>
+                    <?php } else {
+                        echo '<tr><td colspan="8" class="text-center">কোন তথ্য পাওয়া যায়নি</td></tr>';
+                    } ?>
 
                 </tbody>
             </table>

@@ -175,41 +175,43 @@
                 </thead>
 
                 <tbody>
+                    <?php if (!empty($results)) { ?>
+                        <?php foreach ($results as $key => $r) { ?>
+                            <tr>
+                                <?php //$sale = $r->book_sale_amt + $r->book_give_amt + $r->sell_by_kg_amt; ?>
+                                <td><?php echo date_bangla_calender_format($r->issue_date); ?></td>
+                                <td><?php echo $r->code; ?></td>
+                                <?php if ($r->type == 1) { ?>
+                                    <td><?php echo eng2bng($r->quantity); ?></td>
+                                <?php } else { ?>
+                                    <td><?= eng2bng(0) ?></td>
+                                <?php } ?>
 
-                    <?php foreach ($results as $key => $r) { ?>
-                        <tr>
-                            <?php //$sale = $r->book_sale_amt + $r->book_give_amt + $r->sell_by_kg_amt; ?>
-                            <td><?php echo date_bangla_calender_format($r->issue_date); ?></td>
-                            <td><?php echo $r->code; ?></td>
-                            <?php if ($r->type == 1) { ?>
-                                <td><?php echo eng2bng($r->quantity); ?></td>
-                            <?php } else { ?>
-                                <td><?= eng2bng(0) ?></td>
-                            <?php } ?>
+                                <?php if ($r->type == 2) { ?>
+                                    <td><?php echo eng2bng($r->quantity); ?></td>
+                                <?php } else { ?>
+                                    <td><?= eng2bng(0) ?></td>
+                                <?php } ?>
 
-                            <?php if ($r->type == 2) { ?>
-                                <td><?php echo eng2bng($r->quantity); ?></td>
-                            <?php } else { ?>
-                                <td><?= eng2bng(0) ?></td>
-                            <?php } ?>
+                                <?php if ($r->type == 3) { ?>
+                                    <td><?php echo eng2bng($r->quantity); ?></td>
+                                <?php } else { ?>
+                                    <td><?= eng2bng(0) ?></td>
+                                <?php } ?>
 
-                            <?php if ($r->type == 3) { ?>
-                                <td><?php echo eng2bng($r->quantity); ?></td>
-                            <?php } else { ?>
-                                <td><?= eng2bng(0) ?></td>
-                            <?php } ?>
+                                <?php if ($r->type == 4) { ?>
+                                    <td><?php echo eng2bng($r->quantity); ?></td>
+                                <?php } else { ?>
+                                    <td><?= eng2bng(0) ?></td>
+                                <?php } ?>
 
-                            <?php if ($r->type == 4) { ?>
-                                <td><?php echo eng2bng($r->quantity); ?></td>
-                            <?php } else { ?>
-                                <td><?= eng2bng(0) ?></td>
-                            <?php } ?>
-
-                            <td><?php echo eng2bng($r->rest_qty); ?></td>
-                            <td><?php echo eng2bng($r->	rest_amt); ?></td>
-                        </tr>
-                    <?php } ?>
-
+                                <td><?php echo eng2bng($r->rest_qty); ?></td>
+                                <td><?php echo eng2bng($r->	rest_amt); ?></td>
+                            </tr>
+                        <?php } ?>
+                    <?php } else {
+                        echo '<tr><td colspan="8" class="text-center">কোন তথ্য পাওয়া যায়নি</td></tr>';
+                    } ?>
                 </tbody>
             </table>
         </div>

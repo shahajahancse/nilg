@@ -136,8 +136,8 @@
                                 <legend>পাবলিকেশন রিপোর্ট বাটন</legend>
                                 <button type="submit" name="btnsubmit" value="all_book,number" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট বইয়ের সংখ্যা</button>
                                 <button type="submit" name="btnsubmit" value="all_book,amount" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট বইয়ের মূল্য</button>
-                                <button type="submit" onclick="return validFunc()" name="btnsubmit" value="single_book,amount" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> একটি বইয়ের রিপোর্ট</button>
-                                <button type="submit" onclick="return validFunc1()" name="btnsubmit" value="group_book,number" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> গ্রুপ ভিত্তিক সংখ্যা</button>
+                                <button type="submit" onclick="return validFunc()" name="btnsubmit" value="single_book,amount" id="single_book" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> একটি বইয়ের রিপোর্ট</button>
+                                <button type="submit" name="btnsubmit" value="group_book,number" id="group_book" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> গ্রুপ ভিত্তিক সংখ্যা</button>
                             </fieldset>
                             <?php } ?>
 
@@ -180,6 +180,13 @@
         return false;
       }
     }
+
+</script>
+
+<script>
+    function block(v){
+        $('#'+v).val('');
+    }
 </script>
 
 <script>
@@ -192,9 +199,4 @@
             return true;
         }
     });
-</script>
-<script>
-    function block(v){
-        $('#'+v).val('');
-    }
 </script>
