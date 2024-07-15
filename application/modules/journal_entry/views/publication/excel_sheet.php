@@ -6,7 +6,7 @@
 
 <body style="width:800px;">
 <?php
-	$filename = "nilg.xls";
+	$filename = "journal_publication.xls";
 	header('Content-Type: application/vnd.ms-excel'); //mime type
 	header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
 	header('Cache-Control: max-age=0'); //no cache
