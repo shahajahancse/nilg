@@ -7,6 +7,22 @@
 }
 </style>
 
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="preview_pub_modal">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      </div>
+      <div class="modal-body" id="preview_pub" style="background-color: white;">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="save_publication()">Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="page-content">
     <div class="content">
         <ul class="breadcrumb">
@@ -147,6 +163,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="pull-right">
+                                        <a class="btn btn-primary btn-cons" onclick="get_preview()">View Preview</a>
                                         <input type="submit" name="submit" id="submit_btn" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
                                     </div>
                                 </div>
@@ -233,6 +250,30 @@
     }
 </script>
 
+<script>
+    function get_preview(){
+        var form = $('#jsvalidate').serializeArray();
+
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>journal_entry/get_preview_pub",
+            data: form,
+            success: function(data)
+            {
+                $('#preview_pub_modal').modal('show');
+                $('#preview_pub').html(data);
+            }
+        });
+    }
+</script>
+
+<script>
+    function save_publication(){
+        $('#preview_pub_modal').modal('hide');
+        $("#submit_btn").click();
+
+    }
+</script>
 
 
 
