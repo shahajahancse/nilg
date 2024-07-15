@@ -30,7 +30,7 @@
                                 <div class="alert alert-danger">Please fill up red level input filtering field.</div>
                             </div>
                             <div class="row">
-                                <?php if($this->ion_auth->in_group(array('admin','nilg','acc', 'bli'))){?>
+                                <?php if($this->ion_auth->in_group(array('admin','nilg','acc', 'bli'))){ ?>
                                     <?php
                                         $books = $this->db->where('status', 1)->get('budget_j_publication_book')->result();
                                         $pgroups = $this->db->get('budget_j_publication_group')->result();
@@ -38,7 +38,7 @@
                                     <div class="form-group col-md-4">
                                         <label class="form-label">বুক নির্বাচন করুন</label>
                                         <?php echo form_error('book_name'); ?>
-                                        <select name="book_name" id="book_name" class="form-control input-sm">
+                                        <select name="book_name" id="book_name" class="form-control input-sm" onchange="block('group_name')">
                                             <option value="">বুক নির্বাচন করুন</option>
                                             <?php foreach ($books as $key => $row) { ?>
                                             <option value="<?=$row->id?>"><?=$row->name_bn?></option>
@@ -47,7 +47,7 @@
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label class="form-label">গ্রুপ নির্বাচন করুন</label>
-                                        <select name="group_name" id="book_name" class="form-control input-sm">
+                                        <select name="group_name" id="group_name" class="form-control input-sm" onchange="block('book_name')">
                                             <option value="">গ্রুপ নির্বাচন করুন</option>
                                             <?php foreach ($pgroups as $key => $r) { ?>
                                             <option value="<?=$r->id?>"><?=$r->name_bn?></option>
@@ -138,7 +138,6 @@
                                 <button type="submit" name="btnsubmit" value="all_book,amount" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট বইয়ের মূল্য</button>
                                 <button type="submit" onclick="return validFunc()" name="btnsubmit" value="single_book,amount" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> একটি বইয়ের রিপোর্ট</button>
                                 <button type="submit" onclick="return validFunc1()" name="btnsubmit" value="group_book,number" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> গ্রুপ ভিত্তিক সংখ্যা</button>
-
                             </fieldset>
                             <?php } ?>
 
@@ -153,15 +152,6 @@
                                     class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
                             </fieldset>
                             <?php } ?>
-                            <!-- <fieldset class="col-md-12">
-                                <legend>বিবিধ রিপোর্ট বাটন</legend>
-                                <button type="submit" name="btnsubmit" value="all_pending,miscellaneous"
-                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
-                                <button type="submit" name="btnsubmit" value="all_approved,miscellaneous"
-                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
-                                <button type="submit" name="btnsubmit" value="all_entry,miscellaneous"
-                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
-                            </fieldset> -->
                         <?php } ?>
 
 
@@ -202,4 +192,9 @@
             return true;
         }
     });
+</script>
+<script>
+    function block(v){
+        $('#'+v).val('');
+    }
 </script>
