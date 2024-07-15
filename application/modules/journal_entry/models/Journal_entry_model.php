@@ -81,6 +81,33 @@ class Journal_entry_model extends CI_Model {
         return $data;
     }
 
+    public function group_book_info($from_date, $to_date, $book=null){
+        $this->db->select('pb.id, pg.name_bn, pg.name_en, prd.price,
+                SUM(CASE WHEN prd.type = 1 THEN prd.quantity ELSE 0 END) as book_in,
+                SUM(CASE WHEN prd.type = 2 THEN prd.quantity ELSE 0 END) as book_sale,
+                SUM(CASE WHEN prd.type = 3 THEN prd.quantity ELSE 0 END) as book_give,
+                SUM(CASE WHEN prd.type = 4 THEN prd.quantity ELSE 0 END) as sell_by_kg,
+
+                SUM(CASE WHEN prd.type = 1 THEN prd.amount ELSE 0 END) as book_in_amt,
+                SUM(CASE WHEN prd.type = 2 THEN prd.amount ELSE 0 END) as book_sale_amt,
+                SUM(CASE WHEN prd.type = 3 THEN prd.amount ELSE 0 END) as book_give_amt,
+                SUM(CASE WHEN prd.type = 4 THEN prd.amount ELSE 0 END) as sell_by_kg_amt,
+            ');
+        $this->db->from('budget_j_publication_register_details as prd');
+        $this->db->join('budget_j_publication_book as pb', 'prd.book_id=pb.id.', 'left');
+        $this->db->join('budget_j_publication_group as pg', 'pb.group_id=pg.id.', 'left');
+
+        if (!empty($from_date) && !empty($to_date)) {
+            $this->db->join('budget_j_publication_register as pr', 'prd.publication_register_id=pr.id', 'left');
+            $this->db->where('pr.issue_date BETWEEN "' . $from_date . '" and "' . $to_date . '"');
+        }
+
+        $this->db->where('pb.status', 1);
+        $this->db->group_by('pb.group_id');
+        $data = $this->db->get()->result();
+        return $data;
+    }
+
     public function single_book_info($from_date, $to_date, $book_id = null ){
         $this->db->select('pb.id, pb.name_bn, pb.name_en, prd.price, prd.*, pr.issue_date');
         $this->db->from('budget_j_publication_book as pb');

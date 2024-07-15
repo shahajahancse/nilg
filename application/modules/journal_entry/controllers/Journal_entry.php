@@ -1166,8 +1166,20 @@ public function bank_entry_delete($encid){
             $btn=$s_array[0];
             $type=$s_array[1];
 
+            // dd($_POST);
+
             // publication start
-            if($btn == 'all_book' && empty($book_name)) {
+            if($btn == 'single_book' && !empty($book_name)) {
+                $this->data['results'] = $this->Journal_entry_model->single_book_info($from_date, $to_date, $book_name);
+                // dd($this->data['results']);
+                // Generate PDF
+                $this->data['headding'] = 'স্টোর মজুত লেজার';
+                $html = $this->load->view('publication/single_book_info', $this->data, true);
+
+                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+                $mpdf->WriteHtml($html);
+                $mpdf->output();
+            } else if($btn == 'all_book') {
                 $this->data['results']= $this->Journal_entry_model->all_book($from_date, $to_date);
 
                 // Generate PDF
@@ -1182,19 +1194,10 @@ public function bank_entry_delete($encid){
                 $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
                 $mpdf->WriteHtml($html);
                 $mpdf->output();
-            } else if($btn == 'single_book' && !empty($book_name)) {
-                $this->data['results'] = $this->Journal_entry_model->single_book_info($from_date, $to_date, $book_name);
-                // dd($this->data['results']);
-                // Generate PDF
-                $this->data['headding'] = 'স্টোর মজুত লেজার';
-                $html = $this->load->view('publication/single_book_info', $this->data, true);
-
-                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
-                $mpdf->WriteHtml($html);
-                $mpdf->output();
             } else if($btn == 'group_book' && empty($book_name)) {
-                $this->data['results'] = $this->Journal_entry_model->group_book_info($from_date, $to_date, $book_name);
-                // dd($this->data['results']);
+                $group_id = $this->input->post('group_name');
+                $this->data['results'] = $this->Journal_entry_model->group_book_info($from_date, $to_date, $group_id);
+                dd($this->data['results']);
                 // Generate PDF
                 $this->data['headding'] = 'গ্রুপ ভিত্তিক রিপোর্ট';
                 $html = $this->load->view('publication/group_book_info', $this->data, true);

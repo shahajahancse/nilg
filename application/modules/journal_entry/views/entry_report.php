@@ -20,6 +20,10 @@
 
                 <?php $attributes = array('id' => 'validates', 'target'=>'_blank');
                     echo form_open("journal_entry/entry_report_view", $attributes);?>
+                        <div id="error" style="display: none;">
+                            <div class="alert alert-danger">এই রিপোর্ট দেখার জন্য লাল চিহ্নিত ফিল্ড গুলো পূরণ করুন।</div>
+                        </div>
+                        <?=validation_errors()?>
                         <fieldset class="col-md-12">
                             <legend>রিপোর্ট ফিল্টার</legend>
                             <div id="error" style="display: none;">
@@ -33,6 +37,7 @@
                                     ?>
                                     <div class="form-group col-md-4">
                                         <label class="form-label">বুক নির্বাচন করুন</label>
+                                        <?php echo form_error('book_name'); ?>
                                         <select name="book_name" id="book_name" class="form-control input-sm">
                                             <option value="">বুক নির্বাচন করুন</option>
                                             <?php foreach ($books as $key => $row) { ?>
@@ -130,8 +135,9 @@
                             <fieldset class="col-md-12">
                                 <legend>পাবলিকেশন রিপোর্ট বাটন</legend>
                                 <button type="submit" name="btnsubmit" value="all_book,number" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট বইয়ের সংখ্যা</button>
-                                <button type="submit" name="btnsubmit" value="group_book,number" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> গ্রুপ ভিত্তিক সংখ্যা</button>
-                                <button type="submit" name="btnsubmit" value="single_book,amount" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট বইয়ের মূল্য</button>
+                                <button type="submit" name="btnsubmit" value="all_book,amount" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট বইয়ের মূল্য</button>
+                                <button type="submit" onclick="return validFunc()" name="btnsubmit" value="single_book,amount" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> একটি বইয়ের রিপোর্ট</button>
+                                <button type="submit" onclick="return validFunc1()" name="btnsubmit" value="group_book,number" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> গ্রুপ ভিত্তিক সংখ্যা</button>
 
                             </fieldset>
                             <?php } ?>
@@ -168,14 +174,32 @@
 
     </div> <!-- /content -->
 </div> <!-- /page-content -->
+
 <script>
-$("#validate").submit(function() {
-    if ($("#from_date").val() == "" || $("#to_date").val() == "") {
+    function validFunc() {
+      var division = document.getElementById("book_name").value;
+      submitOK = "true";
+
+      if (division == '' || division <= 0) {
+        $("#book_name").css("border", "1px solid red");
+        submitOK = "false";
+      }
+
+      if (submitOK == "false") {
         $("#error").show();
         return false;
-    } else {
-        $("#error").hide();
-        return true;
+      }
     }
-});
+</script>
+
+<script>
+    $("#validate").submit(function() {
+        if ($("#from_date").val() == "" || $("#to_date").val() == "") {
+            $("#error").show();
+            return false;
+        } else {
+            $("#error").hide();
+            return true;
+        }
+    });
 </script>
