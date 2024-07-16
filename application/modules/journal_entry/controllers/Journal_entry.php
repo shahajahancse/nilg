@@ -1230,6 +1230,7 @@ public function bank_entry_delete($encid){
             echo $html = $this->load->view('all_journal_report', $this->data, true);
         }
         public function get_preview_pub(){
+            //dd($_POST);
             $data_details = array();
             $form_data = array(
                 'voucher_no' => $this->input->post('voucher_no'),
@@ -1240,6 +1241,10 @@ public function bank_entry_delete($encid){
                 'issue_date' => date('Y-m-d', strtotime($this->input->post('issue_date'))),
             );
                 $insert_id = 1;
+                if (!isset($_POST['price'])) {
+                    echo 'Please Select Book';
+                    exit;
+                }
                 foreach ($_POST['price'] as $key => $row) {
                     $code='BS-PUB-'.$insert_id.''.$key.'-'.$_POST['book_id'][$key].''.time();
                     if ($this->input->post('type')==2) {

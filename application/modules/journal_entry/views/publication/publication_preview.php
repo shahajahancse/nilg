@@ -198,6 +198,7 @@
 
     <div class="priview-body">
         <div class="col-12">
+            <span>মন্তব্য : </span>
             <span><?= $info['description'] ?></span>
         </div>
     </div>

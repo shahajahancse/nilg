@@ -160,7 +160,6 @@
                 <thead class="headding">
                     <tr>
                         <td rowspan="2" style="">তারিখ</td>
-                        <td rowspan="2" style="">দেয় পত্র নং</td>
                         <td rowspan="2" style="">গ্রহণ</td>
                         <td rowspan="1" colspan="3" style="">প্রদান </td>
                         <td rowspan="2" style="">মজুত </td>
@@ -176,25 +175,28 @@
 
                 <tbody>
                     <?php if (!empty($results)) { ?>
+                        <?php $total_book_give = $total_book_sale = $total_sell_by_kg = $total_rest_qty = $total_rest_amt = 0; ?>
                         <?php foreach ($results as $key => $r) { ?>
                             <tr>
                                 <?php //$sale = $r->book_sale_amt + $r->book_give_amt + $r->sell_by_kg_amt; ?>
                                 <td><?php echo date_bangla_calender_format($r->issue_date); ?></td>
-                                <td><?php echo $r->code; ?></td>
                                 <?php if ($r->type == 1) { ?>
                                     <td><?php echo eng2bng($r->quantity); ?></td>
+                                    <?php $total_book_give += $r->quantity; ?>
                                 <?php } else { ?>
                                     <td><?= eng2bng(0) ?></td>
                                 <?php } ?>
 
                                 <?php if ($r->type == 2) { ?>
                                     <td><?php echo eng2bng($r->quantity); ?></td>
+                                    <?php $total_book_sale += $r->quantity; ?>
                                 <?php } else { ?>
                                     <td><?= eng2bng(0) ?></td>
                                 <?php } ?>
 
                                 <?php if ($r->type == 3) { ?>
                                     <td><?php echo eng2bng($r->quantity); ?></td>
+                                    <?php $total_sell_by_kg += $r->quantity; ?>
                                 <?php } else { ?>
                                     <td><?= eng2bng(0) ?></td>
                                 <?php } ?>
@@ -206,9 +208,20 @@
                                 <?php } ?>
 
                                 <td><?php echo eng2bng($r->rest_qty); ?></td>
-                                <td><?php echo eng2bng($r->	rest_amt); ?></td>
+                                <?php $total_rest_qty += $r->rest_qty; ?>
+                                <td><?php echo eng2bng($r->rest_amt); ?></td>
+                                <?php $total_rest_amt += $r->rest_amt; ?>
                             </tr>
                         <?php } ?>
+                        <tr>
+                            <td colspan="2" style="text-align: right; font-weight: bold;">মোট</td>
+                            <td><?= eng2bng($total_book_give) ?></td>
+                            <td><?= eng2bng($total_book_sale) ?></td>
+                            <td><?= eng2bng($total_sell_by_kg) ?></td>
+                            <td colspan="2"></td>
+                            <td><?= eng2bng($total_rest_qty) ?></td>
+                            <td><?= eng2bng($total_rest_amt) ?></td>
+                        </tr>
                     <?php } else {
                         echo '<tr><td colspan="8" class="text-center">কোন তথ্য পাওয়া যায়নি</td></tr>';
                     } ?>

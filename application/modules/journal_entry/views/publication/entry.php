@@ -124,9 +124,9 @@
                                             <?php if($type == 2){?>
                                                 <th style="padding:3px 5px" width="15%" > ক্যাটাগরি </th>
                                             <?php } ?>
-                                            <th style="padding:3px 5px" width="13%"> বইয়ের মূল্য </th>
-                                            <th style="padding:3px 5px" width="12%"> পরিমান </th>
-                                            <th style="padding:3px 5px" width="15%"> মোট মূল্য </th>
+                                            <th style="padding:3px 5px;text-align: right;" width="13%"> বইয়ের মূল্য </th>
+                                            <th style="padding:3px 5px;text-align: right;" width="12%"> পরিমান </th>
+                                            <th style="padding:3px 5px;text-align: right;" width="15%"> মোট মূল্য </th>
                                             <th style="padding:3px 5px;text-align: center;" width="10%"> অ্যাকশন </th>
                                         </tr>
                                     </thead>
@@ -148,7 +148,7 @@
                                     <tr>
                                         <td colspan="4" align="right" style="padding: 0px 3px;"> সর্বমোট পরিমাণ  </td>
                                         <td  style="padding: 0px 0px;">
-                                            <input type="number" id='total' name="total" class="form-control input-sm" readonly>
+                                            <input type="number" style="text-align: right;" id='total' name="total" class="form-control input-sm" readonly>
                                         </td>
                                     </tr>
                                 </table>
@@ -158,7 +158,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group margin_top_10">
                                         <label for=""> বিবরণ:</label>
-                                    <textarea class="form-control" name="description" style="height: 300px;" id="description"><p></p><p></p></textarea>
+                                    <textarea class="form-control" name="description" style="height: 300px;" id="description"> </textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -176,16 +176,15 @@
     </div>
 </div>
 
-<script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
 <script>
-    ClassicEditor
-        .create(document.querySelector('#description'))
-        .then(editor => {
-            window.editor = editor;
-        })
-        .catch(error => {
-            console.error(error);
-        });
+    $(document).ready(function() {
+        CKEDITOR.replace('description');
+    });
+    setInterval(() => {
+        $('.cke_notification_close').click();
+        $('.cke_notification_warning').remove();
+    }, 300);
 </script>
 
 <script>
@@ -240,9 +239,9 @@
                         </select>
                     </td>
                 <?php } ?>
-                    <td style="padding:3px 3px 0px;"><input value="${book.price}" min="0" type="number" onkeyup="calculateTotal(this)" onchange="calculateTotal(this)"  name="price[]" class="form-control price input-sm " required readonly></td>
-                    <td style="padding:3px 3px 0px;"><input value="1" min="0" type="number" onkeyup="calculateTotal(this)"onchange="calculateTotal(this)"  name="quantity[]" class="form-control quantity input-sm" required ></td>
-                    <td style="padding:3px 3px 0px;"><input value="${book.price}" min="0" type="number" name="amount[]" class="form-control amount input-sm" readonly></td>
+                    <td style="padding:3px 3px 0px;"><input style=";text-align: right;" value="${book.price}" min="0" type="number" onkeyup="calculateTotal(this)" onchange="calculateTotal(this)"  name="price[]" class="form-control price input-sm " required readonly></td>
+                    <td style="padding:3px 3px 0px;"><input style=";text-align: right;" value="1" min="0" type="number" onkeyup="calculateTotal(this)"onchange="calculateTotal(this)"  name="quantity[]" class="form-control quantity input-sm" required ></td>
+                    <td style="padding:3px 3px 0px;"><input style=";text-align: right;" value="${book.price}" min="0" type="number" name="amount[]" class="form-control amount input-sm" readonly></td>
                     <td style="padding:3px 5px;text-align: center;"><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
                 </tr>`
         $("#tbody").append(tr);
@@ -253,7 +252,8 @@
 <script>
     function get_preview(){
         var form = $('#jsvalidate').serializeArray();
-
+        var description = CKEDITOR.instances['description'].getData();
+        form.push({name: 'description', value: description});
         $.ajax({
             type: "POST",
             url: "<?php echo base_url(); ?>journal_entry/get_preview_pub",
