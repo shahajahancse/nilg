@@ -66,6 +66,9 @@ class Leave extends Backend_Controller {
     }
 
     public function add(){
+        if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
+            redirect('leave');
+        }
         $this->load->model('Common_model');
         $userDetails = $this->data['userDetails'];
         $this->data['division'] = $this->Common_model->get_division();
@@ -73,11 +76,12 @@ class Leave extends Backend_Controller {
         // Validation
         $this->form_validation->set_rules('user_id', 'স্টাফ নাম', 'required|trim');
         $this->form_validation->set_rules('leave_type', 'ছুটির টাইপ', 'required|trim');
-        $this->form_validation->set_rules('from_date', 'শুরুর তারিখ', 'required|trim');
-        $this->form_validation->set_rules('to_date', 'শেষ তারিখ', 'required|trim');
+        // $this->form_validation->set_rules('from_date', 'শুরুর তারিখ', 'required|trim');
+        // $this->form_validation->set_rules('to_date', 'শেষ তারিখ', 'required|trim');
         // Insert Data
         $uploadedFile = null;
         if ($this->form_validation->run() == true){
+            dd($_POST);
             $user_info = $this->db->where('id', $this->input->post('user_id'))->get('users')->row();
             if (!empty($user_info->crrnt_dept_id) && !empty($user_info->crrnt_desig_id)) {
                 if($_FILES['userfile']['size'] > 0){
@@ -142,20 +146,13 @@ class Leave extends Backend_Controller {
         $this->data['leave_type'] = $this->Leave_model->get_leave_type();
         $this->data['info'] = $this->Leave_model->get_info('users',$this->session->userdata('user_id'));
 
+        $results = $this->Leave_model->get_yearly_leave_count($userDetails->id);
+        $this->data['users'] = $this->Common_model->get_nilg_employee($this->data['info']->crrnt_dept_id);
         // View
         $this->data['meta_title'] = 'ছুটি যুক্ত করুন';
-        if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
-            $this->data['users'] = $this->Common_model->get_nilg_employee();
-            $this->data['subview'] = 'add';
-        } elseif (func_nilg_auth($userDetails->office_type) == 'employee') {
-            $results = $this->Leave_model->get_yearly_leave_count($userDetails->id);
-            $this->data['users'] = $this->Common_model->get_nilg_employee();
-
-            // dd($results);
-            $this->data['total_leave'] = $results['total_leave'];
-            $this->data['used_leave'] = $results['used_leave'];
-            $this->data['subview'] = 'staff_add';
-        }
+        $this->data['total_leave'] = $results['total_leave'];
+        $this->data['used_leave'] = $results['used_leave'];
+        $this->data['subview'] = 'staff_add';
         $this->load->view('backend/_layout_main', $this->data);
     }
 

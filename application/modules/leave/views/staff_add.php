@@ -68,16 +68,40 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label class="form-label">ছুটি শুরুর তারিখঃ <span class="required">*</span></label>
-                    <input onchange="leave_validation()" name="from_date" type="text" value="<?=set_value('from_date')?>" id="from_date" class="datetime form-control input-sm" autocomplete="off">
+
+                <div id="leave_casual">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="form-label">ছুটি শুরুর তারিখঃ <span class="required">*</span></label>
+                      <input onchange="leave_validation()" name="from_date" type="text" value="<?=set_value('from_date')?>" id="from_date" class="datetime form-control input-sm" autocomplete="off" required>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label class="form-label">ছুটি শেষ তারিখঃ <span class="required">*</span></label>
+                      <input onchange="leave_validation()" name="to_date" type="text" value="<?=set_value('to_date')?>"  id="to_date" class="datetime form-control input-sm" autocomplete="off" required>
+                    </div>
                   </div>
                 </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label class="form-label">ছুটি শেষ তারিখঃ <span class="required">*</span></label>
-                    <input onchange="leave_validation()" name="to_date" type="text" value="<?=set_value('to_date')?>"  id="to_date" class="datetime form-control input-sm" autocomplete="off">
+
+                <div id="leave_optional" style="display: none;">
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label class="form-label">প্রথম দিন: <span class="required">*</span></label>
+                      <input onchange="leave_cal_optional()" name="first_day" type="text" value="<?=set_value('first_day')?>" id="first_day" class="datetime form-control input-sm" autocomplete="off" required>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label class="form-label">দ্বিতীয় দিন: <!-- <span class="required">*</span> --></label>
+                      <input onchange="leave_cal_optional()" name="second_day" type="text" value="<?=set_value('second_day')?>"  id="second_day" class="datetime form-control input-sm" autocomplete="off">
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label class="form-label">তৃতীয় দিন: <!-- <span class="required">*</span> --></label>
+                      <input onchange="leave_cal_optional()" name="third_day" type="text" value="<?=set_value('third_day')?>"  id="third_day" class="datetime form-control input-sm" autocomplete="off">
+                    </div>
                   </div>
                 </div>
               </div>
@@ -189,45 +213,6 @@
 </div>
 
 
-<script type="text/javascript">
-  $(document).ready(function() {
-    $('#validate').validate({
-        // focusInvalid: false,
-        ignore: "",
-        rules: {
-          user_id: { required: true},
-          leave_type: { required: true},
-          from_date: { required: true},
-          to_date: { required: true},
-        },
-        errorPlacement: function (label, element) {
-          // render error placement for each input type
-          $('<span class="error"></span>').insertAfter(element).append(label)
-          var parent = $(element).parent('.input-with-icon');
-          parent.removeClass('success-control').addClass('error-control');
-        },
-        highlight: function (element) { // hightlight error inputs
-          var parent = $(element).parent();
-          parent.removeClass('success-control').addClass('error-control');
-        },
-        unhighlight: function (element) {
-        // revert the change done by hightlight
-      },
-
-      success: function (label, element) {
-        var parent = $(element).parent('.input-with-icon');
-        parent.removeClass('error-control').addClass('success-control');
-      },
-
-      submitHandler: function (form) {
-        form.submit();
-      }
-
-    });
-  });
-</script>
-
-
 <script>
   var casual_leave = <?php echo isset($total_leave[0]->yearly_total_leave) ? $total_leave[0]->yearly_total_leave - $used_leave->casual_leave : 0 ?>;
   var max_leave_for_cas = <?php echo isset($total_leave[0]->max_apply_leave) ? $total_leave[0]->max_apply_leave : 0 ?>;
@@ -241,34 +226,93 @@
     max_cas = max_leave_for_cas;
   }
 
-  var max_opt = 0;
-  if (optional_leave < max_leave_for_opt) {
-    max_opt = optional_leave;
-  } else {
-    max_opt = max_leave_for_opt;
-  }
+  var max_opt = optional_leave;
+</script>
 
+<script type="text/javascript">
   function leave_validation() {
-    if ($('#to_date').val()=='') {
+    var leave_type = document.getElementById('leave_type').value;
+    if (leave_type == 12) {
+      document.getElementById('first_day').setAttribute("required", "required");
+      document.getElementById('from_date').removeAttribute("required");
+      document.getElementById('to_date').removeAttribute("required");
+      document.getElementById("leave_casual").style.display = "none";
+      document.getElementById("leave_optional").style.display = "block";
+      leave_cal_optional();
+    } else {
+      document.getElementById('from_date').setAttribute("required", "required");
+      document.getElementById('to_date').setAttribute("required", "required");
+      document.getElementById('first_day').removeAttribute("required");
+      document.getElementById("leave_optional").style.display = "none";
+      document.getElementById("leave_casual").style.display = "block";
+      leave_cal_casual();
+    }
+  }
+</script>
+
+<script>
+  function leave_cal_optional() {
+    diffDays = 0;
+    var first_day = document.getElementById('first_day').value;
+    var second_day = document.getElementById('second_day').value;
+    var third_day = document.getElementById('third_day').value;
+
+    if ((third_day != '') && (second_day == '' || first_day == '')) {
+      $('#third_day').val('');
+      alert('আগে প্রথম দিন ও দ্বিতীয় দিন পূরণ করুন।');
+      return false;
+    } else if (first_day == '' && second_day != '') {
+      $('#second_day').val('');
+      alert('আগে প্রথম দিন পূরণ করুন।');
       return false;
     }
-    if ($('#from_date').val()=='') {
-      return false;
-    }
-    if ($('#from_date').val() > $('#to_date').val()) {
-      $('#to_date').val('');
-      return false;
-    }
+
     if ($('#leave_type').val()=='') {
       return false;
     }
 
-    var leave_type = document.getElementById('leave_type').value;
-    var max = 0;
-    if (leave_type == 8) {
-      max = max_cas;
-    } else if (leave_type == 12) {
-      max = max_opt;
+    if (first_day != '' && second_day != '' && third_day != '') { // 3 days
+      diffDays = 3;
+    } else if (first_day != '' && second_day != '') { // 2 days
+      diffDays = 2;
+    } else if (first_day != '') { // 1 day
+      diffDays = 1;
+    }
+    console.log(diffDays, max_opt);
+
+    if (diffDays > max_opt) {
+      $('#first_day').val('');
+      $('#second_day').val('');
+      $('#third_day').val('');
+      alert('আপনার ছুটির আবেদন বেশি হয়েছে। দয়া করে আবার চেষ্টা করুন।');
+      return false;
+    } else if (max_opt == 0) {
+      $('#first_day').val('');
+      $('#second_day').val('');
+      $('#third_day').val('');
+      alert('আপনার ছুটির আবেদন বেশি হয়েছে। দয়া করে আবার চেষ্টা করুন।');
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  function leave_cal_casual() {
+    if ($('#to_date').val()=='') {
+      return false;
+    }
+
+    if ($('#from_date').val()=='') {
+      return false;
+    }
+
+    if ($('#from_date').val() > $('#to_date').val()) {
+      $('#to_date').val('');
+      return false;
+    }
+
+    if ($('#leave_type').val()=='') {
+      return false;
     }
 
     var from_date = document.getElementById('from_date').value;
@@ -278,14 +322,44 @@
       var oneDay = 24 * 60 * 60 * 1000;
       var diffDays = Math.round(Math.abs((new Date(to_date).getTime() - new Date(from_date).getTime()) / (oneDay)));
       diffDays = diffDays + 1;
-      console.log(diffDays);
-      if (diffDays > max) {
+      if (diffDays > max_cas) {
         $('#to_date').val('');
         alert('আপনার ছুটির আবেদন বেশি হয়েছে। দয়া করে আবার চেষ্টা করুন।');
         return false;
       }
     }
   }
-
 </script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#validate').validate({
+      // focusInvalid: false,
+      ignore: "",
+      rules: {
+        user_id: { required: true},
+        leave_type: { required: true},
+      },
+      errorPlacement: function (label, element) {
+        // render error placement for each input type
+        $('<span class="error"></span>').insertAfter(element).append(label)
+        var parent = $(element).parent('.input-with-icon');
+        parent.removeClass('success-control').addClass('error-control');
+      },
+      highlight: function (element) { // hightlight error inputs
+        var parent = $(element).parent();
+        parent.removeClass('success-control').addClass('error-control');
+      },
+      success: function (label, element) {
+        var parent = $(element).parent('.input-with-icon');
+        parent.removeClass('error-control').addClass('success-control');
+      },
+      submitHandler: function (form) {
+        form.submit();
+      }
+    });
+  });
+</script>
+
+
 
