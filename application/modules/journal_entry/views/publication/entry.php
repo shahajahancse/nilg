@@ -5,6 +5,10 @@
     height: 30px !important;
     border: 1px solid #00a59a !important;
 }
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
 </style>
 
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="preview_pub_modal">
@@ -271,7 +275,6 @@
     function save_publication(){
         $('#preview_pub_modal').modal('hide');
         $("#submit_btn").click();
-
     }
 </script>
 
