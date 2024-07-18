@@ -1190,6 +1190,7 @@ public function bank_entry_delete($encid){
                     $this->data['headding'] = 'পাবলিকেশন পরিমাণ ভিত্তিক রিপোর্ট';
                     $html = $this->load->view('publication/publication_amount_print', $this->data, true);
                 }
+                $html;
 
                 $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
                 $mpdf->WriteHtml($html);

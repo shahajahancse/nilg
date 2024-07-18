@@ -175,14 +175,14 @@
 
                 <tbody>
                     <?php if (!empty($results)) { ?>
-                        <?php $total_book_give = $total_book_sale = $total_sell_by_kg = $total_rest_qty = $total_rest_amt = 0; ?>
+                        <?php $total_entry = $total_book_give = $total_book_sale = $total_sell_by_kg = $total_rest_qty = $total_rest_amt = 0; ?>
                         <?php foreach ($results as $key => $r) { ?>
                             <tr>
                                 <?php //$sale = $r->book_sale_amt + $r->book_give_amt + $r->sell_by_kg_amt; ?>
                                 <td><?php echo date_bangla_calender_format($r->issue_date); ?></td>
                                 <?php if ($r->type == 1) { ?>
                                     <td><?php echo eng2bng($r->quantity); ?></td>
-                                    <?php $total_book_give += $r->quantity; ?>
+                                    <?php $total_entry += $r->quantity; ?>
                                 <?php } else { ?>
                                     <td><?= eng2bng(0) ?></td>
                                 <?php } ?>
@@ -196,13 +196,15 @@
 
                                 <?php if ($r->type == 3) { ?>
                                     <td><?php echo eng2bng($r->quantity); ?></td>
-                                    <?php $total_sell_by_kg += $r->quantity; ?>
+                                    <?php $total_book_give += $r->quantity; ?>
                                 <?php } else { ?>
                                     <td><?= eng2bng(0) ?></td>
                                 <?php } ?>
 
                                 <?php if ($r->type == 4) { ?>
                                     <td><?php echo eng2bng($r->quantity); ?></td>
+                                    <?php $total_sell_by_kg += $r->quantity; ?>
+
                                 <?php } else { ?>
                                     <td><?= eng2bng(0) ?></td>
                                 <?php } ?>
@@ -214,11 +216,11 @@
                             </tr>
                         <?php } ?>
                         <tr>
-                            <td colspan="2" style="text-align: right; font-weight: bold;">মোট</td>
-                            <td><?= eng2bng($total_book_give) ?></td>
+                            <td colspan="" style="text-align: right; font-weight: bold;">মোট</td>
+                            <td><?= eng2bng($total_entry) ?></td>
                             <td><?= eng2bng($total_book_sale) ?></td>
+                            <td><?= eng2bng($total_book_give) ?></td>
                             <td><?= eng2bng($total_sell_by_kg) ?></td>
-                            <td colspan="2"></td>
                             <td><?= eng2bng($total_rest_qty) ?></td>
                             <td><?= eng2bng($total_rest_amt) ?></td>
                         </tr>

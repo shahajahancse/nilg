@@ -158,7 +158,6 @@
                     <tr>
                         <td rowspan="1" style="">ক্রমিক নং</td>
                         <td rowspan="1" style="width: 20%;">বই নাম</td>
-                        <!-- <td rowspan="1" style="width: 10%;">ক্রয় সংখ্যা </td> -->
                         <td rowspan="1" style="width: 10%;">ক্রয় মূল্য </td>
                         <td rowspan="1" style="width: 10%;">বিক্রয় মূল্য</td>
                         <td rowspan="1" style="width: 10%;">সৌজন্যমূলক</td>
@@ -169,13 +168,23 @@
                 </thead>
 
                 <tbody>
-                    <?php if (!empty($results)) { ?>
+                    <?php if (!empty($results)) { 
+                        $total_book_in=$total_book_sale=$total_book_give=$total_sell_by_kg=$total_sale=$total_rest=0;
+
+                        ?>
                         <?php foreach ($results as $key => $r) { ?>
                             <tr>
-                                <?php $sale = $r->book_sale_amt + $r->book_give_amt + $r->sell_by_kg_amt; ?>
+                                <?php $sale = $r->book_sale_amt + $r->book_give_amt + $r->sell_by_kg_amt;
+                                $total_book_in+=$r->book_in_amt;
+                                $total_book_sale+=$r->book_sale_amt;
+                                $total_book_give+=$r->book_give_amt;
+                                $total_sell_by_kg+=$r->sell_by_kg_amt;
+                                $total_sale+=$sale;
+                                $total_rest+=$r->book_in_amt - $sale;
+                                ?>
+
                                 <td><?php echo eng2bng($key + 1); ?></td>
                                 <td><?php echo $r->name_bn; ?></td>
-                                <!-- <td><?php //echo eng2bng($r->book_in); ?></td> -->
                                 <td><?php echo eng2bng($r->book_in_amt); ?></td>
                                 <td><?php echo eng2bng($r->book_sale_amt); ?></td>
                                 <td><?php echo eng2bng($r->book_give_amt); ?></td>
@@ -188,6 +197,17 @@
                         echo '<tr><td colspan="8" class="text-center">কোন তথ্য পাওয়া যায়নি</td></tr>';
                     } ?>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="2" class="text-center">সর্বমোটঃ</th>
+                        <th class="text-right"><?php echo eng2bng($total_book_in); ?></th>
+                        <th class="text-right"><?php echo eng2bng($total_book_sale); ?></th>
+                        <th class="text-right"><?php echo eng2bng($total_book_give); ?></th>
+                        <th class="text-right"><?php echo eng2bng($total_sell_by_kg); ?></th>
+                        <th class="text-right"><?php echo eng2bng($total_sale); ?></th>
+                        <th class="text-right"><?php echo eng2bng($total_rest); ?></th>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>
