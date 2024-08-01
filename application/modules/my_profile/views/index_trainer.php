@@ -8,16 +8,16 @@
 		<div class="pull-right">
 			<!-- <a href="#" class="btn btn-success btn-xs btn-mini"> ডাউনলোড প্রোফাইল </a> -->
 			<!-- <a href="<?=base_url('dashboard/edit_trainee_general_info')?>" class="btn btn-blueviolet btn-xs btn-mini"> ছবি পরিবর্তন করুন </a>			 -->
-		</div>		
+		</div>
 		<hr style="clear: both;margin:-5px auto 20px auto;">
 
-		<div class="row">  
+		<div class="row">
 			<div class="col-md-12">
 				<?php /*
 				<h3  style="margin-top: 0;">স্বাগতম, এনআইএলজি (ইআরপি) | জাতীয় স্থানীয় সরকার ইনস্টিটিউট</h3>
 				<hr style="margin:10px auto 20px auto;">
-				
-				<div class="alert alert-block alert-danger fade in">        
+
+				<div class="alert alert-block alert-danger fade in">
 					<h4 class="alert-heading"><i class="icon-warning-sign"></i> আপনার রেজিস্ট্রেশন কৃত অ্যাকাউন্টটি এখনো যাচাই করা হয়নি। অনুগ্রহপূর্বক স্টার (*) মার্ক যুক্ত ফিল্ডগুলো পূরণ করে সাবমিট বাটনে ক্লিক করুন।</h4>
 					<p> যেকোন সমস্যার জন্য এই নম্বরে যোগাযোগ করুন 01XXXXXXXX</p>
 					<!-- <div class="button-set">
@@ -40,12 +40,12 @@
 						<div class="pull-right">
 							<!-- <a href="<?=base_url('my_profile/edit_trainer_general_info')?>" class="btn btn-blueviolet btn-xs btn-mini"> সংশোধন করুন </a> -->
 						</div>
-						<table class="tg" width="100%">     
+						<table class="tg" width="100%">
 							<tr>
 								<td class="tg-khup">নামঃ (বাংলা)</td>
 								<td class="tg-ywa9"><?=$info->name_bn?></td>
 								<td class="tg-khup">নামঃ (ইংরেজি)</td>
-								<td class="tg-ywa9"><?=$info->name_en?></td>			
+								<td class="tg-ywa9"><?=$info->name_en?></td>
 								<td class="tg-ywa9" rowspan="6" style="width: 160px;">
 									<?php
 									if($info->profile_img != NULL){
@@ -55,7 +55,7 @@
 									}
 									?>
 									<img src="<?=$url?>" width="150">
-								</td>					
+								</td>
 							</tr>
 							<tr>
 								<td class="tg-khup">বর্তমান অফিস/প্রতিষ্ঠান</td>
@@ -92,10 +92,10 @@
 									}
 									?>
 								</td>
-							</tr>               
+							</tr>
 						</table>
 
-					</div>          
+					</div>
 
 				</div>
 

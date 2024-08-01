@@ -29,7 +29,7 @@
 </script>
 
 <?php /*
-<!-- BEGIN PAGE DATATABLE -->   
+<!-- BEGIN PAGE DATATABLE -->
 <script src="<?=base_url();?>awedget/assets/plugins/jquery-datatable/js/jquery.dataTables.min.js"
 type="text/javascript" ></script>
 <script src="<?=base_url();?>awedget/assets/plugins/jquery-datatable/extra/js/TableTools.min.js" type="text/javascript">
@@ -128,9 +128,9 @@ var hostname = '<?php echo base_url();?>';
 </script> -->
 
 <script type="text/javascript">
-    
+
 $(document).ready(function() {
-    // select2Organization();    
+    // select2Organization();
     select2NationalID();
     select2Coordinator();
     select2Trainee();
@@ -152,17 +152,6 @@ $(document).ready(function() {
     select2DesignationEmployee();
     select2NIDTrainee();
     select2NIDTrainer();
-
-
-    // First organization 
-    // $(".first_org_sugg").autocomplete("<?php echo site_url('common/suggest_first_organization');?>",{max:100,minChars:0,delay:10});
-    // $(".first_org_sugg").result(function(event, data, formatted){});
-    // $(".first_org_sugg").search();
-
-    // Current organization 
-    // $(".curr_org_sugg").autocomplete("<?php echo site_url('common/suggest_curr_organization');?>",{max:100,minChars:0,delay:10});
-    // $(".curr_org_sugg").result(function(event, data, formatted){});
-    // $(".curr_org_sugg").search();
 
     // Post Office
     $("#po_sugg").autocomplete("<?php echo site_url('common/suggest_post_office');?>", {
@@ -199,16 +188,16 @@ $(document).ready(function() {
         // dom: 't',         // This shows just the table
         dom: 'Bfrtip',
         buttons: [
-            // 'copy', 'csv', 'excel', 'print', 'pdf',      
+            // 'copy', 'csv', 'excel', 'print', 'pdf',
             'excel',
-            /*{ 
-              extend: 'print',          
+            /*{
+              extend: 'print',
               text: 'Print/PDF',
               customize: function(win) {
                 $(win.document.body)
                             .css( 'font-size', '100pt' )
               }
-              
+
             },*/
             /*{
               extend: 'alert',
@@ -222,27 +211,8 @@ $(document).ready(function() {
             }*/
         ]
     });
-    // $('.data_table').DataTable({
-    //     paging: false,
-    //     bFilter: false,
-    //     ordering: false,
-    //     searching: true,
-    //     dom: 'Bfrtip',
-    //     buttons: [
-    //          'excel','pdf'
-    //     ],
-    //     "sDom": 'T<"clear"><"search"f>lfrtip',
-    //     initComplete: function () {
-    //         var r = this.api().columns().header();
-    //         $(r).find('input').addClass('form-control input-sm');
-    //     }
-    // });
-
-
-
-
 });
-        
+
 
 function confirmSubmit() {
     return confirm('আপনি কি নিশ্চিত? সবগুলো ফিল্ড সঠিকভাবে পূরণ করেছেন?');
@@ -286,17 +256,62 @@ function processDoc(doc) {
     var i = 1;
 }
 
+</script>
 
+<!-- //datetime functions -->
+<style>
+    .highlight {
+        background-color: red !important;
+        color: white !important;
+    }
+    .holiday {
+        background-color: green !important;
+        color: white !important;
+    }
+</style>
 
+<script>
+    <?php
+    $query = $this->db->select('date')->order_by('date', 'DESC')->get("leave_festival_calendar")->result_array();
+        $query = array_column($query, 'date');
+    ?>
 
-//datetime funcitons
-function datetime() {
-    $('.datetime').datepicker({
-        format: "yyyy-mm-dd",
-        autoclose: true
-    });
-}
+    var holidays = <?= json_encode($query) ?>;
 
+    function isHoliday(date) {
+        var day = ('0' + date.getDate()).slice(-2);
+        var month = ('0' + (date.getMonth() + 1)).slice(-2);
+        var year = date.getFullYear();
+        var dateString = `${year}-${month}-${day}`;
+        return holidays.indexOf(dateString) > -1;
+    }
+
+    function datetime() {
+        $('.datetime').datepicker({
+            format: "yyyy-mm-dd",
+            autoclose: true,
+            beforeShowDay: function(date) {
+                var day = date.getDay();
+                if (isHoliday(date)) {
+                    return {
+                        classes: 'holiday',
+                        tooltip: 'Holiday'
+                    };
+                } else if (day === 5 || day === 6) { // Friday or Saturday
+                    return {
+                        classes: 'highlight',
+                        tooltip: 'Weekend'
+                    };
+                } else {
+                    return [true, ''];
+                }
+            }
+        });
+    }
+</script>
+<!-- //datetime functions -->
+
+<script>
 function timepicker() {
     $('.timepicker').datetimepicker({
         format: 'LT'

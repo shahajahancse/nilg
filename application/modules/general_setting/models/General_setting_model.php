@@ -7,6 +7,28 @@ class General_setting_model extends CI_Model {
         parent::__construct();
     }
 
+    public function get_festival_day_list($limit = 1000, $offset = 0, $type = null) {
+        // result query
+        $this->db->select('*');
+        $this->db->from('leave_festival_calendar');
+        $this->db->where('date >=', date('Y-01-01'));
+        $this->db->where('date <=', date('Y-12-31'));
+
+        $this->db->limit($limit);
+        $this->db->offset($offset);
+        $this->db->order_by('id', 'DESC');
+        $result['rows'] = $this->db->get()->result();
+
+        // count query
+        // $q = $this->db->select('COUNT(*) as count');
+        // $this->db->from('leave_festival_calendar');
+
+        // $tmp = $this->db->get()->result();
+        // $result['num_rows'] = $tmp[0]->count;
+
+        return $result;
+    }
+
     public function get_role_list($limit = 1000, $offset = 0, $type = null) {
         // result query
         $this->db->select('*');
@@ -15,7 +37,7 @@ class General_setting_model extends CI_Model {
             $this->db->where('type', $type);
         }
         $this->db->limit($limit);
-        $this->db->offset($offset);        
+        $this->db->offset($offset);
         $this->db->order_by('id', 'DESC');
         $result['rows'] = $this->db->get()->result();
 
@@ -27,19 +49,19 @@ class General_setting_model extends CI_Model {
         $result['num_rows'] = $tmp[0]->count;
 
         return $result;
-    }    
+    }
 
 
     public function get_board_institute($limit = 1000, $offset = 0) {
         // result query
         $this->db->select('*');
         $this->db->from('board_institute');
-        // $this->db->join('office_type ot', 'ot.id = d.office_type', 'LEFT');        
-        // $this->db->join('employee_type e', 'e.id = d.employee_type', 'LEFT');        
+        // $this->db->join('office_type ot', 'ot.id = d.office_type', 'LEFT');
+        // $this->db->join('employee_type e', 'e.id = d.employee_type', 'LEFT');
         $this->db->limit($limit);
-        $this->db->offset($offset);        
+        $this->db->offset($offset);
         $this->db->order_by('id', 'DESC');
-        // Filter        
+        // Filter
         /*if($this->input->get('org_type')){
             $this->db->where('org_type', $this->input->get('org_type'));
         }*/
@@ -64,12 +86,12 @@ class General_setting_model extends CI_Model {
         // result query
         $this->db->select('*');
         $this->db->from('subject');
-        // $this->db->join('office_type ot', 'ot.id = d.office_type', 'LEFT');        
-        // $this->db->join('employee_type e', 'e.id = d.employee_type', 'LEFT');        
+        // $this->db->join('office_type ot', 'ot.id = d.office_type', 'LEFT');
+        // $this->db->join('employee_type e', 'e.id = d.employee_type', 'LEFT');
         $this->db->limit($limit);
-        $this->db->offset($offset);        
+        $this->db->offset($offset);
         $this->db->order_by('id', 'DESC');
-        // Filter        
+        // Filter
         /*if($this->input->get('org_type')){
             $this->db->where('org_type', $this->input->get('org_type'));
         }*/
@@ -94,12 +116,12 @@ class General_setting_model extends CI_Model {
         // result query
         $this->db->select('*');
         $this->db->from('exam');
-        // $this->db->join('office_type ot', 'ot.id = d.office_type', 'LEFT');        
-        // $this->db->join('employee_type e', 'e.id = d.employee_type', 'LEFT');        
+        // $this->db->join('office_type ot', 'ot.id = d.office_type', 'LEFT');
+        // $this->db->join('employee_type e', 'e.id = d.employee_type', 'LEFT');
         $this->db->limit($limit);
-        $this->db->offset($offset);        
+        $this->db->offset($offset);
         $this->db->order_by('id', 'DESC');
-        // Filter        
+        // Filter
         /*if($this->input->get('org_type')){
             $this->db->where('org_type', $this->input->get('org_type'));
         }*/
@@ -127,35 +149,35 @@ class General_setting_model extends CI_Model {
         $this->db->join('districts d', 'd.id=p.pou_dis_id', 'LEFT');
         $this->db->join('upazilas ut', 'ut.id=p.pou_upa_id', 'LEFT');
 
-        if($this->input->get('division') > 0){            
-            $this->db->where('p.pou_div_id', $this->input->get('division'));     
+        if($this->input->get('division') > 0){
+            $this->db->where('p.pou_div_id', $this->input->get('division'));
         }
-        if($this->input->get('district') > 0){            
-            $this->db->where('p.pou_dis_id', $this->input->get('district'));     
+        if($this->input->get('district') > 0){
+            $this->db->where('p.pou_dis_id', $this->input->get('district'));
         }
-        if($this->input->get('upazila') > 0){            
-            $this->db->where('p.pou_upa_id', $this->input->get('upazila'));     
+        if($this->input->get('upazila') > 0){
+            $this->db->where('p.pou_upa_id', $this->input->get('upazila'));
         }
 
         $this->db->limit($limit);
-        $this->db->offset($offset);        
+        $this->db->offset($offset);
         $this->db->order_by('p.id', 'DESC');
         $result['rows'] = $this->db->get()->result();
         // echo $this->db->last_query(); exit;
 
 
-        // count query         
+        // count query
         $q = $this->db->select('COUNT(*) as count');
         $this->db->from('pourashava');
 
-        if($this->input->get('division') > 0){            
-            $this->db->where('pou_div_id', $this->input->get('division'));     
+        if($this->input->get('division') > 0){
+            $this->db->where('pou_div_id', $this->input->get('division'));
         }
-        if($this->input->get('district') > 0){            
-            $this->db->where('pou_dis_id', $this->input->get('district'));     
+        if($this->input->get('district') > 0){
+            $this->db->where('pou_dis_id', $this->input->get('district'));
         }
-        if($this->input->get('upazila') > 0){            
-            $this->db->where('pou_upa_id', $this->input->get('upazila'));     
+        if($this->input->get('upazila') > 0){
+            $this->db->where('pou_upa_id', $this->input->get('upazila'));
         }
         $tmp = $this->db->get()->result();
         $result['num_rows'] = $tmp[0]->count;
@@ -171,14 +193,14 @@ class General_setting_model extends CI_Model {
         $this->db->join('districts d', 'd.id=uni.uni_dis_id', 'LEFT');
         $this->db->join('upazilas ut', 'ut.id=uni.uni_upa_id', 'LEFT');
 
-        if($this->input->get('division') > 0){            
-            $this->db->where('uni.uni_div_id', $this->input->get('division'));     
+        if($this->input->get('division') > 0){
+            $this->db->where('uni.uni_div_id', $this->input->get('division'));
         }
-        if($this->input->get('district') > 0){            
-            $this->db->where('uni.uni_dis_id', $this->input->get('district'));     
+        if($this->input->get('district') > 0){
+            $this->db->where('uni.uni_dis_id', $this->input->get('district'));
         }
-        if($this->input->get('upazila') > 0){            
-            $this->db->where('uni.uni_upa_id', $this->input->get('upazila'));     
+        if($this->input->get('upazila') > 0){
+            $this->db->where('uni.uni_upa_id', $this->input->get('upazila'));
         }
 
         // if($this->input->get('upazilas') != NULL){
@@ -187,17 +209,17 @@ class General_setting_model extends CI_Model {
         //     }else{
         //         $upazila_id = $this->input->get('upazilas');
         //     }
-        //     $this->db->where('uni.uni_upa_id', $upazila_id);     
+        //     $this->db->where('uni.uni_upa_id', $upazila_id);
         // }
 
         $this->db->limit($limit);
-        $this->db->offset($offset);        
+        $this->db->offset($offset);
         $this->db->order_by('uni.id', 'ASC');
         $result['rows'] = $this->db->get()->result();
         // echo $this->db->last_query(); exit;
 
 
-        // count query         
+        // count query
         $q = $this->db->select('COUNT(*) as count');
         // if($this->input->get('upazilas') != NULL){
         //     if(count($this->input->get('upazilas')) ==1){
@@ -206,17 +228,17 @@ class General_setting_model extends CI_Model {
         //     }else{
         //         $upazila_id = $this->input->get('upazilas');
         //     }
-        //     $this->db->where('id', $upazila_id);     
+        //     $this->db->where('id', $upazila_id);
         // }
         $this->db->from('unions');
-        if($this->input->get('division') > 0){            
-            $this->db->where('uni_div_id', $this->input->get('division'));     
+        if($this->input->get('division') > 0){
+            $this->db->where('uni_div_id', $this->input->get('division'));
         }
-        if($this->input->get('district') > 0){            
-            $this->db->where('uni_dis_id', $this->input->get('district'));     
+        if($this->input->get('district') > 0){
+            $this->db->where('uni_dis_id', $this->input->get('district'));
         }
-        if($this->input->get('upazila') > 0){            
-            $this->db->where('uni_upa_id', $this->input->get('upazila'));     
+        if($this->input->get('upazila') > 0){
+            $this->db->where('uni_upa_id', $this->input->get('upazila'));
         }
         $tmp = $this->db->get()->result();
         $result['num_rows'] = $tmp[0]->count;
@@ -232,13 +254,13 @@ class General_setting_model extends CI_Model {
         $this->db->join('divisions dv', 'dv.id=ut.upa_div_id');
         $this->db->join('districts ds', 'ds.id=ut.upa_dis_id');
         if($this->input->get('division') != NULL){
-            $this->db->where('ut.upa_div_id', $this->input->get('division'));     
+            $this->db->where('ut.upa_div_id', $this->input->get('division'));
         }
         if($this->input->get('district') != NULL){
-            $this->db->where('ut.upa_dis_id', $this->input->get('district'));     
+            $this->db->where('ut.upa_dis_id', $this->input->get('district'));
         }
         $this->db->limit($limit);
-        $this->db->offset($offset);        
+        $this->db->offset($offset);
         $this->db->order_by('ut.id', 'DESC');
 
         $result['rows'] = $this->db->get()->result();
@@ -246,19 +268,19 @@ class General_setting_model extends CI_Model {
         // count query
         $q = $this->db->select('COUNT(*) as count');
         if($this->input->get('division') != NULL){
-            $this->db->where('upa_div_id', $this->input->get('division'));     
+            $this->db->where('upa_div_id', $this->input->get('division'));
         }
         if($this->input->get('district') != NULL){
-            $this->db->where('upa_dis_id', $this->input->get('district'));     
+            $this->db->where('upa_dis_id', $this->input->get('district'));
         }
         $this->db->from('upazilas');
-        
+
         $tmp = $this->db->get()->result();
         $result['num_rows'] = $tmp[0]->count;
 
         return $result;
 
-    }    
+    }
 
     public function get_district($limit = 1000, $offset = 0, $division=NULL) {
         // result query
@@ -266,10 +288,10 @@ class General_setting_model extends CI_Model {
         $this->db->from('districts di');
         $this->db->join('divisions dv', 'dv.id=di.dis_div_id');
         if($this->input->get('division') != NULL){
-            $this->db->where('di.dis_div_id', $this->input->get('division'));     
+            $this->db->where('di.dis_div_id', $this->input->get('division'));
         }
         $this->db->limit($limit);
-        $this->db->offset($offset);        
+        $this->db->offset($offset);
         $this->db->order_by('di.id', 'DESC');
 
         $result['rows'] = $this->db->get()->result();
@@ -277,10 +299,10 @@ class General_setting_model extends CI_Model {
         // count query
         $q = $this->db->select('COUNT(*) as count');
         if($this->input->get('division') != NULL){
-            $this->db->where('dis_div_id', $this->input->get('division'));     
+            $this->db->where('dis_div_id', $this->input->get('division'));
         }
         $this->db->from('districts');
-        
+
         $tmp = $this->db->get()->result();
         $result['num_rows'] = $tmp[0]->count;
 
@@ -293,7 +315,7 @@ class General_setting_model extends CI_Model {
         $this->db->select('id, div_name_bn, div_name_en, div_bbs_code, status');
         $this->db->from('divisions');
         $query = $this->db->get()->result();
-    
+
         return $query;
     }
 
@@ -309,7 +331,7 @@ class General_setting_model extends CI_Model {
         $this->db->select('*');
         $this->db->from('statistics');
         $query = $this->db->get()->result();
-    
+
         return $query;
     }
 
@@ -318,7 +340,7 @@ class General_setting_model extends CI_Model {
         $this->db->select('id, finance_name');
         $this->db->from('financing');
         $query = $this->db->get()->result();
-    
+
         return $query;
     }
 
@@ -332,7 +354,7 @@ class General_setting_model extends CI_Model {
     //     $this->db->from('upazila_thana ut');
     //     $this->db->join('division dv', 'dv.id=ut.div_id');
     //     $this->db->join('district ds', 'ds.id=ut.dis_id');
-        
+
     //     $query = $this->db->get()->result();
 
     //     return $query;
@@ -355,7 +377,7 @@ class General_setting_model extends CI_Model {
     //     $this->db->from('district di');
     //     $this->db->join('division dv', 'dv.id=di.div_id');
     //     $query = $this->db->get()->result();
-    
+
     //     return $query;
     // }
 
@@ -364,7 +386,7 @@ class General_setting_model extends CI_Model {
     //     $this->db->select('id, status, div_name, div_name_bn');
     //     $this->db->from('division');
     //     $query = $this->db->get()->result();
-    
+
     //     return $query;
     // }
 
@@ -381,7 +403,7 @@ class General_setting_model extends CI_Model {
     // }
 
     // function delete($id) {
-       
+
     //     $info = $this->get_info($id);
 
     //     // if(file_exists($img_path.$info->image_file)){
@@ -391,7 +413,7 @@ class General_setting_model extends CI_Model {
 
     //     $this->db->where('id', $id);
     //     $this->db->delete('');
-        
+
     //     return TRUE;
     // }
 
@@ -426,14 +448,14 @@ class General_setting_model extends CI_Model {
       $query = $this->db->get()->result();
       return $query;
     }
-    
+
     public function get_item_unit() {
         $this->db->select('*');
         $this->db->from('item_unit');
         $query = $this->db->get()->result();
         return $query;
-    } 
-       
+    }
+
     public function get_leave_type() {
         $this->db->select('*');
         $this->db->from('leave_type');

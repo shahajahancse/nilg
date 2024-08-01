@@ -18,7 +18,78 @@ class General_setting extends Backend_Controller {
     public function index(){
         redirect('general_setting/upazila_thana');
     }
-    
+    // festival day crud
+    public function festival_day($offset=0){
+        //Manage list the users
+        $limit = 50;
+        $results = $this->General_setting_model->get_festival_day_list($limit, $offset);
+        $this->data['results'] = $results['rows'];
+        // dd($this->data['results']);
+        // $this->data['total_rows'] = $results['num_rows'];
+
+        //pagination
+        // $this->data['pagination'] = create_pagination('general_setting/role/', $this->data['total_rows'], $limit, 3, true);
+        // Load page
+        $this->data['meta_title'] = 'উৎসবের দিন';
+        $this->data['subview'] = 'festival_day';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function festival_day_add(){
+        // Validation
+        $this->form_validation->set_rules('title', 'Tile', 'required|trim');
+        $this->form_validation->set_rules('date', 'Date', 'required|trim');
+        $this->form_validation->set_rules('description', 'Description', 'required|trim');
+
+        // Insert Data
+        if ($this->form_validation->run() == true){
+            $form_data = array(
+                'title' => $this->input->post('title'),
+                'date' => $this->input->post('date'),
+                'description' => $this->input->post('description'),
+            );
+
+            if($this->Common_model->save('leave_festival_calendar', $form_data)){
+                $this->session->set_flashdata('success', 'তথ্যটি সংরক্ষণ করা হয়েছে');
+                redirect('general_setting/festival_day');
+            }
+        }
+        // View
+        $this->data['meta_title'] = 'ছুটি এন্ট্রি করুন';
+        $this->data['subview'] = 'festival_day_add';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function festival_day_edit($id){
+        // Validation
+        $this->form_validation->set_rules('title', 'Tile', 'required|trim');
+        $this->form_validation->set_rules('date', 'Date', 'required|trim');
+        $this->form_validation->set_rules('description', 'Description', 'required|trim');
+
+        // Insert Data
+        if ($this->form_validation->run() == true){
+            $form_data = array(
+                'title' => $this->input->post('title'),
+                'date' => $this->input->post('date'),
+                'description' => $this->input->post('description'),
+            );
+
+            if($this->Common_model->edit('leave_festival_calendar',$id,'id',$form_data)){
+                $this->session->set_flashdata('success', 'তথ্যটি সংরক্ষণ করা হয়েছে');
+                redirect('general_setting/festival_day');
+            }
+        }
+
+        $this->data['rows'] = $this->General_setting_model->get_info('leave_festival_calendar', $id);
+        // View
+        $this->data['meta_title'] = 'ছুটির দিন সংশোধন করুন';
+        // $this->data['subview'] = 'board/add';
+        $this->data['subview'] = 'festival_day_edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    // festival day crud
+
+    // role crud
     public function role($offset=0){
         //Manage list the users
         $limit = 50;
@@ -27,12 +98,12 @@ class General_setting extends Backend_Controller {
         $this->data['total_rows'] = $results['num_rows'];
 
         //pagination
-        $this->data['pagination'] = create_pagination('general_setting/role/', $this->data['total_rows'], $limit, 3, true);        
+        $this->data['pagination'] = create_pagination('general_setting/role/', $this->data['total_rows'], $limit, 3, true);
         // Load page
-        $this->data['meta_title'] = 'রোলের তালিকা'; 
+        $this->data['meta_title'] = 'রোলের তালিকা';
         $this->data['subview'] = 'role';
         $this->load->view('backend/_layout_main', $this->data);
-    }    
+    }
 
     public function role_add(){
         // Validation
@@ -51,7 +122,7 @@ class General_setting extends Backend_Controller {
                 'status' => 1,
             );
 
-            if($this->Common_model->save('groups', $form_data)){                
+            if($this->Common_model->save('groups', $form_data)){
                 $this->session->set_flashdata('success', 'তথ্যটি সংরক্ষণ করা হয়েছে');
                 redirect('general_setting/role');
             }
@@ -94,6 +165,7 @@ class General_setting extends Backend_Controller {
         $this->data['subview'] = 'role_edit';
         $this->load->view('backend/_layout_main', $this->data);
     }
+    // role crud
 
     public function manage_designation($offset=0){
         //Manage list the users
@@ -101,9 +173,9 @@ class General_setting extends Backend_Controller {
         $results = $this->General_setting_model->get_role_list($limit, $offset, 5);
         $this->data['results'] = $results['rows'];
         $this->data['depts'] = $this->db->get('department')->result();
-    
+
         // Load page
-        $this->data['meta_title'] = 'Manage Designation'; 
+        $this->data['meta_title'] = 'Manage Designation';
         $this->data['subview'] = 'manage_designation';
         $this->load->view('backend/_layout_main', $this->data);
     }
@@ -139,7 +211,7 @@ class General_setting extends Backend_Controller {
         $this->db->where_in("dg.id", $data1d);
         $this->db->group_by("dg.id");
         $this->data['results'] = $this->db->get()->result();
-        
+
         $this->data['desig_id'] = $data1;
         $this->load->view('manage_designation_ajax', $this->data);
     }
@@ -168,14 +240,14 @@ class General_setting extends Backend_Controller {
         //Manage list the users
         $limit = 50;
         $results = $this->General_setting_model->get_board_institute($limit, $offset);
-        //echo "<pre>"; print_r($results); exit; 
+        //echo "<pre>"; print_r($results); exit;
 
         $this->data['results'] = $results['rows'];
         $this->data['total_rows'] = $results['num_rows'];
 
         //pagination
-        $this->data['pagination'] = create_pagination('general_setting/board/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);        
-        
+        $this->data['pagination'] = create_pagination('general_setting/board/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+
         // Load page
         $this->data['meta_title'] = 'সকল বোর্ড / বিশ্ববিদ্যালয়ের তালিকা';
         $this->data['subview'] = 'board/index';
@@ -192,13 +264,13 @@ class General_setting extends Backend_Controller {
                 'board_institute_name' => $this->input->post('board_institute_name')
                 );
             // print_r($form_data); exit;
-            if($this->Common_model->save('board_institute', $form_data)){                
+            if($this->Common_model->save('board_institute', $form_data)){
                 $this->session->set_flashdata('success', 'তথ্যটি সংরক্ষণ করা হয়েছে');
                 redirect('general_setting/board');
             }
         }
-        
-        // Dropdown List        
+
+        // Dropdown List
         // $this->data['org_type'] = $this->Common_model->get_dev_partner_org_type();
         // dd($this->data['org_type']);
 
@@ -213,7 +285,7 @@ class General_setting extends Backend_Controller {
         $this->data['info'] = $this->General_setting_model->get_info('board_institute', $id);
 
         // Validation
-        $this->form_validation->set_rules('board_institute_name', 'পরীক্ষার নাম', 'required|trim');        
+        $this->form_validation->set_rules('board_institute_name', 'পরীক্ষার নাম', 'required|trim');
 
         // Insert Data
         if ($this->form_validation->run() == true){
@@ -242,14 +314,14 @@ class General_setting extends Backend_Controller {
         //Manage list the users
         $limit = 50;
         $results = $this->General_setting_model->get_subject($limit, $offset);
-        //echo "<pre>"; print_r($results); exit; 
+        //echo "<pre>"; print_r($results); exit;
 
         $this->data['results'] = $results['rows'];
         $this->data['total_rows'] = $results['num_rows'];
 
         //pagination
-        $this->data['pagination'] = create_pagination('general_setting/subject/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);        
-        
+        $this->data['pagination'] = create_pagination('general_setting/subject/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+
         // Load page
         $this->data['meta_title'] = 'সকল পরীক্ষার বিষয়ের তালিকা';
         $this->data['subview'] = 'subject/index';
@@ -266,13 +338,13 @@ class General_setting extends Backend_Controller {
                 'subject_name' => $this->input->post('subject_name')
                 );
             // print_r($form_data); exit;
-            if($this->Common_model->save('subject', $form_data)){                
+            if($this->Common_model->save('subject', $form_data)){
                 $this->session->set_flashdata('success', 'তথ্যটি সংরক্ষণ করা হয়েছে');
                 redirect('general_setting/subject');
             }
         }
-        
-        // Dropdown List        
+
+        // Dropdown List
         // $this->data['org_type'] = $this->Common_model->get_dev_partner_org_type();
         // dd($this->data['org_type']);
 
@@ -287,7 +359,7 @@ class General_setting extends Backend_Controller {
         $this->data['info'] = $this->General_setting_model->get_info('subject', $id);
 
         // Validation
-        $this->form_validation->set_rules('subject_name', 'পরীক্ষার নাম', 'required|trim');        
+        $this->form_validation->set_rules('subject_name', 'পরীক্ষার নাম', 'required|trim');
 
         // Insert Data
         if ($this->form_validation->run() == true){
@@ -316,14 +388,14 @@ class General_setting extends Backend_Controller {
         //Manage list the users
         $limit = 50;
         $results = $this->General_setting_model->get_exam($limit, $offset);
-        //echo "<pre>"; print_r($results); exit; 
+        //echo "<pre>"; print_r($results); exit;
 
         $this->data['results'] = $results['rows'];
         $this->data['total_rows'] = $results['num_rows'];
 
         //pagination
-        $this->data['pagination'] = create_pagination('general_setting/exam/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);        
-        
+        $this->data['pagination'] = create_pagination('general_setting/exam/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+
         // Load page
         $this->data['meta_title'] = 'সকল পরীক্ষার তালিকা';
         $this->data['subview'] = 'exam/index';
@@ -340,13 +412,13 @@ class General_setting extends Backend_Controller {
                 'exam_name' => $this->input->post('exam_name')
                 );
             // print_r($form_data); exit;
-            if($this->Common_model->save('exam', $form_data)){                
+            if($this->Common_model->save('exam', $form_data)){
                 $this->session->set_flashdata('success', 'তথ্যটি সংরক্ষণ করা হয়েছে');
                 redirect('general_setting/exam');
             }
         }
-        
-        // Dropdown List        
+
+        // Dropdown List
         // $this->data['org_type'] = $this->Common_model->get_dev_partner_org_type();
         // dd($this->data['org_type']);
 
@@ -354,14 +426,14 @@ class General_setting extends Backend_Controller {
         $this->data['meta_title'] = 'পরীক্ষার নাম এন্ট্রি';
         $this->data['subview'] = 'exam/add';
         $this->load->view('backend/_layout_main', $this->data);
-    }    
+    }
 
     public function exam_edit($id){
         // Get Info
         $this->data['info'] = $this->General_setting_model->get_info('exam', $id);
 
         // Validation
-        $this->form_validation->set_rules('exam_name', 'পরীক্ষার নাম', 'required|trim');        
+        $this->form_validation->set_rules('exam_name', 'পরীক্ষার নাম', 'required|trim');
 
         // Insert Data
         if ($this->form_validation->run() == true){
@@ -390,7 +462,7 @@ class General_setting extends Backend_Controller {
         //Manage list the users
         $limit = 50;
         $results = $this->General_setting_model->get_pourashava($limit, $offset);
-        //echo "<pre>"; print_r($results); exit; 
+        //echo "<pre>"; print_r($results); exit;
 
         $this->data['results'] = $results['rows'];
         $this->data['total_rows'] = $results['num_rows'];
@@ -402,7 +474,7 @@ class General_setting extends Backend_Controller {
         //echo "<pre>";  print_r($this->data['results']); exit;
 
         $this->data['division'] = $this->Common_model->get_division();
-        
+
         // Load page
         $this->data['meta_title'] = 'All Pourashava';
         $this->data['subview'] = 'pourashava';
@@ -423,11 +495,11 @@ class General_setting extends Backend_Controller {
                 'pou_upa_id'    => $this->input->post('upazila'),
                 'pou_name_bn'    => $this->input->post('pou_name_bn'),
                 'pou_name_en'    => $this->input->post('pou_name_en')
-                );           
+                );
             // print_r($form_data); exit;
             if($this->Common_model->save('pourashava', $form_data)){
                 $this->session->set_flashdata('success', 'Pourashava create successfully.');
-                redirect('general_setting/pourashava');                
+                redirect('general_setting/pourashava');
             }
         }
 
@@ -438,7 +510,7 @@ class General_setting extends Backend_Controller {
         $this->data['meta_title'] = 'Add Pourashava';
         $this->data['subview'] = 'pourashava_add';
         $this->load->view('backend/_layout_main', $this->data);
-    }    
+    }
 
 
 
@@ -446,7 +518,7 @@ class General_setting extends Backend_Controller {
         //Manage list the users
         $limit = 50;
         $results = $this->General_setting_model->get_union($limit, $offset);
-        //echo "<pre>"; print_r($results); exit; 
+        //echo "<pre>"; print_r($results); exit;
 
         $this->data['results'] = $results['rows'];
         $this->data['total_rows'] = $results['num_rows'];
@@ -458,12 +530,12 @@ class General_setting extends Backend_Controller {
         //echo "<pre>";  print_r($this->data['results']); exit;
 
         $this->data['division'] = $this->Common_model->get_division();
-        
+
         // Load page
         $this->data['meta_title'] = 'All Union';
         $this->data['subview'] = 'union';
         $this->load->view('backend/_layout_main', $this->data);
-    }    
+    }
 
     public function union_edit($id){
         $this->form_validation->set_rules('division', 'Division', 'required|trim');
@@ -481,7 +553,7 @@ class General_setting extends Backend_Controller {
                 'uni_name_bn'    => $this->input->post('uni_name_bn'),
                 'uni_name_en'    => $this->input->post('uni_name_en'),
                 'status'         => $this->input->post('status')
-                );           
+                );
             // print_r($form_data); exit;
             if($this->Common_model->edit('unions',$id, 'id', $form_data)){
                 $this->session->set_flashdata('success', 'Information update successfully.');
@@ -524,12 +596,12 @@ class General_setting extends Backend_Controller {
                 'uni_upa_id'     => $this->input->post('upazila'),
                 'uni_name_bn'    => $this->input->post('uni_name_bn'),
                 'uni_name_en'    => $this->input->post('uni_name_en')
-                );           
+                );
             // print_r($form_data); exit;
             if($this->Common_model->save('unions', $form_data)){
                 $this->session->set_flashdata('success', 'Union create successfully.');
                 // redirect('general_setting/union');
-                
+
             }
         }
 
@@ -540,7 +612,7 @@ class General_setting extends Backend_Controller {
         $this->data['meta_title'] = 'Add Union';
         $this->data['subview'] = 'union_add';
         $this->load->view('backend/_layout_main', $this->data);
-    }    
+    }
 
     public function upazila_thana($offset=0){
         //Manage list the users
@@ -563,7 +635,7 @@ class General_setting extends Backend_Controller {
         $this->data['meta_title'] = 'All Upazila Thana';
         $this->data['subview'] = 'upazila_thana';
         $this->load->view('backend/_layout_main', $this->data);
-    }     
+    }
 
     public function upazila_thana_add(){
         $this->form_validation->set_rules('division', 'Division', 'required|trim');
@@ -579,7 +651,7 @@ class General_setting extends Backend_Controller {
                 'upa_name_en'    => $this->input->post('upa_name_en'),
                 'upa_name_bn'    => $this->input->post('upa_name_bn'),
                 'upa_bbs_code'   => $this->input->post('upa_bbs_code')?$this->input->post('upa_bbs_code'):NULL
-                );           
+                );
             // print_r($form_data); exit;
             if($this->Common_model->save('upazilas', $form_data)){
                 $this->session->set_flashdata('success', 'Upazila/Thana  create successfully.');
@@ -612,7 +684,7 @@ class General_setting extends Backend_Controller {
                 'upa_name_bn'    => $this->input->post('upa_name_bn'),
                 'upa_bbs_code'   => $this->input->post('upa_bbs_code')?$this->input->post('upa_bbs_code'):NULL,
                 'status'         => $this->input->post('status')
-                );           
+                );
             // print_r($form_data); exit;
             if($this->Common_model->edit('upazilas',$id, 'id', $form_data)){
                 $this->session->set_flashdata('success', 'Information update successfully.');
@@ -630,7 +702,7 @@ class General_setting extends Backend_Controller {
         $this->data['meta_title'] = 'Update Upazila/Thana';
         $this->data['subview'] = 'upazila_thana_edit';
         $this->load->view('backend/_layout_main', $this->data);
-    }    
+    }
 
     public function district($offset=0){
         //Manage list the users
@@ -665,7 +737,7 @@ class General_setting extends Backend_Controller {
                 'dis_name_en'   => $this->input->post('dis_name_en'),
                 'dis_name_bn'   => $this->input->post('dis_name_bn'),
                 'dis_bbs_code'  => $this->input->post('district_geo')?$this->input->post('district_geo'):NULL
-                );           
+                );
             // print_r($form_data); exit;
             if($this->Common_model->save('districts', $form_data)){
                 $this->session->set_flashdata('success', 'District create successfully.');
@@ -695,7 +767,7 @@ class General_setting extends Backend_Controller {
                 'dis_name_bn'   => $this->input->post('dis_name_bn'),
                 'dis_bbs_code'  => $this->input->post('district_geo')?$this->input->post('district_geo'):NULL,
                 'status'        => $this->input->post('status')
-                );           
+                );
             // print_r($form_data); exit;
             if($this->Common_model->edit('districts',$id, 'id', $form_data)){
                 $this->session->set_flashdata('success', 'Information update successfully.');
@@ -714,7 +786,7 @@ class General_setting extends Backend_Controller {
     }
 
     // public function upazila_thana(){
-    //     $this->data['results'] = $this->General_setting_model->get_upazila_thana(); 
+    //     $this->data['results'] = $this->General_setting_model->get_upazila_thana();
 
     //     // print_r($this->data['results']); exit;
     //     // Load page
@@ -724,7 +796,7 @@ class General_setting extends Backend_Controller {
     // }
 
     // public function post_office(){
-    //     $this->data['results'] = $this->General_setting_model->get_post_office(); 
+    //     $this->data['results'] = $this->General_setting_model->get_post_office();
     //     // print_r($this->data['results']); exit;
     //     // Load page
     //     $this->data['meta_title'] = 'All Post Office';
@@ -733,7 +805,7 @@ class General_setting extends Backend_Controller {
     // }
 
     // public function division(){
-    //     $this->data['results'] = $this->General_setting_model->get_division(); 
+    //     $this->data['results'] = $this->General_setting_model->get_division();
     //     // print_r($this->data['results']); exit;
     //     // Load page
     //     $this->data['meta_title'] = 'All Division';
@@ -742,7 +814,7 @@ class General_setting extends Backend_Controller {
     // }
 
     public function division(){
-        $this->data['results'] = $this->General_setting_model->get_division(); 
+        $this->data['results'] = $this->General_setting_model->get_division();
         $this->data['meta_title'] = 'All Division';
         $this->data['subview'] = 'division';
         $this->load->view('backend/_layout_main', $this->data);
@@ -758,7 +830,7 @@ class General_setting extends Backend_Controller {
                 'div_name_en'   => $this->input->post('div_name_en'),
                 'div_name_bn'   => $this->input->post('div_name_bn'),
                 'div_bbs_code'  =>  $this->input->post('div_geo_code')?$this->input->post('div_geo_code'):NULL
-                );           
+                );
 
             // print_r($form_data); exit;
             if($this->Common_model->save('divisions', $form_data)){
@@ -785,7 +857,7 @@ class General_setting extends Backend_Controller {
                 'div_name_bn'   => $this->input->post('div_name_bn'),
                 'div_bbs_code'  =>  $this->input->post('div_geo_code')?$this->input->post('div_geo_code'):NULL,
                 'status'        => $this->input->post('status'),
-                );           
+                );
 
             // print_r($form_data); exit;
             if($this->Common_model->edit('divisions',$id, 'id', $form_data)){
@@ -806,7 +878,7 @@ class General_setting extends Backend_Controller {
     }
 
     public function statistics(){
-        $this->data['results'] = $this->General_setting_model->get_statistics(); 
+        $this->data['results'] = $this->General_setting_model->get_statistics();
         $this->data['meta_title'] = 'স্থানীয় সরকার প্রতিষ্ঠানের পরিসংখ্যান';
         $this->data['subview'] = 'statistics';
         $this->load->view('backend/_layout_main', $this->data);
@@ -822,7 +894,7 @@ class General_setting extends Backend_Controller {
                 'zila'   => bng2eng($this->input->post('zila')),
                 'upazila'   => bng2eng($this->input->post('upazila')),
                 'unionp'   => bng2eng($this->input->post('unionp'))
-                );           
+                );
 
             // print_r($form_data); exit;
             if($this->Common_model->edit('statistics',$id, 'id', $form_data)){
@@ -843,7 +915,7 @@ class General_setting extends Backend_Controller {
     }
 
     public function financing(){
-        $this->data['results'] = $this->General_setting_model->get_financing(); 
+        $this->data['results'] = $this->General_setting_model->get_financing();
         $this->data['meta_title'] = 'All Financing Name';
         $this->data['subview'] = 'financing';
         $this->load->view('backend/_layout_main', $this->data);
@@ -855,7 +927,7 @@ class General_setting extends Backend_Controller {
         if ($this->form_validation->run() == true){
             $form_data = array(
                 'finance_name'   => $this->input->post('finance_name')
-                );           
+                );
 
             // print_r($form_data); exit;
             if($this->Common_model->save('financing', $form_data)){
@@ -876,7 +948,7 @@ class General_setting extends Backend_Controller {
         if ($this->form_validation->run() == true){
             $form_data = array(
                 'finance_name'   => $this->input->post('finance_name')
-                );           
+                );
 
             // print_r($form_data); exit;
             if($this->Common_model->edit('financing',$id, 'id', $form_data)){
@@ -900,8 +972,8 @@ class General_setting extends Backend_Controller {
     function division_delete($id) {
 
         $form_data = array(
-            'is_delete' => 1        
-            ); 
+            'is_delete' => 1
+            );
         $this->data['info'] = $this->Common_model->edit('division',$id,'id',$form_data);
         $this->session->set_flashdata('success', 'Information delete successfully.');
         redirect('general_setting/division');
@@ -909,8 +981,8 @@ class General_setting extends Backend_Controller {
 
     function district_delete($id) {
         $form_data = array(
-            'is_delete' => 1        
-            ); 
+            'is_delete' => 1
+            );
         $this->data['info'] = $this->Common_model->edit('district',$id,'id',$form_data);
         $this->session->set_flashdata('success', 'Information delete successfully.');
         redirect('general_setting/district');
@@ -919,8 +991,8 @@ class General_setting extends Backend_Controller {
 
     function upazila_thana_delete($id) {
         $form_data = array(
-            'is_delete' => 1        
-            ); 
+            'is_delete' => 1
+            );
         $this->data['info'] = $this->Common_model->edit('upazila_thana',$id,'id',$form_data);
         $this->session->set_flashdata('success', 'Information delete successfully.');
         redirect('general_setting/upazila_thana');
@@ -928,7 +1000,7 @@ class General_setting extends Backend_Controller {
 
 
  //    public function district(){
- //        $this->data['results'] = $this->General_setting_model->get_district(); 
+ //        $this->data['results'] = $this->General_setting_model->get_district();
  //        // print_r($this->data['results']); exit;
  //        // Load page
  //        $this->data['meta_title'] = 'All District';
@@ -953,7 +1025,7 @@ class General_setting extends Backend_Controller {
  //                'slug' => $this->input->post('slug'),
  //                'short_desc' => $this->input->post('short_desc'),
  //                'meta_keys' => $this->input->post('meta_keys')?$this->input->post('meta_keys'):NULL
- //            );           
+ //            );
 
  //            // print_r($form_data); exit;
  //            if($this->Common_model->edit('users', $id, 'id', $form_data)){
@@ -969,8 +1041,8 @@ class General_setting extends Backend_Controller {
 
 
 	// public function unit_office_add(){
-	// 	$this->form_validation->set_rules('title', 'course title', 'required|trim'); 
- //        $this->form_validation->set_rules('slug', 'course slug', 'required|trim');          
+	// 	$this->form_validation->set_rules('title', 'course title', 'required|trim');
+ //        $this->form_validation->set_rules('slug', 'course slug', 'required|trim');
  //        $this->form_validation->set_rules('short_desc', 'course short description', 'required|max_length[1000]|trim');
 
  //        if ($this->form_validation->run() == true){
@@ -979,12 +1051,12 @@ class General_setting extends Backend_Controller {
  //                'title' => $this->input->post('title'),
  //                'slug' => $this->input->post('slug'),
  //                'short_desc' => $this->input->post('short_desc'),
- //                'meta_keys' => $this->input->post('meta_keys')?$this->input->post('meta_keys'):NULL           
- //            );          
+ //                'meta_keys' => $this->input->post('meta_keys')?$this->input->post('meta_keys'):NULL
+ //            );
 
  //            // print_r($form_data); exit;
 
- //            if($this->Common_model->save('users', $form_data)){                
+ //            if($this->Common_model->save('users', $form_data)){
  //                $this->session->set_flashdata('success', 'New scouts member insert successfully.');
  //               redirect("all");
  //            }
@@ -996,8 +1068,8 @@ class General_setting extends Backend_Controller {
 	// }
 
  //    public function upazila_thana_add(){
- //        $this->form_validation->set_rules('division', 'division', 'required|trim'); 
- //        $this->form_validation->set_rules('district', 'district', 'required|trim');          
+ //        $this->form_validation->set_rules('division', 'division', 'required|trim');
+ //        $this->form_validation->set_rules('district', 'district', 'required|trim');
  //        $this->form_validation->set_rules('up_th_name', 'upazial/thana english', 'required|trim');
  //        $this->form_validation->set_rules('up_th_name_bn', 'upazial/thana bangla', 'required|trim');
 
@@ -1018,7 +1090,7 @@ class General_setting extends Backend_Controller {
  //            }
  //        }
 
- //        $this->data['divisions'] = $this->Common_model->get_division();         
+ //        $this->data['divisions'] = $this->Common_model->get_division();
 
  //        $this->data['meta_title'] = 'Add Upazila/Thana';
  //        $this->data['subview'] = 'upazila_thana_add';
@@ -1027,8 +1099,8 @@ class General_setting extends Backend_Controller {
 
  //    public function upazila_thana_edit($id){
 
- //        $this->form_validation->set_rules('division', 'division', 'required|trim'); 
- //        $this->form_validation->set_rules('district', 'district', 'required|trim');          
+ //        $this->form_validation->set_rules('division', 'division', 'required|trim');
+ //        $this->form_validation->set_rules('district', 'district', 'required|trim');
  //        $this->form_validation->set_rules('up_th_name', 'upazial/thana english', 'required|trim');
  //        $this->form_validation->set_rules('up_th_name_bn', 'upazial/thana bangla', 'required|trim');
 
@@ -1051,7 +1123,7 @@ class General_setting extends Backend_Controller {
  //        $this->data['divisions'] = $this->Common_model->get_division();
  //        $this->data['districts'] = $this->Common_model->get_district();
 
- //        $this->data['info'] = $this->General_setting_model->get_up_th_info($id);      
+ //        $this->data['info'] = $this->General_setting_model->get_up_th_info($id);
 
  //        $this->data['meta_title'] = 'Update Upazila/Thana';
  //        $this->data['subview'] = 'upazila_thana_edit';
@@ -1077,7 +1149,7 @@ class General_setting extends Backend_Controller {
 
     // category section
     public function categories(){
-        $this->data['results'] = $this->General_setting_model->get_categories(); 
+        $this->data['results'] = $this->General_setting_model->get_categories();
         $this->data['meta_title'] = 'ক্যাটাগরি তালিকা';
         $this->data['subview'] = 'categories';
         $this->load->view('backend/_layout_main', $this->data);
@@ -1091,7 +1163,7 @@ class General_setting extends Backend_Controller {
                 'category_name'      => $this->input->post('category_name'),
                 'status'             => $this->input->post('status'),
                 'is_delete'          => 0
-            ); 
+            );
 
             if($this->Common_model->save('categories', $form_data)){
                 $this->session->set_flashdata('success', 'ক্যাটাগরি যুক্ত করা হয়েছে.');
@@ -1111,7 +1183,7 @@ class General_setting extends Backend_Controller {
             $form_data = array(
                 'category_name' => $this->input->post('category_name'),
                 'status'        => $this->input->post('status'),
-            ); 
+            );
 
             if($this->Common_model->edit('categories',$id,'id',$form_data)){
                 $this->session->set_flashdata('success', 'ক্যাটাগরি সম্পাদনা করা হয়েছে.');
@@ -1129,11 +1201,11 @@ class General_setting extends Backend_Controller {
     // sub category section
     public function sub_categories(){
         $this->data['categories'] = $this->General_setting_model->get_categories();
-        $this->data['results'] = $this->General_setting_model->get_sub_categories(); 
+        $this->data['results'] = $this->General_setting_model->get_sub_categories();
         $this->data['meta_title'] = 'সাব ক্যাটাগরি তালিকা';
         $this->data['subview'] = 'sub_categories';
         $this->load->view('backend/_layout_main', $this->data);
-    } 
+    }
 
     public function sub_category_add(){
         $this->form_validation->set_rules('cate_id', 'select category', 'required|trim');
@@ -1145,7 +1217,7 @@ class General_setting extends Backend_Controller {
                 'sub_cate_name'      => $this->input->post('sub_cate_name'),
                 'status'      => $this->input->post('status'),
                 'is_delete'          => 0
-            ); 
+            );
 
             if($this->Common_model->save('sub_categories', $form_data)){
                 $this->session->set_flashdata('success', 'সাব ক্যাটাগরি যুক্ত করা হয়েছে.');
@@ -1170,7 +1242,7 @@ class General_setting extends Backend_Controller {
                 'sub_cate_name'      => $this->input->post('sub_cate_name'),
                 'status'      => $this->input->post('status'),
                 'is_delete'          => 0
-            ); 
+            );
 
             if($this->Common_model->edit('sub_categories',$id,'id',$form_data)){
                 $this->session->set_flashdata('success', 'সাব ক্যাটাগরি সম্পাদনা করা হয়েছে.');
@@ -1188,8 +1260,8 @@ class General_setting extends Backend_Controller {
     public function sub_category_delete($id)
     {
       $form_data = array(
-            'is_delete' => 1        
-            ); 
+            'is_delete' => 1
+            );
         $this->data['info'] = $this->Common_model->edit('sub_categories',$id,'id',$form_data);
         $this->session->set_flashdata('success', 'সাব ক্যাটাগরি সফলভাবে মুছে ফেলা হয়েছে.');
         redirect('general_setting/sub_categories');
@@ -1206,14 +1278,14 @@ class General_setting extends Backend_Controller {
         $this->data['results'] = $this->db->get()->result();
 
         $text = $this->load->view('ajax_sub_category_list', $this->data, TRUE);
-        set_output($text); 
+        set_output($text);
     }
     // sub category section end
 
 
     // item section here
     public function item_unit(){
-      $this->data['results'] = $this->General_setting_model->get_item_unit(); 
+      $this->data['results'] = $this->General_setting_model->get_item_unit();
       $this->data['meta_title'] = 'মালামালের একক তালিকা';
       $this->data['subview'] = 'item_unit';
       $this->load->view('backend/_layout_main', $this->data);
@@ -1225,7 +1297,7 @@ class General_setting extends Backend_Controller {
             $form_data = array(
                 'unit_name'      => $this->input->post('unit_name'),
                 'status'         => $this->input->post('status'),
-            ); 
+            );
 
             if($this->Common_model->save('item_unit', $form_data)){
                 $this->session->set_flashdata('success', 'মালামালের একক যুক্ত করা হয়েছে.');
@@ -1233,7 +1305,7 @@ class General_setting extends Backend_Controller {
             }
         }
 
-       $this->data['results'] = $this->General_setting_model->get_item_unit(); 
+       $this->data['results'] = $this->General_setting_model->get_item_unit();
        $this->data['meta_title'] = 'মালামালের একক যুক্ত করুন';
        $this->data['subview'] = 'item_unit_add';
        $this->load->view('backend/_layout_main', $this->data);
@@ -1245,7 +1317,7 @@ class General_setting extends Backend_Controller {
             $form_data = array(
                 'unit_name'      => $this->input->post('unit_name'),
                 'status'         => $this->input->post('status'),
-            ); 
+            );
 
             if($this->Common_model->edit('item_unit',$id,'id',$form_data)){
                 $this->session->set_flashdata('success', 'মালামালের একক সম্পাদনা করা হয়েছে.');
@@ -1262,9 +1334,9 @@ class General_setting extends Backend_Controller {
 
     // ============ start leave ====================
     // create leave type list
-    
+
     public function leave_type(){
-      $this->data['results'] = $this->General_setting_model->get_leave_type(); 
+      $this->data['results'] = $this->General_setting_model->get_leave_type();
       $this->data['meta_title'] = 'ছুটির টাইপ';
       $this->data['subview'] = 'leave_type';
       $this->load->view('backend/_layout_main', $this->data);
@@ -1281,7 +1353,7 @@ class General_setting extends Backend_Controller {
                 'yearly_total_leave'   => $this->input->post('yearly_total_leave'),
                 'max_apply_leave'      => $this->input->post('max_apply_leave'),
                 'status'               => 1
-            ); 
+            );
 
             if($this->Common_model->save('leave_type', $form_data)){
                 $this->session->set_flashdata('success', 'Leave create successfully.');
@@ -1306,7 +1378,7 @@ class General_setting extends Backend_Controller {
                 'yearly_total_leave'   => $this->input->post('yearly_total_leave'),
                 'max_apply_leave'      => $this->input->post('max_apply_leave'),
                 'status'               => $this->input->post('status'),
-            ); 
+            );
 
             if($this->Common_model->edit('leave_type',$id,'id',$form_data)){
                 $this->session->set_flashdata('success', 'Leave updated successfully.');

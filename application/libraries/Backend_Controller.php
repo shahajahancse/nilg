@@ -199,28 +199,10 @@ class Backend_Controller extends MY_Controller
 
             // leave notification count
             if ($this->ion_auth->in_group(array('admin', 'nilg')) || $userDetails->office_type == 7) {
-	            $dept_id = $userDetails->crrnt_dept_id;
-
-				if ($this->ion_auth->in_group(array('leave_jd'))) {
-
-	                $desig_array = $this->Common_model->get_manage_designation_array(21, $dept_id);
-	                $this->data['leave_notify'] =  $this->Common_model->get_employee_leave_count(array(3), $desig_array, $dept_id);
-
-	            } else if ($this->ion_auth->in_group(array('leave_director'))) {
-
-	                $desig_array = $this->Common_model->get_manage_designation_array(22, $dept_id);
-	                $this->data['leave_notify'] =  $this->Common_model->get_employee_leave_count(array(3), $desig_array, $dept_id);
-
-	            } else if ($this->ion_auth->in_group(array('leave_dg'))) {
-
-	                $desig_array = $this->Common_model->get_manage_designation_array(23, $dept_id);
-	                $dept_id = null;
-	                $this->data['leave_notify'] =  $this->Common_model->get_employee_leave_count( array(3), $desig_array, $dept_id);
-
+				if ($this->ion_auth->in_group(array('leave_admin'))) {
+	                $this->data['leave_notify'] =  $this->Common_model->get_employee_leave_count(array(3));
 	            } else if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
-
 	                $this->data['leave_notify'] =  $this->Common_model->get_employee_leave_count(array(2, 3));
-
 	            } else {
 	                $this->data['leave_notify'] =  $this->Common_model->get_employee_leave_count_assign($userDetails->id, 2);
 	            }

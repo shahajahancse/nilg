@@ -43,10 +43,10 @@ class Leave extends Backend_Controller {
         $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
         // Dropdown List
         $this->data['users'] = $this->Common_model->get_nilg_employee();
-        $this->data['info'] = $this->Leave_model->get_info('users',$this->session->userdata('user_id'));
+        $this->data['info'] = $this->Leave_model->get_user('users',$this->session->userdata('user_id'));
 
         //Load page
-        if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
+        if ($this->ion_auth->in_group(array('admin', 'nilg', 'leave_admin'))) {
             $this->data['meta_title'] = 'অনুমোদিত ছুটির তালিকা';
             $this->data['subview'] = 'index';
         } elseif (func_nilg_auth($userDetails->office_type) == 'employee') {
@@ -61,7 +61,7 @@ class Leave extends Backend_Controller {
 
     public function form_print($uid){
         $id = (int) decrypt_url($uid);
-        $this->data['row'] = $this->Leave_model->get_info('leave_employee', $id);
+        $this->data['row'] = $this->Leave_model->get_user('leave_employee', $id);
         $this->load->view('leave/form' , $this->data);
     }
 
@@ -76,12 +76,24 @@ class Leave extends Backend_Controller {
         // Validation
         $this->form_validation->set_rules('user_id', 'স্টাফ নাম', 'required|trim');
         $this->form_validation->set_rules('leave_type', 'ছুটির টাইপ', 'required|trim');
-        // $this->form_validation->set_rules('from_date', 'শুরুর তারিখ', 'required|trim');
-        // $this->form_validation->set_rules('to_date', 'শেষ তারিখ', 'required|trim');
+        $this->form_validation->set_rules('assign_person', 'বিকল্প কর্মকর্তা', 'required|trim');
+        if ($this->input->post('leave_type') == 12) {
+            $this->form_validation->set_rules('first_day', 'প্রথম দিন', 'required|trim');
+        } else {
+            $this->form_validation->set_rules('from_date', 'শুরুর তারিখ', 'required|trim');
+            $this->form_validation->set_rules('to_date', 'শেষ তারিখ', 'required|trim');
+        }
         // Insert Data
         $uploadedFile = null;
         if ($this->form_validation->run() == true){
-            dd($_POST);
+            if ($this->input->post('assign_person') == 'bikolpo') {
+                $bikolpo = 'বিকল্প কর্মকর্তা নেই ।';
+                $assign_person = null;
+            } else {
+                $bikolpo = null;
+                $assign_person = $this->input->post('assign_person');
+            }
+
             $user_info = $this->db->where('id', $this->input->post('user_id'))->get('users')->row();
             if (!empty($user_info->crrnt_dept_id) && !empty($user_info->crrnt_desig_id)) {
                 if($_FILES['userfile']['size'] > 0){
@@ -102,7 +114,6 @@ class Leave extends Backend_Controller {
                         $this->data['success'] = $this->upload->display_errors();
                     }
                 }
-                $total_days = $this->Leave_model->GetDays($this->input->post('from_date'), $this->input->post('to_date'));
                 $leave_address_arr=[
                     'father_name' => $this->input->post('father_name'),
                     'division_id' => $this->input->post('division_id'),
@@ -114,37 +125,125 @@ class Leave extends Backend_Controller {
                 ];
                 $leave_address = json_encode($leave_address_arr);
 
-                $form_data = array(
-                    'user_id'      => $this->input->post('user_id'),
-                    'dept_id'      => $user_info->crrnt_dept_id,
-                    'desig_id'     => $user_info->crrnt_desig_id,
-                    'leave_type'   => $this->input->post('leave_type'),
-                    'assign_person'=> ($this->input->post('assign_person'))?$this->input->post('assign_person'):null,
-                    'control_person'=> ($this->input->post('control_person'))?$this->input->post('control_person'):null,
-                    'from_date'    => $this->input->post('from_date'),
-                    'to_date'      => $this->input->post('to_date'),
-                    'leave_days'   => count($total_days),
-                    'leave_address'=> $leave_address,
-                    'reason'       => $this->input->post('reason'),
-                    'status'       => 1,
-                    'file_name'    => $uploadedFile,
-                    'created_date' => date("Y-m-d"),
-                );
-                if($this->Common_model->save('leave_employee', $form_data)){
-                    $this->session->set_flashdata('success', 'ছুটিটি সংরক্ষণ করা হয়েছে.');
-                    redirect('leave');
+                if ($this->input->post('leave_type') == 8) {
+                    $total_days = $this->Leave_model->GetDays($this->input->post('from_date'), $this->input->post('to_date'));
+                    $form_data = array(
+                        'user_id'      => $this->input->post('user_id'),
+                        'dept_id'      => $user_info->crrnt_dept_id,
+                        'desig_id'     => $user_info->crrnt_desig_id,
+                        'leave_type'   => $this->input->post('leave_type'),
+                        'assign_person'=> $assign_person,
+                        'bikolpo'      => $bikolpo,
+                        'control_person'=> ($this->input->post('control_person'))?$this->input->post('control_person'):null,
+                        'from_date'    => $this->input->post('from_date'),
+                        'to_date'      => $this->input->post('to_date'),
+                        'leave_days'   => count($total_days),
+                        'leave_address'=> $leave_address,
+                        'reason'       => $this->input->post('reason'),
+                        'status'       => 1,
+                        'file_name'    => $uploadedFile,
+                        'created_date' => date("Y-m-d"),
+                    );
+
+                    if($this->Common_model->save('leave_employee', $form_data)){
+                        $this->session->set_flashdata('success', 'ছুটিটি সংরক্ষণ করা হয়েছে.');
+                        redirect('leave');
+                    } else {
+                        $this->session->set_flashdata('success', 'ছুটিটি সংরক্ষণ করা সম্ভব হচ্ছে না।.');
+                        redirect('leave/add');
+                    }
                 } else {
-                    $this->session->set_flashdata('success', 'ছুটিটি সংরক্ষণ করা সম্ভব হচ্ছে না।.');
-                    redirect('leave/add');
+                    if (!empty($this->input->post('first_day'))) {
+                        $form_data1 = array(
+                            'user_id'      => $this->input->post('user_id'),
+                            'dept_id'      => $user_info->crrnt_dept_id,
+                            'desig_id'     => $user_info->crrnt_desig_id,
+                            'leave_type'   => $this->input->post('leave_type'),
+                            'assign_person'=> $assign_person,
+                            'bikolpo'      => $bikolpo,
+                            'control_person'=> ($this->input->post('control_person'))?$this->input->post('control_person'):null,
+                            'from_date'    => $this->input->post('first_day'),
+                            'to_date'      => $this->input->post('first_day'),
+                            'leave_days'   => 1,
+                            'leave_address'=> $leave_address,
+                            'reason'       => $this->input->post('reason'),
+                            'status'       => 1,
+                            'file_name'    => $uploadedFile,
+                            'created_date' => date("Y-m-d"),
+                        );
+                        $this->db->where('from_date', $this->input->post('first_day'));
+                        $this->db->where('user_id', $this->input->post('user_id'));
+                        $first = $this->db->get('leave_employee')->row();
+                        if (empty($first)) {
+                            $this->Common_model->save('leave_employee', $form_data1);
+                            $this->session->set_flashdata('success', 'ছুটিটি সংরক্ষণ করা হয়েছে.');
+                        }
+                    }
+
+                    if (!empty($this->input->post('second_day'))) {
+                        $form_data2 = array(
+                            'user_id'      => $this->input->post('user_id'),
+                            'dept_id'      => $user_info->crrnt_dept_id,
+                            'desig_id'     => $user_info->crrnt_desig_id,
+                            'leave_type'   => $this->input->post('leave_type'),
+                            'assign_person'=> $assign_person,
+                            'bikolpo'      => $bikolpo,
+                            'control_person'=> ($this->input->post('control_person'))?$this->input->post('control_person'):null,
+                            'from_date'    => $this->input->post('second_day'),
+                            'to_date'      => $this->input->post('second_day'),
+                            'leave_days'   => 1,
+                            'leave_address'=> $leave_address,
+                            'reason'       => $this->input->post('reason'),
+                            'status'       => 1,
+                            'file_name'    => $uploadedFile,
+                            'created_date' => date("Y-m-d"),
+                        );
+                        $this->db->where('from_date', $this->input->post('second_day'));
+                        $this->db->where('user_id', $this->input->post('user_id'));
+                        $second = $this->db->get('leave_employee')->row();
+                        if (empty($second)) {
+                            $this->Common_model->save('leave_employee', $form_data2);
+                            $this->session->set_flashdata('success', 'ছুটিটি সংরক্ষণ করা হয়েছে.');
+                        }
+                    }
+
+                    if (!empty($this->input->post('third_day'))) {
+                        $form_data3 = array(
+                            'user_id'      => $this->input->post('user_id'),
+                            'dept_id'      => $user_info->crrnt_dept_id,
+                            'desig_id'     => $user_info->crrnt_desig_id,
+                            'leave_type'   => $this->input->post('leave_type'),
+                            'assign_person'=> $assign_person,
+                            'bikolpo'      => $bikolpo,
+                            'control_person'=> ($this->input->post('control_person'))?$this->input->post('control_person'):null,
+                            'from_date'    => $this->input->post('third_day'),
+                            'to_date'      => $this->input->post('third_day'),
+                            'leave_days'   => 1,
+                            'leave_address'=> $leave_address,
+                            'reason'       => $this->input->post('reason'),
+                            'status'       => 1,
+                            'file_name'    => $uploadedFile,
+                            'created_date' => date("Y-m-d"),
+                        );
+                        $this->db->where('from_date', $this->input->post('third_day'));
+                        $this->db->where('user_id', $this->input->post('user_id'));
+                        $third = $this->db->get('leave_employee')->row();
+                        if (empty($third)) {
+                            $this->Common_model->save('leave_employee', $form_data3);
+                            $this->session->set_flashdata('success', 'ছুটিটি সংরক্ষণ করা হয়েছে.');
+                        }
+                    }
+                    redirect('leave');
                 }
+
             } else {
                 $this->session->set_flashdata('error', 'Please update profile first');
-                redirect('leave/add');
+                redirect('my_profile');
             }
         }
 
         $this->data['leave_type'] = $this->Leave_model->get_leave_type();
-        $this->data['info'] = $this->Leave_model->get_info('users',$this->session->userdata('user_id'));
+        $this->data['info'] = $this->Leave_model->get_user('users',$this->session->userdata('user_id'));
 
         $results = $this->Leave_model->get_yearly_leave_count($userDetails->id);
         $this->data['users'] = $this->Common_model->get_nilg_employee($this->data['info']->crrnt_dept_id);
@@ -165,65 +264,86 @@ class Leave extends Backend_Controller {
         // Validation
         $this->form_validation->set_rules('user_id', 'স্টাফ নাম', 'required|trim');
         $this->form_validation->set_rules('leave_type', 'ছুটির টাইপ', 'required|trim');
+        $this->form_validation->set_rules('assign_person', 'বিকল্প কর্মকর্তা', 'required|trim');
         $this->form_validation->set_rules('from_date', 'শুরুর তারিখ', 'required|trim');
         $this->form_validation->set_rules('to_date', 'শেষ তারিখ', 'required|trim');
 
-        $total_days = $this->Leave_model->GetDays($this->input->post('from_date'), $this->input->post('to_date'));
-        $leave_address_arr=[
-            'father_name' => $this->input->post('father_name'),
-            'division_id' => $this->input->post('division_id'),
-            'district_id' => $this->input->post('district_id'),
-            'upazila_id' => $this->input->post('upazila_id'),
-            'village' => $this->input->post('village'),
-            'post_office' => $this->input->post('post_office'),
-            'mobile_number'=> $this->input->post('mobile_number')
-        ];
-        $leave_address = json_encode($leave_address_arr);
         // Insert Data
         $uploadedFile = null;
         if ($this->form_validation->run() == true){
-            if($_FILES['userfile']['size'] > 0){
-                $new_file_name = time().'-'.$_FILES["userfile"]['name'];
-                $config['allowed_types']= 'pdf';
-                $config['upload_path']  = $this->img_path;
-                $config['file_name']    = $new_file_name;
-                $config['max_size']     = 0;
-
-                $this->load->library('upload', $config);
-                //upload file to directory
-                if($this->upload->do_upload()){
-                    $uploadData = $this->upload->data();
-                    $uploadedFile = $uploadData['file_name'];
-                }else{
-                    $this->data['success'] = $this->upload->display_errors();
-                }
+            if ($this->input->post('assign_person') == 'bikolpo') {
+                $bikolpo = 'বিকল্প কর্মকর্তা নেই ।';
+                $assign_person = null;
+            } else {
+                $bikolpo = null;
+                $assign_person = $this->input->post('assign_person');
             }
 
-            // dd($this->input->post('is_right'));
-            $form_data = array(
-                'user_id'       => $this->input->post('user_id'),
-                'leave_type'    => $this->input->post('leave_type'),
-                'from_date'     => $this->input->post('from_date'),
-                'to_date'       => $this->input->post('to_date'),
-                'control_person'=> ($this->input->post('control_person'))?$this->input->post('control_person'):null,
-                'assign_person' => ($this->input->post('assign_person'))?$this->input->post('assign_person'):null,
-                'leave_days'    => count($total_days),
-                'leave_address' => $leave_address,
-                'reason'        => $this->input->post('reason'),
-                'file_name'     => $uploadedFile,
-            );
+            $user_info = $this->db->where('id', $this->input->post('user_id'))->get('users')->row();
+            if (!empty($user_info->crrnt_dept_id) && !empty($user_info->crrnt_desig_id)) {
 
-            // dd($form_data); exit;
-            if($this->Common_model->edit('leave_employee', $id, 'id', $form_data)){
-                $this->session->set_flashdata('success', 'সফলভাবে সংশোধন করা হয়েছে');
-                redirect('leave');
+                $leave_address_arr=[
+                    'father_name' => $this->input->post('father_name'),
+                    'division_id' => $this->input->post('division_id'),
+                    'district_id' => $this->input->post('district_id'),
+                    'upazila_id' => $this->input->post('upazila_id'),
+                    'village' => $this->input->post('village'),
+                    'post_office' => $this->input->post('post_office'),
+                    'mobile_number'=> $this->input->post('mobile_number')
+                ];
+                $leave_address = json_encode($leave_address_arr);
+
+                // file upload
+                if($_FILES['userfile']['size'] > 0){
+                    $new_file_name = time().'-'.$_FILES["userfile"]['name'];
+                    $config['allowed_types']= 'pdf';
+                    $config['upload_path']  = $this->img_path;
+                    $config['file_name']    = $new_file_name;
+                    $config['max_size']     = 0;
+
+                    $this->load->library('upload', $config);
+                    //upload file to directory
+                    if($this->upload->do_upload()){
+                        $uploadData = $this->upload->data();
+                        $uploadedFile = $uploadData['file_name'];
+                    }else{
+                        $this->data['success'] = $this->upload->display_errors();
+                    }
+                }
+                // file upload end
+
+                $total_days = $this->Leave_model->GetDays($this->input->post('from_date'), $this->input->post('to_date'));
+                $form_data = array(
+                    'user_id'       => $this->input->post('user_id'),
+                    'from_date'     => $this->input->post('from_date'),
+                    'to_date'       => $this->input->post('to_date'),
+                    'control_person'=> ($this->input->post('control_person'))?$this->input->post('control_person'):null,
+                    'assign_person' => $assign_person,
+                    'bikolpo'       => $bikolpo,
+                    'leave_days'    => count($total_days),
+                    'leave_address' => $leave_address,
+                    'reason'        => $this->input->post('reason'),
+                    'file_name'     => $uploadedFile,
+                );
+
+                // dd($form_data); exit;
+                if($this->Common_model->edit('leave_employee', $id, 'id', $form_data)){
+                    $this->session->set_flashdata('success', 'সফলভাবে সংশোধন করা হয়েছে');
+                    redirect('leave');
+                } else {
+                    $this->session->set_flashdata('success', 'ছুটিটি সংশোধন করা সম্ভব হচ্ছে না।.');
+                    redirect('leave');
+                }
+            } else {
+                $this->session->set_flashdata('error', 'Please update profile first');
+                redirect('my_profile');
             }
         }
 
-
         // Dropdown List
-        $this->data['row'] = $this->Leave_model->get_info('leave_employee', $id);
-        $this->data['users'] = $this->Common_model->get_nilg_employee();
+        $this->data['row'] = $this->Leave_model->get_info($id);
+        $this->data['users'] = $this->Common_model->get_nilg_employee($this->data['row']->dept_id);
+
         $this->data['leave_type'] = $this->Leave_model->get_leave_type();
         $results = $this->Leave_model->get_yearly_leave_count($this->data['row']->user_id);
         $this->data['total_leave'] = $results['total_leave'];
@@ -280,7 +400,7 @@ class Leave extends Backend_Controller {
         }
 
         // Dropdown List
-        $this->data['row'] = $this->Leave_model->get_info('leave_employee', $id);
+        $this->data['row'] = $this->Leave_model->get_user('leave_employee', $id);
         $this->data['users'] = $this->Common_model->get_nilg_employee();
         $this->data['leave_type'] = $this->Leave_model->get_leave_type();
         $results = $this->Leave_model->get_yearly_leave_count($this->data['row']->user_id);
@@ -321,13 +441,13 @@ class Leave extends Backend_Controller {
     }
     public function ass_edit($uid){
         $uid = (int) decrypt_url($uid);
-        $this->data['row'] = $this->Leave_model->get_info('leave_employee', $uid);
+        $this->data['row'] = $this->Leave_model->get_user('leave_employee', $uid);
         $this->data['users'] = $this->Common_model->get_nilg_employee();
         $this->data['leave_type'] = $this->Leave_model->get_leave_type();
         $results = $this->Leave_model->get_yearly_leave_count($this->data['row']->user_id);
         $this->data['total_leave'] = $results['total_leave'];
         $this->data['used_leave'] = $results['used_leave'];
-        $this->data['info'] = $this->Leave_model->get_info('users',$this->data['row']->user_id);
+        $this->data['info'] = $this->Leave_model->get_user('users',$this->data['row']->user_id);
 
         // View
         $this->data['meta_title'] = 'সম্পাদনা করুন';
@@ -373,10 +493,10 @@ class Leave extends Backend_Controller {
         $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
         // Dropdown List
         $this->data['users'] = $this->Common_model->get_nilg_employee();
-        $this->data['info'] = $this->Leave_model->get_info('users',$this->session->userdata('user_id'));
+        $this->data['info'] = $this->Leave_model->get_user('users',$this->session->userdata('user_id'));
 
         //Load page
-        if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
+        if ($this->ion_auth->in_group(array('admin', 'nilg', 'leave_admin'))) {
             $this->data['meta_title'] = 'অনুমোদিত ছুটির তালিকা';
             $this->data['subview'] = 'index';
         } elseif (func_nilg_auth($userDetails->office_type) == 'employee') {
@@ -397,16 +517,8 @@ class Leave extends Backend_Controller {
         $dept_id = $this->data['userDetails']->crrnt_dept_id;
 
         if (!empty($dept_id) && !empty($this->data['userDetails']->crrnt_desig_id) || $this->ion_auth->is_admin()) {
-            if ($this->ion_auth->in_group(array('leave_jd'))) {
-                $desig_array = $this->get_manage_designation_array(21, $dept_id);
-                $results = $this->Leave_model->get_list($limit, $offset, array(3), $desig_array, $dept_id);
-            } else if ($this->ion_auth->in_group(array('leave_director'))) {
-                $desig_array = $this->get_manage_designation_array(22, $dept_id);
-                $results = $this->Leave_model->get_list($limit, $offset, array(3), $desig_array, $dept_id);
-            } else if ($this->ion_auth->in_group(array('leave_dg'))) {
-                $desig_array = $this->get_manage_designation_array(23, $dept_id);
-                $dept_id = null;
-                $results = $this->Leave_model->get_list($limit, $offset, array(3), $desig_array, $dept_id);
+            if ($this->ion_auth->in_group(array('leave_admin'))) {
+                $results = $this->Leave_model->get_list($limit, $offset, array(3));
             } else if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
                 $results = $this->Leave_model->get_list($limit, $offset, array(2, 3));
             } else {
@@ -422,14 +534,14 @@ class Leave extends Backend_Controller {
 
             // Dropdown List
             $this->data['users'] = $this->Common_model->get_nilg_employee();
-            $this->data['info'] = $this->Leave_model->get_info('users',$this->session->userdata('user_id'));
+            $this->data['info'] = $this->Leave_model->get_user('users',$this->session->userdata('user_id'));
             //Load page
             $this->data['subview'] = 'pending_list';
             $this->data['meta_title'] = 'অপেক্ষমাণ ছুটির তালিকা';
             $this->load->view('backend/_layout_main', $this->data);
         } else {
             $this->session->set_flashdata('error', 'Please update profile first');
-            redirect('leave');
+            redirect('my_profile');
         }
     }
 
@@ -437,8 +549,11 @@ class Leave extends Backend_Controller {
     {
         // Manage list the users
         $limit = 50;
-
-        $results = $this->Leave_model->get_data($limit, $offset, 3);
+        if ($this->ion_auth->in_group(array('admin', 'nilg', 'leave_admin'))) {
+            $results = $this->Leave_model->get_data($limit, $offset, 5);
+        } elseif (func_nilg_auth($userDetails->office_type) == 'employee') {
+            $results = $this->Leave_model->get_data($limit, $offset, 5, $userDetails->id);
+        }
         $this->data['results'] = $results['rows'];
         $this->data['total_rows'] = $results['num_rows'];
 
@@ -449,24 +564,12 @@ class Leave extends Backend_Controller {
 
         // Dropdown List
         $this->data['users'] = $this->Common_model->get_nilg_employee();
-        $this->data['info'] = $this->Leave_model->get_info('users',$this->session->userdata('user_id'));
+        $this->data['info'] = $this->Leave_model->get_user('users',$this->session->userdata('user_id'));
 
         //Load page
         $this->data['subview'] = 'rejected_list';
         $this->data['meta_title'] = 'প্রত্যাখ্যাত ছুটির তালিকা';
         $this->load->view('backend/_layout_main', $this->data);
-    }
-
-    public function get_manage_designation_array($group_id, $dept_id)
-    {
-        $this->db->select('dm.desig_id as id');
-        $this->db->from('leave_dasignation_manage as dm');
-        $this->db->where('dm.groups_id', $group_id);
-        $this->db->where('dm.dept_id', $dept_id);
-        $dgss = $this->db->get()->result();
-        $data1 = array();
-        foreach ($dgss as $key => $r) { $data1[$key] = $r->id; }
-        return $data1;
     }
 
     //========= leave system report here  =============//
@@ -477,24 +580,24 @@ class Leave extends Backend_Controller {
         $date_to    = $this->input->post('date_to');
         $type       = $this->input->post('leave_type');
 
-        if( $btn_submit == 'current_leave') {
-
+        if($btn_submit == 'current_leave_report') {
             // Results
-            $report_date  = date('Y-m-d');
-            $this->data['results'] = $this->Leave_model->get_current_report(2, $report_date, $type);
+            $this->data['results'] = $this->Leave_model->get_current_report(4, $date_from, $date_to);
 
             // Generate PDF
-            $this->data['headding'] = 'ছুটির রিপোর্ট';
-            $html = $this->load->view('pdf_leave_report', $this->data, true);
+            $this->data['headding'] = 'ছুটিতে আছে তার তালিকা';
+            $this->data['date_from'] = $date_from;
+            $this->data['date_to'] = $date_to;
+            $html = $this->load->view('pdf_current_leave_report', $this->data, true);
 
             $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
             $mpdf->WriteHtml($html);
             $mpdf->output();
 
-        }else if( $btn_submit == 'done_leave') {
+        }else if($btn_submit == 'done_leave') {
 
             // Results
-            $this->data['results'] = $this->Leave_model->get_report(2, $date_from, $date_to, $type);
+            $this->data['results'] = $this->Leave_model->get_report(4, $date_from, $date_to, $type);
 
             // Generate PDF
             $this->data['headding'] = ' সম্পন্ন ছুটির রিপোর্ট';
@@ -504,10 +607,10 @@ class Leave extends Backend_Controller {
             $mpdf->WriteHtml($html);
             $mpdf->output();
 
-        }else if( $btn_submit == 'pending_leave') {
+        }else if($btn_submit == 'pending_leave') {
 
             // Results
-            $this->data['results'] = $this->Leave_model->get_report(1, $date_from, $date_to, $type);
+            $this->data['results'] = $this->Leave_model->get_report(array(2,3), $date_from, $date_to, $type);
 
             // Generate PDF
             $this->data['headding'] = ' অপেক্ষমাণ ছুটি রিপোর্ট';
@@ -517,10 +620,9 @@ class Leave extends Backend_Controller {
             $mpdf->WriteHtml($html);
             $mpdf->output();
 
-        }else if( $btn_submit == 'reject_leave') {
-
+        }else if($btn_submit == 'reject_leave') {
             // Results
-            $this->data['results'] = $this->Leave_model->get_report(3, $date_from, $date_to, $type);
+            $this->data['results'] = $this->Leave_model->get_report(5, $date_from, $date_to, $type);
 
             // Generate PDF
             $this->data['headding'] = 'প্রত্যাখ্যাত ছুটি রিপোর্ট';
@@ -529,12 +631,42 @@ class Leave extends Backend_Controller {
             $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
             $mpdf->WriteHtml($html);
             $mpdf->output();
+        }else if($btn_submit == 'specific_officer_leave') {
+            // Results
+            $user_id = $this->input->post('user');
+            $results = $this->Leave_model->get_yearly_leave_count($user_id);
+            $this->data['total_leave'] = $results['total_leave'];
+            $this->data['used_leave'] = $results['used_leave'];
+            $this->data['info'] = $this->Leave_model->get_user_info($user_id);
+            // dd($this->data['info']);
 
+            // Generate PDF
+            $this->data['headding'] = 'নির্দিষ্ট কর্মকর্তার ছুটির রিপোর্ট';
+            $html = $this->load->view('pdf_specific_officer_leave', $this->data, true);
+
+            $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+            $mpdf->WriteHtml($html);
+            $mpdf->output();
+        } else if($btn_submit == 'enjoyed_leave_report') {
+            // Results
+            $user_id = $this->input->post('user');
+           $this->data['results'] = $this->Leave_model->get_enjoyed_leave_report($date_from, $date_to, 4);
+
+            // Generate PDF
+            $this->data['headding'] = 'ভোগকৃত ছুটির রিপোর্ট';
+            $this->data['date_from'] = $date_from;
+            $this->data['date_to'] = $date_to;
+            $html = $this->load->view('pdf_enjoyed_leave_report', $this->data, true);
+
+            $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+            $mpdf->WriteHtml($html);
+            $mpdf->output();
         }
 
 
         //Dropdown
-        $this->data['users'] = $this->Leave_model->get_leave_type();
+        $this->data['leave_types'] = $this->Leave_model->get_leave_type();
+        $this->data['users'] = $this->Common_model->get_nilg_employee();
         // Load View
         $this->data['meta_title'] = 'ছুটির রিপোর্ট সমূহ';
         $this->data['subview'] = 'leave_reports';

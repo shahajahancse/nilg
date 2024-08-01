@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) { exit('No direct script access allowed'); }
 
 class Common extends Backend_Controller {
-	
+
     function __construct() {
         parent::__construct();
         $this->load->model('Common_model');
@@ -41,8 +41,8 @@ class Common extends Backend_Controller {
     public function select2_office(){
         $json = [];
         if(!empty($this->input->get("q"))){
-            $this->db->or_like('office_name', $this->input->get("q")); 
-            $this->db->or_like('office_name_en', $this->input->get("q")); 
+            $this->db->or_like('office_name', $this->input->get("q"));
+            $this->db->or_like('office_name_en', $this->input->get("q"));
             $query = $this->db->select('id, office_name AS text')
             ->limit(15)
             ->get("office");
@@ -54,7 +54,7 @@ class Common extends Backend_Controller {
     public function select2_union(){
         $json = [];
         if(!empty($this->input->get("q"))){
-            $this->db->like('uni_name_bn', $this->input->get("q")); 
+            $this->db->like('uni_name_bn', $this->input->get("q"));
             $query = $this->db->select('id, uni_name_bn AS text')
             ->limit(15)
             ->get("unions");
@@ -72,7 +72,7 @@ class Common extends Backend_Controller {
     public function select2_course(){
         $json = [];
         if(!empty($this->input->get("q"))){
-            $this->db->like('course_title', $this->input->get("q")); 
+            $this->db->like('course_title', $this->input->get("q"));
             $query = $this->db->select('id, course_title AS text')
             // ->where('course_type', 'NILG')
             ->limit(15)
@@ -85,7 +85,7 @@ class Common extends Backend_Controller {
     public function select2_designation(){
         $json = [];
         if(!empty($this->input->get("q"))){
-            $this->db->like('desig_name', $this->input->get("q")); 
+            $this->db->like('desig_name', $this->input->get("q"));
             $query = $this->db->select('id, desig_name AS text')
             ->limit(15)
             ->get("designations");
@@ -97,7 +97,7 @@ class Common extends Backend_Controller {
     public function select2_designation_pr(){
         $json = [];
         if(!empty($this->input->get("q"))){
-            $this->db->like('desig_name', $this->input->get("q")); 
+            $this->db->like('desig_name', $this->input->get("q"));
             $query = $this->db->select('id, desig_name AS text')
             ->where('employee_type', 1)
             ->where('status', 1)
@@ -111,7 +111,7 @@ class Common extends Backend_Controller {
     public function select2_designation_employee(){
         $json = [];
         if(!empty($this->input->get("q"))){
-            $this->db->like('desig_name', $this->input->get("q")); 
+            $this->db->like('desig_name', $this->input->get("q"));
             $query = $this->db->select('id, desig_name AS text')
             ->where('employee_type !=', 1)
             ->where('status', 1)
@@ -145,9 +145,9 @@ class Common extends Backend_Controller {
             $whereLike = " (nid LIKE '%$searchTerm%' OR name_bn LIKE '%$searchTerm%' OR name_en LIKE '%$searchTerm%' OR mobile_no LIKE '%$searchTerm%')";
             // DB Query
             $this->db->select('id, CONCAT(nid, " (", name_bn, ")", " (", mobile_no, ")") AS text');
-            // $this->db->or_like('nid', $this->input->get("q")); 
+            // $this->db->or_like('nid', $this->input->get("q"));
             // $this->db->or_like('name_bn', $this->input->get("q"));
-            // $this->db->or_like('mobile_no', $this->input->get("q")); 
+            // $this->db->or_like('mobile_no', $this->input->get("q"));
             // $this->db->where('user_type', 2);
             $this->db->where('is_verify', 1);
             $this->db->where($whereLike);
@@ -170,10 +170,10 @@ class Common extends Backend_Controller {
             $this->db->join('users_groups ug', 'ug.user_id = u.id', 'LEFT');
             $this->db->join('groups g', 'g.id = ug.user_id', 'LEFT');
             $this->db->where('ug.group_id', 11);
-            // $this->db->select('id, CONCAT(nid, " (", name_bn, ")", " (", mobile_no, ")") AS text');            
-            // $this->db->or_like('nid', $this->input->get("q")); 
+            // $this->db->select('id, CONCAT(nid, " (", name_bn, ")", " (", mobile_no, ")") AS text');
+            // $this->db->or_like('nid', $this->input->get("q"));
             // $this->db->or_like('name_bn', $this->input->get("q"));
-            // $this->db->or_like('mobile_no', $this->input->get("q")); 
+            // $this->db->or_like('mobile_no', $this->input->get("q"));
             // $this->db->where('user_type', 3);
             // $this->db->where('is_verify', 1);
             $this->db->where($whereLike);
@@ -239,18 +239,18 @@ class Common extends Backend_Controller {
         $upltype = $this->input->post('upltype');
 
         $originalPath = ROOT_UPLOAD_PATH; //$this->img_orginal_path;
-        $thumbPath = ROOT_UPLOAD_PATH.'_thumb/'; //$this->img_thumb_path; 
+        $thumbPath = ROOT_UPLOAD_PATH.'_thumb/'; //$this->img_thumb_path;
         $urlPath =  HTTP_USER_PROFILE_THUMB_PATH; //$this->img_thumb_path;
 
         $thumb = $this->Cropper_model->setDst($thumbPath);
         $this->Cropper_model->setSrc($avatar_src);
         $data = $this->Cropper_model->setData($avatar_data);
         // set file
-        $avatar_path = $this->Cropper_model->setFile($avatar_file, $originalPath); 
-        // crop       
+        $avatar_path = $this->Cropper_model->setFile($avatar_file, $originalPath);
+        // crop
         $this->Cropper_model->crop($avatar_path, $thumb, $data);
 
-        // response       
+        // response
         // 'ussid' => $ussid,
         $json = array(
             'state'  => 200,
@@ -266,9 +266,9 @@ class Common extends Backend_Controller {
     // upload prifile avatar Crop Image
     public function uploadCropImg() {
         $json = array();
-        $image_url = $this->input->post('image_url');        
-        $user_id = base64_decode($this->input->post('member_id'));   
-        $upltype = $this->input->post('upltype');            
+        $image_url = $this->input->post('image_url');
+        $user_id = base64_decode($this->input->post('member_id'));
+        $upltype = $this->input->post('upltype');
         if (!empty($user_id) && !empty($upltype) && $upltype=='avatar') {
             $this->Common_model->seturl($image_url);
             //$this->Common_model->setUserID($user_id);
@@ -344,12 +344,12 @@ class Common extends Backend_Controller {
 
     // function suggest_first_organization(){
     //     $suggestions = $this->Common_model->get_first_organization_suggestions($this->input->post('q'));
-    //     echo implode("\n",$suggestions);      
+    //     echo implode("\n",$suggestions);
     // }
 
     // function suggest_curr_organization(){
     //     $suggestions = $this->Common_model->get_curr_organization_suggestions($this->input->post('q'));
-    //     echo implode("\n",$suggestions);      
+    //     echo implode("\n",$suggestions);
     // }
 
     public function organization(){
@@ -360,14 +360,14 @@ class Common extends Backend_Controller {
         if ($this->form_validation->run() == true){
             $form_data = array(
                 'org_name' => $this->input->post('name_org')
-                );    
+                );
 
-            if($this->Common_model->save('organizations', $form_data)){   
-                $message = '<div class="alert alert-success">প্রদত্ত তথ্যটি সঠিকভাবে সংরক্ষিত হয়েছে</div>';                
+            if($this->Common_model->save('organizations', $form_data)){
+                $message = '<div class="alert alert-success">প্রদত্ত তথ্যটি সঠিকভাবে সংরক্ষিত হয়েছে</div>';
             }
         }
         echo $message = (validation_errors()) ? validation_errors() : $message;
-    }    
+    }
 
     function ajax_check_exists_organization(){
         // echo 'true';
@@ -378,9 +378,9 @@ class Common extends Backend_Controller {
     public function select2_natioanl_id_name(){
         $json = [];
         if(!empty($this->input->get("q"))){
-            $this->db->or_like('national_id', $this->input->get("q")); 
+            $this->db->or_like('national_id', $this->input->get("q"));
             $this->db->or_like('name_bangla', $this->input->get("q"));
-            $this->db->or_like('telephone_mobile', $this->input->get("q")); 
+            $this->db->or_like('telephone_mobile', $this->input->get("q"));
             $query = $this->db->select('id, CONCAT(national_id, " (", name_bangla, ")", " (", telephone_mobile, ")") AS text')
             ->limit(15)
             ->get("personal_datas");
@@ -392,9 +392,9 @@ class Common extends Backend_Controller {
     public function select2_trainee(){
         $json = [];
         if(!empty($this->input->get("q"))){
-            $this->db->or_like('trainer_name', $this->input->get("q")); 
+            $this->db->or_like('trainer_name', $this->input->get("q"));
             $this->db->or_like('trainer_desig', $this->input->get("q"));
-            $this->db->or_like('mobile', $this->input->get("q")); 
+            $this->db->or_like('mobile', $this->input->get("q"));
             $query = $this->db->select('id, CONCAT(trainer_name, " (", trainer_desig, ")", " (", mobile, ")") AS text')
             ->limit(15)
             ->get("trainer_register");
@@ -407,9 +407,9 @@ class Common extends Backend_Controller {
     public function select2_trainer(){
         $json = [];
         if(!empty($this->input->get("q"))){
-            $this->db->or_like('username', $this->input->get("q")); 
+            $this->db->or_like('username', $this->input->get("q"));
             $this->db->or_like('name_bn', $this->input->get("q"));
-            $this->db->or_like('mobile_no', $this->input->get("q")); 
+            $this->db->or_like('mobile_no', $this->input->get("q"));
             $this->db->where('user_type', 3);
             $query = $this->db->select('id, CONCAT(username, " (", name_bn, ")", " (", mobile_no, ")") AS text')
             ->limit(15)
@@ -425,7 +425,7 @@ class Common extends Backend_Controller {
             // Search Term
             $searchTerm = $this->input->get("q");
             $whereLike = " (u.username LIKE '%$searchTerm%' OR u.name_bn LIKE '%$searchTerm%' OR u.name_en LIKE '%$searchTerm%' OR u.mobile_no LIKE '%$searchTerm%')";
-            
+
             // DB Query
             // $this->db->select('u.id, CONCAT(u.name_bn, " (", u.username, ")") AS text');
             $this->db->select('u.id, CONCAT(u.username, " (", u.name_bn, ")", " (", u.mobile_no, ")") AS text');
@@ -451,14 +451,14 @@ class Common extends Backend_Controller {
             // $this->db->select('u.id, ug.group_id, CONCAT(u.office_name, " (", u.designation, ")") AS text');
             // $this->db->join('users_groups ug', 'ug.user_id = u.id', 'left');
             // $this->db->join('groups g', 'g.id = ug.user_id', 'left');
-            // $this->db->where('ug.group_id', 9); 
+            // $this->db->where('ug.group_id', 9);
             // $this->db->or_where_in('ug.group_id', 9);
-            // $this->db->having('ug.group_id', 9); 
-            // $this->db->having('u.id !=', $this->session->userdata('user_id'));            
-            /*$this->db->where('u.user_type', 4);             
-            $this->db->or_like('u.name_bn', $this->input->get("q")); 
-            $this->db->or_like('u.username', $this->input->get("q")); 
-            $this->db->limit(15);            
+            // $this->db->having('ug.group_id', 9);
+            // $this->db->having('u.id !=', $this->session->userdata('user_id'));
+            /*$this->db->where('u.user_type', 4);
+            $this->db->or_like('u.name_bn', $this->input->get("q"));
+            $this->db->or_like('u.username', $this->input->get("q"));
+            $this->db->limit(15);
             $query = $this->db->get("users u");*/
 
             $json = $query->result();
@@ -470,7 +470,7 @@ class Common extends Backend_Controller {
     public function select2_organization_name(){
         $json = [];
         if(!empty($this->input->get("q"))){
-            $this->db->or_like('org_name', $this->input->get("q")); 
+            $this->db->or_like('org_name', $this->input->get("q"));
             $query = $this->db->select('id, org_name AS text')
             ->limit(15)
             ->get("organizations");
@@ -569,7 +569,7 @@ class Common extends Backend_Controller {
 
             // Get Office ID
             if($officeType==7){ // NILG
-                $officeID = '125';                
+                $officeID = '125';
             }elseif($officeType==6){ // Dev. Partner
                 $officeID = '121';
             }elseif($officeType==5){ //City Corp.
@@ -644,7 +644,7 @@ class Common extends Backend_Controller {
                 'per_po'            => $row->per_po,
                 'per_pc'            => $row->per_pc,
                 'permanent_add'     => $row->permanent_add,
-                
+
                 'elected_times'     => $row->how_much_elected,
                 'job_per_date'      => $row->job_per_date,
                 'prl_date'          => $row->retirement_prl_date,
@@ -663,12 +663,12 @@ class Common extends Backend_Controller {
             }else{
                 $message[] = $row->id.' <span style="color:red">তথ্যটি সংরক্ষণ হয়নি</span>';
             }
-        }        
+        }
 
         dd($message);
     }
     */
-    
+
 
     /*
     public function script_office_union($districtID){
@@ -721,7 +721,7 @@ class Common extends Backend_Controller {
                     'upazila_id'  => $row->pou_upa_id,
                     // 'union_id'    => $this->input->post('union_id'),
                     );
-                
+
                 if($this->Common_model->save('office', $form_data)){
                     $message[] = 'তথ্যটি সঠিকভাবে সংরক্ষিত হয়েছে';
                 }
@@ -730,7 +730,7 @@ class Common extends Backend_Controller {
 
         dd($message);
     }
-    
+
 
     public function script_office_upazila($divisionID){
         $results = $this->Common_model->get_upazila_by_division($divisionID);
@@ -752,7 +752,7 @@ class Common extends Backend_Controller {
                     'upazila_id'  => $row->id,
                     );
                 // dd($form_data);
-                
+
                 if($this->Common_model->save('office', $form_data)){
                     $message[] = 'তথ্যটি সঠিকভাবে সংরক্ষিত হয়েছে';
                 }
@@ -761,14 +761,14 @@ class Common extends Backend_Controller {
 
         dd($message);
     }
-    
+
 
     public function script_office_district_ddlg($divisionID){
         $results = $this->Common_model->get_district_by_division($divisionID);
         // dd($results);
-        
+
         foreach ($results as $row) {
-            // dd($row);           
+            // dd($row);
             $form_data = array(
                 'office_type' => 8,
                 'office_name' => $row->text,
@@ -781,19 +781,19 @@ class Common extends Backend_Controller {
             if($this->Common_model->save('office', $form_data)){
                 $message[] = 'তথ্যটি সঠিকভাবে সংরক্ষিত হয়েছে';
             }
-            
+
         }
 
         dd($message);
         exit;
     }
-    
+
 
     public function script_office_ministry(){
         // $txt_file = fopen('docs/Min-Division.txt','r');
         $txt_file = fopen('docs/Directorates_Others.txt','r');
         // $a = 1;
-        while ($line = fgets($txt_file)) {         
+        while ($line = fgets($txt_file)) {
             // echo($a." ".$line)."<br>";
             // $a++;
 
@@ -809,14 +809,14 @@ class Common extends Backend_Controller {
         }
         fclose($txt_file);
     }
-    
+
 
     public function script_office_zila_parishad_update($officeType){
         $results = $this->Common_model->get_office_filter($officeType);
         // dd($results);
-        
+
         foreach ($results as $row) {
-            // dd($row);           
+            // dd($row);
             $form_data = array(
                 'office_name_en' => $row->dis_name_en.' Zilla Parishad, '.$row->div_name_en
                 );
@@ -834,9 +834,9 @@ class Common extends Backend_Controller {
     public function script_office_paurashava_update($officeType){
         $results = $this->Common_model->get_office_filter($officeType);
         // dd($results);
-        
+
         foreach ($results as $row) {
-            // dd($row);           
+            // dd($row);
             $form_data = array(
                 'office_name_en' => $row->upa_name_en.' Paurashava, '.$row->dis_name_en
                 );

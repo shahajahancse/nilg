@@ -497,7 +497,7 @@ class Common_model extends CI_Model
     }
 
 
-    public function get_employee_leave_count($status = array(), $desig_array = array(), $dept_id=null)
+    public function get_employee_leave_count($status = array())
     {
         // count query
         $q = $this->db->select('COUNT(*) as count');
@@ -505,12 +505,6 @@ class Common_model extends CI_Model
         // Filter
         if(!empty($status)){
             $this->db->where_in('el.status', $status);
-        }
-        if(!empty($desig_array)){
-            $this->db->where_in('el.desig_id', $desig_array);
-        }
-        if($dept_id != null){
-            $this->db->where('el.dept_id', $dept_id);
         }
 
         return $this->db->get()->row()->count;
@@ -530,19 +524,6 @@ class Common_model extends CI_Model
         }
         return $this->db->get()->row()->count;
     }
-
-    public function get_manage_designation_array($group_id, $dept_id)
-    {
-        $this->db->select('dm.desig_id as id');
-        $this->db->from('leave_dasignation_manage as dm');
-        $this->db->where('dm.groups_id', $group_id);
-        $this->db->where('dm.dept_id', $dept_id);
-        $dgss = $this->db->get()->result();
-        $data1 = array();
-        foreach ($dgss as $key => $r) { $data1[$key] = $r->id; }
-        return $data1;
-    }
-
 
     public function get_applicaiton_trainer_request_count($division = NULL, $district = NULL, $upazila = NULL, $union = NULL)
     {

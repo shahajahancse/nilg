@@ -74,32 +74,37 @@
             <div class="row form-row">
               <div class="col-md-3">
                 <div class="form-group">
-                  <label class="form-label">অনুমোদন বা প্রত্যাখ্যাত করুন <span class="required">*</span></label>
-                  <select name="status" class="form-control input-sm" style="height: 20px !important">
-                    <option value="">-- নির্বাচন করুন --</option>
-                    <?php if ($this->ion_auth->in_group(array('leave_jd')) || $this->ion_auth->in_group(array('leave_director')) || $this->ion_auth->in_group(array('leave_dg'))) { ?>
-                      <option value="4">অনুমোদন করুন</option>
+                  <label style="font-family: sutonnymj" class="form-label"><span style="font-size:16px">gÄyi / bvgÄyi Kiæb</span> <span class="required">*</span></label>
+                  <select name="status" class="form-control input-sm" style="height: 20px !important; font-family:sutonnymj; font-size:16px">
+                    <option style="font-family: sutonnymj; font-size:16px" value="">-- wbe©vPb Kiæb --</option>
+                    <?php if ($this->ion_auth->in_group(array('leave_admin'))) { ?>
+                      <option style="font-family: sutonnymj; font-size:16px" value="4">gÄyi Kiæb</option>
                     <?php } else { ?>
-                      <option value="3">ফরওয়ার্ড টু অনুমোদন</option>
+                      <option style="font-family: sutonnymj; font-size:16px" value="3">gÄyi Kiæb</option>
+                      <!-- <option value="3">ফরওয়ার্ড টু অনুমোদন</option> -->
                     <?php } ?>
-                    <option value="5">প্রত্যাখ্যাত করুন</option>
+                    <option style="font-family: sutonnymj; font-size:16px" value="5">bvgÄyi Kiæb</option>
                   </select>
                 </div>
               </div>
-              <div class="col-md-9">
-                <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="form-label">ছুটির কারণ</label>
-                      <p style="border: 1px solid #0aa699; padding: 5px;"><?php echo $row->reason;?></p>
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label class="form-label">মন্তব্য </label>
-                      <textarea name="control_remark" class="form-control"><?php echo $row->control_remark;?></textarea>
-                    </div>
-                  </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="form-label">ছুটিকালীন বিকল্প কর্মকর্তা</label>
+                  <p style="border: 1px solid #0aa699; padding: 5px;"><?php echo (!empty($row->bikolpo))? $row->bikolpo : $row->name_bn;?></p>
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="form-label">ছুটির কারণ</label>
+                  <p style="border: 1px solid #0aa699; padding: 5px;"><?php echo $row->reason;?></p>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="form-label">মন্তব্য </label>
+                  <textarea name="control_remark" class="form-control"><?php echo $row->control_remark;?></textarea>
                 </div>
               </div>
             </div>

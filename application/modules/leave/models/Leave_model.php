@@ -181,19 +181,6 @@ class Leave_model extends CI_Model {
         return $result;
     }
 
-    public function get_user($table) {
-        $this->db->select('*');
-        $this->db->from($table);
-        $this->db->order_by('id', 'DESC');
-        $query =  $this->db->get();
-
-        if($query->num_rows() > 0){
-            return $query->result();
-        }else{
-            return FALSE;
-        }
-    }
-
     // Finding the number of days between two dates
     function GetDays($StartDate, $EndDate)
     {
@@ -222,8 +209,17 @@ class Leave_model extends CI_Model {
         return $Days;
     }
 
-    public function get_info($table, $id) {
+    public function get_user($table, $id) {
         $query = $this->db->from($table)->where('id', $id)->get()->row();
+        return $query;
+    }
+
+    public function get_info($id) {
+        $this->db->select('el.*, users.name_bn');
+        $this->db->from('leave_employee as el');
+        $this->db->join('users', 'users.id = el.assign_person', 'LEFT');
+        $this->db->where('el.id', $id);
+        $query =  $this->db->get()->row();
         return $query;
     }
 
@@ -259,7 +255,7 @@ class Leave_model extends CI_Model {
         return $results;
     }
 
-    public function get_report($status = null, $from_date = null, $to_date = null, $type = null) {
+    public function get_report($status = array(), $from_date = null, $to_date = null, $type = null) {
         // result query
         $this->db->select('el.*, et.leave_name_bn, et.leave_name_en, users.name_bn, dg.dept_name, cd.desig_name');
         $this->db->from('leave_employee el');
@@ -274,8 +270,8 @@ class Leave_model extends CI_Model {
             $this->db->where('el.from_date <=', $to_date);
         }
 
-        if($status != null){
-            $this->db->where('el.status', $status);
+        if(!empty($status)){
+            $this->db->where_in('el.status', $status);
         }
 
         if($type != null){
@@ -285,7 +281,7 @@ class Leave_model extends CI_Model {
         return $this->db->get()->result();
     }
 
-    public function get_current_report($status = null, $report_date = null, $type = null) {
+    public function get_current_report($status = null, $date_from, $date_to) {
         // result query
         $this->db->select('el.*, et.leave_name_bn, et.leave_name_en, users.name_bn, dg.dept_name, cd.desig_name');
         $this->db->from('leave_employee el');
@@ -295,19 +291,48 @@ class Leave_model extends CI_Model {
         $this->db->join('designations cd', 'cd.id = users.crrnt_desig_id', 'LEFT');
         $this->db->order_by('el.id', 'DESC');
         // Filter
-        $this->db->where('el.from_date <=', $report_date);
-        $this->db->where('el.to_date >=', $report_date);
+        $this->db->where('el.from_date >=', $date_from);
+        $this->db->where('el.to_date <=', $date_to);
 
         if($status != null){
             $this->db->where('el.status', $status);
         }
 
-        if($type != null){
-            $this->db->where('el.leave_type', $type);
-        }
-
         return $this->db->get()->result();
     }
 
+    public function get_user_info($user_id) {
+        $this->db->select('users.name_bn, dg.dept_name, cd.desig_name');
+        $this->db->from('users');
+        $this->db->join('department dg', 'dg.id = users.crrnt_dept_id', 'LEFT');
+        $this->db->join('designations cd', 'cd.id = users.crrnt_desig_id', 'LEFT');
+        $this->db->where('users.id', $user_id);
+        $result = $this->db->get()->row();
+
+        return $result;
+    }
+
+    public function get_enjoyed_leave_report($date_from, $date_to, $status = null) {
+        $this->db->select('users.name_bn, dg.dept_name, cd.desig_name,
+                SUM(CASE WHEN el.leave_type = 8 THEN el.leave_days ELSE 0 END) as casual_leave,
+                SUM(CASE WHEN el.leave_type = 12 THEN el.leave_days ELSE 0 END) as optional_leave,
+            ');
+        $this->db->from('leave_employee el');
+        $this->db->join('users', 'users.id = el.user_id', 'LEFT');
+        $this->db->join('department dg', 'dg.id = users.crrnt_dept_id', 'LEFT');
+        $this->db->join('designations cd', 'cd.id = users.crrnt_desig_id', 'LEFT');
+        // Filter
+        $this->db->where('el.from_date >=', $date_from);
+        $this->db->where('el.to_date <=', $date_to);
+
+        if($status != null){
+            $this->db->where('el.status', $status);
+        }
+        $this->db->order_by('el.id', 'DESC');
+        $this->db->group_by('el.user_id');
+
+        $results = $this->db->get()->result();
+        return $results;
+    }
 
 }

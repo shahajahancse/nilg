@@ -116,6 +116,8 @@ if (isset($leave_address->district_id)) {
                             <?php
                                 if (!empty($user2->name_bn) && !empty($desig2->desig_name)) {
                                     echo $user2->name_bn . ' (' . $desig2->desig_name . ')';
+                                } else {
+                                    echo $row->bikolpo;
                                 }
                             ?>
                         </td>

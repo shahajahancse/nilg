@@ -1,5 +1,5 @@
-<div class="page-content">     
-	<div class="content">  
+<div class="page-content">
+	<div class="content">
 
 		<div class="row">
 			<div class="col-md-12">
@@ -28,12 +28,12 @@
 									<a href="<?= base_url('my_profile/edit_trainee_general_info/' . encrypt_url($info->id)) ?>" class="btn btn-blueviolet btn-xs btn-mini"> সম্পাদন করুন </a>
 								</div>
 
-								<table class="tg" width="100%">     
+								<table class="tg" width="100%">
 									<tr>
 										<td class="tg-khup">নামঃ (বাংলা)</td>
 										<td class="tg-ywa9"><?=$info->name_bn?></td>
 										<td class="tg-khup">এনআইডি নম্বরঃ</td>
-										<td class="tg-ywa9"><?=$info->nid?></td>										
+										<td class="tg-ywa9"><?=$info->nid?></td>
 										<td class="tg-ywa9" rowspan="12" style="width: 160px;">
 											<?php
 											if($info->profile_img != NULL){
@@ -54,7 +54,7 @@
 									</tr>
 									<tr>
 										<td class="tg-khup">নামঃ (ইংরেজি)</td>
-										<td class="tg-ywa9"><?=$info->name_en?></td>	
+										<td class="tg-ywa9"><?=$info->name_en?></td>
 										<td class="tg-khup">মোবাইল নম্বরঃ</td>
 										<td class="tg-ywa9"><?=$info->mobile_no?></td>
 										<!-- <td class="tg-ywa9"></td> -->
@@ -125,9 +125,9 @@
 										<td class="tg-ywa9"><?=date('d F, Y', $info->created_on);?></td>
 										<td class="tg-khup">জন্ম স্থানঃ</td>
 										<td class="tg-ywa9"><?= $info->birth_place; ?></td>
-									</tr>             
+									</tr>
 								</table>
-							</div>          
+							</div>
 						</div>
 
 						<style type="text/css">
@@ -150,10 +150,10 @@
 									<a href="<?= base_url('my_profile/edit_employee_official/' . encrypt_url($info->id)) ?>" class="btn btn-blueviolet btn-xs btn-mini"> সম্পাদন করুন </a>
 								</div>
 
-								<table class="tg" width="100%">     
+								<table class="tg" width="100%">
 									<tr>
 										<td class="tg-khups">বর্তমান কর্মরত অফিসের নামঃ</td>
-										<td class="tg-ywa9"><?=$info->current_office_name?></td>							
+										<td class="tg-ywa9"><?=$info->current_office_name?></td>
 										<td class="tg-khups">প্রথম কর্মরত অফিসের নামঃ</td>
 										<td class="tg-ywa9"><?=$info->first_office_name?></td>
 									</tr>
@@ -175,13 +175,13 @@
 										<td class="tg-ywa9"><?=date_bangla_calender_format($info->job_per_date)?></td>
 										<td class="tg-khups">অবসর উত্তর ছুটিতে গমনের (পিআরএল) তারিখঃ</td>
 										<td class="tg-ywa9"><?=date_bangla_calender_format($info->prl_date)?></td>
-									</tr> 
+									</tr>
 									<tr>
 										<td class="tg-khups">অবসর গ্রহণের তারিখঃ</td>
 										<td class="tg-ywa9"><?=date_bangla_calender_format($info->retirement_date)?></td>
 										<td class="tg-khups"></td>
 										<td class="tg-ywa9"></td>
-									</tr>  
+									</tr>
 									<tr>
 										<td class="tg-khups">
 										ইতিপূর্বে যেসব কর্মস্থলে চাকুরী করেছেন তার বিবরণঃ</td>
@@ -195,9 +195,9 @@
 											</table>
 											<?php } ?>
 										</td>
-									</tr> 
+									</tr>
 								</table>
-							</div>          
+							</div>
 						</div>
 
 						<!-- Promotion -->
@@ -211,7 +211,7 @@
 								</div>
 
 								<table class="tg2" width="100%">
-									<tr> 
+									<tr>
 										<td class="tg-khupCenter">প্রতিষ্ঠানের নাম</td>
 										<td class="tg-khupCenter">পদোন্নতি প্রাপ্ত পদবী</td>
 										<td class="tg-khupCenter">বেতনক্রম</td>
@@ -219,17 +219,17 @@
 									</tr>
 									<?php
 									if($promotion != NULL){
-										foreach ($promotion as $row) { 
+										foreach ($promotion as $row) {
 											?>
-											<tr> 
+											<tr>
 												<td class="tg-ywa9" align="center"><?=$row->promo_org_name;?></td>
 												<td class="tg-ywa9" align="center"><?=$row->promo_desig_name;?></td>
-												<td class="tg-ywa9" align="center"><?=eng2bng($row->promo_salary_ratio);?></td> 
+												<td class="tg-ywa9" align="center"><?=eng2bng($row->promo_salary_ratio);?></td>
 												<td class="tg-ywa9" align="center"><?=$row->promo_comments;?></td>
-											</tr>									
-											<?php 
+											</tr>
+											<?php
 										}
-									} 
+									}
 									?>
 								</table>
 							</div>
@@ -246,7 +246,7 @@
 								</div>
 
 								<table class="tg2" width="100%">
-									<tr> 
+									<tr>
 										<td class="tg-khupCenter">পরীক্ষার নাম</td>
 										<td class="tg-khupCenter">বিষয়/বিভাগ</td>
 										<td class="tg-khupCenter">পাশের সন</td>
@@ -254,17 +254,17 @@
 									</tr>
 									<?php
 									if($education != NULL){
-										foreach ($education as $row) { 
+										foreach ($education as $row) {
 											?>
-											<tr> 
+											<tr>
 												<td class="tg-ywa9" align="center"><?=$row->exam_name;?></td>
 												<td class="tg-ywa9" align="center"><?=$row->sub_name;?></td>
 												<td class="tg-ywa9" align="center"><?=eng2bng($row->edu_pass_year);?></td>
 												<td class="tg-ywa9" align="center"><?=$row->board_name;?></td>
-											</tr>									
-											<?php 
+											</tr>
+											<?php
 										}
-									} 
+									}
 									?>
 								</table>
 							</div>
@@ -284,7 +284,7 @@
 								</div>
 
 								<table class="tg2" width="100%">
-									<tr> 
+									<tr>
 										<td class="tg-khupCenter">কোর্সের নাম</td>
 										<td class="tg-khupCenter">প্রশিক্ষণে অংশগ্রহণকালিন সময়ে পদবী</td>
 										<td class="tg-khupCenter">ব্যাচ নং</td>
@@ -292,16 +292,16 @@
 										<td class="tg-khupCenter">মেয়াদ</td>
 									</tr>
 									<?php
-									foreach ($nilg_training as $row) { 
+									foreach ($nilg_training as $row) {
 										?>
-										<tr> 
+										<tr>
 											<td class="tg-ywa9" align="center"><?=$row->participant_name .' এর '. $row->course_title;?></td>
 											<td class="tg-ywa9" align="center"><?=$row->desig_name;?></td>
 											<td class="tg-ywa9" align="center"><?=eng2bng($row->batch_no);?></td>
 											<td class="tg-ywa9" align="center"><?=func_training_date_from_to($row->start_date, $row->end_date);?></td>
 											<td class="tg-ywa9" align="center"><?=func_training_duration($row->start_date, $row->end_date);?></td>
-										</tr>									
-										<?php 
+										</tr>
+										<?php
 									}
 									?>
 								</table>
@@ -319,22 +319,22 @@
 								</div>
 
 								<table class="tg2" width="100%">
-									<tr> 
+									<tr>
 										<td class="tg-khupCenter">কোর্সের নাম</td>
 										<td class="tg-khupCenter">প্রশিক্ষণ প্রদানকারী প্রতিষ্ঠানের নাম ও ঠিকানা</td>
 										<td class="tg-khupCenter">সময়কাল</td>
 										<td class="tg-khupCenter">মেয়াদ</td>
 									</tr>
 									<?php
-									foreach ($local_training as $row) { 
+									foreach ($local_training as $row) {
 										?>
-										<tr> 
+										<tr>
 											<td class="tg-ywa9" align="center"><?=$row->local_course_name;?></td>
 											<td class="tg-ywa9" align="center"><?=$row->local_training_org_name_adds;?></td>
 											<td class="tg-ywa9" align="center"><?=func_training_date_from_to($row->local_training_start, $row->local_training_end);?></td>
 											<td class="tg-ywa9" align="center"><?=func_training_duration($row->local_training_start, $row->local_training_end);?></td>
-										</tr>									
-										<?php 
+										</tr>
+										<?php
 									}
 									?>
 								</table>
@@ -353,29 +353,29 @@
 								</div>
 
 								<table class="tg2" width="100%">
-									<tr> 
+									<tr>
 										<td class="tg-khupCenter">কোর্সের নাম</td>
 										<td class="tg-khupCenter">প্রশিক্ষণ প্রদানকারী প্রতিষ্ঠানের নাম ও ঠিকানা</td>
 										<td class="tg-khupCenter">সময়কাল</td>
 										<td class="tg-khupCenter">মেয়াদ</td>
 									</tr>
 									<?php
-									foreach ($foreign_training as $row) { 
+									foreach ($foreign_training as $row) {
 										?>
-										<tr> 
+										<tr>
 											<td class="tg-ywa9" align="center"><?=$row->foreign_course_name;?></td>
 											<td class="tg-ywa9" align="center"><?=$row->foreign_training_org_name_adds;?></td>
 											<td class="tg-ywa9" align="center"><?=func_training_date_from_to($row->foreign_training_start, $row->foreign_training_end);?></td>
 											<td class="tg-ywa9" align="center"><?=func_training_duration($row->foreign_training_start, $row->foreign_training_end);?></td>
-										</tr>									
-										<?php 
+										</tr>
+										<?php
 									}
 									?>
 								</table>
 							</div>
 						</div>
 
-					</div>  <!-- END GRID BODY -->              
+					</div>  <!-- END GRID BODY -->
 				</div> <!-- END GRID -->
 			</div>
 

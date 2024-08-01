@@ -79,14 +79,15 @@
                 <tr>
                   <th>ক্রম</th>
                   <th>নাম</th>
-                  <th>ডিপার্টমেন্ট</th>
-                  <th>পদবি</th>
+                  <!-- <th>ডিপার্টমেন্ট</th> -->
+                  <!-- <th>পদবি</th> -->
                   <th>ছুটির টাইপ</th>
                   <th>আরম্ভ তারিখ</th>
                   <th>সমাপ্তি তারিখ</th>
                   <th>সময়কাল</th>
                   <th>ছুটির কারণ</th>
                   <th>স্ট্যাটাস</th>
+                  <th>মন্তব্য</th>
                   <th>অ্যাকশন</th>
                 </tr>
               </thead>
@@ -110,20 +111,27 @@
                   <tr>
                     <td><?=eng2bng($sl).'.'?></td>
                     <td><?=$row->name_bn?></td>
-                    <td><?=$row->dept_name?></td>
-                    <td><?=$row->desig_name?></td>
+                    <!-- <td><?=$row->dept_name?></td> -->
+                    <!-- <td><?=$row->desig_name?></td> -->
                     <td><?=$row->leave_name_bn?></td>
                     <td><?=date_bangla_calender_format($row->from_date)?></td>
                     <td><?=date_bangla_calender_format($row->to_date)?></td>
                     <td><?=eng2bng($row->leave_days)?></td>
-                    <td><?=$row->reason?></td>
+                    <td><a style="cursor: zoom-in" title="<?=$row->reason?>"><?=substr($row->reason,0,15)?>...</a></td>
                     <td> <?=$status?></td>
+                    <td><a style="cursor: zoom-in" title="<?=$row->control_remark?>"><?=substr($row->control_remark,0,15)?>...</a></td>
                     <td>
                       <div class="btn-group">
                         <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> অ্যাকশন <span class="caret"></span> </a>
                         <ul class="dropdown-menu pull-right">
                           <?php if ($row->status == 1) { ?>
                             <li><a href="<?=base_url('leave/edit/'.encrypt_url($row->id));?>">সংশোধন করুন</a></li>
+                          <?php } ?>
+
+                          <?php if ($row->status == 2) { ?>
+                            <li><a href="<?=base_url('leave/forward_change/'.encrypt_url($row->id).'/1');?>">ফরওয়ার্ড টু ড্রাফট </a></li>
+                          <?php } else if ($row->status == 3 && empty($row->control_person)) {  ?>
+                            <li><a href="<?=base_url('leave/forward_change/'.encrypt_url($row->id).'/1');?>">ফরওয়ার্ড টু ড্রাফট </a></li>
                           <?php } ?>
 
                           <?php if ($row->status == 4) { ?>

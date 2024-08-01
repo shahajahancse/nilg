@@ -895,7 +895,7 @@ class Ion_auth_model extends CI_Model
 
 		// check if the default set in config exists in database
 		$query = $this->db->get_where($this->tables['groups'],array('name' => $this->config->item('default_group', 'ion_auth')),1)->row();
-		
+
 		if( !isset($query->id) && empty($groups) )
 		{
 			$this->set_error('account_creation_invalid_default_group');
@@ -920,7 +920,7 @@ class Ion_auth_model extends CI_Model
 		    'created_on' => time(),
 		    'active'     => ($manual_activation === false ? 1 : 0)
 		);
-		
+
 
 		if ($this->store_salt)
 		{
@@ -1063,7 +1063,7 @@ class Ion_auth_model extends CI_Model
 		$this->trigger_events('extra_where');
 
 		$query = $this->db->select($this->identity_column . ', id, is_office, office_type, employee_type, name_bn, email, crrnt_office_id, crrnt_dept_id, crrnt_desig_id, active, created_on, last_login')
-		                  ->where($this->identity_column, $identity)	
+		                  ->where($this->identity_column, $identity)
 		                  // ->or_where('mobile_no', $identity)
 		                  ->limit(1)
 		    			  		->order_by('id', 'desc')
@@ -1656,6 +1656,8 @@ class Ion_auth_model extends CI_Model
 			}
 			$this->_ion_where = array();
 		}
+
+		$this->db->where('status', 1);   // not show inactive groups 25-07-2024 shahajahan
 
 		if (isset($this->_ion_limit) && isset($this->_ion_offset))
 		{

@@ -45,42 +45,42 @@
             <?php $attributes = array('id' => 'validate');
             echo form_open_multipart(uri_string(), $attributes); ?>
 
-            <div><?php echo validation_errors(); ?></div>
+              <div><?php echo validation_errors(); ?></div>
 
-            <div class="row form-row">
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label class="form-label">কর্মকর্তা/কর্মচারীর নাম <span class="required">*</span></label>
-                  <?php echo form_error('user_id'); ?>
-                  <?php $more_attr = 'class="form-control input-sm" style="height: 20px !important"';
-                    echo form_dropdown('user_id', $users, set_value('user_id',$row->user_id), $more_attr);
-                  ?>
+              <div class="row form-row">
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-label">কর্মকর্তা/কর্মচারীর নাম <span class="required">*</span></label>
+                    <?php echo form_error('user_id'); ?>
+                    <?php $more_attr = 'class="form-control input-sm" style="height: 20px !important"';
+                      echo form_dropdown('user_id', $users, set_value('user_id',$row->user_id), $more_attr);
+                    ?>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-label">ছুটির ধরণ <span class="required">*</span></label>
+                    <?php echo form_error('leave_type'); ?>
+                      <?php $more_attr = 'class="form-control input-sm" style="height: 20px !important" onchange="leave_validation()" id="leave_type" ';
+                        echo form_dropdown('leave_type', $leave_type, set_value('leave_type', $row->leave_type), $more_attr);
+                    ?>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-label">ছুটি শুরুর তারিখঃ <span class="required">*</span></label>
+                    <input onchange="leave_validation()" id="from_date" name="from_date" type="text" value="<?php echo $row->from_date;?>" class="datetime form-control input-sm" autocomplete="off">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label class="form-label">ছুটি শেষ তারিখঃ <span class="required">*</span></label>
+                    <input onchange="leave_validation()" id="to_date" name="to_date" type="text" value="<?php echo $row->to_date;?>" class="datetime form-control input-sm" autocomplete="off">
+                  </div>
                 </div>
               </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label class="form-label">ছুটির ধরণ <span class="required">*</span></label>
-                  <?php echo form_error('leave_type'); ?>
-                    <?php $more_attr = 'class="form-control input-sm" style="height: 20px !important" onchange="leave_validation()" id="leave_type" ';
-                      echo form_dropdown('leave_type', $leave_type, set_value('leave_type', $row->leave_type), $more_attr);
-                  ?>
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label class="form-label">ছুটি শুরুর তারিখঃ <span class="required">*</span></label>
-                  <input onchange="leave_validation()" id="from_date" name="from_date" type="text" value="<?php echo $row->from_date;?>" class="datetime form-control input-sm" autocomplete="off">
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <label class="form-label">ছুটি শেষ তারিখঃ <span class="required">*</span></label>
-                  <input onchange="leave_validation()" id="to_date" name="to_date" type="text" value="<?php echo $row->to_date;?>" class="datetime form-control input-sm" autocomplete="off">
-                </div>
-              </div>
-            </div>
 
-            <?php $leave_address = json_decode($row->leave_address); ?>
+              <?php $leave_address = json_decode($row->leave_address); ?>
               <div class="row form-row">
                 <h5 class="col-md-12">ছুটিকালীন ঠিকানা (কেবলমাত্র কর্মস্থল ত্যাগের ক্ষেত্রে প্রযোজ্য)</h5>
                 <div class="col-md-3">
@@ -156,18 +156,27 @@
                     <select name="control_person" id="control_person" class="form-control" >
                       <option value="">নির্বাচন করুন</option>
                       <?php foreach($users as $key => $value): ?>
-                        <option <?php if($row->control_person==$key){echo 'selected';} ?> value="<?=$key?>"><?=$value?></option>
+                        <?php if($key != $row->user_id ): ?>
+                          <?php if ($key != "") : ?>
+                            <option <?php if($row->control_person==$key){echo 'selected';} ?> value="<?=$key?>"><?=$value?></option>
+                          <?php endif; ?>
+                        <?php endif; ?>
                       <?php endforeach; ?>
                     </select>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group">
-                    <label class="form-label">ছুটিকালীন বিকল্প কর্মকর্তা</label>
-                    <select name="assign_person" id="assign_person" class="form-control" >
-                      <option value="">নির্বাচন করুন</option>
+                    <label class="form-label">ছুটিকালীন বিকল্প কর্মকর্তা <span class="required">*</span></label>
+                    <select name="assign_person" id="assign_person" class="form-control" required>
+                      <option value="">-- নির্বাচন করুন --</option>
+                      <option value="bikolpo">বিকল্প কর্মকর্তা নেই ।</option>
                       <?php foreach($users as $key => $value): ?>
-                        <option <?php if($row->assign_person==$key){echo 'selected';} ?> value="<?=$key?>"><?=$value?></option>
+                        <?php if($key != $info->id ): ?>
+                          <?php if ($key != "") : ?>
+                            <option <?php if($row->assign_person==$key){echo 'selected';} ?> value="<?=$key?>"><?=$value?></option>
+                          <?php endif; ?>
+                        <?php endif; ?>
                       <?php endforeach; ?>
                     </select>
                   </div>

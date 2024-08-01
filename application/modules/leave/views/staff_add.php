@@ -173,20 +173,27 @@
                   <div class="form-group">
                     <label class="form-label">নিয়ন্ত্রণকারি কর্মকর্তা</label>
                     <select name="control_person" id="control_person" class="form-control" >
-                      <option value="">নির্বাচন করুন</option>
+                      <!-- <option value="">নির্বাচন করুন</option> -->
                       <?php foreach($users as $key => $value): ?>
-                        <option value="<?=$key?>"><?=$value?></option>
+                        <?php if($key != $info->id ): ?>
+                          <option value="<?=$key?>"><?=$value?></option>
+                        <?php endif; ?>
                       <?php endforeach; ?>
                     </select>
                   </div>
                 </div>
                 <div class="col-md-3">
                   <div class="form-group">
-                    <label class="form-label">ছুটিকালীন বিকল্প কর্মকর্তা</label>
-                    <select name="assign_person" id="assign_person" class="form-control" >
-                      <option value="">নির্বাচন করুন</option>
+                    <label class="form-label">ছুটিকালীন বিকল্প কর্মকর্তা <span class="required">*</span></label>
+                    <select name="assign_person" id="assign_person" class="form-control" required>
+                      <option value="">-- নির্বাচন করুন --</option>
+                      <option value="bikolpo">বিকল্প কর্মকর্তা নেই ।</option>
                       <?php foreach($users as $key => $value): ?>
-                        <option value="<?=$key?>"><?=$value?></option>
+                        <?php if($key != $info->id ): ?>
+                          <?php if ($key != "") : ?>
+                            <option value="<?=$key?>"><?=$value?></option>
+                          <?php endif; ?>
+                        <?php endif; ?>
                       <?php endforeach; ?>
                     </select>
                   </div>
