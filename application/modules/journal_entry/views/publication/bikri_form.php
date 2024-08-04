@@ -46,7 +46,7 @@ input[type=number]::-webkit-inner-spin-button {
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right">
-                            <a href="<?=base_url('journal_entry/publication_entry_list')?>"
+                            <a href="<?=base_url('journal_entry/publication_entry')?>"
                                 class="btn btn-blueviolet btn-xs btn-mini">প্রকাশনা তালিকা</a>
                         </div>
                     </div>
@@ -64,7 +64,16 @@ input[type=number]::-webkit-inner-spin-button {
 
                         <div class="row">
                             <div style="text-align: center; margin: center; margin-bottom: 20px; margin-top: -7px;">
-                                <h3 style="text-decoration: underline;line-height: 32px;"><?= $meta_title ?></h3>
+                                <h3 style="text-decoration: underline;line-height: 32px;">পাবলিকেশন এন্ট্রি ফর্ম</h3>
+                                <?php
+                                if ($type == 1) {
+                                   echo "<span>বই এন্ট্রি ফর্ম</span>";
+                                }elseif ($type == 2) {
+                                   echo "<span>বই বিক্রয় ফর্ম</span>";
+                                }elseif ($type == 3) {
+                                   echo "<span>কেজিতে বিক্রি ফর্ম</span>";
+                                }
+                                ?>
                             </div>
                         </div>
 
@@ -73,41 +82,53 @@ input[type=number]::-webkit-inner-spin-button {
                             echo validation_errors(); ?>
                             <input type="hidden" name="type" value="<?php echo $type; ?>">
                             <div class="row form-row" style="font-size: 16px; color: black; margin-top: -10px !important;">
-
-                                <input type="hidden"  value="<?php echo 'JR'.date('Ymdhis'); ?>" name="voucher_no" >
-
-                                <div class="col-md-4">
-                                    <label for="title" class="control-label">বই নির্বাচন করুন</label>
-                                    <?php $book = $this->db->get('budget_j_publication_book')->result(); ?>
-                                    <select id="book_id" class="form-control input-sm" onchange="getBook(this.value)">
-                                        <option value="">বই নির্বাচন করুন</option>
-                                        <?php foreach ($book as $key => $value) { ?>
-                                            <option value="<?=$key?>"><?=$value->name_bn .' >> '. $value->quantity?></option>
-                                        <?php } ?>
-                                    </select>
+                                <div class="col-md-3">
+                                    <label for="title" class="control-label">ভাউচার নং </label>
+                                    <input type="text"  value="<?php echo 'JR'.date('Ymdhis'); ?>" class="form-control input-sm" name="voucher_no"
+                                        style="min-height: 33px;"  required readonly>
                                 </div>
 
                                 <div class="col-md-4">
-                                    <label for="title" class="control-label">রেফারেন্স </label>
+                                    <label for="title" class="control-label">রেফারেন্স:</label>
                                     <input type="text"  value="" class="form-control input-sm" name="reference"
                                         style="min-height: 33px;">
                                 </div>
 
                                 <div class="col-md-2">
-                                    <label for="title" class="control-label">এন্ট্রির তারিখ <!-- <span class="required">*</span> --></label>
-                                    <input value="<?= date('Y-m-d') ?>" class="form-control input-sm" name="issue_date" style="min-height: 33px;" required readonly>
+                                    <label for="title" class="control-label">তারিখ: <span class="required">*</span></label>
+                                    <input type="date"  value="" class="form-control input-sm" name="issue_date"
+                                        style="min-height: 33px;" required>
                                 </div>
+
+                               <!-- type 1=book entry, 2=book out, 3=sell by kg -->
+
                             </div>
 
                             <div class="form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
+                                <div class="col-md-12">
+                                    <div class="col-md-4">
+                                        <?php $book = $this->db->get('budget_j_publication_book')->result(); ?>
+                                        <select id="book_id" class="form-control input-sm" onchange="getBook(this.value)">
+                                            <option value="">বই নির্বাচন করুন</option>
+                                            <?php
+                                            foreach ($book as $key => $value) {
+                                                ?>
+                                                <option value="<?=$key?>"><?=$value->name_bn?></option>
+                                                <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
                                 <br>
                                 <table width="100%" border="1" style="border:1px solid #a09e9e; margin-top: 10px;">
                                     <thead>
                                         <tr>
                                             <th style="padding:3px 5px" width="25%"> বই নাম </th>
-                                            <th style="padding:3px 5px" width="15%"> ISBN/ISSN</th>
+                                            <th style="padding:3px 5px" width="10%"> এসবিএন নং </th>
+                                            <?php if($type == 2){?>
+                                                <th style="padding:3px 5px" width="15%" > ক্যাটাগরি </th>
+                                            <?php } ?>
                                             <th style="padding:3px 5px;text-align: right;" width="13%"> বইয়ের মূল্য </th>
-                                            <th style="padding:3px 5px;text-align: right;" width="12%"> সংখ্যা </th>
+                                            <th style="padding:3px 5px;text-align: right;" width="12%"> পরিমান </th>
                                             <th style="padding:3px 5px;text-align: right;" width="15%"> মোট মূল্য </th>
                                             <th style="padding:3px 5px;text-align: center;" width="10%"> অ্যাকশন </th>
                                         </tr>
@@ -135,11 +156,13 @@ input[type=number]::-webkit-inner-spin-button {
                                     </tr>
                                 </table>
                             </div>
-                            <input type="hidden" name="description" id="description">
                             <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                 <br> <br>
                                 <div class="col-md-12">
-                                    <p><strong>কথায়:</strong> <span id="total_bangla"></span> </p>
+                                    <div class="form-group margin_top_10">
+                                        <label for=""> বিবরণ:</label>
+                                    <textarea class="form-control" name="description" style="height: 300px;" id="description"> </textarea>
+                                    </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="pull-right">
@@ -156,11 +179,10 @@ input[type=number]::-webkit-inner-spin-button {
     </div>
 </div>
 
-<script src="<?= base_url('assets/js/bangla_converter.js'); ?>"></script>
-<!-- <script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script> -->
+<script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
 <script>
     $(document).ready(function() {
-        // CKEDITOR.replace('description');
+        CKEDITOR.replace('description');
     });
     setInterval(() => {
         $('.cke_notification_close').click();
@@ -194,7 +216,6 @@ input[type=number]::-webkit-inner-spin-button {
            }
        })
        $("#total").val(total);
-       $("#total_bangla").html(generateWords(total));
    }
 </script>
 <script>
@@ -203,7 +224,7 @@ input[type=number]::-webkit-inner-spin-button {
         if(val==""){
             return false;
         }
-        var book = all_book[val];
+        var book=all_book[val];
         addNewRow(book);
 
     }

@@ -643,9 +643,6 @@ function select2NIDTrainer() {
 }
 
 
-
-
-
 function printDiv(divName) {
     var printContents = document.getElementById(divName).innerHTML;
     var originalContents = document.body.innerHTML;
@@ -725,34 +722,44 @@ function filterDate() {
 
 </script>
 
-<!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <?php if(isset($dashboard_sorcart) && $dashboard_sorcart==1){ ?>
 <script>
-
-
-/*$(document).ready(function() {
-    Swal.fire({
-    title: "<strong>Shortcut</strong>",
-    html: `
-    <div style="display: flex;justify-content: center;align-items: center;gap: 7px;flex-wrap: wrap;">
-    <a class="btn btn-primary" style="font-size: large;font-family: fantasy;" href="<?=base_url('my_profile') ?>">মাই প্রোফাইল</a>
-    <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'acc'))) { ?>
-    <a class="btn btn-primary" style="font-size: large;font-family: fantasy;" href="<?=base_url('budgets/budget_nilg') ?>">বাজেট তৈরি করুন</a>
-    <?php } ?>
-    <?php if ($this->ion_auth->in_group(array('admin', 'nilg', 'uz', 'ddlg'))) { ?>
-    <a class="btn btn-primary" style="font-size: large;font-family: fantasy;" href="<?=base_url('training/create')?>">কোর্স তৈরি করুন</a>
-    <?php } ?>
-    </div>
-    `,
-    showCloseButton: true,
-    focusConfirm: false,
-    showConfirmButton: false,
-    showCancelButton: true,
+    $(document).ready(function() {
+        Swal.fire({
+        title: "<strong>Shortcut</strong>",
+        html: `
+        <div style="display: flex;justify-content: center;align-items: center;gap: 7px;flex-wrap: wrap;">
+        <a class="btn btn-primary" style="font-size: large;font-family: fantasy;" href="<?=base_url('my_profile') ?>">মাই প্রোফাইল</a>
+        <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'acc'))) { ?>
+        <a class="btn btn-primary" style="font-size: large;font-family: fantasy;" href="<?=base_url('budgets/budget_nilg') ?>">বাজেট তৈরি করুন</a>
+        <?php } ?>
+        <?php if ($this->ion_auth->in_group(array('admin', 'nilg', 'uz', 'ddlg'))) { ?>
+        <a class="btn btn-primary" style="font-size: large;font-family: fantasy;" href="<?=base_url('training/create')?>">কোর্স তৈরি করুন</a>
+        <?php } ?>
+        <?php if ($this->ion_auth->in_group(array('admin', 'bli'))) { ?>
+        <a class="btn btn-primary" style="font-size: large;font-family: fantasy;" href="<?=base_url('journal_entry/publication_entry_list') ?>">প্রকাশনা এন্ট্রি</a>
+        <a class="btn btn-primary" style="font-size: large;font-family: fantasy;" href="<?=base_url('journal_entry/publication_bikri_list') ?>">প্রকাশনা বিক্রি</a>
+        <?php } ?>
+        </div>
+        `,
+        showCloseButton: true,
+        focusConfirm: false,
+        showConfirmButton: false,
+        showCancelButton: true,
+        });
     });
-});*/
 </script>
 <?php } ?>
+
+<script>
+    $(document).ready(function() {
+        $('#book_id').select2();
+    });
+</script>
+
+
 </body>
 
 </html>

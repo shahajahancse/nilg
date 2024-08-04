@@ -49,9 +49,6 @@
                             <br>
                             <div class="col-md-12">
                                 <div class="col-md-3">
-                                    <strong>ভাউচার নাঃ <span><?= $row->voucher_no ?></span></strong>
-                                </div>
-                                <div class="col-md-3">
                                     <strong>তৈরি কারক: <span><?= $row->create_by ?></span></strong>
                                 </div>
                                 <div class="col-md-3">
@@ -60,7 +57,7 @@
                                 <div class="col-md-3">
                                     <strong>পরিমান: <span><?= eng2bng($row->amount) ?></span></strong>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-3">
                                     <strong>রেফারেন্স: <span><?= $row->reference ?></span></strong>
                                 </div>
                             </div>
@@ -73,7 +70,7 @@
                                         <tr>
                                             <th rowspan="1" style="background-color: #b5dfe9 !important;">ক্রমিক নং</th>
                                             <th rowspan="1" style="background-color: #b5dfe9 !important;">বই নাম</th>
-                                            <th rowspan="1" style="background-color: #b5dfe9 !important;">এসবিএন নং</th>
+                                            <th rowspan="1" style="background-color: #b5dfe9 !important;">আইএসবিএন/আইএসএসএন</th>
                                             <th rowspan="1" style="background-color: #b5dfe9 !important;">মূল্য</th>
                                             <th rowspan="1" style="background-color: #b5dfe9 !important;">পরিমান</th>
                                             <th rowspan="1" style="background-color: #b5dfe9 !important;">মোট মূল্য</th>

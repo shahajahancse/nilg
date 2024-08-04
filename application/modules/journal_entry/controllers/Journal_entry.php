@@ -517,6 +517,38 @@ public function bank_entry_delete($encid){
     // end hostel
 
     // start budget_j_publication_register
+    public function publication_entry_list($offset = 0)
+    {
+        $limit = 15;
+        $user_id = $this->data['userDetails']->id;
+        $dept_id = $this->data['userDetails']->crrnt_dept_id;
+        $results = $this->Journal_entry_model->lists($limit, $offset, 'budget_j_publication_register');
+        $this->data['results'] = $results['rows'];
+        $this->data['total_rows'] = $results['num_rows'];
+        //pagination
+        $this->data['pagination'] = create_pagination('journal_entry/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+        // Load view
+        $this->data['meta_title'] = 'প্রকাশনা এন্ট্রি এর তালিকা';
+        $this->data['subview'] = 'publication/publication_entry_list';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function publication_bikri_list($offset = 0)
+    {
+        $limit = 15;
+        $user_id = $this->data['userDetails']->id;
+        $dept_id = $this->data['userDetails']->crrnt_dept_id;
+        $results = $this->Journal_entry_model->lists($limit, $offset, 'budget_j_publication_register');
+        $this->data['results'] = $results['rows'];
+        $this->data['total_rows'] = $results['num_rows'];
+        //pagination
+        $this->data['pagination'] = create_pagination('journal_entry/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+        // Load view
+        $this->data['meta_title'] = 'প্রকাশনা বিক্রি এর তালিকা';
+        $this->data['subview'] = 'publication/publication_bikri_list';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
     public function publication_entry($offset = 0)
     {
         $limit = 15;
@@ -528,10 +560,11 @@ public function bank_entry_delete($encid){
         //pagination
         $this->data['pagination'] = create_pagination('journal_entry/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
         // Load view
-        $this->data['meta_title'] = 'পাবলিকেশন এর তালিকা';
+        $this->data['meta_title'] = 'প্রকাশনা ডিজপোজাল এর তালিকা';
         $this->data['subview'] = 'publication/index';
         $this->load->view('backend/_layout_main', $this->data);
     }
+
     public function publication_entry_create($type)
     {
         $this->form_validation->set_rules('book_id[]', 'বই নাম', 'required|trim');
@@ -562,6 +595,7 @@ public function bank_entry_delete($encid){
                     }
 
                     $last_data=$this->db->where('book_id', $_POST['book_id'][$key])->limit(1)->order_by('id', 'desc')->get('budget_j_publication_register_details')->last_row();
+
                     if (!empty($last_data)) {
                         if($type==1){
                             $rest_qty = $last_data->rest_qty + $_POST['quantity'][$key];
@@ -587,9 +621,15 @@ public function bank_entry_delete($encid){
                         'rest_amt' => $rest_qty * $_POST['price'][$key],
                     );
                     $this->db->insert('budget_j_publication_register_details', $data_details);
+
+                    $this->db->where('id', $_POST['book_id'][$key]);
+                    $this->db->update('budget_j_publication_book', array('quantity' => $rest_qty));
                 }
                 $this->db->trans_complete();
                 $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                if ($this->input->post('type') == 1) {
+                    redirect('journal_entry/publication_entry_list');
+                }
                 redirect('journal_entry/publication_entry');
             }
         }
@@ -597,11 +637,20 @@ public function bank_entry_delete($encid){
         $this->data['info'] = $this->Common_model->get_user_details();
         $this->data['type'] = $type;
         //Load view
-        $this->data['meta_title'] = 'পাবলিকেশন রেজিস্টার';
-        $this->data['subview'] = 'publication/entry';
+        if ($type == 1) {
+            $this->data['meta_title'] = 'প্রকাশনা এন্ট্রি ফর্ম';
+            $this->data['subview'] = 'publication/entry';
+        } elseif ($type == 2) {
+            $this->data['meta_title'] = 'প্রকাশনা বিক্রি ফর্ম';
+            $this->data['subview'] = 'publication/bikri_form';
+        } else {
+            $this->data['meta_title'] = 'ডিজপোজাল ফর্ম';
+            $this->data['subview'] = 'publication/bikri_form';
+        }
         $this->load->view('backend/_layout_main', $this->data);
     }
-    public function publication_entry_details($encid){
+
+    public function publication_entry_details($encid, $type = null){
         $id = (int) decrypt_url($encid);
         $this->db->select('q.*,u.name_bn as create_by');
         $this->db->from('budget_j_publication_register as q');
@@ -619,9 +668,36 @@ public function bank_entry_delete($encid){
         $this->data['info'] = $this->Common_model->get_user_details();
         //Load view
         $this->data['meta_title'] = 'পাবলিকেশন বিস্তারিত';
-        $this->data['subview'] = 'publication/details';
+        $this->data['subview'] = 'publication/entry_details';
         $this->load->view('backend/_layout_main', $this->data);
     }
+
+    public function publication_bikri_details($encid, $type = null){
+        $id = (int) decrypt_url($encid);
+        $this->db->select('q.*,u.name_bn as create_by');
+        $this->db->from('budget_j_publication_register as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['row'] = $this->db->get()->row();
+
+        $this->db->select('q.*,budget_j_publication_book.*,budget_j_publication_group.name_bn as group_name');
+        $this->db->from('budget_j_publication_register_details as q');
+        $this->db->join('budget_j_publication_book', 'budget_j_publication_book.id = q.book_id', 'left');
+        $this->db->join('budget_j_publication_group', 'budget_j_publication_group.id = budget_j_publication_book.group_id', 'left');
+        $this->db->where('publication_register_id', $id);
+        $this->data['details'] = $this->db->get()->result();
+        //Dropdown
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'পাবলিকেশন বিস্তারিত';
+        if ($type == 1) {
+            $this->data['subview'] = 'publication/entry_details';
+        } else {
+            $this->data['subview'] = 'publication/details';
+        }
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
     public function publication_entry_edit($encid=null){
         $id = (int) decrypt_url($encid);
         $this->form_validation->set_rules('book_name[]', 'বই নাম', 'required|trim');
