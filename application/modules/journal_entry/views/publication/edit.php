@@ -28,7 +28,7 @@
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right">
                             <a href="<?=base_url('journal_entry/publication_entry')?>"
-                                class="btn btn-blueviolet btn-xs btn-mini"> পাবলিকেশন তালিকা</a>
+                                class="btn btn-blueviolet btn-xs btn-mini"> প্রকাশনা তালিকা</a>
                         </div>
                     </div>
                     <div class="grid-body">
@@ -44,7 +44,7 @@
 
                         <div class="row">
                             <div style="text-align: center; margin: center; margin-bottom: 20px; margin-top: -7px;">
-                                <h3 style="text-decoration: underline;line-height: 32px;">পাবলিকেশন এন্ট্রি ফর্ম</h3>
+                                <h3 style="text-decoration: underline;line-height: 32px;">প্রকাশনা এন্ট্রি ফর্ম</h3>
                             </div>
                         </div>
 

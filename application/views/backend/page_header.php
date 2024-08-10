@@ -454,8 +454,23 @@ input[type="search"] {
                      <?php } ?>
                      <!-- Publication registration -->
 
+                     <!-- hostel registration -->
+                     <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'acc', 'bho'))) { ?>
+                        <li class="start <?= backend_activate_menu_class('journal_entry') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হোস্টেল শাখা</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                           <ul class="sub-menu">
+                              <li class="start <?= backend_activate_menu_method('hostel_entry') ?>">
+                                 <a href="<?= base_url('journal_entry/hostel_entry'); ?>"> হোস্টেল তালিকা </a>
+                              </li>
+                              <li class="start <?= backend_activate_menu_method('entry_report') ?>">
+                                 <a href="<?= base_url('journal_entry/entry_report'); ?>"> রিপোর্ট </a>
+                              </li>
+                           </ul>
+                        </li>
+                     <?php } ?>
+                     <!-- hostel registration -->
+
                      <!-- হিসাব সেটিংস -->
-                     <?php if ($this->ion_auth->in_group(array('admin','nilg','acc', 'bli'))) { ?>
+                     <?php if ($this->ion_auth->in_group(array('admin','nilg','acc', 'bli', 'bho'))) { ?>
                         <li class="start <?= backend_activate_menu_class('nilg_setting') ?> <?= backend_activate_menu_class('budget_head') ?> <?= backend_activate_menu_class('budget_sub_head') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব সেটিংস</span> <span class="selected"></span> <span class="arrow"></span> </a>
                            <ul class="sub-menu">
                               <?php if ($this->ion_auth->in_group(array('admin','nilg','acc'))) { ?>
@@ -466,8 +481,14 @@ input[type="search"] {
                               <li class="start <?= backend_activate_menu_method('session_year') ?>"> <a href="<?= base_url('nilg_setting/session_year'); ?>">অর্থ বছর</a> </li>
                               <li class="start <?= backend_activate_menu_method('chahida_potro_approval') ?>"> <a href="<?= base_url('nilg_setting/chahida_potro_approval'); ?>">চাহিদা পত্র অনুমোদন</a> </li>
                               <?php } ?>
+                              <?php if ($this->ion_auth->in_group(array('admin','nilg','acc', 'bli'))) { ?>
                               <li class="start <?= backend_activate_menu_method('publication_group_setting') ?>"> <a href="<?= base_url('nilg_setting/publication_group_setting'); ?>">প্রকাশনা গ্রুপ</a> </li>
                               <li class="start <?= backend_activate_menu_method('publication_book_list') ?>"> <a href="<?= base_url('nilg_setting/publication_book_list'); ?>">প্রকাশনা বুক তালিকা </a> </li>
+                              <?php } ?>
+                              <?php if ($this->ion_auth->in_group(array('admin','nilg','acc', 'bho'))) { ?>
+                              <li class="start <?= backend_activate_menu_method('hostel_room_list') ?>"> <a href="<?= base_url('nilg_setting/hostel_room_list'); ?>">কক্ষ তালিকা</a> </li>
+                              <li class="start <?= backend_activate_menu_method('hostel_seat_list') ?>"> <a href="<?= base_url('nilg_setting/hostel_seat_list'); ?>">সিট তালিকা </a> </li>
+                              <?php } ?>
                            </ul>
                         </li>
                      <?php } ?>

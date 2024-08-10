@@ -113,7 +113,7 @@
                         <div class="row">
                             <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> সর্বমোট <span
                                     style="color: green; font-weight: bold;"><?php echo eng2bng($total_rows); ?>
-                                    পাবলিকেশন  </span></div>
+                                    প্রকাশনা  </span></div>
                             <div class="col-sm-8 col-md-8 text-right">
                                 <?php echo $pagination['links']; ?>
                             </div>

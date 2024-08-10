@@ -135,7 +135,7 @@ class Nilg_setting extends Backend_Controller {
         $this->load->view('backend/_layout_main', $this->data);
     }
     public function chahida_potro_approval(){
-        
+
         $this->data['row'] = $this->db->get('budget_chahida_potro_settings')->row();
         $this->data['meta_title'] = 'চাহিদা পত্র অনুমোদন সেটিংস';
         $this->data['subview'] = 'budget_chahida_potro_settings';
@@ -158,14 +158,14 @@ class Nilg_setting extends Backend_Controller {
     public function publication_group_setting()
     {
         $this->data['result'] = $this->db->get('budget_j_publication_group')->result_array();
-        $this->data['meta_title'] = 'পাবলিকেশন গ্রুপ সেটিংস';
+        $this->data['meta_title'] = 'প্রকাশনা গ্রুপ সেটিংস';
         $this->data['subview'] = 'publication_group_setting/index';
         $this->load->view('backend/_layout_main', $this->data);
     }
     public function publication_group_create()
     {
-        $this->form_validation->set_rules('name_bn', 'পাবলিকেশন গ্রুপ নাম (বাংলা)', 'trim|required');
-        $this->form_validation->set_rules('name_en', 'পাবলিকেশন গ্রুপ নাম (ইংরেজী)', 'trim|required');
+        $this->form_validation->set_rules('name_bn', 'প্রকাশনা গ্রুপ নাম (বাংলা)', 'trim|required');
+        $this->form_validation->set_rules('name_en', 'প্রকাশনা গ্রুপ নাম (ইংরেজী)', 'trim|required');
 
         if ($this->form_validation->run() == TRUE) {
             $form_data = array(
@@ -183,15 +183,15 @@ class Nilg_setting extends Backend_Controller {
             }
         } else {
             $this->data['result'] = $this->db->get('budget_j_publication_group')->result_array();
-            $this->data['meta_title'] = 'পাবলিকেশন গ্রুপ সেটিংস';
+            $this->data['meta_title'] = 'প্রকাশনা গ্রুপ সেটিংস';
             $this->data['subview'] = 'publication_group_setting/index';
             $this->load->view('backend/_layout_main', $this->data);
         }
     }
     public function publication_group_setting_update($id){
         // $id = $this->input->post('id');
-        $this->form_validation->set_rules('name_bn', 'পাবলিকেশন গ্রুপ নাম (বাংলা)', 'trim|required');
-        $this->form_validation->set_rules('name_en', 'পাবলিকেশন গ্রুপ নাম (ইংরেজী)', 'trim|required');
+        $this->form_validation->set_rules('name_bn', 'প্রকাশনা গ্রুপ নাম (বাংলা)', 'trim|required');
+        $this->form_validation->set_rules('name_en', 'প্রকাশনা গ্রুপ নাম (ইংরেজী)', 'trim|required');
 
         if ($this->form_validation->run() == TRUE) {
             $form_data = array(
@@ -218,15 +218,15 @@ class Nilg_setting extends Backend_Controller {
         $this->db->from('budget_j_publication_book');
         $this->db->join('budget_j_publication_group', 'budget_j_publication_book.group_id = budget_j_publication_group.id', 'left');
         $this->data['result'] = $this->db->get()->result();
-        $this->data['meta_title'] = 'পাবলিকেশন বই সেটিংস';
+        $this->data['meta_title'] = 'প্রকাশনা বই সেটিংস';
         $this->data['subview'] = 'publication_book_add/index';
         $this->load->view('backend/_layout_main', $this->data);
     }
     public function publication_book_add()
     {
         $this->data['group'] = $this->db->get('budget_j_publication_group')->result();
-        $this->form_validation->set_rules('name_bn', 'পাবলিকেশন গ্রুপ নাম (বাংলা)', 'trim|required');
-        $this->form_validation->set_rules('name_en', 'পাবলিকেশন গ্রুপ নাম (ইংরেজী)', 'trim|required');
+        $this->form_validation->set_rules('name_bn', 'প্রকাশনা গ্রুপ নাম (বাংলা)', 'trim|required');
+        $this->form_validation->set_rules('name_en', 'প্রকাশনা গ্রুপ নাম (ইংরেজী)', 'trim|required');
         if ($this->form_validation->run() == TRUE) {
             $form_data = array(
                 'name_bn' => $this->input->post('name_bn'),
@@ -250,7 +250,7 @@ class Nilg_setting extends Backend_Controller {
             $this->db->from('budget_j_publication_book');
             $this->db->join('budget_j_publication_group', 'budget_j_publication_book.group_id = budget_j_publication_group.id', 'left');
             $this->data['result'] = $this->db->get()->result();
-            $this->data['meta_title'] = 'পাবলিকেশন বই সেটিংস';
+            $this->data['meta_title'] = 'প্রকাশনা বই সেটিংস';
             $this->data['subview'] = 'publication_book_add/index';
             $this->load->view('backend/_layout_main', $this->data);
         }
@@ -259,14 +259,14 @@ class Nilg_setting extends Backend_Controller {
         $this->db->where('book_id', $id);
         $p_data=$this->db->get('budget_j_publication_register_details')->result();
         if(!empty($p_data)){
-            $this->session->set_flashdata('error', 'দুঃখিত! এই পাবলিকেশন ব্যবহার করা হয়েছে');
+            $this->session->set_flashdata('error', 'দুঃখিত! এই প্রকাশনা ব্যবহার করা হয়েছে');
             redirect('nilg_setting/publication_book_list');
         }else{
             $this->db->where('id', $id);
             $this->db->delete('budget_j_publication_book');
-            $this->session->set_flashdata('success', 'পাবলিকেশন গ্রুপ মুছে ফেলা হয়েছে');
+            $this->session->set_flashdata('success', 'প্রকাশনা গ্রুপ মুছে ফেলা হয়েছে');
             redirect('nilg_setting/publication_book_list');
         }
-    } 
+    }
 
 }

@@ -68,7 +68,7 @@
                                         </div>
                                         <div style="position: absolute;right: 0;font-size: large;font-weight: bold;">
                                             <p>অবশিষ্ট পরিমাণ <span>
-                                                    <?php 
+                                                    <?php
                                             $budgets = $this->db->select('SUM(revenue_amt) as amount')->get('budget_nilg')->row();
                                             $in_amount= $this->Common_model->all_journal_amount('revenue');
                                             $this->db->select_sum('total_overall_expense');
@@ -141,7 +141,7 @@
                                                 <option value="">নির্বাচন করুন</option>
                                                 <option value=1>ট্রেইনিং</option>
                                                 <option value=2>হোস্টেল</option>
-                                                <option value=3>পাবলিকেশন</option>
+                                                <option value=3>প্রকাশনা</option>
                                                 <option value=4>অডিটোরিয়াম</option>
                                                 <option value=5>Others</option>
                                             </select>
@@ -341,9 +341,9 @@
                                                             }
                                                             $('.group-header-' + groupName).after($(
                                                                 this));
-                                                            
+
                                                             $('.group-row-' + groupName).find('.group_name').val(groupName);
-                                                            
+
                                                         });
 
                                                         $('#group_name').val(
@@ -499,7 +499,7 @@ function addNewRow(id) {
                         <td>
                             <input type="number" value="1" min="1" name="token_day[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_day"></td>
                         <td>
-                            <input type="number" value="1" min="1" name="token_amount[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_amount"></td>                                    
+                            <input type="number" value="1" min="1" name="token_amount[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_amount"></td>
                         <td>
                         <input type="hidden" class="group_name" name="group_name[]"
                                                                 value="xnone" >
@@ -521,7 +521,7 @@ function addNewRow(id) {
                         <td>
                             <input type="number" value="1" min="1" name="token_day[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_day"></td>
                         <td>
-                            <input type="number" value="1" min="1" name="token_amount[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_amount"></td>                                    
+                            <input type="number" value="1" min="1" name="token_amount[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_amount"></td>
                         <td>
                         <input type="hidden" class="group_name" name="group_name[]"
                                                                 value="xnone" >

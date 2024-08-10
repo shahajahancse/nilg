@@ -8,7 +8,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">পাবলিকেশন গ্রুপ তৈরি করুন</h4>
+                        <h4 class="modal-title" id="myModalLabel">প্রকাশনা গ্রুপ তৈরি করুন</h4>
                     </div>
                     <div class="modal-body">
                         <div class="col-md-12">
@@ -58,7 +58,7 @@
                         <div class="pull-right"
                             style="display: flex;align-content: center;justify-content: center;flex-wrap: wrap;gap: 8px;">
                             <a data-toggle="modal" href='#publication_group_create_modal'
-                                class="btn btn-blueviolet btn-xs btn-mini">পাবলিকেশন গ্রুপ তৈরি করুন</a>
+                                class="btn btn-blueviolet btn-xs btn-mini">প্রকাশনা গ্রুপ তৈরি করুন</a>
                         </div>
                     </div>
 

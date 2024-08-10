@@ -144,10 +144,10 @@
         </div>
 
         <div class="col-2" style="float: right;">
-            <div style="padding: 4px; border: 2px solid; font-size: 13px;">
+            <!-- <div style="padding: 4px; border: 2px solid; font-size: 13px;">
                 <span> শেখ হাসিনার মূলনীতি </span> <br>
                 <span> গ্রাম শহরের উন্নতি </span>
-            </div>
+            </div> -->
         </div>
     </div>
 
@@ -168,14 +168,14 @@
                 </thead>
 
                 <tbody>
-                    <?php if (!empty($results)) { 
+                    <?php if (!empty($results)) {
                         $total_book_in=$total_book_sale=$total_book_give=$total_sell_by_kg=$total_sale=$total_rest=0;
 
                         ?>
 
                         <?php foreach ($results as $key => $r) { ?>
                             <tr>
-                                <?php $sale = $r->book_sale + $r->book_give + $r->sell_by_kg; 
+                                <?php $sale = $r->book_sale + $r->book_give + $r->sell_by_kg;
 
                                 $total_book_in+=$r->book_in;
                                 $total_book_sale+=$r->book_sale;

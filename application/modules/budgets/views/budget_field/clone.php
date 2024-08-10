@@ -129,7 +129,7 @@
                                                 <option value="">নির্বাচন করুন</option>
                                                 <option value=1>ট্রেইনিং</option>
                                                 <option value=2>হোস্টেল</option>
-                                                <option value=3>পাবলিকেশন</option>
+                                                <option value=3>প্রকাশনা</option>
                                                 <option value=4>অডিটোরিয়াম</option>
                                                 <option value=5>Others</option>
                                             </select>
@@ -138,7 +138,7 @@
 
                                     <div class="row form-row">
                                         <div class="col-md-12">
-                                            
+
                                             <style type="text/css">
                                                 #appRowDiv td {
                                                     padding: 5px;
@@ -235,8 +235,8 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tbody">
-                                                    <?php 
-                                                    $group_name=''; 
+                                                    <?php
+                                                    $group_name='';
                                                     $end=false;
                                                     $end1=false;
                                                     foreach($budget_field_details as $key => $data):
@@ -259,7 +259,7 @@
                                                             $this->db->from('budget_custom_sub_head');
                                                             $this->db->where('details_id', $detail_id);
                                                             $query =  $this->db->get()->row();
-                                                            
+
                                                             $name_bn='<input type=""  name="custom_m[]" class="form-control input-sm"  value="'.$query->name.'"/>
                                                             ';
                                                         }else{
@@ -401,7 +401,7 @@ function addNewRow(id) {
                         <td>
                             <input type="number" value="1" min="1" name="token_day[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_day"></td>
                         <td>
-                            <input type="number" value="1" min="1" name="token_amount[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_amount"></td>                                    
+                            <input type="number" value="1" min="1" name="token_amount[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_amount"></td>
                         <td>
                         <input type="hidden" class="group_name" name="group_name[]"
                                                                 value="xnone" >
@@ -423,7 +423,7 @@ function addNewRow(id) {
                         <td>
                             <input type="number" value="1" min="1" name="token_day[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_day"></td>
                         <td>
-                            <input type="number" value="1" min="1" name="token_amount[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_amount"></td>                                    
+                            <input type="number" value="1" min="1" name="token_amount[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_amount"></td>
                         <td>
                         <input type="hidden" class="group_name" name="group_name[]"
                                                                 value="xnone" >

@@ -714,7 +714,6 @@ var table = $('.data_table').DataTable({
 
 // Event listener to the two range filtering inputs to redraw on input
 function filterDate() {
-    console.log('enter');
     minDateFilter = new Date($('#min').val()).getTime();
     maxDateFilter =  new Date($('#max').val()).getTime();
     table.draw();

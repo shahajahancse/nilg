@@ -81,7 +81,7 @@
                             </fieldset>
 
                             <fieldset class="col-md-12">
-                                <legend>পাবলিকেশন রিপোর্ট বাটন</legend>
+                                <legend>প্রকাশনা রিপোর্ট বাটন</legend>
                                 <button type="submit" name="btnsubmit" value="all_pending,publication"
                                     class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
                                 <button type="submit" name="btnsubmit" value="all_approved,publication"
@@ -133,7 +133,7 @@
                         <?php  }else{ ?>
                             <?php if($this->ion_auth->in_group(array('bli'))){?>
                             <fieldset class="col-md-12">
-                                <legend>পাবলিকেশন রিপোর্ট বাটন</legend>
+                                <legend>প্রকাশনা রিপোর্ট বাটন</legend>
                                 <button type="submit" name="btnsubmit" value="all_book,number" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট বইয়ের সংখ্যা</button>
                                 <button type="submit" name="btnsubmit" value="all_book,amount" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট বইয়ের মূল্য</button>
                                 <button type="submit" onclick="return validFunc()" name="btnsubmit" value="single_book,amount" id="single_book" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> একটি বইয়ের রিপোর্ট</button>

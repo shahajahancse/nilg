@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+    <script src="<?= base_url('assets/js/bangla_converter.js'); ?>"></script>
     <meta charset="utf-8">
     <title><?= $headding ?></title>
     <style type="text/css">
@@ -76,6 +77,11 @@
             float: left;
         }
 
+        .col-6-right {
+            width: 50%;
+            float: right;
+        }
+
         .col-7 {
             width: 58.33%;
             float: left;
@@ -147,23 +153,23 @@
         </div>
 
         <div class="col-2" style="float: right;">
-            <div style="padding: 4px; border: 2px solid; font-size: 13px;">
+            <!-- <div style="padding: 4px; border: 2px solid; font-size: 13px;">
                 <span> শেখ হাসিনার মূলনীতি </span> <br>
                 <span> গ্রাম শহরের উন্নতি </span>
-            </div>
+            </div> -->
         </div>
     </div>
 
     <div class="priview-body content-div">
         <div class="col-8">
-            <span style="padding: 0px 0px 0px 0px; margin: 0px;">নাম : <abbr><?php echo $info->create_by; ?></abbr></span> &nbsp;&nbsp;&nbsp;
-            <span style="padding: 0px; margin: 1px 0px;">বিভাগের নাম : <abbr> <?php echo $info->dept_name; ?></abbr></span>
+            <span style="padding: 0px 0px 0px 0px; margin: 0px;">নাম : <abbr><?php echo $info->name; ?></abbr></span> &nbsp;&nbsp;&nbsp;
+            <span style="padding: 0px; margin: 1px 0px;">মোবাইল : <abbr> <?php echo eng2bng($info->mobile); ?></abbr></span>
             <br>
-            <span style="padding: 0px; margin: 1px 0px;">রেফারেন্স : <abbr> <?php echo $info->dept_name; ?></abbr></span>
+            <span style="padding: 0px; margin: 1px 0px;">ঠিকানা : <abbr> <?php echo $info->address; ?></abbr></span>
         </div>
         <div class="col-3" style="float: right;">
             <div>
-                <span>পোস্টিং তারিখ : </span>
+                <span>তারিখ : </span>
                 <span style="font-size: 13px"><?php echo date_bangla_calender_format(date("Y-m-d", strtotime($info->created_at))); ?></span>
             </div>
             <div>
@@ -178,17 +184,19 @@
             <table class="table table-hover table-bordered report">
                 <thead class="headding">
                     <tr>
-                        <td rowspan="1" style="">ক্রমিক নং</td>
-                        <td rowspan="1" style="">বই নাম</td>
-                        <td rowspan="1" style="">এসবিএন নং</td>
-                        <td rowspan="1" style="">মূল্য</td>
-                        <td rowspan="1" style="">পরিমাণ</td>
-                        <td colspan="1" style="">মোট পরিমাণ</td>
+                        <td style="">ক্রমিক নং</td>
+                        <td style="">বই নাম</td>
+                        <td style="">আইএসবিএন/আইএসএসএন</td>
+                        <td style="">মূল্য</td>
+                        <td style="">পরিমাণ</td>
+                        <td style="">মোট পরিমাণ</td>
+                        <td style="">কমিশন</td>
+                        <td style="">প্রদেয় টাকা</td>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <?php foreach ($items as $key => $r) { ?>
+                    <?php foreach ($details as $key => $r) { ?>
                         <tr>
                             <td><?php echo eng2bng($key + 1); ?></td>
                             <td><?php echo $r->name_bn; ?></td>
@@ -196,25 +204,34 @@
                             <td><?php echo eng2bng($r->price); ?></td>
                             <td><?php echo eng2bng($r->quantity); ?></td>
                             <td><?php echo eng2bng($r->amount); ?></td>
+                            <?php if ($r->commission != 0) {
+                                $commission = $r->commission  / 100 * $r->amount;
+                            } else {
+                                $commission = 0;
+                            } ?>
+                            <td><?php echo eng2bng($commission); ?></td>
+                            <td><?php echo eng2bng($r->pay_amount); ?></td>
                         </tr>
                     <?php } ?>
                     <tr>
-                        <td colspan="5" style="text-align: right; padding-right: 10px"> সর্বমোট পরিমাণ </td>
-                        <td><?php echo eng2bng($info->amount); ?></td>
+                        <td colspan="7" style="text-align: right; padding-right: 10px"> সর্বমোট পরিমাণ </td>
+                        <td><?php echo eng2bng($info->pay_amount); ?></td>
                     </tr>
                 </tbody>
             </table>
+            <div style=" margin-top: 5px;">
+                <?php $obj = new BanglaNumberToWord(); ?>
+                <span>কথায় : <abbr> <?php echo $obj->numToWord($info->pay_amount); ?></abbr> টাকা মাত্র</span>
+            </div>
         </div>
-    </div>
-
-    <div class="priview-body">
         <div class="col-12">
-            <span><?= $info->description ?></span>
+            <span style="padding: 0px; margin: 1px 0px;">রেফারেন্স : <abbr> <?php echo $info->reference; ?></abbr></span>
         </div>
     </div>
 
     <div class="footer">
-        <div class="col-6">
+        <div class="col-6"></div>
+        <div class="col-6-right">
             <?php if ($info->signature != NULL) {
                 $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $info->signature;
             } else {
@@ -223,16 +240,6 @@
             ?>
             <div><img src="<?= $url ?>" style="width:160; height: 50px; display: block;"></div>
             <div><span class="border-top">স্বাক্ষর ও সীল</span></div>
-        </div>
-        <div class="col-6">
-            <?php if ($info->acc_signature != NULL) {
-                $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $info->acc_signature;
-            } else {
-                $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/blank.jpg';
-            }
-            ?>
-            <div><img src="<?= $url ?>" style="width:160; height: 50px; display: block;"></div>
-            <div><span class="border-top">আক্কাউন্ট প্রধান স্বাক্ষর ও সীল</span></div>
         </div>
         <br>
     </div>

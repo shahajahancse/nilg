@@ -139,11 +139,11 @@ input[type=number]::-webkit-inner-spin-button {
                             <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                 <br> <br>
                                 <div class="col-md-12">
-                                    <p><strong>কথায়:</strong> <span id="total_bangla"></span> </p>
+                                    <p><strong>কথায়:</strong> <span id="total_bangla">0</span> টাকা মাত্র</p>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="pull-right">
-                                        <a class="btn btn-primary btn-cons" onclick="get_preview()">View Preview</a>
+                                        <!-- <a class="btn btn-primary btn-cons" onclick="get_preview()">View Preview</a> -->
                                         <input type="submit" name="submit" id="submit_btn" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
                                     </div>
                                 </div>
@@ -169,12 +169,6 @@ input[type=number]::-webkit-inner-spin-button {
 </script>
 
 <script>
-    function removeRow(id) {
-        $(id).closest("tr").remove();
-        calculateTotal()
-    }
-</script>
-<script>
    function calculateTotal(el) {
        var total = 0;
        //console.log(el);
@@ -197,6 +191,13 @@ input[type=number]::-webkit-inner-spin-button {
        $("#total_bangla").html(generateWords(total));
    }
 </script>
+
+<script>
+    function removeRow(id) {
+        $(id).closest("tr").remove();
+        calculateTotal()
+    }
+</script>
 <script>
     function getBook(val){
         var all_book=<?php echo json_encode($book);?>;
@@ -205,7 +206,11 @@ input[type=number]::-webkit-inner-spin-button {
         }
         var book = all_book[val];
         addNewRow(book);
-
+        disableOption(val);
+    }
+    function disableOption(value) {
+        $('#book_id option[value="' + value + '"]').prop('disabled', true);
+        $('#book_id').select2();
     }
 </script>
 <script>
@@ -234,8 +239,6 @@ input[type=number]::-webkit-inner-spin-button {
 <script>
     function get_preview(){
         var form = $('#jsvalidate').serializeArray();
-        var description = CKEDITOR.instances['description'].getData();
-        form.push({name: 'description', value: description});
         $.ajax({
             type: "POST",
             url: "<?php echo base_url(); ?>journal_entry/get_preview_pub",

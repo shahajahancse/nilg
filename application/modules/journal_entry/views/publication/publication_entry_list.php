@@ -12,7 +12,7 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right" style="display: flex;align-content: center;justify-content: center;flex-wrap: wrap;gap: 8px;">
-                            <a href="<?=base_url('journal_entry/publication_entry_create/1')?>" class="btn btn-blueviolet btn-xs btn-mini">বই এন্ট্রি</a>
+                            <a href="<?=base_url('journal_entry/publication_entry_create')?>" class="btn btn-blueviolet btn-xs btn-mini">বই এন্ট্রি</a>
                         </div>
                     </div>
                     <div class="grid-body ">
@@ -79,17 +79,16 @@
                                             <button class="btn btn-mini btn-primary dropdown-toggle"
                                                 data-toggle="dropdown"> <span class="caret"></span> </button>
                                             <ul class="dropdown-menu pull-right">
-                                                <li><a
-                                                        href="<?php echo base_url('journal_entry/publication_entry_details/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
+                                                <li><a href="<?php echo base_url('journal_entry/publication_entry_details/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> বিস্তারিত </a>
+                                                </li>
+                                                <?php if (date('Y-m-d') <= $row->created_at == date('Y-m-d')) { ?>
+                                                    <li><a href="<?php echo base_url('journal_entry/publication_entry_delete/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i>ডিলিট করুন</a></li>
+                                                <?php } ?>
 
-                                                <li><a href="<?php echo base_url('journal_entry/publication_entry_delete/'.encrypt_url($row->id))?>"><i
-                                                            class="fa fa-pencil-square"></i>ডিলিট করুন</a></li>
-                                                            <li><a href="<?php echo base_url('journal_entry/publication_print/'.encrypt_url($row->id))?>" target="_blank"><i
-                                                class="fa fa-pencil-square"target="_blank"></i> প্রিন্ট করুন</a></li>
-                                                            <?php if ($row->status == 1 && $this->ion_auth->in_group(array('admin', 'nilg','acc'))) {?>
-                                                <li><a href="<?php echo base_url('journal_entry/chenge_status/publication/'.encrypt_url($row->id))?>"><i
-                                                            class="fa fa-pencil-square"></i> অ্যাপ্রুভ করুন</a></li>
-                                            <?php } ?>
+                                                <!-- <li><a href="<?php echo base_url('journal_entry/publication_print/'.encrypt_url($row->id))?>" target="_blank"><i class="fa fa-pencil-square"target="_blank"></i> প্রিন্ট করুন</a>
+                                                </li> -->
+
+                                                <!-- <li><a href="<?php echo base_url('journal_entry/chenge_status/publication/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> অ্যাপ্রুভ করুন</a></li> -->
                                             </ul>
                                         </div>
                                     </td>
@@ -101,7 +100,7 @@
                         <div class="row">
                             <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> সর্বমোট <span
                                     style="color: green; font-weight: bold;"><?php echo eng2bng($total_rows); ?>
-                                    পাবলিকেশন  </span></div>
+                                    প্রকাশনা এন্ট্রি </span></div>
                             <div class="col-sm-8 col-md-8 text-right">
                                 <?php echo $pagination['links']; ?>
                             </div>

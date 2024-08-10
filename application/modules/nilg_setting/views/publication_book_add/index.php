@@ -6,7 +6,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">পাবলিকেশন বই অ্যাড  করুন</h4>
+                    <h4 class="modal-title">প্রকাশনা বই অ্যাড  করুন</h4>
                 </div>
                 <div class="modal-body">
                     <form action="<?=base_url('nilg_setting/publication_book_add') ?>"
@@ -91,7 +91,7 @@
                         <div class="pull-right"
                             style="display: flex;align-content: center;justify-content: center;flex-wrap: wrap;gap: 8px;">
                             <a data-toggle="modal" href='#publication_group_create_modal'
-                                class="btn btn-blueviolet btn-xs btn-mini">পাবলিকেশন বই তৈরি করুন</a>
+                                class="btn btn-blueviolet btn-xs btn-mini">প্রকাশনা বই তৈরি করুন</a>
                         </div>
                     </div>
 

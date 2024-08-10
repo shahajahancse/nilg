@@ -7,9 +7,10 @@ class Journal_entry_model extends CI_Model {
         parent::__construct();
     }
 
-    public function lists ($limit, $offset,$table) {
+    public function lists ($type, $limit, $offset,$table) {
         $this->db->select('b.*');
         $this->db->from($table.' as b');
+        $this->db->where('type', $type);
         $this->db->limit($limit);
         $this->db->offset($offset);
         $this->db->order_by('b.id', 'DESC');
@@ -18,10 +19,12 @@ class Journal_entry_model extends CI_Model {
 
         $this->db->select('COUNT(*) as count');
         $this->db->from($table.' as q');
+        $this->db->where('type', $type);
         $tmp = $this->db->get()->result();
         $result['num_rows'] = $tmp[0]->count;
         return $result;
     }
+
     public function all_journal($type,$from_date, $to_date,$status=null){
         $this->db->select('*');
         if(!empty($status)){

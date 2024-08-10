@@ -26,7 +26,7 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right">
-                            <a href="<?=base_url('journal_entry/publication_entry_list')?>"
+                            <a href="<?=base_url('journal_entry/publication_bikri_list')?>"
                                 class="btn btn-blueviolet btn-xs btn-mini">তালিকা</a>
                         </div>
                     </div>
@@ -47,17 +47,23 @@
 
                         <div class="row">
                             <br>
-                            <div class="col-md-4">
-                                <strong>তৈরি কারক: <span><?= $row->create_by ?></span></strong>
-                            </div>
-                            <div class="col-md-2">
-                                <strong>তারিখ: <span><?= date_bangla_calender_format($row->issue_date) ?></span></strong>
+                            <div class="col-md-3">
+                                <strong>ভাউচার নাঃ <span><?= $row->voucher_no ?></span></strong>
                             </div>
                             <div class="col-md-4">
-                                <strong>রেফারেন্স: <span><?= $row->reference ?></span></strong>
+                                <strong>নাম: <span><?= $row->name ?></span></strong>
                             </div>
                             <div class="col-md-2">
-                                <strong>পরিমান: <span><?= eng2bng($row->amount) ?></span></strong>
+                                <strong >মোবাইল: <span><?= $row->mobile ?></span></strong>
+                            </div>
+                            <div class="col-md-3">
+                                <strong class="pull-right">তারিখ: <span><?= date_bangla_calender_format($row->issue_date) ?></span></strong>
+                            </div>
+                            <div class="col-md-9">
+                                <strong>ঠিকানা: <span><?= $row->address ?></span></strong>
+                            </div>
+                            <div class="col-md-3">
+                                <strong class="pull-right">প্রদেয় টাকা: <span><?= eng2bng($row->pay_amount) ?></span></strong>
                             </div>
                         </div>
 
@@ -66,18 +72,18 @@
                                 <table class="table table-hover table-bordered report" style="margin-top: 15px;">
                                     <thead class="headding" >
                                         <tr>
-                                            <th rowspan="1" style="background-color: #b5dfe9 !important;">ক্রমিক নং</th>
-                                            <th rowspan="1" style="background-color: #b5dfe9 !important;">বই নাম</th>
-                                            <th rowspan="1" style="background-color: #b5dfe9 !important;">আইএসবিএন/আইএসএসএন</th>
-                                            <th rowspan="1" style="background-color: #b5dfe9 !important;">মূল্য</th>
-                                            <th rowspan="1" style="background-color: #b5dfe9 !important;">পরিমান</th>
-                                            <th rowspan="1" style="background-color: #b5dfe9 !important;">মোট মূল্য</th>
+                                            <th style="background-color: #b5dfe9 !important;">ক্রমিক নং</th>
+                                            <th style="background-color: #b5dfe9 !important;">বই নাম</th>
+                                            <th style="background-color: #b5dfe9 !important;">আইএসবিএন/আইএসএসএন</th>
+                                            <th style="background-color: #b5dfe9 !important;">মূল্য</th>
+                                            <th style="background-color: #b5dfe9 !important;">পরিমান</th>
+                                            <th style="background-color: #b5dfe9 !important;">মোট মূল্য</th>
+                                            <th style="background-color: #b5dfe9 !important;">কমিশন</th>
+                                            <th style="background-color: #b5dfe9 !important;">প্রদেয় টাকা</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php foreach ($details as $key => $r) {
-                                            //dd($r);
-                                            ?>
+                                        <?php foreach ($details as $key => $r) { ?>
                                             <tr>
                                                 <td><?php echo eng2bng($key + 1); ?></td>
                                                 <td><?php echo $r->name_bn; ?></td>
@@ -85,10 +91,23 @@
                                                 <td><?php echo eng2bng($r->price); ?></td>
                                                 <td><?php echo eng2bng($r->quantity); ?></td>
                                                 <td><?php echo eng2bng($r->amount); ?></td>
+                                                <?php if ($r->commission != 0) {
+                                                    $commission = $r->commission  / 100 * $r->amount;
+                                                } else {
+                                                    $commission = 0;
+                                                } ?>
+                                                <td><?php echo eng2bng($commission); ?></td>
+                                                <td><?php echo eng2bng($r->pay_amount); ?></td>
                                             </tr>
                                         <?php } ?>
                                     </tbody>
                                 </table>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <strong>রেফারেন্স: <span><?= $row->reference ?></span></strong>
                             </div>
                         </div>
                     </div> <!-- END GRID BODY -->
