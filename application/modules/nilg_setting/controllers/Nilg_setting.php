@@ -268,5 +268,113 @@ class Nilg_setting extends Backend_Controller {
             redirect('nilg_setting/publication_book_list');
         }
     }
+    public function hostel_room_list()
+    {
+        $this->data['result'] = $this->db->get('budget_j_hostel_room')->result_array();
+        $this->data['meta_title'] = 'কক্ষ  সেটিংস';
+        $this->data['subview'] = 'hostel_room_list/index';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function hostel_room_create()
+    {
+        $this->form_validation->set_rules('name', 'কক্ষ  নাম (বাংলা)', 'trim|required');
+        if ($this->form_validation->run() == TRUE) {
+            $form_data = array(
+                'id' => null,
+                'name' => $this->input->post('name'),
+                'type' => $this->input->post('type'),
+                'status' => 1,
+            );
+
+            if ($this->db->insert('budget_j_hostel_room', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('nilg_setting/hostel_room_list');
+            }
+        } else {
+            $this->data['result'] = $this->db->get('budget_j_hostel_room')->result_array();
+            $this->data['meta_title'] = 'কক্ষ  সেটিংস';
+            $this->data['subview'] = 'hostel_room_list/index';
+            $this->load->view('backend/_layout_main', $this->data);
+        }
+    }
+    public function hostel_room_list_update($id){
+        // $id = $this->input->post('id');
+        $this->form_validation->set_rules('name', 'কক্ষ  নাম (বাংলা)', 'trim|required');
+
+        if ($this->form_validation->run() == TRUE) {
+            $form_data = array(
+               'name' => $this->input->post('name'),
+                'type' => $this->input->post('type'),
+                'status' => 1,
+            );
+            $this->db->where('id', $id);
+            if ($this->db->update('budget_j_hostel_room', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('nilg_setting/hostel_room_list');
+            }
+        } else {
+            $this->db->where('id', $id);
+            $result= $this->db->get('budget_j_hostel_room')->row();
+            echo json_encode($result);
+        }
+    }
+
+    
+
+    public function hostel_seat_list()
+    {
+        $this->data['room'] = $this->db->get('budget_j_hostel_room')->result();
+        $this->db->select('budget_j_hostel_seat.*, budget_j_hostel_room.name as room_name');
+        $this->db->from('budget_j_hostel_seat');
+        $this->db->join('budget_j_hostel_room', 'budget_j_hostel_seat.room_id = budget_j_hostel_room.id', 'left');
+        $this->data['result'] = $this->db->get()->result();
+        $this->data['meta_title'] = 'হোস্টেল  সিট সেটিংস';
+        $this->data['subview'] = 'hostel_seat_list/index';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function hostel_seat_add()
+    {
+        $this->data['room'] = $this->db->get('budget_j_hostel_room')->result();
+        $this->form_validation->set_rules('name', 'সিট নাম (বাংলা)', 'trim|required');
+        if ($this->form_validation->run() == TRUE) {
+            // id	name	room_id	amount	status 1=active, 2=inactive
+
+            $form_data = array(
+                'name' => $this->input->post('name'),
+                'amount' => $this->input->post('amount'),
+                'room_id' => $this->input->post('room_id'),
+                'status' => 1,
+            );
+            if ($this->db->insert('budget_j_hostel_seat', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('nilg_setting/hostel_seat_list');
+            }
+        } else {
+            $this->data['room'] = $this->db->get('budget_j_hostel_room')->result();
+            $this->db->select('budget_j_hostel_seat.*, budget_j_hostel_room.name as room_name');
+            $this->db->from('budget_j_hostel_seat');
+            $this->db->join('budget_j_hostel_room', 'budget_j_hostel_seat.room_id = budget_j_hostel_room.id', 'left');
+            $this->data['result'] = $this->db->get()->result();
+            $this->data['meta_title'] = 'হোস্টেল  সিট সেটিংস';
+            $this->data['subview'] = 'hostel_seat_list/index';
+            $this->load->view('backend/_layout_main', $this->data);
+        }
+    }
+    public function hostel_seat_delete($id){
+        // $this->db->where('seat_id', $id);
+        // $p_data=$this->db->get('budget_j_hostel_register_details')->result();
+        // if(!empty($p_data)){
+        //     $this->session->set_flashdata('error', 'দুঃখিত! এই হোস্টেল  ব্যবহার করা হয়েছে');
+        //     redirect('nilg_setting/hostel_seat_list');
+        // }else{
+            $this->db->where('id', $id);
+            $this->db->delete('budget_j_hostel_seat');
+            $this->session->set_flashdata('success', 'কক্ষ  মুছে ফেলা হয়েছে');
+            redirect('nilg_setting/hostel_seat_list');
+        //}
+    }
+
+
+
 
 }
