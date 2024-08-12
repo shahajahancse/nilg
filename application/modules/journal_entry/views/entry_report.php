@@ -72,11 +72,11 @@
                         <?php if ($this->ion_auth->in_group(array('admin','nilg','acc'))) { ?>
                             <fieldset class="col-md-12">
                                 <legend>হোস্টেল রিপোর্ট বাটন</legend>
-                                <button type="submit" name="btnsubmit" value="all_pending,hostel"
+                                <!-- <button type="submit" name="btnsubmit" value="all_pending,hostel"
                                     class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
                                 <button type="submit" name="btnsubmit" value="all_approved,hostel"
-                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
-                                <button type="submit" name="btnsubmit" value="all_entry,hostel"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button> -->
+                                <button type="submit" name="btnsubmit" value="hostel_entry_report"
                                     class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
                             </fieldset>
 
@@ -145,12 +145,12 @@
                             <?php if($this->ion_auth->in_group(array('bho'))){?>
                             <fieldset class="col-md-12">
                                 <legend>হোস্টেল রিপোর্ট বাটন</legend>
-                                <button type="submit" name="btnsubmit" value="all_pending,hostel"
+                                <!-- <button type="submit" name="btnsubmit" value="all_pending,hostel"
                                     class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
                                 <button type="submit" name="btnsubmit" value="all_approved,hostel"
-                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
-                                <button type="submit" name="btnsubmit" value="all_entry,hostel"
-                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button> -->
+                                <button type="submit" name="btnsubmit" value="hostel_entry_report"
+                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> রিপোর্ট </button>
                             </fieldset>
                             <?php } ?>
                         <?php } ?>

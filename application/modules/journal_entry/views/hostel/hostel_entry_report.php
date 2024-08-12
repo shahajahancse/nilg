@@ -18,7 +18,7 @@
 
         .priview-demand {
             padding-bottom: 20px;
-            margin-top: 10px;
+            /* margin-top: 10px; */
         }
 
         .headding {
@@ -76,11 +76,6 @@
             float: left;
         }
 
-        .col-6-right {
-            width: 50%;
-            float: right;
-        }
-
         .col-7 {
             width: 58.33%;
             float: left;
@@ -133,10 +128,7 @@
 
     <div class="priview-body">
         <div class="col-3">
-            <?php
-            // $url = $_SERVER['DOCUMENT_ROOT'].'/awedget/assets/img/nilg-logo.png';
-            $url = base_url('awedget/assets/img/nilg-logo.png');
-            ?>
+            <?php $url = base_url('awedget/assets/img/nilg-logo.png'); ?>
             <div style="float: left;"><img src="<?= $url ?>" style="width:60; height: 80px; display: block;"></div>
         </div>
 
@@ -148,7 +140,12 @@
                 <span style="font-size:11px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
                 <span style="font-size:11px; text-decoration: underline;">www.nilg.gov.bd </span>
             </h4>
-            <h3 style="margin-bottom: -5px;" class="text-center"><?= $headding ?></h3>
+            <h3 style="text-decoration: underline; padding-bottom: -10px;" class="text-center"><?= $headding ?></h3>
+            <?php if (!empty($from_date) && !empty($to_date)) { ?>
+                <p class="text-center">তারিখ : <?= date_bangla_calender_format($from_date) ?> হইতে <?= date_bangla_calender_format($to_date) ?></p>
+            <?php } else {  ?>
+                <p class="text-center">তারিখ : <?= date_bangla_calender_format(date('Y-m-d')) ?></p>
+            <?php } ?>
         </div>
 
         <div class="col-2" style="float: right;">
@@ -159,98 +156,51 @@
         </div>
     </div>
 
-    <div class="priview-body content-div">
-        <div class="col-8">
-            <span style="padding: 0px 0px 0px 0px; margin: 0px;">নাম : <abbr><?php echo $info->name; ?></abbr></span> &nbsp;&nbsp;&nbsp;
-            <span style="padding: 0px; margin: 1px 0px;">এনআইডি : <abbr> <?php echo eng2bng($details[0]->nid); ?></abbr></span>
-            <br>
-            <span style="padding: 0px; margin: 1px 0px;">মোবাইল : <abbr> <?php echo eng2bng($details[0]->mobile); ?></abbr></span>&nbsp;&nbsp;&nbsp;
-            <span style="padding: 0px; margin: 1px 0px;">রেফারেন্স : <abbr> <?php echo $info->reference; ?></abbr></span>
-        </div>
-        <div class="col-3" style="float: right;">
-            <div>
-                <span>তারিখ : </span>
-                <span style="font-size: 13px"><?php echo date_bangla_calender_format($info->created_at); ?></span>
-            </div>
-            <div>
-                <span>সিরিয়াল নাঃ </span>
-                <span style="font-size: 13px"><?= eng2bng($info->session_year) .'-'. eng2bng($info->id); ?></span>
-            </div>
-        </div>
-    </div>
-
     <div class="priview-body">
         <div class="priview-demand">
             <table class="table table-hover table-bordered report">
                 <thead class="headding">
                     <tr>
-                        <td rowspan="1" style="">ক্রমিক নং</td>
-                        <td rowspan="1" style="">আসন</td>
-                        <td rowspan="1" style="">শুরুর তারিখ</td>
-                        <td rowspan="1" style="">শেষ তারিখ</td>
-                        <td colspan="1" style="">পরিমাণ</td>
+                        <td style="">ক্রম</td>
+                        <td style="">নাম</td>
+                        <td style="">মোবাইল</td>
+                        <td style="">এনআইডি</td>
+                        <td style="">শুরুর তারিখ</td>
+                        <td style="">শেষ তারিখ</td>
+                        <td style="">পরিমাণ </td>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <?php foreach ($details as $key => $r) { ?>
+                    <?php if (!empty($results)) { ?>
+                        <?php $total_amount = 0.00; ?>
+                        <?php foreach ($results as $key => $r) { ?>
+                            <tr>
+                                <?php $total_amount = $r->amount + $total_amount; ?>
+                                <td><?= eng2bng($key + 1) ?></td>
+                                <td><?= $r->title ?></td>
+                                <td><?= $r->mobile ?></td>
+                                <td><?= $r->nid ?></td>
+                                <td><?= date_bangla_calender_format($r->start_date) ?></td>
+                                <td><?= date_bangla_calender_format($r->end_date) ?></td>
+                                <td><?php echo eng2bng($r->amount); ?></td>
+                            </tr>
+                        <?php } ?>
                         <tr>
-                            <td><?php echo eng2bng($key + 1); ?></td>
-                            <td><?php echo $r->seat; ?></td>
-                            <td><?php echo date_bangla_calender_format($r->start_date); ?></td>
-                            <td><?php echo date_bangla_calender_format($r->end_date); ?></td>
-                            <td><?php echo eng2bng($r->amount); ?></td>
+                            <td style="text-align: right; font-weight: bold;">মোট</td>
+                            <?php $obj = new BanglaNumberToWord(); ?>
+                            <td style="text-align: right; font-weight: bold; padding-right: 10px" colspan="5"><span>কথায় : <abbr> <?php echo $obj->numToWord(sprintf("%.2f",$total_amount)); ?></abbr> টাকা মাত্র</span></td>
+                            <td style="font-weight: bold;"><?= eng2bng($total_amount) ?></td>
                         </tr>
-                    <?php } ?>
-                    <tr>
-                        <td colspan="4" style="text-align: right; padding-right: 10px"> সর্বমোট পরিমাণ </td>
-                        <td><?php echo eng2bng($info->amount); ?></td>
-                    </tr>
+                    <?php } else {
+                        echo '<tr><td colspan="8" class="text-center">কোন তথ্য পাওয়া যায়নি</td></tr>';
+                    } ?>
                 </tbody>
             </table>
-            <div style=" margin-top: 5px;">
-                <?php $obj = new BanglaNumberToWord(); ?>
-                <span>কথায় : <abbr> <?php echo $obj->numToWord($info->amount); ?></abbr> টাকা মাত্র</span>
-            </div>
         </div>
     </div>
 
-    <!-- <div class="priview-body">
-        <div class="col-12">
-            <span>মন্তব্য :</span>
-            <span><?= $info->description ?></span>
-        </div>
-    </div> -->
 
-    <div class="footer">
-        <div class="col-6"></div>
-        <div class="col-6-right">
-            <?php if ($info->signature != NULL) {
-                $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $info->signature;
-            } else {
-                $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/blank.jpg';
-            }
-            ?>
-            <div><span style="width:160; height: 50px; display: block;"></span> </div>
-            <div><span class="border-top">স্বাক্ষর ও সীল</span></div>
-        </div>
-        <br>
-    </div>
-
-    <style>
-        .footer {
-            position: fixed;
-            left: 0;
-            bottom: 50;
-            width: 100%;
-            text-align: center;
-            font-size: 20px;
-        }
-
-        .border-top {
-            border-top: 1px solid black;
-        }
-    </style>
 </body>
 
 </html>

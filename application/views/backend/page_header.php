@@ -487,7 +487,7 @@ input[type="search"] {
                               <?php } ?>
                               <?php if ($this->ion_auth->in_group(array('admin','nilg','acc', 'bho'))) { ?>
                               <li class="start <?= backend_activate_menu_method('hostel_room_list') ?>"> <a href="<?= base_url('nilg_setting/hostel_room_list'); ?>">কক্ষ তালিকা</a> </li>
-                              <li class="start <?= backend_activate_menu_method('hostel_seat_list') ?>"> <a href="<?= base_url('nilg_setting/hostel_seat_list'); ?>">সিট তালিকা </a> </li>
+                              <li class="start <?= backend_activate_menu_method('hostel_seat_list') ?>"> <a href="<?= base_url('nilg_setting/hostel_seat_list'); ?>">আসন তালিকা </a> </li>
                               <?php } ?>
                            </ul>
                         </li>

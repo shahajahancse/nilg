@@ -11,7 +11,7 @@
     <div class="content">
         <ul class="breadcrumb">
             <li><a href="<?=base_url('dashboard')?>" class="active" > Dashboard </a></li>
-            <li><a href="<?=base_url('budget/budget_nilg_create')?>" class="active"><?=$module_name?></a></li>
+            <li><a href="<?=base_url('journal_entry/hostel_entry')?>" class="active"><?=$module_name?></a></li>
             <li><?=$meta_title; ?></li>
 
         </ul>
@@ -26,8 +26,8 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right">
-                            <a href="<?=base_url('journal_entry/publication_entry')?>"
-                                class="btn btn-blueviolet btn-xs btn-mini">প্রকাশনা তালিকা</a>
+                            <a href="<?=base_url('journal_entry/hostel_entry')?>"
+                                class="btn btn-blueviolet btn-xs btn-mini">তালিকা</a>
                         </div>
                     </div>
                     <div class="grid-body">
@@ -47,29 +47,20 @@
 
                         <div class="row">
                             <br>
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <strong> <h4>শিরোনাম : হোস্টেল ভাউচার </h4></strong>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <strong>রেফারেন্স: <span><?= $row->reference ?></span></strong>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <strong>ভাউচার নাঃ <span><?= $row->voucher_no ?></span></strong>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <strong>তৈরি কারক: <span><?= $row->create_by ?></span></strong>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <strong>তারিখ: <span><?= date_bangla_calender_format($row->date) ?></span></strong>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <strong>পরিমান: <span><?= eng2bng($row->amount) ?></span></strong>
-                                    </div>
-                                </div>
+                            <div class="col-md-2">
+                                <strong>সিরিয়াল নাঃ <span><?=$row->session_year.'-'.$row->id; ?></span></strong>
+                            </div>
+                            <div class="col-md-3">
+                                <strong>নাম : <span><?= $row->name ?></span></strong>
+                            </div>
+                            <div class="col-md-3">
+                                <strong>রেফারেন্স: <span><?= $row->reference ?></span></strong>
+                            </div>
+                            <div class="col-md-2">
+                                <strong>তারিখ: <span><?= date_bangla_calender_format($row->date) ?></span></strong>
+                            </div>
+                            <div class="col-md-2">
+                                <strong>পরিমান: <span><?= eng2bng($row->amount) ?></span></strong>
                             </div>
                         </div>
 
@@ -79,8 +70,12 @@
                                     <thead class="headding" >
                                         <tr>
                                             <th rowspan="1" style="background-color: #c4d5d9 !important;">ক্রমিক নং</th>
-                                            <th rowspan="1" style="background-color: #c4d5d9 !important;">শিরোনাম</th>
-                                            <th rowspan="1" style="background-color: #c4d5d9 !important;">বিবরণ</th>
+                                            <th rowspan="1" style="background-color: #c4d5d9 !important;">নাম</th>
+                                            <th rowspan="1" style="background-color: #c4d5d9 !important;">এনআইডি</th>
+                                            <th rowspan="1" style="background-color: #c4d5d9 !important;">মোবাইল</th>
+                                            <th rowspan="1" style="background-color: #c4d5d9 !important;">আসন</th>
+                                            <th rowspan="1" style="background-color: #c4d5d9 !important;">শুরুর তারিখ</th>
+                                            <th rowspan="1" style="background-color: #c4d5d9 !important;">শেষের তারিখ</th>
                                             <th rowspan="1" style="background-color: #c4d5d9 !important;">পরিমান</th>
                                         </tr>
                                     </thead>
@@ -88,8 +83,12 @@
                                         <?php foreach ($details as $key => $r) { ?>
                                             <tr>
                                                 <td><?php echo eng2bng($key + 1); ?></td>
-                                                <td><?php echo eng2bng($r->title); ?></td>
-                                                <td><?php echo eng2bng($r->remark); ?></td>
+                                                <td><?php echo $r->title; ?></td>
+                                                <td><?php echo eng2bng($r->nid); ?></td>
+                                                <td><?php echo eng2bng($r->mobile); ?></td>
+                                                <td><?php echo eng2bng($r->seat); ?></td>
+                                                <td><?php echo date_bangla_calender_format($r->start_date); ?></td>
+                                                <td><?php echo date_bangla_calender_format($r->end_date); ?></td>
                                                 <td><?php echo eng2bng($r->amount); ?></td>
                                             </tr>
                                         <?php } ?>

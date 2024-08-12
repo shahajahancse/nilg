@@ -265,10 +265,10 @@
                     </div>
                     <div class="col-md-3"
                         style="display: flex;align-content: center;flex-wrap: wrap;right: 0;position: relative;justify-content: flex-end;">
-                        <div style="padding: 4px; border: 2px solid; font-size: 13px; float: right;">
+                        <!-- <div style="padding: 4px; border: 2px solid; font-size: 13px; float: right;">
                             <span> শেখ হাসিনার মূলনীতি </span> <br>
                             <span> গ্রাম শহরের উন্নতি </span>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -298,7 +298,7 @@
 
                 <tbody>
                     <?php
-					$i=1; foreach ($results as $row) { 
+					$i=1; foreach ($results as $row) {
 						?>
                     <tr>
                         <td class="v-align-middle"><?=$i.'.'?></td>

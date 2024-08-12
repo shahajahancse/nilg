@@ -342,11 +342,11 @@ class Journal_entry extends Backend_Controller
         $limit = 15;
         $user_id = $this->data['userDetails']->id;
         $dept_id = $this->data['userDetails']->crrnt_dept_id;
-        $results = $this->Journal_entry_model->lists($limit, $offset, 'budget_j_hostel_register');
+        $results = $this->Journal_entry_model->lists(1, $limit, $offset, 'budget_j_hostel_register');
         $this->data['results'] = $results['rows'];
         $this->data['total_rows'] = $results['num_rows'];
         //pagination
-        $this->data['pagination'] = create_pagination('journal_entry/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+        $this->data['pagination'] = create_pagination('journal_entry/hostel_entry/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
         // Load view
         $this->data['meta_title'] = 'হোস্টেল এর তালিকা';
         $this->data['subview'] = 'hostel/index';
@@ -354,32 +354,39 @@ class Journal_entry extends Backend_Controller
     }
     public function hostel_entry_create()
     {
-        $this->form_validation->set_rules('title[]', 'শিরোনাম', 'required|trim');
-        $this->form_validation->set_rules('amount[]', 'পরিমাণ', 'required|trim');
+        $this->form_validation->set_rules('name', 'নাম', 'required|trim');
+        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
         $user = $this->ion_auth->user()->row();
         if ($this->form_validation->run() == true) {
+            $session_year = $this->db->order_by('id', 'desc')->get('session_year')->row()->session_name;
             $this->db->trans_start();
             $form_data = array(
                 'voucher_no' => $this->input->post('voucher_no'),
-                'amount' => $this->input->post('total'),
-                'type' => $this->input->post('type'),
+                'amount' => $this->input->post('amount'),
+                'type' => 1,
+                'session_year' => $session_year,
                 'reference' => $this->input->post('reference'),
                 'description' => $this->input->post('description'),
-                'date' => $this->input->post('issue_date'),
+                'date' => $this->input->post('date'),
                 'create_by' => $user->id,
             );
 
             if ($this->Common_model->save('budget_j_hostel_register', $form_data)) {
                 $insert_id = $this->db->insert_id();
-                foreach ($_POST['amount'] as $key => $row) {
-                    $data_details = array(
-                        'hostel_register_id' => $insert_id ,
-                        'title' => $_POST['title'][$key],
-                        'remark' => $_POST['remark'][$key],
-                        'amount' => $_POST['amount'][$key],
-                    );
-                    $this->db->insert('budget_j_hostel_register_details', $data_details);
-                }
+                $data_details = array(
+                    'hostel_register_id' => $insert_id,
+                    'title' => $_POST['name'],
+                    'nid'  => $_POST['nid'],
+                    'mobile' => $_POST['mobile'],
+                    'room_id' => $_POST['room_id'],
+                    'seat_id' => $_POST['seat_id'],
+                    'start_date' => $_POST['start_date'],
+                    'end_date' => $_POST['end_date'],
+                    'amount'   => $_POST['amount'],
+                    'session_year' => $session_year,
+                );
+                $this->db->insert('budget_j_hostel_register_details', $data_details);
+
                 $this->db->trans_complete();
                 $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
                 redirect('journal_entry/hostel_entry');
@@ -391,54 +398,36 @@ class Journal_entry extends Backend_Controller
         $this->data['subview'] = 'hostel/entry';
         $this->load->view('backend/_layout_main', $this->data);
     }
-    public function hostel_entry_details($encid){
-        $id = (int) decrypt_url($encid);
-        $this->db->select('q.*,u.name_bn as create_by');
-        $this->db->from('budget_j_hostel_register as q');
-        $this->db->join('users as u', 'u.id = q.create_by', 'left');
-        $this->db->where('q.id', $id);
-        $this->data['row'] = $this->db->get()->row();
-
-        $this->db->where('hostel_register_id', $id);
-        $this->data['details'] = $this->db->get('budget_j_hostel_register_details')->result();
-        //Dropdown
-        $this->data['info'] = $this->Common_model->get_user_details();
-        //Load view
-        $this->data['meta_title'] = 'হোস্টেল বিস্তারিত';
-        $this->data['subview'] = 'hostel/details';
-        $this->load->view('backend/_layout_main', $this->data);
-    }
     public function hostel_entry_edit($encid=null){
         $id = (int) decrypt_url($encid);
-        $this->form_validation->set_rules('title[]', 'শিরোনাম', 'required|trim');
-        $this->form_validation->set_rules('amount[]', 'পরিমাণ', 'required|trim');
+        $this->form_validation->set_rules('name', 'নাম', 'required|trim');
+        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
         $user = $this->ion_auth->user()->row();
         if ($this->form_validation->run() == true) {
             $this->db->trans_start();
             $form_data = array(
-                'amount' => $this->input->post('total'),
-                'type' => $this->input->post('type'),
+                'name' => $this->input->post('name'),
+                'amount' => $this->input->post('amount'),
                 'reference' => $this->input->post('reference'),
                 'description' => $this->input->post('description'),
-                'date' => $this->input->post('issue_date'),
             );
 
             $this->db->where('id', $id);
             if ($this->db->update('budget_j_hostel_register', $form_data)) {
-                foreach ($_POST['amount'] as $key => $row) {
-                    $data_details = array(
-                        'hostel_register_id' => $id ,
-                        'title' => $_POST['title'][$key],
-                        'remark' => $_POST['remark'][$key],
-                        'amount' => $_POST['amount'][$key],
-                    );
-                    if (!empty($_POST['detail_id'][$key])) {
-                        $this->db->where('id', $_POST['detail_id'][$key]);
-                        $this->db->update('budget_j_hostel_register_details', $data_details);
-                    } else {
-                        $this->db->insert('budget_j_hostel_register_details', $data_details);
-                    }
-                }
+
+                $data_details = array(
+                    'title' => $_POST['name'],
+                    'nid' => $_POST['nid'],
+                    'mobile' => $_POST['mobile'],
+                    'room_id' => $_POST['room_id'],
+                    'seat_id' => $_POST['seat_id'],
+                    'start_date' => $_POST['start_date'],
+                    'end_date' => $_POST['end_date'],
+                    'amount' => $_POST['amount'],
+                );
+                $this->db->where('id', $_POST['detail_id']);
+                $this->db->update('budget_j_hostel_register_details', $data_details);
+
                 $this->db->trans_complete();
                 $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
                 redirect('journal_entry/hostel_entry');
@@ -460,10 +449,55 @@ class Journal_entry extends Backend_Controller
         $this->data['subview'] = 'hostel/edit';
         $this->load->view('backend/_layout_main', $this->data);
     }
+    public function hostel_entry_details($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->select('q.*,u.name_bn as create_by');
+        $this->db->from('budget_j_hostel_register as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['row'] = $this->db->get()->row();
+
+        $this->db->select('d.*, s.name as seat');
+        $this->db->where('d.hostel_register_id', $id);
+        $this->db->from('budget_j_hostel_register_details as d');
+        $this->db->join('budget_j_hostel_seat as s', 's.id = d.seat_id', 'left');
+        $this->data['details'] = $this->db->get()->result();
+
+        //Dropdown
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'হোস্টেল বিস্তারিত';
+        $this->data['subview'] = 'hostel/details';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function getSeat(){
+        $room_id = $this->input->post('room_id');
+        $this->db->select('*');
+        $this->db->where('room_id', $room_id);
+        $json = $this->db->get('budget_j_hostel_seat')->result();
+        echo json_encode($json);
+        exit();
+    }
+    public function getAmount_hostel(){
+        $seat_id=$this->input->post('seat_id');
+        $start_date=$this->input->post('start_date');
+        $end_date=$this->input->post('end_date');
+        $this->db->select('amount');
+        $this->db->where('id', $seat_id);
+        $data = $this->db->get('budget_j_hostel_seat')->row();
+        $amount=$data->amount;
+        $date1 = new DateTime($start_date);
+        $date2 = new DateTime($end_date);
+        $interval = $date1->diff($date2);
+        $date_diff = $interval->format('%a')+1;
+        echo $amount * $date_diff;
+    }
     public function hostel_entry_delete($encid){
         $id = (int) decrypt_url($encid);
         $this->db->where('id', $id);
         if ($this->db->delete('budget_j_hostel_register')) {
+            $this->db->where('hostel_register_id', $id);
+            $this->db->delete('budget_j_hostel_register_details');
             $this->session->set_flashdata('success', 'তথ্য মুছে ফেলা হয়েছে');
             redirect('journal_entry/hostel_entry');
         }else{
@@ -471,6 +505,34 @@ class Journal_entry extends Backend_Controller
             redirect('journal_entry/hostel_entry');
         }
     }
+    public function hostel_print($id)
+    {
+        $this->load->helper('bangla_converter');
+        $id = (int) decrypt_url($id);
+        //Results
+        $this->db->select('q.*, u.name_bn as create_by, u.signature');
+        $this->db->from('budget_j_hostel_register as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['info'] = $this->db->get()->row();
+
+        $this->db->select('d.*, s.name as seat');
+        $this->db->where('d.hostel_register_id', $id);
+        $this->db->from('budget_j_hostel_register_details as d');
+        $this->db->join('budget_j_hostel_seat as s', 's.id = d.seat_id', 'left');
+        $this->data['details'] = $this->db->get()->result();
+
+        // Generate PDF
+        $this->data['headding'] = 'হোস্টেল ভাউচার';
+        $html = $this->load->view('hostel/hostel_print', $this->data, true);
+
+        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+        $mpdf->WriteHtml($html);
+        $mpdf->output();
+    }
+
+
+
     public function hostel_removeItem($id){
         $this->db->where('id', $id);
         $prd = $this->db->get('budget_j_hostel_register_details')->row();
@@ -489,29 +551,6 @@ class Journal_entry extends Backend_Controller
         $this->session->set_flashdata('success', 'তথ্য মুছে ফেলা হয়েছে');
         return true;
         exit();
-    }
-    public function hostel_print($id)
-    {
-        $id = (int) decrypt_url($id);
-        //Results
-        $this->db->select('q.*, u.name_bn as create_by, u.signature, ac.signature as acc_signature, d.dept_name');
-        $this->db->from('budget_j_hostel_register as q');
-        $this->db->join('users as u', 'u.id = q.create_by', 'left');
-        $this->db->join('users as ac', 'ac.id = q.acc_id', 'left');
-        $this->db->join('department as d', 'd.id = u.crrnt_dept_id', 'left');
-        $this->db->where('q.id', $id);
-        $this->data['info'] = $this->db->get()->row();
-
-        $this->db->where('hostel_register_id', $id);
-        $this->data['items'] = $this->db->get('budget_j_hostel_register_details')->result();
-
-        // Generate PDF
-        $this->data['headding'] = 'হোস্টেল ভাউচার';
-        $html = $this->load->view('hostel/hostel_print', $this->data, true);
-
-        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
-        $mpdf->WriteHtml($html);
-        $mpdf->output();
     }
     // end hostel register entry
 
@@ -658,7 +697,6 @@ class Journal_entry extends Backend_Controller
         $this->data['subview'] = 'publication/publication_bikri_list';
         $this->load->view('backend/_layout_main', $this->data);
     }
-
     public function publication_bikri_create($type = null)
     {
         $this->form_validation->set_rules('book_id[]', 'বই নাম', 'required|trim');
@@ -729,7 +767,6 @@ class Journal_entry extends Backend_Controller
         $this->data['subview'] = 'publication/bikri_form';
         $this->load->view('backend/_layout_main', $this->data);
     }
-
     public function publication_bikri_details($encid, $type = null){
         $id = (int) decrypt_url($encid);
         $this->db->select('q.*,u.name_bn as create_by');
@@ -750,7 +787,36 @@ class Journal_entry extends Backend_Controller
         $this->data['subview'] = 'publication/publication_bikri_details';
         $this->load->view('backend/_layout_main', $this->data);
     }
+    public function publication_print($id)
+    {
+        $this->load->helper('bangla_converter');
+        $id = (int) decrypt_url($id);
+        //Results
+
+        $this->db->select('q.*, u.name_bn as create_by, u.signature, ac.signature as acc_signature, d.dept_name');
+        $this->db->from('budget_j_publication_register as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->join('users as ac', 'ac.id = q.acc_id', 'left');
+        $this->db->join('department as d', 'd.id = u.crrnt_dept_id', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['info'] = $this->db->get()->row();
+
+        $this->db->select('q.*, b.name_bn, b.isbn_number');
+        $this->db->from('budget_j_publication_register_details as q');
+        $this->db->join('budget_j_publication_book as b', 'b.id = q.book_id', 'left');
+        $this->db->where('q.publication_register_id', $id);
+        $this->data['details'] = $this->db->get()->result();
+
+        // Generate PDF
+        $this->data['headding'] = 'প্রকাশনা ভাউচার';
+        $html = $this->load->view('publication/publication_print', $this->data, true);
+
+        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+        $mpdf->WriteHtml($html);
+        $mpdf->output();
+    }
     // End publication bikri
+
 
     public function publication_entry($offset = 0)
     {
@@ -854,36 +920,6 @@ class Journal_entry extends Backend_Controller
             $this->session->set_flashdata('error', 'তথ্য মুছে ফেলা হয়নি');
             redirect('journal_entry/publication_entry');
         }
-    }
-
-
-    public function publication_print($id)
-    {
-        $this->load->helper('bangla_converter');
-        $id = (int) decrypt_url($id);
-        //Results
-
-        $this->db->select('q.*, u.name_bn as create_by, u.signature, ac.signature as acc_signature, d.dept_name');
-        $this->db->from('budget_j_publication_register as q');
-        $this->db->join('users as u', 'u.id = q.create_by', 'left');
-        $this->db->join('users as ac', 'ac.id = q.acc_id', 'left');
-        $this->db->join('department as d', 'd.id = u.crrnt_dept_id', 'left');
-        $this->db->where('q.id', $id);
-        $this->data['info'] = $this->db->get()->row();
-
-        $this->db->select('q.*, b.name_bn, b.isbn_number');
-        $this->db->from('budget_j_publication_register_details as q');
-        $this->db->join('budget_j_publication_book as b', 'b.id = q.book_id', 'left');
-        $this->db->where('q.publication_register_id', $id);
-        $this->data['details'] = $this->db->get()->result();
-
-        // Generate PDF
-        $this->data['headding'] = 'প্রকাশনা ভাউচার';
-        $html = $this->load->view('publication/publication_print', $this->data, true);
-
-        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
-        $mpdf->WriteHtml($html);
-        $mpdf->output();
     }
     // end budget_j_publication_register
 
@@ -1296,146 +1332,171 @@ class Journal_entry extends Backend_Controller
     }
 
     //entry Report
-        public function entry_report()
-        {
-            $this->data['meta_title'] = 'রিপোর্ট';
-            $this->data['mudule_title'] = 'রিপোর্ট';
-            $this->data['subview'] = 'entry_report';
-            $this->load->view('backend/_layout_main', $this->data);
-        }
+    public function entry_report()
+    {
+        $this->data['meta_title'] = 'রিপোর্ট';
+        $this->data['mudule_title'] = 'রিপোর্ট';
+        $this->data['subview'] = 'entry_report';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
 
-        public function entry_report_view()
-        {
-            $from_date = $this->input->post('from_date');
-            $to_date = $this->input->post('to_date');
-            $book_name = $this->input->post('book_name');
-            $btnsubmit = $this->input->post('btnsubmit');
-            $s_array=explode(',', $btnsubmit);
-            $btn=$s_array[0];
+    public function entry_report_view()
+    {
+        $this->load->helper('bangla_converter');
+        $from_date = $this->input->post('from_date');
+        $to_date = $this->input->post('to_date');
+        $book_name = $this->input->post('book_name');
+        $btnsubmit = $this->input->post('btnsubmit');
+        $s_array=explode(',', $btnsubmit);
+        $btn=$s_array[0];
+        if (!empty($s_array[1])) {
             $type=$s_array[1];
-
-            // dd($_POST);
-
-            // publication start
-            if($btn == 'single_book' && !empty($book_name)) {
-                $this->data['results'] = $this->Journal_entry_model->single_book_info($from_date, $to_date, $book_name);
-                // dd($this->data['results']);
-                // Generate PDF
-                $this->data['headding'] = 'স্টোর মজুত লেজার';
-                $html = $this->load->view('publication/single_book_info', $this->data, true);
-
-                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
-                $mpdf->WriteHtml($html);
-                $mpdf->output();
-            } else if($btn == 'all_book') {
-                $this->data['results']= $this->Journal_entry_model->all_book($from_date, $to_date);
-
-                // Generate PDF
-                if ($type == 'number') {
-                    $this->data['headding'] = 'প্রকাশনা সংখ্যা ভিত্তিক রিপোর্ট';
-                    $html = $this->load->view('publication/publication_number_print', $this->data, true);
-                } else {
-                    $this->data['headding'] = 'প্রকাশনা পরিমাণ ভিত্তিক রিপোর্ট';
-                    $html = $this->load->view('publication/publication_amount_print', $this->data, true);
-                }
-                $html;
-
-                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
-                $mpdf->WriteHtml($html);
-                $mpdf->output();
-            } else if($btn == 'group_book') {
-                $group_id = $this->input->post('group_name');
-                $this->data['results'] = $this->Journal_entry_model->group_book_info($from_date, $to_date, $group_id);
-                // dd($this->data['results']);
-                // Generate PDF
-                $this->data['headding'] = 'গ্রুপ ভিত্তিক রিপোর্ট';
-                $html = $this->load->view('publication/group_book_info', $this->data, true);
-
-                $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
-                $mpdf->WriteHtml($html);
-                $mpdf->output();
-            } else if($btn == 'excel_sheet') {
-                $this->data['results'] = $this->Journal_entry_model->all_book($from_date, $to_date);
-                // dd($this->data['results']);
-
-                //Load View
-                $this->data['headding'] = 'এক্সেল শীট';
-                $this->data['meta_title'] = 'এক্সেল শীট';
-                $this->load->view('publication/excel_sheet', $this->data);
-                return true;
-            }
-
-            // publication end
-            if($btn == 'all_pending') {
-                $this->data['results']= $this->Journal_entry_model->all_journal($type,$from_date, $to_date,1);
-            }
-            if($btn == 'all_approved') {
-                $this->data['results']= $this->Journal_entry_model->all_journal($type,$from_date, $to_date,2);
-            }
-            if($btn == 'all_entry') {
-                $this->data['results']= $this->Journal_entry_model->all_journal($type,$from_date, $to_date);
-            }
-            $this->data['headding'] = 'বাজেট এন্ট্রি রিপোর্ট';
-            echo $html = $this->load->view('all_journal_report', $this->data, true);
+        } else {
+            $type=null;
         }
-        public function get_preview_pub(){
-            //dd($_POST);
-            $data_details = array();
-            $form_data = array(
-                'voucher_no' => $this->input->post('voucher_no'),
-                'amount' => $this->input->post('total'),
-                'type' => $this->input->post('type'),
-                'reference' => $this->input->post('reference'),
-                'description' => $this->input->post('description'),
-                'issue_date' => date('Y-m-d', strtotime($this->input->post('issue_date'))),
-            );
-                $insert_id = 1;
-                if (!isset($_POST['price'])) {
-                    echo 'Please Select Book';
-                    exit;
+
+        // dd($_POST);
+
+        // publication start
+        if($btn == 'single_book' && !empty($book_name)) {
+            $this->data['results'] = $this->Journal_entry_model->single_book_info($from_date, $to_date, $book_name);
+            // dd($this->data['results']);
+            // Generate PDF
+            $this->data['headding'] = 'স্টোর মজুত লেজার';
+            $html = $this->load->view('publication/single_book_info', $this->data, true);
+
+            $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+            $mpdf->WriteHtml($html);
+            $mpdf->output();
+            exit;
+        } else if($btn == 'all_book') {
+            $this->data['results']= $this->Journal_entry_model->all_book($from_date, $to_date);
+
+            // Generate PDF
+            if ($type == 'number') {
+                $this->data['headding'] = 'প্রকাশনা সংখ্যা ভিত্তিক রিপোর্ট';
+                $html = $this->load->view('publication/publication_number_print', $this->data, true);
+            } else {
+                $this->data['headding'] = 'প্রকাশনা পরিমাণ ভিত্তিক রিপোর্ট';
+                $html = $this->load->view('publication/publication_amount_print', $this->data, true);
+            }
+            $html;
+
+            $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+            $mpdf->WriteHtml($html);
+            $mpdf->output();
+            exit;
+        } else if($btn == 'group_book') {
+            $group_id = $this->input->post('group_name');
+            $this->data['results'] = $this->Journal_entry_model->group_book_info($from_date, $to_date, $group_id);
+            // dd($this->data['results']);
+            // Generate PDF
+            $this->data['headding'] = 'গ্রুপ ভিত্তিক রিপোর্ট';
+            $html = $this->load->view('publication/group_book_info', $this->data, true);
+
+            $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+            $mpdf->WriteHtml($html);
+            $mpdf->output();
+            exit;
+        } else if($btn == 'excel_sheet') {
+            $this->data['results'] = $this->Journal_entry_model->all_book($from_date, $to_date);
+            // dd($this->data['results']);
+
+            //Load View
+            $this->data['headding'] = 'এক্সেল শীট';
+            $this->data['meta_title'] = 'এক্সেল শীট';
+            $this->load->view('publication/excel_sheet', $this->data);
+            return true; exit;
+        }
+        // publication end
+
+        if($btn == 'hostel_entry_report') {
+            $this->data['results'] = $this->Journal_entry_model->hostel_entry_report($from_date, $to_date);
+            // dd($this->data['results']);
+            // Generate PDF
+            $this->data['from_date'] = $from_date;
+            $this->data['to_date'] = $to_date;
+            $this->data['headding'] = 'হোস্টেল রিপোর্ট';
+            $html = $this->load->view('hostel/hostel_entry_report', $this->data, true);
+
+            $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+            $mpdf->WriteHtml($html);
+            $mpdf->output();
+        }
+
+
+        if($btn == 'all_pending') {
+            $this->data['results']= $this->Journal_entry_model->all_journal($type,$from_date, $to_date,1);
+        }
+        if($btn == 'all_approved') {
+            $this->data['results']= $this->Journal_entry_model->all_journal($type,$from_date, $to_date,2);
+        }
+        if($btn == 'all_entry') {
+            $this->data['results']= $this->Journal_entry_model->all_journal($type,$from_date, $to_date);
+        }
+        $this->data['headding'] = 'বাজেট এন্ট্রি রিপোর্ট';
+        echo $html = $this->load->view('all_journal_report', $this->data, true);
+    }
+
+
+    public function get_preview_pub(){
+        //dd($_POST);
+        $data_details = array();
+        $form_data = array(
+            'voucher_no' => $this->input->post('voucher_no'),
+            'amount' => $this->input->post('total'),
+            'type' => $this->input->post('type'),
+            'reference' => $this->input->post('reference'),
+            'description' => $this->input->post('description'),
+            'issue_date' => date('Y-m-d', strtotime($this->input->post('issue_date'))),
+        );
+            $insert_id = 1;
+            if (!isset($_POST['price'])) {
+                echo 'Please Select Book';
+                exit;
+            }
+            foreach ($_POST['price'] as $key => $row) {
+                $code='BS-PUB-'.$insert_id.''.$key.'-'.$_POST['book_id'][$key].''.time();
+                if ($this->input->post('type')==2) {
+                    $type=$_POST['sell_type'][$key];
+                }elseif($this->input->post('type')==3){
+                    $type=4;
+                }else{
+                    $type=1;
                 }
-                foreach ($_POST['price'] as $key => $row) {
-                    $code='BS-PUB-'.$insert_id.''.$key.'-'.$_POST['book_id'][$key].''.time();
-                    if ($this->input->post('type')==2) {
-                        $type=$_POST['sell_type'][$key];
-                    }elseif($this->input->post('type')==3){
-                        $type=4;
+
+                $last_data=$this->db->where('book_id', $_POST['book_id'][$key])->limit(1)->order_by('id', 'desc')->get('budget_j_publication_register_details')->last_row();
+                if (!empty($last_data)) {
+                    if($type==1){
+                        $rest_qty = $last_data->rest_qty + $_POST['quantity'][$key];
                     }else{
-                        $type=1;
+                        $rest_qty = $last_data->rest_qty - $_POST['quantity'][$key];
                     }
-
-                    $last_data=$this->db->where('book_id', $_POST['book_id'][$key])->limit(1)->order_by('id', 'desc')->get('budget_j_publication_register_details')->last_row();
-                    if (!empty($last_data)) {
-                        if($type==1){
-                            $rest_qty = $last_data->rest_qty + $_POST['quantity'][$key];
-                        }else{
-                            $rest_qty = $last_data->rest_qty - $_POST['quantity'][$key];
-                        }
-                    } else {
-                        if($type==1){
-                        $rest_qty = $_POST['quantity'][$key];
-                        }else{
-                            $rest_qty =0- $_POST['quantity'][$key];
-                        }
+                } else {
+                    if($type==1){
+                    $rest_qty = $_POST['quantity'][$key];
+                    }else{
+                        $rest_qty =0- $_POST['quantity'][$key];
                     }
-                    $data_details[] = array(
-                        'publication_register_id' => $insert_id ,
-                        'book_id' => $_POST['book_id'][$key],
-                        'code' => $code,
-                        'type' => $type,
-                        'price' => $_POST['price'][$key],
-                        'quantity' => $_POST['quantity'][$key],
-                        'amount' => $_POST['amount'][$key],
-                        'rest_qty' => $rest_qty,
-                        'rest_amt' => $rest_qty * $_POST['price'][$key],
-                    );
                 }
+                $data_details[] = array(
+                    'publication_register_id' => $insert_id ,
+                    'book_id' => $_POST['book_id'][$key],
+                    'code' => $code,
+                    'type' => $type,
+                    'price' => $_POST['price'][$key],
+                    'quantity' => $_POST['quantity'][$key],
+                    'amount' => $_POST['amount'][$key],
+                    'rest_qty' => $rest_qty,
+                    'rest_amt' => $rest_qty * $_POST['price'][$key],
+                );
+            }
 
-            $this->data['info'] = $form_data;
-            $this->data['items'] = $data_details;
+        $this->data['info'] = $form_data;
+        $this->data['items'] = $data_details;
 
-            $this->data['headding'] = 'প্রকাশনা ভাউচার';
-            $html = $this->load->view('publication/publication_preview', $this->data, true);
-            echo $html;
-        }
+        $this->data['headding'] = 'প্রকাশনা ভাউচার';
+        $html = $this->load->view('publication/publication_preview', $this->data, true);
+        echo $html;
+    }
 }

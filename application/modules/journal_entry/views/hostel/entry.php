@@ -32,13 +32,13 @@
                     </div>
                     <div class="grid-body">
                         <?php if($this->session->flashdata('success')):?>
-                        <div class="alert alert-success">
-                            <?=$this->session->flashdata('success');;?>
-                        </div>
-                        <?php endif; ?>  <?php if($this->session->flashdata('error')):?>
-                        <div class="alert alert-danger">
-                            <?=$this->session->flashdata('error');;?>
-                        </div>
+                            <div class="alert alert-success">
+                                <?=$this->session->flashdata('success');;?>
+                            </div>
+                            <?php endif; ?>  <?php if($this->session->flashdata('error')):?>
+                            <div class="alert alert-danger">
+                                <?=$this->session->flashdata('error');;?>
+                            </div>
                         <?php endif; ?>
 
                         <?php
@@ -46,6 +46,7 @@
                             echo form_open_multipart(current_url(),$attributes);
                             echo validation_errors();
                         ?>
+
                         <div class="row">
                             <div class="col-md-12">
                                 <fieldset style="background: #fff !important;">
@@ -57,72 +58,69 @@
                                     </div>
                                     <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                         <br>
-                                        <div class="col-md-2">
+                                        <input type="hidden" value="<?php echo 'JR'.date('Ymdhis'); ?>" name="voucher_no">
+                                        <!-- <div class="col-md-2">
                                             <label for="title" class="control-label">ভাউচার নাঃ </label>
-                                            <input type="text"  value="<?php echo 'JR'.date('Ymdhis'); ?>" class="form-control input-sm" name="voucher_no"
-                                                style="min-height: 33px;"  required readonly>
+                                        </div> -->
+                                        <div class="col-md-3">
+                                            <label for="title" class="control-label">নামঃ <span class="required">*</span></label>
+                                            <input type="text" class="form-control input-sm" name="name" style="min-height: 33px;"  required>
+                                        </div>
+                                         <div class="col-md-2">
+                                            <label for="title" class="control-label">এনআইডি নাঃ <span class="required">*</span></label>
+                                            <input type="text" class="form-control input-sm" name="nid" style="min-height: 33px;"  required>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="title" class="control-label">মোবাইল নাঃ <span class="required">*</span></label>
+                                            <input type="text" class="form-control input-sm" name="mobile" style="min-height: 33px;"  required>
                                         </div>
                                         <div class="col-md-3">
-                                            <label for="title" class="control-label">রেফারেন্স:</label>
-                                            <input type="text"  value="" class="form-control input-sm" name="reference"
-                                                style="min-height: 33px;">
+                                            <label class="control-label">রেফারেন্স </label>
+                                            <input type="text" class="form-control input-sm" name="reference" style="min-height: 33px;" >
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <label for="title" class="control-label">তারিখ:</label>
-                                            <input type="date"  value="" class="form-control input-sm" name="issue_date"
-                                                style="min-height: 33px;" required>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label for="title" class="control-label">পরিমান:</label>
-                                            <input type="number"  id="total" class="form-control input-sm" name="total"
-                                                style="min-height: 33px;" readonly>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label for="title" class="control-label"> ধরণ:</label>
-                                            <select name="type" id="" class="form-control input-sm" required>
-                                                <option value=""> Select Type</option>
-                                                <option value=1>Cash Deposit</option>
-                                                <option value=2>Payment Voucher</option>
-                                                <option value="3">Adjustment Voucher</option>
-                                            </select>
+                                            <input value="<?= date('Y-m-d') ?>" class="form-control input-sm" name="date" style="min-height: 33px;" required readonly>
                                         </div>
                                     </div>
 
-                                    <div class="form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
+                                    <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                         <br>
-                                        <table width="100%" border="1" style="border:1px solid #a09e9e; margin-top: 10px;">
-                                            <thead>
-                                                <tr>
-                                                    <th style="padding:3px 5px" width="30%"> শিরোনাম </th>
-                                                    <th style="padding:3px 5px" width="40%"> বিবরণ </th>
-                                                    <th style="padding:3px 5px" width="15%"> পরিমান </th>
-                                                    <th style="padding:3px 5px;text-align: center;" width="10%"> <a onclick="addNewRow()" class="btn btn-primary btn-sm" style="padding: 3px 10px;"><i class="fa fa-plus"></i> Add </a> </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tbody">
-                                            <tr>
-                                                <td style="padding: 3px 3px 0px;">
-                                                    <input name="title[]" class="form-control title input-sm" required>
-                                                </td>
-                                                <td style="padding: 3px 3px 0px;">
-                                                    <input name="remark[]" class="form-control remark input-sm" >
-                                                </td>
-                                                <td style="padding: 3px 3px 0px;">
-                                                    <input name="amount[]" onkeyup="calculateTotal(this)" class="form-control amount input-sm" required>
-                                                </td>
-                                                <td style="padding:3px 5px;text-align: center;">
-                                                    <a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a>
-                                                </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
+                                        <div class="col-md-3">
+                                            <label for="title" class="control-label">কক্ষ নির্বাচন করুন <span class="required">*</span></label>
+                                            <?php $rooms = $this->db->get('budget_j_hostel_room')->result(); ?>
+                                            <select id="room_id" class="form-control input-sm" name="room_id" required>
+                                                <option value="">কক্ষ নির্বাচন করুন</option>
+                                                <?php foreach ($rooms as $key => $value) { ?>
+                                                    <option value="<?=$value->id?>"><?=$value->name?></option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="title" class="control-label">আসন নির্বাচন করুন <span class="required">*</span></label>
+                                            <select onchange="getAmount()" id="seat_id" class="form-control input-sm" name="seat_id" required>
+                                                <option>আসন নির্বাচন করুন</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="title" class="control-label">শুরুর তারিখ <span class="required">*</span></label>
+                                            <input onchange="getAmount()" class="form-control datetime input-sm" name="start_date" id="start_date" style="min-height: 33px;" required>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="title" class="control-label"> শেরের তারিখ <span class="required">*</span></label>
+                                            <input onchange="getAmount()" class="form-control datetime input-sm" name="end_date" id="end_date" style="min-height: 33px;" required>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="title" class="control-label"> পরিমাণ</label>
+                                            <input id="total_amount_hostel" class="form-control input-sm" name="amount" style="min-height: 33px;" required readonly>
+                                        </div>
                                     </div>
 
                                     <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                         <br>
                                         <div class="col-md-12">
                                             <div class="form-group margin_top_10">
-                                                <label for=""> বিবরণ:</label>
+                                                <label for=""> মন্তব্য:</label>
                                             <textarea class="form-control" name="description" style="height: 300px;" id="description"><p></p><p></p></textarea>
                                             </div>
                                         </div>
@@ -155,35 +153,49 @@
 </script>
 
 <script>
-    function removeRow(id) {
-        $(id).closest("tr").remove();
-        calculateTotal()
+    $('#room_id').change(function(){
+        var val = $(this).val();
+        $("#seat_id > option").remove();
+        $("#seat_id").append('<option value="">' + 'আসন নির্বাচন করুন' + '</option>');
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>journal_entry/getSeat",
+            data: {room_id: val},
+            success: function(data) {
+                data = JSON.parse(data);
+                $.each(data, function(key, value) {
+                    $("#seat_id").append('<option value="' + value.id + '">' + value.name +' >> '+value.amount+ '</option>');
+                });
+            }
+        });
+    });
+</script>
+
+<script>
+    function getAmount() {
+        if($('#seat_id').val() != '' && $('#start_date').val() != '' && $('#end_date').val() != '') {
+           var seat_id = $('#seat_id').val()
+           var start_date = $('#start_date').val()
+           var end_date = $('#end_date').val()
+            $.ajax({
+                type: "POST",
+                url: "<?php echo base_url(); ?>journal_entry/getAmount_hostel",
+                data: {
+                    seat_id: seat_id,
+                    start_date: start_date,
+                    end_date: end_date},
+                success: function(data) {
+                    $('#total_amount_hostel').val(data);
+                }
+            });
+        }else{
+            $('#total_amount_hostel').val(0);
+        }
     }
 </script>
 
-<script>
-   function calculateTotal(el) {
-       var total = 0;
-       $(".amount").each(function() {
-           var amount = parseInt($(this).val());
-           if (isNaN(amount) === false) {
-               total += amount;
-           }
-       })
-       $("#total").val(total);
-   }
-</script>
-<script>
-   function addNewRow(id) {
-        var tr=`<tr>
-                    <td style="padding:3px 3px 0px;"><input name="title[]" class="form-control title input-sm" required></td>
-                    <td style="padding:3px 3px 0px;"><input name="remark[]" class="form-control remark input-sm"></td>
 
-                    <td style="padding:3px 3px 0px;"><input onkeyup="calculateTotal(this)" type="number" name="amount[]" class="form-control amount input-sm" required></td>
 
-                    <td style="padding:3px 5px;text-align: center;"><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
-                </tr>`
-        $("#tbody").append(tr);
-   }
-</script>
+
+
 

@@ -53,74 +53,74 @@
                                     <span style="font-size: 22px;font-weight: bold;text-decoration: underline;"> হোস্টেল তথ্য এন্ট্রি ফর্ম </span>
                                 </div>
                             </div>
+
                             <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                 <br>
-                                <div class="col-md-4">
-                                    <label for="title" class="control-label">রেফারেন্স:</label>
-                                    <input type="text" value="<?= $row->reference ?>" class="form-control input-sm" name="reference" style="min-height: 33px;">
+                                <div class="col-md-3">
+                                    <label for="title" class="control-label">নামঃ <span class="required">*</span></label>
+                                    <input type="text" value="<?= $row->name ?>"  class="form-control input-sm" name="name" style="min-height: 33px;"  required>
+                                </div>
+                                    <div class="col-md-2">
+                                    <label for="title" class="control-label">এনআইডি নাঃ <span class="required">*</span></label>
+                                    <input type="text" value="<?= $details[0]->nid ?>"  class="form-control input-sm" name="nid" style="min-height: 33px;"  required>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="title" class="control-label">মোবাইল নাঃ <span class="required">*</span></label>
+                                    <input type="text" value="<?= $details[0]->mobile ?>"  class="form-control input-sm" name="mobile" style="min-height: 33px;"  required>
                                 </div>
                                 <div class="col-md-3">
+                                    <label class="control-label">রেফারেন্স </label>
+                                    <input type="text" value="<?= $row->reference ?>"  class="form-control input-sm" name="reference" style="min-height: 33px;" >
+                                </div>
+                                <div class="col-md-2">
                                     <label for="title" class="control-label">তারিখ:</label>
-                                    <input type="date" value="<?= $row->date ?>" class="form-control input-sm" name="issue_date" style="min-height: 33px;" required>
+                                    <input value="<?= $row->date ?>"  class="form-control input-sm" name="date" style="min-height: 33px;" required readonly>
                                 </div>
-                                <div class="col-md-2">
-                                    <label for="title" class="control-label">পরিমান:</label>
-                                    <input type="number" value="<?= $row->amount ?>" id="total" class="form-control input-sm" name="total" style="min-height: 33px;" readonly>
-                                </div>
-                                <div class="col-md-2">
-                                    <label for="title" class="control-label"> ধরণ:</label>
-                                    <select name="type" id="" class="form-control input-sm" required>
-                                        <option value=""> Select Type</option>
-                                        <option <?=($row->type == 1)?'selected':''?> value=1>Cash Deposit</option>
-                                        <option <?=($row->type == 2)?'selected':''?> value=2>Payment Voucher</option>
-                                        <option <?=($row->type == 3)?'selected':''?> value="3">Adjustment Voucher</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
-                                <br>
-                                <table width="100%" border="1" style="border:1px solid #a09e9e; margin-top: 10px;">
-                                    <thead>
-                                        <tr>
-                                            <th style="padding:3px 5px" width="30%"> শিরোনাম </th>
-                                            <th style="padding:3px 5px" width="40%"> বিবরণ </th>
-                                            <th style="padding:3px 5px" width="15%"> পরিমান </th>
-                                            <th style="padding:3px 5px;text-align: center;" width="10%"> <a onclick="addNewRow()" class="btn btn-primary btn-sm" style="padding: 3px 10px;"><i class="fa fa-plus"></i> Add </a> </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tbody">
-                                    <?php foreach ($details as $key => $r) { ?>
-                                        <tr>
-                                            <td style="padding: 3px 3px 0px;">
-                                                <input name="title[]" value="<?= $r->title ?>" class="form-control title input-sm" required>
-                                            </td>
-                                            <td style="padding: 3px 3px 0px;">
-                                                <input name="remark[]" value="<?= $r->remark ?>" class="form-control remark input-sm" >
-                                            </td>
-                                            <td style="padding: 3px 3px 0px;">
-                                                <input name="amount[]" value="<?= $r->amount ?>" onkeyup="calculateTotal(this)" class="form-control amount input-sm" required>
-                                            </td>
-                                            <input type="hidden" name="detail_id[]" value="<?= $r->id ?>">
-                                            <td style="padding:3px 5px;text-align: center;">
-                                                <a href="javascript:void(0)" onclick="removeRow(this, <?= $r->id ?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a>
-                                            </td>
-                                        </tr>
-                                    <?php } ?>
-                                    </tbody>
-                                </table>
                             </div>
 
                             <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                 <br>
+                                <input type="hidden" value="<?= $details[0]->id ?>" name="detail_id">
+                                <div class="col-md-3">
+                                    <label for="title" class="control-label">কক্ষ নির্বাচন করুন <span class="required">*</span></label>
+                                    <?php $rooms = $this->db->get('budget_j_hostel_room')->result(); ?>
+                                    <select id="room_id" onchange="getAmount()" class="form-control input-sm" name="room_id" required>
+                                        <option value="">কক্ষ নির্বাচন করুন</option>
+                                        <?php foreach ($rooms as $key => $r) { ?>
+                                            <option <?php if($details[0]->room_id == $r->id) echo 'selected'; ?> value="<?=$r->id?>"><?=$r->name?></option>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="title" class="control-label">আসন নির্বাচন করুন <span class="required">*</span></label>
+                                    <select onchange="getAmount()" id="seat_id" class="form-control input-sm" name="seat_id" required>
+                                        <option value="" >আসন নির্বাচন করুন</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="control-label">শুরুর তারিখ <span class="required">*</span></label>
+                                    <input onchange="getAmount()" class="form-control datetime input-sm" name="start_date" id="start_date" value="<?= $details[0]->start_date ?>" style="min-height: 33px;" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <label  class="control-label"> শেরের তারিখ <span class="required">*</span></label>
+                                    <input onchange="getAmount()" class="form-control datetime input-sm" name="end_date" id="end_date" value="<?= $details[0]->end_date ?>" style="min-height: 33px;" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="title" class="control-label"> পরিমাণ</label>
+                                    <input id="total_amount_hostel" value="<?= $details[0]->amount ?>" class="form-control input-sm" name="amount" style="min-height: 33px;" required readonly>
+                                </div>
+                            </div>
+
+                            <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                 <br>
                                 <div class="col-md-12">
                                     <div class="form-group margin_top_10">
-                                    <label for=""> বিবরণ:</label>
+                                        <label for=""> মন্তব্য:</label>
                                     <textarea class="form-control" name="description" style="height: 300px;" id="description"><?= $row->description ?></textarea>
                                     </div>
                                 </div>
                             </div>
+
 
                             <div class="pull-right">
                                 <input type="submit" name="submit" id="submit_btn" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
@@ -131,7 +131,6 @@
                 <?php echo form_close();?>
             </div> <!-- END GRID BODY -->
         </div> <!-- END GRID -->
->
     </div>
 </div>
 
@@ -148,44 +147,44 @@
 </script>
 
 <script>
-    function removeRow(sl, id=null) {
-        $(sl).closest("tr").remove();
-        calculateTotal(sl);
-        if (id !== null) {
-            var url = "<?php echo base_url('journal_entry/hostel_removeItem/'); ?>" + id;  // publication/removeItem
+    $('#room_id').change(function(){
+        var val = $(this).val();
+        $("#seat_id > option").remove();
+        $("#seat_id").append('<option value="">' + 'আসন নির্বাচন করুন' + '</option>');
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url(); ?>journal_entry/getSeat",
+            data: {room_id: val},
+            success: function(data) {
+                data = JSON.parse(data);
+                $.each(data, function(key, value) {
+                    $("#seat_id").append('<option value="' + value.id + '">' + value.name +' >> '+value.amount+ '</option>');
+                });
+            }
+        });
+    });
+</script>
+
+<script>
+    function getAmount() {
+        if($('#seat_id').val() != '' && $('#start_date').val() != '' && $('#end_date').val() != '') {
+           var seat_id = $('#seat_id').val()
+           var start_date = $('#start_date').val()
+           var end_date = $('#end_date').val()
             $.ajax({
                 type: "POST",
-                url: url,
-                success: function (response) {
+                url: "<?php echo base_url(); ?>journal_entry/getAmount_hostel",
+                data: {
+                    seat_id: seat_id,
+                    start_date: start_date,
+                    end_date: end_date},
+                success: function(data) {
+                    $('#total_amount_hostel').val(data);
                 }
-            })
+            });
+        }else{
+            $('#total_amount_hostel').val(0);
         }
     }
-</script>
-
-<script>
-   function calculateTotal(el) {
-       var total = 0;
-       $(".amount").each(function() {
-           var amount = parseInt($(this).val());
-           if (isNaN(amount) === false) {
-               total += amount;
-           }
-       })
-       $("#total").val(total);
-   }
-</script>
-<script>
-   function addNewRow(id) {
-        var tr=`<tr>
-                    <td style="padding:3px 3px 0px;"><input name="title[]" class="form-control title input-sm" required></td>
-                    <td style="padding:3px 3px 0px;"><input name="remark[]" class="form-control remark input-sm"></td>
-
-                    <td style="padding:3px 3px 0px;"><input onkeyup="calculateTotal(this)" type="number" name="amount[]" class="form-control amount input-sm" required></td>
-
-                    <td style="padding:3px 5px;text-align: center;"><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
-                </tr>`
-        $("#tbody").append(tr);
-   }
 </script>
 

@@ -12,7 +12,7 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right" style="display: flex;align-content: center;justify-content: center;flex-wrap: wrap;gap: 8px;">
-                            <a href="<?=base_url('journal_entry/hostel_entry_create')?>" class="btn btn-blueviolet btn-xs btn-mini">হোস্টেল তৈরি করুণ</a>
+                            <a href="<?=base_url('journal_entry/hostel_entry_create')?>" class="btn btn-blueviolet btn-xs btn-mini">এন্ট্রি করুণ</a>
                         </div>
                     </div>
 
@@ -49,11 +49,11 @@
                             <thead>
                                 <tr>
                                     <th> ক্রম </th>
-                                    <th>ভাউচার নং</th>
+                                    <th>সিরিয়াল নং</th>
+                                    <th>নাম</th>
+                                    <th>তারিখ</th>
                                     <th>পরিমাণ</th>
-                                    <th>প্রদানের তারিখ</th>
-                                    <th>ধরণ</th>
-                                    <th>স্ট্যাটাস</th>
+                                    <!-- <th>স্ট্যাটাস</th> -->
                                     <th>রেফারেন্স</th>
                                     <th style="text-align: right;">অ্যাকশন</th>
                                 </tr>
@@ -62,23 +62,16 @@
                                 <?php $sl=$pagination['current_page']; foreach ($results as $row): $sl++; ?>
                                 <tr>
                                     <td class="v-align-middle"><?=eng2bng($sl.'.')?></td>
-                                    <td class="v-align-middle"><?=$row->voucher_no; ?></td>
-                                    <td class="v-align-middle"><?=eng2bng($row->amount); ?></td>
+                                    <td class="v-align-middle"><?=$row->session_year.'-'.$row->id; ?></td>
+                                    <td class="v-align-middle"><?=eng2bng($row->name); ?></td>
                                     <td class="v-align-middle"><?=date_bangla_calender_format($row->date); ?></td>
-                                    <?php if ($row->type == 1) {
-                                        $type = '<span class="label label-success">Cash Deposit</span></span>';
-                                    } elseif($row->type == 2){
-                                        $type = '<span class="label label-success">Payment Voucher</span></span>';
-                                    }else{
-                                        $type = '<span class="label label-success">Adjuestment Voucher</span></span>';
-                                    } ?>
-                                    <td class="v-align-middle"><?=$type; ?></td>
+                                    <td class="v-align-middle"><?=eng2bng($row->amount); ?></td>
                                     <?php if ($row->status == 1) {
-                                        $type = '<span class="label label-success">পেন্ডিং</span>';
+                                        $status = '<span class="label label-success">পেন্ডিং</span>';
                                     } else {
-                                        $type = '<span class="label label-success">অনুমোদিত</span>';
+                                        $status = '<span class="label label-success">অনুমোদিত</span>';
                                     } ?>
-                                    <td class="v-align-middle"><?=$type; ?></td>
+                                    <!-- <td class="v-align-middle"><?=$status; ?></td> -->
                                     <td class="v-align-middle"><?=$row->reference; ?></td>
                                     <td align="right">
                                         <div class="btn-group">

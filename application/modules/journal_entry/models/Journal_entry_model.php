@@ -7,7 +7,7 @@ class Journal_entry_model extends CI_Model {
         parent::__construct();
     }
 
-    public function lists ($type, $limit, $offset,$table) {
+    public function lists ($type, $limit, $offset, $table) {
         $this->db->select('b.*');
         $this->db->from($table.' as b');
         $this->db->where('type', $type);
@@ -135,4 +135,16 @@ class Journal_entry_model extends CI_Model {
         return $data;
     }
     // 1=book entry, 2=book out, 3=give, 4=sell by kg
+
+    public function hostel_entry_report($from_date = null, $to_date = null, $status=null){
+        $this->db->select('prd.*, sum(prd.amount) as total_amount');
+        $this->db->from('budget_j_hostel_register_details as prd');
+        if (!empty($from_date) && !empty($to_date)) {
+            $this->db->where('start_date BETWEEN "' . $from_date . '" and "' . $to_date . '"');
+        }
+        $this->db->group_by('id');
+        $data = $this->db->get()->result();
+        return $data;
+    }
+
 }

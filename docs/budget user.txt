@@ -36,4 +36,13 @@ ALTER TABLE `budget_j_publication_register_details` ADD `commission` TINYINT NOT
 
 CREATE TABLE `budget_j_hostel_room` ( `id` INT NOT NULL AUTO_INCREMENT ,  `name` VARCHAR(16) NOT NULL ,  `type` TINYINT NOT NULL DEFAULT '1' COMMENT '1=normal, 2=ac' ,  `status` TINYINT NOT NULL DEFAULT '1' COMMENT '1=active, 2=inactive' ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
 CREATE TABLE `budget_j_hostel_seat` ( `id` INT NOT NULL AUTO_INCREMENT ,  `name` VARCHAR(16) NOT NULL ,  `room_id` INT NOT NULL ,  `status` TINYINT NOT NULL DEFAULT '1' COMMENT '1=active, 2=inactive' ,    PRIMARY KEY  (`id`),    INDEX  (`room_id`)) ENGINE = InnoDB;
+ALTER TABLE `budget_j_hostel_seat` ADD `amount` INT NOT NULL DEFAULT '0' AFTER `room_id`;
+
+ALTER TABLE `budget_j_hostel_register_details` ADD `nid` VARCHAR(24) NULL DEFAULT NULL AFTER `title`, ADD `mobile` VARCHAR(16) NULL DEFAULT NULL AFTER `nid`, ADD `room_id` INT NULL DEFAULT NULL AFTER `mobile`, ADD `seat_id` INT NULL DEFAULT NULL AFTER `room_id`, ADD `start_date` DATE NULL DEFAULT NULL AFTER `seat_id`, ADD `end_date` DATE NULL DEFAULT NULL AFTER `start_date`, ADD INDEX (`room_id`), ADD INDEX (`seat_id`);
+
+ALTER TABLE `budget_j_hostel_register_details` CHANGE `amount` `amount` DECIMAL(10,2) NOT NULL DEFAULT '0.00', CHANGE `remark` `session_year` VARCHAR(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `budget_j_hostel_register` ADD `name` VARCHAR(64) NULL DEFAULT NULL AFTER `voucher_no`, ADD `session_year` VARCHAR(16) NULL DEFAULT NULL AFTER `status`;
+
+ALTER TABLE `budget_j_hostel_register` CHANGE `type` `type` TINYINT(1) NOT NULL COMMENT '1=entry, 2=cash diposit';
+
 
