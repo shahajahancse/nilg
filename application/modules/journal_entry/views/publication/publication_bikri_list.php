@@ -48,6 +48,7 @@
                             <thead style="background: #d2dee9;">
                                 <tr>
                                     <th> ক্রম </th>
+                                    <th style="display: none"></th>
                                     <th>ভাউচার নং</th>
                                     <th>নাম</th>
                                     <th>মোবাইল</th>
@@ -63,6 +64,7 @@
                                 <?php $sl=$pagination['current_page']; foreach ($results as $row): $sl++; ?>
                                 <tr>
                                     <td class="v-align-middle"><?=eng2bng($sl).'.'?></td>
+                                    <td style="display: none" class="v-align-middle"><?= ($row->issue_date) ; ?></td>
                                     <td class="v-align-middle"><?=$row->voucher_no; ?></td>
                                     <td class="v-align-middle"><?=$row->name; ?></td>
                                     <td class="v-align-middle"><?=$row->mobile; ?></td>

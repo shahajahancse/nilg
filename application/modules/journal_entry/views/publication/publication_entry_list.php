@@ -48,6 +48,7 @@
                             <thead style="background: #d2dee9;">
                                 <tr>
                                     <th> ক্রম </th>
+                                    <th style="display: none"></th>
                                     <th>এন্ট্রির তারিখ</th>
                                     <th>পরিমাণ</th>
                                     <th>ধরণ</th>
@@ -59,6 +60,7 @@
                                 <?php $sl=$pagination['current_page']; foreach ($results as $row): $sl++; ?>
                                 <tr>
                                     <td class="v-align-middle"><?=eng2bng($sl).'.'?></td>
+                                    <td style="display: none" class="v-align-middle"><?= ($row->issue_date) ; ?></td>
                                     <td class="v-align-middle"><?= date_bangla_calender_format($row->issue_date) ; ?></td>
                                     <td class="v-align-middle"><?= eng2bng($row->amount); ?></td>
                                     <td class="v-align-middle">

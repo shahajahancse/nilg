@@ -657,68 +657,63 @@ function printDiv(divName) {
 
 <?php if($this->router->fetch_class('evaluation') == 'evaluation'){ ?>
 <script type="text/javascript">
-// Evaluation Module (Create Question)
-Sortable.create(list, {
-    group: 'shared',
-    animation: 100
-});
+    // Evaluation Module (Create Question)
+    Sortable.create(list, {
+        group: 'shared',
+        animation: 100
+    });
 
-Sortable.create(list2, {
-    group: 'shared',
-    animation: 100,
-    emptyInsertThreshold: 0 // emptyInsertThreshold disabled
-});
+    Sortable.create(list2, {
+        group: 'shared',
+        animation: 100,
+        emptyInsertThreshold: 0 // emptyInsertThreshold disabled
+    });
 </script>
 <?php } ?>
 
 <script>
-// Date range filter
-minDateFilter = "";
-maxDateFilter = "";
+    // Date range filter
+    minDateFilter = "";
+    maxDateFilter = "";
 
-$.fn.dataTableExt.afnFiltering.push(
-  function(oSettings, aData, iDataIndex) {
-    console.log(oSettings, aData, iDataIndex);
+    $.fn.dataTableExt.afnFiltering.push(
+    function(oSettings, aData, iDataIndex) {
+        if (typeof aData._date == 'undefined') {
+        aData._date = new Date(aData[1]).getTime();
+        }
+        if (isNaN(minDateFilter)) {
+            minDateFilter = 0;
+        }
 
-    if (typeof aData._date == 'undefined') {
-      aData._date = new Date(aData[3]).getTime();
+        if (isNaN(maxDateFilter)) {
+            maxDateFilter = new Date().getTime();
+        }
+
+        if (minDateFilter && !isNaN(minDateFilter)) {
+        if (aData._date < minDateFilter) {
+            return false;
+        }
+        }
+
+        if (maxDateFilter && !isNaN(maxDateFilter)) {
+        if (aData._date > maxDateFilter) {
+            return false;
+        }
+        }
+        return true;
     }
-    if (isNaN(minDateFilter)) {
-        minDateFilter = 0;
-    }
+    );
+    var table = $('.data_table').DataTable({
+        paging: false,
+        info: false,
+    });
 
-    if (isNaN(maxDateFilter)) {
-        maxDateFilter = new Date().getTime();
-    }
-
-    if (minDateFilter && !isNaN(minDateFilter)) {
-      if (aData._date < minDateFilter) {
-        return false;
-      }
-    }
-
-    if (maxDateFilter && !isNaN(maxDateFilter)) {
-      if (aData._date > maxDateFilter) {
-        return false;
-      }
-    }
-    console.log(minDateFilter, maxDateFilter);
-
-    return true;
-  }
-);
-var table = $('.data_table').DataTable({
-    paging: false,
-    info: false,
-});
-
-// Event listener to the two range filtering inputs to redraw on input
-function filterDate() {
-    minDateFilter = new Date($('#min').val()).getTime();
-    maxDateFilter =  new Date($('#max').val()).getTime();
-    table.draw();
-};
-
+    // Event listener to the two range filtering inputs to redraw on input
+    function filterDate() {
+        minDateFilter = new Date($('#min').val()).getTime();
+        maxDateFilter =  new Date($('#max').val()).getTime();
+        table.draw();
+    };
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
