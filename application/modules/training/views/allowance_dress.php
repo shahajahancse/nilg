@@ -8,6 +8,19 @@
   .tg .tg-mtwr{background-color:#efefef;vertical-align:top; font-weight: bold; text-align: center; font-size: 16px;text-decoration: underline;}
 </style>
 
+<style>
+   @media only screen and  (max-width: 1140px){
+    .tableresponsive {
+      width: 100%;
+      margin-bottom: 15px;
+      overflow-y: hidden;
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+    }
+}
+</style>
+
 <div class="page-content">     
   <div class="content">  
     <ul class="breadcrumb" style="margin-bottom: 20px;">
@@ -61,7 +74,7 @@
             <div class="row ">
               <div class="col-md-12">
                 <div class="row">
-                  <div class="col-md-12">
+                  <div class="col-md-12 tableresponsive">
                     <h3 style="text-align: center;"><span class="semi-bold">পোষাক ভাতার তালিকা</span></h3>
                     <table class="tg" id="example">
                       <thead>

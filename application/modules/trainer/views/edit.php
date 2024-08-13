@@ -1,3 +1,16 @@
+<style>
+   @media only screen and  (max-width: 1140px){
+    .tableresponsive {
+      width: 100%;
+      margin-bottom: 15px;
+      overflow-y: hidden;
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+    }
+}
+</style>
+
 <div class="page-content">     
   <div class="content">  
     <ul class="breadcrumb" style="margin-bottom: 20px;">
@@ -106,7 +119,7 @@
               <a href="<?=base_url($this->uri->segment(1).'/all')?>" class="btn btn-primary btn-xs btn-mini"> <?php echo lang($this->uri->segment(1).'_list');?></a>
             </div>
           </div>
-          <div class="grid-body ">
+          <div class="grid-body tableresponsive">
             <div class="row">
               <?php
               $attributes = array('id' => 'form_data_sheet_update_validate');

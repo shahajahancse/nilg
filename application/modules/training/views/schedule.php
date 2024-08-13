@@ -8,6 +8,19 @@
   .tg .tg-mtwr{background-color:#efefef;vertical-align:top; font-weight: bold; text-align: center; font-size: 16px;text-decoration: underline;}
 </style>
 
+<style>
+   @media only screen and  (max-width: 1140px){
+    .tableresponsive {
+      width: 100%;
+      margin-bottom: 15px;
+      overflow-y: hidden;
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+    }
+}
+</style>
+
 <div class="page-content">     
   <div class="content">  
     <ul class="breadcrumb" style="margin-bottom: 20px;">
@@ -82,8 +95,8 @@
                 </form>
               </div>
 
-              <div class="col-md-12">
-                <table class="tg" id="example">
+              <div class="col-md-12 tableresponsive">
+                <table class="tg " id="example">
                   <thead>
                     <tr>
                       <th class="tg-71hr" width="130">তারিখ</th>

@@ -8,6 +8,19 @@
 	.tg .tg-mtwr{background-color:#efefef;vertical-align:top; font-weight: bold; text-align: center; font-size: 16px;text-decoration: underline;}
 </style> 
 
+<style>
+   @media only screen and  (max-width: 1140px){
+    .tableresponsive {
+      width: 100%;
+      margin-bottom: 15px;
+      overflow-y: hidden;
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+    }
+}
+</style>
+
 <div class="page-content">     
 	<div class="content">  
 
@@ -20,7 +33,7 @@
 							<!-- <a href="<?=base_url('#')?>" class="btn btn-primary btn-xs btn-mini" data-toggle="modal" data-target="#myModal"> সহায়িকা </a> -->
 						</div>
 					</div>
-					<div class="grid-body">
+					<div class="grid-body tableresponsive">
 						<?php if ($this->session->flashdata('success')) : ?>
 							<div class="alert alert-success">
 								<?php echo $this->session->flashdata('success'); ?>
@@ -68,7 +81,7 @@
 									<?php form_close(); ?>
 								</div>
 
-								<table class="tg" width="100%">     
+								<table class="tg m-t-5" width="100%">     
 									<tr>
 										<td class="tg-khup">নামঃ</td>
 										<td class="tg-ywa9"><?=$info->name_bn?></td>

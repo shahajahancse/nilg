@@ -1,3 +1,16 @@
+<style>
+   @media only screen and  (max-width: 1140px){
+    .tableresponsive {
+      width: 100%;
+      margin-bottom: 15px;
+      overflow-y: hidden;
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+    }
+}
+</style>
+
 <div class="page-content">     
    <div class="content">  
       <ul class="breadcrumb">
@@ -15,7 +28,7 @@
                      <a href="<?=base_url('trainer/all')?>" class="btn btn-blueviolet btn-xs btn-mini"> প্রশিক্ষকের তাকিকা</a>  
                   </div>
                </div>
-               <div class="grid-body">
+               <div class="grid-body tableresponsive">
                   <?php if($this->session->flashdata('success')):?>
                      <div class="alert alert-success">
                         <?=$this->session->flashdata('success');;?>

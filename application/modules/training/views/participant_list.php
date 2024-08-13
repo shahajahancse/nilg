@@ -1,3 +1,16 @@
+<style>
+   @media only screen and  (max-width: 1140px){
+    .tableresponsive {
+      width: 100%;
+      margin-bottom: 15px;
+      overflow-y: hidden;
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+    }
+}
+</style>
+
 <style type="text/css">
   .small-ul {
   font-size: 12px; /* Decrease the font size */
@@ -57,7 +70,7 @@
 
             <h3 style="text-align: center; margin-top: 20px;"><span class="semi-bold">প্রশিক্ষণে অংশগ্রহণকারীর তালিকা</span></h3>
 
-            <div class="row ">
+            <div class="row tableresponsive">
               <div class="col-md-12">
                 <form action="" method="get">
                   <div class="col-md-6 p5">
