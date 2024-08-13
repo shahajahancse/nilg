@@ -134,6 +134,11 @@
                             <?php if($this->ion_auth->in_group(array('bli'))){?>
                             <fieldset class="col-md-12">
                                 <legend>প্রকাশনা রিপোর্ট বাটন</legend>
+                                <button type="submit" name="btnsubmit" value="all_book,total" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> বইয়ের মজুদ</button>
+                                <button type="submit" name="btnsubmit" value="all_book,bikroy" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> বিক্রয় সংখ্যা</button>
+                                <button type="submit" name="btnsubmit" value="all_book,soujony" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> সৌজন্য সংখ্যা</button>
+
+
                                 <button type="submit" name="btnsubmit" value="all_book,number" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট বইয়ের সংখ্যা</button>
                                 <button type="submit" name="btnsubmit" value="all_book,amount" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট বইয়ের মূল্য</button>
                                 <button type="submit" onclick="return validFunc()" name="btnsubmit" value="single_book,amount" id="single_book" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> একটি বইয়ের রিপোর্ট</button>

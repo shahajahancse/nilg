@@ -74,15 +74,15 @@ input[type=number]::-webkit-inner-spin-button {
                             <div class="row form-row" style="font-size: 16px; color: black; margin-top: -10px !important;">
                                 <div class="col-md-4">
                                     <label for="title" class="control-label">নাম <span class="required">*</span></label>
-                                    <input type="text" class="form-control input-sm" name="name" style="min-height: 33px;"  required>
+                                    <input id="name" class="form-control input-sm" name="name" style="min-height: 33px;"  required>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="title" class="control-label">মোবাইল <span class="required">*</span></label>
-                                    <input type="text" class="form-control input-sm" name="mobile" style="min-height: 33px;"  required>
+                                    <input id="mobile" class="form-control input-sm" name="mobile" style="min-height: 33px;"  required>
                                 </div>
                                 <div class="col-md-5">
                                     <label for="title" class="control-label">ঠিকানা <span class="required">*</span></label>
-                                    <input type="text" class="form-control input-sm" name="address" style="min-height: 33px;"  required>
+                                    <input id="address" class="form-control input-sm" name="address" style="min-height: 33px;"  required>
                                 </div>
                             </div>
                             <br>
@@ -95,7 +95,7 @@ input[type=number]::-webkit-inner-spin-button {
                                     <select id="book_id" class="form-control input-sm" onchange="getBook(this)">
                                         <option value="">বই নির্বাচন করুন</option>
                                         <?php foreach ($book as $key => $value) { ?>
-                                            <option <?= ($value->quantity == 0 ? 'disabled' : '') ?> value="<?=$key?>"><?=$value->name_bn .' >> '. $value->quantity?></option>
+                                            <option <?= ($value->quantity == 0 ? 'disabled' : '') ?> value="<?=$key?>"><?=$value->name_bn .' (মজুদ '. $value->quantity?> টি)</option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -280,6 +280,15 @@ input[type=number]::-webkit-inner-spin-button {
 
 <script>
     function get_preview(){
+        var name = $('#name').val();
+        var mobile = $('#mobile').val();
+        var address = $('#address').val();
+
+        if(name == "" || mobile == "" || address == ""){
+            alert("অবশ্যই নাম, মোবাইল এবং ঠিকানা দিতে হবে");
+            return false;
+        }
+
         var form = $('#jsvalidate').serializeArray();
         // var description = CKEDITOR.instances['description'].getData();
         // form.push({name: 'description', value: description});

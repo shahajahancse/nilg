@@ -9,7 +9,7 @@ class Journal_entry extends Backend_Controller
         if (!$this->ion_auth->logged_in()):
             redirect('login');
         endif;
-
+        $this->load->helper('bangla_converter');
         $this->load->model('Common_model');
         $this->load->model('Journal_entry_model');
         $this->data['module_name'] = 'জার্নাল এন্ট্রি';
@@ -787,6 +787,50 @@ class Journal_entry extends Backend_Controller
         $this->data['subview'] = 'publication/publication_bikri_details';
         $this->load->view('backend/_layout_main', $this->data);
     }
+
+    public function get_preview_pub(){
+        // dd($_POST);
+        $this->load->helper('bangla_converter');
+        if (empty($_POST['price'])) {
+            echo 'Please Select Book';
+            exit;
+        }
+        $form_data = array(
+            'voucher_no' => $this->input->post('voucher_no'),
+            'amount' => $this->input->post('total'),
+            'commission' => $this->input->post('total') - $this->input->post('pay_total'),
+            'pay_amount' => $this->input->post('pay_total'),
+            'type' => $this->input->post('type'),
+            'name' => $this->input->post('name'),
+            'mobile' => $this->input->post('mobile'),
+            'address' => $this->input->post('address'),
+            'reference' => $this->input->post('reference'),
+            'description' => $this->input->post('description'),
+            'issue_date' => date('Y-m-d', strtotime($this->input->post('issue_date'))),
+        );
+
+        $data_details = array();
+        foreach ($_POST['price'] as $key => $row) {
+            $type = $_POST['sell_type'][$key];
+            $data_details[] = array(
+                'book_id' => $_POST['book_id'][$key],
+                'type' => $type,
+                'price' => $_POST['price'][$key],
+                'quantity' => $_POST['quantity'][$key],
+                'amount' => $_POST['amount'][$key],
+                'commission' => $_POST['commission'][$key],
+                'pay_amount' => $_POST['pay_amount'][$key],
+            );
+        }
+
+        $this->data['info'] = $form_data;
+        $this->data['items'] = $data_details;
+
+        $this->data['headding'] = 'প্রকাশনা ভাউচার';
+        $html = $this->load->view('publication/publication_preview', $this->data, true);
+        echo $html;
+    }
+
     public function publication_print($id)
     {
         $this->load->helper('bangla_converter');
@@ -1376,6 +1420,15 @@ class Journal_entry extends Backend_Controller
             if ($type == 'number') {
                 $this->data['headding'] = 'প্রকাশনা সংখ্যা ভিত্তিক রিপোর্ট';
                 $html = $this->load->view('publication/publication_number_print', $this->data, true);
+            } else if ($type == 'total') {
+                $this->data['headding'] = 'প্রকাশনা মজুদ রিপোর্ট';
+                $html = $this->load->view('publication/publication_total_print', $this->data, true);
+            } else if ($type == 'bikroy') {
+                $this->data['headding'] = 'প্রকাশনা বিক্রয় রিপোর্ট';
+                $html = $this->load->view('publication/publication_bikroy_print', $this->data, true);
+            } else if ($type == 'soujony') {
+                $this->data['headding'] = 'প্রকাশনা সৌজন্য রিপোর্ট';
+                $html = $this->load->view('publication/publication_soujony_print', $this->data, true);
             } else {
                 $this->data['headding'] = 'প্রকাশনা পরিমাণ ভিত্তিক রিপোর্ট';
                 $html = $this->load->view('publication/publication_amount_print', $this->data, true);
@@ -1438,65 +1491,4 @@ class Journal_entry extends Backend_Controller
         echo $html = $this->load->view('all_journal_report', $this->data, true);
     }
 
-
-    public function get_preview_pub(){
-        //dd($_POST);
-        $data_details = array();
-        $form_data = array(
-            'voucher_no' => $this->input->post('voucher_no'),
-            'amount' => $this->input->post('total'),
-            'type' => $this->input->post('type'),
-            'reference' => $this->input->post('reference'),
-            'description' => $this->input->post('description'),
-            'issue_date' => date('Y-m-d', strtotime($this->input->post('issue_date'))),
-        );
-            $insert_id = 1;
-            if (!isset($_POST['price'])) {
-                echo 'Please Select Book';
-                exit;
-            }
-            foreach ($_POST['price'] as $key => $row) {
-                $code='BS-PUB-'.$insert_id.''.$key.'-'.$_POST['book_id'][$key].''.time();
-                if ($this->input->post('type')==2) {
-                    $type=$_POST['sell_type'][$key];
-                }elseif($this->input->post('type')==3){
-                    $type=4;
-                }else{
-                    $type=1;
-                }
-
-                $last_data=$this->db->where('book_id', $_POST['book_id'][$key])->limit(1)->order_by('id', 'desc')->get('budget_j_publication_register_details')->last_row();
-                if (!empty($last_data)) {
-                    if($type==1){
-                        $rest_qty = $last_data->rest_qty + $_POST['quantity'][$key];
-                    }else{
-                        $rest_qty = $last_data->rest_qty - $_POST['quantity'][$key];
-                    }
-                } else {
-                    if($type==1){
-                    $rest_qty = $_POST['quantity'][$key];
-                    }else{
-                        $rest_qty =0- $_POST['quantity'][$key];
-                    }
-                }
-                $data_details[] = array(
-                    'publication_register_id' => $insert_id ,
-                    'book_id' => $_POST['book_id'][$key],
-                    'code' => $code,
-                    'type' => $type,
-                    'price' => $_POST['price'][$key],
-                    'quantity' => $_POST['quantity'][$key],
-                    'amount' => $_POST['amount'][$key],
-                    'rest_qty' => $rest_qty,
-                    'rest_amt' => $rest_qty * $_POST['price'][$key],
-                );
-            }
-
-        $this->data['info'] = $form_data;
-        $this->data['items'] = $data_details;
-
-        $this->data['headding'] = 'প্রকাশনা ভাউচার';
-        $html = $this->load->view('publication/publication_preview', $this->data, true);
-        echo $html;
-    }
 }

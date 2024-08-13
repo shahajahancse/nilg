@@ -82,7 +82,7 @@ input[type=number]::-webkit-inner-spin-button {
                                     <select id="book_id" class="form-control input-sm" onchange="getBook(this.value)">
                                         <option value="">বই নির্বাচন করুন</option>
                                         <?php foreach ($book as $key => $value) { ?>
-                                            <option value="<?=$key?>"><?=$value->name_bn .' >> '. $value->quantity?></option>
+                                            <option value="<?=$key?>"><?=$value->name_bn .' (মজুদ '. $value->quantity?> টি)</option>
                                         <?php } ?>
                                     </select>
                                 </div>

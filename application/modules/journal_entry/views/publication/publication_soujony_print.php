@@ -1,4 +1,9 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="utf-8">
+    <title><?= $headding ?></title>
     <style type="text/css">
         .priview-body {
             font-size: 16px;
@@ -117,13 +122,13 @@
             text-align: center;
         }
     </style>
+</head>
+
+<body>
 
     <div class="priview-body">
         <div class="col-3">
-            <?php
-            // $url = $_SERVER['DOCUMENT_ROOT'].'/awedget/assets/img/nilg-logo.png';
-            $url = base_url('awedget/assets/img/nilg-logo.png');
-            ?>
+            <?php $url = base_url('awedget/assets/img/nilg-logo.png'); ?>
             <div style="float: left;"><img src="<?= $url ?>" style="width:60; height: 80px; display: block;"></div>
         </div>
 
@@ -135,7 +140,7 @@
                 <span style="font-size:11px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
                 <span style="font-size:11px; text-decoration: underline;">www.nilg.gov.bd </span>
             </h4>
-            <!-- //<h3 style="margin-bottom: -5px;" class="text-center"><?= $headding ?></h3> -->
+            <h3 style="margin-bottom: -5px;" class="text-center"><?= $headding ?></h3>
         </div>
 
         <div class="col-2" style="float: right;">
@@ -146,71 +151,41 @@
         </div>
     </div>
 
-    <div class="priview-body content-div">
-        <div class="col-8">
-            <span style="padding: 0px 0px 0px 0px; margin: 0px;">নাম : <abbr><?php echo $info['name']; ?></abbr></span> &nbsp;&nbsp;&nbsp;
-            <span style="padding: 0px; margin: 1px 0px;">মোবাইল : <abbr> <?php echo eng2bng($info['mobile']); ?></abbr></span>
-            <br>
-            <span style="padding: 0px; margin: 1px 0px;">ঠিকানা : <abbr> <?php echo $info['address']; ?></abbr></span>
-        </div>
-        <div class="col-3" style="float: right;">
-            <div>
-                <span>তারিখ : </span>
-                <span style="font-size: 13px"><?php echo date_bangla_calender_format(date("Y-m-d", strtotime($info['issue_date']))); ?></span>
-            </div>
-            <div>
-                <span>ভাউচার নাঃ </span>
-                <span style="font-size: 10px"><?php echo $info['voucher_no']; ?></span>
-            </div>
-        </div>
-    </div>
-    <div style="clear: both;"></div>
     <div class="priview-body">
         <div class="priview-demand">
-            <table class="table table-hover table-bordered report">
+            <table class="table table-hover table-bordered">
                 <thead class="headding">
-                    <tr>
-                        <td style="">ক্রমিক নং</td>
-                        <td style="">বই নাম</td>
-                        <td style="">আইএসবিএন/আইএসএসএন</td>
-                        <td style="">মূল্য</td>
-                        <td style="">পরিমাণ</td>
-                        <td style="">মোট পরিমাণ</td>
-                        <td style="">কমিশন</td>
-                        <td style="">প্রদেয় টাকা</td>
+                    <tr class="text-right">
+                        <td  rowspan="1" style="">ক্রমিক নং</td>
+                        <td rowspan="1">বই নাম</td>
+                        <td class="text-right" >সৌজন্য সংখ্যা</td>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <?php foreach ($items as $key => $r) {
-                        $book=$this->db->where('id',$r['book_id'])->get('budget_j_publication_book')->row();
+                    <?php if (!empty($results)) {
+                        $total_book_in=$total_book_sale=$total_book_give=$total_sell_by_kg=$total_sale=$total_rest=0;
                         ?>
-                        <tr>
-                            <td><?php echo eng2bng($key + 1); ?></td>
-                            <td><?php echo $book->name_bn; ?></td>
-                            <td><?php echo $book->isbn_number; ?></td>
-                            <td><?php echo eng2bng($r['price']); ?></td>
-                            <td><?php echo eng2bng($r['quantity']); ?></td>
-                            <td><?php echo eng2bng($r['amount']); ?></td>
-                            <?php if ($r['commission'] != 0) {
-                                $commission = $r['commission']  / 100 * $r['amount'];
-                            } else {
-                                $commission = 0;
-                            } ?>
-                            <td><?php echo eng2bng($commission); ?></td>
-                            <td><?php echo eng2bng($r['pay_amount']); ?></td>
-                        </tr>
-                    <?php } ?>
-                    <tr>
-                        <?php $obj = new BanglaNumberToWord(); ?>
-                        <td colspan="7" style="text-align: left; padding-right: 10px"> &nbsp; সর্বমোট :  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <span><abbr> <?php echo $obj->numToWord($info['pay_amount']); ?></abbr> টাকা মাত্র</span></td>
-                        <td><?php echo eng2bng($info['pay_amount']); ?></td>
-                    </tr>
+                        <?php $sl = 1; foreach ($results as $key => $r) { ?>
+                            <?php if ($r->sell_by_kg == 0) { continue; } ?>
+                            <tr >
+                                <td><?php echo eng2bng($sl ++); ?></td>
+                                <td><?php echo $r->name_bn; ?></td>
+                                <td class="text-right"><?php echo eng2bng($r->sell_by_kg); ?></td>
+                            </tr>
+                        <?php } ?>
+                    <?php } else {
+                        echo '<tr><td colspan="8" class="text-center">কোন তথ্য পাওয়া যায়নি</td></tr>';
+                    } ?>
                 </tbody>
+
+                <tfoot>
+                </tfoot>
             </table>
-            <div class="col-12">
-                <span style="padding: 0px; margin: 1px 0px;">রেফারেন্স : <abbr> <?php echo $info['reference']; ?></abbr></span>
-            </div>
         </div>
     </div>
 
+
+</body>
+
+</html>

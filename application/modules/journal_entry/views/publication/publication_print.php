@@ -214,15 +214,12 @@
                         </tr>
                     <?php } ?>
                     <tr>
-                        <td colspan="7" style="text-align: right; padding-right: 10px"> সর্বমোট পরিমাণ </td>
+                        <?php $obj = new BanglaNumberToWord(); ?>
+                        <td colspan="7" style="text-align: left; padding-right: 10px"> &nbsp; সর্বমোট :  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <span><abbr> <?php echo $obj->numToWord($info->pay_amount); ?></abbr> টাকা মাত্র</span></td>
                         <td><?php echo eng2bng($info->pay_amount); ?></td>
                     </tr>
                 </tbody>
             </table>
-            <div style=" margin-top: 5px;">
-                <?php $obj = new BanglaNumberToWord(); ?>
-                <span>কথায় : <abbr> <?php echo $obj->numToWord($info->pay_amount); ?></abbr> টাকা মাত্র</span>
-            </div>
         </div>
         <div class="col-12">
             <span style="padding: 0px; margin: 1px 0px;">রেফারেন্স : <abbr> <?php echo $info->reference; ?></abbr></span>
