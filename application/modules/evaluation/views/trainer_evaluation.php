@@ -1,3 +1,16 @@
+<style>
+   @media only screen and  (max-width: 1140px){
+    .tableresponsive {
+      width: 100%;
+      margin-bottom: 15px;
+      overflow-y: hidden;
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+    }
+}
+</style>
+
 <div class="page-content">     
   <div class="content">
     <ul class="breadcrumb" style="margin-bottom: 20px;">
@@ -23,7 +36,7 @@
             </div> 
           </div>
 
-          <div class="grid-body ">
+          <div class="grid-body tableresponsive">
 
             <div id="error" style="display: none;">
               <div class="alert alert-danger">এই রিপোর্ট দেখার জন্য লাল চিহ্নিত ফিল্ড গুলো পূরণ এবং অনুসন্ধান করুন ।</div>
@@ -39,7 +52,7 @@
             <?php endif; ?>  
 
 
-            <table class="table table-hover table-bordered  table-flip-scroll cf">
+            <table class="table table-hover table-bordered  cf">
               <thead class="cf">
                 <tr>
                   <th>ক্রম</th>

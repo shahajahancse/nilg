@@ -18,6 +18,19 @@
 }
 </style>
 
+<style>
+   @media only screen and  (max-width: 1140px){
+    .tableresponsive {
+      width: 100%;
+      margin-bottom: 15px;
+      overflow-y: hidden;
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+    }
+}
+</style>
+
 <div class="page-content">
 
     <div class="content">
@@ -137,7 +150,7 @@
                                     </div>
 
                                     <div class="row form-row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-12 tableresponsive">
 
                                             <style type="text/css">
                                                 #appRowDiv td {

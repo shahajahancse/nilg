@@ -5,6 +5,20 @@
         border: 1px solid #00a59a !important;
     }
 </style>
+
+<style>
+   @media only screen and  (max-width: 1140px){
+    .tableresponsive {
+      width: 100%;
+      margin-bottom: 15px;
+      overflow-y: hidden;
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+    }
+}
+</style>
+
 <div class="page-content">
     <div class="content">
         <ul class="breadcrumb">
@@ -86,7 +100,7 @@
                                     </div>
 
                                     <div class="row form-row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-12 tableresponsive">
                                             <h4 class="semi-bold margin_left_15">বাজেট তালিকা <em style="color: #f73838; font-size: 15px;">Click <strong>Add More</strong> button for adding more item. </em></h4>
                                             <style type="text/css">
                                                 #appRowDiv td {
