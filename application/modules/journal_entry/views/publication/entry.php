@@ -11,6 +11,19 @@ input[type=number]::-webkit-inner-spin-button {
 
 </style>
 
+<style>
+   @media only screen and  (max-width: 1140px){
+    .tableresponsive {
+      width: 100%;
+      margin-bottom: 15px;
+      overflow-y: hidden;
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+    }
+}
+</style>
+
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" id="preview_pub_modal">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
@@ -51,7 +64,7 @@ input[type=number]::-webkit-inner-spin-button {
                         </div>
                     </div>
 
-                    <div class="grid-body">
+                    <div class="grid-body tableresponsive">
                         <?php if($this->session->flashdata('success')):?>
                         <div class="alert alert-success">
                             <?=$this->session->flashdata('success');;?>

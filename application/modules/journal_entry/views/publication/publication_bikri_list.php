@@ -1,3 +1,16 @@
+<style>
+   @media only screen and  (max-width: 1140px){
+    .tableresponsive {
+      width: 100%;
+      margin-bottom: 15px;
+      overflow-y: hidden;
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+    }
+}
+</style>
+
 <div class="page-content">
     <div class="content">
         <ul class="breadcrumb" style="margin-bottom: 20px;">
@@ -15,7 +28,7 @@
                             <a href="<?=base_url('journal_entry/publication_bikri_create')?>" class="btn btn-blueviolet btn-xs btn-mini">বই বিক্রি</a>
                         </div>
                     </div>
-                    <div class="grid-body ">
+                    <div class="grid-body tableresponsive">
                         <?php if($this->session->flashdata('success')):?>
                         <div class="alert alert-success">
                             <?=$this->session->flashdata('success');?>
@@ -135,18 +148,18 @@ $(document).ready(function() {
             align-items: center;
         }
         </style>
-        <div class="col-md-6" style="display: flex;justify-content: space-around;">
+        <div class="col-md-6" style="display: flex;justify-content: space-around; flex-wrap: wrap;">
             <div class="text-center" >
                 Date Range
             </div>
             <div>
-                <input type="date" id="min" onchange="filterDate()" class="form-control"style="min-height: 25px;">
+                <input type="date" id="min"  onchange="filterDate()" class="form-control mt-3 mb-3"style="min-height: 25px;">
             </div>
             <div class="text-center" >
                 to
             </div>
             <div >
-                <input type="date" id="max" onchange="filterDate()" class="form-control" style="min-height: 25px;">
+                <input type="date" id="max"  onchange="filterDate()" class="form-control mt-3 mb-3" style="min-height: 25px;">
             </div>
         </div>
         `
