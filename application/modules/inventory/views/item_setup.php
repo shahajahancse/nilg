@@ -26,7 +26,7 @@
 
                   <form action="" method="post">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-3 m-b-5">
                            <select name="cat_id" id="category" class="form-control input-sm">
                              <option value="">ক্যাটাগরি নাম</option>
                              <?php foreach ($categories as $key => $row) { ?>
@@ -34,23 +34,23 @@
                              <?php } ?>
                            </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 m-b-5">
                            <select class="form-control input-sm sub_category_val" name="sub_cat_id" id="subcategory">
                               <option value="">সাব ক্যাটাগরি</option>
                            </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 m-b-5">
                            <select class="form-control input-sm" name="item_id" id="item_id">
                               <option value="">Select Item</option>
                            </select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2 m-b-5">
                            <a href="<?=base_url('inventory/item_setup')?>" class="btn btn-warning btn-mini">Clear</a>
                         </div>
                     </div>
                   </form>
 
-                  <div id="loaddiv">
+                  <div id="loaddiv" class="table-responsive">
                      <table class="table table-hover table-condensed" id="examples">
                         <thead>
                            <tr>

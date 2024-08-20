@@ -16,7 +16,7 @@
             </div>            
           </div>
 
-          <div class="grid-body ">
+          <div class="grid-body table-responsive">
             <div id="infoMessage"><?php echo $message;?></div>   
             <?php if($this->session->flashdata('success')):?>
               <div class="alert alert-success">
@@ -44,7 +44,7 @@
             </form> 
             */ ?> 
 
-            <table class="table table-hover table-bordered  table-flip-scroll cf">
+            <table class="table table-hover table-bordered">
               <thead class="cf">
                 <tr>
                   <th width="20">ক্রম</th>

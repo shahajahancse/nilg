@@ -30,7 +30,7 @@
                   </div>
                </div>
 
-               <div class="grid-body"  id="printableArea">
+               <div class="grid-body table-responsive"  id="printableArea">
                   <?php if($this->session->flashdata('success')):?>
                      <div class="alert alert-success">
                         <?=$this->session->flashdata('success');;?>

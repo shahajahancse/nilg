@@ -16,18 +16,18 @@
                   </div>            
                </div>
 
-               <div class="grid-body ">
+               <div class="grid-body">
 
-                  <form action="" method="get">
+                  <form action="" method="get" >
                     <div class="row">
-                      <div class="col-md-2">
+                      <div class="col-md-2 m-b-5">
                         <input name="start_date" id="start_date" type="text" value="" class="form-control input-sm datetime font-opensans" autocomplete="off">
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-2 m-b-5">
                         <input name="end_date" id="end_date" type="text" value="" class="form-control input-sm datetime font-opensans" autocomplete="off">
                       </div>
 
-                      <div class="col-md-2">
+                      <div class="col-md-2 m-b-5">
                           <a href="<?= current_url() ?>" class="btn btn-warning btn-mini">Clear</a>
                       </div>
                     </div>
@@ -38,8 +38,8 @@
                         <?=$this->session->flashdata('success');?>
                      </div>
                   <?php endif; ?>
-                  <div id="loaddiv">
-                     <table class="table table-hover table-bordered  table-flip-scroll cf" border="0">
+                  <div id="loaddiv" class="table-responsive">
+                     <table class="table table-hover table-bordered  " border="0">
                         <thead>
                            <tr>
                               <th style="width:10px;"> ক্রম </th>
