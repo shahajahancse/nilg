@@ -8,6 +8,20 @@
         -webkit-appearance: none;
     }
 </style>
+
+<style>
+    @media only screen and (max-width: 1140px) {
+        .tableresponsive {
+            width: 100%;
+            margin-bottom: 15px;
+            overflow-y: hidden;
+            overflow-x: scroll;
+            -webkit-overflow-scrolling: touch;
+            white-space: nowrap;
+        }
+    }
+</style>
+
 <div class="page-content">
     <div class="content">
         <ul class="breadcrumb">
@@ -42,22 +56,22 @@
                         <?php endif; ?>
 
                         <?php
-                            $attributes = array('id' => 'jsvalidate');
-                            echo form_open_multipart("budgets/budget_nilg_edit", $attributes);
-                            echo validation_errors();
+                        $attributes = array('id' => 'jsvalidate');
+                        echo form_open_multipart("budgets/budget_nilg_edit", $attributes);
+                        echo validation_errors();
                         ?>
 
                         <div class="row">
                             <div class="col-md-12">
                                 <fieldset>
-                                <div class="col-md-12"
+                                    <div class="col-md-12"
                                         style="padding: 20px;display: flex;flex-direction: row;justify-content: center;align-items: center;">
                                         <div>
                                             <span
                                                 style="font-size: 22px;font-weight: bold;text-decoration: underline;">বাজেট
                                                 তৈরি করুন</span>
                                         </div>
-                                    </div>                                    <input type="hidden" name="budget_nilg_id" value="<?= $budget_nilg->id ?>">
+                                    </div> <input type="hidden" name="budget_nilg_id" value="<?= $budget_nilg->id ?>">
 
                                     <div class="row form-row" style="font-size: 16px; color: black; margin-bottom: 6px;">
                                         <div class="col-md-4">
@@ -89,7 +103,7 @@
                                     </div>
 
                                     <div class="row form-row">
-                                        <div class="col-md-12">
+                                        <div class="col-md-12 ">
                                             <h4 class="semi-bold margin_left_15">বাজেট তালিকা <em style="color: #f73838; font-size: 15px;">Click <strong>Add More</strong> button for adding more item. </em></h4>
                                             <style type="text/css">
                                                 #appRowDiv td {
@@ -112,8 +126,8 @@
                                                         onchange="addNewRow(this.value)">
                                                         <option value="">বাজেট হেড নির্বাচন করুন</option>
                                                         <?php foreach ($budget_head_sub as $key => $value) {
-                                                            echo '<option value="'.$value->id.'">'.$value->budget_head_name.'>>'.$value->name_bn.' ('.$value->bd_code.')'.'</option>';
-                                                        }?>
+                                                            echo '<option value="' . $value->id . '">' . $value->budget_head_name . '>>' . $value->name_bn . ' (' . $value->bd_code . ')' . '</option>';
+                                                        } ?>
                                                     </select>
                                                 </div>
 
@@ -126,31 +140,33 @@
                                                 </div>
                                             </div>
 
-                                            <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e;" id="appRowDiv">
-                                                <thead>
-                                                    <tr>
-                                                        <th width="30%">বাজেট শিরোনাম<span class="required">*</span></th>
-                                                        <th width="30%">বাজেট কোড<span class="required">*</span></th>
-                                                        <th width="30%">বাজেট পরিমাণ</th>
-                                                        <th width="10%">অ্যাকশন </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="tbody">
-                                                    <?php foreach ($budget_nilg_details as $key => $value) { ?>
+                                            <div class="table-responsive">
+                                                <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e;" id="appRowDiv">
+                                                    <thead>
                                                         <tr>
-                                                            <td><?= $value->name_bn ?></td>
-                                                            <td><?= $value->bd_code ?></td>
-                                                            <td>
-                                                                <input type="hidden" name="budget_nilg_details_id[]" value="<?= $value->budget_nilg_details_id ?>">
-                                                                <input type="hidden" name="head_id[]" value="<?= $value->head_id ?>">
-                                                                <input type="hidden" name="head_sub_id[]" value="<?= $value->head_sub_id ?>">
-                                                                <input value="<?= $value->amount ?>" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm">
-                                                            </td>
-                                                            <td><a href="javascript:void(0)" onclick="removeRow(this,<?= $value->budget_nilg_details_id ?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
+                                                            <th width="30%">বাজেট শিরোনাম<span class="required">*</span></th>
+                                                            <th width="30%">বাজেট কোড<span class="required">*</span></th>
+                                                            <th width="30%">বাজেট পরিমাণ</th>
+                                                            <th width="10%">অ্যাকশন </th>
                                                         </tr>
-                                                    <?php } ?>
-                                                </tbody>
-                                            </table>
+                                                    </thead>
+                                                    <tbody id="tbody">
+                                                        <?php foreach ($budget_nilg_details as $key => $value) { ?>
+                                                            <tr>
+                                                                <td><?= $value->name_bn ?></td>
+                                                                <td><?= $value->bd_code ?></td>
+                                                                <td>
+                                                                    <input type="hidden" name="budget_nilg_details_id[]" value="<?= $value->budget_nilg_details_id ?>">
+                                                                    <input type="hidden" name="head_id[]" value="<?= $value->head_id ?>">
+                                                                    <input type="hidden" name="head_sub_id[]" value="<?= $value->head_sub_id ?>">
+                                                                    <input value="<?= $value->amount ?>" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm">
+                                                                </td>
+                                                                <td><a href="javascript:void(0)" onclick="removeRow(this,<?= $value->budget_nilg_details_id ?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
+                                                            </tr>
+                                                        <?php } ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                             <br>
                                             <br>
 

@@ -52,7 +52,7 @@
                                     #appRowDiv td{padding: 5px; border-color: #ccc;}
                                     #appRowDiv th{padding: 5px;text-align:center;border-color: #ccc; color: black;}                        
                                  </style>                              
-                                 <div class="col-md-12" >
+                                 <div class="col-md-12 table-responsive" >
                                     <input type="hidden" value="1" id="count">
                                     <table width="100%" border="1" id="appRowDiv" style="border:1px solid #a09e9e;">
                                        <tr>

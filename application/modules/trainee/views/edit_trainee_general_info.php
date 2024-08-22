@@ -44,7 +44,7 @@
                             <?php endif; ?>
 
                             <div class="row">
-                                <div class="col-md-10">
+                                <div class="col-md-9">
                                     <fieldset>
                                         <legend>ব্যাক্তিগত বা সাধারণ তথ্য</legend>
 
@@ -292,7 +292,7 @@
                             </fieldset>
                         </div> <!-- /com-md-10 -->
 
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <fieldset>
                                 <legend>ছবি</legend>
                                 <input type="hidden" name="hide_img" id="profile-avatar-url" value="">

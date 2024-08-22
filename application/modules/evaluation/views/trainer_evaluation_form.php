@@ -1,3 +1,16 @@
+<style>
+   @media only screen and  (max-width: 1140px){
+    .tableresponsive {
+      width: 100%;
+      margin-bottom: 15px;
+      overflow-y: hidden;
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+    }
+}
+</style>
+
 <div class="page-content">     
   <div class="content">
     <ul class="breadcrumb" style="margin-bottom: 20px;">
@@ -13,7 +26,7 @@
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
           </div>
 
-          <div class="grid-body">
+          <div class="grid-body tableresponsive">
             <div class="row">
               <div class="col-md-12">
                 <span class="training-title"><?=func_training_title($info->id)?></span>
@@ -40,7 +53,7 @@
             echo form_open_multipart("evaluation/trainer_evaluation_form/".$info->id, $attributes);?>
 
             <div class="row form-row">
-              <div class="col-md-6">
+              <div class="col-md-6 ">
                 <label class="form-label">প্রশিক্ষণার্থী নির্বাচন করুন <span class="required">*</span></label>
                 <?php //echo form_error('participant_id'); 
                 $more_attr = 'class="form-control input-sm"';
@@ -49,7 +62,7 @@
               </div>
             </div> 
 
-            <table class="table table-hover table-bordered  table-flip-scroll">
+            <table class="table table-hover table-bordered ">
               <thead class="">
                 <tr>
                   <th width="20">ক্রম</th>

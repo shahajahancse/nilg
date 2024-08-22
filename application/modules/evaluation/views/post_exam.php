@@ -18,7 +18,7 @@
             </div>            
           </div>
 
-          <div class="grid-body table-responsive">
+          <div class="grid-body">
             <div id="infoMessage"><?php echo $message;?></div>   
             <?php if($this->session->flashdata('success')):?>
               <div class="alert alert-success">
@@ -28,7 +28,7 @@
 
             <form action="" method="get">
               <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-3 m-b-5">
                   <select id="course_id" name="course_id" class="form-control input-sm" style="height: 24px !important;">
                     <option value="">কোর্সের শিরোনাম</option>
                     <?php foreach ($courses->result() as $key => $row): ?>
@@ -37,15 +37,15 @@
                   </select>
                 </div>
 
-                <div class="col-md-2">
+                <div class="col-md-2 m-b-5">
                     <a href="<?=base_url('evaluation/post_exam')?>" class="btn btn-warning btn-mini">Clear</a>
                 </div>
 
               </div>
             </form>
 
-            <div id="loaddiv">
-              <table class="table table-hover table-bordered  table-flip-scroll cf">
+            <div id="loaddiv" class="table-responsive">
+              <table class="table table-hover table-bordered ">
                 <thead class="cf">
                   <tr>
                     <th>ক্রম</th>

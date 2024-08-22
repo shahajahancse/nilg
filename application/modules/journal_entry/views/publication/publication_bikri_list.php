@@ -1,25 +1,38 @@
+<style>
+    @media only screen and (max-width: 1140px) {
+        .tableresponsive {
+            width: 100%;
+            margin-bottom: 15px;
+            overflow-y: hidden;
+            overflow-x: scroll;
+            -webkit-overflow-scrolling: touch;
+            white-space: nowrap;
+        }
+    }
+</style>
+
 <div class="page-content">
     <div class="content">
         <ul class="breadcrumb" style="margin-bottom: 20px;">
-            <li> <a href="<?=base_url('dashboard')?>" class="active"> ড্যাশবোর্ড </a> </li>
-            <li> <a href="javascript:void()" class="active"> <?=$module_name?> </a></li>
-            <li> <?=$meta_title;?> </li>
+            <li> <a href="<?= base_url('dashboard') ?>" class="active"> ড্যাশবোর্ড </a> </li>
+            <li> <a href="javascript:void()" class="active"> <?= $module_name ?> </a></li>
+            <li> <?= $meta_title; ?> </li>
         </ul>
 
         <div class="row">
             <div class="col-md-12">
                 <div class="grid simple ">
                     <div class="grid-title">
-                        <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
+                        <h4><span class="semi-bold"><?= $meta_title; ?></span></h4>
                         <div class="pull-right" style="display: flex;align-content: center;justify-content: center;flex-wrap: wrap;gap: 8px;">
-                            <a href="<?=base_url('journal_entry/publication_bikri_create')?>" class="btn btn-blueviolet btn-xs btn-mini">বই বিক্রি</a>
+                            <a href="<?= base_url('journal_entry/publication_bikri_create') ?>" class="btn btn-blueviolet btn-xs btn-mini">বই বিক্রি</a>
                         </div>
                     </div>
                     <div class="grid-body ">
-                        <?php if($this->session->flashdata('success')):?>
-                        <div class="alert alert-success">
-                            <?=$this->session->flashdata('success');?>
-                        </div>
+                        <?php if ($this->session->flashdata('success')): ?>
+                            <div class="alert alert-success">
+                                <?= $this->session->flashdata('success'); ?>
+                            </div>
                         <?php endif; ?>
 
                         <style type="text/css">
@@ -109,7 +122,7 @@
                         <div class="row">
                             <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> সর্বমোট <span
                                     style="color: green; font-weight: bold;"><?php echo eng2bng($total_rows); ?>
-                                    প্রকাশনা  </span></div>
+                                    প্রকাশনা </span></div>
                             <div class="col-sm-8 col-md-8 text-right">
                                 <?php echo $pagination['links']; ?>
                             </div>
@@ -125,8 +138,8 @@
 
 
 <script>
-$(document).ready(function() {
-    var html = `
+    $(document).ready(function() {
+        var html = `
         <style>
         .dataTables_filter {
             display: flex;
@@ -137,22 +150,21 @@ $(document).ready(function() {
             align-items: center;
         }
         </style>
-        <div class="col-md-6" style="display: flex;justify-content: space-around;">
+        <div class="col-md-6" style="display: flex;justify-content: space-around; flex-wrap: wrap;">
             <div class="text-center" >
                 Date Range
             </div>
             <div>
-                <input type="date" id="min" onchange="filterDate()" class="form-control"style="min-height: 25px;">
+                <input type="date" id="min"  onchange="filterDate()" class="form-control mt-3 mb-3 m-b-5"style="min-height: 25px;">
             </div>
             <div class="text-center" >
                 to
             </div>
             <div >
-                <input type="date" id="max" onchange="filterDate()" class="form-control" style="min-height: 25px;">
+                <input type="date" id="max"  onchange="filterDate()" class="form-control mt-3 mb-3 m-b-5" style="min-height: 25px;">
             </div>
         </div>
         `
-    $("#DataTables_Table_0_filter").prepend(html).css('display', 'content');
-});
+        $("#DataTables_Table_0_filter").prepend(html).css('display', 'content');
+    });
 </script>
-

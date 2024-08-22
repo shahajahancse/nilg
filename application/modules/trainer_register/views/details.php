@@ -27,7 +27,7 @@
                 .tg .tg-mtwr{background-color:#efefef;vertical-align:top; font-weight: bold; text-align: center; font-size: 16px;text-decoration: underline;}
               </style>                
 
-              <div class="col-md-12">
+              <div class="col-md-12 table-responsive">
                 <table class="tg" width="100%">              
                   <tr>
                     <td class="tg-khup">প্রশিক্ষকের নাম</td>

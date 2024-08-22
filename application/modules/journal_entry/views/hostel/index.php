@@ -1,3 +1,16 @@
+<style>
+   @media only screen and  (max-width: 1140px){
+    .tableresponsive {
+      width: 100%;
+      margin-bottom: 15px;
+      overflow-y: hidden;
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+    }
+}
+</style>
+
 <div class="page-content">
     <div class="content">
         <ul class="breadcrumb" style="margin-bottom: 20px;">
@@ -16,7 +29,7 @@
                         </div>
                     </div>
 
-                    <div class="grid-body ">
+                    <div class="grid-body tableresponsive">
                         <?php if($this->session->flashdata('success')):?>
                         <div class="alert alert-success">
                             <?=$this->session->flashdata('success');?>
@@ -130,7 +143,7 @@ $(document).ready(function() {
             align-items: center;
         }
         </style>
-        <div class="col-md-6" style="display: flex;justify-content: space-around;">
+        <div class="col-md-6" style="display: flex;justify-content: space-around; flex-wrap: wrap;">
             <div class="text-center" >
                 Date Range
             </div>

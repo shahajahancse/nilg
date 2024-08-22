@@ -61,7 +61,7 @@
         <br>
 
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-12 table-responsive">
             <table class="tg2">
               <tr>
                 <th class="tg-71hr" width="140">বিষয়বস্তু সম্পর্কে ধারণা</th>

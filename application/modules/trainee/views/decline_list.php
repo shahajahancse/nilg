@@ -1,3 +1,4 @@
+
 <div class="page-content">
   <div class="content">
     <ul class="breadcrumb" style="margin-bottom: 20px;">
@@ -15,7 +16,7 @@
               <a href="<?=base_url('trainee/request') ?>" class="btn btn-primary btn-xs btn-mini"> আবেদনের তালিকা</a>
             </div>
           </div>
-          <div class="grid-body">
+          <div class="grid-body table-responsive">
             <?php if ($this->session->flashdata('success')) : ?>
               <div class="alert alert-success">
                 <?php echo $this->session->flashdata('success'); ?>

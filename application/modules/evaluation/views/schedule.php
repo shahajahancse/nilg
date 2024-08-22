@@ -1,90 +1,181 @@
-<div class="page-content">     
-  <div class="content">  
+<div class="page-content">
+  <div class="content">
     <ul class="breadcrumb" style="margin-bottom: 20px;">
-      <li> <a href="<?=base_url()?>" class="active"> ড্যাশবোর্ড </a> </li>
-      <li> <a href="<?=base_url('training_management')?>" class="active"> <?=$module_title; ?> </a></li>
-      <li><?=$meta_title; ?></li>
+      <li> <a href="<?= base_url() ?>" class="active"> ড্যাশবোর্ড </a> </li>
+      <li> <a href="<?= base_url('training_management') ?>" class="active"> <?= $module_title; ?> </a></li>
+      <li><?= $meta_title; ?></li>
     </ul>
 
     <style type="text/css">
-      .tg  {border-collapse:collapse;border-spacing:0;font-family: 'Kalpurush', Arial, sans-serif; border: 0px solid red;}
-      .tg td{font-family: 'Kalpurush', Arial, sans-serif;font-size:14px;padding:5px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#bbb;color:#00000;background-color:#E0FFEB; vertical-align: middle;}
-      .tg th{font-family: 'Kalpurush', Arial, sans-serif;font-size:14px;font-weight:bold;padding:3px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#bbb;color:#493F3F;background-color:#bce2c5;text-align: center;}
-      .tg .tg-ywa9{background-color:#ffffff;color:#ffffff;vertical-align:top; width: 300px;color: black;font-weight: bold;}
-      .tg .tg-khup{background-color:#efefef;color:#ffffff;vertical-align:top; width: 110px; color: black; text-align: right;}
-      .tg .tg-akf0{background-color:#ffffff;color:#ffffff;vertical-align:top;color: black;}
-      .tg .tg-mtwr{background-color:#efefef;vertical-align:top; font-weight: bold; text-align: center; font-size: 16px;text-decoration: underline;}
-    </style>          
+      .tg {
+        border-collapse: collapse;
+        border-spacing: 0;
+        font-family: 'Kalpurush', Arial, sans-serif;
+        border: 0px solid red;
+      }
+
+      .tg td {
+        font-family: 'Kalpurush', Arial, sans-serif;
+        font-size: 14px;
+        padding: 5px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #bbb;
+        color: #00000;
+        background-color: #E0FFEB;
+        vertical-align: middle;
+      }
+
+      .tg th {
+        font-family: 'Kalpurush', Arial, sans-serif;
+        font-size: 14px;
+        font-weight: bold;
+        padding: 3px 5px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        border-color: #bbb;
+        color: #493F3F;
+        background-color: #bce2c5;
+        text-align: center;
+      }
+
+      .tg .tg-ywa9 {
+        background-color: #ffffff;
+        color: #ffffff;
+        vertical-align: top;
+        width: 300px;
+        color: black;
+        font-weight: bold;
+      }
+
+      .tg .tg-khup {
+        background-color: #efefef;
+        color: #ffffff;
+        vertical-align: top;
+        width: 110px;
+        color: black;
+        text-align: right;
+      }
+
+      .tg .tg-akf0 {
+        background-color: #ffffff;
+        color: #ffffff;
+        vertical-align: top;
+        color: black;
+      }
+
+      .tg .tg-mtwr {
+        background-color: #efefef;
+        vertical-align: top;
+        font-weight: bold;
+        text-align: center;
+        font-size: 16px;
+        text-decoration: underline;
+      }
+    </style>
 
     <style type="text/css">
-      .tg2  {border-collapse:collapse;border-spacing:0; width: 100%; color: black;}
-      .tg2 td{font-family:Arial, sans-serif;font-size:14px;padding:4px 7px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-      .tg2 th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:4px 7px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal; text-align: center;}
-      .tg2 .tg-71hr{background-color:#a7afaf; font-weight: bold;}
-    </style>   
+      .tg2 {
+        border-collapse: collapse;
+        border-spacing: 0;
+        width: 100%;
+        color: black;
+      }
+
+      .tg2 td {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        padding: 4px 7px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+      }
+
+      .tg2 th {
+        font-family: Arial, sans-serif;
+        font-size: 14px;
+        font-weight: normal;
+        padding: 4px 7px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        word-break: normal;
+        text-align: center;
+      }
+
+      .tg2 .tg-71hr {
+        background-color: #a7afaf;
+        font-weight: bold;
+      }
+    </style>
 
     <div class="row">
       <div class="col-md-12">
         <div class="grid simple horizontal red">
           <div class="grid-title">
-            <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
+            <h4><span class="semi-bold"><?= $meta_title; ?></span></h4>
             <div class="pull-right">
-              <!-- <a href="<?=base_url('training/feedback_topic_result/'.$info->id)?>" class="btn btn-primary btn-mini" target="_blank"> বিষয়বস্তু মূল্যায়ন ফলাফল </a>
-              <a href="<?=base_url('training/feedback_topic/'.$info->id)?>" class="btn btn-primary btn-mini" target="_blank"> বিষয়বস্তু মূল্যায়ন ফরম </a> -->
-              <a href="<?=base_url('training/pdf_schedule/'.$info->id)?>" class="btn btn-primary btn-mini" target="_blank"> প্রশিক্ষণ কর্মসূচীর পিডিএফ</a>
-             
-              
-              <a href="<?=base_url('training')?>" class="btn btn-primary btn-xs btn-mini"> তালিকা</a>
-               <div class="btn-group"> 
-                        <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> <span class="fa fa-ellipsis-v"></span> </a>
-                        <ul class="dropdown-menu pull-right">
-                          <li><?=anchor("training/details/".$info->id, lang('common_details'))?></li>
-                        <li><?=anchor("training/edit/".$info->id, lang('common_edit'))?></li>
-                        <li><?=anchor("training/participant_list/".$info->id, 'অংশগ্রহণকারী তালিকা')?></li>
+              <!-- <a href="<?= base_url('training/feedback_topic_result/' . $info->id) ?>" class="btn btn-primary btn-mini" target="_blank"> বিষয়বস্তু মূল্যায়ন ফলাফল </a>
+              <a href="<?= base_url('training/feedback_topic/' . $info->id) ?>" class="btn btn-primary btn-mini" target="_blank"> বিষয়বস্তু মূল্যায়ন ফরম </a> -->
+              <a href="<?= base_url('training/pdf_schedule/' . $info->id) ?>" class="btn btn-primary btn-mini" target="_blank"> প্রশিক্ষণ কর্মসূচীর পিডিএফ</a>
 
-                        
-                        <li><?=anchor("training/schedule/".$info->id, 'প্রশিক্ষণ কর্মসূচী')?></li>
-                        <li><?=anchor("training/allowance/".$info->id, 'প্রশিক্ষণ ভাতা')?></li>
-                        <li><?=anchor("training/allowance_dress/".$info->id, 'পোষাক ভাতা')?></li>
-                        <li><?=anchor("training/honorarium/".$info->id, 'সম্মানী ভাতার তালিকা')?></li>
-                        <li><?=anchor("training/generate_certificate/".$info->id, 'জেনারেট সার্টিফিকেট')?></li>
 
-                        <?php if($this->ion_auth->is_admin()){ ?>
-                        <li class="divider"></li>
-                        <li><a href="<?=base_url("training/delete_training/".$info->id)?>" onclick="return confirm('Are you sure you want to delete this personal data?');"><?=lang('common_delete')?></a></li>
-                        <?php } ?>
-                        <li><?=anchor("training/feedback_course/".$info->id, 'কোর্স মূল্যায়ন ফরম')?></li>
-                        <li><?=anchor("training/feedback_course_result/".$info->id, 'কোর্স মূল্যায়ন ফলাফল')?></li> 
-                        </ul>
-                </div>
+              <a href="<?= base_url('training') ?>" class="btn btn-primary btn-xs btn-mini"> তালিকা</a>
+              <div class="btn-group">
+                <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> <span class="fa fa-ellipsis-v"></span> </a>
+                <ul class="dropdown-menu pull-right">
+                  <li><?= anchor("training/details/" . $info->id, lang('common_details')) ?></li>
+                  <li><?= anchor("training/edit/" . $info->id, lang('common_edit')) ?></li>
+                  <li><?= anchor("training/participant_list/" . $info->id, 'অংশগ্রহণকারী তালিকা') ?></li>
+
+
+                  <li><?= anchor("training/schedule/" . $info->id, 'প্রশিক্ষণ কর্মসূচী') ?></li>
+                  <li><?= anchor("training/allowance/" . $info->id, 'প্রশিক্ষণ ভাতা') ?></li>
+                  <li><?= anchor("training/allowance_dress/" . $info->id, 'পোষাক ভাতা') ?></li>
+                  <li><?= anchor("training/honorarium/" . $info->id, 'সম্মানী ভাতার তালিকা') ?></li>
+                  <li><?= anchor("training/generate_certificate/" . $info->id, 'জেনারেট সার্টিফিকেট') ?></li>
+
+                  <?php if ($this->ion_auth->is_admin()) { ?>
+                    <li class="divider"></li>
+                    <li><a href="<?= base_url("training/delete_training/" . $info->id) ?>" onclick="return confirm('Are you sure you want to delete this personal data?');"><?= lang('common_delete') ?></a></li>
+                  <?php } ?>
+                  <li><?= anchor("training/feedback_course/" . $info->id, 'কোর্স মূল্যায়ন ফরম') ?></li>
+                  <li><?= anchor("training/feedback_course_result/" . $info->id, 'কোর্স মূল্যায়ন ফলাফল') ?></li>
+                </ul>
+              </div>
             </div>
           </div>
           <div class="grid-body" id="printableArea">
             <div class="row">
               <div class="col-md-12" style="text-align: center;">
-                <span style="color: black; font-size: 18px; font-weight: bold;"><?=$info->participant_name?> এর "<?=$info->course_title?>" (ব্যাচ নং <?=eng2bng($info->batch_no)?>)</span> <br>
+                <span style="color: black; font-size: 18px; font-weight: bold;"><?= $info->participant_name ?> এর "<?= $info->course_title ?>" (ব্যাচ নং <?= eng2bng($info->batch_no) ?>)</span> <br>
 
                 <span style="color: black; font-weight: bold;">
-                  <?php 
-                    if($info->start_date == $info->end_date){
-                      echo date_bangla_calender_format($info->start_date);
-                    }else{
-                      echo date_bangla_calender_format($info->start_date).' হতে '.date_bangla_calender_format($info->end_date);
-                    }
-                    ?>
-               </span>
-              </div>     
+                  <?php
+                  if ($info->start_date == $info->end_date) {
+                    echo date_bangla_calender_format($info->start_date);
+                  } else {
+                    echo date_bangla_calender_format($info->start_date) . ' হতে ' . date_bangla_calender_format($info->end_date);
+                  }
+                  ?>
+                </span>
+              </div>
             </div>
 
             <br><br>
             <div class="row ">
               <div class="col-md-12">
-                <?php 
+                <?php
                 $attributes = array('id' => 'training_participant_list');
-                echo form_open_multipart(current_url(), $attributes);?>
-                <?php if($this->session->flashdata('success')):?>
+                echo form_open_multipart(current_url(), $attributes); ?>
+                <?php if ($this->session->flashdata('success')): ?>
                   <div class="alert alert-success">
-                    <?php echo $this->session->flashdata('success');?>
+                    <?php echo $this->session->flashdata('success'); ?>
                   </div>
                 <?php endif; ?>
 
@@ -92,23 +183,23 @@
                   <div class="col-md-2">
                     <label class="form-label">তারিখ <span class="required">*</span></label>
                     <?php echo form_error('program_date'); ?>
-                    <input name="program_date" type="text" class="form-control input-sm datetime" placeholder="" value="<?=set_value('program_date', $info->start_date)?>">
+                    <input name="program_date" type="text" class="form-control input-sm datetime" placeholder="" value="<?= set_value('program_date', $info->start_date) ?>">
                   </div>
-                  
+
                   <div class="col-md-2">
                     <label class="form-label">অধি. নং </label>
                     <?php echo form_error('session_no'); ?>
-                    <input name="session_no" type="text" class="form-control input-sm" placeholder="" value="<?=set_value('session_no')?>">
+                    <input name="session_no" type="text" class="form-control input-sm" placeholder="" value="<?= set_value('session_no') ?>">
                   </div>
                   <div class="col-md-6">
                     <label class="form-label">আলোচনার বিষয় <span class="required">*</span></label>
                     <?php echo form_error('topic'); ?>
-                    <input name="topic" type="text" class="form-control input-sm" placeholder="" value="<?=set_value('topic')?>">
+                    <input name="topic" type="text" class="form-control input-sm" placeholder="" value="<?= set_value('topic') ?>">
                   </div>
                   <div class="col-md-2">
                     <label class="form-label">সম্মানী ভাতা </label>
                     <?php echo form_error('honorarium'); ?>
-                    <input name="honorarium" type="number" class="form-control input-sm" placeholder="" value="<?=set_value('honorarium')?>">
+                    <input name="honorarium" type="number" class="form-control input-sm" placeholder="" value="<?= set_value('honorarium') ?>">
                   </div>
                 </div>
 
@@ -116,7 +207,7 @@
                   <div class="col-sm-2">
                     <label class="form-label">শুরুর সময় <span class="required">*</span></label>
                     <div class="input-group date timepicker">
-                      <input type="text" name="time_start" class="form-control" value="<?=set_value('time_start')?>" />
+                      <input type="text" name="time_start" class="form-control" value="<?= set_value('time_start') ?>" />
                       <span class="input-group-addon">
                         <span class="glyphicon glyphicon-time"></span>
                       </span>
@@ -125,7 +216,7 @@
                   <div class="col-sm-2">
                     <label class="form-label">শেষের সময় <span class="required">*</span></label>
                     <div class="input-group date timepicker">
-                      <input type="text" name="time_end" class="form-control" value="<?=set_value('time_end')?>" />
+                      <input type="text" name="time_end" class="form-control" value="<?= set_value('time_end') ?>" />
                       <span class="input-group-addon">
                         <span class="glyphicon glyphicon-time"></span>
                       </span>
@@ -134,96 +225,102 @@
 
                   <div class="col-md-3">
                     <label class="form-label">আলোচক/সহায়ক/ দায়িত্ব প্রাপ্ত কর্মকর্তা</label>
-                    <?php echo form_error('speakers'); ?>                    
-                    <textarea name="speakers" class="form-control input-sm"><?=set_value('speakers')?></textarea>
-                  </div>   
+                    <?php echo form_error('speakers'); ?>
+                    <textarea name="speakers" class="form-control input-sm"><?= set_value('speakers') ?></textarea>
+                  </div>
 
                   <div class="col-md-5">
                     <label class="form-label">প্রশিক্ষক নির্বাচন</label>
-                    <?php echo form_error('id');?>
+                    <?php echo form_error('id'); ?>
                     <select class="NIDTrainerselect2 form-control input-sm" name="trainer_id" style="width: 100%;" id="id"></select>
-                  </div>               
+                  </div>
                 </div>
 
                 <div class="row form-row">
-                  <div class="col-md-2 pull-right">  
+                  <div class="col-md-2 pull-right">
                     <label class="form-label">&nbsp;</label>
                     <?php echo form_submit('submit', 'Save', "class='btn btn-primary btn-cons'"); ?>
                   </div>
                 </div>
 
-                <input type="hidden" name="hide_training_id" value="<?=$info->id?>">              
-                <?php echo form_close();?>
+                <input type="hidden" name="hide_training_id" value="<?= $info->id ?>">
+                <?php echo form_close(); ?>
 
                 <div class="row">
                   <div class="col-md-12">
                     <h3 style="text-align: center;"><span class="semi-bold">প্রশিক্ষণ কর্মসূচীর তালিকা</span></h3>
 
-                     <form method="post" action="<?php echo base_url('training/schedule_date_range_search'); ?>">
-                        <input type="hidden" name="training_id" value="<?php echo $info->id; ?>">
-                        <div class="col-md-2">
-                            <label class="form-label">শুরুর তারিখ <span class="required">*</span></label>
-                            <?php echo form_error('start_date'); ?>
-                            <input name="start_date" type="text" class="form-control input-sm datetime" placeholder="" value="<?php if(isset($start_date)){ echo $start_date; } ?>" required>
-                        </div>
-                        <div class="col-md-2">
-                            <label class="form-label">শেষের তারিখ <span class="required">*</span></label>
-                            <?php echo form_error('start_date'); ?>
-                            <input name="end_date" type="text" class="form-control input-sm datetime" placeholder="" value="<?php if(isset($end_date)){ echo $end_date; } ?>" required>
-                        </div>
-                        <div class="col-md-2">  
-                            <label class="form-label">&nbsp;</label>
-                            <?php echo form_submit('submit', 'অনুসন্ধান', "class='btn btn-primary btn-cons'"); ?>
-                        </div>
+                    <form method="post" action="<?php echo base_url('training/schedule_date_range_search'); ?>">
+                      <input type="hidden" name="training_id" value="<?php echo $info->id; ?>">
+                      <div class="col-md-2">
+                        <label class="form-label">শুরুর তারিখ <span class="required">*</span></label>
+                        <?php echo form_error('start_date'); ?>
+                        <input name="start_date" type="text" class="form-control input-sm datetime" placeholder="" value="<?php if (isset($start_date)) {
+                                                                                                                            echo $start_date;
+                                                                                                                          } ?>" required>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="form-label">শেষের তারিখ <span class="required">*</span></label>
+                        <?php echo form_error('start_date'); ?>
+                        <input name="end_date" type="text" class="form-control input-sm datetime" placeholder="" value="<?php if (isset($end_date)) {
+                                                                                                                          echo $end_date;
+                                                                                                                        } ?>" required>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="form-label">&nbsp;</label>
+                        <?php echo form_submit('submit', 'অনুসন্ধান', "class='btn btn-primary btn-cons'"); ?>
+                      </div>
                     </form><br><br><br>
-                    <table class="tg2">
-                      <tr>
-                        <th class="tg-71hr" width="130">তারিখ</th>
-                        <th class="tg-71hr" width="160">সময়</th>
-                        <th class="tg-71hr" width="80">অধি. নং</th>
-                        <th class="tg-71hr">আলোচনার বিষয়</th>
-                        <th class="tg-71hr">আলোচক/সহায়ক/ দায়িত্ব প্রাপ্ত কর্মকর্তা</th>
-                        <th class="tg-71hr">সম্মানী ভাতা</th>
-                        <th class="tg-71hr" width="130">অ্যাকশন</th>
-                      </tr>
-                      <?php foreach ($results as $row) { 
-                          $itme = date('h:i a', strtotime($row->time_start)).' - '.date('h:i a', strtotime($row->time_end))
-                        ?>                      
-                      <tr>
-                        <td class="tg-031e"><?=date_bangla_calender_format($row->program_date)?></td>
-                        <td class="tg-031e"><?=eng2bng($itme)?></td>
-                        <?php if($row->session_no == ''){ ?>
-                        <td class="tg-031e" colspan="4"><?=$row->topic?></td>
-                        <?php }else{ ?>
-                        <td class="tg-031e" align="center"><?=eng2bng($row->session_no)?></td>
-                        <td class="tg-031e"><?=$row->topic?></td>
-                        <td class="tg-031e">
-                        <?php
-                        if($row->speakers != NULL){
-                          echo nl2br($row->speakers).'<br>';
-                        }else{
-                          echo nl2br($row->speakers);
-                        } 
-                        if($row->trainer_name != ''){
-                          echo $row->trainer_name.'<br>'.$row->trainer_desig;
-                        }
+                    <div class="table-responsive">
+                      <table class="tg2">
+                        <tr>
+                          <th class="tg-71hr" width="130">তারিখ</th>
+                          <th class="tg-71hr" width="160">সময়</th>
+                          <th class="tg-71hr" width="80">অধি. নং</th>
+                          <th class="tg-71hr">আলোচনার বিষয়</th>
+                          <th class="tg-71hr">আলোচক/সহায়ক/ দায়িত্ব প্রাপ্ত কর্মকর্তা</th>
+                          <th class="tg-71hr">সম্মানী ভাতা</th>
+                          <th class="tg-71hr" width="130">অ্যাকশন</th>
+                        </tr>
+                        <?php foreach ($results as $row) {
+                          $itme = date('h:i a', strtotime($row->time_start)) . ' - ' . date('h:i a', strtotime($row->time_end))
                         ?>
-                        </td>
-                        <td class="tg-031e"><?php
-                          if($row->honorarium != '0'){
-                            echo eng2bng($row->honorarium);
-                          }
-                        ?></td>
+                          <tr>
+                            <td class="tg-031e"><?= date_bangla_calender_format($row->program_date) ?></td>
+                            <td class="tg-031e"><?= eng2bng($itme) ?></td>
+                            <?php if ($row->session_no == '') { ?>
+                              <td class="tg-031e" colspan="4"><?= $row->topic ?></td>
+                            <?php } else { ?>
+                              <td class="tg-031e" align="center"><?= eng2bng($row->session_no) ?></td>
+                              <td class="tg-031e"><?= $row->topic ?></td>
+                              <td class="tg-031e">
+                                <?php
+                                if ($row->speakers != NULL) {
+                                  echo nl2br($row->speakers) . '<br>';
+                                } else {
+                                  echo nl2br($row->speakers);
+                                }
+                                if ($row->trainer_name != '') {
+                                  echo $row->trainer_name . '<br>' . $row->trainer_desig;
+                                }
+                                ?>
+                              </td>
+                              <td class="tg-031e"><?php
+                                                  if ($row->honorarium != '0') {
+                                                    echo eng2bng($row->honorarium);
+                                                  }
+                                                  ?></td>
+                            <?php } ?>
+                            <td class="tg-031e">
+                              <a href="<?= base_url('training/schedule_item_edit/' . $row->id) ?>" class="btn btn-primary btn-mini mini-btn-padding"> সংশোধন </a>
+                              <a href="<?= base_url('training/schedule_item_clone/' . $row->id) ?>" class="btn btn-primary btn-mini mini-btn-padding">ক্লোন </a>
+                              <a href="<?= base_url('training/schedule_item_delete/' . $row->id) ?>" class="btn btn-danger btn-mini mini-btn-padding" onclick="return confirm('Are you sure you want to delete this data?');"> মুছে ফেলুন </a>
+                            </td>
+                          </tr>
                         <?php } ?>
-                        <td class="tg-031e">
-                          <a href="<?=base_url('training/schedule_item_edit/'.$row->id)?>" class="btn btn-primary btn-mini mini-btn-padding"> সংশোধন </a>
-                          <a href="<?=base_url('training/schedule_item_clone/'.$row->id)?>" class="btn btn-primary btn-mini mini-btn-padding">ক্লোন </a>
-                          <a href="<?=base_url('training/schedule_item_delete/'.$row->id)?>" class="btn btn-danger btn-mini mini-btn-padding" onclick="return confirm('Are you sure you want to delete this data?');"> মুছে ফেলুন </a>
-                        </td>
-                      </tr>
-                      <?php } ?>
-                    </table>
-                  </div>   
+                      </table>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -261,40 +358,38 @@
         }
       },
 
-      invalidHandler: function (event, validator) {
+      invalidHandler: function(event, validator) {
         //display error alert on form submit    
       },
 
-      errorPlacement: function (label, element) { // render error placement for each input type   
+      errorPlacement: function(label, element) { // render error placement for each input type   
         if (element.attr("name") == "national_id") {
           label.insertAfter("#typeerror");
         } else {
           $('<span class="error"></span>').insertAfter(element).append(label)
           var parent = $(element).parent('.input-with-icon');
-          parent.removeClass('success-control').addClass('error-control');  
+          parent.removeClass('success-control').addClass('error-control');
         }
       },
 
-      highlight: function (element) { // hightlight error inputs
+      highlight: function(element) { // hightlight error inputs
         var parent = $(element).parent();
-        parent.removeClass('success-control').addClass('error-control'); 
+        parent.removeClass('success-control').addClass('error-control');
       },
 
-      unhighlight: function (element) { // revert the change done by hightlight
+      unhighlight: function(element) { // revert the change done by hightlight
       },
 
-      success: function (label, element) {
+      success: function(label, element) {
         var parent = $(element).parent('.input-with-icon');
-        parent.removeClass('error-control').addClass('success-control'); 
+        parent.removeClass('error-control').addClass('success-control');
       },
 
-      submitHandler: function (form) {
+      submitHandler: function(form) {
         // form.submit();
         func_participant_list();
       }
     });
 
-  });   
-
-
+  });
 </script>

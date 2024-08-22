@@ -154,7 +154,7 @@
     </div>
 
     <div class="priview-body">
-        <div class="priview-demand">
+        <div class="priview-demand table-responsive">
             <table class="table table-hover table-bordered report">
                 <thead class="headding">
                     <tr>
@@ -165,7 +165,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php $total = 0; foreach ($summary as $key => $row) { ?>
+                    <?php $total = 0;
+                    foreach ($summary as $key => $row) { ?>
                         <tr>
                             <td><?php echo $key + 1; ?></td>
                             <td><?php echo $row->bd_code; ?></td>
@@ -174,10 +175,10 @@
                             <?php $total = $total + $row->dg_amt; ?>
                         </tr>
                     <?php } ?>
-                        <tr>
-                            <td colspan="3">মোট </td>
-                            <td><?php echo $total; ?></td>
-                        </tr>
+                    <tr>
+                        <td colspan="3">মোট </td>
+                        <td><?php echo $total; ?></td>
+                    </tr>
                 </tbody>
             </table>
         </div>

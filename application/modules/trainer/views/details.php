@@ -1,3 +1,16 @@
+<style>
+   @media only screen and  (max-width: 1140px){
+    .tableresponsive {
+      width: 100%;
+      margin-bottom: 15px;
+      overflow-y: hidden;
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+    }
+}
+</style>
+
 <div class="page-content">
    <div class="content">  
       <ul class="breadcrumb" style="margin-bottom: 20px;">
@@ -16,7 +29,7 @@
                      <a href="<?=base_url('trainer/all')?>" class="btn btn-primary btn-xs btn-mini"> প্রশিক্ষকের তালিকা </a>
                   </div>
                </div>
-               <div class="grid-body" id="printableArea">
+               <div class="grid-body tableresponsive" id="printableArea">
                   <div class="row">
                      <div class="col-md-12">
                         <table class="tg" width="100%">

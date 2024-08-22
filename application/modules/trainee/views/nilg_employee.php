@@ -1,9 +1,9 @@
 <div class="page-content">
   <div class="content">
     <ul class="breadcrumb" style="margin-bottom: 20px;">
-      <li> <a href="<?= base_url() ?>" class="active"> <?=lang('Dashboard') ?> </a> </li>
-      <li> <a href="<?= base_url('trainee') ?>" class="active"> <?=$module_title?> </a></li>
-      <li><?=$meta_title?></li>
+      <li> <a href="<?= base_url() ?>" class="active"> <?= lang('Dashboard') ?> </a> </li>
+      <li> <a href="<?= base_url('trainee') ?>" class="active"> <?= $module_title ?> </a></li>
+      <li><?= $meta_title ?></li>
     </ul>
 
     <div class="row">
@@ -12,13 +12,13 @@
           <div class="grid-title">
             <h4><span class="semi-bold"><?= $meta_title; ?></span></h4>
             <div class="pull-right">
-              <a href="<?=base_url('trainee/add_pr')?>" class="btn btn-primary btn-xs btn-mini"> জনপ্রতিনিধি এন্ট্রি করুন </a>
+              <a href="<?= base_url('trainee/add_pr') ?>" class="btn btn-primary btn-xs btn-mini"> জনপ্রতিনিধি এন্ট্রি করুন </a>
               <?php if ($this->ion_auth->is_admin()) { ?>
-              <!-- <a href="<?= base_url($this->uri->segment(1) . '/download') ?>" class="btn btn-primary btn-xs btn-mini"> Download Excel</a>   -->
+                <!-- <a href="<?= base_url($this->uri->segment(1) . '/download') ?>" class="btn btn-primary btn-xs btn-mini"> Download Excel</a>   -->
               <?php } ?>
             </div>
           </div>
-          <div class="grid-body">
+          <div class="grid-body table-responsive">
             <?php if ($this->session->flashdata('success')) : ?>
               <div class="alert alert-success">
                 <?php echo $this->session->flashdata('success'); ?>
@@ -83,22 +83,22 @@
                 <?php
                 $sl = $pagination['current_page'];
                 foreach ($results as $row) {
-                  $sl++; 
-                  ?>
+                  $sl++;
+                ?>
                   <tr>
-                    <td> <?=$sl?>. </td>
-                    <td> <?=$row->name_bn?> </td>
-                    <td> <?=$row->nid?> </td>
-                    <td> <?=$row->mobile_no?> </td>
-                    <td> <?=$row->current_desig_name?> </td>
+                    <td> <?= $sl ?>. </td>
+                    <td> <?= $row->name_bn ?> </td>
+                    <td> <?= $row->nid ?> </td>
+                    <td> <?= $row->mobile_no ?> </td>
+                    <td> <?= $row->current_desig_name ?> </td>
                     <td>
-                      <div class="btn-group"> 
+                      <div class="btn-group">
                         <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> অ্যাকশন <span class="caret"></span> </a>
                         <ul class="dropdown-menu pull-right">
-                          <li><a href="<?=base_url('trainee/details/'.encrypt_url($row->id));?>"><?=lang('common_details')?></a></li>
+                          <li><a href="<?= base_url('trainee/details/' . encrypt_url($row->id)); ?>"><?= lang('common_details') ?></a></li>
                         </ul>
                       </div>
-                      <!-- <a href="<?=base_url('trainee/request_verification/'.encrypt_url($row->id));?>" class="btn btn-mini btn-primary"><i class="fa fa-check-circle"></i> ভেরিভাই করুন</a</a> -->
+                      <!-- <a href="<?= base_url('trainee/request_verification/' . encrypt_url($row->id)); ?>" class="btn btn-mini btn-primary"><i class="fa fa-check-circle"></i> ভেরিভাই করুন</a</a> -->
 
                       <?php /*
                       <div class="btn-group"> 
@@ -125,22 +125,22 @@
                       */ ?>
                     </td>
                   </tr>
-                  <?php } ?>
-                </tbody>
-              </table>
+                <?php } ?>
+              </tbody>
+            </table>
 
-              <div class="row">
-                <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> Total <span style="color: green; font-weight: bold;"><?php echo $total_rows; ?> Data </span></div>
-                <div class="col-sm-8 col-md-8 text-right">
-                  <?php echo $pagination['links']; ?>
-                </div>
+            <div class="row">
+              <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> Total <span style="color: green; font-weight: bold;"><?php echo $total_rows; ?> Data </span></div>
+              <div class="col-sm-8 col-md-8 text-right">
+                <?php echo $pagination['links']; ?>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-    </div> <!-- END ROW -->
+  </div> <!-- END ROW -->
 
-  </div>
+</div>
 </div>

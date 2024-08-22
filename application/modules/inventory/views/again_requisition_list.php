@@ -16,7 +16,7 @@
                   </div>
                </div>
 
-               <div class="grid-body ">
+               <div class="grid-body table-responsive">
                   <div id="infoMessage"><?php //echo $message;?></div>            
                   <?php if($this->session->flashdata('success')):?>
                      <div class="alert alert-success">

@@ -1,31 +1,32 @@
-<div class="page-content">     
-  <div class="content">  
+<div class="page-content">
+  <div class="content">
     <ul class="breadcrumb" style="margin-bottom: 20px;">
-      <li> <a href="<?=base_url('dashboard')?>" class="active"> ড্যাশবোর্ড </a> </li>
-      <li>  জেনারেল সেটিংস</li>
-      <li><?=$meta_title; ?> </li>
+      <li> <a href="<?= base_url('dashboard') ?>" class="active"> ড্যাশবোর্ড </a> </li>
+      <li> জেনারেল সেটিংস</li>
+      <li><?= $meta_title; ?> </li>
     </ul>
 
     <div class="row-fluid">
       <div class="span12">
         <div class="grid simple ">
           <div class="grid-title">
-            <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
+            <h4><span class="semi-bold"><?= $meta_title; ?></span></h4>
             <div class="pull-right">
-              <a href="<?=base_url('general_setting/item_unit_add')?>" class="btn btn-blueviolet btn-xs btn-mini">একক যুক্ত করুন </a>
-            </div>            
+              <a href="<?= base_url('general_setting/item_unit_add') ?>" class="btn btn-blueviolet btn-xs btn-mini">একক যুক্ত করুন </a>
+            </div>
           </div>
 
-          <div class="grid-body ">
-            <div id="infoMessage"><?php //echo $message;?></div>            
-            <?php if($this->session->flashdata('success')):?>
-                <div class="alert alert-success">
-                    <a class="close" data-dismiss="alert">&times;</a>
-                    <?php echo $this->session->flashdata('success');?>
-                </div>
+          <div class="grid-body table-responsive">
+            <div id="infoMessage"><?php //echo $message;
+                                  ?></div>
+            <?php if ($this->session->flashdata('success')): ?>
+              <div class="alert alert-success">
+                <a class="close" data-dismiss="alert">&times;</a>
+                <?php echo $this->session->flashdata('success'); ?>
+              </div>
             <?php endif; ?>
-            
-            <table class="table table-hover table-bordered  table-flip-scroll cf" id="">
+
+            <table class="table table-hover table-bordered" id="">
               <thead>
                 <tr>
                   <th style="width:2%"> ক্রম</th>
@@ -35,30 +36,30 @@
                 </tr>
               </thead>
               <tbody>
-              <?php 
+                <?php
                 $sl = 0;
                 foreach ($results as $row):
                   $sl++;
-                  if($row->status == 'Enable'){
+                  if ($row->status == 'Enable') {
                     $status = '<span class="btn btn-primary btn-xs btn-mini">এনাবল </span>';
-                  }else{
+                  } else {
                     $status = '<span class="btn btn-danger btn-xs btn-mini">ডিজাবল</span>';
-                  }  
-              ?>
-                <tr>
-                  <td class="v-align-middle"><?=eng2bng($sl).'.'?></td>
-                  <td class="v-align-middle"><?=$row->unit_name?></td>
-                  <td class="v-align-middle"><?=$status?></td> 
-                  <td align="right">
-                    <div class="btn-group">
-                      <button class="btn btn-mini btn-primary">অ্যাকশন</button>
-                      <button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
-                      <ul class="dropdown-menu pull-right">
-                         <li><a href="<?php echo base_url('general_setting/item_unit_edit/'.$row->id)?>" class="btn btn-mini btn-primary"><i class="fa fa-pencil-square"></i> এডিট করুন </a></li>
-                      </ul>
-                    </div>
-                  </td>
-                <?php endforeach;?>                      
+                  }
+                ?>
+                  <tr>
+                    <td class="v-align-middle"><?= eng2bng($sl) . '.' ?></td>
+                    <td class="v-align-middle"><?= $row->unit_name ?></td>
+                    <td class="v-align-middle"><?= $status ?></td>
+                    <td align="right">
+                      <div class="btn-group">
+                        <button class="btn btn-mini btn-primary">অ্যাকশন</button>
+                        <button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
+                        <ul class="dropdown-menu pull-right">
+                          <li><a href="<?php echo base_url('general_setting/item_unit_edit/' . $row->id) ?>" class="btn btn-mini btn-primary"><i class="fa fa-pencil-square"></i> এডিট করুন </a></li>
+                        </ul>
+                      </div>
+                    </td>
+                  <?php endforeach; ?>
               </tbody>
             </table>
 
@@ -67,7 +68,7 @@
       </div>
     </div>
 
-    </div> <!-- END ROW -->
+  </div> <!-- END ROW -->
 
-  </div>
+</div>
 </div>

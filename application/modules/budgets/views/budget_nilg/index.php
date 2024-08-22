@@ -1,16 +1,29 @@
+<style>
+    @media only screen and (max-width: 1140px) {
+        .tableresponsive {
+            width: 100%;
+            margin-bottom: 15px;
+            overflow-y: hidden;
+            overflow-x: scroll;
+            -webkit-overflow-scrolling: touch;
+            white-space: nowrap;
+        }
+    }
+</style>
+
 <div class="page-content">
     <div class="content">
         <ul class="breadcrumb" style="margin-bottom: 20px;">
-            <li> <a href="<?=base_url('dashboard')?>" class="active"> ড্যাশবোর্ড </a> </li>
-            <li> <a href="javascript:void()" class="active"> <?=$module_name?> </a></li>
-            <li> <?=$meta_title;?> </li>
+            <li> <a href="<?= base_url('dashboard') ?>" class="active"> ড্যাশবোর্ড </a> </li>
+            <li> <a href="javascript:void()" class="active"> <?= $module_name ?> </a></li>
+            <li> <?= $meta_title; ?> </li>
         </ul>
 
         <div class="row">
             <div class="col-md-12">
                 <div class="grid simple ">
                     <div class="grid-title">
-                        <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
+                        <h4><span class="semi-bold"><?= $meta_title; ?></span></h4>
                         <div class="pull-right"
                             style="display: flex;align-content: center;justify-content: center;flex-wrap: wrap;gap: 8px;">
 
@@ -24,14 +37,15 @@
                             <a class="btn btn-success btn-xs btn-mini" target="_blank" onclick="dpt_summary()" ><i class="fa fa-book"></i> সামারী করুন </a>
                             <?php }  ?>
                             <a href="<?=base_url('budgets/budget_nilg_create')?>" class="btn btn-blueviolet btn-xs btn-mini">বাজেট তৈরি করুণ</a>
+
                         </div>
                     </div>
 
-                    <div class="grid-body ">
-                        <?php if($this->session->flashdata('success')):?>
-                        <div class="alert alert-success">
-                            <?=$this->session->flashdata('success');?>
-                        </div>
+                    <div class="grid-body tableresponsive">
+                        <?php if ($this->session->flashdata('success')): ?>
+                            <div class="alert alert-success">
+                                <?= $this->session->flashdata('success'); ?>
+                            </div>
                         <?php endif; ?>
 
                         <style type="text/css">
@@ -173,7 +187,7 @@
                         <div class="row">
                             <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> সর্বমোট <span
                                     style="color: green; font-weight: bold;"><?php echo eng2bng($total_rows); ?>
-                                    বাজেট  </span></div>
+                                    বাজেট </span></div>
                             <div class="col-sm-8 col-md-8 text-right">
                                 <?php echo $pagination['links']; ?>
                             </div>
@@ -193,7 +207,7 @@
 <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog modal-lg">
         <!-- Modal content-->
-        <div class="modal-content">
+        <div class="modal-content tableresponsive">
             <div class="modal-header priview-body" style="padding: 15px 15px 0px 15px !important;">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <?php $this->load->view('nilg_head'); ?>
@@ -328,55 +342,54 @@ $(document).ready(function() {
                 if (response.status == 1) {
                     $('#myModal').modal('hide');
                 }
-            }
+            });
+        });
+
+        $(document).on("click", "#modalId", function() {
+            var data_id = $(this).attr('data-id');
+
+            var sendData = {
+                type: 2,
+                id: data_id
+            };
+            var url = "<?php echo base_url('budgets/ajax_get_budget_details_nilg'); ?>";
+            $.ajax({
+                url: url,
+                data: sendData,
+                type: "POST",
+                success: function(response) {
+                    var sl = 0;
+                    $('.adds').remove();
+                    $('#heading_title').empty().text('শিরোনাম : ' + response.budget_info.title);
+
+                    $.each(response.budget_dtails, function(id, res) {
+                        sl = sl + 1;
+                        var items = '';
+                        items += '<tr class="adds">';
+                        items += '<td>' + sl + '</td>';
+                        items += '<td>' + res.name_bn + '</td>';
+                        items += '<td>' + res.amount + '</td>';
+                        items += '<td>' + res.dpt_amt + '</td>';
+                        items += '<td>' + res.acc_amt + '</td>';
+                        items += '<td>' + res.dg_amt + '</td>';
+                        items += '</tr>';
+                        $('#addRow tr:last').after(items);
+                    });
+                    var item = '';
+                    item += '<tr class="adds">';
+                    item += '<td colspan="2">Total</td>';
+                    item += '<td>' + response.budget_info.amount + '</td>';
+                    item += '<td>' + response.budget_info.dpt_amt + '</td>';
+                    item += '<td>' + response.budget_info.acc_amt + '</td>';
+                    item += '<td>' + response.budget_info.dg_amt + '</td>';
+                    item += '</tr>';
+
+                    $('#addRow tr:last').after(item);
+                    $('#budget_text').empty().html(response.budget_info.description);
+
+                    $('#smSend').attr('data-id', data_id);
+                }
+            });
         });
     });
-
-    $(document).on("click", "#modalId", function() {
-        var data_id = $(this).attr('data-id');
-
-        var sendData = {
-            type: 2,
-            id: data_id
-        };
-        var url = "<?php echo base_url('budgets/ajax_get_budget_details_nilg'); ?>";
-        $.ajax({
-            url: url,
-            data: sendData,
-            type: "POST",
-            success: function(response) {
-                var sl = 0;
-                $('.adds').remove();
-                $('#heading_title').empty().text('শিরোনাম : ' + response.budget_info.title);
-
-                $.each(response.budget_dtails, function(id, res) {
-                    sl = sl + 1;
-                    var items = '';
-                    items += '<tr class="adds">';
-                    items += '<td>' + sl + '</td>';
-                    items += '<td>' + res.name_bn + '</td>';
-                    items += '<td>' + res.amount + '</td>';
-                    items += '<td>' + res.dpt_amt + '</td>';
-                    items += '<td>' + res.acc_amt + '</td>';
-                    items += '<td>' + res.dg_amt + '</td>';
-                    items += '</tr>';
-                    $('#addRow tr:last').after(items);
-                });
-                var item = '';
-                item += '<tr class="adds">';
-                item += '<td colspan="2">Total</td>';
-                item += '<td>' + response.budget_info.amount + '</td>';
-                item += '<td>' + response.budget_info.dpt_amt + '</td>';
-                item += '<td>' + response.budget_info.acc_amt + '</td>';
-                item += '<td>' + response.budget_info.dg_amt + '</td>';
-                item += '</tr>';
-
-                $('#addRow tr:last').after(item);
-                $('#budget_text').empty().html(response.budget_info.description);
-
-                $('#smSend').attr('data-id', data_id);
-            }
-        });
-    });
-});
 </script>

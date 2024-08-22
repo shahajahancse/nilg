@@ -7,6 +7,19 @@
 }
 </style>
 
+<style>
+   @media only screen and  (max-width: 1140px){
+    .tableresponsive {
+      width: 100%;
+      margin-bottom: 15px;
+      overflow-y: hidden;
+      overflow-x: scroll;
+      -webkit-overflow-scrolling: touch;
+      white-space: nowrap;
+    }
+}
+</style>
+
 <div class="page-content">
     <div class="content">
         <ul class="breadcrumb">
@@ -62,7 +75,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 tableresponsive">
                                 <table class="table table-hover table-bordered report" style="margin-top: 15px;">
                                     <thead class="headding" >
                                         <tr>
