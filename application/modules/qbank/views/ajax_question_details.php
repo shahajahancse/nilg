@@ -25,7 +25,7 @@ $expAnswer = explode(",", $info->answer);
 <?php }elseif($info->question_type == 3){ ?>
 
 <div class="row form-row">            
-    <div class="col-md-12">                
+    <div class="col-md-12 table-responsive">                
         <label class="form-label">প্রশ্নের অপশন সমূহঃ</label>
         <table width="100%" border="1" id="radioDiv">
             <tr>
@@ -50,7 +50,7 @@ $expAnswer = explode(",", $info->answer);
 <?php }elseif($info->question_type == 4){ ?>
 
 <div class="row form-row">            
-    <div class="col-md-12">                
+    <div class="col-md-12 table-responsive">                
         <label class="form-label">প্রশ্নের অপশন সমূহঃ</label>
         <table width="100%" border="1" id="checkDiv">
             <tr>

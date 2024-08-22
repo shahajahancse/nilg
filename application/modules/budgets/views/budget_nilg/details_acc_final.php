@@ -49,16 +49,16 @@
                                     <legend>বাজেট তথ্য</legend>
                                     <input type="hidden" name="budget_nilg_id" value="<?= $budget_nilg->id ?>">
                                     <div class="row form-row" style="font-size: 16px; color: black;">
-                                    <div class="col-md-12" style="display: flex;gap: 74px;padding-bottom: 14px;" >
+                                        <div class="col-md-12" style="display: flex;gap: 74px;padding-bottom: 14px;">
                                             <div style="width:fit-content;">
-                                                আবেদনকারীর নাম: <strong><?=$info->name_bn?></strong>
+                                                আবেদনকারীর নাম: <strong><?= $info->name_bn ?></strong>
                                             </div>
 
                                             <div style="width:fit-content;">
-                                                পদবীর নাম: <strong><?=$info->current_desig_name?></strong>
+                                                পদবীর নাম: <strong><?= $info->current_desig_name ?></strong>
                                             </div>
                                             <div style="width:fit-content;">
-                                                ডিপার্টমেন্ট নাম: <strong><?=$info->current_dept_name?></strong>
+                                                ডিপার্টমেন্ট নাম: <strong><?= $info->current_dept_name ?></strong>
                                             </div>
                                         </div>
                                         <br>
@@ -104,50 +104,52 @@
                                                     </div>
                                                 </div>
 
-                                                <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e;" id="appRowDiv">
-                                                    <thead>
-                                                        <tr>
-                                                            <th width="">শিরোনাম<span class="required">*</span></th>
-                                                            <th width="">বাজেট কোড <span class="required">*</span></th>
-                                                            <th width="">পরিমাণ</th>
-                                                            <?php if ($this->ion_auth->in_group(array('acc'))) { ?>
-                                                            <th width="">পরিমাণ</th>
-                                                            <?php } ?>
-                                                            <th width="10%">অ্যাকশন </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="tbody">
-                                                        <?php foreach ($budget_nilg_details as $key => $value) { ?>
+                                                <div class="table-responsive">
+                                                    <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e;" id="appRowDiv">
+                                                        <thead>
                                                             <tr>
-                                                                <td><?= $value->name_bn ?></td>
-                                                                <td><?= $value->bd_code ?></td>
-                                                                <td>
-                                                                    <input type="hidden" name="budget_nilg_details_id[]" value="<?= $value->budget_nilg_details_id ?>">
-                                                                    <input type="hidden" name="head_id[]" value="<?= $value->head_id ?>">
-                                                                    <input type="hidden" name="head_sub_id[]" value="<?= $value->head_sub_id ?>">
-                                                                    <input value="<?= $value->dg_amt ?>" min="0" type="number"  class="form-control input-sm" readonly>
-                                                                </td>
+                                                                <th width="">শিরোনাম<span class="required">*</span></th>
+                                                                <th width="">বাজেট কোড <span class="required">*</span></th>
+                                                                <th width="">পরিমাণ</th>
                                                                 <?php if ($this->ion_auth->in_group(array('acc'))) { ?>
-                                                                <td>
-                                                                    <input value="<?= $value->dg_amt ?>" min="0" type="number" onkeyup="calculateTotal()" name="revenue_amt[]" class="form-control amount input-sm">
-                                                                </td>
+                                                                    <th width="">পরিমাণ</th>
                                                                 <?php } ?>
-                                                                <td><a href="javascript:void(0)" onclick="removeRow(this,<?= $value->budget_nilg_details_id ?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
+                                                                <th width="10%">অ্যাকশন </th>
                                                             </tr>
-                                                        <?php } ?>
-                                                    </tbody>
-                                                    <tfoot>
-                                                        <tr>
-                                                            <td colspan="2">Total</td>
-                                                            <td >
-                                                                <input type="number" class="form-control input-sm" name="total_amount_e" id="total_amount_e" value="<?= $budget_nilg->amount ?>" readonly>
-                                                            </td>
-                                                            <td >
-                                                                <input type="number" class="form-control input-sm" name="total_amount" id="total_amount" readonly>
-                                                            </td>
-                                                        </tr>
-                                                    </tfoot>
-                                                </table>
+                                                        </thead>
+                                                        <tbody id="tbody">
+                                                            <?php foreach ($budget_nilg_details as $key => $value) { ?>
+                                                                <tr>
+                                                                    <td><?= $value->name_bn ?></td>
+                                                                    <td><?= $value->bd_code ?></td>
+                                                                    <td>
+                                                                        <input type="hidden" name="budget_nilg_details_id[]" value="<?= $value->budget_nilg_details_id ?>">
+                                                                        <input type="hidden" name="head_id[]" value="<?= $value->head_id ?>">
+                                                                        <input type="hidden" name="head_sub_id[]" value="<?= $value->head_sub_id ?>">
+                                                                        <input value="<?= $value->dg_amt ?>" min="0" type="number" class="form-control input-sm" readonly>
+                                                                    </td>
+                                                                    <?php if ($this->ion_auth->in_group(array('acc'))) { ?>
+                                                                        <td>
+                                                                            <input value="<?= $value->dg_amt ?>" min="0" type="number" onkeyup="calculateTotal()" name="revenue_amt[]" class="form-control amount input-sm">
+                                                                        </td>
+                                                                    <?php } ?>
+                                                                    <td><a href="javascript:void(0)" onclick="removeRow(this,<?= $value->budget_nilg_details_id ?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
+                                                                </tr>
+                                                            <?php } ?>
+                                                        </tbody>
+                                                        <tfoot>
+                                                            <tr>
+                                                                <td colspan="2">Total</td>
+                                                                <td>
+                                                                    <input type="number" class="form-control input-sm" name="total_amount_e" id="total_amount_e" value="<?= $budget_nilg->amount ?>" readonly>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" class="form-control input-sm" name="total_amount" id="total_amount" readonly>
+                                                                </td>
+                                                            </tr>
+                                                        </tfoot>
+                                                    </table>
+                                                </div>
                                                 <br>
                                                 <br>
 

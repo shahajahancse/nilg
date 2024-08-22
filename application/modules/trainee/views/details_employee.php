@@ -1,16 +1,3 @@
-<style>
-	@media only screen and (max-width: 1140px) {
-		.tableresponsive {
-			width: 100%;
-			margin-bottom: 15px;
-			overflow-y: hidden;
-			overflow-x: scroll;
-			-webkit-overflow-scrolling: touch;
-			white-space: nowrap;
-		}
-	}
-</style>
-
 <div class="page-content">
 	<div class="content">
 
@@ -24,7 +11,7 @@
 							<!-- <a href="<?= base_url('#') ?>" class="btn btn-primary btn-xs btn-mini" data-toggle="modal" data-target="#myModal"> সহায়িকা </a> -->
 						</div>
 					</div>
-					<div class="grid-body tableresponsive">
+					<div class="grid-body">
 						<?php if ($this->session->flashdata('success')) : ?>
 							<div class="alert alert-success">
 								<?php echo $this->session->flashdata('success'); ?>
@@ -41,116 +28,118 @@
 									<a href="<?= base_url('trainee/edit_trainee_general_info/' . encrypt_url($info->id)) ?>" class="btn btn-blueviolet btn-xs btn-mini"> সম্পাদন করুন </a>
 								</div>
 
-								<table class="tg" width="100%">
-									<tr>
-										<td class="tg-khup">নামঃ (বাংলা)</td>
-										<td class="tg-ywa9"><?= $info->name_bn ?></td>
-										<td class="tg-khup">এনআইডি নম্বরঃ</td>
-										<td class="tg-ywa9"><?= $info->nid ?></td>
-										<td class="tg-ywa9" rowspan="12" style="width: 160px;">
-											<?php
-											if ($info->profile_img != NULL) {
-												$url = base_url('uploads/profile/') . $info->profile_img;
-											} else {
-												$url = base_url('uploads/profile/blank.png');
-											}
-											?>
-											<img src="<?= $url ?>" width="150" class="image-center">
-											<div align="center"><span class='label label-success'><?= $info->status_name ?></span></div>
-
-											<!-- Signature Image -->
-											<?php if ($this->ion_auth->is_admin() || $this->ion_auth->in_group('nilg')) { ?>
-												<hr style="border: 1px solid #ccc;">
-												<label style="text-align: center;font-weight: bold;">স্বাক্ষর</label>
-												<?php if ($info->signature != NULL) {
-													$signature = base_url('uploads/signature/') . $info->signature;
-													echo '<img src="' . $signature . '" width="100" class="center">';
+								<div class="table-responsive">
+									<table class="tg" width="100%">
+										<tr>
+											<td class="tg-khup">নামঃ (বাংলা)</td>
+											<td class="tg-ywa9"><?= $info->name_bn ?></td>
+											<td class="tg-khup">এনআইডি নম্বরঃ</td>
+											<td class="tg-ywa9"><?= $info->nid ?></td>
+											<td class="tg-ywa9" rowspan="12" style="width: 160px;">
+												<?php
+												if ($info->profile_img != NULL) {
+													$url = base_url('uploads/profile/') . $info->profile_img;
+												} else {
+													$url = base_url('uploads/profile/blank.png');
 												}
 												?>
-											<?php } ?>
-
-											<!-- User Role -->
-											<hr style="border: 1px solid #ccc;">
-											<label style="text-align: center;font-weight: bold;">ইউজার রোল</label>
-											<?php foreach ($currentGroups as $grp) { ?>
-												<span class='label label-danger' style="display: block;margin-bottom: 5px;"><?= $grp->description ?></span>
-											<?php } ?>
-										</td>
-									</tr>
-									<tr>
-										<td class="tg-khup">নামঃ (ইংরেজি)</td>
-										<td class="tg-ywa9"><?= $info->name_en ?></td>
-										<td class="tg-khup">মোবাইল নম্বরঃ</td>
-										<td class="tg-ywa9"><?= $info->mobile_no ?></td>
-									</tr>
-									<tr>
-										<td class="tg-khup">পিতা / স্বামীর নামঃ</td>
-										<td class="tg-ywa9"><?= $info->father_name ?></td>
-										<td class="tg-khup">ই-মেইল অ্যাড্রেসঃ</td>
-										<td class="tg-ywa9"><?= $info->email ?></td>
-									</tr>
-									<tr>
-										<td class="tg-khup">মাতার নামঃ</td>
-										<td class="tg-ywa9"><?= $info->mother_name ?></td>
-										<td class="tg-khup">বর্তমান ঠিকানাঃ</td>
-										<td class="tg-ywa9"><?= $info->present_add ?></td>
-									</tr>
-									<tr>
-										<td class="tg-khup">জন্ম তারিখঃ</td>
-										<td class="tg-ywa9"><?= $info->dob ?></td>
-										<td class="tg-khup text-left" colspan="2">স্থায়ী ঠিকানার বিবরণঃ</td>
-									</tr>
-									<tr>
-										<td class="tg-khup">লিঙ্গঃ</td>
-										<td class="tg-ywa9"><?= func_gender($info->gender) ?></td>
-										<td class="tg-khup">বিভাগঃ</td>
-										<td class="tg-ywa9"><?= $info->per_div_bn ?></td>
-									</tr>
-									<tr>
-										<td class="tg-khup">বৈবাহিক অবস্থাঃ</td>
-										<td class="tg-ywa9"><?= $info->marital_status_name ?></td>
-										<td class="tg-khup">জেলাঃ</td>
-										<td class="tg-ywa9"><?= $info->per_dis_bn ?></td>
-									</tr>
-									<tr>
-										<td class="tg-khup">ছেলে সন্তানঃ</td>
-										<td class="tg-ywa9"><?= eng2bng($info->son_no) ?></td>
-										<td class="tg-khup">উপজেলা/থানাঃ</td>
-										<td class="tg-ywa9"><?= $info->per_upa_bn ?></td>
-									</tr>
-									<tr>
-										<td class="tg-khup">মেয়ে সন্তানঃ</td>
-										<td class="tg-ywa9"><?= eng2bng($info->daughter_no) ?></td>
-										<td class="tg-khup">পোষ্ট অফিস (কোড)ঃ</td>
-										<td class="tg-ywa9"><?= $info->per_po . ' (' . $info->per_pc . ')'; ?></td>
-									</tr>
-									<tr>
-										<td class="tg-khup">ধর্মঃ</td>
-										<td class="tg-ywa9">
-											<?php if ($info->religion_name) {
-												echo $info->religion_name;
-											} ?>
-										</td>
-										<td class="tg-khup">গ্রাম/ওয়ার্ড/ইউনিয়নঃ</td>
-										<td class="tg-ywa9"><?= $info->per_road_no ?></td>
-									</tr>
-									<tr>
-										<td class="tg-khup">মুক্তিযোদ্ধা কোটা</td>
-										<td class="tg-ywa9">
-											<?php if ($info->quota_name) {
-												echo $info->quota_name;
-											} ?>
-										</td>
-										<td class="tg-khup">বাড়ির নাম / নম্বরঃ</td>
-										<td class="tg-ywa9"><?= $info->permanent_add; ?></td>
-									</tr>
-									<tr>
-										<td class="tg-khup">ক্রিয়েটেড ডেটঃ</td>
-										<td class="tg-ywa9"><?= date('d F, Y', $info->created_on); ?></td>
-										<td class="tg-khup">জন্ম স্থানঃ</td>
-										<td class="tg-ywa9"><?= $info->birth_place; ?></td>
-									</tr>
-								</table>
+												<img src="<?= $url ?>" width="150" class="image-center">
+												<div align="center"><span class='label label-success'><?= $info->status_name ?></span></div>
+	
+												<!-- Signature Image -->
+												<?php if ($this->ion_auth->is_admin() || $this->ion_auth->in_group('nilg')) { ?>
+													<hr style="border: 1px solid #ccc;">
+													<label style="text-align: center;font-weight: bold;">স্বাক্ষর</label>
+													<?php if ($info->signature != NULL) {
+														$signature = base_url('uploads/signature/') . $info->signature;
+														echo '<img src="' . $signature . '" width="100" class="center">';
+													}
+													?>
+												<?php } ?>
+	
+												<!-- User Role -->
+												<hr style="border: 1px solid #ccc;">
+												<label style="text-align: center;font-weight: bold;">ইউজার রোল</label>
+												<?php foreach ($currentGroups as $grp) { ?>
+													<span class='label label-danger' style="display: block;margin-bottom: 5px;"><?= $grp->description ?></span>
+												<?php } ?>
+											</td>
+										</tr>
+										<tr>
+											<td class="tg-khup">নামঃ (ইংরেজি)</td>
+											<td class="tg-ywa9"><?= $info->name_en ?></td>
+											<td class="tg-khup">মোবাইল নম্বরঃ</td>
+											<td class="tg-ywa9"><?= $info->mobile_no ?></td>
+										</tr>
+										<tr>
+											<td class="tg-khup">পিতা / স্বামীর নামঃ</td>
+											<td class="tg-ywa9"><?= $info->father_name ?></td>
+											<td class="tg-khup">ই-মেইল অ্যাড্রেসঃ</td>
+											<td class="tg-ywa9"><?= $info->email ?></td>
+										</tr>
+										<tr>
+											<td class="tg-khup">মাতার নামঃ</td>
+											<td class="tg-ywa9"><?= $info->mother_name ?></td>
+											<td class="tg-khup">বর্তমান ঠিকানাঃ</td>
+											<td class="tg-ywa9"><?= $info->present_add ?></td>
+										</tr>
+										<tr>
+											<td class="tg-khup">জন্ম তারিখঃ</td>
+											<td class="tg-ywa9"><?= $info->dob ?></td>
+											<td class="tg-khup text-left" colspan="2">স্থায়ী ঠিকানার বিবরণঃ</td>
+										</tr>
+										<tr>
+											<td class="tg-khup">লিঙ্গঃ</td>
+											<td class="tg-ywa9"><?= func_gender($info->gender) ?></td>
+											<td class="tg-khup">বিভাগঃ</td>
+											<td class="tg-ywa9"><?= $info->per_div_bn ?></td>
+										</tr>
+										<tr>
+											<td class="tg-khup">বৈবাহিক অবস্থাঃ</td>
+											<td class="tg-ywa9"><?= $info->marital_status_name ?></td>
+											<td class="tg-khup">জেলাঃ</td>
+											<td class="tg-ywa9"><?= $info->per_dis_bn ?></td>
+										</tr>
+										<tr>
+											<td class="tg-khup">ছেলে সন্তানঃ</td>
+											<td class="tg-ywa9"><?= eng2bng($info->son_no) ?></td>
+											<td class="tg-khup">উপজেলা/থানাঃ</td>
+											<td class="tg-ywa9"><?= $info->per_upa_bn ?></td>
+										</tr>
+										<tr>
+											<td class="tg-khup">মেয়ে সন্তানঃ</td>
+											<td class="tg-ywa9"><?= eng2bng($info->daughter_no) ?></td>
+											<td class="tg-khup">পোষ্ট অফিস (কোড)ঃ</td>
+											<td class="tg-ywa9"><?= $info->per_po . ' (' . $info->per_pc . ')'; ?></td>
+										</tr>
+										<tr>
+											<td class="tg-khup">ধর্মঃ</td>
+											<td class="tg-ywa9">
+												<?php if ($info->religion_name) {
+													echo $info->religion_name;
+												} ?>
+											</td>
+											<td class="tg-khup">গ্রাম/ওয়ার্ড/ইউনিয়নঃ</td>
+											<td class="tg-ywa9"><?= $info->per_road_no ?></td>
+										</tr>
+										<tr>
+											<td class="tg-khup">মুক্তিযোদ্ধা কোটা</td>
+											<td class="tg-ywa9">
+												<?php if ($info->quota_name) {
+													echo $info->quota_name;
+												} ?>
+											</td>
+											<td class="tg-khup">বাড়ির নাম / নম্বরঃ</td>
+											<td class="tg-ywa9"><?= $info->permanent_add; ?></td>
+										</tr>
+										<tr>
+											<td class="tg-khup">ক্রিয়েটেড ডেটঃ</td>
+											<td class="tg-ywa9"><?= date('d F, Y', $info->created_on); ?></td>
+											<td class="tg-khup">জন্ম স্থানঃ</td>
+											<td class="tg-ywa9"><?= $info->birth_place; ?></td>
+										</tr>
+									</table>
+								</div>
 							</div>
 						</div>
 

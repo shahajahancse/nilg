@@ -147,7 +147,7 @@
                                                     background-color: #dff0d8 !important;
                                                 }
                                             </style>
-                                            <div class="col-md-12">
+                                            <div class="col-md-12 table-responsive">
                                                 <table class="col-md-12" width="100%" border="1"
                                                     style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
                                                     <thead>

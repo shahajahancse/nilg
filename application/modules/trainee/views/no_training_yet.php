@@ -12,7 +12,7 @@
              <div class="grid-title">
               <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
              </div>
-             <div class="grid-body">
+             <div class="grid-body table-responsive">
             <div id="infoMessage"><?php //echo $message;?></div>            
             <?php if($this->session->flashdata('success')):?>
                 <div class="alert alert-success">
