@@ -57,7 +57,7 @@
             <br>
 
             <div class="table-responsive">
-              <table class="table table-hover table-bordered  table-flip-scroll cf">
+              <table class="table table-hover table-bordered ">
                 <thead class="cf">
                   <tr>
                     <th>ক্রম</th>
