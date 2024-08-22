@@ -59,7 +59,7 @@
 						<?php endif; ?>
 
 						<div class="row">
-							<div class="col-md-12">
+							<div class="col-md-12 table-responsive">
 								
 								<table class="tg" width="100%">     
 									<tr>

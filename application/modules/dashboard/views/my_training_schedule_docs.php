@@ -28,7 +28,7 @@
             $itme = date('h:i a', strtotime($info->time_start)).' - '.date('h:i a', strtotime($info->time_end));
             ?>
             <div class="row">
-              <div class="col-md-12">
+              <div class="col-md-12 table-responsive">
                 <span class="training-title"><?=func_training_title($info->training_id)?></span>
                 <hr>
                 <table class="tg" width="100%">    

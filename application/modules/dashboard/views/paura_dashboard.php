@@ -8,7 +8,7 @@
     </div>
 
     <div class="row">  
-      <div class="col-md-12">      
+      <div class="col-md-12 table-responsive">      
         <table class="tg" width="80%">
           <tr>
             <th class="tg-qnif" width="150" style="text-align:left;">ইউজারনেম</th>

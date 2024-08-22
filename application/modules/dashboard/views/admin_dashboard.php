@@ -795,7 +795,7 @@
               <div class="heading"> <span class="" data-value="" data-animation-duration="1200"><?= eng2bng($total_kormokorta) ?></span> </div>
 
               <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
-              <div class="description">
+              <div class="description table-responsive">
                 <table class="report-table">
                   <tbody>
                     <tr>
