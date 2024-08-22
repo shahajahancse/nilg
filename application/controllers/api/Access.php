@@ -24,11 +24,11 @@ class Access extends REST_Controller {
     }
 
     public function login_post(){
-        if (empty($this->post('identity'))) {   
+        if (empty($this->post('identity'))) {
             $this->response(array('status' => 'false', 'result' => NULL, 'message' =>'Required Username'));
         }
-        
-        if (empty($this->post('password'))) { 
+
+        if (empty($this->post('password'))) {
             $this->response(array('status' => 'false', 'result' => NULL, 'message' =>'Required Password'));
         }
 
@@ -48,10 +48,10 @@ class Access extends REST_Controller {
             }
 
             // dd($groups_array['group_id']);
-            // $result = array('login_info' => $user, 'group_info' => $groups_array);            
+            // $result = array('login_info' => $user, 'group_info' => $groups_array);
             $user = (array) $user;
             $user['group_id'] = implode(',', $groups_array['group_id']); //$groups_array['group_id'];
-            
+
             $result = $user;
             //print_r($user); //exit;
 
@@ -71,13 +71,13 @@ class Access extends REST_Controller {
     */
     public function storeEvaluationData_post(){
 
-        if (empty($this->post('evaluation_data'))) { 
+        if (empty($this->post('evaluation_data'))) {
             $this->response(array('status' => 'false', 'message' =>'Required Evaluation data arrayList'));
         }
 
         $evData = $this->post('evaluation_data');
 
-         $field_data_array ="participant_id, 
+         $field_data_array ="participant_id,
                             training_id,
                             topic_id,
                             rate_concept_topic,
@@ -86,12 +86,12 @@ class Access extends REST_Controller {
                             rate_time_manage,
                             rate_que_ans_skill,
                             topic_avgrage";
-          
+
 
           $field_value_array = '';
           for($i=0; $i<count($evData); $i++){
 
-            $item = $evData[$i]; 
+            $item = $evData[$i];
 
             $participant_id      = $item['userId'];
             $training_id     = $item['trainingId'];
@@ -105,7 +105,7 @@ class Access extends REST_Controller {
             $totalMark = $rate_concept_topic + $rate_present_technique + $rate_use_tool + $rate_time_manage + $rate_que_ans_skill;
 
             $avarageRate = $totalMark/5;
-                    
+
             if ($i != 0) $field_value_array .=",";
 
               $field_value_array .="(".$participant_id.",
@@ -116,8 +116,8 @@ class Access extends REST_Controller {
                                   ".$rate_use_tool.",
                                   ".$rate_time_manage.",
                                   ".$rate_que_ans_skill.",
-                                  ".$avarageRate.")";           
-                    
+                                  ".$avarageRate.")";
+
 
           }
 
@@ -171,10 +171,10 @@ class Access extends REST_Controller {
         if(count($result)>0){
             $this->response(array('status'=> 'true', 'message' => 'data found', 'result'  => $result), REST_Controller::HTTP_OK);
         }else{
-           $this->response(array('status'=> 'false', 'message' => 'no data found', 'result'  => null), REST_Controller::HTTP_OK); 
+           $this->response(array('status'=> 'false', 'message' => 'no data found', 'result'  => null), REST_Controller::HTTP_OK);
         }
 
-         
+
     }
 
 
@@ -186,7 +186,7 @@ class Access extends REST_Controller {
         $this->db->select('u.id, u.office_type, ot.office_type_name, oc.office_name, u.username,  u.employee_type, et.employee_type_name, u.nid, u.name_bn, u.name_en, u.nid, u.dob, u.gender, u.mobile_no, u.email, u.father_name, u.mother_name, u.permanent_add, u.present_add, u.per_road_no, u.per_po, u.per_pc, ms.marital_status_name, u.son_no, u.daughter_no, u.div_id, u.per_div_id, u.dis_id, u.per_dis_id, u.upa_id, u.per_upa_id, u.union_id, u.is_verify, u.status, u.is_applied, u.elected_times, u.crrnt_office_id, u.crrnt_elected_year, u.crrnt_attend_date, oc.office_name as current_office_name, cd.desig_name as current_desig_name, dept.dept_name, u.office_name as user_office_name, u.job_per_date, u.prl_date, u.retirement_date, u.profile_img, u.created_on, u.modified, di.div_name_bn, dis.dis_name_bn, upa.upa_name_bn, u.first_elected_year, u.first_attend_date, of.office_name as first_office_name, df.desig_name as first_desig_name');
         $this->db->from('users u');
         // $this->db->join('office o', 'o.id = u.office_id', 'LEFT');
-        
+
         $this->db->join('office oc', 'oc.id = u.crrnt_office_id', 'LEFT');
         $this->db->join('designations cd', 'cd.id = u.crrnt_desig_id', 'LEFT');
         $this->db->join('department dept', 'dept.id = u.crrnt_dept_id', 'LEFT');
@@ -225,10 +225,10 @@ class Access extends REST_Controller {
         if(count($results)>0){
             $this->response(array('status'=> 'true', 'message' => 'data found', 'result'  => $results), REST_Controller::HTTP_OK);
         }else{
-           $this->response(array('status'=> 'false', 'message' => 'no data found', 'result'  => null), REST_Controller::HTTP_OK); 
+           $this->response(array('status'=> 'false', 'message' => 'no data found', 'result'  => null), REST_Controller::HTTP_OK);
         }
 
-         
+
     }*/
 
 
@@ -252,7 +252,7 @@ class Access extends REST_Controller {
             $this->response(array('status'=> 'true', 'result'  => 'Password change successfully.'), REST_Controller::HTTP_OK);
                 // $this->logout();
         } else {
-                // $this->session->set_flashdata('success', $this->ion_auth->errors());        
+                // $this->session->set_flashdata('success', $this->ion_auth->errors());
             $this->response(['status' => 'false', 'result' => 'Your old password is wrong.'], REST_Controller::HTTP_OK);
         }
 
@@ -272,16 +272,16 @@ class Access extends REST_Controller {
 
     public function receive_profile_img_post()
     {
-     if (!empty($this->input->post('image'))) { 
+     if (!empty($this->input->post('image'))) {
          $profile_id=$this->input->post('image_name');
          $dt=array('profile_img'=>$profile_id.'.jpg');
 
          $realpath=$this->img_path = realpath(APPPATH . '../profile_img/');
 
     			//echo $realpath.$dt['profile_img'];exit;
-         $ifp = fopen($realpath.'/'.$dt['profile_img'], "w+" ); 
-         fwrite( $ifp, base64_decode($this->input->post('image')) ); 
-         fclose( $ifp ); 
+         $ifp = fopen($realpath.'/'.$dt['profile_img'], "w+" );
+         fwrite( $ifp, base64_decode($this->input->post('image')) );
+         fclose( $ifp );
 
          $this->Common_model->edit('users', $profile_id, 'id', $dt);
 
@@ -367,15 +367,15 @@ class Access extends REST_Controller {
             $message='Your Verify Code: '.$code .' (Bangladesh Scouts)';
 
             $response = $this->smsUser->SendSMS("softheaven", $phone, $message, date('Y-m-d H:i:s'), SMSType::UCS2);
-            $result = $response->StatusMessage;  
+            $result = $response->StatusMessage;
 
             if($result = 'Accepted'){
                 $newdata = array(
                    'forget_id'  => $userinfo->id,
-                   'verify_code' => $code 
+                   'verify_code' => $code
                    );
                 $form_data = array(
-                   'verify_code' => $code 
+                   'verify_code' => $code
                    );
 
                 $this->session->set_userdata($newdata);
@@ -437,7 +437,7 @@ class Access extends REST_Controller {
             }else{
                 $this->response(array('status'=> 'false', 'result'  => 'Your identity not found.'), REST_Controller::HTTP_OK);
             }
-            
+
 
         }else {
                 // $this->session->set_flashdata('success', $this->ion_auth->errors());

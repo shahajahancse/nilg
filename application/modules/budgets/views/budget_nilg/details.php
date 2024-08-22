@@ -4,6 +4,9 @@
         height: 30px !important;
         border: 1px solid #00a59a !important;
     }
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
 </style>
 <div class="page-content">
     <div class="content">
@@ -157,7 +160,7 @@
                                                     <textarea class="form-control" name="description" style="height: 300px;" id="description"> <?= $budget_nilg->description ?></textarea>
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="pull-right">
                                                 <input type="submit" name="save" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
                                                 <input type="submit" name="submit" value="ফরওয়ার্ড করুন" class="btn btn-primary btn-cons">

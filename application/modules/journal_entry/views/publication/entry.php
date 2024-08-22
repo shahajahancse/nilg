@@ -232,7 +232,7 @@ input[type=number]::-webkit-inner-spin-button {
                     <td style="padding:3px 5px;text-align: center;"><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
                 </tr>`
         $("#tbody").append(tr);
-       $('.quantity').trigger('change');
+        $('.quantity').trigger('change');
     }
 </script>
 

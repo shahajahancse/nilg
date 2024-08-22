@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class My_profile extends Backend_Controller {
-	
+
     var $userSeessID;
     var $img_orginal_path;
     var $img_thumb_path;
@@ -17,7 +17,7 @@ class My_profile extends Backend_Controller {
         endif;
 
         $this->load->model('Common_model');
-        $this->load->model('My_profile_model');        
+        $this->load->model('My_profile_model');
         $this->userSeessID = $this->session->userdata('user_id');
         $this->img_orginal_path = realpath(APPPATH . '../uploads/temp_dir/');
         $this->img_thumb_path = realpath(APPPATH . '../uploads/temp_dir/_thumb/');
@@ -39,7 +39,7 @@ class My_profile extends Backend_Controller {
             $results = $this->My_profile_model->get_trainee_all_data();
             // dd($results['info']);
 
-            $this->data['info'] = $results['info'];        
+            $this->data['info'] = $results['info'];
             $this->data['experience'] = $results['experience'];
             $this->data['education'] = $results['education'];
             $this->data['nilg_training'] = $results['nilg_training'];
@@ -59,7 +59,7 @@ class My_profile extends Backend_Controller {
             redirect('dashboard');
         }
 
-        // Load page       
+        // Load page
         $this->data['meta_title'] = 'মাই প্রোফাইল';
         $this->data['subview'] = $page;
         $this->load->view('backend/_layout_main', $this->data);
@@ -109,9 +109,13 @@ class My_profile extends Backend_Controller {
                 }
             }
         }elseif($this->ion_auth->in_group('trainer')){
-            $this->data['subview'] = 'index_trainer'; // Trainer
+             if ($results['info']->office_type == 7) { // NILG Employee
+                $this->data['subview'] = 'nilg_employee_details';
+            }else { // Trainer
+                $this->data['subview'] = 'index_trainer'; // Trainer
+            }
         }
-        
+
         $this->load->view('backend/_layout_main', $this->data);
     }
 
@@ -120,7 +124,7 @@ class My_profile extends Backend_Controller {
     // personal info
     public function edit_trainee_general_info($userID)
     {
-        // Decrypt Data        
+        // Decrypt Data
         $dataID = (int) decrypt_url($userID); //exit;
 
         // Check Exists
@@ -260,13 +264,13 @@ class My_profile extends Backend_Controller {
   $this->data['meta_title'] = 'ব্যাক্তিগত বা সাধারণ তথ্য সংশোধন ফর্ম';
   $this->data['subview'] = 'edit_trainee_general_info';
   $this->load->view('backend/_layout_main', $this->data);
-}    
+}
 
 
     // pr Official info
 public function edit_trainee_pr_official($userID)
 {
-        // Decrypt Data        
+        // Decrypt Data
         $dataID = (int) decrypt_url($userID); //exit;
 
         // Check Exists
@@ -344,7 +348,7 @@ public function edit_trainee_pr_official($userID)
     // employee Official info
     public function edit_employee_official($userID)
     {
-        // Decrypt Data        
+        // Decrypt Data
         $dataID = (int) decrypt_url($userID); //exit;
 
         // Check Exists
@@ -424,7 +428,7 @@ public function edit_trainee_pr_official($userID)
     // Education
     public function edit_trainee_education($userID )
     {
-        // Decrypt Data        
+        // Decrypt Data
         $dataID = (int) decrypt_url($userID); //exit;
 
         // Check Exists
@@ -483,8 +487,8 @@ public function edit_trainee_pr_official($userID)
 
     // NILG Training
     public function edit_nilg_training($userID)
-    {   
-        // Decrypt Data        
+    {
+        // Decrypt Data
         $dataID = (int) decrypt_url($userID); //exit;
 
         // Check Exists
@@ -556,7 +560,7 @@ public function edit_trainee_pr_official($userID)
             $this->session->set_flashdata('success', 'সংশোধিত তথ্য সফলভাবে ডাটাবেজে সংরক্ষণ করা হয়েছে');
             redirect('my_profile');
         }
-        
+
         // load view data
         $this->data['info'] = $results['info'];
         $this->data['nilg_training'] = $results['nilg_training'];
@@ -572,7 +576,7 @@ public function edit_trainee_pr_official($userID)
     // local Training
     public function edit_local_training($userID)
     {
-        // Decrypt Data        
+        // Decrypt Data
         $dataID = (int) decrypt_url($userID); //exit;
 
         // Check Exists
@@ -629,7 +633,7 @@ public function edit_trainee_pr_official($userID)
     // Forien Training
     public function edit_forien_training($userID)
     {
-        // Decrypt Data        
+        // Decrypt Data
         $dataID = (int) decrypt_url($userID); //exit;
 
         // Check Exists
@@ -682,10 +686,10 @@ public function edit_trainee_pr_official($userID)
         $this->load->view('backend/_layout_main', $this->data);
     }
 
-    // promotion 
+    // promotion
     public function edit_trainee_promotion($userID)
     {
-        // Decrypt Data        
+        // Decrypt Data
         $dataID = (int) decrypt_url($userID); //exit;
 
         // Check Exists
@@ -740,13 +744,13 @@ public function edit_trainee_pr_official($userID)
 
     /**************************** End Edit Trainee / pr ************************/
     /******************************************************************/
-    
+
 
 
     /**************************** Edit Trainee ************************/
     /******************************************************************/
     /*
-    public function edit_trainee_general_info(){        
+    public function edit_trainee_general_info(){
         // Submit general infromation of Public Representative
         if (!$this->ion_auth->logged_in()){
             redirect('login');
@@ -760,7 +764,7 @@ public function edit_trainee_pr_official($userID)
         // $employeeType = $this->data['info']->employee_type;
         $userID = $this->data['info']->id;
 
-        // If not trainer 
+        // If not trainer
         /*if($this->data['info']->user_type != 2){
             redirect('registration/trainer_application_form');
         }*/
@@ -771,7 +775,7 @@ public function edit_trainee_pr_official($userID)
 
         // Validate and Insert Data
         if ($this->form_validation->run() == true){
-            $form_data = array(                    
+            $form_data = array(
                 'name_bn'               => $this->input->post('name_bn'),
                 'name_en'               => strtoupper($this->input->post('name_en')),
                 'father_name'           => $this->input->post('father_name'),
@@ -787,7 +791,7 @@ public function edit_trainee_pr_official($userID)
                 'per_road_no'           => $this->input->post('per_road_no'),
                 'permanent_add'         => $this->input->post('permanent_add'),
                 'per_pc'                => $this->input->post('per_pc'),
-                'per_po'                => $this->input->post('per_po'),                    
+                'per_po'                => $this->input->post('per_po'),
                 'modified'              => date('Y-m-d H:i:s')
                 );
 
@@ -797,9 +801,9 @@ public function edit_trainee_pr_official($userID)
                 if($this->input->post('hide_img') != NULL){
                     $file_name = $this->input->post('hide_img');
                     $tmp = explode('.', $file_name);
-                    $file_extension = end($tmp);                          
+                    $file_extension = end($tmp);
 
-                    //Copy file and rename 
+                    //Copy file and rename
                     $file = $this->img_thumb_path.'/'.$this->input->post('hide_img');
                     // $file = 'temp_dir/_thumb/'.$this->input->post('hide_img');
                     $newfile = $userID.'.'.$file_extension;
@@ -834,13 +838,13 @@ public function edit_trainee_pr_official($userID)
         // $this->data['office'] = $this->Common_model->get_office();
         // $this->data['designation'] = $this->Common_model->get_designations(1);
 
-        // Load page       
+        // Load page
         $this->data['meta_title'] = 'ব্যাক্তিগত বা সাধারণ তথ্য সংশোধন ফর্ম';
         $this->data['subview'] = 'edit_trainee_general_info';
         $this->load->view('backend/_layout_main', $this->data);
     }
 
-    public function edit_trainee_pr_official(){        
+    public function edit_trainee_pr_official(){
         // Submit general infromation of Public Representative
         if (!$this->ion_auth->logged_in()){
             redirect('login');
@@ -855,7 +859,7 @@ public function edit_trainee_pr_official($userID)
         // $employeeType = $this->data['info']->employee_type;
         $userID = $this->data['info']->id;
 
-        // If not trainer 
+        // If not trainer
         /*if($this->data['info']->user_type != 2){
             redirect('registration/trainer_application_form');
         }*/
@@ -866,14 +870,14 @@ public function edit_trainee_pr_official($userID)
 
         // Validate and Insert Data
         if ($this->form_validation->run() == true){
-            $form_data = array(                    
+            $form_data = array(
                 'crrnt_elected_year'    => $this->input->post('crrnt_elected_year'),
                 'crrnt_attend_date'     => $this->input->post('crrnt_attend_date'),
                 'first_office_id'       => $this->input->post('first_office_id'),
                 'first_desig_id'        => $this->input->post('first_desig_id'),
                 'first_elected_year'    => $this->input->post('first_elected_year'),
                 'first_attend_date'     => $this->input->post('first_attend_date'),
-                'elected_times'         => $this->input->post('elected_times'),                  
+                'elected_times'         => $this->input->post('elected_times'),
                 'modified'              => date('Y-m-d H:i:s')
                 );
 
@@ -890,7 +894,7 @@ public function edit_trainee_pr_official($userID)
         // $this->data['office'] = $this->Common_model->get_office();
         $this->data['designation'] = $this->Common_model->get_designations(1);
 
-        // Load page       
+        // Load page
         $this->data['meta_title'] = 'দায়িত্বপ্রাপ্ত প্রতিষ্ঠানের তথ্য সম্পাদন ফর্ম';
         $this->data['subview'] = 'edit_trainee_pr_official';
         $this->load->view('backend/_layout_main', $this->data);
@@ -898,7 +902,7 @@ public function edit_trainee_pr_official($userID)
 
 
 
-    public function edit_trainer_general_info(){        
+    public function edit_trainer_general_info(){
         // Submit general infromation of Public Representative
         if (!$this->ion_auth->logged_in()){
             redirect('login');
@@ -912,7 +916,7 @@ public function edit_trainee_pr_official($userID)
         // $employeeType = $this->data['info']->employee_type;
         // $userID = $this->data['info']->id;
 
-        // If not trainer 
+        // If not trainer
         if($this->data['info']->user_type != 3){
             redirect('registration/trainee_application_form');
         }
@@ -923,7 +927,7 @@ public function edit_trainee_pr_official($userID)
 
         // Validate and Insert Data
         if ($this->form_validation->run() == true){
-            $form_data = array(                    
+            $form_data = array(
                 'name_bn'               => $this->input->post('name_bn'),
                 'name_en'               => strtoupper($this->input->post('name_en')),
                 'father_name'           => $this->input->post('father_name'),
@@ -939,7 +943,7 @@ public function edit_trainee_pr_official($userID)
                 'per_road_no'           => $this->input->post('per_road_no'),
                 'permanent_add'         => $this->input->post('permanent_add'),
                 'per_pc'                => $this->input->post('per_pc'),
-                'per_po'                => $this->input->post('per_po'),                    
+                'per_po'                => $this->input->post('per_po'),
                 'modified'              => date('Y-m-d H:i:s')
                 );
 
@@ -948,9 +952,9 @@ public function edit_trainee_pr_official($userID)
                 if($this->input->post('hide_img') != NULL){
                     $file_name = $this->input->post('hide_img');
                     $tmp = explode('.', $file_name);
-                    $file_extension = end($tmp);                          
+                    $file_extension = end($tmp);
 
-                    //Copy file and rename 
+                    //Copy file and rename
                     $file = $this->img_thumb_path.'/'.$this->input->post('hide_img');
                     // $file = 'temp_dir/_thumb/'.$this->input->post('hide_img');
                     $newfile = $userID.'.'.$file_extension;
@@ -983,11 +987,11 @@ public function edit_trainee_pr_official($userID)
         // $this->data['office'] = $this->Common_model->get_office();
         // $this->data['designation'] = $this->Common_model->get_designations(1);
 
-        // Load page       
+        // Load page
         $this->data['meta_title'] = 'ব্যাক্তিগত বা সাধারণ তথ্য সংশোধন ফর্ম';
         $this->data['subview'] = 'edit_trainer_general_info';
         $this->load->view('backend/_layout_main', $this->data);
-    }    
+    }
 
 */
 
@@ -1009,7 +1013,7 @@ public function edit_trainee_pr_official($userID)
         $this->form_validation->set_rules('first_name', 'first name', 'required');
         $this->form_validation->set_rules('phone', 'mobile number', 'trim|required');
         $this->form_validation->set_rules('dob', 'date of birth', 'trim|required');
-        $this->form_validation->set_rules('gender', 'gender', 'trim|required');        
+        $this->form_validation->set_rules('gender', 'gender', 'trim|required');
         $this->form_validation->set_rules('present_add', 'present address', 'trim|required');
         $this->form_validation->set_rules('permanent_add', 'permanent address', 'trim|required');
 
@@ -1092,7 +1096,7 @@ public function edit_trainee_pr_official($userID)
             }else{
                 $this->data['message'] = $this->upload->display_errors();
             }
-        }          
+        }
     }
 
     $this->data['meta_title'] = lang('change_image');
@@ -1105,11 +1109,11 @@ public function file_check($str){
     $this->load->helper('file');
     $allowed_mime_type_arr = array('image/gif','image/jpeg','image/png','image/x-png');
     $mime = get_mime_by_extension($_FILES['userfile']['name']);
-    $file_size = 1050000; 
+    $file_size = 1050000;
     $size_kb = '1 MB';
 
     if(isset($_FILES['userfile']['name']) && $_FILES['userfile']['name']!=""){
-        if(!in_array($mime, $allowed_mime_type_arr)){                
+        if(!in_array($mime, $allowed_mime_type_arr)){
             $this->form_validation->set_message('file_check', 'Please select only jpg, jpeg, png, gif file.');
             return false;
         }elseif($_FILES["userfile"]["size"] > $file_size){

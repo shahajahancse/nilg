@@ -394,23 +394,30 @@ input[type="search"] {
                         <ul class="sub-menu">
 
                            <li class="start <?= backend_activate_menu_method('budget_nilg') ?>">
-                              <a href="<?= base_url('budgets/budget_nilg'); ?>">বাজেট রাজস্ব
+                              <a href="<?= base_url('budgets/budget_nilg'); ?>">রাজস্ব বাজেট তৈরি
                               <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'acc'))) { ?>
-                              <?php
-                              if ($budget_nilg_ntfy > 0) {
+                              <?php if ($budget_nilg_ntfy > 0) {
                                  echo '<span style="margin-right:15px" class="badge badge-danger pull-right">' . eng2bng($budget_nilg_ntfy) . '</span>';
-                              } }
-                              ?>
+                              } } ?>
                               </a>
                            </li>
+                           <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'acc', 'bdh'))) { ?>
+                           <li class="start <?= backend_activate_menu_method('dpt_summary') ?>">
+                              <a href="<?= base_url('budgets/dpt_summary'); ?>">বাজেট সামারী তৈরি</a>
+                           </li>
+                           <?php } ?>
+
+                           <li class="start <?= backend_activate_menu_method('training_budgets') ?>">
+                              <a href="<?= base_url('budgets/training_budgets'); ?>">প্রশিক্ষণ বাজেট তৈরি</a>
+                           </li>
+
                            <li class="start <?= backend_activate_menu_method('budget_field') ?>">
-                              <a href="<?= base_url('budgets/budget_field'); ?>">বাজেট অফিস
+                              <a href="<?= base_url('budgets/budget_field'); ?>">বাজেট তৈরি করুন
                               <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'acc'))) { ?>
                               <?php
                               if ($budget_office_ntfy > 0) {
                                  echo '<span style="margin-right:15px" class="badge badge-danger pull-right">' . eng2bng($budget_office_ntfy) . '</span>';
-                              } }
-                              ?>
+                              } } ?>
                               </a>
                            </li>
 

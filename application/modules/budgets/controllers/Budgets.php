@@ -53,6 +53,7 @@ class Budgets extends Backend_Controller
     public function budget_nilg_create()
     {
         $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
+        $this->form_validation->set_rules('fcl_year', 'অর্থ বছর', 'required|trim');
         if ($this->form_validation->run() == true) {
             $user = $this->ion_auth->user()->row();
             $form_data = array(
@@ -60,9 +61,12 @@ class Budgets extends Backend_Controller
                 'amount' => $this->input->post('total_amount'),
                 'fcl_year' => $this->input->post('fcl_year'),
                 'dept_id' => $user->crrnt_dept_id,
+                'status' => $this->ion_auth->in_group(array('bdh')) ? 2 : 1,
+                'desk' => $this->ion_auth->in_group(array('bdh')) ? 2 : 1,
                 'description' => $this->input->post('description'),
                 'created_by' => $user->id,
             );
+
             if ($this->Common_model->save('budget_nilg', $form_data)) {
                 $insert_id = $this->db->insert_id();
                 for ($i = 0; $i < sizeof($_POST['head_id']); $i++) {
@@ -79,7 +83,6 @@ class Budgets extends Backend_Controller
                 $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
                 redirect("budgets/budget_nilg");
             }
-
         }
 
         $this->db->select('
@@ -162,7 +165,6 @@ class Budgets extends Backend_Controller
         }
         $this->load->view('backend/_layout_main', $this->data);
     }
-
     public function budget_nilg_edit()
     {
         $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
@@ -243,6 +245,494 @@ class Budgets extends Backend_Controller
 
         }
     }
+    public function budget_nilg_print($id)
+    {
+        $id = (int) decrypt_url($id);
+        //Results
+        $this->data['info'] = $this->Budgets_model->get_budget_nilg_info($id);
+        $this->data['items'] = $this->Budgets_model->get_budget_details_nilg($id);
+        // dd($this->data['items']);
+
+        // Generate PDF
+        $this->data['headding'] = 'বাজেট';
+        $html = $this->load->view('budget_nilg/budget_nilg_print', $this->data, true);
+
+        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+        $mpdf->WriteHtml($html);
+        $mpdf->output();
+    }
+
+    // Revenue Summary start
+    function dpt_summary() {
+        $user = $this->ion_auth->user()->row();
+        if ($user->crrnt_dept_id == '') {
+            $this->session->set_flashdata('error', 'Please update your profile first');
+            redirect("my_profile");
+        }
+        $this->db->select('bd.*, bhs.session_name, d.dept_name');
+        $this->db->from('budget_revenue_summary bd');
+        $this->db->join('session_year as bhs', 'bhs.id = bd.fcl_year', 'left');
+        $this->db->join('department as d', 'd.id = bd.dept_id', 'left');
+        $this->db->where('bd.type', 1);
+        if ($this->ion_auth->in_group(array('bdh'))) {
+            $this->db->where('bd.dept_id', $user->crrnt_dept_id);
+        }
+        if ($this->ion_auth->in_group(array('acc','bdg'))) {
+            $this->db->where_in('bd.status', array(2,3,4,5));
+        }
+        $this->data['summary'] = $this->db->order_by('bd.id','desc')->get()->result();
+
+        //Load view
+        $this->data['meta_title'] = 'সামারী তালিকা';
+        $this->data['subview'] = 'budget_nilg/dpt_summary';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function dpt_summary_create()
+    {
+        $user = $this->ion_auth->user()->row();
+        if ($user->crrnt_dept_id == '') {
+            $this->session->set_flashdata('error', 'Please update your profile first');
+            redirect("my_profile");
+        }
+        $ids = $this->input->post('id');
+        if (empty($ids)) {
+            $this->form_validation->set_rules('total_amount', 'সর্বমোট পরিমান', 'required|trim');
+            $this->form_validation->set_rules('fcl_year', 'অর্থ বছর', 'required|trim');
+            if ($this->form_validation->run() == true) {
+                $form_data = array(
+                    'dpt_amt' => $this->input->post('total_amount'),
+                    'fcl_year' => $this->input->post('fcl_year'),
+                    'dept_id' => $user->crrnt_dept_id,
+                    'type' => 1,
+                    'status' => 1,
+                    'created_by' => $user->id,
+                );
+
+                $this->db->trans_start();
+                if ($this->Common_model->save('budget_revenue_summary', $form_data)) {
+                    $insert_id = $this->db->insert_id();
+                    for ($i = 0; $i < sizeof($_POST['head_sub_id']); $i++) {
+                        $form_data2 = array(
+                            'revenue_summary_id' => $insert_id,
+                            'head_sub_id' => $_POST['head_sub_id'][$i],
+                            'dpt_amt' => $_POST['dpt_amt'][$i],
+                            'fcl_year' => $_POST['fcl_year'],
+                            'modify_soft_d' => 1,
+                            'dept_id' => $user->crrnt_dept_id,
+                            'created_by' => $user->id,
+                        );
+                        $this->Common_model->save('budget_revenue_summary_details', $form_data2);
+                    }
+                    $this->db->trans_complete();
+                    $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+                    redirect("budgets/dpt_summary");
+                }
+            }
+        }
+
+        //Dropdown
+        $this->db->select('
+                        bd.id,
+                        bd.head_sub_id,
+                        SUM(bd.amount) as amount,
+                        SUM(bd.acc_amt) as acc_amt,
+                        SUM(bd.dg_amt) as dg_amt,
+                        SUM(bd.revenue_amt) as revenue_amt,
+                        bhs.name_bn,
+                        bhs.bd_code,
+                    ');
+        $this->db->from('budget_nilg_details bd');
+        $this->db->join('budget_head_sub as bhs', 'bhs.id = bd.head_sub_id', 'left');
+        $this->db->where_in('bd.budget_nilg_id', $ids);
+        $this->db->order_by('bd.head_sub_id','ASC')->group_by('bd.head_sub_id');
+        $this->data['summary'] = $this->db->get()->result();
+        //Load view
+        $this->data['meta_title'] = 'বাজেট সামারী ';
+        $this->data['subview'] = 'budget_nilg/dpt_summary_create';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function dpt_summary_details($encid)
+    {
+        $user = $this->ion_auth->user()->row();
+        if ($user->crrnt_dept_id == '') {
+            $this->session->set_flashdata('error', 'Please update your profile first');
+            redirect("my_profile");
+        }
+
+        $id = (int) decrypt_url($encid);
+        $this->data['summary'] = $this->Common_model->get_single_data('budget_revenue_summary', $id);
+
+        $this->db->select('bd.*, sy.session_name, bhs.name_bn, bhs.bd_code');
+        $this->db->from('budget_revenue_summary_details bd');
+        $this->db->join('budget_head_sub as bhs', 'bhs.id = bd.head_sub_id', 'left');
+        $this->db->join('session_year as sy', 'sy.id = bd.fcl_year', 'left');
+        $this->db->where('bd.revenue_summary_id', $id);
+        $this->db->where('bd.modify_soft_d !=', 2);
+        $this->data['results'] = $this->db->get()->result();
+
+        //Load view
+        $this->data['meta_title'] = 'সামারী বাজেট বিস্তারিত';
+        $this->data['subview'] = 'budget_nilg/dpt_summary_details';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function dpt_summary_edit()
+    {
+        $user = $this->ion_auth->user()->row();
+        if ($user->crrnt_dept_id == '') {
+            $this->session->set_flashdata('error', 'Please update your profile first');
+            redirect("my_profile");
+        }
+        $this->form_validation->set_rules('total_amount', 'সর্বমোট পরিমান', 'required|trim');
+        if ($this->form_validation->run() == true) {
+            if ($this->input->post('save')=='সংরক্ষণ করুন') {
+                if ($this->ion_auth->in_group(array('acc', 'bdg'))) {
+                    $form_data = array(
+                        'acc_amt' => $this->input->post('total_amount'),
+                        'fcl_year' => $this->input->post('fcl_year'),
+                        'acc_head_id' => $user->id,
+                    );
+                } else {
+                    $form_data = array(
+                        'dpt_amt' => $this->input->post('total_amount'),
+                        'fcl_year' => $this->input->post('fcl_year'),
+                    );
+                }
+                $this->db->trans_start();
+                $this->db->where('id', $this->input->post('summary_id'));
+
+                if ($this->db->update('budget_revenue_summary', $form_data)) {
+                    for ($i = 0; $i < sizeof($_POST['head_sub_id']); $i++) {
+                        if ($this->ion_auth->in_group(array('acc', 'bdg'))) {
+                            $form_data2 = array(
+                                'revenue_summary_id' => $this->input->post('summary_id'),
+                                'head_sub_id' => $_POST['head_sub_id'][$i],
+                                'acc_amt' => $_POST['dpt_amt'][$i],
+                                'fcl_year' => $_POST['fcl_year'],
+                                'modify_soft_d' => 1,
+                            );
+                        } else {
+                            $form_data2 = array(
+                                'revenue_summary_id' => $this->input->post('summary_id'),
+                                'head_sub_id' => $_POST['head_sub_id'][$i],
+                                'dpt_amt' => $_POST['dpt_amt'][$i],
+                                'fcl_year' => $_POST['fcl_year'],
+                                'modify_soft_d' => 1,
+                                'dept_id' => $user->crrnt_dept_id,
+                                'created_by' => $user->id,
+                            );
+                        }
+
+                        if ($_POST['details_id'][$i] == 'new') {
+                            $this->Common_model->save('budget_revenue_summary_details', $form_data2);
+                        } else {
+                            $this->db->where('id', $_POST['details_id'][$i]);
+                            $this->db->update('budget_revenue_summary_details', $form_data2);
+                        }
+                    }
+                    $this->db->trans_complete();
+                    $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+                    redirect("budgets/dpt_summary");
+                } else {
+                    $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়নি');
+                    redirect("budgets/dpt_summary");
+                }
+            } else {
+                $form_data = array(
+                    'dpt_amt' => $this->input->post('total_amount'),
+                    'fcl_year' => $this->input->post('fcl_year'),
+                    'status'  => 2,
+                );
+                $this->db->trans_start();
+                $this->db->where('id', $this->input->post('summary_id'));
+
+                if ($this->db->update('budget_revenue_summary', $form_data)) {
+                    for ($i = 0; $i < sizeof($_POST['head_sub_id']); $i++) {
+                        $form_data2 = array(
+                            'revenue_summary_id' => $this->input->post('summary_id'),
+                            'head_sub_id' => $_POST['head_sub_id'][$i],
+                            'dpt_amt' => $_POST['dpt_amt'][$i],
+                            'fcl_year' => $_POST['fcl_year'],
+                            'modify_soft_d' => 1,
+                            'dept_id' => $user->crrnt_dept_id,
+                            'created_by' => $user->id,
+                        );
+
+                        if ($_POST['details_id'][$i] == 'new') {
+                            $this->Common_model->save('budget_revenue_summary_details', $form_data2);
+                        } else {
+                            $this->db->where('id', $_POST['details_id'][$i]);
+                            $this->db->update('budget_revenue_summary_details', $form_data2);
+                        }
+                    }
+                    $this->db->trans_complete();
+                    $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+                    redirect("budgets/dpt_summary");
+                } else {
+                    $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়নি');
+                    redirect("budgets/dpt_summary");
+                }
+            }
+        }
+    }
+
+    public function dpt_summary_forward($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->trans_start();
+        $this->db->where('id', $id);
+        if ($this->ion_auth->in_group(array('acc'))) {
+            $data =  array('status' => 3);
+        } else if ($this->ion_auth->in_group(array('bdg'))) {
+            $data =  array('status' => 4);
+        } else {
+            $data =  array('status' => 2);
+        }
+        if ($this->db->update('budget_revenue_summary', $data)) {
+            $this->db->trans_complete();
+            $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+            redirect("budgets/dpt_summary");
+        } else {
+            $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়নি');
+        }
+    }
+
+    public function budgets_dpt_remove_row()
+    {
+        $id = $this->input->post('id');
+        $this->db->where('id', $id);
+        if ($this->db->update('budget_revenue_summary_details', array('modify_soft_d' => 2))) {
+            echo 1;
+            exit;
+        } else {
+            echo 0;
+            exit;
+        }
+    }
+    // Revenue Summary section end
+
+    // department wise marge start
+    function acc_summary() {
+        $user = $this->ion_auth->user()->row();
+        if ($user->crrnt_dept_id == '') {
+            $this->session->set_flashdata('error', 'Please update your profile first');
+            redirect("my_profile");
+        }
+        $this->db->select('bd.*, bhs.session_name, d.dept_name');
+        $this->db->from('budget_revenue_summary bd');
+        $this->db->join('session_year as bhs', 'bhs.id = bd.fcl_year', 'left');
+        $this->db->join('department as d', 'd.id = bd.dept_id', 'left');
+        $this->db->where('bd.type', 2);
+
+        $this->data['summary'] = $this->db->order_by('bd.id','desc')->get()->result();
+
+        //Load view
+        $this->data['meta_title'] = 'সামারী তালিকা';
+        $this->data['subview'] = 'budget_nilg/acc_summary';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function acc_summary_create()
+    {
+        $user = $this->ion_auth->user()->row();
+        if ($user->crrnt_dept_id == '') {
+            $this->session->set_flashdata('error', 'Please update your profile first');
+            redirect("my_profile");
+        }
+        $ids = $this->input->post('id');
+        if (empty($ids)) {
+            $this->form_validation->set_rules('total_amount', 'সর্বমোট পরিমান', 'required|trim');
+            $this->form_validation->set_rules('fcl_year', 'অর্থ বছর', 'required|trim');
+            if ($this->form_validation->run() == true) {
+                $form_data = array(
+                    'dpt_amt' => $this->input->post('total_amount'),
+                    'fcl_year' => $this->input->post('fcl_year'),
+                    'acc_head_id' => $user->crrnt_dept_id,
+                    'type' => 2,
+                    'status' => 3,
+                    'created_by' => $user->id,
+                );
+
+                $this->db->trans_start();
+                if ($this->Common_model->save('budget_revenue_summary', $form_data)) {
+                    $insert_id = $this->db->insert_id();
+                    for ($i = 0; $i < sizeof($_POST['head_sub_id']); $i++) {
+                        $form_data2 = array(
+                            'revenue_summary_id' => $insert_id,
+                            'head_sub_id' => $_POST['head_sub_id'][$i],
+                            'acc_amt' => $_POST['dpt_amt'][$i],
+                            'fcl_year' => $_POST['fcl_year'],
+                            'modify_soft_d' => 1,
+                            'dept_id' => $user->crrnt_dept_id,
+                            'created_by' => $user->id,
+                        );
+                        $this->Common_model->save('budget_revenue_summary_details', $form_data2);
+                    }
+                    $this->db->trans_complete();
+                    $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+                    redirect("budgets/acc_summary");
+                }
+            }
+        }
+
+        //Dropdown
+        $this->db->select('
+                        bd.id,
+                        bd.head_sub_id,
+                        SUM(bd.dpt_amt) as amount,
+                        SUM(bd.acc_amt) as acc_amt,
+                        SUM(bd.dg_amt) as dg_amt,
+                        SUM(bd.revenue_amt) as revenue_amt,
+                        bhs.name_bn,
+                        bhs.bd_code,
+                    ');
+        $this->db->from('budget_revenue_summary_details bd');
+        $this->db->join('budget_head_sub as bhs', 'bhs.id = bd.head_sub_id', 'left');
+        $this->db->where_in('bd.revenue_summary_id', $ids);
+        $this->db->where('bd.modify_soft_d !=', 2);
+        $this->db->order_by('bd.head_sub_id','ASC')->group_by('bd.head_sub_id');
+        $this->data['summary'] = $this->db->get()->result();
+
+        //Load view
+        $this->data['meta_title'] = 'বাজেট সামারী ';
+        $this->data['subview'] = 'budget_nilg/acc_summary_create';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function acc_summary_print($encid)
+    {
+        $id = (int) decrypt_url($encid);
+        $this->db->select('
+                brs.*,
+                dpt.name_en,
+                dpt.dept_name,
+                acu.name_bn as acu_h_name_bn,
+                acu.name_en as acu_h_name_en,
+                acu.signature as acu_h_signature,
+                crt.name_bn as crt_by_name_bn,
+                crt.name_en as crt_by_name_en,
+                crt.signature as crt_by_signature,
+            ');
+        $this->db->from('budget_revenue_summary as brs');
+        $this->db->join('department dpt', 'brs.dept_id = dpt.id', 'left');
+        $this->db->join('users as acu', 'brs.acc_head_id = acu.id', 'left');
+        $this->db->join('users as crt', 'brs.created_by = crt.id', 'left');
+        $this->db->where('brs.id', $id);
+        $this->data['info'] = $this->db->get()->row();
+
+
+        $this->db->select('bd.*, sy.session_name, bhs.name_bn, bhs.bd_code');
+        $this->db->from('budget_revenue_summary_details bd');
+        $this->db->join('budget_head_sub as bhs', 'bhs.id = bd.head_sub_id', 'left');
+        $this->db->join('session_year as sy', 'sy.id = bd.fcl_year', 'left');
+        $this->db->where('bd.revenue_summary_id', $id);
+        $this->db->where('bd.modify_soft_d !=', 2);
+        $this->data['results'] = $this->db->get()->result();
+
+        // Generate PDF
+        $this->data['headding'] = 'বাজেট সামারী';
+        $html = $this->load->view('budget_nilg/acc_summary_print', $this->data, true);
+
+        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+        $mpdf->WriteHtml($html);
+        $mpdf->output();
+    }
+    // department wise marge end
+
+    // Training Budget start
+    public function training_budgets($offset = 0)
+    {
+        $limit = 15;
+        $user_id = $this->data['userDetails']->id;
+        $dept_id = $this->data['userDetails']->crrnt_dept_id;
+        if ($this->ion_auth->in_group(array('bdh'))) {
+            $arr = array(2,3,4,5,6,7,8);
+            $results = $this->Budgets_model->get_budget($limit, $offset, $arr, $dept_id);
+        } else if ($this->ion_auth->in_group(array('acc'))) {
+            $arr = array(3,4,5,6,7,8);
+            $results = $this->Budgets_model->get_budget($limit, $offset, $arr, null, null);
+        } else if ($this->ion_auth->in_group(array('bdg'))) {
+            $arr = array(4,5,6,7,8);
+            $results = $this->Budgets_model->get_budget($limit, $offset, $arr, null, null);
+        } else if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
+            $results = $this->Budgets_model->get_budget($limit, $offset);
+        } else {
+            $results = $this->Budgets_model->get_budget($limit, $offset, array(), $dept_id, $user_id);
+        }
+
+
+        $this->data['results'] = $results['rows'];
+        $this->data['total_rows'] = $results['num_rows'];
+        //pagination
+        $this->data['pagination'] = create_pagination('budget/budget_nilg/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+
+        // Load view
+        $this->data['meta_title'] = 'বাজেট এর তালিকা';
+        $this->data['subview'] = 'budget_nilg/training_budgets';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function training_budgets_create()
+    {
+        $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
+        $this->form_validation->set_rules('fcl_year', 'অর্থ বছর', 'required|trim');
+        if ($this->form_validation->run() == true) {
+            $user = $this->ion_auth->user()->row();
+            $form_data = array(
+                'title' => $this->input->post('title'),
+                'amount' => $this->input->post('total_amount'),
+                'fcl_year' => $this->input->post('fcl_year'),
+                'dept_id' => $user->crrnt_dept_id,
+                'status' => $this->ion_auth->in_group(array('bdh')) ? 2 : 1,
+                'desk' => $this->ion_auth->in_group(array('bdh')) ? 2 : 1,
+                'description' => $this->input->post('description'),
+                'created_by' => $user->id,
+            );
+
+            if ($this->Common_model->save('budget_nilg', $form_data)) {
+                $insert_id = $this->db->insert_id();
+                for ($i = 0; $i < sizeof($_POST['head_id']); $i++) {
+                    $form_data2 = array(
+                        'budget_nilg_id' => $insert_id,
+                        'head_id' => $_POST['head_id'][$i],
+                        'head_sub_id' => $_POST['head_sub_id'][$i],
+                        'amount' => $_POST['amount'][$i],
+                        'fcl_year' => $_POST['fcl_year'],
+                        'created_by' => $user->id,
+                    );
+                    $this->Common_model->save('budget_nilg_details', $form_data2);
+                }
+                $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+                redirect("budgets/budget_nilg");
+            }
+        }
+
+        $this->db->select('
+                            budget_head_sub.id,
+                            budget_head_sub.bd_code,
+                            budget_head_sub.name_bn,
+                            budget_head.name_bn as budget_head_name,
+                            budget_head.id as budget_head_id
+                            ');
+        $this->db->from('budget_head_sub');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->data['budget_head_sub'] = $this->db->get()->result();
+        //Dropdown
+        $this->data['budget_head'] = $this->Common_model->get_dropdown('budget_head', 'name_bn', 'id');
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'বাজেট তৈরি করুন';
+        $this->data['subview'] = 'budget_nilg/training_budgets_create';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    // Training Budget end
+
+
+
+
+
+
+
+
     public function budget_nilg_dept_edit()
     {
         $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
@@ -556,22 +1046,6 @@ class Budgets extends Backend_Controller
       header('Content-Type: application/x-json; charset=utf-8');
       echo json_encode($data);
     }
-    public function budget_nilg_print($id)
-    {
-        $id = (int) decrypt_url($id);
-        //Results
-        $this->data['info'] = $this->Budgets_model->get_budget_nilg_info($id);
-        $this->data['items'] = $this->Budgets_model->get_budget_details_nilg($id);
-        // dd($this->data['items']);
-
-        // Generate PDF
-        $this->data['headding'] = 'বাজেট';
-        $html = $this->load->view('budget_nilg/budget_nilg_print', $this->data, true);
-
-        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
-        $mpdf->WriteHtml($html);
-        $mpdf->output();
-    }
 
     public function nilg_change_status($requisition_id = null){
         $id  = (int) decrypt_url($this->input->post('id'));
@@ -632,7 +1106,7 @@ class Budgets extends Backend_Controller
         $this->load->view('backend/_layout_main', $this->data);
     }
 
-    public function nilg_revenue_summary()
+    public function nilg_revenue_summary($arr = null)
     {
         $dept_id = $this->input->post('dept_id');
         $fcy = $this->db->order_by('id','DESC')->get('session_year')->row();
@@ -753,7 +1227,7 @@ class Budgets extends Backend_Controller
                     }
                 }
                 if (!empty($custom)) {
-                    for ($i=0; $i < sizeof($custom); $i++) { 
+                    for ($i=0; $i < sizeof($custom); $i++) {
                         $form_data3 = array(
                             'details_id'=>$custom[$i],
                             'name'=>$_POST['custom_m'][$i],
@@ -762,7 +1236,7 @@ class Budgets extends Backend_Controller
                     }
                     # code...
                 }
-            
+
                 $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
                 redirect("budgets/budget_field");
             }
@@ -982,7 +1456,7 @@ class Budgets extends Backend_Controller
         $this->data['subview'] = 'budget_field/clone';
         $this->load->view('backend/_layout_main', $this->data);
     }
-  
+
     public function budget_field_print($encid, $type=null)
     {
         $id = (int) decrypt_url($encid);
@@ -1061,7 +1535,7 @@ class Budgets extends Backend_Controller
                     }
                 }
                 if (!empty($custom)) {
-                    for ($i=0; $i < sizeof($custom); $i++) { 
+                    for ($i=0; $i < sizeof($custom); $i++) {
                         $form_data3 = array(
                             'details_id'=>$custom[$i],
                             'name'=>$_POST['custom_m'][$i],
@@ -1075,7 +1549,7 @@ class Budgets extends Backend_Controller
             }
         }
     }
-    
+
     public function budgets_field_remove_row()
     {
         $id = $this->input->post('id');

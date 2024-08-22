@@ -1874,8 +1874,8 @@ class Ion_auth_model extends CI_Model
 		    'created_on'           => $user->created_on,
 		    'old_last_login'       => $user->last_login,
 		    'last_check'           => time(),
-		    'mem_id'           	   => $user->mem_id,
-		    'level'           	   => $user->level,
+		    'mem_id'           	   => isset($user->mem_id)?$user->mem_id:0,
+		    'level'           	   => isset($user->mem_id)?$user->level:0,
 		    'logged_in'            => TRUE,
 		);
 

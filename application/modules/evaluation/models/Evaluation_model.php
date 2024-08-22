@@ -6,7 +6,7 @@ class Evaluation_model extends CI_Model {
         parent::__construct();
     }
 
-    public function exists_trainer_evaluation_by_user($trainingID, $userID) {       
+    public function exists_trainer_evaluation_by_user($trainingID, $userID) {
         $this->db->select('id');
         $this->db->from('evaluation_trainer');
         $this->db->where('training_id', $trainingID);
@@ -20,8 +20,8 @@ class Evaluation_model extends CI_Model {
         }
     }
 
-    
-    public function exists_marksheet_info($trainingID, $userID, $tmID) {       
+
+    public function exists_marksheet_info($trainingID, $userID, $tmID) {
         $this->db->select('id, mark');
         $this->db->from('marksheet');
         $this->db->where('training_id', $trainingID);
@@ -36,7 +36,7 @@ class Evaluation_model extends CI_Model {
         }
     }
 
-    public function get_mark_info($id) {       
+    public function get_mark_info($id) {
         $this->db->select('m.id, m.mark, u.name_bn, es.subject_name');
         $this->db->from('marksheet m');
         $this->db->join('users u', 'u.id = m.user_id', 'LEFT');
@@ -83,7 +83,7 @@ class Evaluation_model extends CI_Model {
         if($examType != NULL){
             $this->db->where('e.exam_type', $examType); // 1=PRE, 2=POST
         }
-        $this->db->order_by('e.id', 'DESC');        
+        $this->db->order_by('e.id', 'DESC');
         $result['rows'] = $this->db->get()->result();
         // echo $this->db->last_query(); exit;
 
@@ -112,11 +112,13 @@ class Evaluation_model extends CI_Model {
     public function get_my_training() {
         $this->db->select('tp.*, t.start_date, t.end_date');
         $this->db->from('training_participant tp');
-        $this->db->join('training t', 't.id = tp.training_id', 'RIGHT');  
-        // $this->db->join('course_type ct', 'ct.id = t.course_type', 'LEFT'); , ct.ct_name     
-        //$this->db->join('training_course c', 'c.id = t.course_id', 'LEFT'); //c.course_title      
+        $this->db->join('training t', 't.id = tp.training_id', 'RIGHT');
+        // $this->db->join('course_type ct', 'ct.id = t.course_type', 'LEFT'); , ct.ct_name
+        //$this->db->join('training_course c', 'c.id = t.course_id', 'LEFT'); //c.course_title
+        $this->db->join('training_schedule ts', 'ts.training_id = tp.training_id', 'LEFT'); //ts.trainer_id != null
         $this->db->where('tp.app_user_id', $this->userID);
         $this->db->where('tp.is_verified', 1);
+        $this->db->where('ts.trainer_id !=', 0);
         $this->db->order_by('t.id', 'DESC');
         $query = $this->db->get()->result();
         // echo $this->db->last_query(); exit;
@@ -126,7 +128,7 @@ class Evaluation_model extends CI_Model {
 
     public function get_my_trainings() {
         $this->db->select('id, training_id');
-        $this->db->from('training_participant');        
+        $this->db->from('training_participant');
         $this->db->where('app_user_id', $this->userID);
         $this->db->where('is_verified', 1);
         $this->db->order_by('id', 'DESC');
@@ -147,7 +149,7 @@ class Evaluation_model extends CI_Model {
         if($this->ion_auth->in_group('cc')){
             $trainingIDs = func_training_ids_cc($this->userSessID);
         }
-        
+
         // Dorpdown List
         $data[''] = lang('select');
         $this->db->select('t.id, t.training_title, ct.ct_name');
@@ -180,10 +182,10 @@ class Evaluation_model extends CI_Model {
         $this->db->where('eva_id', $evaluationID);
         $this->db->where('user_id', $this->userSessID);
         $tmp = $this->db->get()->result();
-        // echo $this->db->last_query(); exit;        
+        // echo $this->db->last_query(); exit;
         $ret['count'] = $tmp[0]->count;
 
-        return $ret;       
+        return $ret;
     }
 
     public function is_answerd_course_evaluation($trainingID){
@@ -192,10 +194,10 @@ class Evaluation_model extends CI_Model {
         $this->db->where('training_id', $trainingID);
         $this->db->where('participant_id', $this->userSessID);
         $tmp = $this->db->get()->result();
-        // echo $this->db->last_query(); exit;        
+        // echo $this->db->last_query(); exit;
         $ret['count'] = $tmp[0]->count;
 
-        return $ret;       
+        return $ret;
     }
 
     public function get_evaluation($limit=1000, $offset=0, $examType=NULL, $officeID=NULL, $upa=NULL, $dis=NULL, $div=NULL) {
@@ -210,7 +212,7 @@ class Evaluation_model extends CI_Model {
         $this->db->limit($limit);
         $this->db->offset($offset);
 
-        $this->db->where_in('t.course_id', array(1,2,3,4, 7,8,11, 13,14,16, 18,19,21, 22,23,24)); 
+        $this->db->where_in('t.course_id', array(1,2,3,4, 7,8,11, 13,14,16, 18,19,21, 22,23,24));
         if(!empty($_GET['course_id'])){
             $this->db->where('e.course_id', $_GET['course_id']);
         }
@@ -230,7 +232,7 @@ class Evaluation_model extends CI_Model {
         if($upa != NULL){
             $this->db->where('t.upazila_id', $upa);
         }
-        $this->db->order_by('e.id', 'DESC');        
+        $this->db->order_by('e.id', 'DESC');
         $result['rows'] = $this->db->get()->result();
         // echo $this->db->last_query(); exit;
 
@@ -239,11 +241,11 @@ class Evaluation_model extends CI_Model {
         $this->db->from('evaluation e');
         $this->db->join('training t', 't.id = e.training_id', 'LEFT');
 
-        $this->db->where_in('t.course_id', array(1,2,3, 7,8,11, 13,14,16, 18,19,21, 22,23,24)); 
+        $this->db->where_in('t.course_id', array(1,2,3, 7,8,11, 13,14,16, 18,19,21, 22,23,24));
         if(!empty($_GET['course_id'])){
             $this->db->where('e.course_id', $_GET['course_id']);
         }
-        
+
         if($examType != NULL){
             $this->db->where('e.exam_type', $examType); // 1=PRE, 2=POST
         }
@@ -263,7 +265,7 @@ class Evaluation_model extends CI_Model {
         $result['num_rows'] = $tmp[0]->count;
 
         return $result;
-    } 
+    }
 
 
     public function get_evaluation_coordinate($limit=1000, $offset=0, $examType=NULL) {
@@ -285,7 +287,7 @@ class Evaluation_model extends CI_Model {
                 $this->db->where('e.exam_type', $examType); // 1=PRE, 2=POST
             }
             $this->db->where_in('e.training_id', $trainingIDs);
-            $this->db->order_by('e.id', 'DESC');        
+            $this->db->order_by('e.id', 'DESC');
             $result['rows'] = $this->db->get()->result();
             // echo $this->db->last_query(); exit;
 
@@ -328,16 +330,16 @@ class Evaluation_model extends CI_Model {
         }
 
         return $questions;
-    } 
+    }
 
     public function q_option($id){
         // Question Options
         $this->db->select('id, option_name');
-        $this->db->from('qbank_option');        
-        $this->db->where('qbank_id', $id);                
+        $this->db->from('qbank_option');
+        $this->db->where('qbank_id', $id);
         $query = $this->db->get()->result();
 
-        return $query;       
+        return $query;
     }
 
     public function get_evaluation_details($id) {
@@ -351,7 +353,7 @@ class Evaluation_model extends CI_Model {
         $this->db->select('qo.id, qo.option_name');
         $this->db->from('evaluation_question eq');
         $this->db->join('qbank_option qo', 'qo.id = eq.question_id', 'LEFT');
-        $this->db->where('eq.evaluation_id', $id);                
+        $this->db->where('eq.evaluation_id', $id);
         $query['options'] = $this->db->get()->result();*/
 
         return $query;
@@ -361,7 +363,7 @@ class Evaluation_model extends CI_Model {
         $this->db->select('q.id, q.question_type, q.question_title, eq.id as eq_id, eq.qnumber');
         $this->db->from('evaluation_question eq');
         $this->db->join('qbank q', 'q.id = eq.question_id', 'LEFT');
-        $this->db->where('eq.evaluation_id', $id);                        
+        $this->db->where('eq.evaluation_id', $id);
         $q = $this->db->get();
         $questions = $q->result();
 
@@ -374,13 +376,13 @@ class Evaluation_model extends CI_Model {
         }
 
         return array('sum' => $eq, 'qs' => $questions);
-    } 
+    }
 
     public function get_question_answer_by_evaluation($id) {
         $this->db->select('eqa.id, eqa.que_id, eqa.que_type, eqa.answer, eqa.answer_mark, eqa.is_right, q.question_title, q.answer as right_answer');
         $this->db->from('evaluation_question_answer eqa');
         $this->db->join('qbank q', 'q.id = eqa.que_id', 'LEFT');
-        $this->db->where('eqa.eva_id', $id);  
+        $this->db->where('eqa.eva_id', $id);
         $this->db->where('user_id', $this->userSessID);
         $q = $this->db->get();
         $questions = $q->result();
@@ -392,25 +394,25 @@ class Evaluation_model extends CI_Model {
         }
 
         return $questions;
-    } 
+    }
 
     public function get_exam_participant($id) {
         $this->db->select('eqa.eva_id, eqa.created, u.id, u.name_bn, u.nid');
         $this->db->from('evaluation_question_answer eqa');
         $this->db->join('users u', 'u.id = eqa.user_id', 'LEFT');
-        $this->db->where('eqa.eva_id', $id);  
+        $this->db->where('eqa.eva_id', $id);
         $this->db->group_by('eqa.user_id');
         // $this->db->where('eqa.user_id', $this->userSessID);
         $query = $this->db->get()->result();
 
         return $query;
-    } 
+    }
 
     public function get_answer_sheet_by_user($evaluationID, $userID) {
         $this->db->select('eqa.id, eqa.eva_id, eqa.que_id, eqa.que_type, eqa.answer, eqa.question_mark, eqa.answer_mark, eqa.is_right, q.question_title, q.answer as right_answer');
         $this->db->from('evaluation_question_answer eqa');
         $this->db->join('qbank q', 'q.id = eqa.que_id', 'LEFT');
-        $this->db->where('eqa.eva_id', $evaluationID);  
+        $this->db->where('eqa.eva_id', $evaluationID);
         $this->db->where('user_id', $userID);
         $questions = $this->db->get()->result();
 
@@ -421,19 +423,19 @@ class Evaluation_model extends CI_Model {
         }
 
         return $questions;
-    } 
+    }
 
     public function q_answer($id){
         // Question Options
         $this->db->select('id, option_name');
-        $this->db->from('qbank_option');        
-        $this->db->where('qbank_id', $id);                
+        $this->db->from('qbank_option');
+        $this->db->where('qbank_id', $id);
         return $this->db->get()->result();
     }
 
-    public function get_question_answer_by_user($evaID, $userID, $isRight=NULL){        
+    public function get_question_answer_by_user($evaID, $userID, $isRight=NULL){
         $this->db->select('
-            SUM(question_mark) as question_mark, 
+            SUM(question_mark) as question_mark,
             SUM(answer_mark) as answer_mark,
             SUM(CASE WHEN is_right = 1 THEN 1 ELSE 0 END ) AS is_right,
             SUM(CASE WHEN is_right = 2 THEN 1 ELSE 0 END ) AS is_wrong,
@@ -455,14 +457,14 @@ class Evaluation_model extends CI_Model {
     }
 
     public function get_training_mark_by_training_id($id, $markingType=NULL){
-        // $data[''] = '--নির্বাচন করুন--';        
+        // $data[''] = '--নির্বাচন করুন--';
         $data = [];
         $this->db->select('tm.id, es.subject_name');
         $this->db->from('training_mark tm');
         $this->db->join('evaluation_subject es', 'es.id = tm.subject_id', 'LEFT');
         $this->db->where('tm.training_id', $id);
         if($markingType != NULL){
-            $this->db->where('tm.emt_id', $markingType);            
+            $this->db->where('tm.emt_id', $markingType);
         }
         $this->db->order_by('tm.id', 'DESC');
         $query = $this->db->get();
@@ -476,12 +478,12 @@ class Evaluation_model extends CI_Model {
     }
 
     public function get_manual_mark_by_training($id){
-        $data = [];        
+        $data = [];
         $this->db->select('tm.id, es.subject_name');
         $this->db->from('training_mark tm');
         $this->db->join('evaluation_subject es', 'es.id = tm.subject_id', 'LEFT');
-        $this->db->where('tm.training_id', $id);        
-        $this->db->where('tm.emt_id', 4);        
+        $this->db->where('tm.training_id', $id);
+        $this->db->where('tm.emt_id', 4);
         $query = $this->db->get();
         // echo $this->db->last_query(); exit;
 
@@ -517,7 +519,7 @@ class Evaluation_model extends CI_Model {
         // $this->db->select('e.id, e.participant_id, e.'.$question.', e.q1_if_not_course_topic_related, e.q2_if_not_participant_helpful, e.q3_if_not_professional_helpful, u.id as user_id, u.name_bn, u.nid');
         $this->db->select('e.*, u.id as user_id, u.name_bn, u.nid');
         $this->db->from('evaluation_course e');
-        $this->db->join('users u', 'u.id = e.participant_id', 'LEFT');    
+        $this->db->join('users u', 'u.id = e.participant_id', 'LEFT');
         $this->db->where('e.training_id', $trainingID);
         // $this->db->where('p.is_verified', 0);
         // $this->db->where('p.app_user_id !=', NULL);
@@ -527,12 +529,12 @@ class Evaluation_model extends CI_Model {
     }
 
 
-    public function get_participant_course_evaluation_by_training_id($trainingID) {        
+    public function get_participant_course_evaluation_by_training_id($trainingID) {
         $this->db->select('COUNT(*) as count');
         $this->db->where('training_id', $trainingID);
         $tmp = $this->db->get('evaluation_course')->result();
 
-        // echo $this->db->last_query(); exit;        
+        // echo $this->db->last_query(); exit;
         $ret['count'] = $tmp[0]->count;
         return $ret;
     }
@@ -541,7 +543,7 @@ class Evaluation_model extends CI_Model {
         // Applicant List
         $this->db->select('e.id, e.participant_id, e.training_id, e.created, u.id as user_id, u.name_bn, u.nid');
         $this->db->from('evaluation_course e');
-        $this->db->join('users u', 'u.id = e.participant_id', 'LEFT');    
+        $this->db->join('users u', 'u.id = e.participant_id', 'LEFT');
         $this->db->where('e.training_id', $trainingID);
         // $this->db->where('p.is_verified', 0);
         // $this->db->where('p.app_user_id !=', NULL);
@@ -555,20 +557,20 @@ class Evaluation_model extends CI_Model {
         $end_date = $this->input->get('end_date');
         // result query
         $this->db->select('t.*, ct.ct_name, c.course_title, f.finance_name');
-        $this->db->from('training t');  
+        $this->db->from('training t');
         $this->db->join('course_type ct', 'ct.id = t.course_type', 'LEFT');
         $this->db->join('course c', 'c.id = t.course_id', 'LEFT');
-        $this->db->join('financing f', 'f.id = t.financing_id', 'LEFT'); 
+        $this->db->join('financing f', 'f.id = t.financing_id', 'LEFT');
         $this->db->limit($limit);
-        $this->db->offset($offset);        
-        // $this->db->where('t.status', 1); // 1=UpComming, 2=OnGoing, 3=Completed         
+        $this->db->offset($offset);
+        // $this->db->where('t.status', 1); // 1=UpComming, 2=OnGoing, 3=Completed
 
         if(!empty($_GET['course_id'])){
-            $this->db->where('t.course_id', $_GET['course_id']);                      
+            $this->db->where('t.course_id', $_GET['course_id']);
         }
 
         if(!empty($type)){
-            $this->db->where('t.course_id', $type);                      
+            $this->db->where('t.course_id', $type);
         }
         if ($start_date != NULL && $end_date != NULL) {
             $this->db->where("t.end_date BETWEEN '$start_date' AND '$end_date'");
@@ -580,16 +582,16 @@ class Evaluation_model extends CI_Model {
 
         // count query
         $q = $this->db->select('COUNT(*) as count');
-        $this->db->from('training');  
+        $this->db->from('training');
         // $this->db->join('training_users tu', 'tu.training_id = t.id', 'LEFT');
         // $this->db->where('status', 1);
-     
+
         if ($this->input->get('course_id') != NULL) {
             $this->db->where('course_id', $this->input->get('course_id'));
-        }   
+        }
         if ($type != NULL) {
             $this->db->where('course_id', $type);
-        }        
+        }
         if ($start_date != NULL && $end_date != NULL) {
             $this->db->where("end_date BETWEEN '$start_date' AND '$end_date'");
         }
@@ -597,47 +599,47 @@ class Evaluation_model extends CI_Model {
         $result['num_rows'] = $tmp[0]->count;
 
         return $result;
-    }  
+    }
 
     public function get_upcomming_training_coordinate($limit=1000, $offset=0, $type=NULL, $officeID=NULL) {
-        // Get training IDs        
+        // Get training IDs
         $start_date = $this->input->get('start_date');
         $end_date = $this->input->get('end_date');
         $trainingIDs = func_training_ids_cc($this->userSessID);
 
         if($trainingIDs){
 
-            // Query 
+            // Query
             $this->db->select('t.*, ct.ct_name, c.course_title, f.finance_name');
-            $this->db->from('training t');  
+            $this->db->from('training t');
             $this->db->join('course_type ct', 'ct.id = t.course_type', 'LEFT');
             $this->db->join('course c', 'c.id = t.course_id', 'LEFT');
-            $this->db->join('financing f', 'f.id = t.financing_id', 'LEFT'); 
+            $this->db->join('financing f', 'f.id = t.financing_id', 'LEFT');
             $this->db->limit($limit);
-            $this->db->offset($offset);  
+            $this->db->offset($offset);
 
-            //$this->db->where('t.status', 1); // 1=UpComming, 2=OnGoing, 3=Completed 
-            // search 
+            //$this->db->where('t.status', 1); // 1=UpComming, 2=OnGoing, 3=Completed
+            // search
             if(!empty($_GET['course_id'])){
-                $this->db->where('t.course_id', $_GET['course_id']);                      
+                $this->db->where('t.course_id', $_GET['course_id']);
             }
             if(!empty($type)){
-                $this->db->where('t.course_id', $type);                      
+                $this->db->where('t.course_id', $type);
             }
             if ($start_date != NULL && $end_date != NULL) {
                 $this->db->where("t.end_date BETWEEN '$start_date' AND '$end_date'");
-            }  
+            }
 
             $this->db->where_in('t.id', $trainingIDs);
             $this->db->order_by('t.id', 'DESC');
             $result['rows'] = $this->db->get()->result();
-            // echo $this->db->last_query(); exit;            
+            // echo $this->db->last_query(); exit;
 
             // count query
             $q = $this->db->select('COUNT(*) as count');
-            $this->db->from('training');  
+            $this->db->from('training');
             // $this->db->where('status', 1);
-            // search 
+            // search
             if ($this->input->get('course_id') != NULL) {
                 $this->db->where('course_id', $this->input->get('course_id'));
             }
@@ -646,7 +648,7 @@ class Evaluation_model extends CI_Model {
             }
             if ($start_date != NULL && $end_date != NULL) {
                 $this->db->where("end_date BETWEEN '$start_date' AND '$end_date'");
-            }  
+            }
             $this->db->where_in('id', $trainingIDs);
             $tmp = $this->db->get()->result();
             $result['num_rows'] = $tmp[0]->count;
@@ -661,9 +663,9 @@ class Evaluation_model extends CI_Model {
     public function get_training_schedule_with_trainer($trainingID) {
         // result query
         $this->db->select('t.*, u.name_bn, dg.desig_name');
-        $this->db->from('training_schedule t');  
-        $this->db->join('users u', 'u.id = t.trainer_id', 'LEFT');          
-        $this->db->join('designations dg', 'dg.id = u.crrnt_desig_id', 'LEFT'); 
+        $this->db->from('training_schedule t');
+        $this->db->join('users u', 'u.id = t.trainer_id', 'LEFT');
+        $this->db->join('designations dg', 'dg.id = u.crrnt_desig_id', 'LEFT');
         $this->db->where('t.training_id', $trainingID);
         $this->db->where('t.trainer_id !=', 0);
         $this->db->order_by('id', 'ASC');
@@ -672,7 +674,7 @@ class Evaluation_model extends CI_Model {
     }
 
     public function get_trainer_evaluation_result_by_user($trainingID, $topicID) {
-        // $this->db->select('*');        
+        // $this->db->select('*');
         $this->db->select('SUM(rate_concept_topic) AS concept_topic, SUM(rate_present_technique) AS present_technique, SUM(rate_use_tool) AS use_tool, SUM(rate_time_manage) AS time_manage, SUM(rate_que_ans_skill) AS skill, COUNT(id) as row_count');
         $this->db->from('evaluation_trainer');
         $this->db->where('training_id', $trainingID);
@@ -691,10 +693,10 @@ class Evaluation_model extends CI_Model {
         $this->db->where('topic_id', $scheduleID);
         $this->db->where('participant_id', $this->userSessID);
         $tmp = $this->db->get()->result();
-        // echo $this->db->last_query(); exit;        
+        // echo $this->db->last_query(); exit;
         $ret['count'] = $tmp[0]->count;
 
-        return $ret;       
+        return $ret;
     }
 
 
@@ -717,18 +719,18 @@ class Evaluation_model extends CI_Model {
     public function get_data($limit=1000, $offset=0, $district=NULL, $upazila=NULL, $search=NULL) {
         // result query
         $this->db->select('t.*, tc.course_title, f.finance_name');
-        $this->db->from('training t');  
+        $this->db->from('training t');
         $this->db->join('training_users tu', 'tu.training_id = t.id', 'LEFT');
         $this->db->join('training_course tc', 'tc.id = t.course_id', 'LEFT');
-        $this->db->join('financing f', 'f.id = t.financing_id', 'LEFT'); 
+        $this->db->join('financing f', 'f.id = t.financing_id', 'LEFT');
          //search
-        $this->db->like('tc.course_title', $search);          
+        $this->db->like('tc.course_title', $search);
         $this->db->limit($limit);
         $this->db->offset($offset);
         $this->db->order_by('t.id', 'DESC');
         // $this->db->group_by('t.id');
         if($district != NULL){
-            $this->db->where('t.district_id', $district);            
+            $this->db->where('t.district_id', $district);
         }
         if($upazila != NULL){
             $this->db->where('t.upazila_id', $upazila);
@@ -738,10 +740,10 @@ class Evaluation_model extends CI_Model {
 
         // count query
         $q = $this->db->select('COUNT(*) as count');
-        $this->db->from('training t');  
+        $this->db->from('training t');
         // $this->db->join('training_users tu', 'tu.training_id = t.id', 'LEFT');
         if($district != NULL){
-            $this->db->where('district_id', $district);            
+            $this->db->where('district_id', $district);
         }
         if($upazila != NULL){
             $this->db->where('upazila_id', $upazila);
@@ -750,28 +752,28 @@ class Evaluation_model extends CI_Model {
         $result['num_rows'] = $tmp[0]->count;
 
         return $result;
-    }  
+    }
 
 
 
-    public function get_info($trainingID) {        
+    public function get_info($trainingID) {
         $this->db->select('t.*, tc.course_title, f.finance_name');
         $this->db->from('training t');
-        $this->db->join('training_course tc', 'tc.id = t.course_id', 'LEFT');    
-        $this->db->join('financing f', 'f.id = t.financing_id', 'LEFT');  
+        $this->db->join('training_course tc', 'tc.id = t.course_id', 'LEFT');
+        $this->db->join('financing f', 'f.id = t.financing_id', 'LEFT');
         $this->db->where('t.id', $trainingID);
-        $result = $this->db->get()->row();              
+        $result = $this->db->get()->row();
 
         return $result;
     }
 
-    public function get_duplicate_info($trainingID) {        
+    public function get_duplicate_info($trainingID) {
         $this->db->select('t.*, tc.course_title, f.finance_name');
         $this->db->from('training t');
-        $this->db->join('training_course tc', 'tc.id = t.course_id', 'LEFT');    
-        $this->db->join('financing f', 'f.id = t.financing_id', 'LEFT');  
+        $this->db->join('training_course tc', 'tc.id = t.course_id', 'LEFT');
+        $this->db->join('financing f', 'f.id = t.financing_id', 'LEFT');
         $this->db->where('t.id', $trainingID);
-        $result['info'] = $this->db->get()->row(); 
+        $result['info'] = $this->db->get()->row();
 
         return $result;
     }
@@ -780,7 +782,7 @@ class Evaluation_model extends CI_Model {
         // Applicant List
         $this->db->select('p.*, u.name_bn, u.nid');
         $this->db->from('training_participant p');
-        $this->db->join('users u', 'u.id = p.app_user_id', 'LEFT');    
+        $this->db->join('users u', 'u.id = p.app_user_id', 'LEFT');
         $this->db->where('p.training_id', $trainingID);
         // $this->db->where('p.is_verified', 0);
         // $this->db->where('p.app_user_id !=', NULL);
@@ -805,9 +807,9 @@ class Evaluation_model extends CI_Model {
     {
         // $this->db->select('*');
         // $this->db->from('training_schedule');
-        // $this->db->where('program_date >=' ,$a);   
-        // $this->db->where('program_date <=' ,$b);   
-        // $this->db->where('training_id', $c);   
+        // $this->db->where('program_date >=' ,$a);
+        // $this->db->where('program_date <=' ,$b);
+        // $this->db->where('training_id', $c);
         // $query =  $this->db->get()->result();
 
         //  return $query;
@@ -815,11 +817,11 @@ class Evaluation_model extends CI_Model {
 
 
         $this->db->select('t.*, tr.trainer_name, tr.trainer_desig' );
-        $this->db->from('training_schedule t');  
-        $this->db->join('trainer_register tr', 'tr.id = t.trainer_id', 'LEFT');   
+        $this->db->from('training_schedule t');
+        $this->db->join('trainer_register tr', 'tr.id = t.trainer_id', 'LEFT');
         $this->db->where('t.training_id', $training_id);
-        $this->db->where('t.program_date >=' ,$start_date);   
-        $this->db->where('t.program_date <=' ,$end_date);  
+        $this->db->where('t.program_date >=' ,$start_date);
+        $this->db->where('t.program_date <=' ,$end_date);
         $this->db->order_by('program_date', 'ASC');
         $query = $this->db->get()->result();
         return $query;
@@ -830,23 +832,23 @@ class Evaluation_model extends CI_Model {
         $this->db->from('training_participant tp');
         $this->db->join('users u', 'u.id = tp.app_user_id', 'LEFT');
         $this->db->join('training t', 't.id = tp.training_id', 'LEFT');
-        $this->db->join('training_course tc', 'tc.id = t.course_id', 'LEFT');    
+        $this->db->join('training_course tc', 'tc.id = t.course_id', 'LEFT');
         $this->db->join('employee_type e', 'e.id = u.employee_type', 'LEFT');
         $this->db->join('office o', 'o.id = u.crrnt_office_id', 'LEFT');
         $this->db->join('designations d', 'd.id = u.crrnt_desig_id', 'LEFT');
         $this->db->where('tp.id', $id);
-        $query = $this->db->get()->row();        
+        $query = $this->db->get()->row();
 
-        return $query;   
+        return $query;
     }
 
-    public function get_application_by_training_id($trainingID) {        
+    public function get_application_by_training_id($trainingID) {
         $this->db->select('COUNT(*) as count');
         $this->db->where('training_id', $trainingID);
         $this->db->where('is_verified', 0);
         $tmp = $this->db->get('training_participant')->result();
 
-        // echo $this->db->last_query(); exit;        
+        // echo $this->db->last_query(); exit;
         $ret['count'] = $tmp[0]->count;
         return $ret;
     }
@@ -855,10 +857,10 @@ class Evaluation_model extends CI_Model {
     public function get_training_info($trainingID){
         $this->db->select('t.*, c.course_title, f.finance_name, u.name_bn');
         $this->db->from('training t');
-        $this->db->join('course c', 'c.id = t.course_id', 'LEFT');      
-        $this->db->join('financing f', 'f.id = t.financing_id', 'LEFT');  
-        $this->db->join('training_schedule ts', 'ts.training_id = t.id', 'LEFT');  
-        $this->db->join('users u', 'u.id = ts.trainer_id', 'LEFT');  
+        $this->db->join('course c', 'c.id = t.course_id', 'LEFT');
+        $this->db->join('financing f', 'f.id = t.financing_id', 'LEFT');
+        $this->db->join('training_schedule ts', 'ts.training_id = t.id', 'LEFT');
+        $this->db->join('users u', 'u.id = ts.trainer_id', 'LEFT');
         $this->db->where('t.id', $trainingID);
         $query = $this->db->get()->row();
 
@@ -868,8 +870,8 @@ class Evaluation_model extends CI_Model {
     public function get_training_schedule_info_by_id($scheduleID){
         $this->db->select('ts.*, t.start_date, t.end_date, u.name_bn');
         $this->db->from('training_schedule ts');
-        $this->db->join('training t', 't.id = ts.training_id', 'LEFT');  
-        $this->db->join('users u', 'u.id = ts.trainer_id', 'LEFT');  
+        $this->db->join('training t', 't.id = ts.training_id', 'LEFT');
+        $this->db->join('users u', 'u.id = ts.trainer_id', 'LEFT');
         $this->db->where('ts.id', $scheduleID);
         $query = $this->db->get()->row();
 
@@ -893,11 +895,11 @@ class Evaluation_model extends CI_Model {
         $query = $this->db->get()->result();
         //echo $this->db->last_query();
         return $query;
-    }  
+    }
 
     public function get_participant_check_duplicate($form_data) {
         $this->db->select('*');
-        $this->db->from('training_participant'); 
+        $this->db->from('training_participant');
         $this->db->where('app_user_id', $form_data['app_user_id']);
         $this->db->where('training_id', $form_data['training_id']);
         $result = $this->db->get()->result();
@@ -907,7 +909,7 @@ class Evaluation_model extends CI_Model {
     public function set_qrcode($id, $data) {
         // $data = array('qr_code' => $filename);
         $this->db->where('id', $id);
-        $this->db->update('training', $data); 
+        $this->db->update('training', $data);
 
         return true;
     }
@@ -934,12 +936,12 @@ class Evaluation_model extends CI_Model {
     public function get_data_admin($limit = 1000, $offset = 0) {
         // result query
         $this->db->select('t.*, tc.course_title, f.finance_name');
-        $this->db->from('training t');  
+        $this->db->from('training t');
         // $this->db->join('training_users tu', 'tu.training_id = t.id', 'LEFT');
         $this->db->join('training_course tc', 'tc.id = t.course_id', 'LEFT');
         $this->db->join('financing f', 'f.id = t.financing_id', 'LEFT');
         $this->db->limit($limit);
-        $this->db->offset($offset);        
+        $this->db->offset($offset);
         $this->db->order_by('t.id', 'DESC');
         $this->db->group_by('t.id');
         $result['rows'] = $this->db->get()->result();
@@ -947,7 +949,7 @@ class Evaluation_model extends CI_Model {
 
         // count query
         $q = $this->db->select('COUNT(*) as count');
-        $this->db->from('training t');  
+        $this->db->from('training t');
         // $this->db->join('training_users tu', 'tu.training_id = t.id', 'LEFT');
         $tmp = $this->db->get()->result();
         $result['num_rows'] = $tmp[0]->count;
@@ -959,29 +961,29 @@ class Evaluation_model extends CI_Model {
         $result = array();
         $this->db->select('t.*, tc.course_title, f.finance_name');
         $this->db->from('training t');
-        $this->db->join('training_course tc', 'tc.id = t.course_id', 'LEFT');    
-        $this->db->join('financing f', 'f.id = t.financing_id', 'LEFT');  
+        $this->db->join('training_course tc', 'tc.id = t.course_id', 'LEFT');
+        $this->db->join('financing f', 'f.id = t.financing_id', 'LEFT');
         $this->db->where('t.id', $id);
         $result['info'] =  $this->db->get()->row();
-        
+
 
         $this->db->select('tu.*, u.office_name, u.designation');
-        $this->db->from('training_users tu');        
+        $this->db->from('training_users tu');
         $this->db->join('users u', 'u.id = tu.user_id', 'LEFT');
-        $this->db->where('tu.training_id', $id); 
-        $this->db->where('tu.is_owner', 0);               
+        $this->db->where('tu.training_id', $id);
+        $this->db->where('tu.is_owner', 0);
         $result['cc_list'] = $this->db->get()->result();
 
         return $result;
     }*/
 
-    
+
 
     public function get_course_coordinator($trainingID){
         $this->db->select('tu.*, u.office_name, u.designation');
-        $this->db->from('training_users tu');        
+        $this->db->from('training_users tu');
         $this->db->join('users u', 'u.id = tu.user_id', 'LEFT');
-        $this->db->where('tu.training_id', $trainingID);             
+        $this->db->where('tu.training_id', $trainingID);
         $query = $this->db->get()->result();
 
         return $query;
@@ -1003,10 +1005,10 @@ class Evaluation_model extends CI_Model {
         $this->db->from('training_participant tp');
         $this->db->join('personal_datas ds', 'ds.id = tp.data_sheet_id', 'LEFT');
         // $this->db->join('organizations o', 'o.id = ds.curr_org_id', 'LEFT');
-        
+
         $this->db->join('divisions div', 'div.id = ds.division_id', 'LEFT');
-        
-        
+
+
         $this->db->join('unions uni', 'uni.id = ds.union_id', 'LEFT');
         $this->db->join('users u', 'u.id = tp.app_user_id', 'LEFT');
         $this->db->join('designation dg', 'dg.id = u.crrnt_desig_id', 'LEFT');
@@ -1035,8 +1037,8 @@ class Evaluation_model extends CI_Model {
         $query = $this->db->get()->result();
         //echo $this->db->last_query();
         return $query;
-    }  
-    */    
+    }
+    */
 
     public function get_participant_is_not_complete($trainingID) {
         $this->db->select('tp.*, u.crrnt_desig_id');
@@ -1068,10 +1070,10 @@ class Evaluation_model extends CI_Model {
         // echo $this->db->last_query();
         return $query;
     }
-    
+
     /*public function get_participant_check_duplicate($form_data) {
         $this->db->select('*');
-        $this->db->from('training_participant'); 
+        $this->db->from('training_participant');
         $this->db->where('data_sheet_id', $form_data['data_sheet_id']);
         $this->db->where('tran_mgmt_id', $form_data['tran_mgmt_id']);
         $result = $this->db->get()->result();
@@ -1109,8 +1111,8 @@ class Evaluation_model extends CI_Model {
     public function get_schedule($trainingID) {
         // result query
         $this->db->select('t.*, tr.trainer_name, tr.trainer_desig' );
-        $this->db->from('training_schedule t');  
-        $this->db->join('trainer_register tr', 'tr.id = t.trainer_id', 'LEFT');   
+        $this->db->from('training_schedule t');
+        $this->db->join('trainer_register tr', 'tr.id = t.trainer_id', 'LEFT');
         $this->db->where('t.training_id', $trainingID);
         $this->db->order_by('t.program_date', 'ASC');
         $query = $this->db->get()->result();
@@ -1120,8 +1122,8 @@ class Evaluation_model extends CI_Model {
     public function get_schedule_with_trainer($trainingID) {
         // result query
         $this->db->select('t.*, tr.trainer_name, tr.trainer_desig' );
-        $this->db->from('training_schedule t');  
-        $this->db->join('trainer_register tr', 'tr.id = t.trainer_id', 'LEFT');   
+        $this->db->from('training_schedule t');
+        $this->db->join('trainer_register tr', 'tr.id = t.trainer_id', 'LEFT');
         $this->db->where('t.training_id', $trainingID);
         $this->db->where('t.trainer_id !=', 0);
         $this->db->order_by('id', 'ASC');
@@ -1132,8 +1134,8 @@ class Evaluation_model extends CI_Model {
     public function get_schedule_details($trainingID, $scheduleID) {
         // result query
         $this->db->select('t.*, tr.trainer_name, tr.trainer_desig, tr.trainer_org_name');
-        $this->db->from('training_schedule t');  
-        $this->db->join('trainer_register tr', 'tr.id = t.trainer_id', 'LEFT');   
+        $this->db->from('training_schedule t');
+        $this->db->join('trainer_register tr', 'tr.id = t.trainer_id', 'LEFT');
         $this->db->where('t.training_id', $trainingID);
         $this->db->where('t.id', $scheduleID);
         $this->db->order_by('t.id', 'ASC');
@@ -1145,10 +1147,10 @@ class Evaluation_model extends CI_Model {
     /*public function get_honorarium($trainingID) {
         // result query
         $this->db->select('t.*, u.name_bn, d.desig_name');
-        $this->db->from('training_schedule t');  
-        $this->db->join('users u', 'u.id = t.trainer_id', 'LEFT');   
-        $this->db->join('designations d', 'd.id = u.crrnt_desig_id', 'LEFT');   
-        // $this->db->join('training tm', 'tm.id = t.training_id', 'LEFT');   
+        $this->db->from('training_schedule t');
+        $this->db->join('users u', 'u.id = t.trainer_id', 'LEFT');
+        $this->db->join('designations d', 'd.id = u.crrnt_desig_id', 'LEFT');
+        // $this->db->join('training tm', 'tm.id = t.training_id', 'LEFT');
         $this->db->where('t.trainer_id !=', 0);
         $this->db->where('u.user_type', 3);
 
@@ -1184,7 +1186,7 @@ class Evaluation_model extends CI_Model {
     }
 
     public function get_feedback_course_result($trainingID) {
-        // $this->db->select('*');        
+        // $this->db->select('*');
         $this->db->select('*');
         $this->db->from('training_feedback_course');
         $this->db->where('training_id', $trainingID);
@@ -1195,7 +1197,7 @@ class Evaluation_model extends CI_Model {
     }
 
     public function get_feedback_topic_result($trainingID, $topicID) {
-        // $this->db->select('*');        
+        // $this->db->select('*');
         $this->db->select('SUM(rate_concept_topic) AS concept_topic, SUM(rate_present_technique) AS present_technique, SUM(rate_use_tool) AS use_tool, SUM(rate_time_manage) AS time_manage, SUM(rate_que_ans_skill) AS skill, COUNT(id) as row_count');
         $this->db->from('training_feedback_topic');
         $this->db->where('training_id', $trainingID);
@@ -1213,13 +1215,13 @@ class Evaluation_model extends CI_Model {
         $this->db->select('u.id, ug.group_id, CONCAT(u.office_name, " (", u.designation, ")") AS text');
         $this->db->join('users_groups ug', 'ug.user_id = u.id', 'left');
         $this->db->join('groups g', 'g.id = ug.user_id', 'left');
-        // $this->db->where('ug.group_id', 9); 
+        // $this->db->where('ug.group_id', 9);
         // $this->db->or_where_in('ug.group_id', 9);
-        $this->db->having('ug.group_id', 9); 
+        $this->db->having('ug.group_id', 9);
         $this->db->having('u.id !=', $this->session->userdata('user_id'));
-        // $this->db->or_like('u.office_name', $this->input->get("q")); 
-        // $this->db->or_like('u.designation', $this->input->get("q")); 
-        // $this->db->limit(15);            
+        // $this->db->or_like('u.office_name', $this->input->get("q"));
+        // $this->db->or_like('u.designation', $this->input->get("q"));
+        // $this->db->limit(15);
         $query = $this->db->get("users u");
 
         foreach ($query->result_array() AS $rows) {

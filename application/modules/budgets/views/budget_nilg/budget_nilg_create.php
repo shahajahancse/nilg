@@ -1,9 +1,12 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
 <style>
-.chosen-single {
-    height: 30px !important;
-    border: 1px solid #00a59a !important;
-}
+    .chosen-single {
+        height: 30px !important;
+        border: 1px solid #00a59a !important;
+    }
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
 </style>
 
 <div class="page-content">
@@ -13,10 +16,6 @@
             <li><a href="<?=base_url('budget/budget_nilg_create')?>" class="active"><?=$module_name?></a></li>
             <li><?=$meta_title; ?></li>
         </ul>
-
-        <style type="text/css">
-        /*#appointment, #invitation { display: none; }*/
-        </style>
 
         <div class="row">
             <div class="col-md-12">
@@ -73,16 +72,16 @@
                                         </div>
                                         <br>
                                         <div class="col-md-4" style="margin-left: 15px;">
-                                            <label for="title" class="control-label">শিরোনাম : </label>
+                                            <label for="title" class="control-label">শিরোনাম : <span class="required">*</span> </label>
                                             <input type="text" class="form-control input-sm" name="title"
                                                 style="min-height: 33px;" value="" required>
                                         </div>
                                         <div class="col-md-4" style="margin-left: 15px;">
                                             <?php $session_year=$this->db->order_by('id','desc')->get('session_year')->result();?>
 
-                                            <label for="fcl_year" class="control-label">অর্থবছর</label>
-                                            <select name="fcl_year" id="fcl_year" class="form-control input-sm">
-                                                <option value="">নির্বাচন করুন</option>
+                                            <label for="fcl_year" class="control-label">অর্থবছর <span class="required">*</span></label>
+                                            <select name="fcl_year" id="fcl_year" class="form-control input-sm" required>
+                                                <option value='' selected>নির্বাচন করুন</option>
                                                 <?php foreach ($session_year as $key => $value) {
                                                         echo '<option value="'.$value->id.'">'.$value->session_name.'</option>';
                                                     } ?>
@@ -95,17 +94,17 @@
                                             <h4 class="semi-bold margin_left_15" style="margin-left: 2px;">বাজেট তালিকা
                                             </h4>
                                             <style type="text/css">
-                                            #appRowDiv td {
-                                                padding: 5px;
-                                                border-color: #ccc;
-                                            }
+                                                #appRowDiv td {
+                                                    padding: 5px;
+                                                    border-color: #ccc;
+                                                }
 
-                                            #appRowDiv th {
-                                                padding: 5px;
-                                                text-align: center;
-                                                border-color: #ccc;
-                                                color: black;
-                                            }
+                                                #appRowDiv th {
+                                                    padding: 5px;
+                                                    text-align: center;
+                                                    border-color: #ccc;
+                                                    color: black;
+                                                }
                                             </style>
                                             <div class="col-md-12">
                                                 <div class="col-md-12" style="margin:0px;padding:0px">

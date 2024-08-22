@@ -27,12 +27,12 @@ class Trainee extends REST_Controller {
             // dd($row);
             $data[$key]->is_answared = $this->Api_model->is_answerd_course_evaluation($row->id, $userID)['count'];
         }
-        $results = (array) $data;        
-        
+        $results = (array) $data;
+
         if(count($results)){
             $this->response(array('status'=> 'true', 'message' => 'data found', 'result'  => $results), REST_Controller::HTTP_OK);
         }else{
-            $this->response(array('status'=> 'false', 'message' => 'data not found', 'result'  => null), REST_Controller::HTTP_OK); 
+            $this->response(array('status'=> 'false', 'message' => 'data not found', 'result'  => null), REST_Controller::HTTP_OK);
         }
     }
 
@@ -43,13 +43,13 @@ class Trainee extends REST_Controller {
 
         // Get Data
         $data = $this->Api_model->answerd_course_evaluation_by_user($trainingID, $userID);
-        $results = (array) $data; 
-        
+        $results = (array) $data;
+
         // Response
         if(count($results)){
             $this->response(array('status'=> 'true', 'message' => 'data found', 'result'  => $results), REST_Controller::HTTP_OK);
         }else{
-            $this->response(array('status'=> 'false', 'message' => 'data not found', 'result'  => null), REST_Controller::HTTP_OK); 
+            $this->response(array('status'=> 'false', 'message' => 'data not found', 'result'  => null), REST_Controller::HTTP_OK);
         }
     }
 
@@ -94,7 +94,7 @@ class Trainee extends REST_Controller {
             $this->response(array('status'=> 'true', 'message' => 'Data insert successfully'), REST_Controller::HTTP_OK);
         }else{
             $this->response(array('status'=> 'false', 'message' => 'Something is wrong!'), REST_Controller::HTTP_OK);
-        }        
+        }
     }
 
     public function training_list_by_user_get(){
@@ -103,12 +103,12 @@ class Trainee extends REST_Controller {
 
         // Get Data
         $data = $this->Api_model->get_training_list_by_user($userID);
-        $results = (array) $data;        
-        
+        $results = (array) $data;
+
         if(count($results)){
             $this->response(array('status'=> 'true', 'message' => 'data found', 'result'  => $results), REST_Controller::HTTP_OK);
         }else{
-            $this->response(array('status'=> 'false', 'message' => 'data not found', 'result'  => null), REST_Controller::HTTP_OK); 
+            $this->response(array('status'=> 'false', 'message' => 'data not found', 'result'  => null), REST_Controller::HTTP_OK);
         }
     }
 
@@ -124,13 +124,13 @@ class Trainee extends REST_Controller {
             // dd($row);
             $data[$key]->is_answared = $this->Api_model->is_answerd_trainer_evaluation($row->id, $userID)['count'];
         }
-        $results = (array) $data;        
-        
+        $results = (array) $data;
+
         // Response
         if(count($results)){
             $this->response(array('status'=> 'true', 'message' => 'data found', 'result'  => $results), REST_Controller::HTTP_OK);
         }else{
-            $this->response(array('status'=> 'false', 'message' => 'data not found', 'result'  => null), REST_Controller::HTTP_OK); 
+            $this->response(array('status'=> 'false', 'message' => 'data not found', 'result'  => null), REST_Controller::HTTP_OK);
         }
     }
 
@@ -141,13 +141,13 @@ class Trainee extends REST_Controller {
 
         // Get Data
         $data = $this->Api_model->get_training_schedule_info_by_id($topicID);
-        $results = (array) $data;        
-        
+        $results = (array) $data;
+
         // Response
         if(count($results)){
             $this->response(array('status'=> 'true', 'message' => 'data found', 'result'  => $results), REST_Controller::HTTP_OK);
         }else{
-            $this->response(array('status'=> 'false', 'message' => 'data not found', 'result'  => null), REST_Controller::HTTP_OK); 
+            $this->response(array('status'=> 'false', 'message' => 'data not found', 'result'  => null), REST_Controller::HTTP_OK);
         }
     }
 
@@ -177,7 +177,7 @@ class Trainee extends REST_Controller {
             'rate_present_technique' => $rate_present_technique,
             'rate_present_technique_comment' => $rate_present_technique_comment,
             'rate_use_tool' => $rate_use_tool,
-            'rate_use_tool_comment' => $rate_use_tool_comment, 
+            'rate_use_tool_comment' => $rate_use_tool_comment,
             'rate_time_manage' => $rate_time_manage,
             'rate_time_manage_comment' => $rate_time_manage_comment,
             'rate_que_ans_skill' => $rate_que_ans_skill,
@@ -195,7 +195,7 @@ class Trainee extends REST_Controller {
             $this->response(array('status'=> 'true', 'message' => 'Data insert successfully'), REST_Controller::HTTP_OK);
         }else{
             $this->response(array('status'=> 'false', 'message' => 'Something is wrong!'), REST_Controller::HTTP_OK);
-        }        
+        }
     }
 
 
@@ -206,13 +206,13 @@ class Trainee extends REST_Controller {
 
         // Get Data
         $data = $this->Api_model->get_trainer_evaluation_result_by_user($trainingID, $userID);
-        $results = (array) $data; 
-        
+        $results = (array) $data;
+
         // Response
         if(count($results)){
             $this->response(array('status'=> 'true', 'message' => 'data found', 'result'  => $results), REST_Controller::HTTP_OK);
         }else{
-            $this->response(array('status'=> 'false', 'message' => 'data not found', 'result'  => null), REST_Controller::HTTP_OK); 
+            $this->response(array('status'=> 'false', 'message' => 'data not found', 'result'  => null), REST_Controller::HTTP_OK);
         }
     }
 }

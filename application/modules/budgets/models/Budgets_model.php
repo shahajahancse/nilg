@@ -67,27 +67,27 @@ class Budgets_model extends CI_Model {
     // Budget nilg data info
     public function get_budget_nilg_info($id)
     {
-      $this->db->select('
-                  budget_nilg.*,
-                  dpt.name_en,
-                  dpt.dept_name,
-                  dptu.name_bn as dpt_h_name_bn,
-                  dptu.name_en as dpt_h_name_en,
-                  dptu.name_en as dpt_h_signature,
-                  acu.name_bn as acu_h_name_bn,
-                  acu.name_en as acu_h_name_en,
-                  acu.name_en as acu_h_signature,
-                  crt.name_bn as crt_by_name_bn,
-                  crt.name_en as crt_by_name_en,
-                  crt.name_en as crt_by_signature,
-              ');
-      $this->db->from('budget_nilg');
-      $this->db->join('department dpt', 'budget_nilg.dept_id = dpt.id', 'left');
-      $this->db->join('users as dptu', 'budget_nilg.dpt_head_id = dptu.id', 'left');
-      $this->db->join('users as acu', 'budget_nilg.acc_head_id = acu.id', 'left');
-      $this->db->join('users as crt', 'budget_nilg.created_by = crt.id', 'left');
-      $this->db->where('budget_nilg.id', $id);
-      return $this->db->get()->row();
+        $this->db->select('
+                budget_nilg.*,
+                dpt.name_en,
+                dpt.dept_name,
+                dptu.name_bn as dpt_h_name_bn,
+                dptu.name_en as dpt_h_name_en,
+                dptu.name_en as dpt_h_signature,
+                acu.name_bn as acu_h_name_bn,
+                acu.name_en as acu_h_name_en,
+                acu.name_en as acu_h_signature,
+                crt.name_bn as crt_by_name_bn,
+                crt.name_en as crt_by_name_en,
+                crt.name_en as crt_by_signature,
+            ');
+        $this->db->from('budget_nilg');
+        $this->db->join('department dpt', 'budget_nilg.dept_id = dpt.id', 'left');
+        $this->db->join('users as dptu', 'budget_nilg.dpt_head_id = dptu.id', 'left');
+        $this->db->join('users as acu', 'budget_nilg.acc_head_id = acu.id', 'left');
+        $this->db->join('users as crt', 'budget_nilg.created_by = crt.id', 'left');
+        $this->db->where('budget_nilg.id', $id);
+        return $this->db->get()->row();
     }
     // End Budget nilg info
 
@@ -185,7 +185,7 @@ class Budgets_model extends CI_Model {
       $result['num_rows'] = $tmp[0]->count;
       return $result;
     }
- 
+
 
 
     public function get_chahida_potro($limit, $offset) {
@@ -216,7 +216,7 @@ class Budgets_model extends CI_Model {
 
     // report
 
-  
+
 
 
 
