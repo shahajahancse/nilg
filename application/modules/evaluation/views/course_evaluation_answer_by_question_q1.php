@@ -23,7 +23,7 @@
                 <?php echo $this->session->flashdata('success');;?>
               </div>
             <?php endif; ?>   
-
+ 
             <div class="row">
               <div class="col-md-12">
                 <span class="training-title"><?=func_training_title($info->id)?></span>
