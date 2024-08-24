@@ -54,7 +54,7 @@
 
                                     <div class="row form-row" style="font-size: 16px; color: black;">
 
-                                        <div class="col-md-12" style="display: flex;gap: 74px;padding-bottom: 7px;">
+                                        <div class="col-md-12" style="display: flex;gap: 34px; flex-wrap: wrap; padding-bottom: 7px;">
                                             <div style="width:fit-content;">
                                                 আবেদনকারীর নাম: <strong><?=$info->name_bn?></strong>
                                             </div>
@@ -113,44 +113,46 @@
                                                             name="total_amount" id="total_amount" readonly>
                                                     </div>
                                                 </div>
-                                                <table class="col-md-12" width="100%" border="1"
-                                                    style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
-                                                    <thead>
-                                                        <tr>
-                                                            <!-- <th width="30%">বাজেট হেড<span class="required">*</span></th> -->
-                                                            <th width="30%">শিরোনাম<span class="required">*</span></th>
-                                                            <th width="30%">কোড<span class="required">*</span></th>
-                                                            <th width="30%">পরিমাণ</th>
-                                                            <th width="10%">অ্যাকশন </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="tbody">
-                                                        <?php foreach($details as $details){
-                                                            ?>
-                                                        <tr>
-                                                            <td style="padding:0px 10px"><?=$details->budget_head_name?>
-                                                                <?=$details->name_bn?></td>
-                                                            <td style="padding:0px 10px"><?=$details->bd_code?></td>
-                                                            <td style="padding:0px 10px">
-                                                                <input type="hidden" name="head_id[]"
-                                                                    value="<?=$details->budget_head_id?>">
-                                                                <input type="hidden" name="head_sub_id[]"
-                                                                    value="<?=$details->budget_head_sub_id?>">
-                                                                <input value="<?=$details->amount?>" min="0"
-                                                                    type="number" onkeyup="calculateTotal()"
-                                                                    name="amount[]"
-                                                                    class="form-control amount input-sm">
-                                                            </td>
-                                                            <td style="padding:0px 10px"><a href="javascript:void(0)"
-                                                                    onclick="removeRow(this)"
-                                                                    class="btn btn-danger btn-sm"
-                                                                    style="padding: 3px;"><i class="fa fa-times"></i>
-                                                                    Remove</a></td>
-                                                        </tr>
-                                                        <?php }?>
-
-                                                    </tbody>
-                                                </table>
+                                                <div class="col-md-12 table-responsive">
+                                                    <table class="table table-hover" border="1"
+                                                        style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
+                                                        <thead>
+                                                            <tr>
+                                                                <!-- <th width="30%">বাজেট হেড<span class="required">*</span></th> -->
+                                                                <th width="30%">শিরোনাম<span class="required">*</span></th>
+                                                                <th width="30%">কোড<span class="required">*</span></th>
+                                                                <th width="30%">পরিমাণ</th>
+                                                                <th width="10%">অ্যাকশন </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="tbody">
+                                                            <?php foreach($details as $details){
+                                                                ?>
+                                                            <tr>
+                                                                <td style="padding:0px 10px"><?=$details->budget_head_name?>
+                                                                    <?=$details->name_bn?></td>
+                                                                <td style="padding:0px 10px"><?=$details->bd_code?></td>
+                                                                <td style="padding:0px 10px">
+                                                                    <input type="hidden" name="head_id[]"
+                                                                        value="<?=$details->budget_head_id?>">
+                                                                    <input type="hidden" name="head_sub_id[]"
+                                                                        value="<?=$details->budget_head_sub_id?>">
+                                                                    <input value="<?=$details->amount?>" min="0"
+                                                                        type="number" onkeyup="calculateTotal()"
+                                                                        name="amount[]"
+                                                                        class="form-control amount input-sm">
+                                                                </td>
+                                                                <td style="padding:0px 10px"><a href="javascript:void(0)"
+                                                                        onclick="removeRow(this)"
+                                                                        class="btn btn-danger btn-sm"
+                                                                        style="padding: 3px;"><i class="fa fa-times"></i>
+                                                                        Remove</a></td>
+                                                            </tr>
+                                                            <?php }?>
+    
+                                                        </tbody>
+                                                    </table>
+                                                </div>
 
                                                 <div class="col-md-12" style="margin-top: 20px; padding: 0px;">
                                                     <div class="form-group margin_top_10">

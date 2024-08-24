@@ -4,6 +4,7 @@
         height: 30px !important;
         border: 1px solid #00a59a !important;
     }
+
     input[type=number]::-webkit-inner-spin-button {
         -webkit-appearance: none;
     }
@@ -120,9 +121,9 @@
                                             </style>
 
                                             <div class="col-md-12" style="margin:0px;padding:0px">
-                                                <div class="col-md-4 margin_top_10" style="margin:0px;padding:0px">
+                                                <div class="col-md-4 m-b-5" style="margin:0px;padding:0px">
                                                     <label for="">বাজেট হেড নির্বাচন করুন</label>
-                                                    <select name="head" id="head_id" class="form-control"
+                                                    <select name="head" id="head_id" class="form-control" style="width: 100% !important;"
                                                         onchange="addNewRow(this.value)">
                                                         <option value="">বাজেট হেড নির্বাচন করুন</option>
                                                         <?php foreach ($budget_head_sub as $key => $value) {
@@ -131,17 +132,17 @@
                                                     </select>
                                                 </div>
 
-                                                <div class="col-md-4">
+                                                <div class="col-md-4 m-b-5">
                                                     <img id="loading" src="<?= base_url('img/loading.gif') ?>" style="height: 47px;margin-top: 14px;display: none;">
                                                 </div>
-                                                <div class="col-md-4">
+                                                <div class="col-md-4 m-b-5">
                                                     <label for="">সর্বমোট পরিমান</label>
                                                     <input type="number" class="form-control input-sm" name="total_amount" id="total_amount" readonly>
                                                 </div>
                                             </div>
 
-                                            <div class="table-responsive">
-                                                <table class="col-md-12" width="100%" border="1" style="border:1px solid #a09e9e;" id="appRowDiv">
+                                            <div class="col-md-12 table-responsive">
+                                                <table class="table table-hover " border="1" style="border:1px solid #a09e9e;" id="appRowDiv">
                                                     <thead>
                                                         <tr>
                                                             <th width="30%">বাজেট শিরোনাম<span class="required">*</span></th>

@@ -69,7 +69,7 @@
                                         </div>
                                     </div>
                                     <div class="row form-row" style="font-size: 16px; color: black;">
-                                        <div class="col-md-12" style="display: flex;gap: 74px;padding-bottom: 7px; flex-wrap: wrap;">
+                                        <div class="col-md-12" style="display: flex;gap: 34px;padding-bottom: 7px; flex-wrap: wrap;">
                                             <div style="width:fit-content;">
                                                 আবেদনকারীর নাম: <strong><?= $info->name_bn ?></strong>
                                             </div>
@@ -148,7 +148,7 @@
                                                 }
                                             </style>
                                             <div class="col-md-12 table-responsive">
-                                                <table class="col-md-12" width="100%" border="1"
+                                                <table class="table table-hover" border="1"
                                                     style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
                                                     <thead>
                                                         <tr>
