@@ -4,6 +4,7 @@
         height: 30px !important;
         border: 1px solid #00a59a !important;
     }
+
     input[type=number]::-webkit-inner-spin-button {
         -webkit-appearance: none;
     }
@@ -77,8 +78,8 @@
                                             </select>
                                         </div>
 
-                                        <div class="col-md-4" >
-                                            <?php $session_year=$this->db->order_by('id','desc')->get('session_year')->result();?>
+                                        <div class="col-md-4">
+                                            <?php $session_year = $this->db->order_by('id', 'desc')->get('session_year')->result(); ?>
 
                                             <label for="fcl_year" class="control-label">অর্থবছর</label>
                                             <select name="fcl_year" id="fcl_year" class="form-control input-sm">
@@ -95,35 +96,37 @@
                                         </div>
 
                                         <!-- head list -->
-                                        <table class="col-md-12" width="100%" border="1"
-                                            style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
-                                            <thead>
-                                                <tr>
-                                                    <th width="30%">বাজেট শিরোনাম </th>
-                                                    <th width="15%">বাজেট কোড</th>
-                                                    <th width="20%">পরিমাণ</th>
-                                                    <th width="20%">পরিমাণ</th>
-                                                    <th width="15%">অ্যাকশন </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="tbody">
-                                                <?php  foreach ($summary as $key => $data) {?>
-                                                <tr>
-                                                    <td style="padding:0px 10px"><?=$data->name_bn?></td>
-                                                    <td style="text-align:center"><?=$data->bd_code?></td>
-                                                    <td>
-                                                        <input type="hidden" name="head_sub_id[]" value="<?= $data->head_sub_id ?>">
-                                                        <input style="padding:0px; text-align:right" value="<?= $data->amount ?>" class="form-control input-sm" readonly>
-                                                    </td>
-                                                    <td>
-                                                        <input style="padding:0px; text-align:right" value="<?= $data->amount ?>" min="0" type="number" onkeyup="calculateTotal()" name="dpt_amt[]" class="form-control dpt_amt input-sm">
-                                                    </td>
-                                                    <td>...</td>
-                                                </tr>
-                                                <?php   } ?>
-
-                                            </tbody>
-                                        </table>
+                                         <div class="col-md-12 table-responsive">
+                                             <table class="table table-hover table-condensed"  border="1"
+                                                 style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
+                                                 <thead>
+                                                     <tr>
+                                                         <th width="30%">বাজেট শিরোনাম </th>
+                                                         <th width="15%">বাজেট কোড</th>
+                                                         <th width="20%">পরিমাণ</th>
+                                                         <th width="20%">পরিমাণ</th>
+                                                         <th width="15%">অ্যাকশন </th>
+                                                     </tr>
+                                                 </thead>
+                                                 <tbody id="tbody">
+                                                     <?php foreach ($summary as $key => $data) { ?>
+                                                         <tr>
+                                                             <td style="padding:0px 10px"><?= $data->name_bn ?></td>
+                                                             <td style="text-align:center"><?= $data->bd_code ?></td>
+                                                             <td>
+                                                                 <input type="hidden" name="head_sub_id[]" value="<?= $data->head_sub_id ?>">
+                                                                 <input style="padding:0px; text-align:right" value="<?= $data->amount ?>" class="form-control input-sm" readonly>
+                                                             </td>
+                                                             <td>
+                                                                 <input style="padding:0px; text-align:right" value="<?= $data->amount ?>" min="0" type="number" onkeyup="calculateTotal()" name="dpt_amt[]" class="form-control dpt_amt input-sm">
+                                                             </td>
+                                                             <td>...</td>
+                                                         </tr>
+                                                     <?php   } ?>
+     
+                                                 </tbody>
+                                             </table>
+                                         </div>
                                         <br><br>
                                         <div style='clear:both'></div>
                                         <div style='margin: 20px -6px;'>
@@ -145,15 +148,16 @@
 </div>
 
 <script>
-    function getHead(val){
-        var all_heads=<?php echo json_encode($heads);?>;
-        if(val==""){
+    function getHead(val) {
+        var all_heads = <?php echo json_encode($heads); ?>;
+        if (val == "") {
             return false;
         }
         var head = all_heads[val];
         addNewRow(head);
         disableOption(val);
     }
+
     function disableOption(value) {
         $('#head_id option[value="' + value + '"]').prop('disabled', true);
         $('#head_id').select2();

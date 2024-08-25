@@ -14,7 +14,7 @@
       $sl = 0;
       foreach ($results as $row):
         $sl++;
-  
+
         if ($row->status == 1) {
           $status = '<span class="btn btn-primary btn-xs btn-mini">এনাবল </span>';
         } else {
@@ -31,11 +31,11 @@
               <button class="btn btn-mini btn-primary">অ্যাকশন</button>
               <button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
               <ul class="dropdown-menu pull-right">
-  
+
                 <li><a href="<?php echo base_url('general_setting/sub_category_edit/' . $row->id) ?>" class="btn btn-mini btn-primary"><i class="fa fa-pencil-square"></i> এডিট করুন </a></li>
-  
+
                 <li><a href="<?php echo base_url('general_setting/sub_category_delete/' . $row->id) ?>" target="_blank" class="btn btn-mini btn-primary" onclick="return confirm('Are you sure you want to delete this sub category?');"><i class="fa fa-pencil-square"></i> ডিলিট করুন </a></li>
-  
+
               </ul>
             </div>
           </td>

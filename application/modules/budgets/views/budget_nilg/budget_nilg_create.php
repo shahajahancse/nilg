@@ -146,8 +146,8 @@
                                                         </thead>
                                                         <tbody id="tbody">
                                                             <?php foreach ($budget_head_sub as $key => $data) { ?>
-    
-    
+
+
                                                                 <tr>
                                                                     <td style="padding:0px 10px"><?= $data->name_bn ?></td>
                                                                     <td style="padding:0px 10px"><?= $data->bd_code ?></td>
@@ -167,7 +167,7 @@
                                                                             Remove</a></td>
                                                                 </tr>
                                                             <?php   } ?>
-    
+
                                                         </tbody>
                                                     </table>
                                                 </div>

@@ -145,15 +145,15 @@
                         <div class="btn-group">
                           <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> অ্যাকশন <span class="caret"></span> </a>
                           <ul class="dropdown-menu pull-right">
-  
+
                             <li><a href="<?= base_url('leave/edit/' . encrypt_url($row->id)); ?>">সংশোধন</a></li>
-  
+
                             <li style="font-family: sutonnymj"><a href="<?= base_url('leave/change_status/' . encrypt_url($row->id)); ?>"><span style="font-size:16px">gÄyi / bvgÄyi Kiæb</span></a></li>
-  
+
                             <?php if (!empty($row->file_name)) { ?>
                               <li><a target="_blank" href="<?= base_url('uploads/leave/' . $row->file_name); ?>">নথিপত্র</a></li>
                             <?php } ?>
-  
+
                             <li><a onclick="return confirm('আপনি সত্যিই  কি এই তথ্যটি ডাটাবেজ থেকে সম্পূর্ণভাবে মুছতে চান?');" href="<?= base_url('leave/delete/' . encrypt_url($row->id)); ?>">মুছে ফেলুন</a></li>
                           </ul>
                         </div>

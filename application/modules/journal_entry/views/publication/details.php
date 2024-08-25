@@ -1,32 +1,31 @@
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
 <style>
-   .chosen-single {
-    height: 30px !important;
-    border: 1px solid #00a59a !important;
-}
+    .chosen-single {
+        height: 30px !important;
+        border: 1px solid #00a59a !important;
+    }
 </style>
 
 <div class="page-content">
     <div class="content">
         <ul class="breadcrumb">
-            <li><a href="<?=base_url('dashboard')?>" class="active" > Dashboard </a></li>
-            <li><a href="<?=base_url('budget/budget_nilg_create')?>" class="active"><?=$module_name?></a></li>
-            <li><?=$meta_title; ?></li>
+            <li><a href="<?= base_url('dashboard') ?>" class="active"> Dashboard </a></li>
+            <li><a href="<?= base_url('budget/budget_nilg_create') ?>" class="active"><?= $module_name ?></a></li>
+            <li><?= $meta_title; ?></li>
 
         </ul>
 
         <style type="text/css">
-        /*#appointment, #invitation { display: none; }*/
+            /*#appointment, #invitation { display: none; }*/
         </style>
 
         <div class="row">
             <div class="col-md-12">
                 <div class="grid simple horizontal red">
                     <div class="grid-title">
-                        <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
+                        <h4><span class="semi-bold"><?= $meta_title; ?></span></h4>
                         <div class="pull-right">
-                            <a href="<?=base_url('journal_entry/publication_entry')?>"
+                            <a href="<?= base_url('journal_entry/publication_entry') ?>"
                                 class="btn btn-blueviolet btn-xs btn-mini">প্রকাশনা তালিকা</a>
                         </div>
                     </div>
@@ -67,9 +66,9 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 table-responsive">
                                 <table class="table table-hover table-bordered report" style="margin-top: 15px;">
-                                    <thead class="headding" >
+                                    <thead class="headding">
                                         <tr>
                                             <th rowspan="1" style="background-color: #b5dfe9 !important;">ক্রমিক নং</th>
                                             <th rowspan="1" style="background-color: #b5dfe9 !important;">বই নাম</th>
@@ -82,7 +81,7 @@
                                     <tbody>
                                         <?php foreach ($details as $key => $r) {
                                             //dd($r);
-                                            ?>
+                                        ?>
                                             <tr>
                                                 <td><?php echo eng2bng($key + 1); ?></td>
                                                 <td><?php echo $r->name_bn; ?></td>

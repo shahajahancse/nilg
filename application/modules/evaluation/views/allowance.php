@@ -212,7 +212,7 @@
                           $totalDA = $training->da * $duration;
                           $totalDAA = $training->tra_a * $duration;
                           $totalDAD = $training->dress;
-  
+
                           $gTotalTA += $training->ta;
                           $gTotalDA += $totalDA;
                           $gTotalDAA += $totalDAA;

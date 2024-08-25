@@ -30,7 +30,7 @@
               <table class="table table-hover table-bordered ">
                 <thead class="cf">
                   <tr>
-  
+
                     <th>অংশগ্রহণকারী </th>
                     <th>কোর্সের শিরোনাম</th>
                     <th>তারিখ</th>
@@ -50,7 +50,7 @@
                   $itme = date('h:i a', strtotime($get_training->time_start)) . ' - ' . date('h:i a', strtotime($get_training->time_end));
                   ?>
                   <tr>
-  
+
                     <td><?php echo $get_training->participant_name; ?></td>
                     <td><?php echo $get_training->course_title; ?></td>
                     <!-- <td><?php echo $get_training->course_title; ?></td> -->
@@ -68,7 +68,7 @@
                       <td><button type="submit" class="btn btn-primary">আপলোড</button></td>
                     </form>
                   </tr>
-  
+
                 </tbody>
               </table>
             </div>

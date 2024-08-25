@@ -45,7 +45,7 @@
 												?>
 												<img src="<?= $url ?>" width="150" class="image-center">
 												<div align="center"><span class='label label-success'><?= $info->status_name ?></span></div>
-	
+
 												<hr style="border: 1px solid #ccc;">
 												<label style="text-align: center;font-weight: bold;">ইউজার রোল</label>
 												<?php foreach ($currentGroups as $grp) { ?>
@@ -151,61 +151,63 @@
 									<a href="<?= base_url('my_profile/edit_employee_official/' . encrypt_url($info->id)) ?>" class="btn btn-blueviolet btn-xs btn-mini"> সম্পাদন করুন </a>
 								</div>
 
-								<table class="tg" width="100%">
-									<tr>
-										<td class="tg-khups">বর্তমান কর্মরত অফিসের নামঃ</td>
-										<td class="tg-ywa9"><?= $info->current_office_name ?></td>
-										<td class="tg-khups">প্রথম কর্মরত অফিসের নামঃ</td>
-										<td class="tg-ywa9"><?= $info->first_office_name ?></td>
-									</tr>
-									<tr>
-										<td class="tg-khups">বর্তমান চাকুরীতে দ্বায়িত্বপ্রাপ্ত পদবিঃ</td>
-										<td class="tg-ywa9"><?= $info->current_desig_name ?></td>
-										<td class="tg-khups">প্রথম চাকুরীতে দ্বায়িত্বপ্রাপ্ত পদবিঃ</td>
-										<td class="tg-ywa9"><?= $info->first_desig_name ?></td>
-									</tr>
-									<tr>
-										<td class="tg-khups">বর্তমান অফিসে যোগদানের তারিখঃ </td>
-										<td class="tg-ywa9"> <?= date_bangla_calender_format($info->crrnt_attend_date) ?></td>
-										<td class="tg-khups"> প্রথম চাকুরীতে যোগদানের তারিখঃ </td>
-										<td class="tg-ywa9"> <?= date_bangla_calender_format($info->first_attend_date) ?> </td>
-									</tr>
-
-									<tr>
-										<td class="tg-khups">চাকুরী স্থায়ী করনের তারিখঃ</td>
-										<td class="tg-ywa9"><?= date_bangla_calender_format($info->job_per_date) ?></td>
-										<td class="tg-khups">অবসর উত্তর ছুটিতে গমনের (পিআরএল) তারিখঃ</td>
-										<td class="tg-ywa9"><?= date_bangla_calender_format($info->prl_date) ?></td>
-									</tr>
-									<tr>
-										<td class="tg-khups">অবসর গ্রহণের তারিখঃ</td>
-										<td class="tg-ywa9"><?= date_bangla_calender_format($info->retirement_date) ?></td>
-										<td class="tg-khups"></td>
-										<td class="tg-ywa9"></td>
-									</tr>
-									<tr>
-										<td class="tg-khups">
-											ইতিপূর্বে যেসব কর্মস্থলে চাকুরী করেছেন তার বিবরণঃ</td>
-										<td class="tg-ywa9" colspan="3">
-											<?php if ($experience != NULL) { ?>
-												<table style="border-collapse:collapse; border:1px solid #ccc;width: 100%;">
-													<tr>
-														<th>প্রতিষ্ঠানের নাম</th>
-														<th>পদের নাম</th>
-														<th>মেয়াদকাল</th>
-													</tr>
-													<?php foreach ($experience as $exp) { ?>
+								<div class="table-responsive">
+									<table class="tg" width="100%">
+										<tr>
+											<td class="tg-khups">বর্তমান কর্মরত অফিসের নামঃ</td>
+											<td class="tg-ywa9"><?= $info->current_office_name ?></td>
+											<td class="tg-khups">প্রথম কর্মরত অফিসের নামঃ</td>
+											<td class="tg-ywa9"><?= $info->first_office_name ?></td>
+										</tr>
+										<tr>
+											<td class="tg-khups">বর্তমান চাকুরীতে দ্বায়িত্বপ্রাপ্ত পদবিঃ</td>
+											<td class="tg-ywa9"><?= $info->current_desig_name ?></td>
+											<td class="tg-khups">প্রথম চাকুরীতে দ্বায়িত্বপ্রাপ্ত পদবিঃ</td>
+											<td class="tg-ywa9"><?= $info->first_desig_name ?></td>
+										</tr>
+										<tr>
+											<td class="tg-khups">বর্তমান অফিসে যোগদানের তারিখঃ </td>
+											<td class="tg-ywa9"> <?= date_bangla_calender_format($info->crrnt_attend_date) ?></td>
+											<td class="tg-khups"> প্রথম চাকুরীতে যোগদানের তারিখঃ </td>
+											<td class="tg-ywa9"> <?= date_bangla_calender_format($info->first_attend_date) ?> </td>
+										</tr>
+	
+										<tr>
+											<td class="tg-khups">চাকুরী স্থায়ী করনের তারিখঃ</td>
+											<td class="tg-ywa9"><?= date_bangla_calender_format($info->job_per_date) ?></td>
+											<td class="tg-khups">অবসর উত্তর ছুটিতে গমনের (পিআরএল) তারিখঃ</td>
+											<td class="tg-ywa9"><?= date_bangla_calender_format($info->prl_date) ?></td>
+										</tr>
+										<tr>
+											<td class="tg-khups">অবসর গ্রহণের তারিখঃ</td>
+											<td class="tg-ywa9"><?= date_bangla_calender_format($info->retirement_date) ?></td>
+											<td class="tg-khups"></td>
+											<td class="tg-ywa9"></td>
+										</tr>
+										<tr>
+											<td class="tg-khups">
+												ইতিপূর্বে যেসব কর্মস্থলে চাকুরী করেছেন তার বিবরণঃ</td>
+											<td class="tg-ywa9" colspan="3">
+												<?php if ($experience != NULL) { ?>
+													<table style="border-collapse:collapse; border:1px solid #ccc;width: 100%;">
 														<tr>
-															<td><?= $exp->office_name; ?></td>
-															<td><?= $exp->desig_name; ?></td>
-															<td><?= $exp->exp_duration; ?></td>
+															<th>প্রতিষ্ঠানের নাম</th>
+															<th>পদের নাম</th>
+															<th>মেয়াদকাল</th>
 														</tr>
-													<?php } ?>
-												</table>
-											<?php } ?>
-										</td>
-									</tr>
-								</table>
+														<?php foreach ($experience as $exp) { ?>
+															<tr>
+																<td><?= $exp->office_name; ?></td>
+																<td><?= $exp->desig_name; ?></td>
+																<td><?= $exp->exp_duration; ?></td>
+															</tr>
+														<?php } ?>
+													</table>
+												<?php } ?>
+											</td>
+										</tr>
+									</table>
+								</div>
 							</div>
 						</div>
 
@@ -219,28 +221,30 @@
 									<a href="<?= base_url('my_profile/edit_trainee_promotion/' . encrypt_url($info->id)) ?>" class="btn btn-blueviolet btn-xs btn-mini"> সম্পাদন করুন </a>
 								</div>
 
-								<table class="tg2" width="100%">
-									<tr>
-										<td class="tg-khupCenter">প্রতিষ্ঠানের নাম</td>
-										<td class="tg-khupCenter">পদোন্নতি প্রাপ্ত পদবী</td>
-										<td class="tg-khupCenter">বেতনক্রম</td>
-										<td class="tg-khupCenter">মন্তব্য</td>
-									</tr>
-									<?php
-									if ($promotion != NULL) {
-										foreach ($promotion as $row) {
-									?>
-											<tr>
-												<td class="tg-ywa9" align="center"><?= $row->promo_org_name; ?></td>
-												<td class="tg-ywa9" align="center"><?= $row->promo_desig_name; ?></td>
-												<td class="tg-ywa9" align="center"><?= eng2bng($row->promo_salary_ratio); ?></td>
-												<td class="tg-ywa9" align="center"><?= $row->promo_comments; ?></td>
-											</tr>
-									<?php
+								<div class="table-responsive">
+									<table class="tg2" width="100%">
+										<tr>
+											<td class="tg-khupCenter">প্রতিষ্ঠানের নাম</td>
+											<td class="tg-khupCenter">পদোন্নতি প্রাপ্ত পদবী</td>
+											<td class="tg-khupCenter">বেতনক্রম</td>
+											<td class="tg-khupCenter">মন্তব্য</td>
+										</tr>
+										<?php
+										if ($promotion != NULL) {
+											foreach ($promotion as $row) {
+										?>
+												<tr>
+													<td class="tg-ywa9" align="center"><?= $row->promo_org_name; ?></td>
+													<td class="tg-ywa9" align="center"><?= $row->promo_desig_name; ?></td>
+													<td class="tg-ywa9" align="center"><?= eng2bng($row->promo_salary_ratio); ?></td>
+													<td class="tg-ywa9" align="center"><?= $row->promo_comments; ?></td>
+												</tr>
+										<?php
+											}
 										}
-									}
-									?>
-								</table>
+										?>
+									</table>
+								</div>
 							</div>
 						</div>
 
@@ -254,28 +258,30 @@
 									<a href="<?= base_url('my_profile/edit_trainee_education/' . encrypt_url($info->id)) ?>" class="btn btn-blueviolet btn-xs btn-mini"> সম্পাদন করুন </a>
 								</div>
 
-								<table class="tg2" width="100%">
-									<tr>
-										<td class="tg-khupCenter">পরীক্ষার নাম</td>
-										<td class="tg-khupCenter">বিষয়/বিভাগ</td>
-										<td class="tg-khupCenter">পাশের সন</td>
-										<td class="tg-khupCenter">বোর্ড / বিশ্ববিদ্যালয়</td>
-									</tr>
-									<?php
-									if ($education != NULL) {
-										foreach ($education as $row) {
-									?>
-											<tr>
-												<td class="tg-ywa9" align="center"><?= $row->exam_name; ?></td>
-												<td class="tg-ywa9" align="center"><?= $row->sub_name; ?></td>
-												<td class="tg-ywa9" align="center"><?= eng2bng($row->edu_pass_year); ?></td>
-												<td class="tg-ywa9" align="center"><?= $row->board_name; ?></td>
-											</tr>
-									<?php
+								<div class="table-responsive">
+									<table class="tg2" width="100%">
+										<tr>
+											<td class="tg-khupCenter">পরীক্ষার নাম</td>
+											<td class="tg-khupCenter">বিষয়/বিভাগ</td>
+											<td class="tg-khupCenter">পাশের সন</td>
+											<td class="tg-khupCenter">বোর্ড / বিশ্ববিদ্যালয়</td>
+										</tr>
+										<?php
+										if ($education != NULL) {
+											foreach ($education as $row) {
+										?>
+												<tr>
+													<td class="tg-ywa9" align="center"><?= $row->exam_name; ?></td>
+													<td class="tg-ywa9" align="center"><?= $row->sub_name; ?></td>
+													<td class="tg-ywa9" align="center"><?= eng2bng($row->edu_pass_year); ?></td>
+													<td class="tg-ywa9" align="center"><?= $row->board_name; ?></td>
+												</tr>
+										<?php
+											}
 										}
-									}
-									?>
-								</table>
+										?>
+									</table>
+								</div>
 							</div>
 						</div>
 
@@ -292,28 +298,30 @@
 									<a href="<?= base_url('my_profile/edit_nilg_training/' . encrypt_url($info->id)) ?>" class="btn btn-blueviolet btn-xs btn-mini"> সম্পাদন করুন </a>
 								</div>
 
-								<table class="tg2" width="100%">
-									<tr>
-										<td class="tg-khupCenter">কোর্সের নাম</td>
-										<td class="tg-khupCenter">প্রশিক্ষণে অংশগ্রহণকালিন সময়ে পদবী</td>
-										<td class="tg-khupCenter">ব্যাচ নং</td>
-										<td class="tg-khupCenter">সময়কাল</td>
-										<td class="tg-khupCenter">মেয়াদ</td>
-									</tr>
-									<?php
-									foreach ($nilg_training as $row) {
-									?>
+								<div class="table-responsive">
+									<table class="tg2" width="100%">
 										<tr>
-											<td class="tg-ywa9" align="center"><?= $row->participant_name . ' এর ' . $row->course_title; ?></td>
-											<td class="tg-ywa9" align="center"><?= $row->desig_name; ?></td>
-											<td class="tg-ywa9" align="center"><?= eng2bng($row->batch_no); ?></td>
-											<td class="tg-ywa9" align="center"><?= func_training_date_from_to($row->start_date, $row->end_date); ?></td>
-											<td class="tg-ywa9" align="center"><?= func_training_duration($row->start_date, $row->end_date); ?></td>
+											<td class="tg-khupCenter">কোর্সের নাম</td>
+											<td class="tg-khupCenter">প্রশিক্ষণে অংশগ্রহণকালিন সময়ে পদবী</td>
+											<td class="tg-khupCenter">ব্যাচ নং</td>
+											<td class="tg-khupCenter">সময়কাল</td>
+											<td class="tg-khupCenter">মেয়াদ</td>
 										</tr>
-									<?php
-									}
-									?>
-								</table>
+										<?php
+										foreach ($nilg_training as $row) {
+										?>
+											<tr>
+												<td class="tg-ywa9" align="center"><?= $row->participant_name . ' এর ' . $row->course_title; ?></td>
+												<td class="tg-ywa9" align="center"><?= $row->desig_name; ?></td>
+												<td class="tg-ywa9" align="center"><?= eng2bng($row->batch_no); ?></td>
+												<td class="tg-ywa9" align="center"><?= func_training_date_from_to($row->start_date, $row->end_date); ?></td>
+												<td class="tg-ywa9" align="center"><?= func_training_duration($row->start_date, $row->end_date); ?></td>
+											</tr>
+										<?php
+										}
+										?>
+									</table>
+								</div>
 							</div>
 						</div>
 
@@ -327,26 +335,28 @@
 									<a href="<?= base_url('my_profile/edit_local_training/' . encrypt_url($info->id)) ?>" class="btn btn-blueviolet btn-xs btn-mini"> সম্পাদন করুন </a>
 								</div>
 
-								<table class="tg2" width="100%">
-									<tr>
-										<td class="tg-khupCenter">কোর্সের নাম</td>
-										<td class="tg-khupCenter">প্রশিক্ষণ প্রদানকারী প্রতিষ্ঠানের নাম ও ঠিকানা</td>
-										<td class="tg-khupCenter">সময়কাল</td>
-										<td class="tg-khupCenter">মেয়াদ</td>
-									</tr>
-									<?php
-									foreach ($local_training as $row) {
-									?>
+								<div class="table-responsive">
+									<table class="tg2" width="100%">
 										<tr>
-											<td class="tg-ywa9" align="center"><?= $row->local_course_name; ?></td>
-											<td class="tg-ywa9" align="center"><?= $row->local_training_org_name_adds; ?></td>
-											<td class="tg-ywa9" align="center"><?= func_training_date_from_to($row->local_training_start, $row->local_training_end); ?></td>
-											<td class="tg-ywa9" align="center"><?= func_training_duration($row->local_training_start, $row->local_training_end); ?></td>
+											<td class="tg-khupCenter">কোর্সের নাম</td>
+											<td class="tg-khupCenter">প্রশিক্ষণ প্রদানকারী প্রতিষ্ঠানের নাম ও ঠিকানা</td>
+											<td class="tg-khupCenter">সময়কাল</td>
+											<td class="tg-khupCenter">মেয়াদ</td>
 										</tr>
-									<?php
-									}
-									?>
-								</table>
+										<?php
+										foreach ($local_training as $row) {
+										?>
+											<tr>
+												<td class="tg-ywa9" align="center"><?= $row->local_course_name; ?></td>
+												<td class="tg-ywa9" align="center"><?= $row->local_training_org_name_adds; ?></td>
+												<td class="tg-ywa9" align="center"><?= func_training_date_from_to($row->local_training_start, $row->local_training_end); ?></td>
+												<td class="tg-ywa9" align="center"><?= func_training_duration($row->local_training_start, $row->local_training_end); ?></td>
+											</tr>
+										<?php
+										}
+										?>
+									</table>
+								</div>
 							</div>
 						</div>
 
@@ -361,26 +371,28 @@
 									<a href="<?= base_url('my_profile/edit_forien_training/' . encrypt_url($info->id)) ?>" class="btn btn-blueviolet btn-xs btn-mini"> সম্পাদন করুন </a>
 								</div>
 
-								<table class="tg2" width="100%">
-									<tr>
-										<td class="tg-khupCenter">কোর্সের নাম</td>
-										<td class="tg-khupCenter">প্রশিক্ষণ প্রদানকারী প্রতিষ্ঠানের নাম ও ঠিকানা</td>
-										<td class="tg-khupCenter">সময়কাল</td>
-										<td class="tg-khupCenter">মেয়াদ</td>
-									</tr>
-									<?php
-									foreach ($foreign_training as $row) {
-									?>
+								<div class="table-responsive">
+									<table class="tg2" width="100%">
 										<tr>
-											<td class="tg-ywa9" align="center"><?= $row->foreign_course_name; ?></td>
-											<td class="tg-ywa9" align="center"><?= $row->foreign_training_org_name_adds; ?></td>
-											<td class="tg-ywa9" align="center"><?= func_training_date_from_to($row->foreign_training_start, $row->foreign_training_end); ?></td>
-											<td class="tg-ywa9" align="center"><?= func_training_duration($row->foreign_training_start, $row->foreign_training_end); ?></td>
+											<td class="tg-khupCenter">কোর্সের নাম</td>
+											<td class="tg-khupCenter">প্রশিক্ষণ প্রদানকারী প্রতিষ্ঠানের নাম ও ঠিকানা</td>
+											<td class="tg-khupCenter">সময়কাল</td>
+											<td class="tg-khupCenter">মেয়াদ</td>
 										</tr>
-									<?php
-									}
-									?>
-								</table>
+										<?php
+										foreach ($foreign_training as $row) {
+										?>
+											<tr>
+												<td class="tg-ywa9" align="center"><?= $row->foreign_course_name; ?></td>
+												<td class="tg-ywa9" align="center"><?= $row->foreign_training_org_name_adds; ?></td>
+												<td class="tg-ywa9" align="center"><?= func_training_date_from_to($row->foreign_training_start, $row->foreign_training_end); ?></td>
+												<td class="tg-ywa9" align="center"><?= func_training_duration($row->foreign_training_start, $row->foreign_training_end); ?></td>
+											</tr>
+										<?php
+										}
+										?>
+									</table>
+								</div>
 							</div>
 						</div>
 

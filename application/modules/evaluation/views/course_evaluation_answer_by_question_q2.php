@@ -43,7 +43,7 @@
                     <th>উত্তর</th>
                   </tr>
                 </thead>
-  
+
                 <tbody>
                   <?php
                   $sl = 0;
@@ -72,7 +72,7 @@
                     </tr>
                   <?php } ?>
                 </tbody>
-  
+
               </table>
             </div>
 

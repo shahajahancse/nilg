@@ -55,7 +55,7 @@
                     <th width="80">অ্যাকশন</th>
                   </tr>
                 </thead>
-  
+
                 <tbody>
                   <tr>
                     <td>১।</td>
@@ -112,7 +112,7 @@
                     </td>
                   </tr>
                 </tbody>
-  
+
               </table>
             </div>
 

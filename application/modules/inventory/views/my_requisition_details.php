@@ -181,7 +181,7 @@
             </div>
          </div>
 
-         <div class="modal-body body-modal">
+         <div class="modal-body body-modal table-responsive">
             <table class="table table-hover table-condensed" border="0" id="addRow">
                <tr>
                   <th>ক্রম</th>

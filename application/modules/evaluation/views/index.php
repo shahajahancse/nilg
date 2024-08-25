@@ -54,12 +54,12 @@
                   $sl = $pagination['current_page'];
                   foreach ($results as $row):
                     $sl++;
-  
+
                     $applicant = '';
                     if ($row->app['count'] > 0) {
                       $applicant = '<span class="badge badge-danger" style="top: 1px;">' . eng2bng($row->app['count']) . '</span>';
                     }
-  
+
                   ?>
                     <tr>
                       <td><?= $sl . '.' ?></td>
@@ -76,14 +76,14 @@
                             <li><?= anchor("training/details/" . $row->id, lang('common_details')) ?></li>
                             <li><?= anchor("training/edit/" . $row->id, lang('common_edit')) ?></li>
                             <li><?= anchor("training/participant_list/" . $row->id, 'অংশগ্রহণকারী তালিকা') ?></li>
-  
-  
+
+
                             <li><?= anchor("training/schedule/" . $row->id, 'প্রশিক্ষণ কর্মসূচী') ?></li>
                             <li><?= anchor("training/allowance/" . $row->id, 'প্রশিক্ষণ ভাতা') ?></li>
                             <li><?= anchor("training/allowance_dress/" . $row->id, 'পোষাক ভাতা') ?></li>
                             <li><?= anchor("training/honorarium/" . $row->id, 'সম্মানী ভাতার তালিকা') ?></li>
                             <li><?= anchor("training/generate_certificate/" . $row->id, 'জেনারেট সার্টিফিকেট') ?></li>
-  
+
                             <?php if ($this->ion_auth->is_admin()) { ?>
                               <li class="divider"></li>
                               <li><a href="<?= base_url("training/delete_training/" . $row->id) ?>" onclick="return confirm('Are you sure you want to delete this personal data?');"><?= lang('common_delete') ?></a></li>
@@ -91,9 +91,9 @@
                             <li><?= anchor("training/feedback_course/" . $row->id, 'কোর্স মূল্যায়ন ফরম') ?></li>
                             <li><?= anchor("training/feedback_course_result/" . $row->id, 'কোর্স মূল্যায়ন ফলাফল') ?></li>
                             <li><?= anchor("training/duplicate/" . $row->id, 'ডুপ্লিকেট') ?></li>
-  
+
                           </ul>
-  
+
                         </div>
                       </td>
                     </tr>

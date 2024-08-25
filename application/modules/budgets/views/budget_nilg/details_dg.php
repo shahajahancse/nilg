@@ -116,7 +116,7 @@
                                                 </div>
 
                                                 <div class="col-md-12 table-responsive">
-                                                    <table class="table table-hover"  border="1" style="border:1px solid #a09e9e;" id="appRowDiv">
+                                                    <table class="table table-hover" border="1" style="border:1px solid #a09e9e;" id="appRowDiv">
                                                         <thead>
                                                             <tr>
                                                                 <th width="">শিরোনাম<span class="required">*</span></th>

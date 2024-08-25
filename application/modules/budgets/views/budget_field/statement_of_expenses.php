@@ -112,7 +112,7 @@
                                             </style>
 
                                             <div class="table-responsive">
-                                                <table class="table table-hover"  border="1"
+                                                <table class="table table-hover" border="1"
                                                     style="border:1px solid #a09e9e;" id="appRowDiv">
                                                     <thead>
                                                         <tr>
