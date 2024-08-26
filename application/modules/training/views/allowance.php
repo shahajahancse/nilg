@@ -166,23 +166,23 @@
                             <?php } ?>
                           </tr>
                         </thead>
-  
+
                         <tbody>
-  
+
                           <?php
                           $i = 0;
                           $exp = '';
                           $totalDA = $totalDAA = $totalDAD = $gTotalTA = $gTotalDA = $gTotalDAA = $gTotalDAD = '';
                           foreach ($results as $row) {
                             $i++;
-  
+
                             $exp = explode(',', $row->office_name);
                             $officeName = $exp[0];
-  
+
                             $totalDA = $training->da * $duration;
                             $totalDAA = ($training->tra_a * ($duration - $changeDays)) + $changeVata;
                             $totalDAD = $training->dress;
-  
+
                             $gTotalTA += $training->ta;
                             $gTotalDA += $totalDA;
                             $gTotalDAA += $totalDAA;
@@ -199,7 +199,7 @@
                                 <?php } ?>
                                 <td class="tg-031e"><?= $row->dis_name_bn ?></td>
                               <?php } ?>
-  
+
                               <?php if ($training->ta > 0) { ?>
                                 <td class="tg-031e text-center"><?= eng2bng($training->ta) ?></td>
                               <?php } ?>
@@ -211,7 +211,7 @@
                               <?php } ?>
                             </tr>
                           <?php } ?>
-  
+
                           <tr>
                             <?php if (!in_array($training->lgi_type, array(6, 7, 9, 10))) { ?>
                               <?php if ($training->lgi_type != 8) { ?>

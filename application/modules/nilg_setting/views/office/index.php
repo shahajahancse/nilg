@@ -39,7 +39,7 @@
                     <input name="name" type="text" value="<?= set_value('name') ?>" class="form-control" placeholder="অফিসের নাম" style="min-height: 34px !important;">
                   </div>
                 </div>
-                <div class="col-md-1 p5" >
+                <div class="col-md-1 p5">
                   <?php
                   $more_attr = 'class="form-control input-sm" id="division"';
                   echo form_dropdown('division', $division, set_value('division'), $more_attr);

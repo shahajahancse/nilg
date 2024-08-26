@@ -212,7 +212,7 @@
 											<td class="tg-khups"> প্রথম চাকুরীতে যোগদানের তারিখঃ </td>
 											<td class="tg-ywa9"> <?= date_bangla_calender_format($info->first_attend_date) ?> </td>
 										</tr>
-	
+
 										<tr>
 											<td class="tg-khups">চাকুরী স্থায়ী করনের তারিখঃ</td>
 											<td class="tg-ywa9"><?= date_bangla_calender_format($info->job_per_date) ?></td>

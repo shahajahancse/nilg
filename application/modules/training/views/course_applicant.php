@@ -79,15 +79,15 @@
                     } else {
                       $status = 'যাচাই করা হয়নি';
                     }
-  
+
                     // Is Trainee apply
                     if ($row->is_apply) {
                       $apply = 'অনলাইন আবেদন';
                     } else {
                       $apply = 'অফিস অন্তর্ভূক্তি';
                     }
-  
-  
+
+
                   ?>
                     <tr>
                       <td><?= $sl . '.' ?></td>
@@ -102,7 +102,7 @@
                         <?php } else { ?>
                           <a href="<?= base_url('training/applicant_verification/' . encrypt_url($row->id)); ?>" class="btn btn-mini btn-primary"><i class="fa fa-file-text"></i> যাচাই করুন</a>
                         <?php } ?>
-  
+
                         <?php /*
                       <div class="btn-group pull-right">
                         <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> অ্যাকশন <span class="caret"></span> </a>
@@ -113,7 +113,7 @@
                         </ul>
                       </div>
                       */ ?>
-  
+
                       </td>
                     </tr>
                   <?php endforeach; ?>

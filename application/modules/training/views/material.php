@@ -137,47 +137,47 @@
                       }
                       ?></span>
 
-                      <div class="tableresponsive">
-                        <table class="tg" id="example">
-                          <thead>
-                            <tr>
-                              <th class="text-center">ক্রম</th>
-                              <th class="text-left">প্রশিক্ষণার্থীর নাম</th>
-                              <th class="text-left">বর্তমান পদবী</th>
-                              <th class="text-left">প্রতিষ্ঠানের নাম</th>
-                              <!-- <td class="text-left">পৌরসভা</td> -->
-                              <?php if ($training->type_id != 4) { ?>
-                                <th class="text-left">উপজেলা</th>
-                                <th class="text-left">জেলা</th>
-                              <?php } ?>
-                              <th class="text-left" width="150">স্বাক্ষর</th>
-                            </tr>
-    
-                          </thead>
-                          <tbody>
-                            <?php
-                            $i = 0;
-                            $exp = '';
-                            foreach ($results as $row) {
-                              $i++;
-                              $exp = explode(',', $row->office_name);
-                              $officeName = $exp[0];
-                            ?>
-                              <tr style="">
-                                <td class="text-center"><?= eng2bng($i) ?>.</td>
-                                <td class="text-left"><?= $row->name_bn ?></td>
-                                <td class="text-left"><?= $row->desig_name ?></td>
-                                <td class="text-left"><?= $officeName ?></td>
-                                <?php if ($training->type_id != 4) { ?>
-                                  <td class="text-left"><?= $row->upa_name_bn ?></td>
-                                  <td class="text-left"><?= $row->dis_name_bn ?></td>
-                                <?php } ?>
-                                <td class="text-left"></td>
-                              </tr>
+                    <div class="tableresponsive">
+                      <table class="tg" id="example">
+                        <thead>
+                          <tr>
+                            <th class="text-center">ক্রম</th>
+                            <th class="text-left">প্রশিক্ষণার্থীর নাম</th>
+                            <th class="text-left">বর্তমান পদবী</th>
+                            <th class="text-left">প্রতিষ্ঠানের নাম</th>
+                            <!-- <td class="text-left">পৌরসভা</td> -->
+                            <?php if ($training->type_id != 4) { ?>
+                              <th class="text-left">উপজেলা</th>
+                              <th class="text-left">জেলা</th>
                             <?php } ?>
-                          </tbody>
-                        </table>
-                      </div>
+                            <th class="text-left" width="150">স্বাক্ষর</th>
+                          </tr>
+
+                        </thead>
+                        <tbody>
+                          <?php
+                          $i = 0;
+                          $exp = '';
+                          foreach ($results as $row) {
+                            $i++;
+                            $exp = explode(',', $row->office_name);
+                            $officeName = $exp[0];
+                          ?>
+                            <tr style="">
+                              <td class="text-center"><?= eng2bng($i) ?>.</td>
+                              <td class="text-left"><?= $row->name_bn ?></td>
+                              <td class="text-left"><?= $row->desig_name ?></td>
+                              <td class="text-left"><?= $officeName ?></td>
+                              <?php if ($training->type_id != 4) { ?>
+                                <td class="text-left"><?= $row->upa_name_bn ?></td>
+                                <td class="text-left"><?= $row->dis_name_bn ?></td>
+                              <?php } ?>
+                              <td class="text-left"></td>
+                            </tr>
+                          <?php } ?>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>

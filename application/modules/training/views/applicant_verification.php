@@ -130,81 +130,85 @@
 								</div>
 								<br>
 
-								<table class="tg" width="100%">
-									<caption style="font-weight: bold; font-size: 16px;">আবেদনকারীর তথ্য</caption>
-									<tr>
-										<td class="tg-khup">নামঃ (বাংলা)</td>
-										<td class="tg-ywa9"><?= $info->name_bn ?></td>
-										<td class="tg-khup">নামঃ (ইংরেজি)</td>
-										<td class="tg-ywa9"><?= $info->name_en ?></td>
-									</tr>
-									<tr>
-										<td class="tg-khup">পিতার নামঃ</td>
-										<td class="tg-ywa9"><?= $info->father_name ?></td>
-										<td class="tg-khup">মাতার নামঃ</td>
-										<td class="tg-ywa9"><?= $info->mother_name ?></td>
-									</tr>
-									<tr>
-										<td class="tg-khup">এনআইডি নম্বরঃ</td>
-										<td class="tg-ywa9"><?= $info->nid ?></td>
-										<td class="tg-khup">জন্ম তারিখঃ</td>
-										<td class="tg-ywa9"><?= $info->dob ?></td>
-									</tr>
-									<tr>
-										<td class="tg-khup">মোবাইল নম্বরঃ</td>
-										<td class="tg-ywa9"><?= $info->mobile_no ?></td>
-										<td class="tg-khup">ই-মেইল অ্যাড্রেসঃ</td>
-										<td class="tg-ywa9"><?= $info->email ?></td>
-									</tr>
-									<tr>
-										<td class="tg-khup">ক্রিয়েটেড ডেটঃ</td>
-										<td class="tg-ywa9"><?= date('d F, Y', $info->created_on); ?></td>
-										<td class="tg-khup">আপডেটেড ডেটঃ</td>
-										<td class="tg-ywa9">
-											<?php
-											if ($info->modified != NULL) {
-												echo date('d F, Y', strtotime($info->modified));
-											}
-											?>
-										</td>
-									</tr>
-								</table>
+								<div class="table-responsive">
+									<table class="tg" width="100%">
+										<caption style="font-weight: bold; font-size: 16px;">আবেদনকারীর তথ্য</caption>
+										<tr>
+											<td class="tg-khup">নামঃ (বাংলা)</td>
+											<td class="tg-ywa9"><?= $info->name_bn ?></td>
+											<td class="tg-khup">নামঃ (ইংরেজি)</td>
+											<td class="tg-ywa9"><?= $info->name_en ?></td>
+										</tr>
+										<tr>
+											<td class="tg-khup">পিতার নামঃ</td>
+											<td class="tg-ywa9"><?= $info->father_name ?></td>
+											<td class="tg-khup">মাতার নামঃ</td>
+											<td class="tg-ywa9"><?= $info->mother_name ?></td>
+										</tr>
+										<tr>
+											<td class="tg-khup">এনআইডি নম্বরঃ</td>
+											<td class="tg-ywa9"><?= $info->nid ?></td>
+											<td class="tg-khup">জন্ম তারিখঃ</td>
+											<td class="tg-ywa9"><?= $info->dob ?></td>
+										</tr>
+										<tr>
+											<td class="tg-khup">মোবাইল নম্বরঃ</td>
+											<td class="tg-ywa9"><?= $info->mobile_no ?></td>
+											<td class="tg-khup">ই-মেইল অ্যাড্রেসঃ</td>
+											<td class="tg-ywa9"><?= $info->email ?></td>
+										</tr>
+										<tr>
+											<td class="tg-khup">ক্রিয়েটেড ডেটঃ</td>
+											<td class="tg-ywa9"><?= date('d F, Y', $info->created_on); ?></td>
+											<td class="tg-khup">আপডেটেড ডেটঃ</td>
+											<td class="tg-ywa9">
+												<?php
+												if ($info->modified != NULL) {
+													echo date('d F, Y', strtotime($info->modified));
+												}
+												?>
+											</td>
+										</tr>
+									</table>
+								</div>
 
 								<br>
-								<table class="tg" width="100%">
-									<caption style="font-weight: bold; font-size: 16px;">অফিসিয়াল বা দায়িত্বপ্রাপ্ত প্রতিষ্ঠানের তথ্য</caption>
-									<tr>
-										<td class="tg-khup">বর্তমান কর্মরত অফিসের নামঃ</td>
-										<td class="tg-ywa9"><?= $info->current_office_name ?></td>
-										<td class="tg-khup">প্রথম কর্মরত অফিসের নামঃ</td>
-										<td class="tg-ywa9"><?= $info->first_office_name ?></td>
-									</tr>
-									<tr>
-										<td class="tg-khup">বর্তমান চাকুরীতে দ্বায়িত্বপ্রাপ্ত পদবিঃ</td>
-										<td class="tg-ywa9"><?= $info->current_desig_name ?></td>
-										<td class="tg-khup">প্রথম চাকুরীতে দ্বায়িত্বপ্রাপ্ত পদবিঃ</td>
-										<td class="tg-ywa9"><?= $info->first_desig_name ?></td>
-									</tr>
-									<tr>
-										<td class="tg-khup">বর্তমান অফিসে যোগদানের তারিখঃ</td>
-										<td class="tg-ywa9"> <?= date_bangla_calender_format($info->crrnt_attend_date) ?></td>
-										<td class="tg-khup"> প্রথম চাকুরীতে যোগদানের তারিখঃ </td>
-										<td class="tg-ywa9"> <?= date_bangla_calender_format($info->first_attend_date) ?> </td>
-									</tr>
-
-									<tr>
-										<td class="tg-khup">চাকুরী স্থায়ী করনের তারিখঃ</td>
-										<td class="tg-ywa9"><?= date_bangla_calender_format($info->job_per_date) ?></td>
-										<td class="tg-khup">অবসর উত্তর ছুটিতে গমনের (পিআরএল) তারিখঃ</td>
-										<td class="tg-ywa9"><?= date_bangla_calender_format($info->prl_date) ?></td>
-									</tr>
-									<tr>
-										<td class="tg-khup">অবসর গ্রহণের তারিখঃ</td>
-										<td class="tg-ywa9"><?= date_bangla_calender_format($info->retirement_date) ?></td>
-										<td class="tg-khup"></td>
-										<td class="tg-ywa9"></td>
-									</tr>
-								</table>
+								<div class="table-responsive">
+									<table class="tg" width="100%">
+										<caption style="font-weight: bold; font-size: 16px;">অফিসিয়াল বা দায়িত্বপ্রাপ্ত প্রতিষ্ঠানের তথ্য</caption>
+										<tr>
+											<td class="tg-khup">বর্তমান কর্মরত অফিসের নামঃ</td>
+											<td class="tg-ywa9"><?= $info->current_office_name ?></td>
+											<td class="tg-khup">প্রথম কর্মরত অফিসের নামঃ</td>
+											<td class="tg-ywa9"><?= $info->first_office_name ?></td>
+										</tr>
+										<tr>
+											<td class="tg-khup">বর্তমান চাকুরীতে দ্বায়িত্বপ্রাপ্ত পদবিঃ</td>
+											<td class="tg-ywa9"><?= $info->current_desig_name ?></td>
+											<td class="tg-khup">প্রথম চাকুরীতে দ্বায়িত্বপ্রাপ্ত পদবিঃ</td>
+											<td class="tg-ywa9"><?= $info->first_desig_name ?></td>
+										</tr>
+										<tr>
+											<td class="tg-khup">বর্তমান অফিসে যোগদানের তারিখঃ</td>
+											<td class="tg-ywa9"> <?= date_bangla_calender_format($info->crrnt_attend_date) ?></td>
+											<td class="tg-khup"> প্রথম চাকুরীতে যোগদানের তারিখঃ </td>
+											<td class="tg-ywa9"> <?= date_bangla_calender_format($info->first_attend_date) ?> </td>
+										</tr>
+	
+										<tr>
+											<td class="tg-khup">চাকুরী স্থায়ী করনের তারিখঃ</td>
+											<td class="tg-ywa9"><?= date_bangla_calender_format($info->job_per_date) ?></td>
+											<td class="tg-khup">অবসর উত্তর ছুটিতে গমনের (পিআরএল) তারিখঃ</td>
+											<td class="tg-ywa9"><?= date_bangla_calender_format($info->prl_date) ?></td>
+										</tr>
+										<tr>
+											<td class="tg-khup">অবসর গ্রহণের তারিখঃ</td>
+											<td class="tg-ywa9"><?= date_bangla_calender_format($info->retirement_date) ?></td>
+											<td class="tg-khup"></td>
+											<td class="tg-ywa9"></td>
+										</tr>
+									</table>
+								</div>
 
 							</div>
 

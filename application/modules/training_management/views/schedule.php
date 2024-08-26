@@ -288,24 +288,24 @@
                           <td class="tg-031e">
                             <a href="<?= base_url('training_management/schedule_item_edit/' . $row->id) ?>" class="btn btn-primary btn-mini mini-btn-padding"> সংশোধন </a>
                             <a href="<?= base_url('training_management/schedule_item_delete/' . $row->id) ?>" class="btn btn-danger btn-mini mini-btn-padding" onclick="return confirm(' Are you sure you want to delete this data?');"> মুছে ফেলুন </a>
-                        </td>
-                        </tr>
-                      <?php } ?>
-                      </table>
-                    </div>
+                      </td>
+                      </tr>
+                    <?php } ?>
+                    </table>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
-          </div> <!-- /grid-body -->
-        </div>
+        </div> <!-- /grid-body -->
       </div>
-
     </div>
 
-
   </div>
+
+
+</div>
 </div>
 
 

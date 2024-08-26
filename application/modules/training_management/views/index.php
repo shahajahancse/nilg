@@ -75,7 +75,7 @@
                             <li><?= anchor("training_management/allowance_dress/" . $row->id, 'পোষাক ভাতা') ?></li>
                             <li><?= anchor("training_management/honorarium/" . $row->id, 'সম্মানী ভাতার তালিকা') ?></li>
                             <li><?= anchor("training_management/generate_certificate/" . $row->id, 'জেনারেট সার্টিফিকেট') ?></li>
-  
+
                             <?php if ($this->ion_auth->is_admin()) { ?>
                               <li class="divider"></li>
                               <li><a href="<?= base_url("training_management/delete_training/" . $row->id) ?>" onclick="return confirm('Are you sure you want to delete this personal data?');"><?= lang('common_delete') ?></a></li>
