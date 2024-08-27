@@ -38,8 +38,8 @@
                             </div>
                         <?php endif; ?>
 
-                        <?php $attributes = array('id' => 'jsvalidate');
-                            echo form_open_multipart("budgets/training_budgets_edit",$attributes); echo validation_errors();
+                        <?php $att = array('id' => 'jsvalidate');
+                            echo form_open_multipart("budgets/training_budgets_edit/".encrypt_url($budget_nilg->id), $att); echo validation_errors();
                         ?>
                             <div class="row">
                                 <div class="col-md-12"
@@ -182,6 +182,8 @@
                                                 </thead>
                                                 <tbody id="tbody">
                                                     <?php foreach ($results as $key => $value) { ?>
+                                                    <input type="hidden" name="details_id[]" value="<?=$value->id?>">
+                                                    <?php if (empty($value->token)) { ?>
                                                         <tr class="head_<?=$value->head_sub_id?>" data-id="<?=$value->head_sub_id?>">
                                                             <input type="hidden" name="head_sub_id[]" value="<?=$value->head_sub_id?>" >
                                                             <?php if ($value->head_sub_id != 2147483647) { ?>
@@ -192,13 +194,39 @@
                                                             <td><input type="number" value="<?=$value->amount?>" min="1" name="amount[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_amount"></td>
                                                             <?php } else { ?>
                                                             <td colspan="2"><?=$value->name_bn?></td>
-                                                            <td colspan="3"></td>
+                                                            <td colspan="3">
+                                                                <input type="hidden" value="1" name="participants[]">
+                                                                <input type="hidden" value="1" name="days[]">
+                                                                <input type="hidden" value="1" name="amount[]">
+                                                            </td>
                                                             <?php } ?>
 
-                                                            <td><input type="number" value="<?=$value->total_amt?>" min="1" name="total_amt[]" onkeyup="calculateTotal_tokens(this)" class="form-control amount input-sm token_amount_<?=$value->head_sub_id?>"></td>
+                                                            <td><input type="number" value="<?=$value->total_amt?>" min="1" name="total_amt[]" onkeyup="calculateTotal(this)" class="form-control amount input-sm token_amount_<?=$value->head_sub_id?>"></td>
                                                             <td><a href="javascript:void(0)" onclick="removeRow(this, <?=$value->head_sub_id?>, <?=$value->id?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
                                                         </tr>
-                                                    <?php } ?>
+                                                    <?php } else { $tokens = json_decode($value->token); ?>
+                                                        <?php foreach ($tokens->subHead as $key => $subHead) { if ($key == 0) { ?>
+                                                        <tr class="head_<?=$value->head_sub_id?> classThis" data-id="<?=$value->head_sub_id?>">
+                                                        <?php } else if ($key == count($tokens->subHead) - 1) { ?>
+                                                        <tr class="head_<?=$value->head_sub_id?> bottom_css" data-id="<?=$value->head_sub_id?>" >
+                                                        <?php } else { ?>
+                                                        <tr class="head_<?=$value->head_sub_id?> side_css" data-id="<?=$value->head_sub_id?>" >
+                                                        <?php } ?>
+                                                            <input type="hidden" name="head_sub_id[]" value="<?=$value->head_sub_id?>" >
+                                                            <td colspan="2"> <?=$tokens->subHead[$key]?> </td>
+                                                            <td><input type="number" value="<?=$tokens->participants[$key]?>" min="1" name="participants[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm participants"></td>
+                                                            <td><input type="number" value="<?=$tokens->days[$key]?>" min="1" name="days[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm days"></td>
+                                                            <td><input type="number" value="<?=$tokens->amount[$key]?>" min="1" name="amount[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_amount"></td>
+
+                                                            <td><input type="number" value="<?=$tokens->subTotal[$key]?>" min="1" name="total_amt[]" onkeyup="calculateTotal_tokens(this)" class="form-control amount input-sm token_amount_<?=$value->head_sub_id?>"></td>
+                                                            <?php if ($key == 0) { ?>
+                                                            <td><a href="javascript:void(0)" onclick="removeRow(this, <?=$value->head_sub_id?>, <?=$value->id?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
+                                                            <?php } else { ?>
+                                                            <td>...</td>
+                                                            <?php } ?>
+                                                        </tr>
+                                                        <?php } ?>
+                                                    <?php } } ?>
                                                 </tbody>
                                             </table>
 
