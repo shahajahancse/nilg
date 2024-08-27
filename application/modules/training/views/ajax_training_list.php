@@ -16,16 +16,16 @@
     <tbody>
       <?php
       if (!empty($results)) {
-  
+
         $sl = $pagination['current_page'];
         foreach ($results as $row):
           $sl++;
-  
+
           $applicant = '';
           if ($row->app['count'] > 0) {
             $applicant = '<span class="badge badge-danger" style="top: 1px;">' . eng2bng($row->app['count']) . '</span>';
           }
-  
+
       ?>
           <tr>
             <td><?= eng2bng($sl) . '।' ?></td>
@@ -53,21 +53,21 @@
                   <li><?= anchor("training/participant_list/" . $row->id, 'অংশগ্রহণকারী তালিকা') ?></li>
                   <li><?= anchor("training/schedule/" . $row->id, 'প্রশিক্ষণ কর্মসূচী') ?></li>
                   <li><?= anchor("training/allowance/" . $row->id, 'প্রশিক্ষণ ভাতা') ?></li>
-  
+
                   <?php $vata = $this->db->where('training_id', $row->id)->get('training_allowance_change')->row();
                   if ($row->tra_status == 1) { ?>
                     <li><a href="<?= base_url('training/training_allowance_changableEdit/' . $row->id) ?>"> প্রশিক্ষণ ভাতা পরিবর্তন</a></li>
                   <?php } else { ?>
                     <li><a href="<?= base_url('training/training_allowance_changable/' . $row->id) ?>"> প্রশিক্ষণ ভাতা পরিবর্তন</a></li>
                   <?php } ?>
-  
+
                   <li><?= anchor("training/allowance_dress/" . $row->id, 'পোষাক ভাতা') ?></li>
                   <li><?= anchor("training/material/" . $row->id, 'ট্রেনিং মেটেরিয়ালস') ?></li>
                   <li><?= anchor("training/honorarium/" . $row->id, 'সম্মানী ভাতার তালিকা') ?></li>
                   <li><?= anchor("training/marksheet/" . $row->id, 'প্রশিক্ষণার্থীর মার্কশীট') ?></li>
                   <li><?= anchor("training/generate_certificate/" . $row->id, 'জেনারেট সার্টিফিকেট') ?></li>
                   <li><?= anchor("training/duplicate/" . $row->id, 'ডুপ্লিকেট', 'onclick="return confirm(\'আপনি কি এই ট্রেনিংটি কপি করতে চান? কপি করার পর প্রয়োজনীয় তথ্য সংশোধন করে নিন।\');"') ?></li>
-  
+
                   <?php if ($this->ion_auth->is_admin()) { ?>
                     <li class="divider"></li>
                     <li><a href="<?= base_url("training/delete_training/" . $row->id) ?>" onclick="return confirm('Are you sure you want to delete this personal data?');"><?= lang('common_delete') ?></a></li>

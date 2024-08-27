@@ -1,49 +1,49 @@
 <style>
-   @media only screen and  (max-width: 1140px){
-    .tableresponsive {
-      width: 100%;
-      margin-bottom: 15px;
-      overflow-y: hidden;
-      overflow-x: scroll;
-      -webkit-overflow-scrolling: touch;
-      white-space: nowrap;
-    }
-}
-</style> 
+   @media only screen and (max-width: 1140px) {
+      .tableresponsive {
+         width: 100%;
+         margin-bottom: 15px;
+         overflow-y: hidden;
+         overflow-x: scroll;
+         -webkit-overflow-scrolling: touch;
+         white-space: nowrap;
+      }
+   }
+</style>
 
 <div class="page-content">
    <div class="content">
       <ul class="breadcrumb" style="margin-bottom: 20px;">
-         <li> <a href="<?=base_url('dashboard')?>" class="active"> ড্যাশবোর্ড </a> </li>
-         <li> <a href="javascript:void()" class="active"> <?=$module_name?> </a></li>
-         <li> <?=$meta_title;?> </li>
+         <li> <a href="<?= base_url('dashboard') ?>" class="active"> ড্যাশবোর্ড </a> </li>
+         <li> <a href="javascript:void()" class="active"> <?= $module_name ?> </a></li>
+         <li> <?= $meta_title; ?> </li>
       </ul>
 
       <div class="row">
          <div class="col-md-12">
             <div class="grid simple ">
                <div class="grid-title">
-                  <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
+                  <h4><span class="semi-bold"><?= $meta_title; ?></span></h4>
                   <div class="pull-right">
                      <?php if ($this->ion_auth->in_group(array('acc'))) { ?>
-                        <a href="<?=base_url('budgets/budget_field_details_template').'/'.encrypt_url(1)?>" class="btn btn-blueviolet btn-xs btn-mini">বাজেট টেমপ্লেট সম্পাদনা করুণ</a>
+                        <a href="<?= base_url('budgets/budget_field_details_template') . '/' . encrypt_url(1) ?>" class="btn btn-blueviolet btn-xs btn-mini">বাজেট টেমপ্লেট সম্পাদনা করুণ</a>
                      <?php } ?>
                      <?php if (!$this->ion_auth->in_group(array('uz', 'ddlg'))) { ?>
-                        <a href="<?=base_url('budgets/budget_field_create')?>" class="btn btn-blueviolet btn-xs btn-mini">বাজেট তৈরি করুণ</a>
-                        <a class="btn btn-blueviolet btn-xs btn-mini" href="<?php echo base_url('budgets/budget_field_clone/'.encrypt_url(1))?>"><i class="fa fa-pencil-square"></i>টেমপ্লেট ক্লোন করুন </a>
+                        <a href="<?= base_url('budgets/budget_field_create') ?>" class="btn btn-blueviolet btn-xs btn-mini">বাজেট তৈরি করুণ</a>
+                        <a class="btn btn-blueviolet btn-xs btn-mini" href="<?php echo base_url('budgets/budget_field_clone/' . encrypt_url(1)) ?>"><i class="fa fa-pencil-square"></i>টেমপ্লেট ক্লোন করুন </a>
                      <?php } ?>
                   </div>
                </div>
 
                <div class="grid-body tableresponsive">
-                  <?php if($this->session->flashdata('error')):?>
+                  <?php if ($this->session->flashdata('error')): ?>
                      <div class="alert alert-danger">
-                        <?=$this->session->flashdata('error');?>
+                        <?= $this->session->flashdata('error'); ?>
                      </div>
                   <?php endif; ?>
-                  <?php if($this->session->flashdata('success')):?>
+                  <?php if ($this->session->flashdata('success')): ?>
                      <div class="alert alert-success">
-                        <?=$this->session->flashdata('success');?>
+                        <?= $this->session->flashdata('success'); ?>
                      </div>
                   <?php endif; ?>
                   <table class="table table-hover table-condensed data_table" border="0">
@@ -61,21 +61,21 @@
                      </thead>
                      <tbody>
                         <?php
-                        $sl=$pagination['current_page'];
+                        $sl = $pagination['current_page'];
                         foreach ($results as $row):
                            $sl++;
                         ?>
-                        <tr>
-                           <td class="v-align-middle"><?=$sl.'.'?></td>
-                           <td class="v-align-middle"><?=$row->title; ?></td>
-                           <td class="v-align-middle"><?=$row->code; ?></td>
-                           <td class="v-align-middle"><?=$row->amount; ?></td>
-                           <td class="v-align-middle"><?=$row->office_name; ?></td>
+                           <tr>
+                              <td class="v-align-middle"><?= $sl . '.' ?></td>
+                              <td class="v-align-middle"><?= $row->title; ?></td>
+                              <td class="v-align-middle"><?= $row->code; ?></td>
+                              <td class="v-align-middle"><?= $row->amount; ?></td>
+                              <td class="v-align-middle"><?= $row->office_name; ?></td>
 
-                           <!-- <td class="v-align-middle" style="width: 200px; white-space: normal;overflow: hidden" title="<?=$row->description; ?>"><?=$row->description; ?></td> -->
-                          <!-- <td class="v-align-middle"> -->
-                           <!-- 1=pending,2=dpt. app., 3=reject, 4=acc., 5=dg, 6=draft, 7=revenue received -->
-                              <?php 
+                              <!-- <td class="v-align-middle" style="width: 200px; white-space: normal;overflow: hidden" title="<?= $row->description; ?>"><?= $row->description; ?></td> -->
+                              <!-- <td class="v-align-middle"> -->
+                              <!-- 1=pending,2=dpt. app., 3=reject, 4=acc., 5=dg, 6=draft, 7=revenue received -->
+                              <?php
                               // if($row->status==1){
                               //    echo '<span class="label label-warning">Pending </span>';
                               // }elseif($row->status==2){
@@ -92,51 +92,51 @@
                               //    echo '<span class="label label-success">Revenue Received </span>';
                               // }
                               ?>
-                           <!-- </td> -->
+                              <!-- </td> -->
 
-                           <td class="v-align-middle"><?=date_bangla_calender_format($row->created_at); ?>
-                           </td>
-                           <td align="right">
-                              <div class="btn-group" style="display: flex;flex-direction: row;">
-                                <button class="btn btn-mini btn-primary">অ্যাকশন</button>
-                                <button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
-                                <ul class="dropdown-menu pull-right">
-                                    <?php
-                                     //if ($this->ion_auth->in_group(array('uz', 'ddlg'))){
-                                       ?>
-                                       <li><a href="<?php echo base_url('budgets/budget_field_print/'.encrypt_url($row->id))?>/no" target="_blank"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
-                                       <li><a href="<?php echo base_url('budgets/budget_field_print/'.encrypt_url($row->id))?>" target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট </a></li>
-                                       <li><a href="<?php echo base_url('budgets/budget_field_statement_of_expenses/'.encrypt_url($row->id))?>/no" target="_blank"><i class="fa fa-hand-o-right"></i> ব্যয় বিবরণী  </a></li>
-                                       <li><a href="<?php echo base_url('budgets/budget_field_statement_of_expenses_print/'.encrypt_url($row->id))?>/no" target="_blank"><i class="fa fa-hand-o-right"></i> ব্যয় বিবরণী প্রিন্ট </a></li>
+                              <td class="v-align-middle"><?= date_bangla_calender_format($row->created_at); ?>
+                              </td>
+                              <td align="right">
+                                 <div class="btn-group" style="display: flex;flex-direction: row;">
+                                    <button class="btn btn-mini btn-primary">অ্যাকশন</button>
+                                    <button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
+                                    <ul class="dropdown-menu pull-right">
                                        <?php
-                                    // } else{
+                                       //if ($this->ion_auth->in_group(array('uz', 'ddlg'))){
                                        ?>
-                                  <li><a href="<?php echo base_url('budgets/budget_field_details/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> সম্পাদনা করুন </a></li>
-                                  <li><a href="<?php echo base_url('budgets/budget_field_clone/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i>ক্লোন করুন </a></li>
-                                  <!-- <li><a href="<?php echo base_url('budgets/budget_field_print/'.encrypt_url($row->id))?>" target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট করুন</a></li> -->
-                                 <?php
-                              // }
-                               ?>
-                                 </ul>
-                              </div>
-                           </td>
-                        </tr>
-                     <?php endforeach;?>
-                  </tbody>
-               </table>
-               <div class="row">
-                  <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> সর্বমোট <span style="color: green; font-weight: bold;"><?php echo eng2bng($total_rows); ?> বাজেট  </span></div>
-                  <div class="col-sm-8 col-md-8 text-right">
-                     <?php echo $pagination['links']; ?>
+                                       <li><a href="<?php echo base_url('budgets/budget_field_print/' . encrypt_url($row->id)) ?>/no" target="_blank"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
+                                       <li><a href="<?php echo base_url('budgets/budget_field_print/' . encrypt_url($row->id)) ?>" target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট </a></li>
+                                       <li><a href="<?php echo base_url('budgets/budget_field_statement_of_expenses/' . encrypt_url($row->id)) ?>/no" target="_blank"><i class="fa fa-hand-o-right"></i> ব্যয় বিবরণী </a></li>
+                                       <li><a href="<?php echo base_url('budgets/budget_field_statement_of_expenses_print/' . encrypt_url($row->id)) ?>/no" target="_blank"><i class="fa fa-hand-o-right"></i> ব্যয় বিবরণী প্রিন্ট </a></li>
+                                       <?php
+                                       // } else{
+                                       ?>
+                                       <li><a href="<?php echo base_url('budgets/budget_field_details/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> সম্পাদনা করুন </a></li>
+                                       <li><a href="<?php echo base_url('budgets/budget_field_clone/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i>ক্লোন করুন </a></li>
+                                       <!-- <li><a href="<?php echo base_url('budgets/budget_field_print/' . encrypt_url($row->id)) ?>" target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট করুন</a></li> -->
+                                       <?php
+                                       // }
+                                       ?>
+                                    </ul>
+                                 </div>
+                              </td>
+                           </tr>
+                        <?php endforeach; ?>
+                     </tbody>
+                  </table>
+                  <div class="row">
+                     <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> সর্বমোট <span style="color: green; font-weight: bold;"><?php echo eng2bng($total_rows); ?> বাজেট </span></div>
+                     <div class="col-sm-8 col-md-8 text-right">
+                        <?php echo $pagination['links']; ?>
+                     </div>
                   </div>
+
                </div>
 
             </div>
-
          </div>
       </div>
-   </div>
 
-</div> <!-- END Content -->
+   </div> <!-- END Content -->
 
 </div>

@@ -72,7 +72,7 @@
                     } elseif ($row->org_type == 3) {
                       $orgType = 'সহযোগী সংস্থা (ওয়াটার এইড)';
                     }
-  
+
                     // Status
                     $status = $row->status == "1" ? "<span class='label label-success'>এনাবল</span>" : "<span class='label label-success'>ডিজেবল</span>";
                   ?>

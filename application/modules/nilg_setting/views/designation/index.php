@@ -76,7 +76,7 @@
                   $sl = $pagination['current_page'];
                   foreach ($results as $row) {
                     $sl++;
-  
+
                     $status = $row->status == "1" ? "<span class='label label-success'>এনাবল</span>" : "<span class='label label-success'>ডিজেবল</span>";
                   ?>
                     <tr>

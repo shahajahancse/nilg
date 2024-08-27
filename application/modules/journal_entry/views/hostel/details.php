@@ -1,32 +1,31 @@
-
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
 <style>
-   .chosen-single {
-    height: 30px !important;
-    border: 1px solid #00a59a !important;
-}
+    .chosen-single {
+        height: 30px !important;
+        border: 1px solid #00a59a !important;
+    }
 </style>
 
 <div class="page-content">
     <div class="content">
         <ul class="breadcrumb">
-            <li><a href="<?=base_url('dashboard')?>" class="active" > Dashboard </a></li>
-            <li><a href="<?=base_url('journal_entry/hostel_entry')?>" class="active"><?=$module_name?></a></li>
-            <li><?=$meta_title; ?></li>
+            <li><a href="<?= base_url('dashboard') ?>" class="active"> Dashboard </a></li>
+            <li><a href="<?= base_url('journal_entry/hostel_entry') ?>" class="active"><?= $module_name ?></a></li>
+            <li><?= $meta_title; ?></li>
 
         </ul>
 
         <style type="text/css">
-        /*#appointment, #invitation { display: none; }*/
+            /*#appointment, #invitation { display: none; }*/
         </style>
 
         <div class="row">
             <div class="col-md-12">
                 <div class="grid simple horizontal red">
                     <div class="grid-title">
-                        <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
+                        <h4><span class="semi-bold"><?= $meta_title; ?></span></h4>
                         <div class="pull-right">
-                            <a href="<?=base_url('journal_entry/hostel_entry')?>"
+                            <a href="<?= base_url('journal_entry/hostel_entry') ?>"
                                 class="btn btn-blueviolet btn-xs btn-mini">তালিকা</a>
                         </div>
                     </div>
@@ -48,7 +47,7 @@
                         <div class="row">
                             <br>
                             <div class="col-md-2">
-                                <strong>সিরিয়াল নাঃ <span><?=$row->session_year.'-'.$row->id; ?></span></strong>
+                                <strong>সিরিয়াল নাঃ <span><?= $row->session_year . '-' . $row->id; ?></span></strong>
                             </div>
                             <div class="col-md-3">
                                 <strong>নাম : <span><?= $row->name ?></span></strong>
@@ -65,9 +64,9 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12 table-responsive">
                                 <table class="table table-hover table-bordered report" style="margin-top: 15px;">
-                                    <thead class="headding" >
+                                    <thead class="headding">
                                         <tr>
                                             <th rowspan="1" style="background-color: #c4d5d9 !important;">ক্রমিক নং</th>
                                             <th rowspan="1" style="background-color: #c4d5d9 !important;">নাম</th>

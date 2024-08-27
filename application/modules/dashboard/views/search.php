@@ -9,57 +9,61 @@
           <div class="grid-body">
             <?php $this->load->view('filter'); ?>
 
-            <table class="table table-hover table-condensed">
-              <thead class="cf">
-                <tr>
-                  <th>ক্রম</th>
-                  <th>এনআইডি/ইউজারনেম</th>  
-                  <th>নাম</th>
-                  <th>মোবাইল নং</th>
-                  <th>বর্তমান পদবি</th>                
-                  <th>অফিসের নাম</th>
-                  <th>ইউজার গ্রুপ</th>
-                  <th width="50">স্ট্যাটাস</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php 
-                $sl = $pagination['current_page'];
-                foreach ($users as $user):
-                  $sl++;                
-                $status = ($user->active) ? '<span class="badge badge-success">এনাবল</span>' : '<span class="badge badge-danger">ডিজেবল</span>';
-                ?>
-                <tr>
-                  <td><?=eng2bng($sl).'.'?></td>
-                  <td><strong><sapn style="font-family: 'Open Sans', Arial, sans-serif;"> <?php echo $user->username;?></sapn></strong></td>
-                  <td> <strong><?=$user->name_bn?></strong> </td>
-                  <td class='font-opensans'> <?=$user->mobile_no?> </td>
-                  <td><?=$user->desig_name?></td>
-                  <td><?=$user->office_name?></td>
-                  <td>
-                    <?php 
-                    foreach ($user->groups as $group):
-                      echo '<span class="label label-info" style="margin-right:5px;margin-bottom:5px;">'.$group->description.'</span><br>';
-                    endforeach;
-                    ?>                    
-                  </td>
-                  <td><?php echo $status?></td>
-                </tr>
-              <?php endforeach;?>
-            </tbody>
-          </table>
-
-          <div class="row">
-            <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> মোট <span style="color: green; font-weight: bold;"><?=eng2bng($total_rows)?> জন ব্যাবহারকারী </span></div>
-            <div class="col-sm-8 col-md-8 text-right">
-              <?php echo $pagination['links']; ?>
+            <div class="table-responsive">
+              <table class="table table-hover table-condensed">
+                <thead class="cf">
+                  <tr>
+                    <th>ক্রম</th>
+                    <th>এনআইডি/ইউজারনেম</th>
+                    <th>নাম</th>
+                    <th>মোবাইল নং</th>
+                    <th>বর্তমান পদবি</th>
+                    <th>অফিসের নাম</th>
+                    <th>ইউজার গ্রুপ</th>
+                    <th width="50">স্ট্যাটাস</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                  $sl = $pagination['current_page'];
+                  foreach ($users as $user):
+                    $sl++;
+                    $status = ($user->active) ? '<span class="badge badge-success">এনাবল</span>' : '<span class="badge badge-danger">ডিজেবল</span>';
+                  ?>
+                    <tr>
+                      <td><?= eng2bng($sl) . '.' ?></td>
+                      <td><strong>
+                          <sapn style="font-family: 'Open Sans', Arial, sans-serif;"> <?php echo $user->username; ?></sapn>
+                        </strong></td>
+                      <td> <strong><?= $user->name_bn ?></strong> </td>
+                      <td class='font-opensans'> <?= $user->mobile_no ?> </td>
+                      <td><?= $user->desig_name ?></td>
+                      <td><?= $user->office_name ?></td>
+                      <td>
+                        <?php
+                        foreach ($user->groups as $group):
+                          echo '<span class="label label-info" style="margin-right:5px;margin-bottom:5px;">' . $group->description . '</span><br>';
+                        endforeach;
+                        ?>
+                      </td>
+                      <td><?php echo $status ?></td>
+                    </tr>
+                  <?php endforeach; ?>
+                </tbody>
+              </table>
             </div>
-          </div>
+
+            <div class="row">
+              <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> মোট <span style="color: green; font-weight: bold;"><?= eng2bng($total_rows) ?> জন ব্যাবহারকারী </span></div>
+              <div class="col-sm-8 col-md-8 text-right">
+                <?php echo $pagination['links']; ?>
+              </div>
+            </div>
 
 
-          <?php 
-        /*
- <table class="table table-hover table-condensed">
+            <?php
+            /*
+            <table class="table table-hover table-condensed">
               <thead>
                 <tr>
                   <th>ক্রম</th>                  
@@ -118,5 +122,5 @@
       </div>
       */ ?>
 
-    </div>
-  </div>
+          </div>
+        </div>

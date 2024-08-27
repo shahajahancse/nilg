@@ -18,18 +18,18 @@
 							<select name="course_name_id" class="form-control" onchange="this.form.submit()">
 								<option value=""><?= lang('select') ?></option>
 								<?php foreach ($course_name_id[2] as $value) {
-	
+
 									if ($value['id'] == $_POST['course_name_id'])
 										$checkval = 'selected="selected"';
 									else
 										$checkval = '';
 								?>
-	
+
 									<option <?= $checkval ?> value="<?php echo $value['id']; ?>"><?php echo $value['course_name'] ?></option>
 								<?php } ?>
 							</select>
-	
-	
+
+
 						</td>
 						<td>&nbsp;</td>
 						<td width="100" align="right"><?= lang('prosikkhon_start_date') ?>&nbsp;&nbsp;</td>

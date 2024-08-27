@@ -2,9 +2,10 @@
   <div class="content">
     <!-- <div class="page-title"> <i class="fa fa-dashboard"></i>
       <h3>ড্যাশবোর্ড</h3>
-    </div> -->    
+    </div> -->
 
-    <?php //$this->load->view('filter'); ?>
+    <?php //$this->load->view('filter'); 
+    ?>
 
     <div class="row">
       <div class="col-md-3 m-b-20">
@@ -16,7 +17,7 @@
           </div>
           <div class="col-md-8 no-padding">
             <div class="tiles white text-center">
-              <h2 class="semi-bold text-error no-margin" style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;"> <?=eng2bng($totalData->count)?></h2>
+              <h2 class="semi-bold text-error no-margin" style="padding-top: 6px; padding-bottom: 6px;font-family: 'Kalpurush'; font-size: 25px;"> <?= eng2bng($totalData->count) ?></h2>
               <div class="tiles-title red m-b-5">প্রশিক্ষণার্থী</div>
               <div class="clearfix"></div>
             </div>
@@ -33,7 +34,7 @@
           </div>
           <div class="col-md-8 no-padding">
             <div class="tiles white text-center">
-              <h2 class="semi-bold text-error no-margin" style="padding-top: 6px; padding-bottom: 6px; font-family: 'Kalpurush'; font-size: 25px;"><?=eng2bng($totalTraining)?></h2>
+              <h2 class="semi-bold text-error no-margin" style="padding-top: 6px; padding-bottom: 6px; font-family: 'Kalpurush'; font-size: 25px;"><?= eng2bng($totalTraining) ?></h2>
               <div class="tiles-title blend m-b-5">প্রশিক্ষণ</div>
               <div class="clearfix"></div>
             </div>
@@ -50,7 +51,7 @@
           </div>
           <div class="col-md-8 no-padding">
             <div class="tiles white text-center">
-              <h2 class="semi-bold text-error no-margin" style="padding-top: 6px; padding-bottom: 6px; font-family: 'Kalpurush'; font-size: 25px;"><?=eng2bng($totalOfficeUser)?></h2>
+              <h2 class="semi-bold text-error no-margin" style="padding-top: 6px; padding-bottom: 6px; font-family: 'Kalpurush'; font-size: 25px;"><?= eng2bng($totalOfficeUser) ?></h2>
               <div class="tiles-title blend m-b-5">অফিস ইউজার</div>
               <div class="clearfix"></div>
             </div>
@@ -69,7 +70,7 @@
           </div>
           <div class="col-md-8 no-padding">
             <div class="tiles white text-center">
-              <h2 class="semi-bold text-error no-margin" style="padding-top: 6px; padding-bottom: 6px; font-family: 'Kalpurush'; font-size: 25px;"><?=eng2bng($totalOffice)?></h2>
+              <h2 class="semi-bold text-error no-margin" style="padding-top: 6px; padding-bottom: 6px; font-family: 'Kalpurush'; font-size: 25px;"><?= eng2bng($totalOffice) ?></h2>
               <div class="tiles-title blend m-b-5">অফিস</div>
               <div class="clearfix"></div>
             </div>
@@ -82,13 +83,13 @@
     <div class="row">
       <div class="spacing-bottom">
         <?php
-          $onny_pr  = $totalData->ddlg_pr + $totalData->develop_pr + $totalData->mdivision_pr + $totalData->doptor_pr + $totalData->bcomision_pr;
-          $onny_ofc = $totalData->ddlg_oficer + $totalData->develop_oficer + $totalData->mdivision_oficer + $totalData->doptor_oficer + $totalData->bcomision_oficer;
-          $onny_emp = $totalData->ddlg_emp + $totalData->develop_emp + $totalData->mdivision_emp + $totalData->doptor_emp + $totalData->bcomision_emp;
+        $onny_pr  = $totalData->ddlg_pr + $totalData->develop_pr + $totalData->mdivision_pr + $totalData->doptor_pr + $totalData->bcomision_pr;
+        $onny_ofc = $totalData->ddlg_oficer + $totalData->develop_oficer + $totalData->mdivision_oficer + $totalData->doptor_oficer + $totalData->bcomision_oficer;
+        $onny_emp = $totalData->ddlg_emp + $totalData->develop_emp + $totalData->mdivision_emp + $totalData->doptor_emp + $totalData->bcomision_emp;
 
-          $total_pr = $onny_pr + $totalData->up_pr + $totalData->psp_pr + $totalData->uzp_pr + $totalData->zp_pr + $totalData->ctc_pr + $totalData->nilg_pr;
-          $total_ofc = $onny_ofc + $totalData->up_oficer + $totalData->psp_oficer + $totalData->uzp_oficer + $totalData->zp_oficer + $totalData->ctc_oficer + $totalData->nilg_oficer;
-          $total_emp = $onny_emp + $totalData->up_emp + $totalData->psp_emp + $totalData->uzp_emp + $totalData->zp_emp + $totalData->ctc_emp + $totalData->nilg_emp;
+        $total_pr = $onny_pr + $totalData->up_pr + $totalData->psp_pr + $totalData->uzp_pr + $totalData->zp_pr + $totalData->ctc_pr + $totalData->nilg_pr;
+        $total_ofc = $onny_ofc + $totalData->up_oficer + $totalData->psp_oficer + $totalData->uzp_oficer + $totalData->zp_oficer + $totalData->ctc_oficer + $totalData->nilg_oficer;
+        $total_emp = $onny_emp + $totalData->up_emp + $totalData->psp_emp + $totalData->uzp_emp + $totalData->zp_emp + $totalData->ctc_emp + $totalData->nilg_emp;
         ?>
         <div class="col-md-4 col-sm-6 spacing-bottom-sm spacing-bottom">
           <div class="tiles white added-margin new new2">
@@ -98,7 +99,7 @@
               <div class="heading "> <span class="" data-value="" data-animation-duration="1000"><?= eng2bng($total_pr) ?></span> </div>
 
               <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
-              <div class="description">
+              <div class="description table-responsive">
                 <table class="report-table report-tabe2">
                   <tbody>
                     <tr>
@@ -156,7 +157,7 @@
               <div class="heading"> <span class="" data-value="" data-animation-duration="1200"><?= eng2bng($total_ofc) ?></span> </div>
 
               <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
-              <div class="description">
+              <div class="description table-responsive">
                 <table class="report-table">
                   <tbody>
                     <tr>
@@ -216,7 +217,7 @@
                 <div class="heading"> <span class="" data-value="" data-animation-duration="700"><?= eng2bng($total_emp) ?></span> </div>
               </div>
               <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
-              <div class="description">
+              <div class="description table-responsive">
                 <table class="report-table">
                   <tbody>
                     <tr>
@@ -275,7 +276,7 @@
               <div class="heading"> <span class="" data-value="" data-animation-duration="<?= $totalData->nilg ?>"><?= eng2bng($totalData->nilg) ?></span> </div>
 
               <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
-              <div class="description">
+              <div class="description table-responsive">
                 <table class="report-table">
                   <tbody>
                     <tr>
@@ -324,7 +325,7 @@
               <div class="heading"> <span class="" data-value="" data-animation-duration="0"><?= eng2bng($finances->count) ?></span> </div>
 
               <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
-              <div class="description">
+              <div class="description table-responsive">
                 <table class="report-table">
                   <tbody>
                     <tr>
@@ -390,7 +391,7 @@
               <div class="heading"> <span class="" data-value="" data-animation-duration="<?= $totalData->count ?>"><?= eng2bng($totalData->count) ?></span> </div>
 
               <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
-              <div class="description">
+              <div class="description table-responsive">
                 <table class="report-table">
                   <tbody>
                     <tr>
@@ -646,7 +647,7 @@
             }
           },
           series: [{
-            values: [<?=$officeUnion?>, <?=$officePaurashava?>, <?=$officeUpazila?>, <?=$officeDdlg?>, <?=$officeZila?>, <?=$officeCity?>, <?=$officeNilg?>, <?=$officeMinistry?>, <?=$officeDirectorate?>, <?=$officeDevlopment?>]
+            values: [<?= $officeUnion ?>, <?= $officePaurashava ?>, <?= $officeUpazila ?>, <?= $officeDdlg ?>, <?= $officeZila ?>, <?= $officeCity ?>, <?= $officeNilg ?>, <?= $officeMinistry ?>, <?= $officeDirectorate ?>, <?= $officeDevlopment ?>]
           }]
         };
 
@@ -663,7 +664,7 @@
     </div> -->
     <!-- 30-11-2023 -->
 
-    <div class="col-md-12">         
+    <div class="col-md-12">
       <script src="https://code.highcharts.com/highcharts.js"></script>
       <script src="https://code.highcharts.com/modules/exporting.js"></script>
       <script src="https://code.highcharts.com/modules/export-data.js"></script>
@@ -710,12 +711,11 @@
           },
           series: [{
             name: 'Course',
-            data: [<?php 
-            foreach($courseStatistics as $value) {
-              echo '[\''.$value[0].'\', '.$value[1].'],';
-            }
-            ?>
-            ],
+            data: [<?php
+                    foreach ($courseStatistics as $value) {
+                      echo '[\'' . $value[0] . '\', ' . $value[1] . '],';
+                    }
+                    ?>],
             dataLabels: {
               enabled: true,
               rotation: -90,
@@ -732,7 +732,7 @@
         });
       </script>
     </div>
-  </div>  <!-- /row -->      
+  </div> <!-- /row -->
 
   <?php /*
     <style>    
@@ -948,7 +948,7 @@
   <br>
   */ ?>
 
-  
+
 
 </div>
 </div>

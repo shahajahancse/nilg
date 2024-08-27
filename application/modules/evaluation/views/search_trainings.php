@@ -10,18 +10,18 @@
         </select>
       </div>
     </div>
-    <div class=" col-md-3">
+    <div class=" col-md-3 m-b-5">
       <div class="form-group">
         <input name="start_date" class="form-control input-sm datetime" id="start_date" value="<?= (isset($_GET['start_date']) && $_GET['start_date'] != null) ? $_GET['start_date'] : '' ?>" placeholder="শুরুর তারিখ..." autocomplete="off">
       </div>
     </div>
-    <div class=" col-md-3">
+    <div class=" col-md-3 m-b-5">
       <div class="form-group">
         <input name="end_date" class="form-control input-sm datetime" id="end_date" value="<?= (isset($_GET['end_date']) && $_GET['end_date'] != null) ? $_GET['end_date'] : '' ?>" placeholder="শেষের তারিখ..." autocomplete="off">
       </div>
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-3 m-b-5">
       <div class="form-group">
         <input type="submit" name="submit" value="Search" id="searchss" class="btn btn-primary btn-mini" />
         <a href="<?= base_url('evaluation/trainer_evaluation') ?>" class="btn btn-warning btn-mini">Clear</a>

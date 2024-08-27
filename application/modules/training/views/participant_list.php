@@ -206,15 +206,15 @@
                               <td class="tg-031e font-opensans"><?= $row->mobile_no ?></td>
                               <td class="tg-031e font-opensans"><?= $row->so ?></td>
                               <td class="tg-031e">
-  
+
                                 <div style="position: absolute;margin-top: -20px;">
                                   <a class="btn btn-primary btn-mini dropdown-toggle" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">অ্যাকশন <span class="glyphicon glyphicon-chevron-down"></span></a>
                                   <ul class="dropdown-menu small-ul" aria-labelledby="dropdownMenuLink">
                                     <li>
                                       <a href="<?= base_url('training/participant_edit/' . $row->id) ?>" class="btn btn-primary btn-mini mini-btn-padding" style="background-color: #8dc641;"> সংশোধন <span class="glyphicon glyphicon-edit"></span> </a>
                                       <a href="<?= base_url('training/participant_delete/' . $row->id) ?>" class="btn btn-danger btn-mini mini-btn-padding" style="background-color: #ff0000;color: aliceblue;" onclick="return confirm('Are you sure you want to delete this data?');">ডিলিট <span class="glyphicon glyphicon-trash"></span></a>
-  
-  
+
+
                                     </li>
                                     <?php
                                     $note = $this->db
@@ -225,7 +225,7 @@
                                       ->note;
                                     if ($note) {
                                       $note_array = json_decode($note);
-  
+
                                     ?>
                                       <li class="dropdown dropend ">
                                         <a style="background-color: #68308F;color: white;" class="dropdown-item dropdown-toggle" id="multilevelDropdownMenu1" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">নোট <span class="glyphicon glyphicon-chevron-down"></span></a>

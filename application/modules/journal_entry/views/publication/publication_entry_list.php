@@ -70,35 +70,36 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $sl=$pagination['current_page']; foreach ($results as $row): $sl++; ?>
-                                <tr>
-                                    <td class="v-align-middle"><?=eng2bng($sl).'.'?></td>
-                                    <td style="display: none" class="v-align-middle"><?= ($row->issue_date) ; ?></td>
-                                    <td class="v-align-middle"><?= date_bangla_calender_format($row->issue_date) ; ?></td>
-                                    <td class="v-align-middle"><?= eng2bng($row->amount); ?></td>
-                                    <td class="v-align-middle">
-                                    <?php
-                                        if ($row->type == 1) {
-                                        echo "<span>বই এন্ট্রি</span>";
-                                        }elseif ($row->type == 2) {
-                                        echo "<span>বই বিক্রয়</span>";
-                                        }elseif ($row->type == 3) {
-                                        echo "<span>কেজিতে বিক্রি</span>";
-                                        }
-                                    ?>
-                                    </td>
-                                    <td class="v-align-middle"><?=$row->reference; ?></td>
-                                    <td align="right">
-                                        <div class="btn-group">
-                                            <button class="btn btn-mini btn-primary">অ্যাকশন</button>
-                                            <button class="btn btn-mini btn-primary dropdown-toggle"
-                                                data-toggle="dropdown"> <span class="caret"></span> </button>
-                                            <ul class="dropdown-menu pull-right">
-                                                <li><a href="<?php echo base_url('journal_entry/publication_entry_details/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> বিস্তারিত </a>
-                                                </li>
-                                                <?php if (date('Y-m-d') <= $row->created_at == date('Y-m-d')) { ?>
-                                                    <li><a href="<?php echo base_url('journal_entry/publication_entry_delete/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i>ডিলিট করুন</a></li>
-                                                <?php } ?>
+                                <?php $sl = $pagination['current_page'];
+                                foreach ($results as $row): $sl++; ?>
+                                    <tr>
+                                        <td class="v-align-middle"><?= eng2bng($sl) . '.' ?></td>
+                                        <td style="display: none" class="v-align-middle"><?= ($row->issue_date); ?></td>
+                                        <td class="v-align-middle"><?= date_bangla_calender_format($row->issue_date); ?></td>
+                                        <td class="v-align-middle"><?= eng2bng($row->amount); ?></td>
+                                        <td class="v-align-middle">
+                                            <?php
+                                            if ($row->type == 1) {
+                                                echo "<span>বই এন্ট্রি</span>";
+                                            } elseif ($row->type == 2) {
+                                                echo "<span>বই বিক্রয়</span>";
+                                            } elseif ($row->type == 3) {
+                                                echo "<span>কেজিতে বিক্রি</span>";
+                                            }
+                                            ?>
+                                        </td>
+                                        <td class="v-align-middle"><?= $row->reference; ?></td>
+                                        <td align="right">
+                                            <div class="btn-group">
+                                                <button class="btn btn-mini btn-primary">অ্যাকশন</button>
+                                                <button class="btn btn-mini btn-primary dropdown-toggle"
+                                                    data-toggle="dropdown"> <span class="caret"></span> </button>
+                                                <ul class="dropdown-menu pull-right">
+                                                    <li><a href="<?php echo base_url('journal_entry/publication_entry_details/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> বিস্তারিত </a>
+                                                    </li>
+                                                    <?php if (date('Y-m-d') <= $row->created_at == date('Y-m-d')) { ?>
+                                                        <li><a href="<?php echo base_url('journal_entry/publication_entry_delete/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i>ডিলিট করুন</a></li>
+                                                    <?php } ?>
 
                                                     <!-- <li><a href="<?php echo base_url('journal_entry/publication_print/' . encrypt_url($row->id)) ?>" target="_blank"><i class="fa fa-pencil-square"target="_blank"></i> প্রিন্ট করুন</a>
                                                 </li> -->

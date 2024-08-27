@@ -3,238 +3,238 @@
 
 <head>
     <meta charset="utf-8">
-    <title><?=$headding?></title>
+    <title><?= $headding ?></title>
     <style type="text/css">
-    .priview-body {
-        font-size: 16px;
-        color: #000;
-        margin: 10px;
-    }
+        .priview-body {
+            font-size: 16px;
+            color: #000;
+            margin: 10px;
+        }
 
-    .priview-header {
-        margin-bottom: 10px;
-        text-align: center;
-    }
+        .priview-header {
+            margin-bottom: 10px;
+            text-align: center;
+        }
 
-    .priview-header div {
-        font-size: 18px;
-    }
+        .priview-header div {
+            font-size: 18px;
+        }
 
-    .priview-memorandum,
-    .priview-from,
-    .priview-to,
-    .priview-subject,
-    .priview-message,
-    .priview-office,
-    .priview-demand,
-    .priview-signature {
-        padding-bottom: 20px;
-    }
+        .priview-memorandum,
+        .priview-from,
+        .priview-to,
+        .priview-subject,
+        .priview-message,
+        .priview-office,
+        .priview-demand,
+        .priview-signature {
+            padding-bottom: 20px;
+        }
 
-    .priview-office {
-        text-align: center;
-    }
+        .priview-office {
+            text-align: center;
+        }
 
-    .priview-imitation ul {
-        list-style: none;
-    }
+        .priview-imitation ul {
+            list-style: none;
+        }
 
-    .priview-imitation ul li {
-        display: block;
-    }
+        .priview-imitation ul li {
+            display: block;
+        }
 
-    .date-name {
-        width: 20%;
-        float: left;
-        padding-top: 23px;
-        text-align: right;
-    }
+        .date-name {
+            width: 20%;
+            float: left;
+            padding-top: 23px;
+            text-align: right;
+        }
 
-    .date-value {
-        width: 70%;
-        float: left;
-    }
+        .date-value {
+            width: 70%;
+            float: left;
+        }
 
-    .date-value ul {
-        list-style: none;
-    }
+        .date-value ul {
+            list-style: none;
+        }
 
-    .date-value ul li {
-        text-align: center;
-    }
+        .date-value ul li {
+            text-align: center;
+        }
 
-    .date-value ul li.underline {
-        border-bottom: 1px solid black;
-    }
+        .date-value ul li.underline {
+            border-bottom: 1px solid black;
+        }
 
-    .subject-content {
-        text-decoration: underline;
-    }
+        .subject-content {
+            text-decoration: underline;
+        }
 
-    .headding {
-        border-top: 1px solid #000;
-        border-bottom: 1px solid #000;
-    }
+        .headding {
+            border-top: 1px solid #000;
+            border-bottom: 1px solid #000;
+        }
 
-    .col-1 {
-        width: 8.33%;
-        float: left;
-    }
+        .col-1 {
+            width: 8.33%;
+            float: left;
+        }
 
-    .col-2 {
-        width: 16.66%;
-        float: left;
-    }
+        .col-2 {
+            width: 16.66%;
+            float: left;
+        }
 
-    .col-3 {
-        width: 25%;
-        float: left;
-    }
+        .col-3 {
+            width: 25%;
+            float: left;
+        }
 
-    .col-4 {
-        width: 33.33%;
-        float: left;
-    }
+        .col-4 {
+            width: 33.33%;
+            float: left;
+        }
 
-    .col-5 {
-        width: 41.66%;
-        float: left;
-    }
+        .col-5 {
+            width: 41.66%;
+            float: left;
+        }
 
-    .col-6 {
-        width: 50%;
-        float: left;
-    }
+        .col-6 {
+            width: 50%;
+            float: left;
+        }
 
-    .col-7 {
-        width: 58.33%;
-        float: left;
-    }
+        .col-7 {
+            width: 58.33%;
+            float: left;
+        }
 
-    .col-8 {
-        width: 66.66%;
-        float: left;
-    }
+        .col-8 {
+            width: 66.66%;
+            float: left;
+        }
 
-    .col-9 {
-        width: 75%;
-        float: left;
-    }
+        .col-9 {
+            width: 75%;
+            float: left;
+        }
 
-    .col-10 {
-        width: 83.33%;
-        float: left;
-    }
+        .col-10 {
+            width: 83.33%;
+            float: left;
+        }
 
-    .col-11 {
-        width: 91.66%;
-        float: left;
-    }
+        .col-11 {
+            width: 91.66%;
+            float: left;
+        }
 
-    .col-12 {
-        width: 100%;
-        float: left;
-    }
+        .col-12 {
+            width: 100%;
+            float: left;
+        }
 
-    .table {
-        width: 100%;
-        border-collapse: collapse;
-    }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
-    .table td,
-    .table th {
-        border: 0px solid #ddd;
-    }
+        .table td,
+        .table th {
+            border: 0px solid #ddd;
+        }
 
-    .table tr.bottom-separate td,
-    .table tr.bottom-separate td .table td {
-        border-bottom: 1px solid #ddd;
-    }
+        .table tr.bottom-separate td,
+        .table tr.bottom-separate td .table td {
+            border-bottom: 1px solid #ddd;
+        }
 
-    .borner-none td {
-        border: 0px solid #ddd;
-    }
+        .borner-none td {
+            border: 0px solid #ddd;
+        }
 
-    .headding td,
-    .total td {
-        border-top: 1px solid #ddd;
-        border-bottom: 1px solid #ddd;
-    }
+        .headding td,
+        .total td {
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+        }
 
-    .table td {
-        padding: 5px;
-    }
+        .table td {
+            padding: 5px;
+        }
 
-    .text-center {
-        text-align: center;
-    }
+        .text-center {
+            text-align: center;
+        }
 
-    .text-right {
-        text-align: right;
-    }
+        .text-right {
+            text-align: right;
+        }
 
-    b {
-        font-weight: 500;
-    }
+        b {
+            font-weight: 500;
+        }
     </style>
     <style>
-    .heading {
-        margin-top: 13px;
-    }
+        .heading {
+            margin-top: 13px;
+        }
 
-    .row {
-        display: flex;
-        flex-wrap: wrap;
-    }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
 
-    /* Medium devices (desktops, 992px and up) */
-    .col-md-12 {
-        flex: 0 0 auto;
-        width: 100%;
-        max-width: 100%;
-    }
+        /* Medium devices (desktops, 992px and up) */
+        .col-md-12 {
+            flex: 0 0 auto;
+            width: 100%;
+            max-width: 100%;
+        }
 
-    .col-md-6 {
-        flex: 0 0 auto;
-        width: 50%;
-        max-width: 50%;
-    }
+        .col-md-6 {
+            flex: 0 0 auto;
+            width: 50%;
+            max-width: 50%;
+        }
 
-    .col-md-3 {
-        flex: 0 0 auto;
-        width: 25%;
-        max-width: 25%;
-    }
+        .col-md-3 {
+            flex: 0 0 auto;
+            width: 25%;
+            max-width: 25%;
+        }
 
-    .text-center {
-        text-align: center;
-    }
+        .text-center {
+            text-align: center;
+        }
 
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
 
-    td,
-    th {
-        border: 1px solid black;
-        text-align: left;
-        padding: 4px;
-        font-size: 12px;
-    }
+        td,
+        th {
+            border: 1px solid black;
+            text-align: left;
+            padding: 4px;
+            font-size: 12px;
+        }
 
-    th {
-        text-align: center;
-    }
+        th {
+            text-align: center;
+        }
 
-    /* body {
+        /* body {
                 margin: 0 17%;
             }
             @media print { */
-    body {
-        margin: 0 4%;
-        /* }  */
-    }
+        body {
+            margin: 0 4%;
+            /* }  */
+        }
     </style>
 </head>
 
@@ -249,7 +249,7 @@
                         ?>
                         <div
                             style="display: flex;flex-wrap: wrap;align-content: center;justify-content: center;align-items: center;height: 80px;">
-                            <img style="height: 100%;width: 100%;" src="<?=$url?>" alt="logo">
+                            <img style="height: 100%;width: 100%;" src="<?= $url ?>" alt="logo">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -277,12 +277,12 @@
         <div class="priview-memorandum">
             <div class="row">
                 <div class="col-12 text-center">
-                    <div style="font-size:18px;"><u><?=$headding?></u></div>
+                    <div style="font-size:18px;"><u><?= $headding ?></u></div>
                 </div>
             </div>
         </div>
 
-        <div class="priview-demand">
+        <div class="priview-demand table-responsive">
             <table class="" style="width: 100%;" border="1" cellspacing="0">
                 <thead class="headding">
                     <tr>
@@ -298,53 +298,64 @@
 
                 <tbody>
                     <?php
-					$i=1; foreach ($results as $row) {
-						?>
-                    <tr>
-                        <td class="v-align-middle"><?=$i.'.'?></td>
-                        <td class="v-align-middle"><?=isset($row->cheque_no) ? $row->cheque_no : $row->voucher_no; ?>
-                        </td>
+                    $i = 1;
+                    foreach ($results as $row) {
+                    ?>
+                        <tr>
+                            <td class="v-align-middle"><?= $i . '.' ?></td>
+                            <td class="v-align-middle"><?= isset($row->cheque_no) ? $row->cheque_no : $row->voucher_no; ?>
+                            </td>
 
-                        <td class="v-align-middle"><?=$row->amount; ?></td>
-                        <td class="v-align-middle">
-                            <?=isset($row->issue_date) ? date('d-F-Y', strtotime($row->issue_date)) : date('d-F-Y', strtotime($row->date)); ?>
-                        </td>
-                        <?php if ($row->type == 1) {
-                                        $type = '<span class="label label-success">Cash Deposit</span></span>';
-                                    } elseif($row->type == 2){
-                                        $type = '<span class="label label-success">Payment Voucher</span></span>';
-                                    }else{
-                                        $type = '<span class="label label-success">Adjuestment Voucher</span></span>';
-                                    } ?>
-                        <td class="v-align-middle"><?=$type; ?></td>
-                        <?php if ($row->status == 1) {
-                                        $type = '<span class="label label-success">পেন্ডিং</span>';
-                                    } else {
-                                        $type = '<span class="label label-success">অনুমোদিত</span>';
-                                    } ?>
-                        <td class="v-align-middle"><?=$type; ?></td>
-                        <td class="v-align-middle"><?=$row->reference; ?></td>
-                    </tr>
-                    <?php $i++; } ?>
+                            <td class="v-align-middle"><?= $row->amount; ?></td>
+                            <td class="v-align-middle">
+                                <?= isset($row->issue_date) ? date('d-F-Y', strtotime($row->issue_date)) : date('d-F-Y', strtotime($row->date)); ?>
+                            </td>
+                            <?php if ($row->type == 1) {
+                                $type = '<span class="label label-success">Cash Deposit</span></span>';
+                            } elseif ($row->type == 2) {
+                                $type = '<span class="label label-success">Payment Voucher</span></span>';
+                            } else {
+                                $type = '<span class="label label-success">Adjuestment Voucher</span></span>';
+                            } ?>
+                            <td class="v-align-middle"><?= $type; ?></td>
+                            <?php if ($row->status == 1) {
+                                $type = '<span class="label label-success">পেন্ডিং</span>';
+                            } else {
+                                $type = '<span class="label label-success">অনুমোদিত</span>';
+                            } ?>
+                            <td class="v-align-middle"><?= $type; ?></td>
+                            <td class="v-align-middle"><?= $row->reference; ?></td>
+                        </tr>
+                    <?php $i++;
+                    } ?>
                 </tbody>
             </table>
         </div>
 
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.1/html2pdf.bundle.min.js"></script>
-        <script>
-            window.onload = function() {
-                html2pdf(document.body, {
-                    margin: 2,
-                    filename: 'document.pdf',
-                    image: { type: 'jpeg', quality: 0.98 },
-                    html2canvas: { scale: 3 },
-                    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-                }).then(function (pdf) {
-                    window.close();
-                });
-            }
-        </script>
+    <script>
+        window.onload = function() {
+            html2pdf(document.body, {
+                margin: 2,
+                filename: 'document.pdf',
+                image: {
+                    type: 'jpeg',
+                    quality: 0.98
+                },
+                html2canvas: {
+                    scale: 3
+                },
+                jsPDF: {
+                    unit: 'mm',
+                    format: 'a4',
+                    orientation: 'portrait'
+                }
+            }).then(function(pdf) {
+                window.close();
+            });
+        }
+    </script>
 </body>
 
 </html>

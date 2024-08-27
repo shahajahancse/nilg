@@ -1,29 +1,29 @@
 <div class="page-content">
     <div class="content" style='padding-left: 15px; padding-right: 15px;'>
         <ul class="breadcrumb" style="margin-bottom: 20px;">
-            <li> <a href="<?=base_url('dashboard')?>" class="active"> ড্যাশবোর্ড </a> </li>
-            <li> <a href="javascript:void()" class="active"> <?=$module_name?> </a></li>
-            <li> <?=$meta_title;?> </li>
+            <li> <a href="<?= base_url('dashboard') ?>" class="active"> ড্যাশবোর্ড </a> </li>
+            <li> <a href="javascript:void()" class="active"> <?= $module_name ?> </a></li>
+            <li> <?= $meta_title; ?> </li>
         </ul>
 
         <div class="row">
             <div class="col-md-12">
                 <div class="grid simple ">
                     <div class="grid-title">
-                        <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
+                        <h4><span class="semi-bold"><?= $meta_title; ?></span></h4>
                         <div class="pull-right"
                             style="display: flex;align-content: center;justify-content: center;flex-wrap: wrap;gap: 8px;">
 
-                            <?php if( $this->ion_auth->in_group(array('admin', 'nilg'))){ ?>
-                            <a class="btn btn-success btn-xs btn-mini"
-                                href="<?php echo base_url('budgets/nilg_revenue_summary') ?>" target="_blank"><i
-                                    class="fa fa-book"></i> রিভিনিও সামারী </a>
+                            <?php if ($this->ion_auth->in_group(array('admin', 'nilg'))) { ?>
+                                <a class="btn btn-success btn-xs btn-mini"
+                                    href="<?php echo base_url('budgets/nilg_revenue_summary') ?>" target="_blank"><i
+                                        class="fa fa-book"></i> রিভিনিও সামারী </a>
                             <?php }  ?>
-                            <?php if( $this->ion_auth->in_group(array('admin', 'bdh'))){ ?>
-                            <a href="<?=base_url('budgets/dpt_summary')?>" class="btn btn-blueviolet btn-xs btn-mini"  > সামারী তালিকা </a>
-                            <a class="btn btn-success btn-xs btn-mini" target="_blank" onclick="dpt_summary()" ><i class="fa fa-book"></i> সামারী করুন </a>
+                            <?php if ($this->ion_auth->in_group(array('admin', 'bdh'))) { ?>
+                                <a href="<?= base_url('budgets/dpt_summary') ?>" class="btn btn-blueviolet btn-xs btn-mini"> সামারী তালিকা </a>
+                                <a class="btn btn-success btn-xs btn-mini" target="_blank" onclick="dpt_summary()"><i class="fa fa-book"></i> সামারী করুন </a>
                             <?php }  ?>
-                            <a href="<?=base_url('budgets/training_budgets_create')?>" class="btn btn-blueviolet btn-xs btn-mini">বাজেট তৈরি করুণ</a>
+                            <a href="<?= base_url('budgets/training_budgets_create') ?>" class="btn btn-blueviolet btn-xs btn-mini">বাজেট তৈরি করুণ</a>
                         </div>
                     </div>
 
@@ -56,25 +56,25 @@
                                 background: #ddb90a;
                             }
                         </style>
-                        <?php if( $this->ion_auth->in_group(array('admin','nilg'))){ ?>
-                        <form target="_blank" action="<?=base_url('budgets/nilg_revenue_summary') ?>" method="post"
-                            style="margin-top: -10px">
-                            <div class="col-md-3 p5">
-                                <div class="form-group">
-                                    <?php $dpts = $this->db->get('department')->result(); ?>
-                                    <select name="dept_id" id="dept_id"
-                                        onchange="$('#summary_dept_id').val($(this).val());"
-                                        class="form-control input-sm" required>
-                                        <option value=""> <-- select --> </option>
-                                        <?php foreach ($dpts as $key => $r) { ?>
-                                        <option value="<?= $r->id ?>"><?= $r->dept_name ?></option>
-                                        <?php } ?>
-                                    </select>
+                        <?php if ($this->ion_auth->in_group(array('admin', 'nilg'))) { ?>
+                            <form target="_blank" action="<?= base_url('budgets/nilg_revenue_summary') ?>" method="post"
+                                style="margin-top: -10px">
+                                <div class="col-md-3 m-b-5">
+                                    <div class="form-group">
+                                        <?php $dpts = $this->db->get('department')->result(); ?>
+                                        <select name="dept_id" id="dept_id"
+                                            onchange="$('#summary_dept_id').val($(this).val());"
+                                            class="form-control input-sm" required>
+                                            <option value=""> <-- select --> </option>
+                                            <?php foreach ($dpts as $key => $r) { ?>
+                                                <option value="<?= $r->id ?>"><?= $r->dept_name ?></option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <input class="btn btn-primary btn-xs" type="submit" value="সামারী করুন" target="_blank"
-                                style="padding: 6px;margin-top: 6px;">
-                        </form>
+                                <input class="btn btn-primary btn-xs" type="submit" value="সামারী করুন" target="_blank"
+                                    style="padding: 6px;margin-top: 6px;">
+                            </form>
                         <?php } ?>
                         <table class="table table-hover table-condensed data_table" border="0">
                             <thead>
@@ -122,7 +122,6 @@
                                             }
                                             ?>
                                         </td>
-                                        </td>
                                         <td align="right">
                                             <div class="btn-group">
                                                 <button class="btn btn-mini btn-primary">অ্যাকশন</button>
@@ -147,21 +146,19 @@
                                             </div>
                                         </td>
                                     </tr>
-                                <?php endforeach;?>
+                                <?php endforeach; ?>
                             </tbody>
                         </table>
-
-                        <div class="row">
-                            <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> সর্বমোট <span
-                                    style="color: green; font-weight: bold;"><?php echo eng2bng($total_rows); ?>
-                                    বাজেট  </span></div>
-                            <div class="col-sm-8 col-md-8 text-right">
-                                <?php echo $pagination['links']; ?>
-                            </div>
-                        </div>
-
                     </div>
 
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> সর্বমোট <span
+                                style="color: green; font-weight: bold;"><?php echo eng2bng($total_rows); ?>
+                                বাজেট </span></div>
+                        <div class="col-sm-8 col-md-8 text-right">
+                            <?php echo $pagination['links']; ?>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -261,21 +258,19 @@
 <script type="text/javascript">
     function dpt_summary() {
         var form = document.createElement('form');
-        form.action = "<?=base_url('budgets/dpt_summary_create') ?>";
+        form.action = "<?= base_url('budgets/dpt_summary_create') ?>";
         form.method = "POST";
         var checkboxes = $('.check:checked');
         var vals = "";
-        for (var i=0, n=checkboxes.length;i<n;i++)
-        {
+        for (var i = 0, n = checkboxes.length; i < n; i++) {
             var field = document.createElement('input');
             field.type = "hidden";
             field.name = "id[]";
             field.value = checkboxes[i].value;
             form.appendChild(field);
 
-            if (checkboxes[i].checked)
-            {
-                vals += ","+checkboxes[i].value;
+            if (checkboxes[i].checked) {
+                vals += "," + checkboxes[i].value;
             }
         }
 
@@ -292,72 +287,72 @@
 
 
 <script type="text/javascript">
-$(document).ready(function() {
-    // requisition item delete
-    $(document).on("click", "#smSend", function() {
-        var id = $(this).attr('data-id');
-        var url = "<?php echo base_url('budgets/nilg_change_status'); ?>";
-        $.ajax({
-            type: "POST",
-            url: url,
-            data: {
-                type: 1,
-                id: id
-            },
-            dataType: 'json',
-            success: function(response) {
-                if (response.status == 1) {
-                    $('#myModal').modal('hide');
+    $(document).ready(function() {
+        // requisition item delete
+        $(document).on("click", "#smSend", function() {
+            var id = $(this).attr('data-id');
+            var url = "<?php echo base_url('budgets/nilg_change_status'); ?>";
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    type: 1,
+                    id: id
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status == 1) {
+                        $('#myModal').modal('hide');
+                    }
                 }
-            }
+            });
+        });
+
+        $(document).on("click", "#modalId", function() {
+            var data_id = $(this).attr('data-id');
+
+            var sendData = {
+                type: 2,
+                id: data_id
+            };
+            var url = "<?php echo base_url('budgets/ajax_get_budget_details_nilg'); ?>";
+            $.ajax({
+                url: url,
+                data: sendData,
+                type: "POST",
+                success: function(response) {
+                    var sl = 0;
+                    $('.adds').remove();
+                    $('#heading_title').empty().text('শিরোনাম : ' + response.budget_info.title);
+
+                    $.each(response.budget_dtails, function(id, res) {
+                        sl = sl + 1;
+                        var items = '';
+                        items += '<tr class="adds">';
+                        items += '<td>' + sl + '</td>';
+                        items += '<td>' + res.name_bn + '</td>';
+                        items += '<td>' + res.amount + '</td>';
+                        items += '<td>' + res.dpt_amt + '</td>';
+                        items += '<td>' + res.acc_amt + '</td>';
+                        items += '<td>' + res.dg_amt + '</td>';
+                        items += '</tr>';
+                        $('#addRow tr:last').after(items);
+                    });
+                    var item = '';
+                    item += '<tr class="adds">';
+                    item += '<td colspan="2">Total</td>';
+                    item += '<td>' + response.budget_info.amount + '</td>';
+                    item += '<td>' + response.budget_info.dpt_amt + '</td>';
+                    item += '<td>' + response.budget_info.acc_amt + '</td>';
+                    item += '<td>' + response.budget_info.dg_amt + '</td>';
+                    item += '</tr>';
+
+                    $('#addRow tr:last').after(item);
+                    $('#budget_text').empty().html(response.budget_info.description);
+
+                    $('#smSend').attr('data-id', data_id);
+                }
+            });
         });
     });
-
-    $(document).on("click", "#modalId", function() {
-        var data_id = $(this).attr('data-id');
-
-        var sendData = {
-            type: 2,
-            id: data_id
-        };
-        var url = "<?php echo base_url('budgets/ajax_get_budget_details_nilg'); ?>";
-        $.ajax({
-            url: url,
-            data: sendData,
-            type: "POST",
-            success: function(response) {
-                var sl = 0;
-                $('.adds').remove();
-                $('#heading_title').empty().text('শিরোনাম : ' + response.budget_info.title);
-
-                $.each(response.budget_dtails, function(id, res) {
-                    sl = sl + 1;
-                    var items = '';
-                    items += '<tr class="adds">';
-                    items += '<td>' + sl + '</td>';
-                    items += '<td>' + res.name_bn + '</td>';
-                    items += '<td>' + res.amount + '</td>';
-                    items += '<td>' + res.dpt_amt + '</td>';
-                    items += '<td>' + res.acc_amt + '</td>';
-                    items += '<td>' + res.dg_amt + '</td>';
-                    items += '</tr>';
-                    $('#addRow tr:last').after(items);
-                });
-                var item = '';
-                item += '<tr class="adds">';
-                item += '<td colspan="2">Total</td>';
-                item += '<td>' + response.budget_info.amount + '</td>';
-                item += '<td>' + response.budget_info.dpt_amt + '</td>';
-                item += '<td>' + response.budget_info.acc_amt + '</td>';
-                item += '<td>' + response.budget_info.dg_amt + '</td>';
-                item += '</tr>';
-
-                $('#addRow tr:last').after(item);
-                $('#budget_text').empty().html(response.budget_info.description);
-
-                $('#smSend').attr('data-id', data_id);
-            }
-        });
-    });
-});
 </script>

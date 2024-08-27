@@ -97,7 +97,7 @@
 									<a href="<?= base_url('training/decline/' . $info->id) ?>" class="btn btn-danger font-big-bold" onclick="return confirm('আপনি কি নিশ্চিত? আপনি এই আবেদনটি বাতিল করতে চান?');"> বাতিল করুন</a>
 								</div>
 
-								<div>
+								<div class="table-responsive">
 									<table class="tg" width="100%">
 										<caption style="font-weight: bold; font-size: 16px;">আবেদনের তথ্য</caption>
 										<tr>

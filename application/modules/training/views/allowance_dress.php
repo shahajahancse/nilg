@@ -127,72 +127,72 @@
                 <div class="row">
                   <div class="col-md-12 ">
                     <h3 style="text-align: center;"><span class="semi-bold">পোষাক ভাতার তালিকা</span></h3>
-                      <div class="table-responsive">
-                        <table class="tg" id="example">
-                          <thead>
-                            <tr>
-                              <th class="tg-71hr">ক্রম</th>
-                              <th class="tg-71hr">প্রশিক্ষণার্থীর নাম</th>
-                              <th class="tg-71hr">পদবি</th>
-                              <th class="tg-71hr">প্রতিষ্ঠানের নাম</th>
+                    <div class="table-responsive">
+                      <table class="tg" id="example">
+                        <thead>
+                          <tr>
+                            <th class="tg-71hr">ক্রম</th>
+                            <th class="tg-71hr">প্রশিক্ষণার্থীর নাম</th>
+                            <th class="tg-71hr">পদবি</th>
+                            <th class="tg-71hr">প্রতিষ্ঠানের নাম</th>
+                            <?php if (!in_array($training->lgi_type, array(6, 7, 9, 10))) { ?>
+                              <?php if ($training->lgi_type != 8) { ?>
+                                <th class="tg-71hr">উপজেলা</th>
+                              <?php } ?>
+                              <th class="tg-71hr">জেলা</th>
+                            <?php } ?>
+                            <?php if ($training->dress != '') { ?>
+                              <th class="tg-71hr text-center">পোষাক ভাতা</th>
+                            <?php } ?>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          <?php
+                          $i = 0;
+                          $totalDAD = $gTotalDAD = '';
+                          foreach ($results as $row) {
+                            $i++;
+                            $totalDAD = $training->dress;
+                            $gTotalDAD += $totalDAD;
+
+                            $office = explode(",", $row->office_name);
+                          ?>
+                            <tr style="line-height: 50px;">
+                              <td class="tg-031e text-center"><?= eng2bng($i) ?>.</td>
+                              <td class="tg-031e"><?= $row->name_bn ?></td>
+                              <td class="tg-031e"><?= $row->desig_name ?></td>
+                              <td class="tg-031e"><?= $office[0] ?></td>
                               <?php if (!in_array($training->lgi_type, array(6, 7, 9, 10))) { ?>
                                 <?php if ($training->lgi_type != 8) { ?>
-                                  <th class="tg-71hr">উপজেলা</th>
+                                  <td class="tg-031e"><?= $row->upa_name_bn ?></td>
                                 <?php } ?>
-                                <th class="tg-71hr">জেলা</th>
+                                <td class="tg-031e"><?= $row->dis_name_bn ?></td>
                               <?php } ?>
                               <?php if ($training->dress != '') { ?>
-                                <th class="tg-71hr text-center">পোষাক ভাতা</th>
+                                <td class="tg-031e text-center"><?= eng2bng($totalDAD) ?></td>
                               <?php } ?>
                             </tr>
-                          </thead>
-    
-                          <tbody>
-                            <?php
-                            $i = 0;
-                            $totalDAD = $gTotalDAD = '';
-                            foreach ($results as $row) {
-                              $i++;
-                              $totalDAD = $training->dress;
-                              $gTotalDAD += $totalDAD;
-    
-                              $office = explode(",", $row->office_name);
-                            ?>
-                              <tr style="line-height: 50px;">
-                                <td class="tg-031e text-center"><?= eng2bng($i) ?>.</td>
-                                <td class="tg-031e"><?= $row->name_bn ?></td>
-                                <td class="tg-031e"><?= $row->desig_name ?></td>
-                                <td class="tg-031e"><?= $office[0] ?></td>
-                                <?php if (!in_array($training->lgi_type, array(6, 7, 9, 10))) { ?>
-                                  <?php if ($training->lgi_type != 8) { ?>
-                                    <td class="tg-031e"><?= $row->upa_name_bn ?></td>
-                                  <?php } ?>
-                                  <td class="tg-031e"><?= $row->dis_name_bn ?></td>
-                                <?php } ?>
-                                <?php if ($training->dress != '') { ?>
-                                  <td class="tg-031e text-center"><?= eng2bng($totalDAD) ?></td>
-                                <?php } ?>
-                              </tr>
-                            <?php } ?>
-    
-                            <tr>
-                              <?php if (!in_array($training->lgi_type, array(6, 7, 9, 10))) { ?>
-                                <?php if ($training->lgi_type != 8) { ?>
-                                  <td></td>
-                                <?php } ?>
+                          <?php } ?>
+
+                          <tr>
+                            <?php if (!in_array($training->lgi_type, array(6, 7, 9, 10))) { ?>
+                              <?php if ($training->lgi_type != 8) { ?>
                                 <td></td>
                               <?php } ?>
                               <td></td>
-                              <td></td>
-                              <td></td>
-                              <td class="text-right"><strong>সর্বমোট</strong> </td>
-                              <?php if ($training->dress != '') { ?>
-                                <td class="text-center"><?= eng2bng($gTotalDAD) ?></td>
-                              <?php } ?>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
+                            <?php } ?>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td class="text-right"><strong>সর্বমোট</strong> </td>
+                            <?php if ($training->dress != '') { ?>
+                              <td class="text-center"><?= eng2bng($gTotalDAD) ?></td>
+                            <?php } ?>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>

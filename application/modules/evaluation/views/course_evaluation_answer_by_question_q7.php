@@ -33,7 +33,7 @@
             </div>
             <br>
 
-            <div>
+            <div class="table-responsive">
               <table class="table table-hover table-bordered">
                 <caption style="font-size: 18px; color: red; text-align: left;font-weight: bold;">প্রশ্নঃ <?= $ques ?></caption>
                 <thead class="cf">
@@ -43,7 +43,7 @@
                     <th>উত্তর</th>
                   </tr>
                 </thead>
-  
+
                 <tbody>
                   <?php
                   $sl = 0;
@@ -57,7 +57,7 @@
                     </tr>
                   <?php } ?>
                 </tbody>
-  
+
               </table>
             </div>
 

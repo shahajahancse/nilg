@@ -82,7 +82,7 @@
                             </div>
                         <?php endif; ?>
                         <div class="row ">
-                            <div class="col-md-3">
+                            <div class="col-md-3 m-b-5">
                                 <select id="course_id" name="course_id" onchange="myFunction_c()" class="form-control input-sm" style="height: 24px !important;">
                                     <option value="">কোর্সের শিরোনাম</option>
                                     <?php
@@ -93,11 +93,11 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="col-md-2 m-b-5">
                                 <input style="height: 26px;padding: 13px 14px;width: 153px;border: 1px solid #00a59a;" class="ffff"
                                     placeholder="কোর্স কোড" name="course_code" id="course_code" onkeyup="myFunction_code()" onchange="myFunction_code()">
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-1 m-b-5">
                                 <a href="<?= base_url('training') ?>" class="btn btn-warning btn-mini ">Clear</a>
                             </div>
                         </div>
@@ -153,12 +153,12 @@
                                                                                     src="<?= base_url('uploads/delete.png') ?>"
                                                                                     alt="Dellet"></a>
                                                                         </li>
-    
+
                                                                 <?php }
                                                                 }
                                                                 ?>
-    
-    
+
+
                                                                 <?php
                                                                 $attributes = array('autcomplete' => 'off', 'id' => 'notedata');
                                                                 echo form_open_multipart("training/uplodenote/$row->training_id", $attributes); ?>
@@ -194,13 +194,13 @@
                                                                     </div>
                                                                 </div>
                                                                 <?php echo form_close(); ?>
-    
-    
+
+
                                                             </ul>
                                                         </li>
-    
-    
-    
+
+
+
                                                         <?php
                                                         if ($row->handbook != null && $row->handbook != '') {
                                                             if (is_array(json_decode($row->handbook))) { ?>
@@ -215,7 +215,7 @@
                                                                         endforeach; ?>
                                                                     </ul>
                                                                 </li>
-    
+
                                                         <?php } else {
                                                                 $path = base_url('uploads/handbook/' . $row->handbook);
                                                                 echo '<li><a href="' . $path . '" target="_blank" class="btn btn-primary btn-xs btn-mini">ট্রেনিং হ্যান্ডবুক ডাউনলোড </a></li>';

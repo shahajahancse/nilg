@@ -1,4 +1,3 @@
-
 <?php
 $user = $this->ion_auth->user($row->user_id)->row();
 $app_user = $this->ion_auth->user($row->approve_person)->row();
@@ -6,23 +5,23 @@ $con_user = $this->ion_auth->user($row->control_person)->row();
 
 if (!empty($row->assign_person)) {
     $user2 = $this->ion_auth->user($row->assign_person)->row();
-    $desig2 = $this->db->get_where('designations',array('id'=>$user2->crrnt_desig_id))->row();
+    $desig2 = $this->db->get_where('designations', array('id' => $user2->crrnt_desig_id))->row();
 } else {
     $desig2 = null;
     $user2 = null;
 }
-$desig= $this->db->get_where('designations',array('id'=>$row->desig_id))->row();
+$desig = $this->db->get_where('designations', array('id' => $row->desig_id))->row();
 $results = $this->Leave_model->get_yearly_leave_count($row->user_id);
-$total_leave= $results['total_leave'];
-$used_leave= $results['used_leave'];
+$total_leave = $results['total_leave'];
+$used_leave = $results['used_leave'];
 $leave_address = json_decode($row->leave_address);
-$leave_type = $this->db->get_where('leave_type',array('id'=>$row->leave_type))->row();
+$leave_type = $this->db->get_where('leave_type', array('id' => $row->leave_type))->row();
 if (isset($leave_address->upazila_id)) {
-    $upazila= $this->db->get_where('upazilas',array('id'=>$leave_address->upazila_id))->row();
+    $upazila = $this->db->get_where('upazilas', array('id' => $leave_address->upazila_id))->row();
 }
 // dd($upazila);
 if (isset($leave_address->district_id)) {
-    $district= $this->db->get_where('districts',array('id'=>$leave_address->district_id))->row();
+    $district = $this->db->get_where('districts', array('id' => $leave_address->district_id))->row();
 }
 
 ?>
@@ -35,24 +34,25 @@ if (isset($leave_address->district_id)) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <style>
-    .header {
-        padding: 1em;
-        text-align: center;
-    }
-
-    .table td,
-    .table th {
-        border-top: none !important;
-    }
-
-    th {
-        width: 280px;
-    }
-    @media print {
-        .no-print{
-            display: none !important;
+        .header {
+            padding: 1em;
+            text-align: center;
         }
-    }
+
+        .table td,
+        .table th {
+            border-top: none !important;
+        }
+
+        th {
+            width: 280px;
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+        }
     </style>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -70,7 +70,7 @@ if (isset($leave_address->district_id)) {
     </div>
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 table-responsive">
                 <table class="table">
                     <tr>
                         <th>০১. কর্মকর্তা/কর্মচারীর নাম</th>
@@ -104,9 +104,9 @@ if (isset($leave_address->district_id)) {
                         <td>:</td>
                         <td>
                             <span><strong>নৈমিত্তিক : <?php echo eng2bng($total_leave[0]->yearly_total_leave); ?></strong></span> &nbsp
-                            <span><strong>অবশিষ্ট :  <?php echo eng2bng($total_leave[0]->yearly_total_leave - $used_leave->casual_leave); ?></strong></span>&nbsp&nbsp | &nbsp&nbsp
-                            <span><strong >ঐচ্ছিক : <?php echo eng2bng($total_leave[1]->yearly_total_leave); ?></strong></span>&nbsp
-                            <span><strong >অবশিষ্ট : <?php echo eng2bng($total_leave[1]->yearly_total_leave - $used_leave->optional_leave); ?></strong></span>
+                            <span><strong>অবশিষ্ট : <?php echo eng2bng($total_leave[0]->yearly_total_leave - $used_leave->casual_leave); ?></strong></span>&nbsp&nbsp | &nbsp&nbsp
+                            <span><strong>ঐচ্ছিক : <?php echo eng2bng($total_leave[1]->yearly_total_leave); ?></strong></span>&nbsp
+                            <span><strong>অবশিষ্ট : <?php echo eng2bng($total_leave[1]->yearly_total_leave - $used_leave->optional_leave); ?></strong></span>
                         </td>
                     </tr>
                     <tr>
@@ -114,11 +114,11 @@ if (isset($leave_address->district_id)) {
                         <td>:</td>
                         <td>
                             <?php
-                                if (!empty($user2->name_bn) && !empty($desig2->desig_name)) {
-                                    echo $user2->name_bn . ' (' . $desig2->desig_name . ')';
-                                } else {
-                                    echo $row->bikolpo;
-                                }
+                            if (!empty($user2->name_bn) && !empty($desig2->desig_name)) {
+                                echo $user2->name_bn . ' (' . $desig2->desig_name . ')';
+                            } else {
+                                echo $row->bikolpo;
+                            }
                             ?>
                         </td>
                     </tr>
@@ -126,26 +126,26 @@ if (isset($leave_address->district_id)) {
                         <th>০৭. ছুটিকালীন ঠিকানা (কেবলমাত্র কর্মস্থল ত্যাগের ক্ষেত্রে প্রযোজ্য)</th>
                         <td>:</td>
                         <td>পিতার
-                            নাম/প্রযন্ত্রে:&nbsp&nbsp&nbsp&nbsp<?=isset($leave_address->father_name)?$leave_address->father_name:'................................'?>
+                            নাম/প্রযন্ত্রে:&nbsp&nbsp&nbsp&nbsp<?= isset($leave_address->father_name) ? $leave_address->father_name : '................................' ?>
                         </td>
                     </tr>
                     <tr>
                         <th></th>
                         <td></td>
-                        <td>গ্রাম/মহল্লা:&nbsp&nbsp&nbsp&nbsp<?= isset($leave_address->village)?$leave_address->village:'................................' ?> ডাকঘর:&nbsp&nbsp&nbsp&nbsp<?=isset($leave_address->post_office)?$leave_address->post_office:'................................'?>
+                        <td>গ্রাম/মহল্লা:&nbsp&nbsp&nbsp&nbsp<?= isset($leave_address->village) ? $leave_address->village : '................................' ?> ডাকঘর:&nbsp&nbsp&nbsp&nbsp<?= isset($leave_address->post_office) ? $leave_address->post_office : '................................' ?>
                         </td>
                     </tr>
                     <tr>
                         <th></th>
                         <td></td>
-                        <td>উপজেলা:&nbsp&nbsp&nbsp&nbsp<?=(isset($upazila->upa_name_bn))?$upazila->upa_name_bn:'................................'?> জেলা:&nbsp&nbsp&nbsp&nbsp<?=isset($district->dis_name_bn)?$district->dis_name_bn:'................................'?>
+                        <td>উপজেলা:&nbsp&nbsp&nbsp&nbsp<?= (isset($upazila->upa_name_bn)) ? $upazila->upa_name_bn : '................................' ?> জেলা:&nbsp&nbsp&nbsp&nbsp<?= isset($district->dis_name_bn) ? $district->dis_name_bn : '................................' ?>
                         </td>
                     </tr>
                     <tr>
                         <th></th>
                         <td></td>
                         <td>ফোন/মোবাইল
-                            নম্বর:&nbsp&nbsp<?=isset($leave_address->mobile_number)?$leave_address->mobile_number:'................................'?>
+                            নম্বর:&nbsp&nbsp<?= isset($leave_address->mobile_number) ? $leave_address->mobile_number : '................................' ?>
                         </td>
                     </tr>
                 </table>
@@ -159,7 +159,7 @@ if (isset($leave_address->district_id)) {
                         $url = base_url('uploads/signature/') . $user->signature;
                     } else {
                         $url = base_url('uploads/signature/blank.jpg');
-                    }?>
+                    } ?>
                     <div><img src="<?= $url ?>" style="width:160; height: 50px; display: block;"></div>
                     আবেদনকারীর স্বাক্ষর ও তারিখ
                 </span>
@@ -171,18 +171,20 @@ if (isset($leave_address->district_id)) {
                         $url = base_url('uploads/signature/') . $con_user->signature;
                     } else {
                         $url = base_url('uploads/signature/blank.jpg');
-                    }?>
+                    } ?>
                     <div><img src="<?= $url ?>" style="width:160; height: 50px; display: block;"></div>
-                    নিয়ন্ত্রণকারী কর্মকর্তার স্বাক্ষর ও তারিখ। </span>
+                    নিয়ন্ত্রণকারী কর্মকর্তার স্বাক্ষর ও তারিখ।
+                </span>
                 <span>
                     <?php if (!empty($app_user->signature)) {
                         $url = base_url('uploads/signature/') . $app_user->signature;
                     } else {
                         $url = base_url('uploads/signature/blank.jpg');
-                    }?>
+                    } ?>
                     <div><img src="<?= $url ?>" style="width:160; height: 50px; display: block;"></div>
                     ছুটি অনুমোদনকারী কর্মকর্তার<br>
-                    স্বাক্ষর তারিখ ও সিলমোহর।</span>
+                    স্বাক্ষর তারিখ ও সিলমোহর।
+                </span>
             </div>
         </div>
     </div>
@@ -197,7 +199,7 @@ if (isset($leave_address->district_id)) {
         <span>জনাব/বেগম &nbsp&nbsp&nbsp&nbsp <?php echo $user->name_bn; ?>&nbsp&nbsp&nbsp&nbsp পদবি &nbsp&nbsp&nbsp&nbsp<?php echo $desig->desig_name; ?>&nbsp&nbsp&nbsp কে &nbsp&nbsp&nbsp
 
             <?= date_bangla_calender_format($row->from_date) ?> থেকে <?= date_bangla_calender_format($row->to_date) ?> পর্যন্ত
-                            মোট <?= eng2bng($row->leave_days) ?> দিন &nbsp <?=$leave_type->leave_name_bn?> &nbsp
+            মোট <?= eng2bng($row->leave_days) ?> দিন &nbsp <?= $leave_type->leave_name_bn ?> &nbsp
             <span style="font-family: SutonnyMJ; font-size: 22px;">gÄyi</span> করা হল
         </span>
     </div>
@@ -208,7 +210,7 @@ if (isset($leave_address->district_id)) {
                 $url = base_url('uploads/signature/') . $app_user->signature;
             } else {
                 $url = base_url('uploads/signature/blank.jpg');
-            }?>
+            } ?>
             <div><img src="<?= $url ?>" style="width:160; height: 50px; display: block;"></div>
             ছুটি অনুমোদনকারী কর্মকর্তার <br> স্বাক্ষর, তারিখ ও সিলমোহর।
         </span>

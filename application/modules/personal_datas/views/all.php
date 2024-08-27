@@ -66,54 +66,56 @@
               </div>
             </form>
 
-            <table class="table table-hover table-condensed">
-              <thead>
-                <tr>
-                  <th>ক্রম</th>
-                  <th>নাম</th>
-                  <th>ন্যাশনাল আইডি</th>
-                  <th width="100">ডাটা শীট টাইপ</th>
-                  <th>অফিসের ধরণ</th>
-                  <th>জেলা</th>
-                  <th>উপজেলা </th>
-                  <th>ইউনিয়ন </th>
-                  <th>বর্তমান পদবি</th>
-                  <th width="100">অ্যাকশন</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php
-                $sl = $pagination['current_page'];
-                if ($results > 0) {
-                  foreach ($results as $row) {
-                    $sl++; ?>
-                    <tr>
-                      <td> <?= $sl ?> </td>
-                      <?php foreach ($printcolumn as $value) { ?>
-                        <td> <?php echo  $row[$value];  ?> </td>
-                      <?php } ?>
-                      <td>
-                        <div class="btn-group">
-                          <button class="btn btn-mini btn-primary">অ্যাকশন</button>
-                          <button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
-                          <ul class="dropdown-menu pull-right">
-                            <!-- <li><a href="<?php echo base_url(); ?>trainers/add?data_id=<?php echo $row['id']; ?>"><i class="fa fa-pencil-square"></i> <?= lang('stu_clas_training_entry'); ?></a></li> -->
+            <div class="table-responsive">
+              <table class="table table-hover table-condensed">
+                <thead>
+                  <tr>
+                    <th>ক্রম</th>
+                    <th>নাম</th>
+                    <th>ন্যাশনাল আইডি</th>
+                    <th width="100">ডাটা শীট টাইপ</th>
+                    <th>অফিসের ধরণ</th>
+                    <th>জেলা</th>
+                    <th>উপজেলা </th>
+                    <th>ইউনিয়ন </th>
+                    <th>বর্তমান পদবি</th>
+                    <th width="100">অ্যাকশন</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                  $sl = $pagination['current_page'];
+                  if ($results > 0) {
+                    foreach ($results as $row) {
+                      $sl++; ?>
+                      <tr>
+                        <td> <?= $sl ?> </td>
+                        <?php foreach ($printcolumn as $value) { ?>
+                          <td> <?php echo  $row[$value];  ?> </td>
+                        <?php } ?>
+                        <td>
+                          <div class="btn-group">
+                            <button class="btn btn-mini btn-primary">অ্যাকশন</button>
+                            <button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
+                            <ul class="dropdown-menu pull-right">
+                              <!-- <li><a href="<?php echo base_url(); ?>trainers/add?data_id=<?php echo $row['id']; ?>"><i class="fa fa-pencil-square"></i> <?= lang('stu_clas_training_entry'); ?></a></li> -->
 
-                            <li><a href="<?php echo base_url(); ?>personal_datas/details/<?= encrypt_url($row['id']); ?>"><i class="fa fa-user"></i> <?= lang('common_details'); ?> </a></li>
+                              <li><a href="<?php echo base_url(); ?>personal_datas/details/<?= encrypt_url($row['id']); ?>"><i class="fa fa-user"></i> <?= lang('common_details'); ?> </a></li>
 
-                            <li><a href="<?php echo base_url(); ?>personal_datas/edit/<?= encrypt_url($row['id']); ?>"><i class="fa fa-pencil-square"></i> <?= lang('common_edit'); ?> </a></li>
-                            <?php if ($this->ion_auth->is_admin()) { ?>
-                              <li class="divider"></li>
-                              <li><a href="<?php echo base_url(); ?><?= $this->uri->segment(1); ?>/delete?id=<?= encrypt_url($row['id']); ?>" onclick="return confirm('Are you sure you want to delete this personal data?');"><i class="fa fa-trash-o"></i> <?= lang('common_delete'); ?></a></li>
-                            <?php } ?>
-                          </ul>
-                        </div>
-                      </td>
-                    </tr>
-                <?php }
-                } ?>
-              </tbody>
-            </table>
+                              <li><a href="<?php echo base_url(); ?>personal_datas/edit/<?= encrypt_url($row['id']); ?>"><i class="fa fa-pencil-square"></i> <?= lang('common_edit'); ?> </a></li>
+                              <?php if ($this->ion_auth->is_admin()) { ?>
+                                <li class="divider"></li>
+                                <li><a href="<?php echo base_url(); ?><?= $this->uri->segment(1); ?>/delete?id=<?= encrypt_url($row['id']); ?>" onclick="return confirm('Are you sure you want to delete this personal data?');"><i class="fa fa-trash-o"></i> <?= lang('common_delete'); ?></a></li>
+                              <?php } ?>
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                  <?php }
+                  } ?>
+                </tbody>
+              </table>
+            </div>
 
             <div class="row">
               <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> Total <span style="color: green; font-weight: bold;"><?php echo $total_rows; ?> Total Data </span></div>

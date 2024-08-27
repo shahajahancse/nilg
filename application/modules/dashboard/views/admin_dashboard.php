@@ -684,7 +684,7 @@
 
     <div class="row" style="margin: 15px auto;">
       <div class="col-md-12">
-        <div id="month_wise_user_count" style="width: 550px; height: 400px; margin: 0 auto"></div> 
+        <div id="month_wise_user_count" style="width: 550px; height: 400px; margin: 0 auto"></div>
       </div>
     </div>
 
@@ -698,7 +698,7 @@
               <div class="heading"> <span class="" data-value="" data-animation-duration="<?= $total_data ?>"><?= eng2bng($total_data) ?></span> </div>
 
               <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
-              <div class="description">
+              <div class="description table-responsive">
                 <table class="report-table">
                   <tbody>
                     <tr>
@@ -747,7 +747,7 @@
               <div class="heading "> <span class="" data-value="" data-animation-duration="1000"><?= eng2bng($total_representative) ?></span> </div>
 
               <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
-              <div class="description">
+              <div class="description table-responsive">
                 <table class="report-table report-tabe2">
                   <tbody>
                     <tr>
@@ -795,7 +795,7 @@
               <div class="heading"> <span class="" data-value="" data-animation-duration="1200"><?= eng2bng($total_kormokorta) ?></span> </div>
 
               <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
-              <div class="description">
+              <div class="description table-responsive">
                 <table class="report-table">
                   <tbody>
                     <tr>
@@ -844,7 +844,7 @@
                 <div class="heading"> <span class="" data-value="" data-animation-duration="700"><?= eng2bng($total_kormocari) ?></span> </div>
               </div>
               <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
-              <div class="description">
+              <div class="description table-responsive">
                 <table class="report-table">
                   <tbody>
                     <tr>
@@ -893,7 +893,7 @@
               <div class="heading"> <span class="" data-value="" data-animation-duration="<?= $total_nilg_kormokorta ?>"><?= eng2bng($total_nilg_kormokorta + $total_nilg_kormocari) ?></span> </div>
 
               <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
-              <div class="description">
+              <div class="description table-responsive">
                 <table class="report-table">
                   <tbody>
                     <tr>
@@ -942,7 +942,7 @@
               <div class="heading"> <span class="" data-value="" data-animation-duration="0"><?= eng2bng($training_jica + $training_undp + $training_revenue) ?></span> </div>
 
               <div style="border-bottom:1px solid #fff; margin-bottom: 10px"></div>
-              <div class="description">
+              <div class="description table-responsive">
                 <table class="report-table">
                   <tbody>
                     <tr>
@@ -1046,29 +1046,29 @@
           </div>
         </div>
       </div> -->
-      <!-- </div> -->
+    <!-- </div> -->
 
 
 
-      <div class="row">
-        <div class="col-md-12">
-          <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
-          <script>
-            zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
-            ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "ee6b7db5b51705a13dc2339db3edaf6d"];
-          </script>
-          <style>
-            .zc-ref {
-              display: none;
-            }
+    <div class="row">
+      <div class="col-md-12">
+        <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+        <script>
+          zingchart.MODULESDIR = "https://cdn.zingchart.com/modules/";
+          ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "ee6b7db5b51705a13dc2339db3edaf6d"];
+        </script>
+        <style>
+          .zc-ref {
+            display: none;
+          }
 
-            #myChart-wrapper {
-              margin: auto;
-            }
-          </style>
-          <div id='myChart'><a class="zc-ref" href="https://www.zingchart.com/">Charts by ZingChart</a></div>
-          <script>
-            var mySeries = [{
+          #myChart-wrapper {
+            margin: auto;
+          }
+        </style>
+        <div id='myChart'><a class="zc-ref" href="https://www.zingchart.com/">Charts by ZingChart</a></div>
+        <script>
+          var mySeries = [{
               values: [<?= $representative_percent ?>],
               text: 'জনপ্রতিনিধি'
             }, {
@@ -1085,89 +1085,89 @@
               text: 'এনআইএলজি কর্মচারী'
             }
 
-            ];
+          ];
 
-            var myConfig = {
-              type: "pie",
-              globals: {
-                fontFamily: 'sans-serif'
-              },
-              legend: {
-                verticalAlign: 'middle',
-                toggleAction: 'remove',
-                marginRight: 60,
-                width: 100,
-                alpha: 0.1,
-                borderWidth: 0,
-                highlightPlot: true,
-                item: {
-                  fontColor: "#373a3c",
-                  fontSize: 12
-                }
-              },
-              backgroundColor: "#fff",
-              palette: ["#0099CC", "#007E33", "#FF8800", "#CC0000", "#33b5e5"],
-              plot: {
-                refAngle: 270,
-                detach: false,
-                valueBox: {
-                  fontColor: "#fff"
-                },
-                highlightState: {
-                  borderWidth: 2,
-                  borderColor: "#000"
-                }
-              },
-              tooltip: {
-                placement: 'node:out',
-                borderColor: "#373a3c",
-                borderWidth: 2
-              },
-              labels: [{
-                text: "ব্যাক্তিগত ডাটার পরিসংখ্যান",
-                fontSize: 14,
-                textAlign: "left",
-                fontColor: "#373a3c"
-
-              }],
-              series: mySeries
-
-            };
-
-            zingchart.render({
-              id: 'myChart',
-              data: myConfig,
-              height: 500,
-              width: 725
-            });
-
-
-            zingchart.node_click = function(p) {
-
-              var SHIFT_ACTIVE = p.ev.shiftKey;
-              var sliceData = mySeries[p.plotindex];
-              isOpen = (sliceData.hasOwnProperty('offset-r')) ? (sliceData['offset-r'] !== 0) : false;
-              if (isOpen) {
-                sliceData['offset-r'] = 0;
-              } else {
-                if (!SHIFT_ACTIVE) {
-                  for (var i = 0; i < mySeries.length; i++) {
-                    mySeries[i]['offset-r'] = 0;
-                  }
-                }
-                sliceData['offset-r'] = 20;
+          var myConfig = {
+            type: "pie",
+            globals: {
+              fontFamily: 'sans-serif'
+            },
+            legend: {
+              verticalAlign: 'middle',
+              toggleAction: 'remove',
+              marginRight: 60,
+              width: 100,
+              alpha: 0.1,
+              borderWidth: 0,
+              highlightPlot: true,
+              item: {
+                fontColor: "#373a3c",
+                fontSize: 12
               }
+            },
+            backgroundColor: "#fff",
+            palette: ["#0099CC", "#007E33", "#FF8800", "#CC0000", "#33b5e5"],
+            plot: {
+              refAngle: 270,
+              detach: false,
+              valueBox: {
+                fontColor: "#fff"
+              },
+              highlightState: {
+                borderWidth: 2,
+                borderColor: "#000"
+              }
+            },
+            tooltip: {
+              placement: 'node:out',
+              borderColor: "#373a3c",
+              borderWidth: 2
+            },
+            labels: [{
+              text: "ব্যাক্তিগত ডাটার পরিসংখ্যান",
+              fontSize: 14,
+              textAlign: "left",
+              fontColor: "#373a3c"
 
-              zingchart.exec('myChart', 'setdata', {
-                data: myConfig
-              });
+            }],
+            series: mySeries
+
+          };
+
+          zingchart.render({
+            id: 'myChart',
+            data: myConfig,
+            height: 500,
+            width: 725
+          });
+
+
+          zingchart.node_click = function(p) {
+
+            var SHIFT_ACTIVE = p.ev.shiftKey;
+            var sliceData = mySeries[p.plotindex];
+            isOpen = (sliceData.hasOwnProperty('offset-r')) ? (sliceData['offset-r'] !== 0) : false;
+            if (isOpen) {
+              sliceData['offset-r'] = 0;
+            } else {
+              if (!SHIFT_ACTIVE) {
+                for (var i = 0; i < mySeries.length; i++) {
+                  mySeries[i]['offset-r'] = 0;
+                }
+              }
+              sliceData['offset-r'] = 20;
             }
-          </script>
 
-        </div>
+            zingchart.exec('myChart', 'setdata', {
+              data: myConfig
+            });
+          }
+        </script>
+
       </div>
+    </div>
 
-<?php /*
+    <?php /*
     <div class="row">
       <div class="col-md-12">
         <style type="text/css">
@@ -1297,9 +1297,9 @@
 
 
 
-<!-- END DASHBOARD TILES -->
+    <!-- END DASHBOARD TILES -->
 
-<!-- <div id="container_hi" style="min-width: 310px; height: 400px; margin: 0 auto; margin-bottom:20px"></div> -->
+    <!-- <div id="container_hi" style="min-width: 310px; height: 400px; margin: 0 auto; margin-bottom:20px"></div> -->
     <!-- <table id="datatable" style="display: none;">
     <thead>
         <tr>
@@ -1339,7 +1339,7 @@
     </tbody>
   </table> -->
 
-  <script type="text/javascript">
+    <script type="text/javascript">
       //   Highcharts.chart('container_hi', {
       //     data: {
       //         table: 'datatable'
@@ -1393,7 +1393,7 @@
     </tbody>
 </table>
 -->
-<script type="text/javascript">
+    <script type="text/javascript">
       //   Highcharts.chart('container_prosikhon', {
       //     data: {
       //         table: 'datatables'
@@ -1623,318 +1623,324 @@
 </div>
 
 <script type="text/javascript">
-
-      // Load the Visualization API and the corechart package.
-      google.charts.load('current', {'packages':['corechart']});
-
-
-      // Set a callback to run when the Google Visualization API is loaded.
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() { 
-        var jsonData = $.ajax({ 
-          url: "<?=base_url('dashboard/user_count_by_office_type')?>", 
-          dataType: "json", 
-          async: false 
-        }).responseText; 
-
-        // Create our data table out of JSON data loaded from server. 
-        var data = new google.visualization.DataTable(jsonData); 
-        /*data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        data.addRows([
-          ['Mushrooms', 3],
-          ['Onions', 1],
-          ['Olives', 1],
-          ['Zucchini', 1],
-          ['Pepperoni', 2]
-          ]);*/
-
-        // Set chart options
-        var options = {'title':'ব্যক্তিগত ডাটার সামারি',
-        'width':500,
-        'height':300};
-
-        // Instantiate and draw our chart, passing in some options. 
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div')); 
-        chart.draw(data, options); 
-        /*var chart = new google.visualization.PieChart(document.getElementById('chart_div')); 
-        chart.draw(data, {width: 600, height: 500}); */
-      } 
+  // Load the Visualization API and the corechart package.
+  google.charts.load('current', {
+    'packages': ['corechart']
+  });
 
 
-      // Bar Chart Horizontal
-      google.charts.setOnLoadCallback(drawChart2);
-      // Callback that creates and populates a data table,
-      // instantiates the pie chart, passes in the data and
-      // draws it.
-      function drawChart2() {
-        // Create the data table.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        data.addRows([
-          <?php 
-            foreach ($count_nilg_training as $value) {
-              echo "['".$value['course_title']."',".$value['user_count']."],";
-              // echo "['".$row['month_name']."',".$row['count']."],";
-            }
-          ?>
-          ]);
-        /*data.addRows([
-          ['Mushrooms', 3],
-          ['Onions', 1],
-          ['Olives', 1],
-          ['Zucchini', 1],
-          ['Pepperoni', 2]
-          ]);*/
+  // Set a callback to run when the Google Visualization API is loaded.
+  google.charts.setOnLoadCallback(drawChart);
 
-        // Set chart options
-        var options = {'title':'এনআইএলজি প্রশিক্ষণ কোর্স ',
-        'width':500,
-        'height':300};
+  function drawChart() {
+    var jsonData = $.ajax({
+      url: "<?= base_url('dashboard/user_count_by_office_type') ?>",
+      dataType: "json",
+      async: false
+    }).responseText;
 
-        // Instantiate and draw our chart, passing in some options.
-        // var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        var chart = new google.visualization.BarChart(document.getElementById('chart_div_bar'));
-        chart.draw(data, options);
+    // Create our data table out of JSON data loaded from server. 
+    var data = new google.visualization.DataTable(jsonData);
+    /*data.addColumn('string', 'Topping');
+    data.addColumn('number', 'Slices');
+    data.addRows([
+      ['Mushrooms', 3],
+      ['Onions', 1],
+      ['Olives', 1],
+      ['Zucchini', 1],
+      ['Pepperoni', 2]
+      ]);*/
+
+    // Set chart options
+    var options = {
+      'title': 'ব্যক্তিগত ডাটার সামারি',
+      'width': 500,
+      'height': 300
+    };
+
+    // Instantiate and draw our chart, passing in some options. 
+    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+    /*var chart = new google.visualization.PieChart(document.getElementById('chart_div')); 
+    chart.draw(data, {width: 600, height: 500}); */
+  }
+
+
+  // Bar Chart Horizontal
+  google.charts.setOnLoadCallback(drawChart2);
+  // Callback that creates and populates a data table,
+  // instantiates the pie chart, passes in the data and
+  // draws it.
+  function drawChart2() {
+    // Create the data table.
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Topping');
+    data.addColumn('number', 'Slices');
+    data.addRows([
+      <?php
+      foreach ($count_nilg_training as $value) {
+        echo "['" . $value['course_title'] . "'," . $value['user_count'] . "],";
+        // echo "['".$row['month_name']."',".$row['count']."],";
       }
-      
-      // Google Column Chart
-      // Load the Visualization API and the corechart package.
-      // google.charts.load('visualization', "1", {packages: ['corechart']});
-      function drawChart3() {       
-        /* Define the chart to be drawn.*/
-        var data = google.visualization.arrayToDataTable([
-          ['Month', 'Users Count'],
-          <?php 
-          foreach ($output as $row){
-           echo "['".$row['month_name']."',".$row['count']."],";
-         }
-         ?>
-         ]);
+      ?>
+    ]);
+    /*data.addRows([
+      ['Mushrooms', 3],
+      ['Onions', 1],
+      ['Olives', 1],
+      ['Zucchini', 1],
+      ['Pepperoni', 2]
+      ]);*/
 
-        var options = {
-          title: 'Month Wise Users Of Current Year <?php echo date("Y")?>',
-          isStacked: true
-        };
-        /* Instantiate and draw the chart.*/
-        var chart = new google.visualization.ColumnChart(document.getElementById('month_wise_user_count'));
-        chart.draw(data, options);
+    // Set chart options
+    var options = {
+      'title': 'এনআইএলজি প্রশিক্ষণ কোর্স ',
+      'width': 500,
+      'height': 300
+    };
+
+    // Instantiate and draw our chart, passing in some options.
+    // var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+    var chart = new google.visualization.BarChart(document.getElementById('chart_div_bar'));
+    chart.draw(data, options);
+  }
+
+  // Google Column Chart
+  // Load the Visualization API and the corechart package.
+  // google.charts.load('visualization', "1", {packages: ['corechart']});
+  function drawChart3() {
+    /* Define the chart to be drawn.*/
+    var data = google.visualization.arrayToDataTable([
+      ['Month', 'Users Count'],
+      <?php
+      foreach ($output as $row) {
+        echo "['" . $row['month_name'] . "'," . $row['count'] . "],";
       }
-      google.charts.setOnLoadCallback(drawChart3);
-    </script>
+      ?>
+    ]);
+
+    var options = {
+      title: 'Month Wise Users Of Current Year <?php echo date("Y") ?>',
+      isStacked: true
+    };
+    /* Instantiate and draw the chart.*/
+    var chart = new google.visualization.ColumnChart(document.getElementById('month_wise_user_count'));
+    chart.draw(data, options);
+  }
+  google.charts.setOnLoadCallback(drawChart3);
+</script>
 
 
-    <script>
-      $(document).ready(function() {
+<script>
+  $(document).ready(function() {
 
-        var d2 = [
-        [1, 30],
-        [2, 20],
-        [3, 10],
-        [4, 30],
-        [5, 15],
-        [6, 25],
-        [7, 40]
+    var d2 = [
+      [1, 30],
+      [2, 20],
+      [3, 10],
+      [4, 30],
+      [5, 15],
+      [6, 25],
+      [7, 40]
 
-        ];
-        var d1 = [
-        [1, 30],
-        [2, 30],
-        [3, 20],
-        [4, 40],
-        [5, 30],
-        [6, 45],
-        [7, 50],
-        ];
-        var plot = $.plotAnimator($("#placeholder"), [{
-          label: "Label 1",
-          data: d2,
-          lines: {
-            fill: 0.6,
-            lineWidth: 0,
-          },
-          color: ['#f89f9f']
-        }, {
-          data: d1,
-          animator: {
-            steps: 60,
-            duration: 1000,
-            start: 0
-          },
-          lines: {
-            lineWidth: 2
-          },
-          shadowSize: 0,
-          color: '#f35958'
-        }, {
-          data: d1,
-          points: {
-            show: true,
-            fill: true,
-            radius: 6,
-            fillColor: "#f35958",
-            lineWidth: 3
-          },
-          color: '#fff',
-          shadowSize: 0
+    ];
+    var d1 = [
+      [1, 30],
+      [2, 30],
+      [3, 20],
+      [4, 40],
+      [5, 30],
+      [6, 45],
+      [7, 50],
+    ];
+    var plot = $.plotAnimator($("#placeholder"), [{
+        label: "Label 1",
+        data: d2,
+        lines: {
+          fill: 0.6,
+          lineWidth: 0,
         },
-        {
-          label: "Label 2",
-          data: d2,
-          points: {
-            show: true,
-            fill: true,
-            radius: 6,
-            fillColor: "#f5a6a6",
-            lineWidth: 3
-          },
-          color: '#fff',
-          shadowSize: 0
+        color: ['#f89f9f']
+      }, {
+        data: d1,
+        animator: {
+          steps: 60,
+          duration: 1000,
+          start: 0
+        },
+        lines: {
+          lineWidth: 2
+        },
+        shadowSize: 0,
+        color: '#f35958'
+      }, {
+        data: d1,
+        points: {
+          show: true,
+          fill: true,
+          radius: 6,
+          fillColor: "#f35958",
+          lineWidth: 3
+        },
+        color: '#fff',
+        shadowSize: 0
+      },
+      {
+        label: "Label 2",
+        data: d2,
+        points: {
+          show: true,
+          fill: true,
+          radius: 6,
+          fillColor: "#f5a6a6",
+          lineWidth: 3
+        },
+        color: '#fff',
+        shadowSize: 0
+      }
+    ], {
+      xaxis: {
+        tickLength: 0,
+        tickDecimals: 0,
+        min: 2,
+
+        font: {
+          lineHeight: 13,
+          style: "normal",
+          weight: "bold",
+          family: "sans-serif",
+          variant: "small-caps",
+          color: "#6F7B8A"
         }
-        ], {
-          xaxis: {
-            tickLength: 0,
-            tickDecimals: 0,
-            min: 2,
-
-            font: {
-              lineHeight: 13,
-              style: "normal",
-              weight: "bold",
-              family: "sans-serif",
-              variant: "small-caps",
-              color: "#6F7B8A"
-            }
-          },
-          yaxis: {
-            ticks: 3,
-            tickDecimals: 0,
-            tickColor: "#f0f0f0",
-            font: {
-              lineHeight: 13,
-              style: "normal",
-              weight: "bold",
-              family: "sans-serif",
-              variant: "small-caps",
-              color: "#6F7B8A"
-            }
-          },
-          grid: {
-            backgroundColor: {
-              colors: ["#fff", "#fff"]
-            },
-            borderWidth: 1,
-            borderColor: "#f0f0f0",
-            margin: 0,
-            minBorderMargin: 0,
-            labelMargin: 20,
-            hoverable: true,
-            clickable: true,
-            mouseActiveRadius: 6
-          },
-          legend: {
-            show: false
-          }
-        });
+      },
+      yaxis: {
+        ticks: 3,
+        tickDecimals: 0,
+        tickColor: "#f0f0f0",
+        font: {
+          lineHeight: 13,
+          style: "normal",
+          weight: "bold",
+          family: "sans-serif",
+          variant: "small-caps",
+          color: "#6F7B8A"
+        }
+      },
+      grid: {
+        backgroundColor: {
+          colors: ["#fff", "#fff"]
+        },
+        borderWidth: 1,
+        borderColor: "#f0f0f0",
+        margin: 0,
+        minBorderMargin: 0,
+        labelMargin: 20,
+        hoverable: true,
+        clickable: true,
+        mouseActiveRadius: 6
+      },
+      legend: {
+        show: false
+      }
+    });
 
 
-        $("#placeholder").bind("plothover", function(event, pos, item) {
-          if (item) {
-            var x = item.datapoint[0].toFixed(2),
-            y = item.datapoint[1].toFixed(2);
+    $("#placeholder").bind("plothover", function(event, pos, item) {
+      if (item) {
+        var x = item.datapoint[0].toFixed(2),
+          y = item.datapoint[1].toFixed(2);
 
-            $("#tooltip").html(item.series.label + " of " + x + " = " + y)
-            .css({
-              top: item.pageY + 5,
-              left: item.pageX + 5
-            })
-            .fadeIn(200);
-          } else {
-            $("#tooltip").hide();
-          }
+        $("#tooltip").html(item.series.label + " of " + x + " = " + y)
+          .css({
+            top: item.pageY + 5,
+            left: item.pageX + 5
+          })
+          .fadeIn(200);
+      } else {
+        $("#tooltip").hide();
+      }
 
-        });
+    });
 
-        $("<div id='tooltip'></div>").css({
-          position: "absolute",
-          display: "none",
-          border: "1px solid #fdd",
-          padding: "2px",
-          "background-color": "#fee",
-          "z-index": "99999",
-          opacity: 0.80
-        }).appendTo("body");
-        $("#mini-chart-orders").sparkline([1, 4, 6, 2, 0, 5, 6, 4], {
-          type: 'bar',
-          height: '30px',
-          barWidth: 6,
-          barSpacing: 2,
-          barColor: '#f35958',
-          negBarColor: '#f35958'
-        });
+    $("<div id='tooltip'></div>").css({
+      position: "absolute",
+      display: "none",
+      border: "1px solid #fdd",
+      padding: "2px",
+      "background-color": "#fee",
+      "z-index": "99999",
+      opacity: 0.80
+    }).appendTo("body");
+    $("#mini-chart-orders").sparkline([1, 4, 6, 2, 0, 5, 6, 4], {
+      type: 'bar',
+      height: '30px',
+      barWidth: 6,
+      barSpacing: 2,
+      barColor: '#f35958',
+      negBarColor: '#f35958'
+    });
 
-        $("#mini-chart-other").sparkline([1, 4, 6, 2, 0, 5, 6, 4], {
-          type: 'bar',
-          height: '30px',
-          barWidth: 6,
-          barSpacing: 2,
-          barColor: '#0aa699',
-          negBarColor: '#0aa699'
-        });
+    $("#mini-chart-other").sparkline([1, 4, 6, 2, 0, 5, 6, 4], {
+      type: 'bar',
+      height: '30px',
+      barWidth: 6,
+      barSpacing: 2,
+      barColor: '#0aa699',
+      negBarColor: '#0aa699'
+    });
 
-        $('#ram-usage').easyPieChart({
-          lineWidth: 9,
-          barColor: '#f35958',
-          trackColor: '#e5e9ec',
-          scaleColor: false
-        });
-        $('#disk-usage').easyPieChart({
-          lineWidth: 9,
-          barColor: '#7dc6ec',
-          trackColor: '#e5e9ec',
-          scaleColor: false
-        });
+    $('#ram-usage').easyPieChart({
+      lineWidth: 9,
+      barColor: '#f35958',
+      trackColor: '#e5e9ec',
+      scaleColor: false
+    });
+    $('#disk-usage').easyPieChart({
+      lineWidth: 9,
+      barColor: '#7dc6ec',
+      trackColor: '#e5e9ec',
+      scaleColor: false
+    });
 
     // Moris Charts - Line Charts
 
     Morris.Line({
       element: 'line-example',
       data: [{
-        y: '2006',
-        a: 50,
-        b: 40
-      },
-      {
-        y: '2007',
-        a: 65,
-        b: 55
-      },
-      {
-        y: '2008',
-        a: 50,
-        b: 40
-      },
-      {
-        y: '2009',
-        a: 75,
-        b: 65
-      },
-      {
-        y: '2010',
-        a: 50,
-        b: 40
-      },
-      {
-        y: '2011',
-        a: 75,
-        b: 65
-      },
-      {
-        y: '2012',
-        a: 100,
-        b: 90
-      }
+          y: '2006',
+          a: 50,
+          b: 40
+        },
+        {
+          y: '2007',
+          a: 65,
+          b: 55
+        },
+        {
+          y: '2008',
+          a: 50,
+          b: 40
+        },
+        {
+          y: '2009',
+          a: 75,
+          b: 65
+        },
+        {
+          y: '2010',
+          a: 50,
+          b: 40
+        },
+        {
+          y: '2011',
+          a: 75,
+          b: 65
+        },
+        {
+          y: '2012',
+          a: 100,
+          b: 90
+        }
       ],
       xkey: 'y',
       ykeys: ['a', 'b'],
@@ -1945,40 +1951,40 @@
     Morris.Area({
       element: 'area-example',
       data: [{
-        y: '2006',
-        a: 100,
-        b: 90
-      },
-      {
-        y: '2007',
-        a: 75,
-        b: 65
-      },
-      {
-        y: '2008',
-        a: 50,
-        b: 40
-      },
-      {
-        y: '2009',
-        a: 75,
-        b: 65
-      },
-      {
-        y: '2010',
-        a: 50,
-        b: 40
-      },
-      {
-        y: '2011',
-        a: 75,
-        b: 65
-      },
-      {
-        y: '2012',
-        a: 100,
-        b: 90
-      }
+          y: '2006',
+          a: 100,
+          b: 90
+        },
+        {
+          y: '2007',
+          a: 75,
+          b: 65
+        },
+        {
+          y: '2008',
+          a: 50,
+          b: 40
+        },
+        {
+          y: '2009',
+          a: 75,
+          b: 65
+        },
+        {
+          y: '2010',
+          a: 50,
+          b: 40
+        },
+        {
+          y: '2011',
+          a: 75,
+          b: 65
+        },
+        {
+          y: '2012',
+          a: 100,
+          b: 90
+        }
       ],
       xkey: 'y',
       ykeys: ['a', 'b'],
@@ -1992,18 +1998,18 @@
     Morris.Donut({
       element: 'donut-example',
       data: [{
-        label: "জনপ্রতিনিধির সংখ্যা",
+          label: "জনপ্রতিনিধির সংখ্যা",
           value: <?php //$total_jonoprotinidhi
-          ?>
+                  ?>
         },
         {
           label: "কর্মকর্তা / কর্মচারীর সংখ্যা",
           value: <?php // $total_kormokorta_kormochari
-          ?>
+                  ?>
         }
-        ],
-        colors: ['#60bfb6', '#91cdec', '#eceff1']
-      });
+      ],
+      colors: ['#60bfb6', '#91cdec', '#eceff1']
+    });
 
     $('#mysparkline').sparkline([4, 3, 3, 1, 4, 3, 2, 2, 3], {
       type: 'line',
@@ -2049,19 +2055,19 @@
 
     $("#sparkline-pie").sparkline([<?php //$total_jonoprotinidhi_male + $total_kormokorta_kormochari_male
                                     ?>, <?php // $total_jonoprotinidhi_female + $total_kormokorta_kormochari_female
-                                    ?>], {
-                                      type: 'pie',
-                                      width: '100%',
-                                      height: '100%',
-                                      sliceColors: ['#eceff1', '#f35958', '#dee1e3'],
-                                      offset: 10,
-                                      borderWidth: 0,
-                                      borderColor: '#000000 ',
-                                    });
+                                        ?>], {
+      type: 'pie',
+      width: '100%',
+      height: '100%',
+      sliceColors: ['#eceff1', '#f35958', '#dee1e3'],
+      offset: 10,
+      borderWidth: 0,
+      borderColor: '#000000 ',
+    });
 
     var seriesData = [
-    [],
-    []
+      [],
+      []
     ];
     var random = new Rickshaw.Fixtures.RandomData(50);
 
@@ -2111,21 +2117,21 @@ console.log(jonoprotinidhi[])<?php */ ?>
 
 
 
-var d1_1 = [
-[1325376000100, 80],
-[1325376000101, 40],
-[1330560000000, 30],
-[1333238400000, 20],
-[1335830400000, 10]
-];
+    var d1_1 = [
+      [1325376000100, 80],
+      [1325376000101, 40],
+      [1330560000000, 30],
+      [1333238400000, 20],
+      [1335830400000, 10]
+    ];
 
-var d1_2 = [
-[1325376000132, 50],
-[1325376000107, 60],
-[1330560000000, 100],
-[1333238400000, 35],
-[1335830400000, 30]
-];
+    var d1_2 = [
+      [1325376000132, 50],
+      [1325376000107, 60],
+      [1330560000000, 100],
+      [1333238400000, 35],
+      [1335830400000, 30]
+    ];
 
     /* var d1_3 = [
         [1325376000000, 80],
@@ -2143,34 +2149,34 @@ var d1_2 = [
         [1335830400000, 15]
         ];*/
 
-        var data1 = [{
-          label: "জনপ্রতিনিধি",
-          data: d1_1,
-          bars: {
-            show: true,
-            barWidth: 12 * 24 * 60 * 60 * 300,
-            fill: true,
-            lineWidth: 0,
-            order: 1,
-            fillColor: "rgba(243, 89, 88, 0.7)"
-          },
-          color: "rgba(243, 89, 88, 0.7)"
+    var data1 = [{
+        label: "জনপ্রতিনিধি",
+        data: d1_1,
+        bars: {
+          show: true,
+          barWidth: 12 * 24 * 60 * 60 * 300,
+          fill: true,
+          lineWidth: 0,
+          order: 1,
+          fillColor: "rgba(243, 89, 88, 0.7)"
         },
-        {
-          label: "কর্মকর্তা / কর্মচারী",
-          data: d1_2,
-          bars: {
-            show: true,
-            barWidth: 12 * 24 * 60 * 60 * 300,
-            fill: true,
-            lineWidth: 0,
-            order: 2,
-            fillColor: "rgba(251, 176, 94, 0.7)"
-          },
-          color: "rgba(251, 176, 94, 0.7)"
+        color: "rgba(243, 89, 88, 0.7)"
+      },
+      {
+        label: "কর্মকর্তা / কর্মচারী",
+        data: d1_2,
+        bars: {
+          show: true,
+          barWidth: 12 * 24 * 60 * 60 * 300,
+          fill: true,
+          lineWidth: 0,
+          order: 2,
+          fillColor: "rgba(251, 176, 94, 0.7)"
         },
+        color: "rgba(251, 176, 94, 0.7)"
+      },
 
-        ];
+    ];
 
     /*    $.plot($("#placeholder-bar-chart"), data1, {
             xaxis: {
@@ -2207,44 +2213,44 @@ var d1_2 = [
         });
         */
 
-        function getMonthName(newTimestamp) {
-          var d = new Date(newTimestamp);
+    function getMonthName(newTimestamp) {
+      var d = new Date(newTimestamp);
 
-          var numericMonth = d.getMonth();
-          var monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      var numericMonth = d.getMonth();
+      var monthArray = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-          var alphaMonth = monthArray[numericMonth];
+      var alphaMonth = monthArray[numericMonth];
 
-          return alphaMonth;
-        }
+      return alphaMonth;
+    }
 
 
     // ORDERED & STACKED CHART
     var data2 = [{
-      label: "জনপ্রতিনিধি",
-      data: d1_1,
-      bars: {
-        show: true,
-        barWidth: 12 * 24 * 60 * 60 * 300 * 2,
-        fill: true,
-        lineWidth: 0,
-        order: 0,
-        fillColor: "rgba(243, 89, 88, 0.7)"
+        label: "জনপ্রতিনিধি",
+        data: d1_1,
+        bars: {
+          show: true,
+          barWidth: 12 * 24 * 60 * 60 * 300 * 2,
+          fill: true,
+          lineWidth: 0,
+          order: 0,
+          fillColor: "rgba(243, 89, 88, 0.7)"
+        },
+        color: "rgba(243, 89, 88, 0.7)"
+      }, {
+        label: "কর্মকর্তা / কর্মচারী",
+        data: d1_2,
+        bars: {
+          show: true,
+          barWidth: 12 * 24 * 60 * 60 * 300 * 2,
+          fill: true,
+          lineWidth: 0,
+          order: 0,
+          fillColor: "rgba(155, 200, 94, 0.7)"
+        },
+        color: "rgba(155, 200, 94, 0.7)"
       },
-      color: "rgba(243, 89, 88, 0.7)"
-    }, {
-      label: "কর্মকর্তা / কর্মচারী",
-      data: d1_2,
-      bars: {
-        show: true,
-        barWidth: 12 * 24 * 60 * 60 * 300 * 2,
-        fill: true,
-        lineWidth: 0,
-        order: 0,
-        fillColor: "rgba(155, 200, 94, 0.7)"
-      },
-      color: "rgba(155, 200, 94, 0.7)"
-    },
 
     ];
     /*$.plot($('#stacked-ordered-chart'), data2, {    
@@ -2278,17 +2284,17 @@ var d1_2 = [
 
       data.push({
         data: [
-        [0, 1],
-        [1, 4],
-        [2, 2]
+          [0, 1],
+          [1, 4],
+          [2, 2]
         ]
       });
 
       data.push({
         data: [
-        [0, 5],
-        [1, 3],
-        [2, 1]
+          [0, 5],
+          [1, 3],
+          [2, 1]
         ]
       });
 

@@ -16,7 +16,7 @@
       <tbody>
          <?php
          foreach ($results as $key => $row) {
-   
+
             if ($row->status == 1) {
                $status = 'এনাবল';
             } else {

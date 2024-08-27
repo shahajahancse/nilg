@@ -1,14 +1,14 @@
-<div class="page-content">     
-  <div class="content">  
+<div class="page-content">
+  <div class="content">
     <ul class="breadcrumb" style="margin-bottom: 20px;">
-      <li> <a href="<?=base_url()?>" class="active"><?=lang('Dashboard')?> </a> </li>
-      <li> <a href="<?=base_url($this->uri->segment(1).'/all')?>" class="active"> <?php echo lang($this->uri->segment(1).'_list');?></a></li>
-      <li><?=lang('Add New')?></li>
+      <li> <a href="<?= base_url() ?>" class="active"><?= lang('Dashboard') ?> </a> </li>
+      <li> <a href="<?= base_url($this->uri->segment(1) . '/all') ?>" class="active"> <?php echo lang($this->uri->segment(1) . '_list'); ?></a></li>
+      <li><?= lang('Add New') ?></li>
     </ul>
-	
-	
-	
-<?php /*?><form class="form-horizontal has-validation-callback" method="post" action="" onsubmit="return validatefltr()">
+
+
+
+    <?php /*?><form class="form-horizontal has-validation-callback" method="post" action="" onsubmit="return validatefltr()">
 <table width="100%" border="0">
 	<tr>
 		<td>&nbsp;</td>
@@ -42,84 +42,123 @@
 </table>
 <div style="clear:both"></div><br />
 <br />
-</form><?php */?>
+</form><?php */ ?>
 
 
 
     <div class="row">
-       <div class="col-md-12">
-          <div class="grid simple horizontal red">
-             <div class="grid-title">
-              <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
-              
-             </div>
-             <div class="grid-body">
-            <div id="infoMessage"><?php //echo $message;?></div>
-				<style type="text/css">
-    .tg  {border-collapse:collapse;border-spacing:0; width:90%;padding-top: 100px;}
-    .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-    .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-    .tg .tg-b44r{background-color:#cbcefb;vertical-align:top;color:black}
-    .tg .tg-jbrh{background-color:#c1c2ef;vertical-align:top;color:black}
-    .tg .tg-yw4l{vertical-align:top;color:black}
-    </style>
-	       <form action="" method="post">
-			   <table >
-			  	<tr>
-				 <td style="padding-left: 10px;"><select class="form-control input-sm" name="Year" id="Year" onchange="this.form.submit()">
-				  <option value="">Select Year</option>
-					<?php
-					  for($i=date("Y");$i>=2010;$i--)
-					  {
-					  
-						$selected='';
-						if($i==$_POST['Year'])
-						 $selected='selected="selected"';
-					 echo '<option '.$selected.' value="'.$i.'">'.$i.'</option>';
-					  }
-					?>
-					
-				  </select>
-				     </td>
-					  </tr>
-				  </table>
-			</form>
-			
-				  <br><br>
-				 <?php if($_POST)
-							$year=$this->input->post('Year');
-							else
-							   $year=date('Y');
-					if($year==2017){  ?>
-				  <table class="tg">
-				 
-				 
-				    <tr>
-				        <th class="tg-b44r">কোর্সের নাম</th>
-						<th class="tg-jbrh">কোর্সের মেয়াদ</th>
-						<th class="tg-jbrh">কোর্সের শুরুর তারিখ</th>
-				    </tr>
-				  	<tr>
-					<?php if($course_names!=NULL) { ?>
-			               <?php foreach($course_names as $row){?>
-							<tr>
-								<td class="tg-b44r"><?=$row['course_name']?></td>
-								<td class="tg-jbrh"><?=$row['course_duration_day']?> মাস</td>
-								<td class="tg-jbrh"><?=$row['prosikkhon_start_date']?></td>
-								
-							</tr>
-							<?php } }?>
-								
-				  </tr>
-				  
-				  </table>     
-				  <?php  }  else  echo "এই সম্পর্কিত কোন ডাটা পাওয়া যায় নি ";?>
-			  
-			  
-	                            
-							     
-				 
-           <?php /*?> <style type="text/css">
+      <div class="col-md-12">
+        <div class="grid simple horizontal red">
+          <div class="grid-title">
+            <h4><span class="semi-bold"><?= $meta_title; ?></span></h4>
+
+          </div>
+          <div class="grid-body">
+            <div id="infoMessage"><?php //echo $message;
+                                  ?></div>
+            <style type="text/css">
+              .tg {
+                border-collapse: collapse;
+                border-spacing: 0;
+                width: 90%;
+                padding-top: 100px;
+              }
+
+              .tg td {
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+                padding: 10px 5px;
+                border-style: solid;
+                border-width: 1px;
+                overflow: hidden;
+                word-break: normal;
+              }
+
+              .tg th {
+                font-family: Arial, sans-serif;
+                font-size: 14px;
+                font-weight: normal;
+                padding: 10px 5px;
+                border-style: solid;
+                border-width: 1px;
+                overflow: hidden;
+                word-break: normal;
+              }
+
+              .tg .tg-b44r {
+                background-color: #cbcefb;
+                vertical-align: top;
+                color: black
+              }
+
+              .tg .tg-jbrh {
+                background-color: #c1c2ef;
+                vertical-align: top;
+                color: black
+              }
+
+              .tg .tg-yw4l {
+                vertical-align: top;
+                color: black
+              }
+            </style>
+            <form action="" method="post">
+              <table>
+                <tr>
+                  <td style="padding-left: 10px;"><select class="form-control input-sm" name="Year" id="Year" onchange="this.form.submit()">
+                      <option value="">Select Year</option>
+                      <?php
+                      for ($i = date("Y"); $i >= 2010; $i--) {
+
+                        $selected = '';
+                        if ($i == $_POST['Year'])
+                          $selected = 'selected="selected"';
+                        echo '<option ' . $selected . ' value="' . $i . '">' . $i . '</option>';
+                      }
+                      ?>
+
+                    </select>
+                  </td>
+                </tr>
+              </table>
+            </form>
+
+            <br><br>
+            <?php if ($_POST)
+              $year = $this->input->post('Year');
+            else
+              $year = date('Y');
+            if ($year == 2017) {  ?>
+              <table class="tg">
+
+
+                <tr>
+                  <th class="tg-b44r">কোর্সের নাম</th>
+                  <th class="tg-jbrh">কোর্সের মেয়াদ</th>
+                  <th class="tg-jbrh">কোর্সের শুরুর তারিখ</th>
+                </tr>
+                <tr>
+                  <?php if ($course_names != NULL) { ?>
+                    <?php foreach ($course_names as $row) { ?>
+                <tr>
+                  <td class="tg-b44r"><?= $row['course_name'] ?></td>
+                  <td class="tg-jbrh"><?= $row['course_duration_day'] ?> মাস</td>
+                  <td class="tg-jbrh"><?= $row['prosikkhon_start_date'] ?></td>
+
+                </tr>
+            <?php }
+                  } ?>
+
+            </tr>
+
+              </table>
+            <?php  } else  echo "এই সম্পর্কিত কোন ডাটা পাওয়া যায় নি "; ?>
+
+
+
+
+
+            <?php /*?> <style type="text/css">
 			   .t  {font-size:18px; border-spacing:20; width:90%;}
 			   			   .a {font-size:18px; padding-right: 4px;}
 
@@ -148,8 +187,8 @@
                 <br/>
 				
 				 
-				<?php */?>
-                <?php /*?><table class="tg">
+				<?php */ ?>
+            <?php /*?><table class="tg">
                 <tr>
                 <th class="tg-b44r">বুনিয়াদি প্রশিক্ষণ কোর্স : </th>
                 <th class="tg-jbrh"><a href="https://www.w3schools.com"><?=$buniad_count?> জন</a> </th>
@@ -238,15 +277,15 @@
                </tr>
                
                </table>
-           <?php */?>
-		
-			
+           <?php */ ?>
+
+
           </div>
         </div>
       </div>
     </div>
 
-    </div> <!-- END ROW -->
+  </div> <!-- END ROW -->
 
-  </div>
+</div>
 </div>

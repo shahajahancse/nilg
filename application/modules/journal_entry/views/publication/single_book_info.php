@@ -153,7 +153,7 @@
 
     <div class="priview-body">
         <?php if (!empty($results[0])) { ?>
-            <p style="margin-top: -10px" > <strong>বইয়ের নাম : <?= $results[0]->name_bn ?> </strong> </p>
+            <p style="margin-top: -10px"> <strong>বইয়ের নাম : <?= $results[0]->name_bn ?> </strong> </p>
         <?php } ?>
         <div class="priview-demand">
             <table class="table table-hover table-bordered report">
@@ -178,7 +178,8 @@
                         <?php $total_entry = $total_book_give = $total_book_sale = $total_sell_by_kg = $total_rest_qty = $total_rest_amt = 0; ?>
                         <?php foreach ($results as $key => $r) { ?>
                             <tr>
-                                <?php //$sale = $r->book_sale_amt + $r->book_give_amt + $r->sell_by_kg_amt; ?>
+                                <?php //$sale = $r->book_sale_amt + $r->book_give_amt + $r->sell_by_kg_amt; 
+                                ?>
                                 <td><?php echo date_bangla_calender_format($r->issue_date); ?></td>
                                 <?php if ($r->type == 1) { ?>
                                     <td><?php echo eng2bng($r->quantity); ?></td>

@@ -232,101 +232,103 @@
                                                     href="javascript:void(0)">Create Group</a>
                                             </div>
 
-                                            <table class="col-md-12" width="100%" border="1"
-                                                style="border:1px solid #a09e9e;" id="appRowDiv">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Select</th>
-                                                        <th>বাজেট শিরোনাম<span class="required">*</span></th>
-                                                        <th>বাজেট কোড<span class="required">*</span></th>
-                                                        <th>অংশগ্রহণকারী <span class="required">*</span></th>
-                                                        <th>দিন/বার<span class="required">*</span></th>
-                                                        <th>পরিমান<span class="required">*</span></th>
-                                                        <th>বাজেট পরিমাণ</th>
-                                                        <th>অ্যাকশন </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="tbody">
-                                                    <?php
-                                                    $group_name = '';
-                                                    $end = false;
-                                                    $end1 = false;
-                                                    foreach ($budget_field_details as $key => $data):
-                                                        if ($group_name != $data->group_name && $data->group_name != 'xnone') {
-                                                            echo '<tr class="group-header group-header-' . $data->group_name . '">
-                                                            <td colspan="8">
-                                                                <b>' . $data->group_name . '</b>
-                                                                <a href="javascript:void(0)" data-group_name="' . $data->group_name . '" class="btn btn-danger btn-sm remove-group" style="float: right;"><i class="fa fa-times"></i> Remove Group</a>
-                                                            </td>
-                                                        </tr>';
-                                                            $group_name = $data->group_name;
-                                                        } elseif ($data->group_name == 'xnone') {
-                                                            $end = true;
-                                                            $group_name = $data->group_name;
-                                                        }
-
-                                                        if ($data->head_sub_id == 2147483647) {
-                                                            $detail_id = $data->budget_field_details_id;
-                                                            $this->db->select('*');
-                                                            $this->db->from('budget_custom_sub_head');
-                                                            $this->db->where('details_id', $detail_id);
-                                                            $query =  $this->db->get()->row();
-
-                                                            $name_bn = '<input type=""  name="custom_m[]" class="form-control input-sm"  value="' . $query->name . '"/>
-                                                            ';
-                                                        } else {
-                                                            $name_bn = $data->name_bn;
-                                                        }
-                                                    ?>
-
-                                                        <?php if ($end == false) { ?>
-                                                            <tr class="group-row group-row-<?= $data->group_name ?>">
-                                                                <td></td>
-                                                            <?php } elseif ($end1 == true && $end == false) {
-                                                            $end1 = true; ?>
-                                                            <tr class="group-end-row">
-                                                                <td><input type="checkbox" class="row-select"></td>
-                                                            <?php } else { ?>
-                                                            <tr>
-                                                                <td><input type="checkbox" class="row-select"></td>
-                                                            <?php } ?>
-                                                            <td><?= $name_bn ?></td>
-                                                            <td><?= $data->bd_code ?></td>
-                                                            <td>
-                                                                <input type="number" value="<?= $data->participants ?>"
-                                                                    min="1" name="token_participant[]"
-                                                                    onkeyup="calculateTotal_token(this)"
-                                                                    class="form-control input-sm token_participant">
-                                                            </td>
-                                                            <td>
-                                                                <input type="number" value="<?= $data->days ?>" min="1"
-                                                                    name="token_day[]" onkeyup="calculateTotal_token(this)"
-                                                                    class="form-control input-sm token_day">
-                                                            </td>
-                                                            <td>
-                                                                <input type="number" value="<?= $data->amount ?>" min="1"
-                                                                    name="token_amount[]"
-                                                                    onkeyup="calculateTotal_token(this)"
-                                                                    class="form-control input-sm token_amount">
-                                                            </td>
-                                                            <td>
-                                                                <input type="hidden" class="group_name" name="group_name[]"
-                                                                    value="<?= $data->group_name ?>">
-                                                                <input type="hidden" name="head_id[]"
-                                                                    value="<?= $data->budget_head_id ?>">
-                                                                <input type="hidden" name="head_sub_id[]"
-                                                                    value="<?= $data->id ?>">
-                                                                <input value="<?= $data->total_amt ?>" min="0" type="number"
-                                                                    onkeyup="calculateTotal()" name="amount[]"
-                                                                    class="form-control amount input-sm token_amount_<?= $data->id ?>">
-                                                            </td>
-                                                            <td><a href="javascript:void(0)" onclick="removeRow(this)"
-                                                                    class="btn btn-danger btn-sm" style="padding: 3px;"><i
-                                                                        class="fa fa-times"></i> Remove</a></td>
-                                                            </tr>
-                                                        <?php endforeach; ?>
-                                                </tbody>
-                                            </table>
+                                            <div class="col-md-12 table-responsive">
+                                                <table class="table table-hover table-condensed"  border="1"
+                                                    style="border:1px solid #a09e9e;" id="appRowDiv">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Select</th>
+                                                            <th>বাজেট শিরোনাম<span class="required">*</span></th>
+                                                            <th>বাজেট কোড<span class="required">*</span></th>
+                                                            <th>অংশগ্রহণকারী <span class="required">*</span></th>
+                                                            <th>দিন/বার<span class="required">*</span></th>
+                                                            <th>পরিমান<span class="required">*</span></th>
+                                                            <th>বাজেট পরিমাণ</th>
+                                                            <th>অ্যাকশন </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tbody">
+                                                        <?php
+                                                        $group_name = '';
+                                                        $end = false;
+                                                        $end1 = false;
+                                                        foreach ($budget_field_details as $key => $data):
+                                                            if ($group_name != $data->group_name && $data->group_name != 'xnone') {
+                                                                echo '<tr class="group-header group-header-' . $data->group_name . '">
+                                                                <td colspan="8">
+                                                                    <b>' . $data->group_name . '</b>
+                                                                    <a href="javascript:void(0)" data-group_name="' . $data->group_name . '" class="btn btn-danger btn-sm remove-group" style="float: right;"><i class="fa fa-times"></i> Remove Group</a>
+                                                                </td>
+                                                            </tr>';
+                                                                $group_name = $data->group_name;
+                                                            } elseif ($data->group_name == 'xnone') {
+                                                                $end = true;
+                                                                $group_name = $data->group_name;
+                                                            }
+    
+                                                            if ($data->head_sub_id == 2147483647) {
+                                                                $detail_id = $data->budget_field_details_id;
+                                                                $this->db->select('*');
+                                                                $this->db->from('budget_custom_sub_head');
+                                                                $this->db->where('details_id', $detail_id);
+                                                                $query =  $this->db->get()->row();
+    
+                                                                $name_bn = '<input type=""  name="custom_m[]" class="form-control input-sm"  value="' . $query->name . '"/>
+                                                                ';
+                                                            } else {
+                                                                $name_bn = $data->name_bn;
+                                                            }
+                                                        ?>
+    
+                                                            <?php if ($end == false) { ?>
+                                                                <tr class="group-row group-row-<?= $data->group_name ?>">
+                                                                    <td></td>
+                                                                <?php } elseif ($end1 == true && $end == false) {
+                                                                $end1 = true; ?>
+                                                                <tr class="group-end-row">
+                                                                    <td><input type="checkbox" class="row-select"></td>
+                                                                <?php } else { ?>
+                                                                <tr>
+                                                                    <td><input type="checkbox" class="row-select"></td>
+                                                                <?php } ?>
+                                                                <td><?= $name_bn ?></td>
+                                                                <td><?= $data->bd_code ?></td>
+                                                                <td>
+                                                                    <input type="number" value="<?= $data->participants ?>"
+                                                                        min="1" name="token_participant[]"
+                                                                        onkeyup="calculateTotal_token(this)"
+                                                                        class="form-control input-sm token_participant">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" value="<?= $data->days ?>" min="1"
+                                                                        name="token_day[]" onkeyup="calculateTotal_token(this)"
+                                                                        class="form-control input-sm token_day">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" value="<?= $data->amount ?>" min="1"
+                                                                        name="token_amount[]"
+                                                                        onkeyup="calculateTotal_token(this)"
+                                                                        class="form-control input-sm token_amount">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="hidden" class="group_name" name="group_name[]"
+                                                                        value="<?= $data->group_name ?>">
+                                                                    <input type="hidden" name="head_id[]"
+                                                                        value="<?= $data->budget_head_id ?>">
+                                                                    <input type="hidden" name="head_sub_id[]"
+                                                                        value="<?= $data->id ?>">
+                                                                    <input value="<?= $data->total_amt ?>" min="0" type="number"
+                                                                        onkeyup="calculateTotal()" name="amount[]"
+                                                                        class="form-control amount input-sm token_amount_<?= $data->id ?>">
+                                                                </td>
+                                                                <td><a href="javascript:void(0)" onclick="removeRow(this)"
+                                                                        class="btn btn-danger btn-sm" style="padding: 3px;"><i
+                                                                            class="fa fa-times"></i> Remove</a></td>
+                                                                </tr>
+                                                            <?php endforeach; ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                             <br>
                                             <br>
 

@@ -167,7 +167,7 @@
     </div>
 
     <div class="priview-body">
-        <div class="priview-demand">
+        <div class="priview-demand table-responsive">
             <table class="table table-hover table-bordered report">
                 <thead class="headding">
                     <tr>

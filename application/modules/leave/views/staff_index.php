@@ -23,7 +23,7 @@
             </div>
           </div>
 
-          <div class="grid-body table-responsive">
+          <div class="grid-body">
             <div id="infoMessage"><?php echo $message; ?></div>
             <?php if ($this->session->flashdata('success')): ?>
               <div class="alert alert-success">
@@ -79,6 +79,16 @@
                   </div>
                 </div>
               </div>
+              <!-- <div class="col-md-3 p5">
+                <div class="form-group">
+                  <span class="input-group-btn" style="display: block; margin-top: -1px">
+                    <button class="btn btn-primary btn-block btt-m">
+                      <span style="margin-left: -6px;" class="fa fa-search"></span>
+                    </button>
+                    <a href="<?= base_url('leave'); ?>" class="btn btn-primary btn-block btt-t"><span style="margin-left: -12px;">মুছুন</span></a>
+                  </span>
+                </div>
+              </div> -->
             </form>
 
             <div class="table-responsive">
@@ -135,27 +145,27 @@
                             <?php if ($row->status == 1) { ?>
                               <li><a href="<?= base_url('leave/edit/' . encrypt_url($row->id)); ?>">সংশোধন করুন</a></li>
                             <?php } ?>
-  
+
                             <?php if ($row->status == 2) { ?>
                               <li><a href="<?= base_url('leave/forward_change/' . encrypt_url($row->id) . '/1'); ?>">ফরওয়ার্ড টু ড্রাফট </a></li>
                             <?php } else if ($row->status == 3 && empty($row->control_person)) {  ?>
                               <li><a href="<?= base_url('leave/forward_change/' . encrypt_url($row->id) . '/1'); ?>">ফরওয়ার্ড টু ড্রাফট </a></li>
                             <?php } ?>
-  
+
                             <?php if ($row->status == 4) { ?>
                               <li><a href="<?= base_url('leave/form_print/' . encrypt_url($row->id)); ?>">প্রিন্ট</a></li>
                             <?php } ?>
-  
+
                             <?php if (!empty($row->control_person) && $row->status == 1) { ?>
                               <li><a href="<?= base_url('leave/forward_change/' . encrypt_url($row->id) . '/2'); ?>">ফরওয়ার্ড নিয়ন্ত্রণকারি কর্মকর্তা</a></li>
                             <?php } else if (empty($row->control_person) && $row->status == 1) {  ?>
                               <li><a href="<?= base_url('leave/forward_change/' . encrypt_url($row->id) . '/3'); ?>">ফরওয়ার্ড টু অনুমোদন</a></li>
                             <?php } ?>
-  
+
                             <?php if (!empty($row->file_name)) { ?>
                               <li><a target="_blank" href="<?= base_url('uploads/leave/' . $row->file_name); ?>">নথিপত্র</a></li>
                             <?php } ?>
-  
+
                             <?php if ($row->status == 1) { ?>
                               <li><a onclick="return confirm('আপনি সত্যিই  কি এই তথ্যটি ডাটাবেজ থেকে সম্পূর্ণভাবে মুছতে চান?');" href="<?= base_url('leave/delete/' . encrypt_url($row->id)); ?>">মুছে ফেলুন</a></li>
                             <?php } ?>

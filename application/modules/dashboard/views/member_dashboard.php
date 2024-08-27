@@ -1,28 +1,93 @@
 <div class="page-content">
   <div class="content">
-      <div class="row">  
-        <div class="col-md-12">
-          <h1>স্বাগতম, এনআইএলজি (এমআইএস) | জাতীয় স্থানীয় সরকার ইনস্টিটিউট</h1>
-          <!-- <img src="<?=base_url('awedget/assets/img/nilg-logo.png')?>" width="50" style="float: left; margin-right: 20px;"> -->
-          
+    <div class="row">
+      <div class="col-md-12">
+        <h1>স্বাগতম, এনআইএলজি (এমআইএস) | জাতীয় স্থানীয় সরকার ইনস্টিটিউট</h1>
+        <!-- <img src="<?= base_url('awedget/assets/img/nilg-logo.png') ?>" width="50" style="float: left; margin-right: 20px;"> -->
 
 
-        </div>
+
       </div>
-		<div class="row">  
-        <div class="col-md-12">
-        		<style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0; margin: 0 auto;}
-.tg td{font-family:Arial, sans-serif;font-size:14px;padding:12px 15px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#3e3b3b;font-family: 'Kalpurush', 'Open Sans', Arial, sans-serif;}
-.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:12px 15px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#3e3b3b;font-family: 'Kalpurush', 'Open Sans', Arial, sans-serif;}
-.tg .tg-15nz{font-weight:bold;background-color:#009975;color:#ffffff;text-align:center;vertical-align:top;font-size:18px;}
-.tg .tg-g1yh{font-weight:bold;background-color:#009975;color:#ffffff;text-align:left;font-size:18px;}
-.tg .tg-j8pu{font-weight:bold;background-color:#009975;color:#ffffff;text-align:left;vertical-align:top;font-size:18px;}
-.tg .tg-lw4t{font-size:18px;background-color:#ca3e47;color:#ffffff;text-align:center;vertical-align:top}
-.tg .tg-eqgg{font-weight:bold;font-size:18px;background-color:#009975;color:#ffffff;text-align:center;vertical-align:top}
-</style>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <style type="text/css">
+          .tg {
+            border-collapse: collapse;
+            border-spacing: 0;
+            margin: 0 auto;
+          }
 
-<?php /*
+          .tg td {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            padding: 12px 15px;
+            border-style: solid;
+            border-width: 1px;
+            overflow: hidden;
+            word-break: normal;
+            border-color: #3e3b3b;
+            font-family: 'Kalpurush', 'Open Sans', Arial, sans-serif;
+          }
+
+          .tg th {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            font-weight: normal;
+            padding: 12px 15px;
+            border-style: solid;
+            border-width: 1px;
+            overflow: hidden;
+            word-break: normal;
+            border-color: #3e3b3b;
+            font-family: 'Kalpurush', 'Open Sans', Arial, sans-serif;
+          }
+
+          .tg .tg-15nz {
+            font-weight: bold;
+            background-color: #009975;
+            color: #ffffff;
+            text-align: center;
+            vertical-align: top;
+            font-size: 18px;
+          }
+
+          .tg .tg-g1yh {
+            font-weight: bold;
+            background-color: #009975;
+            color: #ffffff;
+            text-align: left;
+            font-size: 18px;
+          }
+
+          .tg .tg-j8pu {
+            font-weight: bold;
+            background-color: #009975;
+            color: #ffffff;
+            text-align: left;
+            vertical-align: top;
+            font-size: 18px;
+          }
+
+          .tg .tg-lw4t {
+            font-size: 18px;
+            background-color: #ca3e47;
+            color: #ffffff;
+            text-align: center;
+            vertical-align: top
+          }
+
+          .tg .tg-eqgg {
+            font-weight: bold;
+            font-size: 18px;
+            background-color: #009975;
+            color: #ffffff;
+            text-align: center;
+            vertical-align: top
+          }
+        </style>
+
+        <?php /*
 <table class="tg">.
 <caption style="font-weight: bold; color: black; font-size: 22px;">স্থানীয় সরকার প্রতিষ্ঠানের পরিসংখ্যান</caption>
   <tr>
@@ -71,8 +136,8 @@
 
 */ ?>
 
-        </div>
-       </div>
+      </div>
+    </div>
 
   </div>
 </div>

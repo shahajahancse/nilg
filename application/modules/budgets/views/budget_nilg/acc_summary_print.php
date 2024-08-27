@@ -168,25 +168,27 @@
 
     <div class="priview-body">
         <div class="priview-demand">
-            <table class="table table-hover table-bordered report">
-                <thead class="headding">
-                    <tr>
-                        <td rowspan="1" style="">ক্রমিক নং</td>
-                        <td rowspan="1" style="">বিষয়</td>
-                        <td rowspan="1" style="">পরিমাণ</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($results as $key => $row) { ?>
+            <div class="table-responsive">
+                <table class="table table-hover table-bordered report">
+                    <thead class="headding">
                         <tr>
-                            <td><?php echo eng2bng($key + 1); ?></td>
-                            <td><?php echo $row->name_bn; ?></td>
-                            <td><?php echo eng2bng($row->acc_amt); ?></td>
-                            <!-- <td><?php echo $row->dg_amt; ?></td> -->
+                            <td rowspan="1" style="">ক্রমিক নং</td>
+                            <td rowspan="1" style="">বিষয়</td>
+                            <td rowspan="1" style="">পরিমাণ</td>
                         </tr>
-                    <?php } ?>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($results as $key => $row) { ?>
+                            <tr>
+                                <td><?php echo eng2bng($key + 1); ?></td>
+                                <td><?php echo $row->name_bn; ?></td>
+                                <td><?php echo eng2bng($row->acc_amt); ?></td>
+                                <!-- <td><?php echo $row->dg_amt; ?></td> -->
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

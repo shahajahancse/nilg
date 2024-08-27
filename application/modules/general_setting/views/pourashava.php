@@ -49,7 +49,7 @@
                     <option value="">-- Select One --</option>
                   </select>
                 </div>
-                <div class="col-md-2 m-b-5" >
+                <div class="col-md-2 m-b-5">
                   <label class="form-label">&nbsp;</label>
                   <button type="submit" class="btn btn-primary btn-mini"><i class="icon-ok"></i> Search</button>
                 </div>
@@ -73,39 +73,39 @@
                </div>
              </form> -->
 
-             <div class="table-responsive">
-               <table class="table table-hover table-condensed" id="">
-                 <thead>
-                   <tr>
-                     <th style="width:2%"> SL </th>
-                     <th style="width:18%">District</th>
-                     <th style="width:18%">Upazila</th>
-                     <th style="width:16%">Name Bn</th>
-                     <th style="width:16%">Name En</th>
-                     <th style="width:12%">Status</th>
-                     <!-- <th style="width:10%">Action</th> -->
-                   </tr>
-                 </thead>
-                 <tbody>
-                   <?php
-                   $sl = $pagination['current_page'];
-                   foreach ($results as $row):
-                     $sl++;
-                   ?>
-                     <tr>
-                       <td class="v-align-middle"><?= $sl . '.' ?></td>
-                       <td class="v-align-middle"><?= $row->dis_name_bn; ?></td>
-                       <td class="v-align-middle"><?= $row->upa_name_bn; ?></td>
-                       <td class="v-align-middle"><strong><?= $row->pou_name_bn; ?></strong></td>
-                       <td class="v-align-middle"><strong><?= $row->pou_name_en; ?></strong></td>
-                       <td class="v-align-middle"><?= $row->status == 1 ? 'Enable' : 'Disable'; ?></td>
-                       <!-- <td><a class="btn btn-mini btn-primary" href="<?= base_url('general_setting/union_edit/' . $row->id) ?>" target="_blank"><?= lang('common_edit') ?></a></td> -->
-                     </tr>
-                   <?php endforeach; ?>
-                 </tbody>
-   
-               </table>
-             </div>
+            <div class="table-responsive">
+              <table class="table table-hover table-condensed" id="">
+                <thead>
+                  <tr>
+                    <th style="width:2%"> SL </th>
+                    <th style="width:18%">District</th>
+                    <th style="width:18%">Upazila</th>
+                    <th style="width:16%">Name Bn</th>
+                    <th style="width:16%">Name En</th>
+                    <th style="width:12%">Status</th>
+                    <!-- <th style="width:10%">Action</th> -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <?php
+                  $sl = $pagination['current_page'];
+                  foreach ($results as $row):
+                    $sl++;
+                  ?>
+                    <tr>
+                      <td class="v-align-middle"><?= $sl . '.' ?></td>
+                      <td class="v-align-middle"><?= $row->dis_name_bn; ?></td>
+                      <td class="v-align-middle"><?= $row->upa_name_bn; ?></td>
+                      <td class="v-align-middle"><strong><?= $row->pou_name_bn; ?></strong></td>
+                      <td class="v-align-middle"><strong><?= $row->pou_name_en; ?></strong></td>
+                      <td class="v-align-middle"><?= $row->status == 1 ? 'Enable' : 'Disable'; ?></td>
+                      <!-- <td><a class="btn btn-mini btn-primary" href="<?= base_url('general_setting/union_edit/' . $row->id) ?>" target="_blank"><?= lang('common_edit') ?></a></td> -->
+                    </tr>
+                  <?php endforeach; ?>
+                </tbody>
+
+              </table>
+            </div>
             <div class="row">
               <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> Total <span style="color: green; font-weight: bold;"><?php echo $total_rows; ?> Pourashava </span></div>
               <div class="col-sm-8 col-md-8 text-right">

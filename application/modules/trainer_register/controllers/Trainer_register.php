@@ -1,9 +1,11 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php defined('BASEPATH') or exit('No direct script access allowed');
 
-class Trainer_register extends Backend_Controller {
+class Trainer_register extends Backend_Controller
+{
     var $userSessID;
 
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
 
         if (!$this->ion_auth->logged_in()):
@@ -17,7 +19,8 @@ class Trainer_register extends Backend_Controller {
     }
 
 
-    public function index($offset=0){
+    public function index($offset = 0)
+    {
         //Manage list the users
         $limit = 50;
         $results = $this->Trainer_register_model->get_data($limit, $offset);
@@ -29,27 +32,28 @@ class Trainer_register extends Backend_Controller {
         $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
         //$this->data['course_type'] = array('' => '--Select One--', 'NILG' => 'NILG Course', 'Other' => 'Other Course', 'Foreign' => 'Foreign Course');
-        
+
         //Load page
         $this->data['meta_title'] = 'প্রশিক্ষকদের তালিকা';
         $this->data['subview'] = 'index';
         $this->load->view('backend/_layout_main', $this->data);
     }
 
-    public function pdf_generate(){
+    public function pdf_generate()
+    {
         $form_data = array(
-                    'name' => $this->input->get('name'), 
-                    'designation' => $this->input->get('designation'),
-                    'mobile_no' => $this->input->get('mobile_no'),
-                    'status' => $this->input->get('status')
-                );        
+            'name' => $this->input->get('name'),
+            'designation' => $this->input->get('designation'),
+            'mobile_no' => $this->input->get('mobile_no'),
+            'status' => $this->input->get('status')
+        );
         $this->data['results'] = $results = $this->Trainer_register_model->get_trainer_list($form_data);
 
         // print_r($this->data['results']); // exit;
         // $this->data['meta_title'] = 'প্রশিক্ষকদের তালিকা';
         // $this->data['subview'] = 'pdf_generate';
         // $this->load->view('backend/_layout_main', $this->data);
-        
+
         // $this->load->view('pdf_generate', $this->data);
         // exit;
 
@@ -62,14 +66,15 @@ class Trainer_register extends Backend_Controller {
         $mpdf->output();
     }
 
-    public function add(){        
+    public function add()
+    {
         $this->form_validation->set_rules('trainer_name', 'প্রশিক্ষকের নাম', 'required|trim');
         $this->form_validation->set_rules('trainer_desig', 'পদবি', 'required|trim');
         $this->form_validation->set_rules('trainer_org_name', 'প্রতিষ্ঠানের নাম', 'required|trim');
         $this->form_validation->set_rules('max_education', 'সর্বোচ্চ শিক্ষাগত যোগ্যতা', 'required|trim');
-        $this->form_validation->set_rules('mobile', 'মোবাইল নাম্বার', 'required|trim');        
+        $this->form_validation->set_rules('mobile', 'মোবাইল নাম্বার', 'required|trim');
 
-        if ($this->form_validation->run() == true){
+        if ($this->form_validation->run() == true) {
             $form_data = array(
                 'trainer_name' => $this->input->post('trainer_name'),
                 'trainer_desig'       => $this->input->post('trainer_desig'),
@@ -80,9 +85,9 @@ class Trainer_register extends Backend_Controller {
                 'email' => $this->input->post('email'),
                 'present_address' => $this->input->post('present_address'),
                 'interested_subject' => $this->input->post('interested_subject')
-                );
+            );
             // print_r($form_data); exit;
-            if($this->Common_model->save('trainer_register', $form_data)){                
+            if ($this->Common_model->save('trainer_register', $form_data)) {
                 $this->session->set_flashdata('success', 'New record insert successfully.');
                 redirect('trainer_register');
             }
@@ -96,14 +101,15 @@ class Trainer_register extends Backend_Controller {
         $this->load->view('backend/_layout_main', $this->data);
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $this->form_validation->set_rules('trainer_name', 'প্রশিক্ষকের নাম', 'required|trim');
         $this->form_validation->set_rules('trainer_desig', 'পদবি', 'required|trim');
         $this->form_validation->set_rules('trainer_org_name', 'প্রতিষ্ঠানের নাম', 'required|trim');
         $this->form_validation->set_rules('max_education', 'সর্বোচ্চ শিক্ষাগত যোগ্যতা', 'required|trim');
-        $this->form_validation->set_rules('mobile', 'মোবাইল নাম্বার', 'required|trim');  
+        $this->form_validation->set_rules('mobile', 'মোবাইল নাম্বার', 'required|trim');
 
-        if ($this->form_validation->run() == true){
+        if ($this->form_validation->run() == true) {
             $form_data = array(
                 'trainer_name' => $this->input->post('trainer_name'),
                 'trainer_desig'       => $this->input->post('trainer_desig'),
@@ -115,9 +121,9 @@ class Trainer_register extends Backend_Controller {
                 'status' => $this->input->post('status'),
                 'present_address' => $this->input->post('present_address'),
                 'interested_subject' => $this->input->post('interested_subject')
-                );
+            );
             // print_r($form_data); exit;
-            if($this->Common_model->edit('trainer_register', $id, 'id', $form_data)){
+            if ($this->Common_model->edit('trainer_register', $id, 'id', $form_data)) {
                 $this->session->set_flashdata('success', 'Update information successfully.');
                 redirect('trainer_register');
             }
@@ -129,9 +135,10 @@ class Trainer_register extends Backend_Controller {
         $this->data['meta_title'] = 'প্রশিক্ষকের তথ্য সংশোধন';
         $this->data['subview'] = 'edit';
         $this->load->view('backend/_layout_main', $this->data);
-    }    
+    }
 
-    public function details($id){
+    public function details($id)
+    {
         $this->data['info'] = $this->Trainer_register_model->get_info($id);
 
         //Load Page
@@ -140,7 +147,8 @@ class Trainer_register extends Backend_Controller {
         $this->load->view('backend/_layout_main', $this->data);
     }
 
-    public function participant_list($id){
+    public function participant_list($id)
+    {
         $this->data['info'] = $this->Trainer_register_model->get_info($id);
 
         //Load Page
@@ -149,34 +157,34 @@ class Trainer_register extends Backend_Controller {
         $this->load->view('backend/_layout_main', $this->data);
     }
 
-    public function program_badge_achievemen(){   
-    // echo 'hello'; exit;     
+    public function program_badge_achievemen()
+    {
+        // echo 'hello'; exit;     
         //$updateid = $this->input->get('hide_id');
         //echo $datasheet_id = $this->Trainer_register_model->get_data_id($this->input->get('national_id'))->id;
         $form_data = array(
-          'data_sheet_id'   => $this->input->get('nid'),
-          'tran_mgmt_id'    => $this->input->get('training_id')
-          );
+            'data_sheet_id'   => $this->input->get('nid'),
+            'tran_mgmt_id'    => $this->input->get('training_id')
+        );
         // print_r($form_data); exit;
         $delete_id = $this->input->get('delete_id');
 
-        if($delete_id > 0 ){
-            if($this->Trainer_register_model->delete_prgram('training_participant', $delete_id))
+        if ($delete_id > 0) {
+            if ($this->Trainer_register_model->delete_prgram('training_participant', $delete_id))
                 echo 'Delete Success';
             else
                 echo 'Delete Failed';
-        }elseif ($this->input->get('nid') > 0){
-            $validate_insert=$this->Trainer_register_model->achievement_checkduplicate($form_data);
-            if(empty($validate_insert)){
-                if($this->Common_model->save('training_participant', $form_data)){
+        } elseif ($this->input->get('nid') > 0) {
+            $validate_insert = $this->Trainer_register_model->achievement_checkduplicate($form_data);
+            if (empty($validate_insert)) {
+                if ($this->Common_model->save('training_participant', $form_data)) {
                     echo 'inserted';
-                }else{
+                } else {
                     echo 'insert fail';
                 }
-            }else{
+            } else {
                 echo 'duplicate';
             }
-
         }
 
         $alldt = $this->Trainer_register_model->get_badge_details_achievement($form_data);
@@ -190,16 +198,16 @@ class Trainer_register extends Backend_Controller {
             <th class="tg-71hr">মোবাইল নম্বর </th>
             <th class="tg-71hr" width="120">অ্যাকশন</th>
         </tr>';
-        for($i=0;$i<sizeof($alldt);$i++){
+        for ($i = 0; $i < sizeof($alldt); $i++) {
             echo '
             <tr>
-                <td class="tg-031e">'.($i+1).'</td>
-                <td class="tg-031e">'.$alldt[$i]->name_bangla.'</td>
-                <td class="tg-031e">'.eng2bng($alldt[$i]->national_id).'</td>
-                <td class="tg-031e">'.$alldt[$i]->desig_name.'</td>
-                <td class="tg-031e">'.$alldt[$i]->telephone_mobile.'</td>
+                <td class="tg-031e">' . ($i + 1) . '</td>
+                <td class="tg-031e">' . $alldt[$i]->name_bangla . '</td>
+                <td class="tg-031e">' . eng2bng($alldt[$i]->national_id) . '</td>
+                <td class="tg-031e">' . $alldt[$i]->desig_name . '</td>
+                <td class="tg-031e">' . $alldt[$i]->telephone_mobile . '</td>
                 <td class="tg-031e">
-                    <button type="button" class="btn btn-danger btn-mini" onclick="return delete_scoutprogram_achievemen('.$alldt[$i]->id.');">Delete</button>
+                    <button type="button" class="btn btn-danger btn-mini" onclick="return delete_scoutprogram_achievemen(' . $alldt[$i]->id . ');">Delete</button>
                 </td>
             </tr>
             ';
@@ -207,7 +215,4 @@ class Trainer_register extends Backend_Controller {
         echo '</table>';
         exit;
     }
-
-
-
 }

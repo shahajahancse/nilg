@@ -1,5 +1,5 @@
 <style>
-   @media only screen and  (max-width: 1140px){
+  @media only screen and (max-width: 1140px) {
     .tableresponsive {
       width: 100%;
       margin-bottom: 15px;
@@ -8,15 +8,15 @@
       -webkit-overflow-scrolling: touch;
       white-space: nowrap;
     }
-}
+  }
 </style>
 
 <div class="page-content">
   <div class="content">
     <ul class="breadcrumb" style="margin-bottom: 20px;">
-      <li> <a href="<?= base_url('dashboard') ?>" class="active"> <?=lang('Dashboard') ?> </a> </li>
-      <li> <a href="<?= base_url('trainee') ?>" class="active"> <?=$module_title?> </a></li>
-      <li><?=$meta_title?></li>
+      <li> <a href="<?= base_url('dashboard') ?>" class="active"> <?= lang('Dashboard') ?> </a> </li>
+      <li> <a href="<?= base_url('trainee') ?>" class="active"> <?= $module_title ?> </a></li>
+      <li><?= $meta_title ?></li>
     </ul>
 
     <div class="row">
@@ -25,9 +25,11 @@
           <div class="grid-title">
             <h4><span class="semi-bold"><?= $meta_title; ?></span></h4>
             <div class="pull-right">
-              <?php //if ($this->ion_auth->is_admin()) { ?>
-              <a href="<?=base_url('trainer/add_trainer')?>" class="btn btn-primary btn-xs btn-mini"> প্রশিক্ষক এন্ট্রি করুন </a>
-              <?php //} ?>
+              <?php //if ($this->ion_auth->is_admin()) { 
+              ?>
+              <a href="<?= base_url('trainer/add_trainer') ?>" class="btn btn-primary btn-xs btn-mini"> প্রশিক্ষক এন্ট্রি করুন </a>
+              <?php //} 
+              ?>
             </div>
           </div>
           <div class="grid-body tableresponsive">
@@ -95,22 +97,22 @@
                 <?php
                 $sl = $pagination['current_page'];
                 foreach ($results as $row) {
-                  $sl++; 
-                  ?>
+                  $sl++;
+                ?>
                   <tr>
-                    <td> <?=eng2bng($sl)?>. </td>
-                    <td> <strong><?=$row->name_bn?></strong> </td>
-                    <td class='font-opensans'> <?=$row->nid?> </td>
-                    <td class='font-opensans'> <?=$row->email?> </td>
-                    <td> <?=$row->current_desig_name?> </td>
+                    <td> <?= eng2bng($sl) ?>. </td>
+                    <td> <strong><?= $row->name_bn ?></strong> </td>
+                    <td class='font-opensans'> <?= $row->nid ?> </td>
+                    <td class='font-opensans'> <?= $row->email ?> </td>
+                    <td> <?= $row->current_desig_name ?> </td>
                     <td>
-                      <div class="btn-group"> 
+                      <div class="btn-group">
                         <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> অ্যাকশন <span class="caret"></span> </a>
                         <ul class="dropdown-menu pull-right">
-                          <li><a href="<?=base_url('trainer/details/'.encrypt_url($row->id));?>"><?=lang('common_details')?></a></li>
+                          <li><a href="<?= base_url('trainer/details/' . encrypt_url($row->id)); ?>"><?= lang('common_details') ?></a></li>
                         </ul>
                       </div>
-                      <!-- <a href="<?=base_url('trainee/request_verification/'.encrypt_url($row->id));?>" class="btn btn-mini btn-primary"><i class="fa fa-check-circle"></i> ভেরিভাই করুন</a</a> -->
+                      <!-- <a href="<?= base_url('trainee/request_verification/' . encrypt_url($row->id)); ?>" class="btn btn-mini btn-primary"><i class="fa fa-check-circle"></i> ভেরিভাই করুন</a</a> -->
 
                       <?php /*
                       <div class="btn-group"> 
@@ -137,22 +139,22 @@
                       */ ?>
                     </td>
                   </tr>
-                  <?php } ?>
-                </tbody>
-              </table>
+                <?php } ?>
+              </tbody>
+            </table>
 
-              <div class="row">
-                <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> Total <span style="color: green; font-weight: bold;"><?php echo $total_rows; ?> Data </span></div>
-                <div class="col-sm-8 col-md-8 text-right">
-                  <?php echo $pagination['links']; ?>
-                </div>
+            <div class="row">
+              <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> Total <span style="color: green; font-weight: bold;"><?php echo $total_rows; ?> Data </span></div>
+              <div class="col-sm-8 col-md-8 text-right">
+                <?php echo $pagination['links']; ?>
               </div>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-    </div> <!-- END ROW -->
+  </div> <!-- END ROW -->
 
-  </div>
+</div>
 </div>

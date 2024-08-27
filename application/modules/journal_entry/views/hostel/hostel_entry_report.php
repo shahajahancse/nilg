@@ -189,7 +189,7 @@
                         <tr>
                             <td style="text-align: right; font-weight: bold;">মোট</td>
                             <?php $obj = new BanglaNumberToWord(); ?>
-                            <td style="text-align: right; font-weight: bold; padding-right: 10px" colspan="5"><span>কথায় : <abbr> <?php echo $obj->numToWord(sprintf("%.2f",$total_amount)); ?></abbr> টাকা মাত্র</span></td>
+                            <td style="text-align: right; font-weight: bold; padding-right: 10px" colspan="5"><span>কথায় : <abbr> <?php echo $obj->numToWord(sprintf("%.2f", $total_amount)); ?></abbr> টাকা মাত্র</span></td>
                             <td style="font-weight: bold;"><?= eng2bng($total_amount) ?></td>
                         </tr>
                     <?php } else {

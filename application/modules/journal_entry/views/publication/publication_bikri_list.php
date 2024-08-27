@@ -57,67 +57,70 @@
                                 background: #ddb90a;
                             }
                         </style>
-                        <table class="table table-hover table-condensed data_table" border="0">
-                            <thead style="background: #d2dee9;">
-                                <tr>
-                                    <th> ক্রম </th>
-                                    <th style="display: none"></th>
-                                    <th>ভাউচার নং</th>
-                                    <th>নাম</th>
-                                    <th>মোবাইল</th>
-                                    <th>পরিমাণ</th>
-                                    <th>কমিশন</th>
-                                    <th>প্রদেয় টাকা</th>
-                                    <th>স্ট্যাটাস</th>
-                                    <th>প্রদানের তারিখ</th>
-                                    <th style="text-align: right;">অ্যাকশন</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php $sl=$pagination['current_page']; foreach ($results as $row): $sl++; ?>
-                                <tr>
-                                    <td class="v-align-middle"><?=eng2bng($sl).'.'?></td>
-                                    <td style="display: none" class="v-align-middle"><?= ($row->issue_date) ; ?></td>
-                                    <td class="v-align-middle"><?=$row->voucher_no; ?></td>
-                                    <td class="v-align-middle"><?=$row->name; ?></td>
-                                    <td class="v-align-middle"><?=$row->mobile; ?></td>
-                                    <td class="v-align-middle"><?= eng2bng($row->amount); ?></td>
-                                    <td class="v-align-middle"><?= eng2bng($row->commission); ?></td>
-                                    <td class="v-align-middle"><?= eng2bng($row->pay_amount); ?></td>
-                                    <?php if ($row->status == 1) {
-                                        $type = '<span class="label label-success">পেন্ডিং</span>';
-                                    } else {
-                                        $type = '<span class="label label-success">অনুমোদিত</span>';
-                                    } ?>
-                                    <td class="v-align-middle"><?=$type; ?></td>
-                                    <td class="v-align-middle"><?= date_bangla_calender_format($row->issue_date) ; ?></td>
-                                    <td align="right">
-                                        <div class="btn-group">
-                                            <button class="btn btn-mini btn-primary">অ্যাকশন</button>
-                                            <button class="btn btn-mini btn-primary dropdown-toggle"
-                                                data-toggle="dropdown"> <span class="caret"></span> </button>
-                                            <ul class="dropdown-menu pull-right">
-                                                <li><a
-                                                        href="<?php echo base_url('journal_entry/publication_bikri_details/'.encrypt_url($row->id))?>"><i
-                                                            class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
-                                                <!-- <li><a
-                                                        href="<?php echo base_url('journal_entry/publication_entry_edit/'.encrypt_url($row->id))?>"><i
-                                                            class="fa fa-pencil-square"></i> সংশোধন করুন </a></li> -->
-                                                <li><a href="<?php echo base_url('journal_entry/publication_entry_delete/'.encrypt_url($row->id))?>"><i
-                                                            class="fa fa-pencil-square"></i>ডিলিট করুন</a></li>
-                                                            <li><a href="<?php echo base_url('journal_entry/publication_print/'.encrypt_url($row->id))?>" target="_blank"><i
-                                                class="fa fa-pencil-square"target="_blank"></i> প্রিন্ট করুন</a></li>
-                                                            <?php if ($row->status == 1 && $this->ion_auth->in_group(array('admin', 'nilg','acc'))) {?>
-                                                <li><a href="<?php echo base_url('journal_entry/chenge_status/publication/'.encrypt_url($row->id))?>"><i
-                                                            class="fa fa-pencil-square"></i> অ্যাপ্রুভ করুন</a></li>
-                                            <?php } ?>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <?php endforeach;?>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive ">
+                            <table class="table table-hover table-condensed data_table" border="0">
+                                <thead style="background: #d2dee9;">
+                                    <tr>
+                                        <th> ক্রম </th>
+                                        <th style="display: none"></th>
+                                        <th>ভাউচার নং</th>
+                                        <th>নাম</th>
+                                        <th>মোবাইল</th>
+                                        <th>পরিমাণ</th>
+                                        <th>কমিশন</th>
+                                        <th>প্রদেয় টাকা</th>
+                                        <th>স্ট্যাটাস</th>
+                                        <th>প্রদানের তারিখ</th>
+                                        <th style="text-align: right;">অ্যাকশন</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $sl = $pagination['current_page'];
+                                    foreach ($results as $row): $sl++; ?>
+                                        <tr>
+                                            <td class="v-align-middle"><?= eng2bng($sl) . '.' ?></td>
+                                            <td style="display: none" class="v-align-middle"><?= ($row->issue_date); ?></td>
+                                            <td class="v-align-middle"><?= $row->voucher_no; ?></td>
+                                            <td class="v-align-middle"><?= $row->name; ?></td>
+                                            <td class="v-align-middle"><?= $row->mobile; ?></td>
+                                            <td class="v-align-middle"><?= eng2bng($row->amount); ?></td>
+                                            <td class="v-align-middle"><?= eng2bng($row->commission); ?></td>
+                                            <td class="v-align-middle"><?= eng2bng($row->pay_amount); ?></td>
+                                            <?php if ($row->status == 1) {
+                                                $type = '<span class="label label-success">পেন্ডিং</span>';
+                                            } else {
+                                                $type = '<span class="label label-success">অনুমোদিত</span>';
+                                            } ?>
+                                            <td class="v-align-middle"><?= $type; ?></td>
+                                            <td class="v-align-middle"><?= date_bangla_calender_format($row->issue_date); ?></td>
+                                            <td align="right">
+                                                <div class="btn-group">
+                                                    <button class="btn btn-mini btn-primary">অ্যাকশন</button>
+                                                    <button class="btn btn-mini btn-primary dropdown-toggle"
+                                                        data-toggle="dropdown"> <span class="caret"></span> </button>
+                                                    <ul class="dropdown-menu pull-right">
+                                                        <li><a
+                                                                href="<?php echo base_url('journal_entry/publication_bikri_details/' . encrypt_url($row->id)) ?>"><i
+                                                                    class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
+                                                        <!-- <li><a
+                                                            href="<?php echo base_url('journal_entry/publication_entry_edit/' . encrypt_url($row->id)) ?>"><i
+                                                                class="fa fa-pencil-square"></i> সংশোধন করুন </a></li> -->
+                                                        <li><a href="<?php echo base_url('journal_entry/publication_entry_delete/' . encrypt_url($row->id)) ?>"><i
+                                                                    class="fa fa-pencil-square"></i>ডিলিট করুন</a></li>
+                                                        <li><a href="<?php echo base_url('journal_entry/publication_print/' . encrypt_url($row->id)) ?>" target="_blank"><i
+                                                                    class="fa fa-pencil-square" target="_blank"></i> প্রিন্ট করুন</a></li>
+                                                        <?php if ($row->status == 1 && $this->ion_auth->in_group(array('admin', 'nilg', 'acc'))) { ?>
+                                                            <li><a href="<?php echo base_url('journal_entry/chenge_status/publication/' . encrypt_url($row->id)) ?>"><i
+                                                                        class="fa fa-pencil-square"></i> অ্যাপ্রুভ করুন</a></li>
+                                                        <?php } ?>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
 
                         <div class="row">
                             <div class="col-sm-4 col-md-4 text-left" style="margin-top: 20px;"> সর্বমোট <span

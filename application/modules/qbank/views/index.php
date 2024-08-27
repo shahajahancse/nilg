@@ -78,10 +78,10 @@
                     $sl++;
                     // Auto Answer
                     $answer = $row->answer != NULL ? "<span class='label label-success'>হ্যাঁ</span>" : "<span class='label label-danger'>না</span>";
-  
+
                     // Status
                     // $status = $row->status == "1"?"<span class='label label-success'>এনাবল</span>":"<span class='label label-success'>ডিজেবল</span>";
-  
+
                   ?>
                     <tr>
                       <td><?= eng2bng($sl) . '.' ?></td>
