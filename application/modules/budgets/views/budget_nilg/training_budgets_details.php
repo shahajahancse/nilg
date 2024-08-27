@@ -13,7 +13,7 @@
     <div class="content">
         <ul class="breadcrumb">
             <li><a href="<?=base_url('dashboard')?>" class="active"> Dashboard </a></li>
-            <li><a href="<?=base_url('budget/budget_nilg_create')?>" class="active"><?=$module_name?></a></li>
+            <li><a href="<?=base_url('budget/training_budgets_create')?>" class="active"><?=$module_name?></a></li>
             <li><?=$meta_title; ?></li>
         </ul>
 
@@ -39,7 +39,7 @@
                         <?php endif; ?>
 
                         <?php $attributes = array('id' => 'jsvalidate');
-                            echo form_open_multipart("budgets/training_budgets_create",$attributes); echo validation_errors();
+                            echo form_open_multipart("budgets/training_budgets_edit",$attributes); echo validation_errors();
                         ?>
                             <div class="row">
                                 <div class="col-md-12"
@@ -69,9 +69,9 @@
                                             <label class="control-label">অফিস ধরণ <span class="required">*</span></label>
                                             <select name="office_type" id="office_type" class="form-control input-sm" required>
                                                 <option value='' selected>নির্বাচন করুন</option>
-                                                <?php foreach ($types as $key => $value) {
-                                                    echo '<option value="'.$value->id.'">'.$value->office_type_name.'</option>';
-                                                } ?>
+                                                <?php foreach ($types as $key => $value) { ?>
+                                                    <option <?= $budget_nilg->office_type == $value->id ? 'selected' : '' ?> value="<?=$value->id?>"><?=$value->office_type_name?></option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                         <div class="col-md-4">
@@ -79,9 +79,9 @@
                                             <label class="control-label">কোর্স নাম <span class="required">*</span></label>
                                             <select name="course_id" id="course_id" class="form-control input-sm" required>
                                                 <option value='' selected>নির্বাচন করুন</option>
-                                                <?php foreach ($cources as $key => $value) {
-                                                    echo '<option value="'.$value->id.'">'.$value->course_title.'</option>';
-                                                } ?>
+                                                <?php foreach ($cources as $key => $value) { ?>
+                                                    <option <?= $budget_nilg->course_id == $value->id ? 'selected' : '' ?> value="<?=$value->id?>"><?=$value->course_title?></option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                         <div class="col-md-4">
@@ -89,9 +89,9 @@
                                             <label class="control-label">প্রশিক্ষণার্থীর ধরন <span class="required">*</span></label>
                                             <select name="trainee_type" id="trainee_type" class="form-control input-sm" required>
                                                 <option value='' selected>নির্বাচন করুন</option>
-                                                <?php foreach ($cources as $key => $value) {
-                                                    echo '<option value="'.$value->id.'">'.$value->name.'</option>';
-                                                } ?>
+                                                <?php foreach ($cources as $key => $value) { ?>
+                                                    <option <?= $budget_nilg->trainee_type == $value->id ? 'selected' : '' ?> value="<?=$value->id?>"><?=$value->name?></option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                     </div>
@@ -99,20 +99,20 @@
                                     <div class="col-md-12" style='margin-bottom:10px'>
                                         <div class="col-md-7">
                                             <label for="">বাজেট শিরোনাম <span class="required">*</span></label>
-                                            <input class="form-control input-sm" name="title" id="title">
+                                            <input value='<?=$budget_nilg->title?>' class="form-control input-sm" name="title" id="title">
                                         </div>
                                         <div class="col-md-2">
                                             <label for="">মেয়াদ (দিন) <span class="required">*</span></label>
-                                            <input type="number" class="form-control input-sm" name="course_day" id="course_day">
+                                            <input value='<?=$budget_nilg->course_day?>' type="number" class="form-control input-sm" name="course_day" id="course_day">
                                         </div>
                                         <div class="col-md-3" >
                                             <?php $session_year=$this->db->order_by('id','desc')->get('session_year')->result();?>
                                             <label for="fcl_year" class="control-label">অর্থবছর <span class="required">*</span></label>
                                             <select name="fcl_year" id="fcl_year" class="form-control input-sm" required>
                                                 <option value='' selected>নির্বাচন করুন</option>
-                                                <?php foreach ($session_year as $key => $value) {
-                                                        echo '<option value="'.$value->id.'">'.$value->session_name.'</option>';
-                                                    } ?>
+                                                <?php foreach ($session_year as $key => $value) { ?>
+                                                    <option <?= $budget_nilg->fcl_year == $value->id ? 'selected' : '' ?> value="<?=$value->id?>"><?=$value->session_name?></option>
+                                                <?php  } ?>
                                             </select>
                                         </div>
                                     </div>
@@ -130,26 +130,21 @@
                                                 }?>
                                             </select>
                                         </div>
-                                        <!-- <div class="col-md-4">
-                                            <label class="control-label">Create Group </label>
-                                            <input type="text" class="input-sm" name="group_name" id="group_name"  placeholder="Enter Group Name">
-                                            <a style="padding-top: 5px;" class="btn btn-success btn-sm input-sm" id="createGroup" href="javascript:void(0)">Create Group</a>
-                                        </div> -->
                                         <div class="col-md-2">
                                             <label for="">প্রশিক্ষণার্থীর সংখ্যা <span class="required">*</span></label>
-                                            <input type="number" onkeyup="calParticipantTotal()" class="form-control input-sm" name="trainee_number" id="trainee_number" value='1'>
+                                            <input value='<?=$budget_nilg->trainee_number?>' type="number" onkeyup="calParticipantTotal()" class="form-control input-sm" name="trainee_number" id="trainee_number">
                                         </div>
                                         <div class="col-md-2">
                                             <label for="">ব্যাচ সংখ্যা <span class="required">*</span></label>
-                                            <input type="number" onkeyup="calParticipantTotal()" class="form-control input-sm" name="batch_number" id="batch_number" value='1'>
+                                            <input value='<?=$budget_nilg->batch_number?>' type="number" onkeyup="calParticipantTotal()" class="form-control input-sm" name="batch_number" id="batch_number">
                                         </div>
                                         <div class="col-md-2">
                                             <label for="">সর্বমোট প্রশিক্ষণার্থী</label>
-                                            <input value='1' class="form-control input-sm" name="total_trainee" id="total_trainee" readonly>
+                                            <input value='<?=$budget_nilg->total_trainee?>' class="form-control input-sm" name="total_trainee" id="total_trainee" readonly>
                                         </div>
                                         <div class="col-md-2">
                                             <label for="">সর্বমোট পরিমান</label>
-                                            <input class="form-control input-sm" name="total_amount" id="total_amount" readonly>
+                                            <input value='<?=$budget_nilg->amount?>' class="form-control input-sm" name="total_amount" id="total_amount" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -186,15 +181,33 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tbody">
+                                                    <?php foreach ($results as $key => $value) { ?>
+                                                        <tr class="head_<?=$value->head_sub_id?>" data-id="<?=$value->head_sub_id?>">
+                                                            <input type="hidden" name="head_sub_id[]" value="<?=$value->head_sub_id?>" >
+                                                            <?php if ($value->head_sub_id != 2147483647) { ?>
+                                                            <td><?=$value->name_bn?></td>
+                                                            <td><?=$value->bd_code?></td>
+                                                            <td><input type="number" value="<?=$value->participants?>" min="1" name="participants[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm participants"></td>
+                                                            <td><input type="number" value="<?=$value->days?>" min="1" name="days[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm days"></td>
+                                                            <td><input type="number" value="<?=$value->amount?>" min="1" name="amount[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_amount"></td>
+                                                            <?php } else { ?>
+                                                            <td colspan="2"><?=$value->name_bn?></td>
+                                                            <td colspan="3"></td>
+                                                            <?php } ?>
+
+                                                            <td><input type="number" value="<?=$value->total_amt?>" min="1" name="total_amt[]" onkeyup="calculateTotal_tokens(this)" class="form-control amount input-sm token_amount_<?=$value->head_sub_id?>"></td>
+                                                            <td><a href="javascript:void(0)" onclick="removeRow(this, <?=$value->head_sub_id?>, <?=$value->id?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
+                                                        </tr>
+                                                    <?php } ?>
                                                 </tbody>
                                             </table>
 
                                             <div class="col-md-12" style="margin-top: 20px; padding: 0px;">
                                                 <div class="form-group margin_top_10">
                                                     <label for=""> বিবরণ:</label>
-                                                    <textarea class="form-control" name="description"
-                                                        style="height: 300px;"
-                                                        id="description"><p></p><p></p></textarea>
+                                                    <textarea class="form-control" name="description" style="height: 300px;" id="description">
+                                                    <?php echo $budget_nilg->description; ?>
+                                                    </textarea>
                                                 </div>
                                             </div>
                                             <div class="">
@@ -296,11 +309,33 @@
 </script>
 
 <script>
-    function removeRow(el, id) {
-        $(".head_"+id).each(function() {
-            $(this).closest("tr").remove();
-        });
-        calculateTotal()
+    function removeRow(el, head_id, id = null) {
+        if (id != null) {
+            $.ajax({
+                type: "POST",
+                url: "<?= base_url('budgets/budgets_nilg_remove_row') ?>",
+                data: {
+                    id: id
+                },
+                success: function(data) {
+                    if (data == 1) {
+                        $(el).closest("tr").remove();
+                        $(".head_"+head_id).each(function() {
+                            $(this).closest("tr").remove();
+                        });
+                        calculateTotal()
+                    } else {
+                        alert('Something went wrong. Please try again!');
+                    }
+                },
+            })
+        } else {
+            $(el).closest("tr").remove();
+            $(".head_"+head_id).each(function() {
+                $(this).closest("tr").remove();
+            });
+            calculateTotal()
+        }
     }
 </script>
 
@@ -309,7 +344,6 @@
         var head_id = id;
         var pat = $('#trainee_number').val();
         var btd = $('#course_day').val();
-
         if (head_id == "") {
             return false;
         }
@@ -409,12 +443,6 @@
         var st = trainee_number * batch_number
         $("#total_trainee").val(st);
     }
-</script>
-<script>
-    $(document).ready(function() {
-        calculateTotal()
-        calParticipantTotal()
-    })
 </script>
 
 <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>

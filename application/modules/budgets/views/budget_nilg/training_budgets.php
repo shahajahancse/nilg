@@ -1,5 +1,5 @@
 <div class="page-content">
-    <div class="content">
+    <div class="content" style='padding-left: 15px; padding-right: 15px;'>
         <ul class="breadcrumb" style="margin-bottom: 20px;">
             <li> <a href="<?=base_url('dashboard')?>" class="active"> ড্যাশবোর্ড </a> </li>
             <li> <a href="javascript:void()" class="active"> <?=$module_name?> </a></li>
@@ -27,7 +27,7 @@
                         </div>
                     </div>
 
-                    <div class="grid-body ">
+                    <div class="grid-body" style="padding: 26px 5px;">
                         <?php if($this->session->flashdata('success')):?>
                         <div class="alert alert-success">
                             <?=$this->session->flashdata('success');?>
@@ -79,15 +79,13 @@
                         <table class="table table-hover table-condensed data_table" border="0">
                             <thead>
                                 <tr>
-                                    <th style="width: 10%"> ক্রম </th>
-                                    <th>শিরোনাম</th>
-                                    <th>বিভাগ</th>
+                                    <th style="width: 5%"> ক্রম </th>
+                                    <th>অফিস ধরণ</th>
+                                    <th>কোর্স নাম</th>
+                                    <th>প্রশিক্ষণার্থীর ধরন</th>
                                     <th>অর্থবছর</th>
                                     <th>পরিমাণ</th>
-                                    <th>ডেস্ক</th>
-                                    <!-- <th>ডেস্কিপশন</th> -->
                                     <th>স্ট্যাটাস</th>
-                                    <th>আপডেট তারিখ</th>
                                     <th style="text-align: right;">অ্যাকশন</th>
                                 </tr>
                             </thead>
@@ -95,30 +93,16 @@
                                 <?php $sl=$pagination['current_page'];
                                 foreach ($results as $row): $sl++; ?>
                                     <tr>
-                                        <td class="v-align-middle"><?=$sl.'.'?> <input type="checkbox" class="check" name="check[]" value="<?=$row->id; ?>"> </td>
-                                        <td class="v-align-middle"><?=$row->title; ?></td>
-                                        <td class="v-align-middle"><?=$row->dept_name; ?></td>
+                                        <td class="v-align-middle"><?=$sl.'.'?>
+                                         <?php if( $this->ion_auth->in_group(array('admin', 'bdh'))){ ?>
+                                             <input type="checkbox" class="check" name="check[]" value="<?=$row->id; ?>"> </td>
+                                         <?php }  ?>
+                                        <td class="v-align-middle"><?=$row->office_type; ?></td>
+                                        <td class="v-align-middle"><?=$row->course_type; ?></td>
+                                        <td class="v-align-middle"><?=$row->trainee_type; ?></td>
                                         <td class="v-align-middle"><?=$row->session_name; ?></td>
-                                        <td class="v-align-middle"><?=$row->amount; ?></td>
-                                        <td class="v-align-middle">
+                                        <td class="v-align-middle"><?=eng2bng($row->amount); ?></td>
                                             <!-- // 1=current, 2=forward dpt, 3=forward acc., 4=dg, 5=back acc, 6=complete, -->
-                                            <?php
-                                                if($row->desk==1){
-                                                echo 'Current';
-                                                }elseif($row->desk==2){
-                                                echo 'Department';
-                                                }elseif($row->desk==3){
-                                                echo 'Account';
-                                                }elseif($row->desk==4){
-                                                echo 'DG Sir';
-                                                }elseif($row->desk==5){
-                                                echo 'back Acc.';
-                                                }elseif($row->desk==6){
-                                                echo 'Complete';
-                                                }
-                                            ?>
-                                        </td>
-                                        <!-- <td class="v-align-middle" style="width: 200px; white-space: normal;overflow: hidden" title="<?=$row->description; ?>"><?=$row->description; ?></td> -->
                                         <td class="v-align-middle">
                                             <!-- 1=pending,2=dpt. app., 3=reject, 4=acc., 5=dg, 6=draft, 7=revenue received -->
                                             <?php if($row->status==1){
@@ -138,8 +122,6 @@
                                             }
                                             ?>
                                         </td>
-
-                                        <td class="v-align-middle"><?=date_bangla_calender_format($row->update_at); ?>
                                         </td>
                                         <td align="right">
                                             <div class="btn-group">
@@ -148,15 +130,14 @@
                                                     data-toggle="dropdown"> <span class="caret"></span> </button>
                                                 <ul class="dropdown-menu pull-right">
                                                     <li><a
-                                                            href="<?php echo base_url('budgets/budget_nilg_details/'.encrypt_url($row->id))?>"><i
+                                                            href="<?php echo base_url('budgets/training_budgets_details/'.encrypt_url($row->id))?>"><i
                                                                 class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
                                                     <li><a
-                                                            href="<?php echo base_url('budgets/budget_nilg_details/'.encrypt_url($row->id))?>"><i
+                                                            href="<?php echo base_url('budgets/training_budgets_details/'.encrypt_url($row->id))?>"><i
                                                                 class="fa fa-pencil-square"></i> সংশোধন করুন </a></li>
-                                                    <li><a id="modalId" data-toggle="modal" data-target="#myModal"
+                                                    <!-- <li><a id="modalId" data-toggle="modal" data-target="#myModal"
                                                             data-id="<?=encrypt_url($row->id) ?>" href=""><i
-                                                                class="fa fa-user"></i> রিভিও</a></li>
-
+                                                                class="fa fa-user"></i> রিভিও</a></li> -->
                                                     <li>
                                                         <a href="<?php echo base_url('budgets/budget_nilg_print/'.encrypt_url($row->id))?>"
                                                             target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট করুন

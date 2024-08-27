@@ -7,18 +7,25 @@ class Budgets_model extends CI_Model {
         parent::__construct();
     }
     // Manage Budget nilg list
-    public function get_budget($limit, $offset, $arr = array(), $dept_id = null, $user_id = null) {
+    public function get_budget($limit, $offset, $arr = array(), $dept_id = null, $user_id = null, $type = null) {
         //$dept_id=$_POST['department_id'];
 
       // result query
       $this->db->select('
-                  q.*,session_year.session_name,
+                  q.*,
+                  session_year.session_name,
                   dpt.name_en,
                   dpt.dept_name,
+                  type.office_type_name as office_type,
+                  course.course_title as course_type,
+                  btt.name as trainee_type,
                 ');
       $this->db->from('budget_nilg as q');
       $this->db->join('session_year','q.fcl_year=session_year.id','left');
       $this->db->join('department dpt', 'q.dept_id = dpt.id', 'left');
+      $this->db->join('office_type type', 'q.office_type = type.id', 'left');
+      $this->db->join('course', 'q.course_id = course.id', 'left');
+      $this->db->join('budget_trainee_type btt', 'q.trainee_type = btt.id', 'left');
 
       if (!empty($arr)) {
           $this->db->where_in('q.status', $arr);
@@ -28,6 +35,9 @@ class Budgets_model extends CI_Model {
       }
       if (!empty($user_id)) {
           $this->db->where('q.created_by', $user_id);
+      }
+      if (!empty($type)) {
+          $this->db->where('q.type', $type);
       }
 
       $this->db->limit($limit);

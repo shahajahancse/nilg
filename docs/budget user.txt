@@ -45,4 +45,14 @@ ALTER TABLE `budget_j_hostel_register` ADD `name` VARCHAR(64) NULL DEFAULT NULL 
 
 ALTER TABLE `budget_j_hostel_register` CHANGE `type` `type` TINYINT(1) NOT NULL COMMENT '1=entry, 2=cash diposit';
 
+ALTER TABLE `budget_nilg` ADD `office_type` INT NULL DEFAULT NULL AFTER `dept_id`, ADD `course_id` INT NULL DEFAULT NULL AFTER `office_type`, ADD `trainee_type` INT NULL DEFAULT NULL AFTER `course_id`, ADD `course_day` INT NULL DEFAULT NULL AFTER `trainee_type`, ADD `trainee_number` INT NULL DEFAULT NULL AFTER `course_day`, ADD `batch_number` INT NULL DEFAULT NULL AFTER `trainee_number`, ADD `total_trainee` INT NULL DEFAULT NULL AFTER `batch_number`;
+ALTER TABLE `budget_nilg` CHANGE `type` `type` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '1=other dpt create, 2=training dpt create';
+ALTER TABLE `budget_field_details` CHANGE `amount` `amount` DECIMAL(12,2) NOT NULL DEFAULT '0.00' COMMENT 'token amt / sub total amt';
+ALTER TABLE `budget_nilg_details` CHANGE `head_id` `head_id` INT(11) NULL DEFAULT NULL COMMENT 'budget_head table id';
+ALTER TABLE `budget_nilg_details`
+  DROP `modify_soft_d`,
+  DROP `office_id`;
+ALTER TABLE `budget_nilg_details` ADD `type` TINYINT NOT NULL DEFAULT '1' COMMENT '1=other dpt create, 2=training dpt create' AFTER `status`, ADD `token` VARCHAR(256) NULL DEFAULT NULL AFTER `type`, ADD `days` TINYINT NOT NULL DEFAULT '1' COMMENT 'number of day or times(bar)' AFTER `token`, ADD `participants` TINYINT NOT NULL COMMENT 'number of participant or times(bar)' AFTER `days`, ADD `total_amt` DECIMAL(12,2) NOT NULL AFTER `participants`;
+ALTER TABLE `budget_nilg_details` ADD `office_id` INT NULL DEFAULT NULL AFTER `created_by`, ADD `modify_soft_d` TINYINT NOT NULL DEFAULT '1' COMMENT '1=active, 2=soft delete, 3=new add ' AFTER `office_id`;
+ALTER TABLE `budget_nilg_details` CHANGE `amount` `amount` DECIMAL(12,2) NOT NULL DEFAULT '0.00' COMMENT 'input amt', CHANGE `total_amt` `total_amt` DECIMAL(12,2) NOT NULL DEFAULT '0' COMMENT 'summation amt';
 
