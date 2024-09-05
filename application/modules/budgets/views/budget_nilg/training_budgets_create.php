@@ -186,8 +186,8 @@
                                                             <td colspan="5">
                                                                 <div style="display: flex; gap: 15px; align-items: center;">
                                                                 <?=$value->name_bn?>
-                                                                <select id="add_sub_row" style="margin-bottom: 0px;min-height: 20px;height: 25px !important;" >
-                                                                    <option value="">add sub row</option>
+                                                                <select class="add_sub_row" data-head_id='<?=$value->id?>' style="margin-bottom: 0px;min-height: 20px;height: 25px !important;" >
+                                                                    <option value="">Add sub row</option>
                                                                 </select>
                                                                 <a onclick="pass_id(<?= $value->id?>)" data-target="#modalNewSubHead" data-toggle="modal" style="padding: 2px 5px !important;font-size: 10px;font-weight: bolder;" class="btn btn-primary btn-sm" id="add_new_sub">Add New +</a>
                                                                 </div>
@@ -288,7 +288,15 @@
                 } else {
                     $('.alert').addClass('alert-red').html(response.msg).show();
                 }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+            },
+            complete: function() {
+                get_sub_row()
+
             }
+
         });
         return false;
     });
@@ -492,6 +500,34 @@
     $(document).ready(function() {
         $('#fcl_year').chosen();
         $('#head_id').chosen();
-        $('#add_sub_row').chosen();
+        $('.add_sub_row').chosen();
+        get_sub_row()
     });
 </script>
+<script>
+function get_sub_row(){
+    $('.add_sub_row').each(function() {
+        var head_id = $(this).data('head_id');
+        var $selectElement = $(this); // Save reference to `this` (the `.add_sub_row` element)
+        console.log(head_id);
+
+        $.ajax({
+            type: "POST",
+            url: "<?=base_url('budgets/get_sub_row') ?>",
+            data: {
+                head_id: head_id
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                var html = '<option value="">Add sub row</option>';
+                for (var i = 0; i < data.length; i++) {
+                    html += '<option value="'+data[i].id+'">'+data[i].name_bn+'</option>';
+                }
+                $selectElement.html(html); // Use the saved reference
+                $selectElement.trigger("chosen:updated"); // Update the chosen plugin
+            }
+        });
+    });
+}
+</script>
+

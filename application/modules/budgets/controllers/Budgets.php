@@ -833,22 +833,15 @@ class Budgets extends Backend_Controller
         }
 
         //Dropdown
-        $this->db->select('
-                        bd.id,
-                        bd.head_sub_id,
-                        SUM(bd.amount) as amount,
-                        SUM(bd.acc_amt) as acc_amt,
-                        SUM(bd.dg_amt) as dg_amt,
-                        SUM(bd.revenue_amt) as revenue_amt,
-                        SUM(bd.total_amt) as total_amt,
-                        bhs.name_bn,
-                        bhs.bd_code,
-                    ');
-        $this->db->from('budget_nilg_details bd');
-        $this->db->join('budget_head_sub as bhs', 'bhs.id = bd.head_sub_id', 'left');
-        $this->db->where_in('bd.budget_nilg_id', $ids);
-        $this->db->order_by('bd.head_sub_id','ASC')->group_by('bd.head_sub_id');
+        $this->db->select('bd.*, oc.office_type_name as office');
+        $this->db->from('budget_revenue_summary bd');
+        $this->db->join('office_type as oc', 'oc.id = bd.office_type', 'left');
+        $this->db->where_in('bd.id', $ids);
+        $this->db->order_by('oc.id','ASC')->group_by('oc.id');
         $this->data['summary'] = $this->db->get()->result();
+        $this->data['ids'] = $ids;
+
+
         //Load view
         $this->data['meta_title'] = 'বাজেট সামারী ';
         $this->data['subview'] = 'budget_nilg/dpt_summary_create';
@@ -2512,5 +2505,14 @@ class Budgets extends Backend_Controller
        echo $this->load->view('chahida_potro/statement_print', $this->data);
 
 
+    }
+
+
+
+    public function get_sub_row(){
+        $head_id = $this->input->post('head_id');
+        $this->db->where('head_id', $head_id);
+        $sub = $this->db->get('budget_head_sub_training')->result();
+        echo json_encode($sub);
     }
 }

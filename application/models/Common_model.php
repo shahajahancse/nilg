@@ -135,15 +135,17 @@ class Common_model extends CI_Model
 
 
     // get nilg employee
-    public function get_nilg_employee($crrnt_dept_id = null)
+    public function get_nilg_employee($crrnt_dept_id = null, $employee_type = null)
     {
-
         $data[''] = '-- নির্বাচন করুন --';
         $this->db->select('id, name_bn');
         $this->db->from('users');
         $this->db->where('is_office !=', 1);
         if ($crrnt_dept_id != null) {
             $this->db->where('crrnt_dept_id', $crrnt_dept_id);
+        }
+        if ($employee_type != null) {
+            $this->db->where('employee_type', $employee_type);
         }
         $this->db->where('office_type', 7);
         $query = $this->db->get();

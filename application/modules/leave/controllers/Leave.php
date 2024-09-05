@@ -246,7 +246,8 @@ class Leave extends Backend_Controller {
         $this->data['info'] = $this->Leave_model->get_user('users',$this->session->userdata('user_id'));
 
         $results = $this->Leave_model->get_yearly_leave_count($userDetails->id);
-        $this->data['users'] = $this->Common_model->get_nilg_employee($this->data['info']->crrnt_dept_id);
+        $this->data['depts'] = $this->Common_model->get_nilg_employee($this->data['info']->crrnt_dept_id, 2);
+        $this->data['emps'] = $this->Common_model->get_nilg_employee($this->data['info']->crrnt_dept_id, 3);
         // View
         $this->data['meta_title'] = 'ছুটি যুক্ত করুন';
         $this->data['total_leave'] = $results['total_leave'];

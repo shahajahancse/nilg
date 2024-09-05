@@ -705,7 +705,7 @@ input[type="search"] {
 
                         <?php if ($this->ion_auth->in_group(array('admin','leave_admin'))) { ?>
                         <li class="start <?= backend_activate_menu_method('role') ?>">
-                           <a href="<?= base_url('general_setting/festival_day'); ?>"> উৎসবের দিন </a>
+                           <a href="<?= base_url('general_setting/festival_day'); ?>">ছুটির ক্যালেন্ডার </a>
                         </li>
                         <?php } ?>
 
