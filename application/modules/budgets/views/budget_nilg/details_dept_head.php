@@ -119,10 +119,8 @@
                                                             <tr>
                                                                 <th width="">শিরোনাম<span class="required">*</span></th>
                                                                 <th width="">বাজেট কোড <span class="required">*</span></th>
-                                                                <th width=""> পরিমান</th>
-                                                                <?php if ($this->ion_auth->in_group(array('bdh'))) { ?>
-                                                                    <th width="">মডিফাই পরিমাণ</th>
-                                                                <?php } ?>
+                                                                <!-- <th width=""> পরিমান</th> -->
+                                                                <th width="">পরিমাণ</th>
                                                                 <th width="10%">অ্যাকশন </th>
                                                             </tr>
                                                         </thead>
@@ -131,18 +129,16 @@
                                                                 <tr>
                                                                     <td><?= $value->name_bn ?></td>
                                                                     <td><?= $value->bd_code ?></td>
-                                                                    <td>
-                                                                        <input type="hidden" name="budget_nilg_details_id[]" value="<?= $value->budget_nilg_details_id ?>">
+                                                                    <!-- <td> -->
+                                                                        <input type="hidden" name="rvm_details_id[]" value="<?= $value->rmv_details_id ?>">
                                                                         <input type="hidden" name="head_id[]" value="<?= $value->head_id ?>">
                                                                         <input type="hidden" name="head_sub_id[]" value="<?= $value->head_sub_id ?>">
-                                                                        <input value="<?= $value->amount ?>" min="0" type="number" class="form-control input-sm" readonly>
+                                                                    <!-- </td> -->
+                                                                    <td>
+                                                                        <input value="<?= $value->amount ?>" min="0" type="number" onkeyup="calculateTotal()" name="dpt_amt[]" class="form-control amount input-sm">
                                                                     </td>
-                                                                    <?php if ($this->ion_auth->in_group(array('bdh'))) { ?>
-                                                                        <td>
-                                                                            <input value="<?= ($value->dpt_amt == '0.00') ? $value->amount : $value->dpt_amt ?>" min="0" type="number" onkeyup="calculateTotal()" name="dpt_amt[]" class="form-control amount input-sm">
-                                                                        </td>
-                                                                    <?php } ?>
-                                                                    <td><a href="javascript:void(0)" onclick="removeRow(this,<?= $value->budget_nilg_details_id ?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
+
+                                                                    <td><a href="javascript:void(0)" onclick="removeRow(this,<?= $value->rmv_details_id ?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
                                                                 </tr>
                                                             <?php } ?>
                                                         </tbody>
@@ -150,10 +146,7 @@
                                                             <tr>
                                                                 <td colspan="2">Total</td>
                                                                 <td>
-                                                                    <input type="number" class="form-control input-sm" name="total_amount_e" id="total_amount_e" value="<?= $budget_nilg->amount ?>" readonly>
-                                                                </td>
-                                                                <td>
-                                                                    <input type="number" class="form-control input-sm" name="total_amount" id="total_amount" readonly>
+                                                                    <input type="number" class="form-control input-sm" name="total_amount" id="total_amount" value="<?= $budget_nilg->amount ?>" readonly>
                                                                 </td>
                                                             </tr>
                                                         </tfoot>
@@ -229,17 +222,12 @@
                 var tr = `<tr>
                         <td>${data.name_bn}</td>
                         <td>${data.bd_code}</td>
-                        <td>
-                        <input type="hidden" name="budget_nilg_details_id[]" value="new" >
+                        <input type="hidden" name="rvm_details_id[]" value="new" >
                         <input type="hidden" name="head_id[]" value="${data.budget_head_id}" >
                         <input type="hidden" name="head_sub_id[]" value="${data.id}" >
-                        <input value="0" min="0" type="number"  class="form-control input-sm" readonly>
-                        </td>
-                        <?php if ($this->ion_auth->in_group(array('bdh'))) { ?>
                         <td>
                             <input value="0" min="0" type="number" onkeyup="calculateTotal()" name="dpt_amt[]" class="form-control amount input-sm">
                         </td>
-                        <?php } ?>
                         <td><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
                      </tr>`
                 $("#tbody").append(tr);

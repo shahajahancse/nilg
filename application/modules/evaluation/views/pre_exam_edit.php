@@ -1,5 +1,5 @@
-<div class="page-content">     
-  <div class="content">  
+<div class="page-content">
+  <div class="content">
     <ul class="breadcrumb" style="margin-bottom: 20px;">
       <li> <a href="<?=base_url('dashboard')?>" class="active"> ড্যাশবোর্ড </a> </li>
       <li> <a href="<?=base_url('evaluation')?>" class="active"> <?=$module_title; ?> </a></li>
@@ -11,7 +11,7 @@
         /*background: #c6ecd9;*/
         background: #ffb3b3;
       }
-      .grab {cursor: -webkit-grab; cursor: grab;}      
+      .grab {cursor: -webkit-grab; cursor: grab;}
     </style>
 
     <div class="row">
@@ -20,11 +20,11 @@
           <div class="grid-title">
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
             <div class="pull-right">
-              <a href="<?=base_url('evaluation/pre_exam')?>" class="btn btn-primary btn-xs btn-mini"> তালিকা</a>  
+              <a href="<?=base_url('evaluation/pre_exam')?>" class="btn btn-primary btn-xs btn-mini"> তালিকা</a>
             </div>
           </div>
           <div class="grid-body">
-            <?php 
+            <?php
             $attributes = array('id' => 'validate', 'autcomplete' => 'off');
             echo form_open_multipart(current_url(), $attributes);?>
 
@@ -39,60 +39,60 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <label class="form-label">প্রশিক্ষণের নাম <span class="required">*</span></label>
-                  <?php echo form_error('training_id'); 
+                  <?php echo form_error('training_id');
                   $more_attr = 'class="form-control input-sm" id="training_id"';
                   echo form_dropdown('training_id', $training, set_value('training_id', $info->training_id), $more_attr);
                   ?>
                 </div>
-              </div>  
+              </div>
             </div>
 
-            <div class="row form-row">         
+            <div class="row form-row">
               <div class="col-md-5">
                 <label class="form-label">মূল্যায়নের বিষয় <span class="required">*</span></label>
                 <?php echo form_error('training_mark_id');
                 $more_attr = 'class="evaluation_val form-control input-sm" style="height:20px !important;"';
                 echo form_dropdown('training_mark_id', $training_mark, set_value('training_mark_id', $info->training_mark_id), $more_attr);
                 ?>
-              </div> 
+              </div>
               <div class="col-md-4">
                 <div class="form-group">
                   <label class="form-label">প্রশ্নপত্রের সেট <span class="required">*</span></label>
                   <?php echo form_error('exam_set');?>
                   <input name="exam_set" type="text" value="<?=set_value('exam_set', $info->exam_set)?>" class="form-control input-sm" placeholder="ক সেট">
                 </div>
-              </div> 
+              </div>
               <div class="col-md-3" style="">
                 <label class="form-label">পাবলিশ</label>
                 <?php echo form_error('is_published'); ?>
-                <input type="radio" name="is_published" value="1" <?=$info->is_published == '1' ? "checked" : ""; ?>> <span style="color: black; font-size: 15px;">হ্যাঁ </span> 
+                <input type="radio" name="is_published" value="1" <?=$info->is_published == '1' ? "checked" : ""; ?>> <span style="color: black; font-size: 15px;">হ্যাঁ </span>
                 <input type="radio" name="is_published" value="0" <?=$info->is_published == '0' ? "checked" : ""; ?>> <span style="color: black; font-size: 15px;">না</span>
                 <div class="error_placeholder"></div>
               </div>
             </div>
 
-            <div class="row form-row"> 
+            <div class="row form-row">
               <div class="col-md-4">
                 <div class="form-group">
                   <label class="form-label">পরীক্ষার তারিখ <span class="required">*</span></label>
                   <?php echo form_error('exam_date');?>
                   <input name="exam_date" type="date" value="<?=set_value('exam_date', $info->exam_date)?>" class="form-control input-sm" required>
                 </div>
-              </div> 
+              </div>
               <div class="col-md-4">
                 <div class="form-group">
                   <label class="form-label">পরীক্ষা শুরু <span class="required">*</span></label>
                   <?php echo form_error('exam_start_time');?>
                   <input name="exam_start_time" type="time" value="<?=set_value('exam_start_time', $info->exam_start_time)?>" class="form-control input-sm" required>
                 </div>
-              </div>  
+              </div>
               <div class="col-md-4">
                 <div class="form-group">
                   <label class="form-label">পরীক্ষার সময় <span class="required">*</span></label>
                   <?php echo form_error('exam_duration');?>
                   <input name="exam_duration" type="number" value="<?=set_value('exam_duration', $info->exam_duration)?>" class="form-control input-sm" placeholder="ex. 45 minute" required>
                 </div>
-              </div>  
+              </div>
             </div>
 
             <div class="row form-row">
@@ -106,9 +106,9 @@
                 <div style="clear: both; padding-bottom: 10px;"></div>
 
                 <?php if (!empty($questions)) {  ?>
-                  <ul id="list2" class="list-group"><?php 
+                  <ul id="list2" class="list-group"><?php
                     $sl=0;
-                    foreach ($questions as $value) { 
+                    foreach ($questions as $value) {
                       $sl++;
                       ?>
                       <li class="list-group-item grab">
@@ -117,7 +117,7 @@
                         </h6>
                         <input type="hidden" name="hideid[]" value="<?=$value->id?>">
                         <input type="hidden" class="hidenumber" name="hidenumber[]" value="<?=$value->qnumber?>">
-                        <?php 
+                        <?php
                         /*
                         if($value->question_type == 1){
                           echo '<input type="text" name="input_text" class="form-control input-sm">';
@@ -125,7 +125,7 @@
                           echo '<textarea name="input_textarea" class="form-control input-sm"></textarea>';
                         }elseif($value->question_type == 3){
                           foreach ($value->options as $row) {
-                            echo '<div class="form-check" style="margin-left: 30px;">                
+                            echo '<div class="form-check" style="margin-left: 30px;">
                             <label class="form-check-label" for="exampleRadios1">
                               <input class="form-check-input" type="radio" name="input_radios" id="exampleRadios1">
                               <b>'.$row->option_name.'</b>
@@ -141,7 +141,7 @@
                           }
                         }
                         */
-                      echo '</li>'; 
+                      echo '</li>';
                     } ?>
                   </ul>
                 <?php } else { ?>
@@ -150,14 +150,14 @@
               </div>
             </div>
 
-            <div class="form-actions">  
+            <div class="form-actions">
               <div class="pull-right">
                 <?php echo form_submit('submit', lang('common_save'), "class='btn btn-primary btn-cons font-big-bold'"); ?>
               </div>
             </div>
-            <?php echo form_close();?>            
+            <?php echo form_close();?>
 
-          </div>  <!-- END GRID BODY -->              
+          </div>  <!-- END GRID BODY -->
         </div> <!-- END GRID -->
       </div>
 
@@ -202,19 +202,19 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel" class="semi-bold">প্রশ্নের উত্তর প্রদান করুন</h3>
+        <h3 id="myModalLabel" class="semi-bold">প্রশ্নের উত্তর প্রদান করুন </h3>
       </div>
       <?php
       // $attributes = array('id' => '', 'class' => 'answerUpdate');
       // echo form_open('', $attributes);
       ?>
       <form method="POST" id="answerUpdate">
-        <div class="modal-body"> </div>        
+        <div class="modal-body"> </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal"><?=lang('common_close')?></button>
           <button type="submit" class="btn btn-primary"><?=lang('common_save')?></button>
           <?php //echo form_submit('submit', lang('common_save'), "class='btn btn-primary' id='submitnote'"); ?>
-        </div>        
+        </div>
       </form>
       <?php //echo form_close(); ?>
     </div> <!-- /.modal-content -->
@@ -272,7 +272,7 @@
         $(".answerUpdate").empty();
       }
     });
-    return false;    
+    return false;
   });
 </script>
 
@@ -284,7 +284,7 @@
   $('#officeID').change(function(){
     var id = $('#officeID').val();
     var evId = "<?php echo $info->id; ?>";
-    
+
     $.ajax({
       type: "GET",
       url: hostname +"evaluation/ajax_question_by_office/" + id + "/" + evId,
@@ -300,7 +300,7 @@
 
   $(document).ready(function() {
     $('#validate').validate({
-      // focusInvalid: false, 
+      // focusInvalid: false,
       ignore: "",
       rules: {
         training_id: { required: true},
@@ -316,33 +316,33 @@
         }*/
       },
       invalidHandler: function (event, validator) {
-        //display error alert on form submit    
+        //display error alert on form submit
       },
-      errorPlacement: function (label, element) { 
-        // render error placement for each input type            
+      errorPlacement: function (label, element) {
+        // render error placement for each input type
         $('<span class="error"></span>').insertAfter(element).append(label)
         var parent = $(element).parent('.input-with-icon');
-        parent.removeClass('success-control').addClass('error-control');  
+        parent.removeClass('success-control').addClass('error-control');
       },
       highlight: function (element) { // hightlight error inputs
         var parent = $(element).parent();
-        parent.removeClass('success-control').addClass('error-control'); 
+        parent.removeClass('success-control').addClass('error-control');
       },
-      unhighlight: function (element) { 
+      unhighlight: function (element) {
       // revert the change done by hightlight
     },
 
     success: function (label, element) {
       var parent = $(element).parent('.input-with-icon');
-      parent.removeClass('error-control').addClass('success-control'); 
+      parent.removeClass('error-control').addClass('success-control');
     },
 
     submitHandler: function (form) {
-      form.submit(); 
+      form.submit();
     }
 
   });
-  });   
+  });
 </script>
 
 <script>
@@ -379,7 +379,7 @@
 
     $.ajax({
       type: "POST",
-      url: hostname + "evaluation/ajax_training_mark_by_training_id/" + id + "/1", 
+      url: hostname + "evaluation/ajax_training_mark_by_training_id/" + id + "/1",
       success: function(func_data)
       {
         $.each(func_data,function(id,name)
@@ -395,11 +395,11 @@
 </script>
 
 <script>
-  function removeRow(id){ 
+  function removeRow(id){
     var dataId = $(id).attr("data-id");
     // alert(dataId);
     var txt;
-    
+
     if (confirm("আপনি কি এই তথ্যটি ডাটাবেজ থেকে সম্পূর্ণভাবে মুছে ফেলতে চান?") == true) {
       $.ajax({
         type: "POST",

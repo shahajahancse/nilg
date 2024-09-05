@@ -16,15 +16,15 @@ class Budgets_model extends CI_Model {
                   session_year.session_name,
                   dpt.name_en,
                   dpt.dept_name,
-                  type.office_type_name as office_type,
                   course.course_title as course_type,
                   btt.name as trainee_type,
+                  office_type.office_type_name as office_type,
                 ');
-      $this->db->from('budget_nilg as q');
+      $this->db->from('budget_revenue_summary as q');
       $this->db->join('session_year','q.fcl_year=session_year.id','left');
       $this->db->join('department dpt', 'q.dept_id = dpt.id', 'left');
-      $this->db->join('office_type type', 'q.office_type = type.id', 'left');
       $this->db->join('course', 'q.course_id = course.id', 'left');
+      $this->db->join('office_type', 'q.office_type = office_type.id', 'left');
       $this->db->join('budget_trainee_type btt', 'q.trainee_type = btt.id', 'left');
 
       if (!empty($arr)) {
@@ -78,7 +78,7 @@ class Budgets_model extends CI_Model {
     public function get_budget_nilg_info($id)
     {
         $this->db->select('
-                budget_nilg.*,
+                budget_revenue_summary.*,
                 dpt.name_en,
                 dpt.dept_name,
                 dptu.name_bn as dpt_h_name_bn,
@@ -90,13 +90,17 @@ class Budgets_model extends CI_Model {
                 crt.name_bn as crt_by_name_bn,
                 crt.name_en as crt_by_name_en,
                 crt.name_en as crt_by_signature,
+                course.course_title as course_id,
+                btt.name as trainee_type,
             ');
-        $this->db->from('budget_nilg');
-        $this->db->join('department dpt', 'budget_nilg.dept_id = dpt.id', 'left');
-        $this->db->join('users as dptu', 'budget_nilg.dpt_head_id = dptu.id', 'left');
-        $this->db->join('users as acu', 'budget_nilg.acc_head_id = acu.id', 'left');
-        $this->db->join('users as crt', 'budget_nilg.created_by = crt.id', 'left');
-        $this->db->where('budget_nilg.id', $id);
+        $this->db->from('budget_revenue_summary');
+        $this->db->join('department dpt', 'budget_revenue_summary.dept_id = dpt.id', 'left');
+        $this->db->join('users as dptu', 'budget_revenue_summary.dpt_head_id = dptu.id', 'left');
+        $this->db->join('users as acu', 'budget_revenue_summary.acc_head_id = acu.id', 'left');
+        $this->db->join('users as crt', 'budget_revenue_summary.created_by = crt.id', 'left');
+        $this->db->join('course', 'budget_revenue_summary.course_id = course.id', 'left');
+        $this->db->join('budget_trainee_type btt', 'budget_revenue_summary.trainee_type = btt.id', 'left');
+        $this->db->where('budget_revenue_summary.id', $id);
         return $this->db->get()->row();
     }
     // End Budget nilg info
@@ -104,15 +108,15 @@ class Budgets_model extends CI_Model {
     // Manage Budget nilg data
     public function get_budget_details_nilg($id) {
         $this->db->select('
-                budget_nilg_details.*,
+                budget_revenue_summary_details.*,
                 budget_head_sub.name_bn,
                 budget_head.name_bn as budget_head_name,
             ');
-        $this->db->from('budget_nilg_details');
-        $this->db->join('budget_head_sub', 'budget_nilg_details.head_sub_id = budget_head_sub.id');
+        $this->db->from('budget_revenue_summary_details');
+        $this->db->join('budget_head_sub', 'budget_revenue_summary_details.head_sub_id = budget_head_sub.id');
         $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
-        $this->db->where('budget_nilg_details.budget_nilg_id', $id);
-        $this->db->where('budget_nilg_details.modify_soft_d', 1);
+        $this->db->where('budget_revenue_summary_details.revenue_summary_id', $id);
+        $this->db->where('budget_revenue_summary_details.modify_soft_d', 1);
         return $this->db->get()->result();
     }
     // End Manage Budget nilg list

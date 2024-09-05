@@ -47,7 +47,7 @@
 
                         <div class="row">
                             <div class="col-md-12">
-                                <fieldset style="background: #fff !important; ">
+                                <fieldset style="">
                                     <div class="col-md-12"
                                         style="padding: 20px;display: flex;flex-direction: row;justify-content: center;align-items: center;">
                                         <div>
@@ -92,8 +92,7 @@
 
                                     <div class="row form-row">
                                         <div class="col-md-12">
-                                            <h4 class="semi-bold margin_left_15" style="margin-left: 2px;">বাজেট তালিকা
-                                            </h4>
+                                            <h4 class="semi-bold margin_left_15" style="margin-left: 15px;">বাজেট তালিকা </h4>
                                             <style type="text/css">
                                                 #appRowDiv td {
                                                     padding: 5px;
@@ -107,8 +106,8 @@
                                                     color: black;
                                                 }
                                             </style>
-                                            <div class="col-md-12">
-                                                <div class="col-md-12" style="margin:0px;padding:0px">
+                                            <!-- <div class="col-md-12"> -->
+                                                <div class="col-md-12" >
                                                     <div class="col-md-4 margin_top_10 " style="margin:0px;padding:0px">
                                                         <label for="">বাজেট হেড নির্বাচন করুন</label>
                                                         <select name="head" id="head_id" class="form-control"
@@ -172,7 +171,7 @@
                                                     </table>
                                                 </div>
 
-                                                <div class="col-md-12" style="margin-top: 20px; padding: 0px;">
+                                                <div class="col-md-12" style="margin-top: 0px;">
                                                     <div class="form-group margin_top_10">
                                                         <label for=""> বিবরণ:</label>
                                                         <textarea class="form-control" name="description"
@@ -180,13 +179,11 @@
                                                             id="description"><p></p><p></p></textarea>
                                                     </div>
                                                 </div>
-                                                <div class="form-actions">
-                                                    <div class="pull-right">
-                                                        <input type="submit" name="submit" value="সংরক্ষণ করুন"
+                                                <div class="pull-right" style="padding-right: 15px;">
+                                                    <input type="submit" name="submit" value="সংরক্ষণ করুন"
                                                             class="btn btn-primary btn-cons">
-                                                    </div>
                                                 </div>
-                                            </div>
+                                            <!-- </div> -->
                                         </div>
                                     </div>
                                 </fieldset>

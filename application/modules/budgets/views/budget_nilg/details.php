@@ -71,41 +71,42 @@
                                             <span
                                                 style="font-size: 22px;font-weight: bold;text-decoration: underline;">বাজেট
                                                 তৈরি করুন</span>
+                                            </div>
+                                            <input type="hidden" name="budget_nilg_id" value="<?= $budget_nilg->id ?>">
                                         </div>
-                                    </div> <input type="hidden" name="budget_nilg_id" value="<?= $budget_nilg->id ?>">
 
-                                    <div class="row form-row" style="font-size: 16px; color: black; margin-bottom: 6px;">
-                                        <div class="col-md-4">
-                                            আবেদনকারীর নাম: <strong><?= $info->name_bn ?></strong>
+                                        <div class="form-row" style="font-size: 16px; color: black; margin-bottom: 6px;">
+                                            <div class="col-md-4">
+                                                আবেদনকারীর নাম: <strong><?= $info->name_bn ?></strong>
+                                            </div>
+                                            <div class="col-md-4">
+                                                পদবীর নাম: <strong><?= $info->current_desig_name ?></strong>
+                                            </div>
+                                            <div class="col-md-4">
+                                                ডিপার্টমেন্ট নাম: <strong><?= $info->current_dept_name ?></strong>
+                                            </div>
                                         </div>
-                                        <div class="col-md-4">
-                                            পদবীর নাম: <strong><?= $info->current_desig_name ?></strong>
-                                        </div>
-                                        <div class="col-md-4">
-                                            ডিপার্টমেন্ট নাম: <strong><?= $info->current_dept_name ?></strong>
-                                        </div>
-                                    </div>
 
-                                    <div class="row form-row" style="font-size: 16px; color: black;">
-                                        <div class="col-md-6">
-                                            <label for="title" class="control-label">শিরোনাম : </label>
-                                            <input type="text" class="form-control input-sm" name="title" style="min-height: 33px;" value="<?= $budget_nilg->title ?>" required>
+                                        <div class="form-row" style="font-size: 16px; color: black;">
+                                            <div class="col-md-6">
+                                                <label for="title" class="control-label">শিরোনাম : </label>
+                                                <input type="text" class="form-control input-sm" name="title" style="min-height: 33px;" value="<?= $budget_nilg->title ?>" required>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="fcl_year" class="control-label">অর্থবছর</label>
+                                                <select name="fcl_year" id="fcl_year">
+                                                    <option value="">নির্বাচন করুন</option>
+                                                    <?php $session_year = $this->db->get('session_year')->result();
+                                                    foreach ($session_year as $key => $value) {
+                                                        echo '<option ' . ($value->id == $budget_nilg->fcl_year ? 'selected' : '') . '  value="' . $value->id . '">' . $value->session_name . '</option>';
+                                                    } ?>
+                                                </select>
+                                            </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <label for="fcl_year" class="control-label">অর্থবছর</label>
-                                            <select name="fcl_year" id="fcl_year">
-                                                <option value="">নির্বাচন করুন</option>
-                                                <?php $session_year = $this->db->get('session_year')->result();
-                                                foreach ($session_year as $key => $value) {
-                                                    echo '<option ' . ($value->id == $budget_nilg->fcl_year ? 'selected' : '') . '  value="' . $value->id . '">' . $value->session_name . '</option>';
-                                                } ?>
-                                            </select>
-                                        </div>
-                                    </div>
 
                                     <div class="row form-row">
                                         <div class="col-md-12 ">
-                                            <h4 class="semi-bold margin_left_15">বাজেট তালিকা <em style="color: #f73838; font-size: 15px;">Click <strong>Add More</strong> button for adding more item. </em></h4>
+                                            <h4 class="semi-bold margin_left_15" style="padding-left: 15px;">বাজেট তালিকা <em style="color: #f73838; font-size: 15px;">Click <strong>Add More</strong> button for adding more item. </em></h4>
                                             <style type="text/css">
                                                 #appRowDiv td {
                                                     padding: 0px 5px !important;
@@ -120,7 +121,7 @@
                                                 }
                                             </style>
 
-                                            <div class="col-md-12" style="margin:0px;padding:0px">
+                                            <div class="col-md-12" style="margin:0px; padding:0px 0px 5px 15px">
                                                 <div class="col-md-4 m-b-5" style="margin:0px;padding:0px">
                                                     <label for="">বাজেট হেড নির্বাচন করুন</label>
                                                     <select name="head" id="head_id" class="form-control" style="width: 100% !important;"
@@ -171,14 +172,14 @@
                                             <br>
                                             <br>
 
-                                            <div class="col-md-12" style="margin-top: 10px; padding: 0px;">
+                                            <div class="col-md-12" style="margin-top: 10px; padding: 0px 15px;">
                                                 <div class="form-group margin_top_10">
                                                     <label for=""> বিবরণ:</label>
                                                     <textarea class="form-control" name="description" style="height: 300px;" id="description"> <?= $budget_nilg->description ?></textarea>
                                                 </div>
                                             </div>
 
-                                            <div class="pull-right">
+                                            <div class="pull-right" style='padding: 0px 15px'>
                                                 <input type="submit" name="save" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
                                                 <input type="submit" name="submit" value="ফরওয়ার্ড করুন" class="btn btn-primary btn-cons">
                                             </div>

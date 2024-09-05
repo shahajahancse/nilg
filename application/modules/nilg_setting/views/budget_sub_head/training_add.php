@@ -2,7 +2,7 @@
     <div class="content">
         <ul class="breadcrumb" style="margin-bottom: 20px;">
             <li> <a href="<?=base_url('dashboard')?>" class="active"> ড্যাশবোর্ড </a> </li>
-            <li> <a href="<?=base_url('nilg_setting/budget_head')?>" class="active"> <?=$module_title?> </a></li>
+            <li> <a href="<?=base_url('nilg_setting/budget_head/training_add')?>" class="active"> <?=$module_title?> </a></li>
             <li><?=$meta_title; ?> </li>
         </ul>
 
@@ -12,7 +12,7 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right">
-                            <a href="<?=base_url('nilg_setting/budget_head')?>" class="btn btn-primary btn-xs btn-mini">
+                            <a href="<?=base_url('nilg_setting/budget_head/training')?>" class="btn btn-primary btn-xs btn-mini">
                                 তালিকা</a>
                         </div>
                     </div>
@@ -20,7 +20,7 @@
                     <div class="grid-body">
                         <?php
                             $attributes = array('id' => 'validate');
-                            echo form_open_multipart("nilg_setting/budget_sub_head/add", $attributes);
+                            echo form_open_multipart("nilg_setting/budget_sub_head/training_add", $attributes);
                             ?>
 
                         <?php if($this->session->flashdata('success')):?>
@@ -30,24 +30,17 @@
                         <?php endif; ?>
 
                         <div class="row form-row">
-                            <div class="col-md-3">
+                            <div class="col-md-6">
                                 <label class="form-label"> বাজেট হেড <span class="required">*</span></label>
                                 <?php echo form_error('head_id'); ?>
                                 <select name="head_id" class="form-control input-sm" required>
                                     <option value="">বাজেট হেড নির্বাচন করুন</option>
                                     <?php foreach ($budget_heads['rows'] as $key => $value) {  ?>
-                                    <option value="<?=$value->id?>"><?=$value->name_en?></option>
+                                    <option value="<?=$value->id?>"><?=$value->name_bn?></option>
                                     <?php } ?>
                                 </select>
                             </div>
-
-                            <div class="col-md-4">
-                                <label class="form-label">নাম (ইংলিশ) <span class="required">*</span></label>
-                                <?php echo form_error('name_en'); ?>
-                                <input name="name_en" type="text" class="form-control input-sm" placeholder=""
-                                    value="<?=set_value('name_en')?>" />
-                            </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label class="form-label">নাম (বাংলা) <span class="required">*</span></label>
                                 <?php echo form_error('name_bn'); ?>
                                 <input name="name_bn" type="text" class="form-control input-sm" placeholder=""
@@ -56,10 +49,11 @@
                         </div>
                         <br>
                         <div class="row form-row">
-                            <div class="col-md-3">
-                                <label class="form-label">বিঃডিঃ কোড <span class="required">*</span></label>
-                                <input name="bd_code" type="number" class="form-control input-sm" placeholder=""
-                                    value="<?=set_value('bd_code')?>">
+                            <div class="col-md-6">
+                                <label class="form-label">নাম (ইংলিশ) <span class="required">*</span></label>
+                                <?php echo form_error('name_en'); ?>
+                                <input name="name_en" type="text" class="form-control input-sm" placeholder=""
+                                    value="<?=set_value('name_en')?>" />
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">ভ্যাট <span class="required">*</span></label>
@@ -68,14 +62,12 @@
                             </div>
                             <div class="col-md-3">
                                 <label class="form-label">স্ট্যাটাস <span class="required">*</span></label>
-                                <select name="status" id="">
+                                <select name="status" id="" class="form-control input-sm">
                                     <option value="1">সক্রিয়</option>
                                     <option value="0">অসক্রিয়</option>
                                 </select>
                             </div>
                         </div>
-
-
                         <br>
 
                         <div class="form-actions">
@@ -144,34 +136,4 @@ $(document).ready(function() {
 });
 
 
-// Question Option
-$("#addRowOption").click(function(e) {
-    var items = '';
-
-    items += '<tr>';
-    items += '<td><input name="option_name[]" type="text" class="form-control input-sm"></td>';
-    items +=
-        '<td> <a href="javascript:void();" class="label label-important" onclick="removeRowOption(this)"> <i class="fa fa-minus-circle"></i> মুছে ফেলুন </a></td>';
-    items += '</tr>';
-
-    $('#experienceDiv tr:last').after(items);
-    // JS Function
-    // select2Office();
-    // select2DesignationPR();
-});
-
-function removeRowOption(id) {
-    $(id).closest("tr").remove();
-}
-
-$('#question_type').change(function() {
-    var question_type = $('#question_type').val();
-    // alert(question_type);
-
-    if (question_type == 3 || question_type == 4) {
-        $(".optionDiv").show();
-    } else {
-        $(".optionDiv").hide();
-    }
-});
 </script>

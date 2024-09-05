@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Budget_head extends Backend_Controller {
-	
+
 	public function __construct(){
         parent::__construct();
         // print_r($this->session->all_userdata());
@@ -15,11 +15,88 @@ class Budget_head extends Backend_Controller {
         $this->load->model('Budget_head_model');
     }
 
-
-    public function index($offset=0){        
+    public function training($offset=0){
         // Manage list the users
         $limit = 50;
-        
+
+        $results = $this->Budget_head_model->get_data_training($limit, $offset);
+        $this->data['results'] = $results['rows'];
+        $this->data['total_rows'] = $results['num_rows'];
+
+        //pagination
+        $this->data['pagination'] = create_pagination('nilg_setting/budget_head/training/', $this->data['total_rows'], $limit, 4, $full_tag_wrap = true);
+
+        $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+
+        // Dropdown List
+        $this->data['office_type'] = $this->Common_model->get_office_type();
+        // $this->data['course'] = $this->Common_model->get_course();
+
+        //Load page
+        $this->data['meta_title'] = 'বাজেট হেড';
+        $this->data['subview'] = 'budget_head/training';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function training_add(){
+        // Validation
+        $this->form_validation->set_rules('name_en', 'নাম (ইংরেজী)', 'required|trim');
+        $this->form_validation->set_rules('name_bn', 'নাম (বাংলা)', 'required|trim');
+        // Insert Data
+        if ($this->form_validation->run() == true){
+            $query = $this->db->order_by('id', 'DESC')->get('budget_head_training')->row();
+            if (empty($query)) {
+                $bd_code = 101;
+            } else {
+                $bd_code = $query->bd_code + 1;
+            }
+
+            $form_data = array(
+                'name_en'    => $this->input->post('name_en'),
+                'name_bn'    => $this->input->post('name_bn'),
+                'bd_code'    => $bd_code,
+                'status'     => $this->input->post('status'),
+            );
+            // print_r($form_data); exit;
+            if($this->Common_model->save('budget_head_training', $form_data)){
+                $this->session->set_flashdata('success', 'বাজেট হেড সংরক্ষণ করা হয়েছে');
+                redirect('nilg_setting/budget_head/training');
+            }
+        }
+        $this->data['meta_title'] = 'বাজেট হেড সংরক্ষণ করুন';
+        $this->data['subview'] = 'budget_head/training_add';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function training_edit($id){
+        $this->form_validation->set_rules('name_en', 'নাম (ইংরেজী)', 'required|trim');
+        $this->form_validation->set_rules('name_bn', 'নাম (বাংলা)', 'required|trim');
+        // Insert Data
+        if ($this->form_validation->run() == true){
+            $form_data = array(
+                'name_en'    => $this->input->post('name_en'),
+                'name_bn'    => $this->input->post('name_bn'),
+                'status'     => $this->input->post('status'),
+            );
+            // print_r($form_data); exit;
+            if($this->Common_model->edit('budget_head_training', $id, 'id', $form_data)){
+                $this->session->set_flashdata('success', 'বাজেট হেড সংশোধন করা হয়েছে');
+                redirect('nilg_setting/budget_head/training');
+            }
+        }
+
+        $this->data['info'] = $this->db->where('id', $id)->get('budget_head_training')->row();
+
+        $this->data['meta_title'] = 'বাজেট হেড সংশোধন করুন';
+        $this->data['subview'] = 'budget_head/training_edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+
+    public function index($offset=0){
+        // Manage list the users
+        $limit = 50;
+
         $results = $this->Budget_head_model->get_data($limit, $offset);
         $this->data['results'] = $results['rows'];
         $this->data['total_rows'] = $results['num_rows'];
@@ -42,9 +119,6 @@ class Budget_head extends Backend_Controller {
         $this->data['subview'] = 'budget_head/index';
         $this->load->view('backend/_layout_main', $this->data);
     }
-
-
-
 
     public function add(){
         // Validation
@@ -70,7 +144,7 @@ class Budget_head extends Backend_Controller {
         $this->data['meta_title'] = 'বাজেট হেড সংরক্ষণ করুন';
         $this->data['subview'] = 'budget_head/add';
         $this->load->view('backend/_layout_main', $this->data);
-    }       
+    }
 
     public function edit($id){
         $this->form_validation->set_rules('name_en', 'নাম (ইংরেজী)', 'required|trim');
@@ -95,7 +169,7 @@ class Budget_head extends Backend_Controller {
 
         $results = $this->Budget_head_model->get_info($id);
         $this->data['info'] = $results['info'];
- 
+
 
         $this->data['meta_title'] = 'বাজেট হেড সংশোধন করুন';
         $this->data['subview'] = 'budget_head/edit';
@@ -103,20 +177,17 @@ class Budget_head extends Backend_Controller {
 
     }
 
-  
-
     public function delete($dataID){
-      
+
             if ($this->db->delete('budget_head', array('id' => $dataID))) {
-                $this->session->set_flashdata('success', 'এই প্রশ্নটি ডাটাবেজ থেকে মুছে ফেলা হয়েছে'); 
+                $this->session->set_flashdata('success', 'এই প্রশ্নটি ডাটাবেজ থেকে মুছে ফেলা হয়েছে');
                 redirect('nilg_setting/budget_head');
             }
 
     }
 
-
    public function budget_head_pdf($offset = 0)
-   {    
+   {
       // Get Result
         $results = $this->Budget_head_model->get_data(100000, $offset);
         $this->data['results'] = $results['rows'];
@@ -137,12 +208,11 @@ class Budget_head extends Backend_Controller {
       $mpdf->output('Pre-Exam-'.time().rand().'.pdf', 'I');
    }
 
-
-   // description
-    public function budget_description($offset=0){        
+    // description
+    public function budget_description($offset=0){
         // Manage list the users
         $limit = 50;
-        
+
         $results = $this->Budget_head_model->get_description($limit, $offset);
         $this->data['results'] = $results['rows'];
         $this->data['total_rows'] = $results['num_rows'];
@@ -152,12 +222,12 @@ class Budget_head extends Backend_Controller {
         $this->data['pagination'] = create_pagination('nilg_setting/budget_head/budget_description/', $this->data['total_rows'], $limit, 4, $full_tag_wrap = true);
 
         $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-        
+
 
         $this->data['meta_title'] = 'বাজেট হেড সংরক্ষণ করুন';
         $this->data['subview'] = 'budget_head/budget_description';
         $this->load->view('backend/_layout_main', $this->data);
-   }   
+    }
 
    // description
    public function budget_description_add()
@@ -185,7 +255,7 @@ class Budget_head extends Backend_Controller {
         $this->data['meta_title'] = 'বাজেট সামারি সংরক্ষণ করুন';
         $this->data['subview'] = 'budget_head/budget_description_add';
         $this->load->view('backend/_layout_main', $this->data);
-   }   
+   }
 
    // description
    public function budget_description_edit($id)
@@ -216,9 +286,9 @@ class Budget_head extends Backend_Controller {
    }
 
     public function budget_description_delete($dataID){
-      
+
         if ($this->db->delete('budget_description', array('id' => $dataID))) {
-            $this->session->set_flashdata('success', 'এই প্রশ্নটি ডাটাবেজ থেকে মুছে ফেলা হয়েছে'); 
+            $this->session->set_flashdata('success', 'এই প্রশ্নটি ডাটাবেজ থেকে মুছে ফেলা হয়েছে');
             redirect('nilg_setting/budget_head/budget_description');
         }
 

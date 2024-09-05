@@ -96,7 +96,7 @@
                                         </div>
 
                                         <!-- head list -->
-                                         <div class="col-md-12 table-responsive">
+                                         <div class=" table-responsive">
                                              <table class="table table-hover table-condensed"  border="1"
                                                  style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
                                                  <thead>
@@ -109,7 +109,9 @@
                                                      </tr>
                                                  </thead>
                                                  <tbody id="tbody">
-                                                     <?php foreach ($summary as $key => $data) { ?>
+                                                     <?php foreach ($summary as $key => $data) {
+                                                        // dd($summary)
+                                                        ?>
                                                          <tr>
                                                              <td style="padding:0px 10px"><?= $data->name_bn ?></td>
                                                              <td style="text-align:center"><?= $data->bd_code ?></td>
@@ -118,17 +120,17 @@
                                                                  <input style="padding:0px; text-align:right" value="<?= $data->amount ?>" class="form-control input-sm" readonly>
                                                              </td>
                                                              <td>
-                                                                 <input style="padding:0px; text-align:right" value="<?= $data->amount ?>" min="0" type="number" onkeyup="calculateTotal()" name="dpt_amt[]" class="form-control dpt_amt input-sm">
+                                                                 <input style="padding:0px; text-align:right" value="<?= $data->total_amt ?>" min="0" type="number" onkeyup="calculateTotal()" name="dpt_amt[]" class="form-control dpt_amt input-sm">
                                                              </td>
                                                              <td>...</td>
                                                          </tr>
                                                      <?php   } ?>
-     
+
                                                  </tbody>
                                              </table>
                                          </div>
-                                        <br><br>
-                                        <div style='clear:both'></div>
+                                        <!-- <br><br> -->
+                                        <!-- <div style='clear:both'></div> -->
                                         <div style='margin: 20px -6px;'>
                                             <div class="pull-right">
                                                 <input type="submit" name="save" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">

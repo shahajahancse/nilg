@@ -124,11 +124,17 @@
                                             <select id="head_id" class="form-control"
                                                 onchange="addNewRow(this.value)">
                                                 <option value="">বাজেট হেড নির্বাচন করুন</option>
-                                                <?php foreach ($budget_head as $key => $value) {
-                                                    echo '<option value="'.$value->id.'">'.$value->name_bn.'</option>';
+                                                <?php foreach ($budget_head_sub as $key => $value) {
+                                                    echo '<option value="'.$value->id.'">'.$value->budget_head_name.' >> '.$value->name_bn.' ('.$value->bd_code.')'.'</option>';
+
                                                 }?>
                                             </select>
                                         </div>
+                                        <!-- <div class="col-md-4">
+                                            <label class="control-label">Create Group </label>
+                                            <input type="text" class="input-sm" name="group_name" id="group_name"  placeholder="Enter Group Name">
+                                            <a style="padding-top: 5px;" class="btn btn-success btn-sm input-sm" id="createGroup" href="javascript:void(0)">Create Group</a>
+                                        </div> -->
                                         <div class="col-md-2">
                                             <label for="">প্রশিক্ষণার্থীর সংখ্যা <span class="required">*</span></label>
                                             <input type="number" onkeyup="calParticipantTotal()" class="form-control input-sm" name="trainee_number" id="trainee_number" value='1'>
@@ -171,6 +177,7 @@
                                                     <tr>
                                                         <!-- <th width="30%">বাজেট হেড<span class="required">*</span></th> -->
                                                         <th width="30%">বাজেট শিরোনাম<span class="required"> * </span></th>
+                                                        <th width="10%">বাজেট কোড<span class="required"> * </span></th>
                                                         <th width="10%">অংশগ্রহণকারী<span class="required"> * </span></th>
                                                         <th width="10%">বার<span class="required"> * </span></th>
                                                         <th width="10%">পরিমাণ<span class="required"> * </span></th>
@@ -179,43 +186,12 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="tbody">
-                                                    <?php foreach ($budget_head as $key => $value) { ?>
-                                                        <tr class="head_<?=$value->id?> classThis" data-id="<?=$value->id?>">
-                                                            <input type="hidden" name="head_id[]" value="<?=$value->id?>" >
-                                                            <input class="head_amt_<?=$value->id?>" type="hidden" name="head_amt[]" value="0" >
-                                                            <td colspan="5">
-                                                                <div style="display: flex; gap: 15px; align-items: center;">
-                                                                <?=$value->name_bn?>
-                                                                <select id="add_sub_row" style="margin-bottom: 0px;min-height: 20px;height: 25px !important;" >
-                                                                    <option value="">add sub row</option>
-                                                                </select>
-                                                                <a onclick="pass_id(<?= $value->id?>)" data-target="#modalNewSubHead" data-toggle="modal" style="padding: 2px 5px !important;font-size: 10px;font-weight: bolder;" class="btn btn-primary btn-sm" id="add_new_sub">Add New +</a>
-                                                                </div>
-                                                            </td>
-                                                            <td><a href="javascript:void(0)" onclick="removeRow(this, <?=$value->id?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
-                                                        </tr>
-                                                        <?php $heads = $this->db->where('head_id', $value->id)->get('budget_head_sub_training')->result(); ?>
-                                                        <?php foreach ($heads as $key => $head) { ?>
-                                                            <tr class="head_<?=$head->head_id?> side_css" data-id="<?=$head->id?>">
-                                                                <input type="hidden" name="<?=$value->id?>_sub_id[]" value="<?=$head->id?>" >
-                                                                <td colspan=""><?=$head->name_bn?></td>
-
-                                                                <td><input type="number" value="1" min="1" name="<?=$value->id?>_participants[]" onkeyup="calculateSubTotal(this, <?=$head->id?>)" class="pts form-control input-sm subParticipant_<?=$head->id?>"></td>
-                                                                <td><input type="number" value="1" min="1" name="<?=$value->id?>_days[]" onkeyup="calculateSubTotal(this, <?=$head->id?>)" class="form-control input-sm subDay_<?=$head->id?>"></td>
-                                                                <td><input type="number" value="1" min="1" name="<?=$value->id?>_amount[]" onkeyup="calculateSubTotal(this, <?=$head->id?>)" class="form-control input-sm subAmount_<?=$head->id?>"></td>
-
-                                                                <td><input type="number" value="1" min="1" name="<?=$value->id?>_subTotal[]" readonly class="form-control amount input-sm subTotal_<?=$head->id?>"></td>
-
-                                                                <td><a href="javascript:void(0)" onclick="removeSubRow(this, <?=$head->id?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
-                                                            </tr>
-                                                        <?php } ?>
-                                                    <?php } ?>
                                                 </tbody>
                                             </table>
 
                                             <div class="col-md-12" style="margin-top: 20px; padding: 0px;">
                                                 <div class="form-group margin_top_10">
-                                                    <label for=""> নোট:</label>
+                                                    <label for=""> বিবরণ:</label>
                                                     <textarea class="form-control" name="description"
                                                         style="height: 300px;"
                                                         id="description"><p></p><p></p></textarea>
@@ -238,62 +214,6 @@
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="modalNewSubHead" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel" class="semi-bold">নতুন শিরোনাম যুক্ত করুন </h3>
-      </div>
-      <form method="POST" id="addSubNewHead">
-        <div class="modal-body">
-          <div class="form-group">
-            <label for="">বাংলা:</label>
-            <input type="text" class="form-control input-sm" name="add_name_bn" id="add_name_bn" required >
-          </div>
-          <div class="form-group">
-            <label for="">ইংলিশ:</label>
-            <input type="text" class="form-control input-sm" name="add_name_en" id="add_name_en" required >
-          </div>
-          <input type="hidden" name="prosnoid" id="prosnoid">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal"><?=lang('common_close')?></button>
-          <button type="submit" class="btn btn-primary"><?=lang('common_save')?></button>
-        </div>
-      </form>
-      <?php //echo form_close(); ?>
-    </div> <!-- /.modal-content -->
-  </div> <!-- /.modal-dialog -->
-</div> <!-- /.modal -->
-
-<script>
-    function pass_id(id) {
-        $('#prosnoid').val(id);
-    }
-
-    $("#addSubNewHead").submit(function(e){
-        e.preventDefault();
-        $('#modalNewSubHead').modal('hide');
-        var id = $('#prosnoid').val();
-        $.ajax({
-            type: "POST",
-            url: hostname+"nilg_setting/budget_sub_head/ajax_add_sub_head/" + id,
-            data: $(this).serialize(),
-            dataType: 'json',
-            success: function (response) {
-                if (response.status == 1) {
-                    $('.alert').addClass('alert-success').html(response.msg).show();
-                } else {
-                    $('.alert').addClass('alert-red').html(response.msg).show();
-                }
-            }
-        });
-        return false;
-    });
-</script>
-
 <style>
     .addBtn {
         padding: 2px 10px;
@@ -308,8 +228,9 @@
         margin-bottom: 0px !important;
     }
     .classThis {
-        border: 2px solid #11a8df;
-        background: #f1f1f1;
+        border-top: 2px solid #11a8df;
+        border-left: 2px solid #11a8df;
+        border-right: 2px solid #11a8df;
     }
     .bottom_css {
         border-bottom: 2px solid #11a8df;
@@ -321,10 +242,25 @@
         border-right: 2px solid #11a8df;
     }
 </style>
-
 <script>
     function removeSubRow(e, id) {
         $(e).closest("tr").remove();
+        var ln = $('.head_'+id).length;
+        if (ln > 1) {
+            $('.head_'+id).removeClass('classThis');
+            $('.head_'+id).removeClass('side_css');
+            $('.head_'+id).removeClass('bottom_css');
+            $('.head_'+id).eq(0).addClass('classThis');
+            $('.head_'+id).eq(-1).addClass('bottom_css');
+            $('.head_'+id).not(':first').not(':last').addClass('side_css');
+        } else {
+            $('.head_'+id).find('.participants').prop('readonly', false).val(1);
+            $('.head_'+id).find('.days').prop('readonly', false).val(1);
+            $('.head_'+id).find('.token_amount').prop('readonly', false).val(1);
+            $('.head_'+id).removeClass('classThis');
+            $('.head_'+id).removeClass('side_css');
+            $('.head_'+id).removeClass('bottom_css');
+        }
         calculateSubTotal(e, id);
     }
 </script>
@@ -460,7 +396,6 @@
         $(".subTotal_"+id).each(function() {
             subTotal += parseInt($(this).val());
         })
-        $(".head_amt_"+id).val(subTotal);
         $(".token_amount_"+id).val(subTotal);
         calculateTotal();
     }
@@ -473,7 +408,6 @@
         var batch_number = $("#batch_number").val()
         var st = trainee_number * batch_number
         $("#total_trainee").val(st);
-        $(".pts").val(trainee_number);
     }
 </script>
 <script>
@@ -492,6 +426,5 @@
     $(document).ready(function() {
         $('#fcl_year').chosen();
         $('#head_id').chosen();
-        $('#add_sub_row').chosen();
     });
 </script>

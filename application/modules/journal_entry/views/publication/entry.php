@@ -54,7 +54,7 @@
 
         <div class="row">
             <div class="col-md-12">
-                <div class="grid simple horizontal red">
+                <div class="grid simple horizontal" style="background-color: white !important ">
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?= $meta_title; ?></span></h4>
                         <div class="pull-right">
@@ -84,36 +84,22 @@
                         echo form_open_multipart(current_url(), $attributes);
                         echo validation_errors(); ?>
                         <input type="hidden" name="type" value="<?php echo $type; ?>">
+                        <input type="hidden" value="<?php echo 'JR' . date('Ymdhis'); ?>" name="voucher_no">
                         <div class="row form-row" style="font-size: 16px; color: black; margin-top: -10px !important;">
-
-                            <input type="hidden" value="<?php echo 'JR' . date('Ymdhis'); ?>" name="voucher_no">
-
-                                <div class="col-md-4">
-                                    <label for="title" class="control-label">বই নির্বাচন করুন</label>
-                                    <?php $book = $this->db->get('budget_j_publication_book')->result(); ?>
-                                    <select id="book_id" class="form-control input-sm" onchange="getBook(this.value)">
-                                        <option value="">বই নির্বাচন করুন</option>
-                                        <?php foreach ($book as $key => $value) { ?>
-                                            <option value="<?=$key?>"><?=$value->name_bn .' (মজুদ '. $value->quantity?> টি)</option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-
-                                <div class="col-md-4">
-                                    <label for="title" class="control-label">রেফারেন্স </label>
-                                    <input type="text"  value="" class="form-control input-sm" name="reference"
-                                        style="min-height: 33px;">
-                                </div>
-
-                                <div class="col-md-2">
-                                    <label for="title" class="control-label">এন্ট্রির তারিখ <!-- <span class="required">*</span> --></label>
-                                    <input value="<?= date('Y-m-d') ?>" class="form-control input-sm" name="issue_date" style="min-height: 33px;" required readonly>
-                                </div>
+                            <div class="col-md-4">
+                                <label for="title" class="control-label">বই নির্বাচন করুন</label>
+                                <?php $book = $this->db->get('budget_j_publication_book')->result(); ?>
+                                <select id="book_id" class="form-control input-sm" onchange="getBook(this.value)">
+                                    <option value="">বই নির্বাচন করুন</option>
+                                    <?php foreach ($book as $key => $value) { ?>
+                                        <option value="<?=$key?>"><?=$value->name_bn .' (মজুদ '. $value->quantity?> টি)</option>
+                                    <?php } ?>
+                                </select>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="title" class="control-label">রেফারেন্স </label>
-                                <input type="text" value="" class="form-control input-sm" name="reference"
+                                <input type="text"  value="" class="form-control input-sm" name="reference"
                                     style="min-height: 33px;">
                             </div>
 

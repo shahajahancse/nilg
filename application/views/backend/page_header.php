@@ -377,7 +377,8 @@ input[type="search"] {
 
                <!-- budget entry start -->
                <!-- //  not live the module yet -->
-               <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg', 'bdh', 'acc', 'uz', 'ddlg','bod','bho','bli')) || $userDetails->office_type == 7) { ?>
+               <?php $aar = array('admin', 'dg', 'nilg', 'dd', 'ad', 'bdh', 'acc', 'tdo', 'uz', 'ddlg','bod','bho','bli'); ?>
+               <?php if ($this->ion_auth->in_group($aar) || $userDetails->office_type == 7) { ?>
                   <?php if ($this->ion_auth->in_group(array('uz', 'ddlg'))) { ?>
                      <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span> <span class="arrow"></span> </a>
                         <ul class="sub-menu">
@@ -386,31 +387,35 @@ input[type="search"] {
                      </li>
                   <?php } else { ?>
                      <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span>
-                        <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'acc'))) { ?>
+                        <?php if ($this->ion_auth->in_group(array('admin', 'dg', 'acc'))) { ?>
                         <?php if ($budget_nilg_ntfy > 0 || $budget_office_ntfy > 0 || $budget_chahida_ntfy > 0) {
                               echo '<span class="badge badge-danger pull-right">' . eng2bng($budget_nilg_ntfy + $budget_office_ntfy + $budget_chahida_ntfy) . '</span>';
                            } }
                         ?> <span class="arrow"></span> </a>
                         <ul class="sub-menu">
 
-                           <li class="start <?= backend_activate_menu_method('budget_nilg') ?>">
-                              <a href="<?= base_url('budgets/budget_nilg'); ?>">রাজস্ব বাজেট তৈরি
-                              <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'acc'))) { ?>
-                              <?php if ($budget_nilg_ntfy > 0) {
-                                 echo '<span style="margin-right:15px" class="badge badge-danger pull-right">' . eng2bng($budget_nilg_ntfy) . '</span>';
-                              } } ?>
-                              </a>
-                           </li>
-                           <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'acc', 'bdh'))) { ?>
-                           <li class="start <?= backend_activate_menu_method('dpt_summary') ?>">
-                              <a href="<?= base_url('budgets/dpt_summary'); ?>">বাজেট সামারী তৈরি</a>
-                           </li>
-                           <?php } ?>
-
+                           <?php if ($this->ion_auth->is_admin() || ($this->ion_auth->in_group(array('bdh')) && $userDetails->crrnt_dept_id == 2 )) { ?>
                            <li class="start <?= backend_activate_menu_method('training_budgets') ?>">
                               <a href="<?= base_url('budgets/training_budgets'); ?>">প্রশিক্ষণ বাজেট তৈরি</a>
                            </li>
+                           <li class="start <?= backend_activate_menu_method('dpt_summary') ?>">
+                              <a href="<?= base_url('budgets/dpt_summary'); ?>">বাজেট সামারী তৈরি</a>
+                           </li>
+                           <?php } elseif ($this->ion_auth->is_admin() || $this->ion_auth->in_group(array('bdh'))) { ?>
+                              <li class="start <?= backend_activate_menu_method('budget_nilg') ?>">
+                                 <a href="<?= base_url('budgets/budget_nilg'); ?>">রাজস্ব বাজেট তৈরি
+                                 <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'acc'))) { ?>
+                                 <?php if ($budget_nilg_ntfy > 0) {
+                                    echo '<span style="margin-right:15px" class="badge badge-danger pull-right">' . eng2bng($budget_nilg_ntfy) . '</span>';
+                                 } } ?>
+                                 </a>
+                              </li>
+                           <?php } ?>
 
+                           <?php if ($this->ion_auth->is_admin() || $this->ion_auth->in_group(array('tdo'))) { ?>
+                           <li class="start <?= backend_activate_menu_method('training_budgets') ?>">
+                              <a href="<?= base_url('budgets/training_budgets'); ?>">প্রশিক্ষণ বাজেট তৈরি</a>
+                           </li>
                            <li class="start <?= backend_activate_menu_method('budget_field') ?>">
                               <a href="<?= base_url('budgets/budget_field'); ?>">বাজেট তৈরি করুন
                               <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'acc'))) { ?>
@@ -420,6 +425,9 @@ input[type="search"] {
                               } } ?>
                               </a>
                            </li>
+                           <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_head/training'); ?>">বাজেট হেড</a> </li>
+                           <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_sub_head/training'); ?>">বাজেট সাব হেড</a> </li>
+                           <?php } ?>
 
                            <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg'))) { ?>
                               <li class="start <?= backend_activate_menu_method('budget_entry') ?>"> <a href="<?= base_url('budgets/budget_entry'); ?>">এন্ট্রি </a> </li>

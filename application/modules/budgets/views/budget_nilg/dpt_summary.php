@@ -12,11 +12,11 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?= $meta_title; ?></span></h4>
                         <div class="pull-right" style="display: flex;align-content: center;justify-content: center;flex-wrap: wrap;gap: 8px;">
-                            <?php if ($this->ion_auth->in_group(array('admin', 'acc'))) { ?>
-                                <a href="<?= base_url('budgets/acc_summary') ?>" class="btn btn-blueviolet btn-xs btn-mini">ডিপার্টমেন্ট সামারী তালিকা </a>
-                                <a class="btn btn-success btn-xs btn-mini" target="_blank" onclick="acc_summary()"><i class="fa fa-book"></i> ডিপার্টমেন্ট সামারী তৈরি </a>
+                            <?php if ($this->ion_auth->in_group(array('admin', 'bdh'))) { ?>
+                                <a href="<?= base_url('budgets/training_budgets') ?>" class="btn btn-blueviolet btn-xs btn-mini">সামারী তৈরি করুণ</a>
+                                <!-- <a href="<?= base_url('budgets/acc_summary') ?>" class="btn btn-blueviolet btn-xs btn-mini">ডিপার্টমেন্ট সামারী তালিকা </a> -->
                             <?php }  ?>
-                            <a href="<?= base_url('budgets/budget_nilg') ?>" class="btn btn-blueviolet btn-xs btn-mini">সামারী তৈরি করুণ</a>
+                            <!-- <a href="<?= base_url('budgets/training_budgets') ?>" class="btn btn-blueviolet btn-xs btn-mini">সামারী তৈরি করুণ</a> -->
                         </div>
                     </div>
 
