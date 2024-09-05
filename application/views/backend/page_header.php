@@ -378,6 +378,7 @@ input[type="search"] {
                <!-- budget entry start -->
                <!-- //  not live the module yet -->
                <?php $aar = array('admin', 'dg', 'nilg', 'dd', 'ad', 'bdh', 'acc', 'tdo', 'uz', 'ddlg','bod','bho','bli'); ?>
+               <?php if ($this->ion_auth->in_group('demo')) { ?>
                <?php if ($this->ion_auth->in_group($aar) || $userDetails->office_type == 7) { ?>
                   <?php if ($this->ion_auth->in_group(array('uz', 'ddlg'))) { ?>
                      <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span> <span class="arrow"></span> </a>
@@ -509,7 +510,7 @@ input[type="search"] {
                      <?php } ?>
                      <!-- হিসাব সেটিংস -->
                   <?php }  ?>
-               <?php } ?>
+               <?php } } ?>
                <!-- budget entry end -->
 
                <!-- এনআইএলজি সেটিংস cc-->
