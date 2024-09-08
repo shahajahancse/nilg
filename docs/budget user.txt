@@ -30,30 +30,4 @@ ddlg@maulvibazar
 মোঃ এরশাদ-ই-ইসলাম	2695041731312  (user)
 
 
-ALTER TABLE `budget_j_publication_register` ADD `commission` DECIMAL(12,2) NOT NULL DEFAULT '0' AFTER `amount`, ADD `pay_amount` DECIMAL(12,2) NOT NULL DEFAULT '0' AFTER `commission`;
-ALTER TABLE `budget_j_publication_register` ADD `name` VARCHAR(64) NULL DEFAULT NULL AFTER `status`, ADD `mobile` VARCHAR(16) NULL DEFAULT NULL AFTER `name`, ADD `address` VARCHAR(128) NULL DEFAULT NULL AFTER `mobile`;
-ALTER TABLE `budget_j_publication_register` CHANGE `reference` `reference` VARCHAR(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL, CHANGE `description` `description` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
-ALTER TABLE `budget_j_publication_register_details` ADD `commission` TINYINT NOT NULL DEFAULT '0' AFTER `amount`, ADD `pay_amount` DECIMAL(12,2) NOT NULL DEFAULT '0' AFTER `commission`;
-
-CREATE TABLE `budget_j_hostel_room` ( `id` INT NOT NULL AUTO_INCREMENT ,  `name` VARCHAR(16) NOT NULL ,  `type` TINYINT NOT NULL DEFAULT '1' COMMENT '1=normal, 2=ac' ,  `status` TINYINT NOT NULL DEFAULT '1' COMMENT '1=active, 2=inactive' ,    PRIMARY KEY  (`id`)) ENGINE = InnoDB;
-CREATE TABLE `budget_j_hostel_seat` ( `id` INT NOT NULL AUTO_INCREMENT ,  `name` VARCHAR(16) NOT NULL ,  `room_id` INT NOT NULL ,  `status` TINYINT NOT NULL DEFAULT '1' COMMENT '1=active, 2=inactive' ,    PRIMARY KEY  (`id`),    INDEX  (`room_id`)) ENGINE = InnoDB;
-ALTER TABLE `budget_j_hostel_seat` ADD `amount` INT NOT NULL DEFAULT '0' AFTER `room_id`;
-
-ALTER TABLE `budget_j_hostel_register_details` ADD `nid` VARCHAR(24) NULL DEFAULT NULL AFTER `title`, ADD `mobile` VARCHAR(16) NULL DEFAULT NULL AFTER `nid`, ADD `room_id` INT NULL DEFAULT NULL AFTER `mobile`, ADD `seat_id` INT NULL DEFAULT NULL AFTER `room_id`, ADD `start_date` DATE NULL DEFAULT NULL AFTER `seat_id`, ADD `end_date` DATE NULL DEFAULT NULL AFTER `start_date`, ADD INDEX (`room_id`), ADD INDEX (`seat_id`);
-
-ALTER TABLE `budget_j_hostel_register_details` CHANGE `amount` `amount` DECIMAL(10,2) NOT NULL DEFAULT '0.00', CHANGE `remark` `session_year` VARCHAR(16) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
-ALTER TABLE `budget_j_hostel_register` ADD `name` VARCHAR(64) NULL DEFAULT NULL AFTER `voucher_no`, ADD `session_year` VARCHAR(16) NULL DEFAULT NULL AFTER `status`;
-
-ALTER TABLE `budget_j_hostel_register` CHANGE `type` `type` TINYINT(1) NOT NULL COMMENT '1=entry, 2=cash diposit';
-
-ALTER TABLE `budget_nilg` ADD `office_type` INT NULL DEFAULT NULL AFTER `dept_id`, ADD `course_id` INT NULL DEFAULT NULL AFTER `office_type`, ADD `trainee_type` INT NULL DEFAULT NULL AFTER `course_id`, ADD `course_day` INT NULL DEFAULT NULL AFTER `trainee_type`, ADD `trainee_number` INT NULL DEFAULT NULL AFTER `course_day`, ADD `batch_number` INT NULL DEFAULT NULL AFTER `trainee_number`, ADD `total_trainee` INT NULL DEFAULT NULL AFTER `batch_number`;
-ALTER TABLE `budget_nilg` CHANGE `type` `type` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '1=other dpt create, 2=training dpt create';
-ALTER TABLE `budget_field_details` CHANGE `amount` `amount` DECIMAL(12,2) NOT NULL DEFAULT '0.00' COMMENT 'token amt / sub total amt';
-ALTER TABLE `budget_nilg_details` CHANGE `head_id` `head_id` INT(11) NULL DEFAULT NULL COMMENT 'budget_head table id';
-ALTER TABLE `budget_nilg_details`
-  DROP `modify_soft_d`,
-  DROP `office_id`;
-ALTER TABLE `budget_nilg_details` ADD `type` TINYINT NOT NULL DEFAULT '1' COMMENT '1=other dpt create, 2=training dpt create' AFTER `status`, ADD `token` VARCHAR(256) NULL DEFAULT NULL AFTER `type`, ADD `days` TINYINT NOT NULL DEFAULT '1' COMMENT 'number of day or times(bar)' AFTER `token`, ADD `participants` TINYINT NOT NULL COMMENT 'number of participant or times(bar)' AFTER `days`, ADD `total_amt` DECIMAL(12,2) NOT NULL AFTER `participants`;
-ALTER TABLE `budget_nilg_details` ADD `office_id` INT NULL DEFAULT NULL AFTER `created_by`, ADD `modify_soft_d` TINYINT NOT NULL DEFAULT '1' COMMENT '1=active, 2=soft delete, 3=new add ' AFTER `office_id`;
-ALTER TABLE `budget_nilg_details` CHANGE `amount` `amount` DECIMAL(12,2) NOT NULL DEFAULT '0.00' COMMENT 'input amt', CHANGE `total_amt` `total_amt` DECIMAL(12,2) NOT NULL DEFAULT '0' COMMENT 'summation amt';
 

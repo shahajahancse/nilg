@@ -401,7 +401,7 @@ class Leave extends Backend_Controller {
         }
 
         // Dropdown List
-        $this->data['row'] = $this->Leave_model->get_user('leave_employee', $id);
+        $this->data['row'] = $this->Leave_model->get_info($id);
         $this->data['users'] = $this->Common_model->get_nilg_employee();
         $this->data['leave_type'] = $this->Leave_model->get_leave_type();
         $results = $this->Leave_model->get_yearly_leave_count($this->data['row']->user_id);

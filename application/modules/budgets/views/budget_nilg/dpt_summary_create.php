@@ -57,7 +57,7 @@
                                 <div class="row form-row">
                                     <style type="text/css">
                                         #appRowDiv td {
-                                            padding: 5px;
+                                            padding: 5px !important;
                                             border-color: #ccc;
                                         }
 
@@ -83,7 +83,7 @@
                                                     <th width="">ব্যাচ সংখ্যা</th>
                                                     <th width="">মোট প্রশিক্ষণার্থী</th>
                                                     <th width="">প্রকল্পিত বায়</th>
-                                                    <th width="">স্থান</th>
+                                                    <!-- <th width="">স্থান</th> -->
                                                 </tr>
                                             </thead>
                                             <tbody id="tbody">
@@ -105,14 +105,14 @@
                                                 <tr>
                                                     <td style=""><?= eng2bng($key + 1) .'.'. eng2bng($r + 1) ?></td>
                                                     <input type="hidden" name="course_id[]" value="<?= $sub->course_id ?>">
-                                                    <td><?= $sub->course_title ?></td>
-                                                    <td><?= $sub->ct_name ?></td>
-                                                    <td><?= $sub->course_day ?></td>
-                                                    <td><?= $sub->trainee_number ?></td>
-                                                    <td><?= $sub->batch_number ?></td>
-                                                    <td><?= $sub->total_trainee ?></td>
-                                                    <td><?= $sub->amount ?></td>
-                                                    <td><?= $sub->title ?></td>
+                                                    <td style="font-size:12px; width:25%"><?= $sub->course_title ?></td>
+                                                    <td style="font-size:12px; width:15%"><?= $sub->ct_name ?></td>
+                                                    <td><input class="form-control input-sm" name="course_day[]" value="<?= $sub->course_day ?>"></td>
+                                                    <td><input class="form-control input-sm" name="trainee_number[]" value="<?= $sub->trainee_number ?>"></td>
+                                                    <td><input class="form-control input-sm" name="batch_number[]" value="<?= $sub->batch_number ?>"></td>
+                                                    <td><input class="form-control input-sm" name="total_trainee[]" value="<?= $sub->total_trainee ?>"></td>
+                                                    <td><input class="form-control input-sm" name="amount[]" value="<?= $sub->amount ?>"></td>
+                                                    <!-- <td><?= $sub->title ?></td> -->
                                                 </tr>
                                                 <?php } ?>
                                             <?php } ?>
