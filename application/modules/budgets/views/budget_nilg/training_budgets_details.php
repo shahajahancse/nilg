@@ -98,7 +98,7 @@
 
                                     <div class="col-md-12" style='margin-bottom:10px'>
                                         <div class="col-md-7">
-                                            <label for="">বাজেট শিরোনাম <span class="required">*</span></label>
+                                            <label for="">স্থান <span class="required">*</span></label>
                                             <input value='<?=$budget_nilg->title?>' class="form-control input-sm" name="title" id="title">
                                         </div>
                                         <div class="col-md-2">
@@ -119,24 +119,23 @@
 
                                     <div class="col-md-12" style='margin-bottom:10px'>
                                         <div class="col-md-4">
-                                            <?php $types=$this->db->get('office_type')->result();?>
+                                            <?php $budget_head = $this->db->get('budget_head_training')->result();?>
                                             <label for="">বাজেট হেড নির্বাচন করুন</label>
                                             <select id="head_id" class="form-control"
                                                 onchange="addNewRow(this.value)">
                                                 <option value="">বাজেট হেড নির্বাচন করুন</option>
-                                                <?php foreach ($budget_head_sub as $key => $value) {
-                                                    echo '<option value="'.$value->id.'">'.$value->name_bn.'</option>';
-
+                                                <?php foreach ($budget_head as $key => $value) {
+                                                    echo '<option value="'.$key.'">'.$value->name_bn.'</option>';
                                                 }?>
                                             </select>
                                         </div>
                                         <div class="col-md-2">
                                             <label for="">প্রশিক্ষণার্থীর সংখ্যা <span class="required">*</span></label>
-                                            <input value='<?=$budget_nilg->trainee_number?>' type="number" onkeyup="calParticipantTotal()" class="form-control input-sm" name="trainee_number" id="trainee_number">
+                                            <input value='<?=$budget_nilg->trainee_number?>' type="number" class="form-control input-sm" name="trainee_number" id="trainee_number">
                                         </div>
                                         <div class="col-md-2">
                                             <label for="">ব্যাচ সংখ্যা <span class="required">*</span></label>
-                                            <input value='<?=$budget_nilg->batch_number?>' type="number" onkeyup="calParticipantTotal()" class="form-control input-sm" name="batch_number" id="batch_number">
+                                            <input value='<?=$budget_nilg->batch_number?>' type="number" class="form-control input-sm" name="batch_number" id="batch_number">
                                         </div>
                                         <div class="col-md-2">
                                             <label for="">সর্বমোট প্রশিক্ষণার্থী</label>
@@ -181,20 +180,20 @@
                                                 </thead>
                                                 <tbody id="tbody">
                                                     <?php foreach ($results as $key => $value) { ?>
-                                                        <tr class="head_<?=$value->id?> classThis" data-id="<?=$value->id?>">
+                                                        <tr class="head_<?=$value->head_id?> classThis" data-id="<?=$value->id?>">
                                                             <input type="hidden" name="sum_details_id[]" value="<?=$value->id?>" >
                                                             <input type="hidden" name="head_id[]" value="<?=$value->head_id?>" >
-                                                            <input class="head_amt_<?=$value->id?>" type="hidden" name="head_amt[]" value="0" >
+                                                            <input class="head_amt_<?=$value->head_id?>" type="hidden" name="head_amt[]" value="<?=$value->amount?>" >
                                                             <td colspan="5">
                                                                 <div style="display: flex; gap: 15px; align-items: center;">
                                                                 <?=$value->name_bn?>
-                                                                <select id="add_sub_row" style="margin-bottom: 0px;min-height: 20px;height: 25px !important;" >
+                                                                <select onchange="addSubRow(this.value, <?=$value->head_id?>, <?=$value->id?>)" class="add_sub_row" data-head_id='<?=$value->head_id?>' style="margin-bottom: 0px;min-height: 20px;height: 25px !important;" >
                                                                     <option value="">add sub row</option>
                                                                 </select>
-                                                                <a onclick="pass_id(<?= $value->id?>)" data-target="#modalNewSubHead" data-toggle="modal" style="padding: 2px 5px !important;font-size: 10px;font-weight: bolder;" class="btn btn-primary btn-sm" id="add_new_sub">Add New +</a>
+                                                                <a onclick="pass_id(<?= $value->head_id?>)" data-target="#modalNewSubHead" data-toggle="modal" style="padding: 2px 5px !important;font-size: 10px;font-weight: bolder;" class="btn btn-primary btn-sm" id="add_new_sub">Add New +</a>
                                                                 </div>
                                                             </td>
-                                                            <td><a href="javascript:void(0)" onclick="removeRow(this, <?=$value->id?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
+                                                            <td><a href="javascript:void(0)" onclick="removeRow(this, <?=$value->id?>, <?=$value->head_id?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
                                                         </tr>
                                                         <?php
                                                         $heads = [];
@@ -202,21 +201,24 @@
                                                             $this->db->select('r.*, b.name_bn');
                                                             $this->db->from('budget_revenue_sub_details as r');
                                                             $this->db->join('budget_head_sub_training as b', 'b.id = r.head_sub_id');
-                                                            $this->db->where('r.rev_sum_details', $value->id)->where('r.head_id', $value->head_id);
+                                                            $this->db->where('r.rev_sum_details', $value->id)->where('r.head_id', $value->head_id)->where('r.modify_soft_d', 1);
                                                             $heads = $this->db->get()->result();
+                                                            // dd($heads);
                                                         }
                                                         ?>
                                                         <?php foreach ($heads as $key => $head) { ?>
-                                                            <tr class="head_<?=$head->head_id?> side_css">
+                                                            <tr class="head_<?=$value->head_id?> side_css">
                                                                 <input type="hidden" name="<?=$value->id?>_sub_de_id[]" value="<?=$head->id?>">
-                                                                <input type="hidden" name="<?=$value->id?>_sub_id[]" value="<?=$head->head_id?>">
+                                                                <input type="hidden" name="<?=$value->id?>_head_sub_id[]" value="<?=$head->head_sub_id?>">
                                                                 <td colspan=""><?=$head->name_bn?></td>
 
-                                                                <td><input type="number" value="1" min="1" name="<?=$value->id?>_participants[]" onkeyup="calculateSubTotal(this, <?=$head->head_id?>)" class="pts form-control input-sm subParticipant_<?=$head->head_id?>"></td>
-                                                                <td><input type="number" value="1" min="1" name="<?=$value->id?>_days[]" onkeyup="calculateSubTotal(this, <?=$head->head_id?>)" class="form-control input-sm subDay_<?=$head->head_id?>"></td>
-                                                                <td><input type="number" value="1" min="1" name="<?=$value->id?>_amount[]" onkeyup="calculateSubTotal(this, <?=$head->head_id?>)" class="form-control input-sm subAmount_<?=$head->head_id?>"></td>
+                                                                <td><input type="number" value="<?= $head->participants ?>" min="1" name="<?=$value->id?>_participants[]" onkeyup="calculateSubTotal(this, <?=$head->head_id?>)" class="form-control input-sm subParticipant_<?=$head->head_id?>"></td>
 
-                                                                <td><input type="number" value="1" min="1" name="<?=$value->id?>_subTotal[]" readonly class="form-control amount input-sm subTotal_<?=$head->head_id?>"></td>
+                                                                <td><input type="number" value="<?= $head->days ?>" min="1" name="<?=$value->id?>_days[]" onkeyup="calculateSubTotal(this, <?=$head->head_id?>)" class="form-control input-sm subDay_<?=$head->head_id?>"></td>
+
+                                                                <td><input type="number" value="<?= $head->amount ?>" min="1" name="<?=$value->id?>_amount[]" onkeyup="calculateSubTotal(this, <?=$head->head_id?>)" class="form-control input-sm subAmount_<?=$head->head_id?>"></td>
+
+                                                                <td><input type="number" value="<?= $head->total_amt ?>" min="1" name="<?=$value->id?>_subTotal[]" readonly class="form-control amount input-sm subTotal_<?=$head->head_id?>"></td>
 
                                                                 <td><a href="javascript:void(0)" onclick="removeSubRow(this, <?=$head->id?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
                                                             </tr>
@@ -279,7 +281,6 @@
     </div> <!-- /.modal-content -->
   </div> <!-- /.modal-dialog -->
 </div> <!-- /.modal -->
-
 <script>
     function pass_id(id) {
         $('#prosnoid').val(id);
@@ -300,6 +301,12 @@
                 } else {
                     $('.alert').addClass('alert-red').html(response.msg).show();
                 }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                // console.log(textStatus, errorThrown);
+            },
+            complete: function() {
+                get_sub_row()
             }
         });
         return false;
@@ -335,105 +342,122 @@
 </style>
 <script>
     function removeSubRow(e, id) {
-        $(e).closest("tr").remove();
-        calculateSubTotal(e, id);
+        if (id == 'new') {
+            $(e).closest("tr").remove();
+        } else {
+            $.ajax({
+                type: "POST",
+                url: "<?= base_url('budgets/training_sub_remove_row') ?>",
+                data: {
+                    id: id
+                },
+                success: function(data) {
+                    if (data == 1) {
+                        $(e).closest("tr").remove();
+                        calculateSubTotal(e, id);
+                    } else {
+                        alert('Something went wrong. Please try again!');
+                    }
+                },
+            })
+        }
     }
 </script>
 
 <script>
-    function addSubRow(e, id) {
-        var tr = `
-        <tr class="head_${id}" data-id="${id}">
-            <td colspan="2" ><input class="form-control input-sm" name="${id}_subHead[]""></td>
-            <td> <input class="form-control subParticipant_${id} input-sm" onkeyup="calculateSubTotal(this, ${id})" min='1' value="1" name="${id}_participants[]" ></td>
-            <td> <input class="form-control subDay_${id} input-sm" onkeyup="calculateSubTotal(this, ${id})" min='1' value="1" name="${id}_days[]" ></td>
-            <td> <input class="form-control subAmount_${id} input-sm" onkeyup="calculateSubTotal(this, ${id})" min='1' value="1" name="${id}_amount[]" ></td>
-            <td> <input value="1" type="number" name="${id}_subTotal[]" class="form-control subTotal_${id} input-sm" readonly> </td>
-            <td><a href="javascript:void(0)" onclick="removeSubRow(this, ${id})" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
-        </tr>`
+    function addSubRow(e, id, sub_id) {
+        if (sub_id == 'new') {
+            sub_id = id;
+        }
+        $.ajax({
+            type: "POST",
+            url: "<?=base_url('budgets/get_sub_info') ?>",
+            data: {
+                id: e
+            },
+            success: function(data) {
+                var data = JSON.parse(data);
+                var tr = `<tr class="head_${id} side_css" data-id="${id}">
 
-        $('.head_'+id).eq(-1).after(tr).end();
-        $('.head_'+id).removeClass('classThis');
-        $('.head_'+id).removeClass('side_css');
-        $('.head_'+id).removeClass('bottom_css');
-        $('.head_'+id).eq(0).addClass('classThis');
-        $('.head_'+id).eq(-1).addClass('bottom_css');
-        $('.head_'+id).not(':first').not(':last').addClass('side_css');
+                    <input type="hidden" name="${sub_id}_sub_de_id[]" value="new">
+                    <input type="hidden" name="${sub_id}_head_sub_id[]" value="${data.id}">
+                    <td colspan="">${data.name_bn}</td>
 
-        var row = $(e).closest('tr');
-        row.find('.participants').prop('readonly', true);
-        row.find('.days').prop('readonly', true);
-        row.find('.token_amount').prop('readonly', true);
-        row.find('.participants').val(0);
-        row.find('.days').val(0);
-        row.find('.token_amount').val(0);
-    }
-</script>
 
-<script>
-    function removeRow(el, id) {
-        $(".head_"+id).each(function() {
-            $(this).closest("tr").remove();
+                    <td><input type="number" value="1" min="1" name="${sub_id}_participants[]" onkeyup="calculateSubTotal(this, ${id})" class="pts form-control input-sm subParticipant_${id}"></td>
+
+                    <td><input type="number" value="1" min="1" name="${sub_id}_days[]" onkeyup="calculateSubTotal(this, ${id})" class="form-control input-sm subDay_${id}"></td>
+
+                    <td><input type="number" value="1" min="1" name="${sub_id}_amount[]" onkeyup="calculateSubTotal(this, ${id})" class="form-control input-sm subAmount_${id}"></td>
+
+                    <td><input type="number" value="1" min="1" name="${sub_id}_subTotal[]" readonly class="form-control amount input-sm subTotal_${id}"></td>
+
+                    <td><a href="javascript:void(0)" onclick="removeSubRow(this, 'new')" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
+                </tr>`
+
+                $('.head_'+id).eq(-1).after(tr).end();
+            }
         });
-        calculateTotal()
+    }
+</script>
+
+<script>
+    function removeRow(el, id, head_id) {
+        if (head_id == 'new') {
+            $(".head_"+head_id).closest("tr").remove();
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "<?= base_url('budgets/training_nilg_remove_row') ?>",
+            data: {
+                id: id
+            },
+            success: function(data) {
+                if (data == 1) {
+                    $(".head_"+id).each(function() {
+                        $(this).closest("tr").remove();
+                    });
+                    calculateTotal()
+                } else {
+                    alert('Something went wrong. Please try again!');
+                }
+            },
+        })
     }
 </script>
 
 <script>
     function addNewRow(id) {
-        var head_id = id;
         var pat = $('#trainee_number').val();
         var btd = $('#course_day').val();
-
-        if (head_id == "") {
+        if (id == "") {
             return false;
         }
+        var js = <?php echo json_encode($budget_head); ?>;
+        $.each(js, function(index, data) {
+            if (index == id) {
+                var tr = `<tr class="head_${data.id} classThis" data-id="${data.id}">
+                    <input type="hidden" name="sum_details_id[]" value="new">
+                    <input type="hidden" name="head_id[]" value="${data.id}">
+                    <input class="head_amt_${data.id}" type="hidden" name="head_amt[]" value="0">
+                    <td colspan="5">
+                        <div style="display: flex; gap: 15px; align-items: center;"> ${data.name_bn}
+                        <select onchange="addSubRow(this.value, ${data.id}, 'new')" class="add_sub_row" data-head_id='${data.id}' style="margin-bottom: 0px;min-height: 20px;height: 25px !important;" >
+                            <option value="">Add sub row</option>
+                        </select>
 
-        $("#loading").show();
-        $.ajax({
-            type: "POST",
-            url: "<?=base_url('budgets/add_new_row') ?>",
-            data: {
-                head_id: head_id
-            },
-            success: function(data) {
-                var $data = JSON.parse(data);
-                if ($data.id == 2147483647) {
-                    var tr = `
-                    <tr class="head_${id}" data-id="${id}">
-                        <td colspan="2" >${$data.name_bn}</td>
-                        <td colspan="3">
-                            <input type="hidden" value="1" name="participants[]" ></td>
-                            <input type="hidden" value="1" name="days[]" ></td>
-                            <input type="hidden" value="1" name="amount[]" ></td>
-                        <td>
-                        <input type="hidden" name="head_sub_id[]" value="${$data.id}" >
-                        <input value="1" min="0" type="number" onkeyup="calculateTotal()" name="total_amt[]" class="form-control amount input-sm token_amount_${$data.id}">
-                        </td>
-                        <td><a href="javascript:void(0)" onclick="removeRow(this, ${id})" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
-                    </tr>`
-                } else {
-                    var tr = `
-                    <tr class="head_${id}" data-id="${id}">
-                        <td class="ssl">${$data.name_bn}  <span class="addBtn" data-id=0 onclick="addSubRow(this, ${id})"> অ্যাড সাব + </span>  </td>
-                        <td>${$data.bd_code}</td>
-                        <input type="hidden" name="head_sub_id[]" value="${$data.id}" >
-                        <td>
-                            <input type="number" value="${pat}" min="1" name="participants[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm participants"></td>
-                        <td>
-                            <input type="number" value="${btd}" min="1" name="days[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm days"></td>
-                        <td>
-                            <input type="number" value="1" min="1" name="amount[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_amount"></td>
-                        <td>
-                        <input value="1" min="0" type="number" name="total_amt[]" class="form-control amount input-sm token_amount_${$data.id}" readonly >
-                        </td>
-                        <td><a href="javascript:void(0)" onclick="removeRow(this, ${id})" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
-                    </tr>`
-                }
+                        <a onclick="pass_id(${data.id})" data-target="#modalNewSubHead" data-toggle="modal" style="padding: 2px 5px !important;font-size: 10px;font-weight: bolder;" class="btn btn-primary btn-sm" id="add_new_sub">Add New +</a>
+                        </div>
+                    </td>
+                    <td><a href="javascript:void(0)" onclick="removeRow(this, ${data.id}, 'new')" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
+                </tr>`
                 $("#tbody").append(tr);
-                $("#loading").hide();
+                get_sub_row();
+                $('.add_sub_row').chosen();
             }
-        })
+        });
     }
 </script>
 
@@ -478,19 +502,8 @@
 </script>
 
 <script>
-    function calParticipantTotal() {
-        var st = 0;
-        var trainee_number = $("#trainee_number").val()
-        var batch_number = $("#batch_number").val()
-        var st = trainee_number * batch_number
-        $("#total_trainee").val(st);
-        $(".pts").val(trainee_number);
-    }
-</script>
-<script>
     $(document).ready(function() {
         calculateTotal()
-        calParticipantTotal()
     })
 </script>
 
@@ -503,6 +516,33 @@
     $(document).ready(function() {
         $('#fcl_year').chosen();
         $('#head_id').chosen();
-        $('#add_sub_row').chosen();
+        $('.add_sub_row').chosen();
+        get_sub_row()
     });
+</script>
+<script>
+    function get_sub_row(){
+        $('.add_sub_row').each(function() {
+            var head_id = $(this).data('head_id');
+            var $selectElement = $(this); // Save reference to `this` (the `.add_sub_row` element)
+            // console.log(head_id);
+
+            $.ajax({
+                type: "POST",
+                url: "<?=base_url('budgets/get_sub_row') ?>",
+                data: {
+                    head_id: head_id
+                },
+                success: function(data) {
+                    var data = JSON.parse(data);
+                    var html = '<option value="">Add sub row</option>';
+                    for (var i = 0; i < data.length; i++) {
+                        html += '<option value="'+data[i].id+'">'+data[i].name_bn+'</option>';
+                    }
+                    $selectElement.html(html); // Use the saved reference
+                    $selectElement.trigger("chosen:updated"); // Update the chosen plugin
+                }
+            });
+        });
+    }
 </script>

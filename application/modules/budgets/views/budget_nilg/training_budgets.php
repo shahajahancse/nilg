@@ -79,7 +79,14 @@
                         <table class="table table-hover table-condensed data_table" border="0">
                             <thead>
                                 <tr>
-                                    <th style="width: 5%"> ক্রম </th>
+                                    <th>
+                                    <div style="display: flex;gap: 5px;">
+                                    <?php if( $this->ion_auth->in_group(array('admin', 'bdh'))){ ?>
+                                        <input type="checkbox" onclick="all_check(this)" >
+                                    <?php } ?>
+                                        <span>ক্রম</span>
+                                    </div>
+                                    </th>
                                     <th>অফিস ধরণ</th>
                                     <th>কোর্স নাম</th>
                                     <th>প্রশিক্ষণার্থীর ধরন</th>
@@ -93,10 +100,16 @@
                                 <?php $sl=$pagination['current_page'];
                                 foreach ($results as $row): $sl++; ?>
                                     <tr>
-                                        <td class="v-align-middle"><?=$sl.'.'?>
-                                         <?php if( $this->ion_auth->in_group(array('admin', 'bdh'))){ ?>
-                                             <input type="checkbox" class="check" name="check[]" value="<?=$row->id; ?>"> </td>
-                                         <?php }  ?>
+                                        <td class="v-align-middle" style="display: flex;gap: 5px;">
+                                                <div style="display: flex;gap: 5px;">
+
+                                                    <?php if( $this->ion_auth->in_group(array('admin', 'bdh'))){ ?>
+                                                        <input type="checkbox" class="check" name="check[]" value="<?=$row->id; ?>">
+                                                        <?php }  ?>
+                                                        <span><?=$sl.'.'?></span>
+                                                </div>
+                                        </td>
+
                                         <td class="v-align-middle"><?=$row->office_type; ?></td>
                                         <td class="v-align-middle"><?=$row->course_type; ?></td>
                                         <td class="v-align-middle"><?=$row->trainee_type; ?></td>
@@ -128,13 +141,16 @@
                                                 <button class="btn btn-mini btn-primary dropdown-toggle"
                                                     data-toggle="dropdown"> <span class="caret"></span> </button>
                                                 <ul class="dropdown-menu pull-right">
-                                                    <li><a
-                                                            href="<?php echo base_url('budgets/training_budgets_details/'.encrypt_url($row->id))?>"><i
-                                                                class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
-                                                    <li><a
-                                                            href="<?php echo base_url('budgets/training_budgets_details/'.encrypt_url($row->id))?>"><i
-                                                                class="fa fa-pencil-square"></i> সংশোধন করুন </a></li>
-                                                    <!-- <li><a id="modalId" data-toggle="modal" data-target="#myModal"
+                                                    <li>
+                                                        <a href="<?php echo base_url('budgets/training_budgets_details/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> বিস্তারিত </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="<?php echo base_url('budgets/training_budgets_details/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> সংশোধন করুন </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="<?php echo base_url('budgets/training_budgets_clone/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> ক্লোন করুন </a>
+                                                    </li>
+                                                            <!-- <li><a id="modalId" data-toggle="modal" data-target="#myModal"
                                                             data-id="<?=encrypt_url($row->id) ?>" href=""><i
                                                                 class="fa fa-user"></i> রিভিও</a></li> -->
                                                     <?php if ($row->status == 1) { ?>
@@ -361,4 +377,15 @@
             });
         });
     });
+</script>
+
+<script>
+function all_check(el){
+
+    if ($(el).is(':checked')) {
+        $('.check').prop('checked', true);
+    } else {
+        $('.check').prop('checked', false);
+    }
+}
 </script>

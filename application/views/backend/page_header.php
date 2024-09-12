@@ -378,7 +378,7 @@ input[type="search"] {
                <!-- budget entry start -->
                <!-- //  not live the module yet -->
                <?php $aar = array('admin', 'dg', 'nilg', 'dd', 'ad', 'bdh', 'acc', 'tdo', 'uz', 'ddlg','bod','bho','bli'); ?>
-               <?php if ($this->ion_auth->in_group('demo')) { ?>
+               <?php //if ($this->ion_auth->in_group('demo')) { ?>
                <?php if ($this->ion_auth->in_group($aar) || $userDetails->office_type == 7) { ?>
                   <?php if ($this->ion_auth->in_group(array('uz', 'ddlg'))) { ?>
                      <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span> <span class="arrow"></span> </a>
@@ -397,11 +397,15 @@ input[type="search"] {
 
                            <?php if ($this->ion_auth->is_admin() || ($this->ion_auth->in_group(array('bdh')) && $userDetails->crrnt_dept_id == 2 )) { ?>
                            <li class="start <?= backend_activate_menu_method('training_budgets') ?>">
-                              <a href="<?= base_url('budgets/training_budgets'); ?>">প্রশিক্ষণ বাজেট তৈরি</a>
+                              <a href="<?= base_url('budgets/training_budgets'); ?>">বাজেট তৈরি করুন </a>
                            </li>
                            <li class="start <?= backend_activate_menu_method('dpt_summary') ?>">
                               <a href="<?= base_url('budgets/dpt_summary'); ?>">বাজেট সামারী তৈরি</a>
                            </li>
+                           <li class="start <?= backend_activate_menu_method('budget_field') ?>">
+                              <a href="<?= base_url('budgets/budget_field'); ?>">প্রশিক্ষণ বাজেট তৈরি</a>
+                           </li>
+
                            <?php } elseif ($this->ion_auth->is_admin() || $this->ion_auth->in_group(array('bdh'))) { ?>
                               <li class="start <?= backend_activate_menu_method('budget_nilg') ?>">
                                  <a href="<?= base_url('budgets/budget_nilg'); ?>">রাজস্ব বাজেট তৈরি
@@ -413,19 +417,19 @@ input[type="search"] {
                               </li>
                            <?php } ?>
 
-                           <?php if ($this->ion_auth->is_admin() || $this->ion_auth->in_group(array('tdo'))) { ?>
+                           <?php if ($this->ion_auth->in_group(array('ad','dd','bdg', 'acc'))) { ?>
+                           <li class="start <?= backend_activate_menu_method('dpt_summary') ?>">
+                              <a href="<?= base_url('budgets/dpt_summary'); ?>">বাজেট তালিকা </a>
+                           <?php } ?>
+
+                           <?php if ($this->ion_auth->in_group(array('tdo'))) { ?>
                            <li class="start <?= backend_activate_menu_method('training_budgets') ?>">
-                              <a href="<?= base_url('budgets/training_budgets'); ?>">প্রশিক্ষণ বাজেট তৈরি</a>
+                              <a href="<?= base_url('budgets/training_budgets'); ?>">বাজেট তৈরি করুন </a>
                            </li>
                            <li class="start <?= backend_activate_menu_method('budget_field') ?>">
-                              <a href="<?= base_url('budgets/budget_field'); ?>">বাজেট তৈরি করুন
-                              <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'acc'))) { ?>
-                              <?php
-                              if ($budget_office_ntfy > 0) {
-                                 echo '<span style="margin-right:15px" class="badge badge-danger pull-right">' . eng2bng($budget_office_ntfy) . '</span>';
-                              } } ?>
-                              </a>
+                              <a href="<?= base_url('budgets/budget_field'); ?>">প্রশিক্ষণ বাজেট তৈরি</a>
                            </li>
+
                            <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_head/training'); ?>">বাজেট হেড</a> </li>
                            <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_sub_head/training'); ?>">বাজেট সাব হেড</a> </li>
                            <?php } ?>
@@ -510,7 +514,7 @@ input[type="search"] {
                      <?php } ?>
                      <!-- হিসাব সেটিংস -->
                   <?php }  ?>
-               <?php } } ?>
+               <?php } //} ?>
                <!-- budget entry end -->
 
                <!-- এনআইএলজি সেটিংস cc-->

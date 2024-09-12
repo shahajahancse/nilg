@@ -178,7 +178,7 @@
                 }
             </style>
 
-            <div class="table-responsive">
+            <div class=" table-responsive">
                 <table class="table"  border="1" cellspacing="0"  id="appRowDiv">
                     <thead>
                         <tr class="text-shadow">
@@ -187,7 +187,7 @@
                             <th width="">প্রশিক্ষণার্থীর ধরন</th>
                             <th width="">মেয়াদ</th>
                             <th width="">প্রশিক্ষণার্থী</th>
-                            <!-- <th width="">ব্যাচ সংখ্যা</th> -->
+                            <th width="">ব্যাচ সংখ্যা</th>
                             <th width="">মোট প্রশিক্ষণার্থী</th>
                             <th width="">প্রকল্পিত বায়</th>
                             <!-- <th width="">স্থান</th> -->
@@ -197,14 +197,14 @@
                     <?php $total = 0; foreach ($summary as $key => $data) { ?>
                         <tr class="text-shadow">
                             <th style="text-align:center"><?= eng2bng($key + 1) ?></th>
-                            <th colspan="6"><?= $data->office ?></th>
+                            <th colspan="7"><?= $data->office ?></th>
                         </tr>
                         <?php
                             $this->db->select('q.*,course.course_title,ct.ct_name');
-                            $this->db->from('budget_field_sub_details as q');
+                            $this->db->from('budget_revenue_sub_details as q');
                             $this->db->join('course', 'q.head_sub_id = course.id', 'left');
-                            $this->db->join('course_type ct','ct.id=q.type','left');
-                            $this->db->where('q.details_id', $data->id);
+                            $this->db->join('course_type ct','ct.id=q.trainee_type','left');
+                            $this->db->where('q.rev_sum_details', $data->id);
                             $subs = $this->db->get()->result();
                             // dd($subs);
                         ?>
@@ -215,8 +215,8 @@
                             <td style="font-size:12px; width:15%"><?= $sub->ct_name ?></td>
                             <td><?= eng2bng($sub->days) ?></td>
                             <td><?= eng2bng($sub->participants) ?></td>
-                            <!-- <td><?= eng2bng($sub->batch) ?></td> -->
-                            <td><?= eng2bng($sub->participants) ?></td>
+                            <td><?= eng2bng($sub->batch) ?></td>
+                            <td><?= eng2bng($sub->total_participants) ?></td>
                             <td><?= eng2bng($sub->amount) ?></td>
                             <!-- <td><?= $sub->title ?></td> -->
                         </tr>
@@ -226,13 +226,7 @@
                     </tbody>
                 </table>
             </div>
-    <div style="float: right;margin-top: 10px">
-        <span>নোট:</span>
-        <?= $info->description?>
-    </div>
     </div>
 </body>
 
 </html>
-
-

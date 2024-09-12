@@ -1,20 +1,24 @@
 User: Superadmin
-passs :  N12345678
+passs :  N12908049
 
 মুক্তাদির হোসেন	8680992065     (training user)
 মোঃ এরশাদ-ই-ইসলাম	2695041731312  (training user)
 এ জেহাদ সরকার	1479302182     (dept head  training)
 
-
 মো: নাজিম উদ্দিন	3273133821     (evaluation user)
 মোতাছিম বিল্লাহ	2611038723696  (evaluation user)
 ড. খ ম কবিরুল ইসলাম	3707391243     (dept head evaluation)
 
+সাজিয়া আফরোজ              32145602456   (ad)
+মোঃ শফিকুল ইসলাম          6548254689     (dd)
+মোঃ ইসরাত হোসেন খান   6411189258         (dg admin)
 মোঃ মাহফুজ গাজী	8210673607 (accounts)
+
+
 মো: আবদুর রহমান           2806711236          ( লাইব্রেরিয়ান )
 মোঃ আবদুল কাইয়ুম          8682538007         ( হোস্টেলিয়ান )
 শেখ মোঃ বাহার উদ্দিন      7778867478          ( অডিটোরিয়াম )
-মোঃ ইসরাত হোসেন খান   6411189258         (dg admin)
+
 
 
 uz@kotwali_jessore   (office)
@@ -29,5 +33,27 @@ ddlg@maulvibazar
 3707391243  jd 
 মোঃ এরশাদ-ই-ইসলাম	2695041731312  (user)
 
+ALTER TABLE `budget_revenue_summary_details` CHANGE `head_id` `head_id` INT(11) NULL DEFAULT NULL COMMENT '3=office type id, 2=training head id';
+ALTER TABLE `budget_revenue_summary_details` CHANGE `type` `type` TINYINT(4) NOT NULL DEFAULT '1' COMMENT '1=other dpt create, 2=training dpt create, 3=training marge';
+
+ALTER TABLE `budget_revenue_sub_details` ADD `batch` INT NULL DEFAULT NULL COMMENT 'training dpt marge' AFTER `participants`, ADD `total_participants` INT NULL DEFAULT NULL COMMENT 'training dpt marge' AFTER `batch`;
+ALTER TABLE `budget_revenue_sub_details` ADD `trainee_type` INT NULL DEFAULT NULL COMMENT 'training dpt marge' AFTER `fcl_year`;
+
+ALTER TABLE `budget_revenue_sub_details` CHANGE `head_id` `head_id` INT(11) NULL DEFAULT NULL COMMENT 'type 3 office type id';
+ALTER TABLE `budget_revenue_sub_details` CHANGE `head_sub_id` `head_sub_id` INT(11) NOT NULL COMMENT 'type 3 course id, budget_head_sub table id';
+
+ALTER TABLE `budgets` ADD `summary_id` INT NULL DEFAULT NULL AFTER `id`, ADD INDEX (`summary_id`);
+ALTER TABLE `budget_field` ADD `trainee_type` INT NULL DEFAULT NULL AFTER `office_type`;
+ALTER TABLE `budget_field` ADD `batch_number` INT NULL DEFAULT '0' AFTER `trainee_type`, ADD `trainee_number` INT NOT NULL DEFAULT '0' AFTER `batch_number`, ADD `total_trainee` INT NOT NULL DEFAULT '0' AFTER `trainee_number`, ADD `course_day` INT NOT NULL DEFAULT '0' AFTER `total_trainee`, ADD `office_id` INT NULL DEFAULT NULL AFTER `course_day`, ADD INDEX (`office_id`);
+
+ALTER TABLE `budget_field_sub_details` ADD `vat` DECIMAL(12,2) NOT NULL DEFAULT '0' AFTER `participants`, ADD `it_kor` DECIMAL(12,2) NOT NULL DEFAULT '0' AFTER `vat`;
+ALTER TABLE `budget_field_sub_details` ADD `file` VARCHAR(128) NULL DEFAULT NULL AFTER `updated_at`;
+ALTER TABLE `budget_field_sub_details` ADD `balance` DECIMAL(12,2) NOT NULL DEFAULT '0' AFTER `total_amt`;
+ALTER TABLE `budget_field` ADD `total_amt` DECIMAL(12,2) NOT NULL DEFAULT '0' AFTER `amount`, ADD `balance` DECIMAL NOT NULL DEFAULT '0' AFTER `total_amt`;
+ALTER TABLE `budget_field` CHANGE `total_amt` `total_amt` DECIMAL(12,2) NOT NULL DEFAULT '0.00' COMMENT 'summary balance';
+ALTER TABLE `budget_field_details` ADD `balance` DECIMAL NOT NULL DEFAULT '0' COMMENT 'summary balance from office' AFTER `total_amt`;
+ALTER TABLE `budget_field` ADD `updated_by` INT NULL DEFAULT NULL AFTER `updated_at`;
+ALTER TABLE `budget_field` ADD `office_note` TEXT NULL DEFAULT NULL AFTER `updated_by`;
+expense_amt
 
 

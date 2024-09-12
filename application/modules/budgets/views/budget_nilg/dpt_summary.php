@@ -48,18 +48,28 @@
                                 width: 40px !important;
                                 background: #ddb90a;
                             }
+                            .mddd > tbody > tr > td:first-child {
+                                width: 7% !important;
+                            }
+                            .table > thead > tr > th {
+                                border-bottom: 0px;
+                                padding: 2px !important;
+                            }
+                            .mddd > thead > tr > th:first-child {
+                                width: 10% !important;
+                            }
                         </style>
 
                         <div class="table-responsive">
-                            <table class="table table-hover table-condensed data_table" border="0">
+                            <table class="table table-hover table-condensed data_table mddd" border="0">
                                 <thead>
                                     <tr>
-                                        <th style="width: 10%"> ক্রম </th>
+                                        <th style="width: 10% !important"> ক্রম </th>
                                         <th>তারিখ</th>
-                                        <th>বিভাগ</th>
+                                        <!-- <th>বিভাগ</th> -->
                                         <th>অর্থবছর</th>
                                         <th>পরিমাণ</th>
-                                        <th>রাজস্ব পরিমাণ</th>
+                                        <!-- <th>রাজস্ব পরিমাণ</th> -->
                                         <th>স্ট্যাটাস</th>
                                         <th style="text-align: right;">অ্যাকশন</th>
                                     </tr>
@@ -67,26 +77,28 @@
                                 <tbody>
                                     <?php foreach ($summary as $sl => $row): ?>
                                         <tr>
-                                            <td class="v-align-middle"><?= $sl + 1; ?> <input type="checkbox" class="check" name="check[]" value="<?= $row->id; ?>"> </td>
+                                            <td style=""><?= eng2bng($sl + 1); ?></td>
                                             <td class="v-align-middle"><?= date_bangla_calender_format($row->created_at); ?></td>
 
-                                            <td class="v-align-middle"><?= $row->dept_name; ?></td>
+                                            <!-- <td class="v-align-middle"><?= $row->dept_name; ?></td> -->
                                             <td class="v-align-middle"><?= $row->session_name; ?></td>
-                                            <td class="v-align-middle"><?= eng2bng($row->dpt_amt); ?></td>
-                                            <td class="v-align-middle"><?= eng2bng($row->revenue_amt); ?></td>
+                                            <td class="v-align-middle"><?= eng2bng($row->amount); ?></td>
+                                            <!-- <td class="v-align-middle"><?= eng2bng($row->revenue_amt); ?></td> -->
                                             <td class="v-align-middle">
                                                 <?php if ($row->status == 1) {
                                                     echo '<span class="label label-info">Draft </span>';
                                                 } elseif ($row->status == 2) {
                                                     echo '<span class="label label-warning">On Precess</span>';
-                                                } elseif ($row->status == 3) {
-                                                    echo '<span class="label label-primary">Account Approve </span>';
+                                                }elseif ($row->status == 3) {
+                                                    echo '<span class="label label-primary">Dept Approve </span>';
                                                 } elseif ($row->status == 4) {
-                                                    echo '<span class="label label-success">DG. Approve </span>';
-                                                } elseif ($row->status == 5) {
-                                                    echo '<span class="label label-success">Revenue Received </span>';
-                                                } elseif ($row->status == 5) {
-                                                    echo '<span class="label label-important">Rejected </span>';
+                                                    echo '<span class="label label-primary">AD Approve </span>';
+                                                }elseif ($row->status == 5) {
+                                                    echo '<span class="label label-primary">DD Approve </span>';
+                                                }elseif ($row->status == 6) {
+                                                    echo '<span class="label label-primary">DG Approve </span>';
+                                                }elseif ($row->status == 7) {
+                                                    echo '<span class="label label-primary">AC Approve </span>';
                                                 }
                                                 ?>
                                             </td>
@@ -97,11 +109,31 @@
                                                     <button class="btn btn-mini btn-primary dropdown-toggle"
                                                         data-toggle="dropdown"> <span class="caret"></span> </button>
                                                     <ul class="dropdown-menu pull-right">
+                                                        <?php if (in_array($row->status,[1,2]) && $this->ion_auth->in_group(array('bdh'))) {?>
                                                         <li><a href="<?php echo base_url('budgets/dpt_summary_details/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> সংশোধন করুন </a></li>
+                                                        <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/3/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু এ.ডি  </a> </li>
+                                                        <?php }?>
 
-                                                        <!-- <li> <a id="modalId" data-toggle="modal" data-target="#myModal" data-id="<?= encrypt_url($row->id) ?>" href=""> <i class="fa fa-user"></i> ফরওয়ার্ড করুন</a></li> -->
+                                                        <?php if (in_array($row->status,[3]) && $this->ion_auth->in_group(array('ad'))) {?>
+                                                        <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু ডি.ডি  </a> </li>
+                                                        <?php }?>
 
-                                                        <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড করুন </a> </li>
+                                                        <?php if (in_array($row->status,[4]) && $this->ion_auth->in_group(array('dd','acc'))) {?>
+                                                        <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু ডি.জি </a> </li>
+                                                        <?php }?>
+
+                                                        <?php if (in_array($row->status,[5]) && $this->ion_auth->in_group(array('bdg'))) {?>
+                                                        <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/6/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু এ.সি   </a> </li>
+                                                        <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/3/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু এ.ডি  </a> </li>
+                                                        <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু ডি.ডি  </a> </li>
+                                                        <?php }?>
+
+                                                        <?php if (in_array($row->status,[6]) && $this->ion_auth->in_group(array('acc'))) {?>
+                                                            <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু ডি.জি </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/7/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> Approved </a> </li>
+                                                        <?php }?>
+
+                                                        <li> <a href="<?php echo base_url('budgets/dpt_summary_print/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> প্রিন্ট করুন </a> </li>
                                                     </ul>
                                                 </div>
                                             </td>

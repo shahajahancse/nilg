@@ -8,6 +8,11 @@
     input[type=number]::-webkit-inner-spin-button {
         -webkit-appearance: none;
     }
+
+    .page-content .content {
+        padding-left: 10px !important;
+        padding-right: 10px !important;;
+    }
 </style>
 <div class="page-content">
     <div class="content">
@@ -38,103 +43,111 @@
                         <?php endif; ?>
 
                         <?php $attributes = array('id' => 'jsvalidate');
-                        echo form_open_multipart("budgets/dpt_summary_edit", $attributes);
+                        echo form_open_multipart("budgets/dpt_summary_details", $attributes);
                         echo validation_errors(); ?>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="row"
-                                    style="padding: 20px;display: flex;flex-direction: row;justify-content: center;align-items: center;">
+                                    style="padding: 15px;display: flex;flex-direction: row;justify-content: center;align-items: center;">
                                     <div>
-                                        <span
-                                            style="font-size: 22px;font-weight: bold;text-decoration: underline;">বাজেট সামারী করুন</span>
+                                        <span style="font-size: 22px;font-weight: bold;text-decoration: underline;">বাজেট সামারী করুন</span>
                                     </div>
                                 </div>
 
                                 <div class="row form-row">
-                                    <div class="col-md-12">
-                                        <style type="text/css">
-                                            #appRowDiv td {
-                                                padding: 5px;
-                                                border-color: #ccc;
-                                            }
+                                    <style type="text/css">
+                                        #appRowDiv td {
+                                            padding: 5px !important;
+                                            border-color: #ccc;
+                                        }
+                                        .form-row input, .form-row select, .form-row textarea, .form-row select2 {
+                                            margin-bottom: 0px !important;
+                                        }
 
-                                            #appRowDiv th {
-                                                padding: 5px;
-                                                text-align: center;
-                                                border-color: #ccc;
-                                                color: black;
-                                            }
-                                        </style>
+                                        #appRowDiv th {
+                                            padding: 5px;
+                                            text-align: left;
+                                            border-color: #ccc;
+                                            color: black;
+                                        }
+                                    </style>
 
-                                        <div class="col-md-4 margin_top_10 " style="margin:0px;padding:0px">
-                                            <?php $heads = $this->db->get('budget_head_sub')->result(); ?>
-                                            <label for="">বাজেট হেড নির্বাচন করুন</label>
-                                            <select name="head" id="head_id" class="form-control"
-                                                onchange="getHead(this.value)">
-                                                <option value="">বাজেট হেড নির্বাচন করুন</option>
-                                                <?php foreach ($heads as $key => $head) { ?>
-                                                    <option value="<?= $key ?>"><?= $head->name_bn . ' (' . $head->bd_code . ')' ?></option>
+                                    <!-- head list -->
+                                    <div class=" table-responsive">
+                                        <table class="table table-hover table-condensed"  border="1"
+                                            style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
+                                            <thead>
+                                                <tr>
+                                                    <th width="">নং</th>
+                                                    <th width="">কোর্স নাম</th>
+                                                    <th width="">প্রশিক্ষণার্থীর ধরন</th>
+                                                    <th width="">মেয়াদ</th>
+                                                    <th width="">প্রশিক্ষণার্থী</th>
+                                                    <th width="">ব্যাচ সংখ্যা</th>
+                                                    <th width="">মোট প্রশিক্ষণার্থী</th>
+                                                    <th width="">প্রকল্পিত বায়</th>
+                                                    <!-- <th width="">স্থান</th> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody id="tbody">
+                                            <input type="hidden" name="fcl_year" value="<?= $summary[0]->fcl_year ?>">
+                                            <input type="hidden" name="sum_id" value="<?= $info->id ?>">
+                                            <?php $total = 0; foreach ($summary as $key => $data) { ?>
+                                                <tr>
+                                                    <th width=""><?= eng2bng($key + 1) ?></th>
+                                                    <th colspan="8" width=""><?= $data->office ?></th>
+                                                    <input type="hidden" name="office_type[]" value="<?= $data->office_type ?>">
+                                                    <input type="hidden" name="office_amt[]" value="<?= $data->office_amt ?>" class="office_amt_<?= $data->office_type ?>">
+                                                </tr>
+                                                <?php
+                                                    $this->db->select('q.*,ct.ct_name,course.course_title');
+                                                    $this->db->from('budget_revenue_summary as q');
+                                                    $this->db->join('course', 'q.course_id = course.id', 'left');
+                                                    $this->db->join('course_type ct','ct.id=q.trainee_type','left');
+                                                    $this->db->where('q.type', 2);
+                                                    $this->db->where('q.fcl_year', $info->fcl_year);
+                                                    $this->db->where('q.office_type', $data->office_type);
+                                                    $subs = $this->db->get()->result();
+                                                ?>
+                                                <?php foreach ($subs as $r => $sub) { ?>
+                                                <tr>
+                                                    <td style=""><?= eng2bng($key + 1) .'.'. eng2bng($r + 1) ?></td>
+                                                    <input type="hidden" name="<?= $data->office_type ?>_course_id[]" value="<?= $sub->course_id ?>">
+                                                    <input type="hidden" name="<?= $data->office_type ?>_trainee_type[]" value="<?= $sub->trainee_type ?>">
+                                                    <td style="font-size:12px; width:25%"><?= $sub->course_title ?></td>
+                                                    <td style="font-size:12px; width:15%"><?= $sub->ct_name ?></td>
+                                                    <td><input type="number" readonly class="form-control input-sm" name="<?= $data->office_type ?>_course_day[]" value="<?= $sub->course_day ?>"></td>
+                                                    <td><input type="number" readonly class="form-control input-sm" name="<?= $data->office_type ?>_participants[]" value="<?= $sub->trainee_number ?>"></td>
+                                                    <td><input type="number" readonly class="form-control input-sm" name="<?= $data->office_type ?>_batch_number[]" value="<?= $sub->batch_number ?>"></td>
+                                                    <td><input type="number" readonly class="form-control input-sm" name="<?= $data->office_type ?>_total_participants[]" value="<?= $sub->total_trainee ?>"></td>
+                                                    <td><input onchange="calculateTotal(this, <?= $data->office_type ?>)" type="number" readonly class="form-control input-sm sub_<?= $data->office_type ?> amount" name="<?= $data->office_type ?>_amount[]" value="<?= $sub->amount ?>"></td>
+                                                   <?php $total = $total + $sub->amount; ?>
+                                                </tr>
                                                 <?php } ?>
-                                            </select>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <?php $session_year = $this->db->order_by('id', 'desc')->get('session_year')->result(); ?>
-
-                                            <label for="fcl_year" class="control-label">অর্থবছর</label>
-                                            <select name="fcl_year" id="fcl_year" class="form-control input-sm">
-                                                <!-- <option value="">নির্বাচন করুন</option> -->
-                                                <?php foreach ($session_year as $key => $ss) { ?>
-                                                    <option value="<?= $ss->id ?>"><?= $ss->session_name ?></option>
-                                                <?php } ?>
-                                            </select>
-                                        </div>
-
-                                        <div class="col-md-4" style="margin:0px;padding:0px">
-                                            <label for="">সর্বমোট পরিমান</label>
-                                            <input style="padding:10px; text-align:right" type="number" name="total_amount" id="total_amount" class="form-control input-sm" readonly>
-                                        </div>
-                                        <input type="hidden" name="summary_id" value="<?= $summary->id; ?>">
-
-                                        <!-- head list -->
-                                        <div class="col-md-12 table-responsive">
-                                            <table class="table table-hover table-condensed" border="1"
-                                                style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
-                                                <thead>
-                                                    <tr>
-                                                        <th width="30%">বাজেট শিরোনাম </th>
-                                                        <th width="15%">বাজেট কোড</th>
-                                                        <th width="20%">পরিমাণ</th>
-                                                        <th width="20%">পরিমাণ</th>
-                                                        <th width="15%">অ্যাকশন </th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="tbody">
-                                                    <?php foreach ($results as $key => $data) { ?>
-                                                        <tr>
-                                                            <td style="padding:0px 10px"><?= $data->name_bn ?></td>
-                                                            <td style="text-align:center"><?= $data->bd_code ?></td>
-                                                            <td>
-                                                                <input type="hidden" name="head_sub_id[]" value="<?= $data->head_sub_id ?>">
-                                                                <input style="padding:0px; text-align:right" value="<?= $data->dpt_amt ?>" class="form-control input-sm" readonly>
-                                                                <input type="hidden" name="details_id[]" value="<?= $data->id; ?>">
-                                                            </td>
-                                                            <td>
-                                                                <input style="padding:0px; text-align:right" value="<?= $data->dpt_amt ?>" min="0" type="number" onkeyup="calculateTotal()" name="dpt_amt[]" class="form-control dpt_amt input-sm">
-                                                            </td>
-                                                            <td><a href="javascript:void(0)" onclick="removeRow(this,<?= $data->id ?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
-                                                        </tr>
-                                                    <?php } ?>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <br><br>
-                                        <div style='clear:both'></div>
-                                        <div style='margin: 20px -6px;'>
-                                            <div class="pull-right">
-                                                <input type="submit" name="save" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
-                                                <!-- <input type="submit" name="submit" value="ফরওয়ার্ড করুন" class="btn btn-primary btn-cons"> -->
+                                            <?php } ?>
+                                            <tr>
+                                                <td colspan="7">
+                                                    <p><strong>কথায়:</strong> <span id="total_bangla">0</span> টাকা মাত্র</p>
+                                                </td>
+                                                <td><input type="number" id="total" class="form-control input-sm" name="total_amount" value="<?= $total ?>" readonly></td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="col-md-12" style="padding: 0px;">
+                                            <div class="form-group margin_top_10">
+                                                <label for=""> নোট:</label>
+                                                <textarea class="form-control" name="description"
+                                                    style="height: 300px;"
+                                                    id="description"><p></p><p></p></textarea>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <!-- <br><br> -->
+                                    <!-- <div style='clear:both'></div> -->
+                                    <div style='margin: 20px -6px;'>
+                                        <div class="pull-right">
+                                            <input type="submit" name="save" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
+                                            <!-- <input type="submit" name="submit" value="ফরওয়ার্ড করুন" class="btn btn-primary btn-cons"> -->
                                         </div>
                                     </div>
                                 </div>
@@ -148,85 +161,37 @@
     </div>
 </div>
 
-<script>
-    function getHead(val) {
-        var all_heads = <?php echo json_encode($heads); ?>;
-        if (val == "") {
-            return false;
-        }
-        var head = all_heads[val];
-        addNewRow(head);
-        disableOption(val);
-    }
-
-    function disableOption(value) {
-        $('#head_id option[value="' + value + '"]').prop('disabled', true);
-        $('#head_id').select2();
-    }
-</script>
-
-<script>
-    function addNewRow(data) {
-        var tr = `<tr>
-                <td>${data.name_bn}</td>
-                <td style="text-align:center">${data.bd_code}</td>
-                <td>
-                <input type="hidden" name="head_sub_id[]" value="${data.id}" >
-                <input type="hidden" name="details_id[]" value="new" >
-                <input value="0" min="0" type="number"  class="form-control input-sm" style="text-align:right" readonly>
-                </td>
-                <td><input type="number" name="dpt_amt[]" value="0" min="0" onkeyup="calculateTotal()"  class="form-control dpt_amt input-sm" style=" text-align:right"> </td>
-                <td><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
-                </tr>`
-        $("#tbody").append(tr);
-        $("#loading").hide();
-
-    }
-</script>
-<script>
-    function calculateTotal() {
-        var total = 0;
-        $(".dpt_amt").each(function() {
-            total += parseInt($(this).val());
-        })
-        $("#total_amount").val(total);
-    }
-</script>
-<script>
-    function removeRow(row, id) {
-        $.ajax({
-            type: "POST",
-            url: "<?= base_url('budgets/budgets_dpt_remove_row') ?>",
-            data: {
-                id: id
-            },
-            success: function(data) {
-                if (data == 1) {
-                    $(row).closest("tr").remove();
-                    calculateTotal()
-                } else {
-                    alert('Something went wrong. Please try again!');
-                }
-            },
-        })
-    }
-</script>
+<script src="<?= base_url('assets/js/bangla_converter.js'); ?>"></script>
 <script>
     $(document).ready(function() {
-        calculateTotal()
-    })
+        total = $("#total").val();
+        $("#total_bangla").html(generateWords(total));
+    });
 </script>
 
-
-
-<!-- <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
 <script>
-    ClassicEditor
-        .create(document.querySelector('#description'))
-        .then(editor => {
-            window.editor = editor;
+    function calculateTotal(el, id) {
+        var office_amt = 0;
+        $(".sub_"+id).each(function() {
+            var amt = parseInt($(this).val());
+            if (isNaN(amt) === false) {
+                office_amt = amt + office_amt;
+            }
         })
-        .catch(error => {
-            console.error(error);
-        });
-</script> -->
+        $(".office_amt_"+id).val(office_amt);
+
+        var total = 0;
+        $(".amount").each(function() {
+            var amount = parseInt($(this).val());
+            if (isNaN(amount) === false) {
+                total += amount;
+            }
+        })
+        $("#total").val(total);
+        $("#total_bangla").html(generateWords(total));
+    }
+</script>
+<script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor.create(document.querySelector('#description')).then(editor => {window.editor = editor;}).catch(error => {console.error(error);});
+</script>

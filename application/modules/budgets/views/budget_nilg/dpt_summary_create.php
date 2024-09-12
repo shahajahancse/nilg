@@ -60,6 +60,9 @@
                                             padding: 5px !important;
                                             border-color: #ccc;
                                         }
+                                        .form-row input, .form-row select, .form-row textarea, .form-row select2 {
+                                            margin-bottom: 0px !important;
+                                        }
 
                                         #appRowDiv th {
                                             padding: 5px;
@@ -87,11 +90,13 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="tbody">
-                                            <?php foreach ($summary as $key => $data) { ?>
+                                            <input type="hidden" name="fcl_year" value="<?= $summary[0]->fcl_year ?>">
+                                            <?php $total = 0; foreach ($summary as $key => $data) { ?>
                                                 <tr>
                                                     <th width=""><?= eng2bng($key + 1) ?></th>
                                                     <th colspan="8" width=""><?= $data->office ?></th>
                                                     <input type="hidden" name="office_type[]" value="<?= $data->office_type ?>">
+                                                    <input type="hidden" name="office_amt[]" value="<?= $data->office_amt ?>" class="office_amt_<?= $data->office_type ?>">
                                                 </tr>
                                                 <?php
                                                     $this->db->select('q.*,ct.ct_name,course.course_title');
@@ -104,20 +109,35 @@
                                                 <?php foreach ($subs as $r => $sub) { ?>
                                                 <tr>
                                                     <td style=""><?= eng2bng($key + 1) .'.'. eng2bng($r + 1) ?></td>
-                                                    <input type="hidden" name="course_id[]" value="<?= $sub->course_id ?>">
+                                                    <input type="hidden" name="<?= $data->office_type ?>_course_id[]" value="<?= $sub->course_id ?>">
+                                                    <input type="hidden" name="<?= $data->office_type ?>_trainee_type[]" value="<?= $sub->trainee_type ?>">
                                                     <td style="font-size:12px; width:25%"><?= $sub->course_title ?></td>
                                                     <td style="font-size:12px; width:15%"><?= $sub->ct_name ?></td>
-                                                    <td><input class="form-control input-sm" name="course_day[]" value="<?= $sub->course_day ?>"></td>
-                                                    <td><input class="form-control input-sm" name="trainee_number[]" value="<?= $sub->trainee_number ?>"></td>
-                                                    <td><input class="form-control input-sm" name="batch_number[]" value="<?= $sub->batch_number ?>"></td>
-                                                    <td><input class="form-control input-sm" name="total_trainee[]" value="<?= $sub->total_trainee ?>"></td>
-                                                    <td><input class="form-control input-sm" name="amount[]" value="<?= $sub->amount ?>"></td>
-                                                    <!-- <td><?= $sub->title ?></td> -->
+                                                    <td><input type="number" readonly class="form-control input-sm" name="<?= $data->office_type ?>_course_day[]" value="<?= $sub->course_day ?>"></td>
+                                                    <td><input type="number" readonly class="form-control input-sm" name="<?= $data->office_type ?>_participants[]" value="<?= $sub->trainee_number ?>"></td>
+                                                    <td><input type="number" readonly class="form-control input-sm" name="<?= $data->office_type ?>_batch_number[]" value="<?= $sub->batch_number ?>"></td>
+                                                    <td><input type="number" readonly class="form-control input-sm" name="<?= $data->office_type ?>_total_participants[]" value="<?= $sub->total_trainee ?>"></td>
+                                                    <td><input onchange="calculateTotal(this, <?= $data->office_type ?>)" type="number" readonly class="form-control input-sm sub_<?= $data->office_type ?> amount" name="<?= $data->office_type ?>_amount[]" value="<?= $sub->amount ?>"></td>
+                                                   <?php $total = $total + $sub->amount; ?>
                                                 </tr>
                                                 <?php } ?>
                                             <?php } ?>
+                                            <tr>
+                                                <td colspan="7">
+                                                    <p><strong>কথায়:</strong> <span id="total_bangla">0</span> টাকা মাত্র</p>
+                                                </td>
+                                                <td><input type="number" id="total" class="form-control input-sm" name="total_amount" value="<?= $total ?>" readonly></td>
+                                            </tr>
                                             </tbody>
                                         </table>
+                                        <div class="col-md-12" style="padding: 0px;">
+                                            <div class="form-group margin_top_10">
+                                                <label for=""> নোট:</label>
+                                                <textarea class="form-control" name="description"
+                                                    style="height: 300px;"
+                                                    id="description"><p></p><p></p></textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                     <!-- <br><br> -->
                                     <!-- <div style='clear:both'></div> -->
@@ -138,84 +158,37 @@
     </div>
 </div>
 
-<script>
-    function getHead(val) {
-        var all_heads = <?php echo json_encode($heads); ?>;
-        if (val == "") {
-            return false;
-        }
-        var head = all_heads[val];
-        addNewRow(head);
-        disableOption(val);
-    }
-
-    function disableOption(value) {
-        $('#head_id option[value="' + value + '"]').prop('disabled', true);
-        $('#head_id').select2();
-    }
-</script>
-
-<script>
-    function addNewRow(data) {
-        var tr = `<tr>
-                <td>${data.name_bn}</td>
-                <td style="text-align:center">${data.bd_code}</td>
-                <td>
-                <input type="hidden" name="head_sub_id[]" value="${data.id}" >
-                <input value="0" min="0" type="number"  class="form-control input-sm" style="text-align:right" readonly>
-                </td>
-                <td><input type="number" name="dpt_amt[]" value="0" min="0" onkeyup="calculateTotal()"  class="form-control dpt_amt input-sm" style=" text-align:right"> </td>
-                <td><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
-                </tr>`
-        $("#tbody").append(tr);
-        $("#loading").hide();
-
-    }
-</script>
-<script>
-    function calculateTotal() {
-        var total = 0;
-        $(".dpt_amt").each(function() {
-            total += parseInt($(this).val());
-        })
-        $("#total_amount").val(total);
-    }
-</script>
-<script>
-    function removeRow(row, id) {
-        $.ajax({
-            type: "POST",
-            url: "<?= base_url('budgets/budgets_nilg_remove_row') ?>",
-            data: {
-                id: id
-            },
-            success: function(data) {
-                if (data == 1) {
-                    $(row).closest("tr").remove();
-                    calculateTotal()
-                } else {
-                    alert('Something went wrong. Please try again!');
-                }
-            },
-        })
-    }
-</script>
+<script src="<?= base_url('assets/js/bangla_converter.js'); ?>"></script>
 <script>
     $(document).ready(function() {
-        calculateTotal()
-    })
+        total = $("#total").val();
+        $("#total_bangla").html(generateWords(total));
+    });
 </script>
 
-
-
-<!-- <script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
 <script>
-    ClassicEditor
-        .create(document.querySelector('#description'))
-        .then(editor => {
-            window.editor = editor;
+    function calculateTotal(el, id) {
+        var office_amt = 0;
+        $(".sub_"+id).each(function() {
+            var amt = parseInt($(this).val());
+            if (isNaN(amt) === false) {
+                office_amt = amt + office_amt;
+            }
         })
-        .catch(error => {
-            console.error(error);
-        });
-</script> -->
+        $(".office_amt_"+id).val(office_amt);
+
+        var total = 0;
+        $(".amount").each(function() {
+            var amount = parseInt($(this).val());
+            if (isNaN(amount) === false) {
+                total += amount;
+            }
+        })
+        $("#total").val(total);
+        $("#total_bangla").html(generateWords(total));
+    }
+</script>
+<script src="https://cdn.ckeditor.com/ckeditor5/35.1.0/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor.create(document.querySelector('#description')).then(editor => {window.editor = editor;}).catch(error => {console.error(error);});
+</script>
