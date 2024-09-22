@@ -215,9 +215,10 @@ class Leave_model extends CI_Model {
     }
 
     public function get_info($id) {
-        $this->db->select('el.*, users.name_bn');
+        $this->db->select('el.*, u.name_bn, users.employee_type');
         $this->db->from('leave_employee as el');
-        $this->db->join('users', 'users.id = el.assign_person', 'LEFT');
+        $this->db->join('users', 'users.id = el.user_id', 'LEFT');
+        $this->db->join('users u', 'u.id = el.assign_person', 'LEFT');
         $this->db->where('el.id', $id);
         $query =  $this->db->get()->row();
         return $query;

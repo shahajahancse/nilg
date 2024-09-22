@@ -172,7 +172,7 @@
                 <thead class="headding">
                     <tr>
                         <td rowspan="1" style="">ক্রমিক নং</td>
-                        <td rowspan="1" style="">বিষয়</td>
+                        <td rowspan="1" style="text-align:left">বিষয়</td>
                         <td rowspan="1" style="">পরিমাণ</td>
                         <td colspan="1" style="">ডিপার্টমেন্ট পরিমাণ</td>
                         <td colspan="1" style="">আক্কাউন্ট পরিমাণ</td>
@@ -183,7 +183,7 @@
                     <?php foreach ($items as $key => $row) { ?>
                         <tr>
                             <td><?php echo $key + 1; ?></td>
-                            <td><?php echo $row->name_bn; ?></td>
+                            <td  style="text-align:left"><?php echo $row->name_bn; ?></td>
                             <td><?php echo $row->amount; ?></td>
                             <td><?php echo $row->dpt_amt; ?></td>
                             <td><?php echo $row->acc_amt; ?></td>

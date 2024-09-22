@@ -19,6 +19,216 @@ class Nilg_setting extends Backend_Controller {
         redirect('general_setting/upazila_thana');
     }
 
+    // bank account
+    public function bank_account($offset = 0)
+    {
+        $limit = 15;
+        $results = $this->Nilg_setting_model->lists($limit, $offset, 'budget_bank_name');
+        $this->data['results'] = $results['rows'];
+        $this->data['total_rows'] = $results['num_rows'];
+        //pagination
+        $this->data['pagination'] = create_pagination('nilg_setting/bank_account/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+        // Load view
+        $this->data['meta_title'] = 'অ্যাকাউন্ট এর তালিকা';
+        $this->data['subview'] = 'bank_account/index';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function bank_account_create()
+    {
+        $this->form_validation->set_rules('name_bn', 'ব্যাংক নাম (বাংলা)', 'required|trim');
+        $this->form_validation->set_rules('name_en', 'ব্যাংক নাম (ইংরেজী)', 'required|trim');
+        $this->form_validation->set_rules('account_no', 'অ্যাকাউন্ট নং', 'required|trim');
+        $this->form_validation->set_rules('address_bn', 'ব্যাংক ঠিকানা (বাংলা)', 'required|trim');
+        $this->form_validation->set_rules('address_en', 'ব্যাংক ঠিকানা (ইংরেজী)', 'required|trim');
+
+        if ($this->form_validation->run() == true) {
+            $form_data = array(
+                'name_bn'     => $this->input->post('name_bn'),
+                'name_en'     => $this->input->post('name_en'),
+                'account_no'  => $this->input->post('account_no'),
+                'address_bn'  => $this->input->post('address_bn'),
+                'address_en'  => $this->input->post('address_en'),
+                'type'        => $this->input->post('type'),
+            );
+            if ($this->Common_model->save('budget_bank_name', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('nilg_setting/bank_account');
+            }
+        }
+
+        //Load view
+        $this->data['meta_title'] = 'অ্যাকাউন্ট তৈরি করুন';
+        $this->data['subview'] = 'bank_account/create';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function bank_account_edit($encid=null){
+        $id = (int) decrypt_url($encid);
+        $this->form_validation->set_rules('name_bn', 'ব্যাংক নাম (বাংলা)', 'required|trim');
+        $this->form_validation->set_rules('name_en', 'ব্যাংক নাম (ইংরেজী)', 'required|trim');
+        $this->form_validation->set_rules('account_no', 'অ্যাকাউন্ট নং', 'required|trim');
+        $this->form_validation->set_rules('address_bn', 'ব্যাংক ঠিকানা (বাংলা)', 'required|trim');
+        $this->form_validation->set_rules('address_en', 'ব্যাংক ঠিকানা (ইংরেজী)', 'required|trim');
+
+        if ($this->form_validation->run() == true) {
+            $form_data = array(
+                'name_bn'     => $this->input->post('name_bn'),
+                'name_en'     => $this->input->post('name_en'),
+                'account_no'  => $this->input->post('account_no'),
+                'address_bn'  => $this->input->post('address_bn'),
+                'address_en'  => $this->input->post('address_en'),
+                'status'      => $this->input->post('status'),
+                'type'        => $this->input->post('type'),
+            );
+           $this->db->where('id', $id);
+            if ($this->db->update('budget_bank_name', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংশোধন করা হয়েছে');
+                redirect('nilg_setting/bank_account');
+            }
+        }
+        $this->data['row'] = $this->db->select('q.*')->where('id', $id)->get('budget_bank_name as q')->row();
+        //Load view
+        $this->data['meta_title'] = 'অ্যাকাউন্ট টাইপ বিস্তারিত';
+        $this->data['subview'] = 'bank_account/edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    //  bank account
+    // medical start
+        public function medical($offset = 0)
+    {
+        $limit = 15;
+        $results = $this->Nilg_setting_model->lists($limit, $offset, 'budget_medical');
+        $this->data['results'] = $results['rows'];
+        $this->data['total_rows'] = $results['num_rows'];
+        //pagination
+        $this->data['pagination'] = create_pagination('nilg_setting/medical/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+        // Load view
+        $this->data['meta_title'] = 'চিকিৎসা ভাতা তালিকা';
+        $this->data['subview'] = 'medical/index';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function medical_create()
+    {
+        $this->form_validation->set_rules('name_bn', 'ব্যাংক নাম (বাংলা)', 'required|trim');
+        $this->form_validation->set_rules('name_en', 'ব্যাংক নাম (ইংরেজী)', 'required|trim');
+        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
+        if ($this->form_validation->run() == true) {
+            $form_data = array(
+                'name_bn'     => $this->input->post('name_bn'),
+                'name_en'     => $this->input->post('name_en'),
+                'amount'      => $this->input->post('amount'),
+                'type'        => $this->input->post('type'),
+            );
+            if ($this->Common_model->save('budget_medical', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('nilg_setting/medical');
+            }
+        }
+
+        //Load view
+        $this->data['meta_title'] = 'চিকিৎসা ভাতা';
+        $this->data['subview'] = 'medical/create';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function medical_edit($encid = null)
+    {
+        $this->form_validation->set_rules('name_bn', 'ব্যাংক নাম (বাংলা)', 'required|trim');
+        $this->form_validation->set_rules('name_en', 'ব্যাংক নাম (ইংরেজী)', 'required|trim');
+        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
+        $id = (int) decrypt_url($encid);
+        if ($this->form_validation->run() == true) {
+            $form_data = array(
+                'name_bn'     => $this->input->post('name_bn'),
+                'name_en'     => $this->input->post('name_en'),
+                'amount'      => $this->input->post('amount'),
+                'type'        => $this->input->post('type'),
+                'status'      => $this->input->post('status'),
+            );
+           $this->db->where('id', $id);
+            if ($this->db->update('budget_medical', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংশোধন করা হয়েছে');
+                redirect('nilg_setting/medical');
+            }
+        }
+
+        //Load view
+        $this->data['row'] = $this->db->select('q.*')->where('id', $id)->get('budget_medical as q')->row();
+        $this->data['meta_title'] = 'চিকিৎসা ভাতা';
+        $this->data['subview'] = 'medical/edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    // medical end
+
+    // festival start
+    public function festival($offset = 0)
+    {
+        $limit = 15;
+        $results = $this->Nilg_setting_model->lists($limit, $offset, 'budget_festival');
+        $this->data['results'] = $results['rows'];
+        $this->data['total_rows'] = $results['num_rows'];
+        //pagination
+        $this->data['pagination'] = create_pagination('nilg_setting/festival/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+        // Load view
+        $this->data['meta_title'] = 'উৎসব ভাতা তালিকা';
+        $this->data['subview'] = 'festival/index';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function festival_create()
+    {
+        $this->form_validation->set_rules('name_bn', 'ব্যাংক নাম (বাংলা)', 'required|trim');
+        $this->form_validation->set_rules('name_en', 'ব্যাংক নাম (ইংরেজী)', 'required|trim');
+        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
+        if ($this->form_validation->run() == true) {
+            $form_data = array(
+                'name_bn'     => $this->input->post('name_bn'),
+                'name_en'     => $this->input->post('name_en'),
+                'amount'      => $this->input->post('amount'),
+                'type'        => $this->input->post('type'),
+            );
+            if ($this->Common_model->save('budget_festival', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('nilg_setting/festival');
+            }
+        }
+
+        //Load view
+        $this->data['meta_title'] = 'উৎসব ভাতা';
+        $this->data['subview'] = 'festival/create';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function festival_edit($encid = null)
+    {
+        $this->form_validation->set_rules('name_bn', 'ব্যাংক নাম (বাংলা)', 'required|trim');
+        $this->form_validation->set_rules('name_en', 'ব্যাংক নাম (ইংরেজী)', 'required|trim');
+        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
+        $id = (int) decrypt_url($encid);
+        if ($this->form_validation->run() == true) {
+            $form_data = array(
+                'name_bn'     => $this->input->post('name_bn'),
+                'name_en'     => $this->input->post('name_en'),
+                'amount'      => $this->input->post('amount'),
+                'type'        => $this->input->post('type'),
+                'status'      => $this->input->post('status'),
+            );
+           $this->db->where('id', $id);
+            if ($this->db->update('budget_festival', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংশোধন করা হয়েছে');
+                redirect('nilg_setting/festival');
+            }
+        }
+
+        //Load view
+        $this->data['row'] = $this->db->select('q.*')->where('id', $id)->get('budget_festival as q')->row();
+        $this->data['meta_title'] = 'উৎসব ভাতা';
+        $this->data['subview'] = 'festival/edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    // festival end
+
+
+
+
     public function session_year($offset = 0)
     {
         $limit = 15;
@@ -319,7 +529,7 @@ class Nilg_setting extends Backend_Controller {
         }
     }
 
-    
+
 
     public function hostel_seat_list()
     {

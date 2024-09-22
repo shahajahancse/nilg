@@ -140,7 +140,7 @@ class Common_model extends CI_Model
         $data[''] = '-- নির্বাচন করুন --';
         $this->db->select('id, name_bn');
         $this->db->from('users');
-        $this->db->where('is_office !=', 1);
+        $this->db->where('is_verify', 1);
         if ($crrnt_dept_id != null) {
             $this->db->where('crrnt_dept_id', $crrnt_dept_id);
         }
@@ -153,7 +153,6 @@ class Common_model extends CI_Model
         foreach ($query->result_array() as $rows) {
             $data[$rows['id']] = $rows['name_bn'];
         }
-
         return $data;
     }
 

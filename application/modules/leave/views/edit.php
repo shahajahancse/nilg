@@ -170,9 +170,9 @@
                     <label class="form-label">ছুটিকালীন বিকল্প কর্মকর্তা <span class="required">*</span></label>
                     <select name="assign_person" id="assign_person" class="form-control" required>
                       <option value="">-- নির্বাচন করুন --</option>
-                      <option value="bikolpo">বিকল্প কর্মকর্তা নেই ।</option>
+                      <option <?php if($row->bikolpo=="বিকল্প কর্মকর্তা নেই ।"){echo 'selected';} ?> value="bikolpo">বিকল্প কর্মকর্তা নেই ।</option>
                       <?php foreach($users as $key => $value): ?>
-                        <?php if($key != $info->id ): ?>
+                        <?php if($key != $row->user_id ): ?>
                           <?php if ($key != "") : ?>
                             <option <?php if($row->assign_person==$key){echo 'selected';} ?> value="<?=$key?>"><?=$value?></option>
                           <?php endif; ?>

@@ -217,13 +217,20 @@
                             <td><?= eng2bng($sub->participants) ?></td>
                             <td><?= eng2bng($sub->batch) ?></td>
                             <td><?= eng2bng($sub->total_participants) ?></td>
-                            <td><?= eng2bng($sub->amount) ?></td>
+                            <td style="text-align:right"><?= eng2bng($sub->amount) ?></td>
                             <!-- <td><?= $sub->title ?></td> -->
                         </tr>
-                        <?php } ?>
+                        <?php
+                            $total += $sub->amount;
+                    } ?>
                     <?php } ?>
 
                     </tbody>
+                    <tfoot>
+                        <tr class="text-shadow">
+                            <th colspan="7" style="text-align:right">সর্বমোটঃ</th>
+                            <th style="text-align:right"><?= eng2bng($total) ?></th>
+                    </tfoot>
                 </table>
             </div>
     </div>

@@ -83,8 +83,10 @@
                         $reveneu = $this->Common_model->all_journal_amount('revenue');
                         $hostel = $this->Common_model->all_journal_amount('hostel');
                         $publication = $this->Common_model->all_journal_amount('publication');
-                        $gpf = $this->Common_model->all_journal_amount('gpf');
-                        $pension = $this->Common_model->all_journal_amount('pension');
+                        // $gpf = $this->Common_model->all_journal_amount('gpf');
+                        $gpf = 0;
+                        // $pension = $this->Common_model->all_journal_amount('pension');
+                        $pension = 0;
                         $miscellaneous = $this->Common_model->all_journal_amount('miscellaneous');
                         ?>
                         <div class="tiles-title"> জার্নাল গৃহীত সামারি রিপোর্ট </div>

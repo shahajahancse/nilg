@@ -128,9 +128,6 @@
             font-size: 12px;
 
         }
-        .text-shadow{
-            background: #c7c7c7;
-        }
     </style>
 </head>
 
@@ -160,76 +157,67 @@
 
     <div class="priview-body content-div">
 
-
-            <style type="text/css">
-                #appRowDiv td {
-                    padding: 5px !important;
-                    border-color: #ccc;
-                }
-                .form-row input, .form-row select, .form-row textarea, .form-row select2 {
-                    margin-bottom: 0px !important;
-                }
-
-                #appRowDiv th {
-                    padding: 5px;
-                    text-align: left;
-                    border-color: #ccc;
-                    color: black;
-                }
-            </style>
-
-            <div class="table-responsive">
-                <table class="table"  border="1" cellspacing="0"  id="appRowDiv">
-                    <thead>
-                        <tr class="text-shadow">
-                            <th width="">নং</th>
-                            <th width="">কোর্স নাম</th>
-                            <th width="">প্রশিক্ষণার্থীর ধরন</th>
-                            <th width="">মেয়াদ</th>
-                            <th width="">প্রশিক্ষণার্থী</th>
-                            <!-- <th width="">ব্যাচ সংখ্যা</th> -->
-                            <th width="">মোট প্রশিক্ষণার্থী</th>
-                            <th width="">প্রকল্পিত বায়</th>
-                            <!-- <th width="">স্থান</th> -->
-                        </tr>
-                    </thead>
-                    <tbody id="tbody">
-                    <?php $total = 0; foreach ($summary as $key => $data) { ?>
-                        <tr class="text-shadow">
-                            <th style="text-align:center"><?= eng2bng($key + 1) ?></th>
-                            <th colspan="6"><?= $data->office ?></th>
+        <div class="table-responsive">
+            <table class="table"  border="1" cellspacing="0" >
+                <thead>
+                    <tr class="text-shadow">
+                        <th width="3%" >ক্রম</th>
+                        <th style="text-align: left;" width="25%">শিরোনাম</th>
+                        <th width="10%">বরাদ্দ</th>
+                        <th width="12%">প্রকৃত ব্যয় (ভ্যাট, আইটি/উৎস কর ব্যতিত)</th>
+                        <th width="10%">*ভ্যাট (%)</th>
+                        <th width="10%">*আইটি/উৎস কর</th>
+                        <th width="10%">মোট ব্যয়</th>
+                        <th width="10%">অবশিষ্ট বরাদ্দ</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                    <?php $total = 0; foreach ($results as $key => $value) { ?>
+                        <tr class="classThis" style="background: #c7c7c7a3" >
+                            <td> <?= eng2bng($key+1) ?>.</td>
+                            <td colspan="5" style="text-align: left;">
+                                <div style="text-align: left;">
+                                <?=$value->name_bn?>
+                                </div>
+                            </td>
                         </tr>
                         <?php
-                            $this->db->select('q.*,course.course_title,ct.ct_name');
-                            $this->db->from('budget_field_sub_details as q');
-                            $this->db->join('course', 'q.head_sub_id = course.id', 'left');
-                            $this->db->join('course_type ct','ct.id=q.type','left');
-                            $this->db->where('q.details_id', $data->id);
-                            $subs = $this->db->get()->result();
-                            // dd($subs);
+                            $heads = [];
+                            if (isset($value->id) && isset($value->head_id)) {
+                                $this->db->select('r.*, b.name_bn, b.vat_head');
+                                $this->db->from('budget_field_sub_details as r');
+                                $this->db->join('budget_head_sub_training as b', 'b.id = r.head_sub_id');
+                                $this->db->where('r.details_id', $value->id)->where('r.head_id', $value->head_id)->where('r.modify_soft_d', 1);
+                                $heads = $this->db->get()->result();
+                                // dd($heads);
+                            }
                         ?>
-                        <?php foreach ($subs as $r => $sub) { ?>
-                        <tr>
-                            <td style="text-align:center"><?= eng2bng($key + 1) .'.'. eng2bng($r + 1) ?></td>
-                            <td style="font-size:12px; width:25%"><?= $sub->course_title ?></td>
-                            <td style="font-size:12px; width:15%"><?= $sub->ct_name ?></td>
-                            <td><?= eng2bng($sub->days) ?></td>
-                            <td><?= eng2bng($sub->participants) ?></td>
-                            <!-- <td><?= eng2bng($sub->batch) ?></td> -->
-                            <td><?= eng2bng($sub->participants) ?></td>
-                            <td><?= eng2bng($sub->amount) ?></td>
-                            <!-- <td><?= $sub->title ?></td> -->
-                        </tr>
+                        <?php foreach ($heads as $r => $sub) { ?>
+                            <tr>
+                                <td style="width:4%"><?= eng2bng($key + 1) .'.'. eng2bng($r + 1) ?></td>
+                                <td style="font-size:12px; width:25%; text-align:left"><?= $sub->name_bn ?></td>
+                                <td style="text-align: right;"><?= eng2bng($sub->amount) ?>  &nbsp;&nbsp;</td>
+                                <td style="text-align: right;"><?= eng2bng($sub->expense_amt) ?>  &nbsp;&nbsp;</td>
+                                <td style="text-align: right;"><?= eng2bng($sub->vat) ?>  &nbsp;&nbsp;</td>
+                                <td style="text-align: right;"><?= eng2bng($sub->it_kor) ?>  &nbsp;&nbsp;</td>
+                                <td style="text-align: right;"><?= eng2bng($sub->total_amt) ?>  &nbsp;&nbsp;</td>
+                                <td style="text-align: right;"><?= eng2bng($sub->balance) ?>  &nbsp;&nbsp;</td>
+                            </tr>
                         <?php } ?>
                     <?php } ?>
-
-                    </tbody>
-                </table>
-            </div>
-    <div style="float: right;margin-top: 10px">
-        <span>নোট:</span>
-        <?= $info->description?>
-    </div>
+                    <tr class="classThis" style="" >
+                        <td colspan="2" style="text-align: right;">মোট : &nbsp;&nbsp;</td>
+                        <td style="text-align: right;"> <?= eng2bng($info->amount) ?> &nbsp;&nbsp;</td>
+                        <td colspan="4" style="text-align: right;">=  <?= eng2bng($info->amount - $info->balance) ?> &nbsp;&nbsp;</td>
+                        <td colspan="" style="text-align: right;"> <?= eng2bng($info->balance) ?> &nbsp;&nbsp;</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div style="float: right;margin-top: 10px">
+            <span>নোট:</span>
+            <?= $info->office_note?>
+        </div>
     </div>
 </body>
 

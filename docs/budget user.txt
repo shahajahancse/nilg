@@ -33,27 +33,11 @@ ddlg@maulvibazar
 3707391243  jd 
 মোঃ এরশাদ-ই-ইসলাম	2695041731312  (user)
 
-ALTER TABLE `budget_revenue_summary_details` CHANGE `head_id` `head_id` INT(11) NULL DEFAULT NULL COMMENT '3=office type id, 2=training head id';
-ALTER TABLE `budget_revenue_summary_details` CHANGE `type` `type` TINYINT(4) NOT NULL DEFAULT '1' COMMENT '1=other dpt create, 2=training dpt create, 3=training marge';
 
-ALTER TABLE `budget_revenue_sub_details` ADD `batch` INT NULL DEFAULT NULL COMMENT 'training dpt marge' AFTER `participants`, ADD `total_participants` INT NULL DEFAULT NULL COMMENT 'training dpt marge' AFTER `batch`;
-ALTER TABLE `budget_revenue_sub_details` ADD `trainee_type` INT NULL DEFAULT NULL COMMENT 'training dpt marge' AFTER `fcl_year`;
+ALTER TABLE `leave_employee` ADD `employee_type` TINYINT NOT NULL DEFAULT '2' COMMENT '1=dd, 2=কর্মকর্তা, 3=কর্মচারী' AFTER `user_id`;
+ALTER TABLE `budget_bank_name` CHANGE `account_no` `account_no` VARCHAR(32) NULL DEFAULT NULL;
 
-ALTER TABLE `budget_revenue_sub_details` CHANGE `head_id` `head_id` INT(11) NULL DEFAULT NULL COMMENT 'type 3 office type id';
-ALTER TABLE `budget_revenue_sub_details` CHANGE `head_sub_id` `head_sub_id` INT(11) NOT NULL COMMENT 'type 3 course id, budget_head_sub table id';
 
-ALTER TABLE `budgets` ADD `summary_id` INT NULL DEFAULT NULL AFTER `id`, ADD INDEX (`summary_id`);
-ALTER TABLE `budget_field` ADD `trainee_type` INT NULL DEFAULT NULL AFTER `office_type`;
-ALTER TABLE `budget_field` ADD `batch_number` INT NULL DEFAULT '0' AFTER `trainee_type`, ADD `trainee_number` INT NOT NULL DEFAULT '0' AFTER `batch_number`, ADD `total_trainee` INT NOT NULL DEFAULT '0' AFTER `trainee_number`, ADD `course_day` INT NOT NULL DEFAULT '0' AFTER `total_trainee`, ADD `office_id` INT NULL DEFAULT NULL AFTER `course_day`, ADD INDEX (`office_id`);
 
-ALTER TABLE `budget_field_sub_details` ADD `vat` DECIMAL(12,2) NOT NULL DEFAULT '0' AFTER `participants`, ADD `it_kor` DECIMAL(12,2) NOT NULL DEFAULT '0' AFTER `vat`;
-ALTER TABLE `budget_field_sub_details` ADD `file` VARCHAR(128) NULL DEFAULT NULL AFTER `updated_at`;
-ALTER TABLE `budget_field_sub_details` ADD `balance` DECIMAL(12,2) NOT NULL DEFAULT '0' AFTER `total_amt`;
-ALTER TABLE `budget_field` ADD `total_amt` DECIMAL(12,2) NOT NULL DEFAULT '0' AFTER `amount`, ADD `balance` DECIMAL NOT NULL DEFAULT '0' AFTER `total_amt`;
-ALTER TABLE `budget_field` CHANGE `total_amt` `total_amt` DECIMAL(12,2) NOT NULL DEFAULT '0.00' COMMENT 'summary balance';
-ALTER TABLE `budget_field_details` ADD `balance` DECIMAL NOT NULL DEFAULT '0' COMMENT 'summary balance from office' AFTER `total_amt`;
-ALTER TABLE `budget_field` ADD `updated_by` INT NULL DEFAULT NULL AFTER `updated_at`;
-ALTER TABLE `budget_field` ADD `office_note` TEXT NULL DEFAULT NULL AFTER `updated_by`;
-expense_amt
 
 

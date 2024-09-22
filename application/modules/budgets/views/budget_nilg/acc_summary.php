@@ -101,7 +101,7 @@
                                                         <!-- <li> <a id="modalId" data-toggle="modal" data-target="#myModal" data-id="<?= encrypt_url($row->id) ?>" href=""> <i class="fa fa-user"></i> ফরওয়ার্ড করুন</a></li> -->
 
                                                         <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড করুন </a> </li>
-                                                        <li> <a href="<?php echo base_url('budgets/acc_summary_print/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> প্রিন্ট করুন </a> </li>
+                                                        <li> <a href="<?php echo base_url('budgets/acc_summary_print/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"  target="_blank"></i> প্রিন্ট করুন </a> </li>
                                                     </ul>
                                                 </div>
                                             </td>

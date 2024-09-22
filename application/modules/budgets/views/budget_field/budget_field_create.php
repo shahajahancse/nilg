@@ -8,13 +8,15 @@
         -webkit-appearance: none;
     }
 </style>
-
+<?php $am = $this->db->where('dept_id', 2)->get('budgets_dept_account')->row(); ?>
 <div class="page-content">
     <div class="content">
         <ul class="breadcrumb">
             <li><a href="<?=base_url('dashboard')?>" class="active"> Dashboard </a></li>
             <li><a href="<?=base_url('budget/training_budgets_create')?>" class="active"><?=$module_name?></a></li>
-            <li><?=$meta_title; ?></li>
+            <li><?=$meta_title; ?> </li>
+            <a style="float: right; color: #000; font-weight: bold;"> পরিমাণ : <?= eng2bng($am->balance); ?> </a>
+            <input type="hidden" id="have_amt" value=<?= $am->balance ?> >
         </ul>
 
         <div class="row">
@@ -43,7 +45,7 @@
                         ?>
                             <div class="row">
                                 <div class="col-md-12"
-                                    style="padding: 20px;display: flex;flex-direction: row;justify-content: center;align-items: center;">
+                                    style="padding: 10px;display: flex;flex-direction: row;justify-content: center;align-items: center;">
                                     <div>
                                         <span
                                             style="font-size: 22px;font-weight: bold;text-decoration: underline;">বাজেট
@@ -140,7 +142,7 @@
                                         </div>
                                         <div class="col-md-2">
                                             <label for="">দিন <span class="required">*</span></label>
-                                            <input value='' type="number" class="form-control input-sm" name="course_day" id="course_day">
+                                            <input onkeyup="setDay()" type="number" class="form-control input-sm" name="course_day" id="course_day">
                                         </div>
                                         <div class="col-md-2">
                                         </div>
@@ -207,7 +209,7 @@
 
                                                                 <td><input type="number" value="1" min="1" name="<?=$value->id?>_participants[]" onkeyup="calculateSubTotal(this, <?=$value->id?>)" class="pts form-control input-sm pts subParticipant_<?=$value->id?>"></td>
 
-                                                                <td><input type="number" value="1" min="1" name="<?=$value->id?>_days[]" onkeyup="calculateSubTotal(this, <?=$value->id?>)" class="form-control input-sm subDay_<?=$value->id?>"></td>
+                                                                <td><input type="number" value="1" min="1" name="<?=$value->id?>_days[]" onkeyup="calculateSubTotal(this, <?=$value->id?>)" class="form-control input-sm day subDay_<?=$value->id?>"></td>
 
                                                                 <td><input type="number" value="1" min="1" name="<?=$value->id?>_amount[]" onkeyup="calculateSubTotal(this, <?=$value->id?>)" class="form-control input-sm subAmount_<?=$value->id?>"></td>
 
@@ -228,7 +230,8 @@
                                             </div>
                                             <div class="">
                                                 <div class="pull-right">
-                                                    <input type="submit" name="submit" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
+                                                    <span id="message_dep" style="color: red;"></span>
+                                                    <input id="submit_btn_b" type="submit" name="submit" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
                                                 </div>
                                             </div>
                                         </div>
@@ -421,6 +424,14 @@
             total += parseInt($(this).val());
         })
         $("#total_amount").val(total);
+
+        if($('#have_amt').val() < total){
+            $('#message_dep').html('Total amount should be less than or equal to <?=eng2bng($am->balance)?>');
+            $('#submit_btn_b').prop('disabled', true);
+        }else{
+            $('#message_dep').html('');
+            $('#submit_btn_b').prop('disabled', false);
+        }
     }
 </script>
 <script>
@@ -458,11 +469,14 @@
         var trainee_number = $("#trainee_number").val()
         $(".pts").val(trainee_number);
     }
+    function setDay() {
+        var day = $("#course_day").val()
+        $(".day").val(day);
+    }
 </script>
 <script>
     $(document).ready(function() {
         calculateTotal()
-        calParticipantTotal()
     })
 </script>
 
@@ -510,6 +524,7 @@
         $('#office_id').chosen();
         $('#course_id').chosen();
         $('#trainee_type').chosen();
+        $('.add_sub_row').chosen();
         get_sub_row();
     });
 </script>

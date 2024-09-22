@@ -135,17 +135,25 @@
                         <div class="btn-group">
                           <a class="btn btn-primary dropdown-toggle btn-mini" data-toggle="dropdown" href="#"> অ্যাকশন <span class="caret"></span> </a>
                           <ul class="dropdown-menu pull-right">
+                            <?php if ($row->status == 1) { ?>
+                              <li><a href="<?= base_url('leave/edit/' . encrypt_url($row->id)); ?>">সংশোধন করুন</a></li>
+                            <?php } ?>
+
+                            <?php if ($this->ion_auth->in_group(array('leave_admin')) && $row->status == 1) {  ?>
+                              <li><a href="<?= base_url('leave/forward_change/' . encrypt_url($row->id) . '/3'); ?>">ফরওয়ার্ড টু অনুমোদন</a></li>
+                            <?php } ?>
 
                             <?php if ($row->status == 4) { ?>
-                              <li><a href="<?= base_url('leave/form_print/' . encrypt_url($row->id)); ?>">প্রিন্ট</a></li>
+                              <li><a target="_blank" href="<?= base_url('leave/form_print/' . encrypt_url($row->id)); ?>">প্রিন্ট</a></li>
                             <?php } ?>
 
                             <?php if (!empty($row->file_name)) { ?>
                               <li><a target="_blank" href="<?= base_url('uploads/leave/' . $row->file_name); ?>">নথিপত্র</a></li>
                             <?php } ?>
 
-                            <li><a onclick="return confirm('আপনি সত্যিই  কি এই তথ্যটি ডাটাবেজ থেকে সম্পূর্ণভাবে মুছতে চান?');" href="<?= base_url('leave/delete/' . encrypt_url($row->id)); ?>">মুছে ফেলুন</a></li>
-
+                            <?php if ($row->status == 1) { ?>
+                              <li><a onclick="return confirm('আপনি সত্যিই  কি এই তথ্যটি ডাটাবেজ থেকে সম্পূর্ণভাবে মুছতে চান?');" href="<?= base_url('leave/delete/' . encrypt_url($row->id)); ?>">মুছে ফেলুন</a></li>
+                            <?php } ?>
                           </ul>
                         </div>
                       </td>

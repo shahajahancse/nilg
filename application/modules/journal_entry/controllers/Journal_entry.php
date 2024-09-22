@@ -18,9 +18,434 @@ class Journal_entry extends Backend_Controller
         // $this->data['module_title'] = 'Inventory';
     }
 
+    // start budget_j_pension_register
+    public function pension_emp($offset = 0)
+    {
+        $limit = 25;
+        $this->db->select('b.*, u.name_bn, m.amount medical_amt');
+        $this->db->from('budget_j_pension_emp as b');
+        $this->db->join('users as u', 'u.id = b.user_id', 'left');
+        $this->db->join('budget_medical as m', 'm.id = b.medical_amt', 'left');
+
+        // $this->db->where('b.status', 1);
+        $this->db->limit($limit);
+        $this->db->offset($offset);
+        $this->db->order_by('b.id', 'DESC');
+        $this->data['results'] = $this->db->get()->result();
+        // count query
+
+        $this->db->select('COUNT(*) as count');
+        $this->db->from('budget_j_pension_emp as q');
+        $tmp = $this->db->get()->result();
+        $this->data['total_rows'] = $tmp[0]->count;
+        //pagination
+        $this->data['pagination'] = create_pagination('journal_entry/pension_emp/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+        // Load view
+        $this->data['meta_title'] = 'পেনশন কর্মকর্তা/কর্মচারী তালিকা';
+        $this->data['subview'] = 'pension/pension_emp';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function pension_emp_create()
+    {
+        $this->form_validation->set_rules('user_id', 'নাম', 'required|trim');
+        $this->form_validation->set_rules('receiver', 'গ্রহীতা নাম', 'required|trim');
+        $this->form_validation->set_rules('basic_salary', 'মূল বেতন', 'required|trim');
+        $this->form_validation->set_rules('percent', 'বেতন বৃদ্ধি %', 'required|trim');
+        $this->form_validation->set_rules('medical_amt', 'চিকিৎসা', 'required|trim');
+        $this->form_validation->set_rules('account', 'একাউন্ট নং', 'required|trim');
+        $this->form_validation->set_rules('acc_address', 'একাউন্ট ঠিকানা বাংলা', 'required|trim');
+        // $user = $this->ion_auth->user()->row();
+        if ($this->form_validation->run() == true) {
+            $ex = explode(',', trim($this->input->post('medical_amt')));
+            $form_data = array(
+                'user_id' => $this->input->post('user_id'),
+                'receiver' => $this->input->post('receiver'),
+                'basic_salary' => $this->input->post('basic_salary'),
+                'percent' => $this->input->post('percent'),
+                'nit_amt' =>  $this->input->post('nit_amt'),
+                'medical_amt' => $ex[0],
+                'total_amt' => $this->input->post('total_amt'),
+                'account' => $this->input->post('account'),
+                'acc_address' => $this->input->post('acc_address'),
+                'acc_address_en' => $this->input->post('acc_address_en'),
+                'remark' => $this->input->post('remark'),
+            );
+            if ($this->Common_model->save('budget_j_pension_emp', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('journal_entry/pension_emp');
+            }
+        }
+        $this->data['info'] = $this->Common_model->get_user_details();
+        $this->data['users'] = $this->Common_model->get_nilg_employee();
+        // dd($this->data['users']);
+        //Load view
+        $this->data['meta_title'] = 'পেনশন কর্মকর্তা/কর্মচারী তৈরি';
+        $this->data['subview'] = 'pension/pension_emp_create';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function pension_emp_edit($encid)
+    {
+        $id = (int) decrypt_url($encid);
+        $this->form_validation->set_rules('user_id', 'নাম', 'required|trim');
+        $this->form_validation->set_rules('receiver', 'গ্রহীতা নাম', 'required|trim');
+        $this->form_validation->set_rules('basic_salary', 'মূল বেতন', 'required|trim');
+        $this->form_validation->set_rules('percent', 'বেতন বৃদ্ধি %', 'required|trim');
+        $this->form_validation->set_rules('medical_amt', 'চিকিৎসা', 'required|trim');
+        $this->form_validation->set_rules('account', 'একাউন্ট নং', 'required|trim');
+        $this->form_validation->set_rules('acc_address', 'একাউন্ট ঠিকানা বাংলা', 'required|trim');
+        // $user = $this->ion_auth->user()->row();
+        if ($this->form_validation->run() == true) {
+            $ex = explode(',', trim($this->input->post('medical_amt')));
+            // dd($ex);
+            $form_data = array(
+                'user_id' => $this->input->post('user_id'),
+                'receiver' => $this->input->post('receiver'),
+                'basic_salary' => $this->input->post('basic_salary'),
+                'percent' => $this->input->post('percent'),
+                'nit_amt' =>  $this->input->post('nit_amt'),
+                'medical_amt' => $ex[0],
+                'total_amt' => $this->input->post('total_amt'),
+                'account' => $this->input->post('account'),
+                'acc_address' => $this->input->post('acc_address'),
+                'acc_address_en' => $this->input->post('acc_address_en'),
+                'remark' => $this->input->post('remark'),
+            );
+
+            if ($this->db->where('id', $id)->update('budget_j_pension_emp', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('journal_entry/pension_emp');
+            }
+        }
+
+        $this->data['row'] = $this->db->where('id', $id)->get('budget_j_pension_emp')->row();
+        $this->data['info'] = $this->Common_model->get_user_details();
+        $this->data['users'] = $this->Common_model->get_nilg_employee();
+        // dd($this->data['users']);
+        //Load view
+        $this->data['meta_title'] = 'পেনশন কর্মকর্তা/কর্মচারী তৈরি';
+        $this->data['subview'] = 'pension/pension_emp_edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function pension_from(){
+        //Dropdown
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'পেনশন হিদাব';
+        $this->data['subview'] = 'pension/pension_from';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    function get_pension_ajax() {
+		$this->db->select('e.user_id, u.name_bn');
+        $this->db->from('budget_j_pension_emp as e');
+        $this->db->join('users as u', 'u.id = e.user_id', 'left');
+        $this->db->where('e.status', 1);
+        $data = $this->db->get()->result();
+        echo json_encode($data);
+    }
+    function pension_process() {
+        $process_date = date("Y-m-01", strtotime($this->input->post('process_date')));
+        $emp_id = array();
+        if (!empty($this->input->post('sql'))) {
+            $emp_id = explode(',', trim($this->input->post('sql')));
+        }
+
+        $this->db->trans_start();
+        $this->Journal_entry_model->pension_process($process_date, $emp_id);
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
+            echo "Process failed";
+        } else {
+            echo "Process completed sucessfully";
+        }
+    }
+    function pension_lock() {
+        $process_date = date("Y-m-01", strtotime($this->input->post('process_date')));
+        $this->db->trans_start();
+        $data = array(
+            'month' => $process_date,
+            'created_by' => $this->data['userDetails']->id,
+            'status' => 1
+        );
+        $this->db->insert('budget_j_pension_lock', $data);
+        $this->db->trans_complete();
+        if ($this->db->trans_status() === false) {
+            $this->db->trans_rollback();
+            echo "Process failed";
+        } else {
+            echo "Lock completely successful";
+        }
+    }
+    public function pension_report_view()
+    {
+        $this->load->helper('bangla_converter');
+        $date = date("Y-m-01", strtotime($this->input->post('date')));
+        $btn = $this->input->post('pension');
+        $user_id = array();
+        if (!empty($this->input->post('user_id'))) {
+            $user_id = explode(',', trim($this->input->post('user_id')));
+        }
+
+        if($btn == 'pension_sheet') {
+            $this->db->select('r.*, u.name_bn, d.desig_name');
+            $this->db->from('budget_j_pension_register as r');
+            $this->db->join('users as u', 'u.id = r.user_id', 'left');
+            $this->db->join('designations as d', 'd.id = u.crrnt_desig_id', 'left');
+            $this->db->where('r.month', $date);
+            if (!empty($user_id)) {
+                $this->db->where_in('r.user_id', $user_id);
+            }
+            $this->data['results'] = $this->db->get()->result();
+
+            // Generate PDF
+            $this->data['headding'] = 'পেনশন শিট';
+            $html = $this->load->view('pension/pension_sheet_print', $this->data, true);
+
+            $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+            $mpdf->WriteHtml($html);
+            $mpdf->output();
+        }
+    }
+    // end budget_j_pension_register
+
+
+    // start budget_j_gpf_register
+    public function gpf_emp($offset = 0)
+    {
+        $limit = 25;
+        $this->db->select('b.*, u.name_bn, m.desig_name');
+        $this->db->from('budget_j_gpf_emp as b');
+        $this->db->join('users as u', 'u.id = b.user_id', 'left');
+        $this->db->join('designations as m', 'm.id = u.crrnt_desig_id', 'left');
+
+        // $this->db->where('b.status', 1);
+        $this->db->limit($limit);
+        $this->db->offset($offset);
+        $this->db->order_by('b.id', 'DESC');
+        $this->data['results'] = $this->db->get()->result();
+        // count query
+
+        $this->db->select('COUNT(*) as count');
+        $this->db->from('budget_j_gpf_emp as q');
+        $tmp = $this->db->get()->result();
+        $this->data['total_rows'] = $tmp[0]->count;
+        //pagination
+        $this->data['pagination'] = create_pagination('journal_entry/pension_emp/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+        // Load view
+        $this->data['meta_title'] = 'জিপিএফ কর্মকর্তা/কর্মচারী তালিকা';
+        $this->data['subview'] = 'gpf/gpf_emp';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function gpf_emp_create()
+    {
+        $this->form_validation->set_rules('user_id', 'নাম', 'required|trim');
+        $this->form_validation->set_rules('account_no', 'একাউন্ট নং', 'required|trim');
+        $this->form_validation->set_rules('pre_year_amt', 'পূর্ববর্তী পরিমাণ', 'required|trim');
+        $this->form_validation->set_rules('loan_amt', 'ঋণের পরিমাণ', 'required|trim');
+        $this->form_validation->set_rules('balance', 'অবশিষ্ট পরিমাণ', 'required|trim');
+        // $user = $this->ion_auth->user()->row();
+        if ($this->form_validation->run() == true) {
+            $form_data = array(
+                'user_id' => $this->input->post('user_id'),
+                'account_no' => $this->input->post('account_no'),
+                'pre_year_amt' => $this->input->post('pre_year_amt'),
+                'loan_amt' => $this->input->post('loan_amt'),
+                'balance' => $this->input->post('balance'),
+            );
+            if ($this->Common_model->save('budget_j_gpf_emp', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('journal_entry/gpf_emp');
+            }
+        }
+        $this->data['info'] = $this->Common_model->get_user_details();
+        $this->data['users'] = $this->Common_model->get_nilg_employee();
+        // dd($this->data['users']);
+        //Load view
+        $this->data['meta_title'] = 'জিপিএফ কর্মকর্তা/কর্মচারী তৈরি';
+        $this->data['subview'] = 'gpf/gpf_emp_create';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function gpf_emp_edit($encid)
+    {
+        $id = (int) decrypt_url($encid);
+        $this->form_validation->set_rules('user_id', 'নাম', 'required|trim');
+        $this->form_validation->set_rules('account_no', 'একাউন্ট নং', 'required|trim');
+        $this->form_validation->set_rules('pre_year_amt', 'পূর্ববর্তী পরিমাণ', 'required|trim');
+        $this->form_validation->set_rules('loan_amt', 'ঋণের পরিমাণ', 'required|trim');
+        $this->form_validation->set_rules('balance', 'অবশিষ্ট পরিমাণ', 'required|trim');
+
+        if ($this->form_validation->run() == true) {
+            $form_data = array(
+                'user_id' => $this->input->post('user_id'),
+                'account_no' => $this->input->post('account_no'),
+                'pre_year_amt' => $this->input->post('pre_year_amt'),
+                'loan_amt' => $this->input->post('loan_amt'),
+                'balance' => $this->input->post('balance'),
+            );
+            $this->db->where('id', $id);
+            if ($this->db->update('budget_j_gpf_emp', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('journal_entry/gpf_emp');
+            }
+        }
+
+        $this->data['row'] = $this->db->where('id', $id)->get('budget_j_gpf_emp')->row();
+        $this->data['info'] = $this->Common_model->get_user_details();
+        $this->data['users'] = $this->Common_model->get_nilg_employee();
+
+        //Load view
+        $this->data['meta_title'] = 'জিপিএফ কর্মকর্তা/কর্মচারী তৈরি';
+        $this->data['subview'] = 'gpf/gpf_emp_edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function gpf_entry($offset = 0)
+    {
+        $limit = 25;
+        $this->db->select('b.*, u.name_bn, m.desig_name');
+        $this->db->from('budget_j_gpf_register as b');
+        $this->db->join('users as u', 'u.id = b.user_id', 'left');
+        $this->db->join('designations as m', 'm.id = u.crrnt_desig_id', 'left');
+
+        // $this->db->where('b.status', 1);
+        $this->db->limit($limit);
+        $this->db->offset($offset);
+        $this->db->order_by('b.id', 'DESC');
+        $this->data['results'] = $this->db->get()->result();
+        // count query
+
+        $this->db->select('COUNT(*) as count');
+        $this->db->from('budget_j_gpf_register as q');
+        $tmp = $this->db->get()->result();
+        $this->data['total_rows'] = $tmp[0]->count;
+        //pagination
+        $this->data['pagination'] = create_pagination('journal_entry/pension_emp/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+        // Load view
+        $this->data['meta_title'] = 'জিপিএফ তালিকা';
+        $this->data['subview'] = 'gpf/gpf_entry';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function gpf_create()
+    {
+        $this->form_validation->set_rules('user_id', 'নাম', 'required|trim');
+        $this->form_validation->set_rules('curr_amt', 'সামগ্রিক চাঁদা', 'required|trim');
+        $this->form_validation->set_rules('adv_amt', 'অগ্রীম আদায়', 'required|trim');
+        $this->form_validation->set_rules('adv_withdraw', 'অগ্রীম উত্তোলন', 'required|trim');
+        $this->form_validation->set_rules('balance', 'মাসিক জের', 'required|trim');
+        $this->form_validation->set_rules('date', 'তারিখ', 'required|trim');
+        // $user = $this->ion_auth->user()->row();
+        if ($this->form_validation->run() == true) {
+            $form_data = array(
+                'user_id' => $this->input->post('user_id'),
+                'curr_amt' => $this->input->post('curr_amt'),
+                'adv_amt' => $this->input->post('adv_amt'),
+                'adv_withdraw' => $this->input->post('adv_withdraw'),
+                'balance' => $this->input->post('balance'),
+                'date' => date('Y-m-01', strtotime($this->input->post('date'))),
+                'description' => $this->input->post('description'),
+            );
+            if ($this->Common_model->save('budget_j_gpf_register', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('journal_entry/gpf_entry');
+            }
+        }
+        $this->data['info'] = $this->Common_model->get_user_details();
+        $this->data['users'] = $this->Common_model->get_nilg_employee();
+        // dd($this->data['users']);
+        //Load view
+        $this->data['meta_title'] = 'জিপিএফ তৈরি';
+        $this->data['subview'] = 'gpf/gpf_create';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function gpf_edit($encid)
+    {
+        $id = (int) decrypt_url($encid);
+        $this->form_validation->set_rules('user_id', 'নাম', 'required|trim');
+        $this->form_validation->set_rules('curr_amt', 'সামগ্রিক চাঁদা', 'required|trim');
+        $this->form_validation->set_rules('adv_amt', 'অগ্রীম আদায়', 'required|trim');
+        $this->form_validation->set_rules('adv_withdraw', 'অগ্রীম উত্তোলন', 'required|trim');
+        $this->form_validation->set_rules('balance', 'মাসিক জের', 'required|trim');
+        $this->form_validation->set_rules('date', 'তারিখ', 'required|trim');
+
+        if ($this->form_validation->run() == true) {
+            $form_data = array(
+                'user_id' => $this->input->post('user_id'),
+                'curr_amt' => $this->input->post('curr_amt'),
+                'adv_amt' => $this->input->post('adv_amt'),
+                'adv_withdraw' => $this->input->post('adv_withdraw'),
+                'balance' => $this->input->post('balance'),
+                'date' => date('Y-m-01', strtotime($this->input->post('date'))),
+                'description' => $this->input->post('description'),
+            );
+
+            $this->db->where('id', $id);
+            if ($this->db->update('budget_j_gpf_register', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('journal_entry/gpf_emp');
+            }
+        }
+
+        $this->data['row'] = $this->db->where('id', $id)->get('budget_j_gpf_register')->row();
+        $this->data['info'] = $this->Common_model->get_user_details();
+        $this->data['users'] = $this->Common_model->get_nilg_employee();
+
+        //Load view
+        $this->data['meta_title'] = 'জিপিএফ কর্মকর্তা/কর্মচারী তৈরি';
+        $this->data['subview'] = 'gpf/gpf_edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function gpf_form(){
+        //Dropdown
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'জিপিএফ রিপোর্ট';
+        $this->data['subview'] = 'gpf/gpf_form';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    function get_gpf_ajax() {
+		$this->db->select('e.user_id, u.name_bn');
+        $this->db->from('budget_j_gpf_emp as e');
+        $this->db->join('users as u', 'u.id = e.user_id', 'left');
+        $this->db->where('e.status', 1);
+        $data = $this->db->get()->result();
+        echo json_encode($data);
+    }
+    public function gpf_report_view()
+    {
+        $this->load->helper('bangla_converter');
+        $date1 = date("Y-01-01", strtotime($this->input->post('date')));
+        $date2 = date("Y-12-01", strtotime($this->input->post('date')));
+        $btn = $this->input->post('gpf');
+        $user_id = $this->input->post('user_id');
+
+        if($btn == 'gpf_sheet') {
+            $this->db->select('r.*, u.name_bn, d.desig_name');
+            $this->db->from('budget_j_gpf_emp as r');
+            $this->db->join('users as u', 'u.id = r.user_id', 'left');
+            $this->db->join('designations as d', 'd.id = u.crrnt_desig_id', 'left');
+            $this->db->where('r.user_id', $user_id);
+            $this->data['info'] = $this->db->get()->row();
+
+            $this->db->where('date >=', $date1)->where('date <=', $date2)->where('user_id', $user_id);
+            $this->data['results'] = $this->db->get('budget_j_gpf_register')->result();
+            // dd($this->data['results']);
+
+            // Generate PDF
+            $this->data['headding'] = 'জিপিএফ শিট';
+            $html = $this->load->view('gpf/gpf_sheet_print', $this->data, true);
+
+            $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+            $mpdf->WriteHtml($html);
+            $mpdf->output();
+        }
+    }
+    // end budget_j_gpf_register
+
+
+
 
     // start revenew
-
     public function revenue_entry($offset = 0)
     {
         $limit = 15;
@@ -36,7 +461,6 @@ class Journal_entry extends Backend_Controller
         $this->data['subview'] = 'revenue/index';
         $this->load->view('backend/_layout_main', $this->data);
     }
-
     public function revenue_entry_create()
     {
         $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
@@ -367,7 +791,7 @@ class Journal_entry extends Backend_Controller
                 'session_year' => $session_year,
                 'reference' => $this->input->post('reference'),
                 'description' => $this->input->post('description'),
-                'date' => $this->input->post('date'),
+                'date' => date('Y-m-d', strtotime($this->input->post('date'))),
                 'create_by' => $user->id,
             );
 
@@ -530,8 +954,6 @@ class Journal_entry extends Backend_Controller
         $mpdf->WriteHtml($html);
         $mpdf->output();
     }
-
-
 
     public function hostel_removeItem($id){
         $this->db->where('id', $id);
@@ -967,114 +1389,8 @@ class Journal_entry extends Backend_Controller
     }
     // end budget_j_publication_register
 
-
-    // start budget_j_pension_register
-    public function pension_entry($offset = 0)
-    {
-        $limit = 15;
-        $user_id = $this->data['userDetails']->id;
-        $dept_id = $this->data['userDetails']->crrnt_dept_id;
-        $results = $this->Journal_entry_model->lists($limit, $offset, 'budget_j_pension_register');
-        $this->data['results'] = $results['rows'];
-        $this->data['total_rows'] = $results['num_rows'];
-        //pagination
-        $this->data['pagination'] = create_pagination('journal_entry/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
-        // Load view
-        $this->data['meta_title'] = 'পেনশন  এর তালিকা';
-        $this->data['subview'] = 'pension/index';
-        $this->load->view('backend/_layout_main', $this->data);
-    }
-
-    public function pension_entry_create()
-    {
-        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
-        $user = $this->ion_auth->user()->row();
-        if ($this->form_validation->run() == true) {
-            $user = $this->ion_auth->user()->row();
-            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
-            $form_data = array(
-                'voucher_no' => $this->input->post('voucher_no'),
-                'amount' => $this->input->post('amount'),
-                'type' => $this->input->post('type'),
-                'reference' => $this->input->post('reference'),
-                'description' => $this->input->post('description'),
-                'issue_date' => $this->input->post('issue_date'),
-                'create_by' => $user->id,
-            );
-            if ($this->Common_model->save('budget_j_pension_register', $form_data)) {
-                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
-                redirect('journal_entry/pension_entry');
-            }
-        }
-        $this->data['info'] = $this->Common_model->get_user_details();
-        //Load view
-        $this->data['meta_title'] = 'পেনশন  তৈরি করুন';
-        $this->data['subview'] = 'pension/entry';
-        $this->load->view('backend/_layout_main', $this->data);
-    }
-    public function pension_entry_details($encid){
-        $id = (int) decrypt_url($encid);
-        $this->db->select('q.*,u.name_bn as create_by');
-        $this->db->from('budget_j_pension_register as q');
-        $this->db->join('users as u', 'u.id = q.create_by', 'left');
-        $this->db->where('q.id', $id);
-        $this->data['budget_j_pension_register'] = $this->db->get()->row();
-            //Dropdown
-            $this->data['info'] = $this->Common_model->get_user_details();
-            //Load view
-            $this->data['meta_title'] = 'পেনশন  বিস্তারিত';
-            $this->data['subview'] = 'pension/details';
-            $this->load->view('backend/_layout_main', $this->data);
-    }
-    public function pension_entry_edit($encid=null){
-        if ($encid==null) {
-            $id = $this->input->post('id');
-        }else{
-            $id = (int) decrypt_url($encid);
-        }
-        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
-        $user = $this->ion_auth->user()->row();
-        if ($this->form_validation->run() == true) {
-            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
-            $form_data = array(
-                'amount' => $this->input->post('amount'),
-                'reference' => $this->input->post('reference'),
-                'description' => $this->input->post('description'),
-                'issue_date' => $this->input->post('issue_date'),
-            );
-            $this->db->where('id', $id);
-            if ($this->db->update('budget_j_pension_register', $form_data)) {
-                $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
-                redirect('journal_entry/pension_entry');
-            }
-        }
-        $this->db->select('q.*,u.name_bn as create_by');
-        $this->db->from('budget_j_pension_register as q');
-        $this->db->join('users as u', 'u.id = q.create_by', 'left');
-        $this->db->where('q.id', $id);
-        $this->data['budget_j_pension_register'] = $this->db->get()->row();
-            //Dropdown
-        $this->data['info'] = $this->Common_model->get_user_details();
-        //Load view
-        $this->data['meta_title'] = 'পেনশন  বিস্তারিত';
-        $this->data['subview'] = 'pension/edit';
-        $this->load->view('backend/_layout_main', $this->data);
-    }
-    public function pension_entry_delete($encid){
-        $id = (int) decrypt_url($encid);
-        $this->db->where('id', $id);
-        if ($this->db->delete('budget_j_pension_register')) {
-            $this->session->set_flashdata('success', 'তথ্য মুছে ফেলা হয়েছে');
-            redirect('journal_entry/pension_entry');
-        }else{
-            $this->session->set_flashdata('error', 'তথ্য মুছে ফেলা হয়নি');
-            redirect('journal_entry/pension_entry');
-        }
-    }
-    // end budget_j_pension_register
-
     // start budget_j_gpf_register
-    public function gpf_entry($offset = 0)
+    public function gpf_entry2($offset = 0)
     {
         $limit = 15;
         $user_id = $this->data['userDetails']->id;
@@ -1089,7 +1405,6 @@ class Journal_entry extends Backend_Controller
         $this->data['subview'] = 'gpf/index';
         $this->load->view('backend/_layout_main', $this->data);
     }
-
     public function gpf_entry_create()
     {
         $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');

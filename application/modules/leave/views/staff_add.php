@@ -174,7 +174,7 @@
                     <label class="form-label">নিয়ন্ত্রণকারি কর্মকর্তা</label>
                     <select name="control_person" id="control_person" class="form-control" >
                       <!-- <option value="">নির্বাচন করুন</option> -->
-                      <?php foreach($depts as $key => $value): ?>
+                      <?php foreach($users as $key => $value): ?>
                         <?php if($key != $info->id ): ?>
                           <option value="<?=$key?>"><?=$value?></option>
                         <?php endif; ?>
@@ -188,7 +188,7 @@
                     <select name="assign_person" id="assign_person" class="form-control" required>
                       <option value="">-- নির্বাচন করুন --</option>
                       <option value="bikolpo">বিকল্প কর্মকর্তা নেই ।</option>
-                      <?php foreach($emps as $key => $value): ?>
+                      <?php foreach($bikolpo as $key => $value): ?>
                         <?php if($key != $info->id ): ?>
                           <?php if ($key != "") : ?>
                             <option value="<?=$key?>"><?=$value?></option>

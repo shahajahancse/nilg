@@ -105,9 +105,9 @@
                                                 <thead>
                                                     <tr>
                                                         <th width="3%" >ক্রম</th>
-                                                        <th width="fit-content">বাজেট শিরোনাম</th>
+                                                        <th style="text-align: left;" width="25%">শিরোনাম</th>
                                                         <th width="10%">বরাদ্দ</th>
-                                                        <th width="10%">প্রকৃত ব্যয় (ভ্যাট, আইটি/উৎস কর ব্যতিত)</th>
+                                                        <th width="12%">প্রকৃত ব্যয় (ভ্যাট, আইটি/উৎস কর ব্যতিত)</th>
                                                         <th width="10%">*ভ্যাট</th>
                                                         <th width="10%">*আইটি/উৎস কর</th>
                                                         <th width="10%">মোট ব্যয়</th>

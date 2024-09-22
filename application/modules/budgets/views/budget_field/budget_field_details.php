@@ -9,12 +9,16 @@
     }
 </style>
 
+<?php $am = $this->db->where('dept_id', 2)->get('budgets_dept_account')->row(); ?>
+
 <div class="page-content">
     <div class="content">
         <ul class="breadcrumb">
             <li><a href="<?=base_url('dashboard')?>" class="active"> Dashboard </a></li>
             <li><a href="<?=base_url('budget/training_budgets_create')?>" class="active"><?=$module_name?></a></li>
             <li><?=$meta_title; ?></li>
+            <a style="float: right; color: #000; font-weight: bold;"> পরিমাণ : <?= eng2bng($am->balance); ?> </a>
+                        <input type="hidden" id="have_amt" value=<?= $am->balance ?> >
         </ul>
 
         <div class="row">
@@ -257,7 +261,8 @@
                                             </div>
                                             <div class="">
                                                 <div class="pull-right">
-                                                    <input type="submit" name="submit" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
+                        <span id="message_dep" style="color: red;"></span>
+                                                    <input id="submit_btn_b" type="submit" name="submit" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
                                                 </div>
                                             </div>
                                         </div>
@@ -571,6 +576,7 @@
         $('#office_id').chosen();
         $('#course_id').chosen();
         $('#trainee_type').chosen();
+        $('.add_sub_row').chosen();
         get_sub_row();
     });
 </script>

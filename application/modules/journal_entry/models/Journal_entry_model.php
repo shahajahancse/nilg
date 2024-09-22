@@ -10,7 +10,9 @@ class Journal_entry_model extends CI_Model {
     public function lists ($type, $limit, $offset, $table) {
         $this->db->select('b.*');
         $this->db->from($table.' as b');
-        $this->db->where('type', $type);
+        if ($type != null) {
+            $this->db->where('type', $type);
+        }
         $this->db->limit($limit);
         $this->db->offset($offset);
         $this->db->order_by('b.id', 'DESC');
@@ -19,7 +21,9 @@ class Journal_entry_model extends CI_Model {
 
         $this->db->select('COUNT(*) as count');
         $this->db->from($table.' as q');
-        $this->db->where('type', $type);
+        if ($type != null) {
+            $this->db->where('type', $type);
+        }
         $tmp = $this->db->get()->result();
         $result['num_rows'] = $tmp[0]->count;
         return $result;
@@ -146,5 +150,52 @@ class Journal_entry_model extends CI_Model {
         $data = $this->db->get()->result();
         return $data;
     }
+
+    function pension_process($process_date, $emp_id) {
+
+        $lock = $this->db->where('status', 1)->where('month', $process_date)->get('budget_j_pension_lock')->row();
+        if (!empty($lock)) {
+            echo "Process already done for this month";
+            exit();
+        }
+        $prev_m = date('Y-m-01', strtotime('-1 month', strtotime($process_date)));
+        $pp = $this->db->where('status', 1)->where('month', $prev_m)->get('budget_j_pension_lock')->row();
+        if (empty($pp)) {
+            echo "Please lock previous month first";
+            exit();
+        }
+
+        $this->db->select('emp.*, m.amount');
+        $this->db->from('budget_j_pension_emp as emp');
+        $this->db->join('budget_medical as m', 'emp.medical_amt = m.id', 'left');
+        $this->db->where('emp.status', 1);
+        if (!empty($emp_id)) {
+            $this->db->where_in('emp.user_id', $emp_id);
+        }
+        $records = $this->db->get()->result();
+
+        foreach ($records as $key => $value) {
+            $data = array(
+                'user_id' => $value->user_id,
+                'month' => $process_date,
+                'basic_salary' => $value->basic_salary,
+                'percent' => $value->percent,
+                'medical_amt' => $value->amount,
+                'festival' => 0,
+                'nit_amt' => $value->nit_amt,
+                'total_amt' => $value->total_amt,
+                'created_by' => $this->data['userDetails']->id,
+            );
+
+            $gt = $this->db->where('user_id', $value->user_id)->where('month', $process_date)->get('budget_j_pension_register')->row();
+            if (!empty($gt)) {
+                $this->db->where('id', $gt->id)->update('budget_j_pension_register', $data);
+            } else {
+                $this->db->insert('budget_j_pension_register', $data);
+            }
+        }
+        return true;
+    }
+
 
 }

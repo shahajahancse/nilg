@@ -96,6 +96,12 @@ class Leave extends Backend_Controller {
 
             $user_info = $this->db->where('id', $this->input->post('user_id'))->get('users')->row();
             if (!empty($user_info->crrnt_dept_id) && !empty($user_info->crrnt_desig_id)) {
+                if ($this->ion_auth->in_group(array('leave_admin'))) {
+                    $types = 1;
+                } else {
+                    $types = $user_info->employee_type;
+                }
+
                 if($_FILES['userfile']['size'] > 0){
 
                    $new_file_name = time().'-'.$_FILES["userfile"]['name'];
@@ -118,8 +124,8 @@ class Leave extends Backend_Controller {
                     'father_name' => $this->input->post('father_name'),
                     'division_id' => $this->input->post('division_id'),
                     'district_id' => $this->input->post('district_id'),
-                    'upazila_id' => $this->input->post('upazila_id'),
-                    'village' => $this->input->post('village'),
+                    'upazila_id'  => $this->input->post('upazila_id'),
+                    'village'     => $this->input->post('village'),
                     'post_office' => $this->input->post('post_office'),
                     'mobile_number'=> $this->input->post('mobile_number')
                 ];
@@ -128,21 +134,22 @@ class Leave extends Backend_Controller {
                 if ($this->input->post('leave_type') == 8) {
                     $total_days = $this->Leave_model->GetDays($this->input->post('from_date'), $this->input->post('to_date'));
                     $form_data = array(
-                        'user_id'      => $this->input->post('user_id'),
-                        'dept_id'      => $user_info->crrnt_dept_id,
-                        'desig_id'     => $user_info->crrnt_desig_id,
-                        'leave_type'   => $this->input->post('leave_type'),
-                        'assign_person'=> $assign_person,
-                        'bikolpo'      => $bikolpo,
+                        'user_id'       => $this->input->post('user_id'),
+                        'dept_id'       => $user_info->crrnt_dept_id,
+                        'desig_id'      => $user_info->crrnt_desig_id,
+                        'leave_type'    => $this->input->post('leave_type'),
+                        'assign_person' => $assign_person,
+                        'bikolpo'       => $bikolpo,
                         'control_person'=> ($this->input->post('control_person'))?$this->input->post('control_person'):null,
-                        'from_date'    => $this->input->post('from_date'),
-                        'to_date'      => $this->input->post('to_date'),
-                        'leave_days'   => count($total_days),
-                        'leave_address'=> $leave_address,
-                        'reason'       => $this->input->post('reason'),
-                        'status'       => 1,
-                        'file_name'    => $uploadedFile,
-                        'created_date' => date("Y-m-d"),
+                        'from_date'     => $this->input->post('from_date'),
+                        'to_date'       => $this->input->post('to_date'),
+                        'leave_days'    => count($total_days),
+                        'leave_address' => $leave_address,
+                        'reason'        => $this->input->post('reason'),
+                        'employee_type' => $types,
+                        'status'        => 1,
+                        'file_name'     => $uploadedFile,
+                        'created_date'  => date("Y-m-d"),
                     );
 
                     if($this->Common_model->save('leave_employee', $form_data)){
@@ -246,8 +253,15 @@ class Leave extends Backend_Controller {
         $this->data['info'] = $this->Leave_model->get_user('users',$this->session->userdata('user_id'));
 
         $results = $this->Leave_model->get_yearly_leave_count($userDetails->id);
-        $this->data['depts'] = $this->Common_model->get_nilg_employee($this->data['info']->crrnt_dept_id, 2);
-        $this->data['emps'] = $this->Common_model->get_nilg_employee($this->data['info']->crrnt_dept_id, 3);
+        $this->data['users'] = $this->Common_model->get_nilg_employee($this->data['info']->crrnt_dept_id, $this->data['info']->employee_type);
+        $this->data['bikolpo'] = $this->Common_model->get_nilg_employee(null, $this->data['info']->employee_type);
+        // dd($this->data['users']);
+        if ($this->data['info']->employee_type == 3) {
+            $rs = $this->db->select('id, name_bn')->where('office_type', 7)->where_in('crrnt_desig_id', array(116,244))->get('users')->result();
+            foreach ($rs as $key => $r) {
+                $this->data['users'][$r->id] = $r->name_bn;
+            }
+        }
         // View
         $this->data['meta_title'] = 'ছুটি যুক্ত করুন';
         $this->data['total_leave'] = $results['total_leave'];
@@ -343,7 +357,14 @@ class Leave extends Backend_Controller {
 
         // Dropdown List
         $this->data['row'] = $this->Leave_model->get_info($id);
-        $this->data['users'] = $this->Common_model->get_nilg_employee($this->data['row']->dept_id);
+        $this->data['users'] = $this->Common_model->get_nilg_employee($this->data['row']->dept_id, $this->data['row']->employee_type);
+        $this->data['bikolpo'] = $this->Common_model->get_nilg_employee(null, $this->data['row']->employee_type);
+        if ($this->data['row']->employee_type == 3) {
+            $rs = $this->db->select('id, name_bn')->where('office_type', 7)->where_in('crrnt_desig_id', array(116,244))->get('users')->result();
+            foreach ($rs as $key => $r) {
+                $this->data['users'][$r->id] = $r->name_bn;
+            }
+        }
 
         $this->data['leave_type'] = $this->Leave_model->get_leave_type();
         $results = $this->Leave_model->get_yearly_leave_count($this->data['row']->user_id);

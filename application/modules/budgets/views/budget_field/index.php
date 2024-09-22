@@ -96,42 +96,49 @@
                                     <button class="btn btn-mini btn-primary">অ্যাকশন</button>
                                     <button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
                                     <ul class="dropdown-menu pull-right">
-                                       <?php
-                                       //if ($this->ion_auth->in_group(array('uz', 'ddlg'))){
-                                       ?>
                                        <!-- <li><a href="<?php echo base_url('budgets/budget_field_print/' . encrypt_url($row->id)) ?>/no" target="_blank"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li> -->
                                        <li><a href="<?php echo base_url('budgets/budget_field_print/' . encrypt_url($row->id)) ?>" target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট </a></li>
+
+                                       <?php if (in_array($row->status,[1]) && $this->ion_auth->in_group(array('tdo'))) {?>
+                                          <li><a href="<?php echo base_url('budgets/budget_field_details/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> সম্পাদনা করুন </a></li>
+                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/2/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড </a> </li>
+                                       <?php }?>
+
+                                       <?php if (!$this->ion_auth->in_group(array('tdo','ad','dd','bdh','acc','dg','bdg'))) {?>
                                        <li><a href="<?php echo base_url('budgets/field_statement_of_expenses/' . encrypt_url($row->id)) ?>/no" target="_blank"><i class="fa fa-hand-o-right"></i> ব্যয় বিবরণী </a></li>
+                                       <?php } ?>
+
+                                       <?php if (in_array($row->status,[7,8,9])) { ?>
                                        <li><a href="<?php echo base_url('budgets/budget_field_statement_of_expenses_print/' . encrypt_url($row->id)) ?>/no" target="_blank"><i class="fa fa-hand-o-right"></i> ব্যয় বিবরণী প্রিন্ট </a></li>
-                                       <?php
-                                       // } else{
-                                       ?>
+                                       <?php } ?>
+
                                        <li><a href="<?php echo base_url('budgets/budget_field_clone/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> ক্লোন করুন </a></li>
+
                                        <?php if (in_array($row->status,[1,2]) && $this->ion_auth->in_group(array('bdh'))) {?>
                                           <li><a href="<?php echo base_url('budgets/budget_field_details/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> সম্পাদনা করুন </a></li>
-                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/3/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু এ.ডি  </a> </li>
-                                          <?php }?>
+                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/3/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড টু এ.ডি  </a> </li>
+                                       <?php }?>
 
-                                          <?php if (in_array($row->status,[3]) && $this->ion_auth->in_group(array('ad'))) {?>
-                                             <li><a href="<?php echo base_url('budgets/budget_field_details/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> সম্পাদনা করুন </a></li>
-                                             <li> <a href="<?php echo base_url('budgets/budget_field_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু ডি.ডি  </a> </li>
-                                          <?php }?>
-
-                                          <?php if (in_array($row->status,[4]) && $this->ion_auth->in_group(array('dd','acc'))) {?>
+                                       <?php if (in_array($row->status,[3]) && $this->ion_auth->in_group(array('ad'))) {?>
                                           <li><a href="<?php echo base_url('budgets/budget_field_details/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> সম্পাদনা করুন </a></li>
-                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু ডি.জি </a> </li>
-                                          <?php }?>
+                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড টু ডি.ডি  </a> </li>
+                                       <?php }?>
 
-                                          <?php if (in_array($row->status,[5]) && $this->ion_auth->in_group(array('bdg'))) {?>
+                                       <?php if (in_array($row->status,[4]) && $this->ion_auth->in_group(array('dd','acc'))) {?>
                                           <li><a href="<?php echo base_url('budgets/budget_field_details/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> সম্পাদনা করুন </a></li>
-                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/6/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু এ.সি   </a> </li>
-                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/3/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু এ.ডি  </a> </li>
-                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু ডি.ডি  </a> </li>
-                                          <?php }?>
+                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড টু ডি.জি </a> </li>
+                                       <?php }?>
 
-                                          <?php if (in_array($row->status,[6]) && $this->ion_auth->in_group(array('acc'))) {?>
-                                             <li> <a href="<?php echo base_url('budgets/budget_field_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু ডি.জি </a> </li>
-                                             <li> <a href="<?php echo base_url('budgets/budget_field_forward/7/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> Approved </a> </li>
+                                       <?php if (in_array($row->status,[5]) && $this->ion_auth->in_group(array('bdg'))) {?>
+                                          <li><a href="<?php echo base_url('budgets/budget_field_details/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> সম্পাদনা করুন </a></li>
+                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/6/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন করুন  </a> </li>
+                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/3/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক টু এ.ডি  </a> </li>
+                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক টু ডি.ডি  </a> </li>
+                                       <?php }?>
+
+                                       <?php if (in_array($row->status,[6]) && $this->ion_auth->in_group(array('acc'))) {?>
+                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক টু ডি.জি </a> </li>
+                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/7/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন করুন </a> </li>
                                        <?php }?>
 
 

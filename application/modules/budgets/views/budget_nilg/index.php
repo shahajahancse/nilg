@@ -136,24 +136,25 @@
                                             <!-- <td class="v-align-middle" style="width: 200px; white-space: normal;overflow: hidden" title="<?= $row->description; ?>"><?= $row->description; ?></td> -->
                                             <td class="v-align-middle">
                                                 <!-- 1=pending,2=dpt. app., 3=reject, 4=acc., 5=dg, 6=draft, 7=revenue received -->
-                                                <?php if ($row->status == 1) {
-                                                    echo '<span class="label label-info">Draft </span>';
-                                                } elseif ($row->status == 2) {
-                                                    echo '<span class="label label-warning">On Precess</span>';
-                                                } elseif ($row->status == 3) {
-                                                    echo '<span class="label label-primary">Department Approve </span>';
-                                                } elseif ($row->status == 4) {
-                                                    echo '<span class="label label-info">Account. Approve </span>';
-                                                } elseif ($row->status == 5) {
-                                                    echo '<span class="label label-success">DG. Approve </span>';
-                                                } elseif ($row->status == 6) {
-                                                    echo '<span class="label label-success">Revenue Received </span>';
-                                                } elseif ($row->status == 7) {
-                                                    echo '<span class="label label-important">Rejected </span>';
-                                                }
-                                                ?>
+                                                <!-- 1=pending,2=dpt. app., 3=reject, 4=acc., 5=dg, 6=draft, 7=revenue received -->
+                                            <?php if($row->status==1){
+                                                echo '<span class="label label-info">Draft </span>';
+                                            }elseif($row->status==2){
+                                                echo '<span class="label label-warning">ডিপার্টমেন্ট স্যার </span>';
+                                            }elseif($row->status==3){
+                                                echo '<span class="label label-primary">Department Approve </span>';
+                                            }elseif($row->status==4){
+                                                echo '<span class="label label-info">Account. Approve </span>';
+                                            }elseif($row->status==5){
+                                                echo '<span class="label label-success">DG. Approve </span>';
+                                            }elseif($row->status==6){
+                                                echo '<span class="label label-success">Revenue Received </span>';
+                                            }elseif($row->status==7){
+                                                echo '<span class="label label-important">Rejected </span>';
+                                            }
+                                            ?>
                                             </td>
-    
+
                                             <td class="v-align-middle"><?= date_bangla_calender_format($row->update_at); ?>
                                             </td>
                                             <td align="right">
@@ -171,12 +172,17 @@
                                                         <li><a id="modalId" data-toggle="modal" data-target="#myModal"
                                                                 data-id="<?= encrypt_url($row->id) ?>" href=""><i
                                                                     class="fa fa-user"></i> রিভিও</a></li>
-    
+
                                                         <li>
                                                             <a href="<?php echo base_url('budgets/budget_nilg_print/' . encrypt_url($row->id)) ?>"
                                                                 target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট করুন
                                                             </a>
                                                         </li>
+
+
+
+
+
                                                     </ul>
                                                 </div>
                                             </td>

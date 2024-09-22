@@ -249,7 +249,7 @@ class Budgets extends Backend_Controller
                 $form_data = array(
                     'title' => $this->input->post('title'),
                     'amount' => $this->input->post('total_amount'),
-                    'status' => 2,
+                    'status' => 3,
                     'desk' => 2,
                     'fcl_year' => $this->input->post('fcl_year'),
                     'description' => $this->input->post('description'),
@@ -1122,9 +1122,9 @@ class Budgets extends Backend_Controller
             redirect("budgets/budget_field");
         }
 
-        $this->db->select('dd.*, budget_head.name_bn');
+        $this->db->select('dd.*, budget_head_training.name_bn');
         $this->db->from('budget_field_details as dd');
-        $this->db->join('budget_head', 'dd.head_id = budget_head.id');
+        $this->db->join('budget_head_training', 'dd.head_id = budget_head_training.id');
         $this->db->where('dd.budget_field_id', $id);
         $this->db->where('dd.modify_soft_d', 1);
         $this->data['results'] = $this->db->get()->result();
@@ -1246,17 +1246,18 @@ class Budgets extends Backend_Controller
         $user = $this->ion_auth->user()->row();
         $this->form_validation->set_rules('total_obosistho', 'সর্বমোট পরিমান', 'required|trim');
         if ($this->form_validation->run() == true) {
+            // dd($id);
             $amount = $this->input->post('amount');
-            $balanace  = $this->input->post('total_obosistho');
+            $balance  = $this->input->post('total_obosistho');
             $this->db->trans_start();
             $form_data = array(
-                'total_amt' => $amount - $balanace,
+                'total_amt' => ($amount - $balance),
                 'balance' => $balance,
                 'status' => 7,
                 'updated_by' => $user->id,
                 'office_note' => $this->input->post('description'),
             );
-
+            // dd($form_data);
 
             $this->db->where('id', $id);
             if ($this->db->update('budget_field', $form_data)) {
@@ -1266,7 +1267,7 @@ class Budgets extends Backend_Controller
                     $head_obosistho = $_POST['head_obosistho'][$i];
                     $head_amt = $_POST['head_amt'][$i];
                     $form_data2 = array(
-                        'total_amt' => $head_amt - $head_obosistho,
+                        'total_amt' => ($head_amt - $head_obosistho),
                         'balance' => $head_obosistho,
                     );
 
@@ -1302,14 +1303,15 @@ class Budgets extends Backend_Controller
         ->join('session_year', 'budget_field.fcl_year = session_year.id', 'left')
         ->where('budget_field.id', $id);
         $this->data['budget_field'] = $this->db->get()->row();
-        // dd($budget_field);
+        // dd($this->data['budget_field']);
 
-        $this->db->select('dd.*, budget_head.name_bn');
+        $this->db->select('dd.*, budget_head_training.name_bn');
         $this->db->from('budget_field_details as dd');
-        $this->db->join('budget_head', 'dd.head_id = budget_head.id');
+        $this->db->join('budget_head_training', 'dd.head_id = budget_head_training.id', 'left');
         $this->db->where('dd.budget_field_id', $id);
         $this->db->where('dd.modify_soft_d', 1);
         $this->data['results'] = $this->db->get()->result();
+        // dd($this->data['results']);
 
         //Dropdown
         $this->data['info'] = $this->Common_model->get_user_details($this->data['budget_field']->created_by);
@@ -1320,7 +1322,7 @@ class Budgets extends Backend_Controller
     }
     public function statement_sub_update($de_id, $exp_amt, $vat, $it, $exp_tot, $bal)
     {
-        for ($i=0; $i < sizeof($sub_ids); $i++) {
+        for ($i=0; $i < sizeof($de_id); $i++) {
             $sub_form = array(
                 'expense_amt' => $exp_amt[$i],
                 'vat' => $vat[$i],
@@ -1341,14 +1343,13 @@ class Budgets extends Backend_Controller
         $id = (int) decrypt_url($encid);
         $this->data['info'] = $this->Common_model->get_single_data('budget_field', $id);
 
-        $this->db->select('bd.*, sy.session_name, oc.office_type_name as office');
-        $this->db->from('budget_field_details bd');
-        $this->db->join('office_type as oc', 'oc.id = bd.head_id', 'left');
-        $this->db->join('session_year as sy', 'sy.id = bd.fcl_year', 'left');
-        $this->db->where('bd.budget_field_id', $id);
-        $this->db->where('bd.modify_soft_d !=', 2);
-        $this->data['summary'] = $this->db->get()->result();
-        // dd($this->data['summary']);
+        $this->db->select('dd.*, budget_head_training.name_bn');
+        $this->db->from('budget_field_details as dd');
+        $this->db->join('budget_head_training', 'dd.head_id = budget_head_training.id');
+        $this->db->where('dd.budget_field_id', $id);
+        $this->db->where('dd.modify_soft_d', 1);
+        $this->data['results'] = $this->db->get()->result();
+        // dd($this->data['results']);
 
         //Load view
         $this->data['headding'] = 'বাজেট ';

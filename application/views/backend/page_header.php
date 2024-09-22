@@ -375,11 +375,11 @@ input[type="search"] {
                <!-- প্রশিক্ষণ মূল্যায়ন -->
 
 
-               <!-- budget entry start -->
+               <!-- বাজেট entry start -->
                <!-- //  not live the module yet -->
-               <?php $aar = array('admin', 'dg', 'nilg', 'dd', 'ad', 'bdh', 'acc', 'tdo', 'uz', 'ddlg','bod','bho','bli'); ?>
+               <?php $aar = array('admin', 'dg', 'nilg', 'dd', 'ad', 'bdh', 'tdo', 'uz', 'ddlg','bod','bho','bli'); ?>
                <?php //if ($this->ion_auth->in_group('demo')) { ?>
-               <?php if ($this->ion_auth->in_group($aar) || $userDetails->office_type == 7) { ?>
+               <?php if ($this->ion_auth->in_group($aar)) { ?>
                   <?php if ($this->ion_auth->in_group(array('uz', 'ddlg'))) { ?>
                      <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span> <span class="arrow"></span> </a>
                         <ul class="sub-menu">
@@ -387,28 +387,24 @@ input[type="search"] {
                         </ul>
                      </li>
                   <?php } else { ?>
-                     <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span>
-                        <?php if ($this->ion_auth->in_group(array('admin', 'dg', 'acc'))) { ?>
-                        <?php if ($budget_nilg_ntfy > 0 || $budget_office_ntfy > 0 || $budget_chahida_ntfy > 0) {
-                              echo '<span class="badge badge-danger pull-right">' . eng2bng($budget_nilg_ntfy + $budget_office_ntfy + $budget_chahida_ntfy) . '</span>';
-                           } }
-                        ?> <span class="arrow"></span> </a>
+
+                     <li class="start <?= backend_activate_menu_class('budgets') ?>">
+                        <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span> <span class="arrow"></span> </a>
                         <ul class="sub-menu">
 
                            <?php if ($this->ion_auth->is_admin() || ($this->ion_auth->in_group(array('bdh')) && $userDetails->crrnt_dept_id == 2 )) { ?>
-                           <li class="start <?= backend_activate_menu_method('training_budgets') ?>">
-                              <a href="<?= base_url('budgets/training_budgets'); ?>">বাজেট তৈরি করুন </a>
-                           </li>
-                           <li class="start <?= backend_activate_menu_method('dpt_summary') ?>">
-                              <a href="<?= base_url('budgets/dpt_summary'); ?>">বাজেট সামারী তৈরি</a>
-                           </li>
-                           <li class="start <?= backend_activate_menu_method('budget_field') ?>">
-                              <a href="<?= base_url('budgets/budget_field'); ?>">প্রশিক্ষণ বাজেট তৈরি</a>
-                           </li>
-
+                              <li class="start <?= backend_activate_menu_method('training_budgets') ?>">
+                                 <a href="<?= base_url('budgets/training_budgets'); ?>">বাজেট তৈরি করুন </a>
+                              </li>
+                              <li class="start <?= backend_activate_menu_method('dpt_summary') ?>">
+                                 <a href="<?= base_url('budgets/dpt_summary'); ?>">বাজেট সামারী তৈরি</a>
+                              </li>
+                              <li class="start <?= backend_activate_menu_method('budget_field') ?>">
+                                 <a href="<?= base_url('budgets/budget_field'); ?>">প্রশিক্ষণ বাজেট তৈরি</a>
+                              </li>
                            <?php } elseif ($this->ion_auth->is_admin() || $this->ion_auth->in_group(array('bdh'))) { ?>
                               <li class="start <?= backend_activate_menu_method('budget_nilg') ?>">
-                                 <a href="<?= base_url('budgets/budget_nilg'); ?>">রাজস্ব বাজেট তৈরি
+                                 <a href="<?= base_url('budgets/budget_nilg'); ?>">বাজেট তৈরি করুন
                                  <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'acc'))) { ?>
                                  <?php if ($budget_nilg_ntfy > 0) {
                                     echo '<span style="margin-right:15px" class="badge badge-danger pull-right">' . eng2bng($budget_nilg_ntfy) . '</span>';
@@ -417,36 +413,39 @@ input[type="search"] {
                               </li>
                            <?php } ?>
 
-                           <?php if ($this->ion_auth->in_group(array('ad','dd','bdg', 'acc'))) { ?>
-                           <li class="start <?= backend_activate_menu_method('dpt_summary') ?>">
+                           <?php if ($this->ion_auth->in_group(array('ad','dd','bdg'))) { ?>
+                              <li class="start <?= backend_activate_menu_method('dpt_summary') ?>">
                               <a href="<?= base_url('budgets/dpt_summary'); ?>">বাজেট তালিকা </a>
                            <?php } ?>
 
                            <?php if ($this->ion_auth->in_group(array('tdo'))) { ?>
-                           <li class="start <?= backend_activate_menu_method('training_budgets') ?>">
-                              <a href="<?= base_url('budgets/training_budgets'); ?>">বাজেট তৈরি করুন </a>
-                           </li>
-                           <li class="start <?= backend_activate_menu_method('budget_field') ?>">
-                              <a href="<?= base_url('budgets/budget_field'); ?>">প্রশিক্ষণ বাজেট তৈরি</a>
-                           </li>
+                              <li class="start <?= backend_activate_menu_method('training_budgets') ?>">
+                                 <a href="<?= base_url('budgets/training_budgets'); ?>">বাজেট তৈরি করুন </a>
+                              </li>
+                              <li class="start <?= backend_activate_menu_method('budget_field') ?>">
+                                 <a href="<?= base_url('budgets/budget_field'); ?>">প্রশিক্ষণ বাজেট তৈরি</a>
+                              </li>
+                              <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_head/training'); ?>">বাজেট হেড</a> </li>
+                              <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_sub_head/training'); ?>">বাজেট সাব হেড</a> </li>
+                           <?php } ?>
 
-                           <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_head/training'); ?>">বাজেট হেড</a> </li>
-                           <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_sub_head/training'); ?>">বাজেট সাব হেড</a> </li>
+                           <?php if ($this->ion_auth->in_group(array('admin'))) { ?>
+                              <li class="start <?= backend_activate_menu_method('pension_emp') ?>">
+                                 <a href="<?= base_url('journal_entry/gpf_entry'); ?>"> জিপিএফ এন্ট্রি</a>
+                              </li>
+                              <li class="start <?= backend_activate_menu_method('pension_emp') ?>">
+                                 <a href="<?= base_url('journal_entry/gpf_emp'); ?>"> জিপিএফ কর্মকর্তা/কর্মচারী তালিকা</a>
+                              </li>
+                              <li class="start <?= backend_activate_menu_method('pension_emp') ?>">
+                                 <a href="<?= base_url('journal_entry/pension_emp'); ?>"> পেনশন কর্মকর্তা/কর্মচারী তালিকা </a>
+                              </li>
+                              <!-- <li class="start <?= backend_activate_menu_method('entry_report') ?>"> <a href="<?= base_url('journal_entry/entry_report'); ?>"> রিপোর্ট </a> </li> -->
                            <?php } ?>
 
                            <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg'))) { ?>
                               <li class="start <?= backend_activate_menu_method('budget_entry') ?>"> <a href="<?= base_url('budgets/budget_entry'); ?>">এন্ট্রি </a> </li>
                            <?php } ?>
 
-                           <li class="start <?= backend_activate_menu_method('chahida_potro') ?>">
-                              <a href="<?= base_url('budgets/chahida_potro'); ?>">চাহিদা পত্র
-                              <?php
-                              if ($budget_chahida_ntfy > 0) {
-                                 echo '<span style="margin-right:15px" class="badge badge-danger pull-right">' . eng2bng($budget_chahida_ntfy) . '</span>';
-                              }
-                              ?>
-                              </a>
-                           </li>
                            <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'acc'))) { ?>
                            <li class="start <?= backend_activate_menu_method('budget_entry') ?>"> <a href="<?= base_url('budgets/budget_report'); ?>">রিপোর্ট</a> </li>
                            <?php } ?>
@@ -454,7 +453,7 @@ input[type="search"] {
                      </li>
 
                      <!-- Publication registration -->
-                     <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'acc', 'bli'))) { ?>
+                     <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'bli'))) { ?>
                         <li class="start <?= backend_activate_menu_class('journal_entry') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">প্রকাশনা শাখা</span> <span class="selected"></span> <span class="arrow"></span> </a>
                            <ul class="sub-menu">
                               <li class="start <?= backend_activate_menu_method('publication_entry_list') ?>">
@@ -475,7 +474,7 @@ input[type="search"] {
                      <!-- Publication registration -->
 
                      <!-- hostel registration -->
-                     <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'acc', 'bho'))) { ?>
+                     <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'bho'))) { ?>
                         <li class="start <?= backend_activate_menu_class('journal_entry') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হোস্টেল শাখা</span> <span class="selected"></span> <span class="arrow"></span> </a>
                            <ul class="sub-menu">
                               <li class="start <?= backend_activate_menu_method('hostel_entry') ?>">
@@ -488,34 +487,9 @@ input[type="search"] {
                         </li>
                      <?php } ?>
                      <!-- hostel registration -->
-
-                     <!-- হিসাব সেটিংস -->
-                     <?php if ($this->ion_auth->in_group(array('admin','nilg','acc', 'bli', 'bho'))) { ?>
-                        <li class="start <?= backend_activate_menu_class('nilg_setting') ?> <?= backend_activate_menu_class('budget_head') ?> <?= backend_activate_menu_class('budget_sub_head') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব সেটিংস</span> <span class="selected"></span> <span class="arrow"></span> </a>
-                           <ul class="sub-menu">
-                              <?php if ($this->ion_auth->in_group(array('admin','nilg','acc'))) { ?>
-                              <li class="start <?= backend_activate_menu_method('account_types') ?>"> <a href="<?= base_url('nilg_setting/account_types'); ?>">অ্যাকাউন্ট টাইপ </a> </li>
-                              <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_head'); ?>">বাজেট হেড</a> </li>
-                              <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_sub_head'); ?>">বাজেট সাব হেড</a> </li>
-                              <li class="start <?= backend_activate_menu_method('budget_description') ?>"> <a href="<?= base_url('nilg_setting/budget_head/budget_description'); ?>">বাজেট সামারি</a> </li>
-                              <li class="start <?= backend_activate_menu_method('session_year') ?>"> <a href="<?= base_url('nilg_setting/session_year'); ?>">অর্থ বছর</a> </li>
-                              <li class="start <?= backend_activate_menu_method('chahida_potro_approval') ?>"> <a href="<?= base_url('nilg_setting/chahida_potro_approval'); ?>">চাহিদা পত্র অনুমোদন</a> </li>
-                              <?php } ?>
-                              <?php if ($this->ion_auth->in_group(array('admin','nilg','acc', 'bli'))) { ?>
-                              <li class="start <?= backend_activate_menu_method('publication_group_setting') ?>"> <a href="<?= base_url('nilg_setting/publication_group_setting'); ?>">প্রকাশনা গ্রুপ</a> </li>
-                              <li class="start <?= backend_activate_menu_method('publication_book_list') ?>"> <a href="<?= base_url('nilg_setting/publication_book_list'); ?>">প্রকাশনা বুক তালিকা </a> </li>
-                              <?php } ?>
-                              <?php if ($this->ion_auth->in_group(array('admin','nilg','acc', 'bho'))) { ?>
-                              <li class="start <?= backend_activate_menu_method('hostel_room_list') ?>"> <a href="<?= base_url('nilg_setting/hostel_room_list'); ?>">কক্ষ তালিকা</a> </li>
-                              <li class="start <?= backend_activate_menu_method('hostel_seat_list') ?>"> <a href="<?= base_url('nilg_setting/hostel_seat_list'); ?>">আসন তালিকা </a> </li>
-                              <?php } ?>
-                           </ul>
-                        </li>
-                     <?php } ?>
-                     <!-- হিসাব সেটিংস -->
                   <?php }  ?>
-               <?php } //} ?>
-               <!-- budget entry end -->
+               <?php }  ?>
+               <!-- বাজেট entry end -->
 
                <!-- এনআইএলজি সেটিংস cc-->
                <?php if ($this->ion_auth->in_group('cc')) { ?>
@@ -683,6 +657,68 @@ input[type="search"] {
                   </li>
                <?php } ?>
                <!-- all / general report -->
+
+               <!-- হিসাব বিভাগ Account entry start -->
+               <!-- //  not live the module yet -->
+               <?php if ($this->ion_auth->in_group(array('acc'))) { ?>
+
+                  <!-- pension registration -->
+                  <li class="start <?= backend_activate_menu_class('journal_entry') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                     <ul class="sub-menu">
+                        <li class="start <?= backend_activate_menu_method('gpf_entry') ?>">
+                           <a href="<?= base_url('journal_entry/gpf_entry'); ?>"> জিপিএফ এন্ট্রি</a>
+                        </li>
+                        <li class="start <?= backend_activate_menu_method('gpf_form') ?>">
+                           <a href="<?= base_url('journal_entry/gpf_form'); ?>"> জিপিএফ রিপোর্ট</a>
+                        </li>
+                        <li class="start <?= backend_activate_menu_method('gpf_emp') ?>">
+                           <a href="<?= base_url('journal_entry/gpf_emp'); ?>"> জিপিএফ কর্মকর্তা/কর্মচারী তালিকা</a>
+                        </li>
+                        <li class="start <?= backend_activate_menu_method('pension_from') ?>">
+                           <a href="<?= base_url('journal_entry/pension_from'); ?>"> পেনশন </a>
+                        </li>
+                        <li class="start <?= backend_activate_menu_method('pension_emp') ?>">
+                           <a href="<?= base_url('journal_entry/pension_emp'); ?>"> পেনশন কর্মকর্তা/কর্মচারী তালিকা </a>
+                        </li>
+                        <li class="start <?= backend_activate_menu_method('entry_report') ?>">
+                           <a href="<?= base_url('journal_entry/entry_report'); ?>"> রিপোর্ট </a>
+                        </li>
+                     </ul>
+                  </li>
+                  <!-- pension registration -->
+               <?php }  ?>
+               <!-- হিসাব বিভাগ Account entry end -->
+
+               <!-- হিসাব সেটিংস -->
+               <?php if ($this->ion_auth->in_group(array('admin','nilg','acc', 'bli', 'bho'))) { ?>
+                  <li class="start <?= backend_activate_menu_class('nilg_setting') ?> <?= backend_activate_menu_class('budget_head') ?> <?= backend_activate_menu_class('budget_sub_head') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব সেটিংস</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                     <ul class="sub-menu">
+                        <?php if ($this->ion_auth->in_group(array('admin','nilg','acc'))) { ?>
+                           <li class="start <?= backend_activate_menu_method('bank_account') ?>"> <a href="<?= base_url('nilg_setting/bank_account'); ?>">ব্যাংক অ্যাকাউন্ট </a> </li>
+                           <li class="start <?= backend_activate_menu_method('medical') ?>"> <a href="<?= base_url('nilg_setting/medical'); ?>">চিকিৎসা টাইপ </a> </li>
+                           <li class="start <?= backend_activate_menu_method('festival') ?>"> <a href="<?= base_url('nilg_setting/festival'); ?>">উৎসব টাইপ </a> </li>
+
+                           <li class="start <?= backend_activate_menu_method('account_types') ?>"> <a href="<?= base_url('nilg_setting/account_types'); ?>">অ্যাকাউন্ট টাইপ </a> </li>
+                           <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_head'); ?>">বাজেট হেড</a> </li>
+                           <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_sub_head'); ?>">বাজেট সাব হেড</a> </li>
+                           <li class="start <?= backend_activate_menu_method('budget_description') ?>"> <a href="<?= base_url('nilg_setting/budget_head/budget_description'); ?>">বাজেট সামারি</a> </li>
+                           <li class="start <?= backend_activate_menu_method('session_year') ?>"> <a href="<?= base_url('nilg_setting/session_year'); ?>">অর্থ বছর</a> </li>
+                           <li class="start <?= backend_activate_menu_method('chahida_potro_approval') ?>"> <a href="<?= base_url('nilg_setting/chahida_potro_approval'); ?>">চাহিদা পত্র অনুমোদন</a> </li>
+                        <?php } ?>
+
+                        <?php if ($this->ion_auth->in_group(array('admin','nilg','acc', 'bli'))) { ?>
+                           <li class="start <?= backend_activate_menu_method('publication_group_setting') ?>"> <a href="<?= base_url('nilg_setting/publication_group_setting'); ?>">প্রকাশনা গ্রুপ</a> </li>
+                           <li class="start <?= backend_activate_menu_method('publication_book_list') ?>"> <a href="<?= base_url('nilg_setting/publication_book_list'); ?>">প্রকাশনা বুক তালিকা </a> </li>
+                        <?php } ?>
+
+                        <?php if ($this->ion_auth->in_group(array('admin','nilg','acc', 'bho'))) { ?>
+                           <li class="start <?= backend_activate_menu_method('hostel_room_list') ?>"> <a href="<?= base_url('nilg_setting/hostel_room_list'); ?>">কক্ষ তালিকা</a> </li>
+                           <li class="start <?= backend_activate_menu_method('hostel_seat_list') ?>"> <a href="<?= base_url('nilg_setting/hostel_seat_list'); ?>">আসন তালিকা </a> </li>
+                        <?php } ?>
+                     </ul>
+                  </li>
+               <?php } ?>
+               <!-- হিসাব সেটিংস -->
 
                <!-- এনআইএলজি সেটিংস -->
                <?php if ($this->ion_auth->is_admin() || $this->ion_auth->in_group('nilg')) { ?>

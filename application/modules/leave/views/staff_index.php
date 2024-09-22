@@ -153,7 +153,7 @@
                             <?php } ?>
 
                             <?php if ($row->status == 4) { ?>
-                              <li><a href="<?= base_url('leave/form_print/' . encrypt_url($row->id)); ?>">প্রিন্ট</a></li>
+                              <li><a target="_blank" href="<?= base_url('leave/form_print/' . encrypt_url($row->id)); ?>">প্রিন্ট</a></li>
                             <?php } ?>
 
                             <?php if (!empty($row->control_person) && $row->status == 1) { ?>
