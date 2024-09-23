@@ -128,7 +128,7 @@
                                                         <?php
                                                         $heads = [];
                                                         if (isset($value->id) && isset($value->head_id)) {
-                                                            $this->db->select('r.*, b.name_bn, b.vat_head');
+                                                            $this->db->select('r.*, b.name_bn, b.vat_head, b.it_kar');
                                                             $this->db->from('budget_field_sub_details as r');
                                                             $this->db->join('budget_head_sub_training as b', 'b.id = r.head_sub_id');
                                                             $this->db->where('r.details_id', $value->id)->where('r.head_id', $value->head_id)->where('r.modify_soft_d', 1);
@@ -149,7 +149,7 @@
 
                                                                 <td><input type="number" value="<?=$head->vat_head?>" name="<?=$value->id?>_vat[]" class="vat_p form-control" onkeyup=calculateAll(this)></td>
 
-                                                                <td><input type="number" value="0" name="<?=$value->id?>_it_kor[]" class="form-control it_kor" onkeyup=calculateAll(this)></td>
+                                                                <td><input type="number" value="<?= $head->it_kar ?>" name="<?=$value->id?>_it_kor[]" class="form-control it_kor" onkeyup=calculateAll(this)></td>
 
                                                                 <td><input type="number" value="0" name="<?=$value->id?>_subTotal[]" class="form-control mot_bay"  readonly></td>
                                                                 <td><input type="number" value="0" name="<?=$value->id?>_balance[]" class="form-control obosistho" data-head_id="<?=$value->head_id?>"  readonly></td>

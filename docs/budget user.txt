@@ -18,21 +18,20 @@ passs :  N12908049
 মো: আবদুর রহমান           2806711236          ( লাইব্রেরিয়ান )
 মোঃ আবদুল কাইয়ুম          8682538007         ( হোস্টেলিয়ান )
 শেখ মোঃ বাহার উদ্দিন      7778867478          ( অডিটোরিয়াম )
-
-
+   
 
 uz@kotwali_jessore   (office)
 ddlg@maulvibazar 
 
 
 //leave
+মনোজ কুমার রায়	1907514077  (leave dg)
+মো: সবুর হোসেন     5519584386307     (ছুটি)
+মোঃ  ইসরাত হোসেন খান    6411189258     (dd পরিচালক (ছুটি))
 মো: নাজিম উদ্দিন	3273133821  (user)
-মোতাছিম বিল্লাহ	2611038723696  (evaluation con user)
-ড. খ ম কবিরুল ইসলাম	3707391243  (evaluation leave dg)
-
-3707391243  jd 
-মোঃ এরশাদ-ই-ইসলাম	2695041731312  (user)
-
+মো. আবদুল খালেক        1923605853002    (jd ছুটি)
+মোহাম্মদ সাইফুল্লা ভূঁঞা    6424158712   (assign, staff)
+মোতাছিম বিল্লাহ	2611038723696  (user)
 
 ALTER TABLE `leave_employee` ADD `employee_type` TINYINT NOT NULL DEFAULT '2' COMMENT '1=dd, 2=কর্মকর্তা, 3=কর্মচারী' AFTER `user_id`;
 ALTER TABLE `budget_bank_name` CHANGE `account_no` `account_no` VARCHAR(32) NULL DEFAULT NULL;

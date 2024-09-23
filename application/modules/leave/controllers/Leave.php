@@ -46,7 +46,7 @@ class Leave extends Backend_Controller {
         $this->data['info'] = $this->Leave_model->get_user('users',$this->session->userdata('user_id'));
 
         //Load page
-        if ($this->ion_auth->in_group(array('admin', 'nilg', 'leave_admin'))) {
+        if ($this->ion_auth->in_group(array('admin', 'nilg', 'ld','lj','dg'))) {
             $this->data['meta_title'] = 'অনুমোদিত ছুটির তালিকা';
             $this->data['subview'] = 'index';
         } elseif (func_nilg_auth($userDetails->office_type) == 'employee') {
@@ -74,7 +74,7 @@ class Leave extends Backend_Controller {
         $this->data['division'] = $this->Common_model->get_division();
 
         // Validation
-        $this->form_validation->set_rules('user_id', 'স্টাফ নাম', 'required|trim');
+        $this->form_validation->set_rules('user_id', 'কর্মকর্তা/কর্মচারী নাম', 'required|trim');
         $this->form_validation->set_rules('leave_type', 'ছুটির টাইপ', 'required|trim');
         $this->form_validation->set_rules('assign_person', 'বিকল্প কর্মকর্তা', 'required|trim');
         if ($this->input->post('leave_type') == 12) {
@@ -94,9 +94,10 @@ class Leave extends Backend_Controller {
                 $assign_person = $this->input->post('assign_person');
             }
 
+            $darray = array(84,85,86,87,92);
             $user_info = $this->db->where('id', $this->input->post('user_id'))->get('users')->row();
             if (!empty($user_info->crrnt_dept_id) && !empty($user_info->crrnt_desig_id)) {
-                if ($this->ion_auth->in_group(array('leave_admin'))) {
+                if (in_array($user_info->crrnt_desig_id, $darray)) {
                     $types = 1;
                 } else {
                     $types = $user_info->employee_type;
@@ -174,6 +175,7 @@ class Leave extends Backend_Controller {
                             'leave_days'   => 1,
                             'leave_address'=> $leave_address,
                             'reason'       => $this->input->post('reason'),
+                            'employee_type' => $types,
                             'status'       => 1,
                             'file_name'    => $uploadedFile,
                             'created_date' => date("Y-m-d"),
@@ -201,6 +203,7 @@ class Leave extends Backend_Controller {
                             'leave_days'   => 1,
                             'leave_address'=> $leave_address,
                             'reason'       => $this->input->post('reason'),
+                            'employee_type' => $types,
                             'status'       => 1,
                             'file_name'    => $uploadedFile,
                             'created_date' => date("Y-m-d"),
@@ -228,6 +231,7 @@ class Leave extends Backend_Controller {
                             'leave_days'   => 1,
                             'leave_address'=> $leave_address,
                             'reason'       => $this->input->post('reason'),
+                            'employee_type' => $types,
                             'status'       => 1,
                             'file_name'    => $uploadedFile,
                             'created_date' => date("Y-m-d"),
@@ -249,13 +253,12 @@ class Leave extends Backend_Controller {
             }
         }
 
+        // Dropdown List
         $this->data['leave_type'] = $this->Leave_model->get_leave_type();
         $this->data['info'] = $this->Leave_model->get_user('users',$this->session->userdata('user_id'));
-
         $results = $this->Leave_model->get_yearly_leave_count($userDetails->id);
         $this->data['users'] = $this->Common_model->get_nilg_employee($this->data['info']->crrnt_dept_id, $this->data['info']->employee_type);
         $this->data['bikolpo'] = $this->Common_model->get_nilg_employee(null, $this->data['info']->employee_type);
-        // dd($this->data['users']);
         if ($this->data['info']->employee_type == 3) {
             $rs = $this->db->select('id, name_bn')->where('office_type', 7)->where_in('crrnt_desig_id', array(116,244))->get('users')->result();
             foreach ($rs as $key => $r) {
@@ -277,7 +280,7 @@ class Leave extends Backend_Controller {
             redirect('dashboard');
         }
         // Validation
-        $this->form_validation->set_rules('user_id', 'স্টাফ নাম', 'required|trim');
+        $this->form_validation->set_rules('user_id', 'কর্মকর্তা/কর্মচারী নাম', 'required|trim');
         $this->form_validation->set_rules('leave_type', 'ছুটির টাইপ', 'required|trim');
         $this->form_validation->set_rules('assign_person', 'বিকল্প কর্মকর্তা', 'required|trim');
         $this->form_validation->set_rules('from_date', 'শুরুর তারিখ', 'required|trim');
@@ -380,9 +383,9 @@ class Leave extends Backend_Controller {
     public function forward_change($id, $status = null){
         $id = (int) decrypt_url($id);
         // Check Exists
-            $form_data = array(
-                'status'      => $status,
-            );
+        $form_data = array(
+            'status'      => $status,
+        );
         if($this->Common_model->edit('leave_employee', $id, 'id', $form_data)){
             $this->session->set_flashdata('success', 'সফলভাবে সংশোধন করা হয়েছে');
             redirect('leave');
@@ -495,7 +498,6 @@ class Leave extends Backend_Controller {
             $this->session->set_flashdata('error', 'দুঃখিত, পরিবর্তন হয়নি ।');
         }
     }
-
     public function approved_list($offset=0)
     {
         $this->load->model('Common_model');
@@ -518,7 +520,7 @@ class Leave extends Backend_Controller {
         $this->data['info'] = $this->Leave_model->get_user('users',$this->session->userdata('user_id'));
 
         //Load page
-        if ($this->ion_auth->in_group(array('admin', 'nilg', 'leave_admin'))) {
+        if ($this->ion_auth->in_group(array('admin', 'nilg', 'ld','lj','dg'))) {
             $this->data['meta_title'] = 'অনুমোদিত ছুটির তালিকা';
             $this->data['subview'] = 'index';
         } elseif (func_nilg_auth($userDetails->office_type) == 'employee') {
@@ -539,9 +541,14 @@ class Leave extends Backend_Controller {
         $dept_id = $this->data['userDetails']->crrnt_dept_id;
 
         if (!empty($dept_id) && !empty($this->data['userDetails']->crrnt_desig_id) || $this->ion_auth->is_admin()) {
-            if ($this->ion_auth->in_group(array('leave_admin'))) {
-                $results = $this->Leave_model->get_list($limit, $offset, array(3));
-            } else if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
+			if ($this->ion_auth->in_group(array('dg'))) {
+
+                $results = $this->Leave_model->get_list($limit, $offset, array(2,3), 1);
+			} else if ($this->ion_auth->in_group(array('ld'))) {
+                $results = $this->Leave_model->get_list($limit, $offset, array(3), 2);
+			} else if ($this->ion_auth->in_group(array('lj'))) {
+                $results = $this->Leave_model->get_list($limit, $offset, array(3), 3);
+			} else if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
                 $results = $this->Leave_model->get_list($limit, $offset, array(2, 3));
             } else {
                 $results = $this->Leave_model->get_list_assign($limit, $offset, $this->data['userDetails']->id, 2);
@@ -571,7 +578,7 @@ class Leave extends Backend_Controller {
     {
         // Manage list the users
         $limit = 50;
-        if ($this->ion_auth->in_group(array('admin', 'nilg', 'leave_admin'))) {
+        if ($this->ion_auth->in_group(array('admin', 'nilg', 'lj','ld','dg'))) {
             $results = $this->Leave_model->get_data($limit, $offset, 5);
         } elseif (func_nilg_auth($userDetails->office_type) == 'employee') {
             $results = $this->Leave_model->get_data($limit, $offset, 5, $userDetails->id);

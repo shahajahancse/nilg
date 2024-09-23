@@ -85,7 +85,7 @@ class Leave_model extends CI_Model {
         return $result;
     }
 
-    public function get_list($limit = 1000, $offset = 0, $status = array(), $desig_array = array(), $dept_id=null) {
+    public function get_list($limit = 1000, $offset = 0, $status = array(), $type = null) {
         // result query
         $this->db->select('el.*, et.leave_name_bn, et.leave_name_en, users.name_bn, dg.dept_name, cd.desig_name');
         $this->db->from('leave_employee el');
@@ -100,11 +100,8 @@ class Leave_model extends CI_Model {
         if(!empty($status)){
             $this->db->where_in('el.status', $status);
         }
-        if(!empty($desig_array)){
-            $this->db->where_in('el.desig_id', $desig_array);
-        }
-        if($dept_id != null){
-            $this->db->where('el.dept_id', $dept_id);
+        if(!empty($type)){
+            $this->db->where('el.employee_type', $type);
         }
         if($this->input->get('user_id')){
             $this->db->where('el.user_id', $this->input->get('user_id'));
@@ -125,11 +122,8 @@ class Leave_model extends CI_Model {
         if(!empty($status)){
             $this->db->where_in('el.status', $status);
         }
-        if(!empty($desig_array)){
-            $this->db->where_in('el.desig_id', $desig_array);
-        }
-        if($dept_id != null){
-            $this->db->where('el.dept_id', $dept_id);
+        if(!empty($type)){
+            $this->db->where('el.employee_type', $type);
         }
         if($this->input->get('from_date') && $this->input->get('to_date')){
             $this->db->where('el.from_date >=', $this->input->get('from_date'));

@@ -198,15 +198,15 @@ class Backend_Controller extends MY_Controller
 			}
 
             // leave notification count
-            if ($this->ion_auth->in_group(array('admin', 'nilg')) || $userDetails->office_type == 7) {
-				if ($this->ion_auth->in_group(array('leave_admin'))) {
-	                $this->data['leave_notify'] =  $this->Common_model->get_employee_leave_count(array(3));
-	            } else if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
-	                $this->data['leave_notify'] =  $this->Common_model->get_employee_leave_count(array(2, 3));
-	            } else {
-	                $this->data['leave_notify'] =  $this->Common_model->get_employee_leave_count_assign($userDetails->id, 2);
-	            }
-	        }
+			if ($this->ion_auth->in_group(array('dg'))) {
+				$this->data['leave_notify'] =  $this->Common_model->get_employee_leave_count(1, array(2,3));
+			} else if ($this->ion_auth->in_group(array('ld'))) {
+				$this->data['leave_notify'] =  $this->Common_model->get_employee_leave_count(2, array(3));
+			} else if ($this->ion_auth->in_group(array('lj'))) {
+				$this->data['leave_notify'] =  $this->Common_model->get_employee_leave_count(3, array(3));
+			} else {
+				$this->data['leave_notify'] =  $this->Common_model->get_employee_leave_count_assign($userDetails->id, 2);
+			}
 	        // leave notification count end
 
 

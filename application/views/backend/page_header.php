@@ -388,7 +388,7 @@ input[type="search"] {
                      </li>
                   <?php } else { ?>
 
-                     <li class="start <?= backend_activate_menu_class('budgets') ?>">
+                     <li class="start <?= backend_activate_menu_class('training_head') ?> <?= backend_activate_menu_class('budgets') ?> <?= backend_activate_menu_class('training_sub_head') ?>" >
                         <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span> <span class="arrow"></span> </a>
                         <ul class="sub-menu">
 
@@ -425,16 +425,24 @@ input[type="search"] {
                               <li class="start <?= backend_activate_menu_method('budget_field') ?>">
                                  <a href="<?= base_url('budgets/budget_field'); ?>">প্রশিক্ষণ বাজেট তৈরি</a>
                               </li>
-                              <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_head/training'); ?>">বাজেট হেড</a> </li>
-                              <li class="start <?= backend_activate_menu_method('index') ?>"> <a href="<?= base_url('nilg_setting/budget_sub_head/training'); ?>">বাজেট সাব হেড</a> </li>
+                              <li class="start <?= backend_activate_menu_method('training') ?>"> <a href="<?= base_url('nilg_setting/training_head/training'); ?>">বাজেট হেড</a> </li>
+                              <li class="start <?= backend_activate_menu_method('training') ?>"> <a href="<?= base_url('nilg_setting/training_sub_head/training'); ?>">বাজেট সাব হেড</a> </li>
                            <?php } ?>
 
                            <?php if ($this->ion_auth->in_group(array('admin'))) { ?>
-                              <li class="start <?= backend_activate_menu_method('pension_emp') ?>">
+                              <li class="start <?= backend_activate_menu_method('training') ?>"> <a href="<?= base_url('nilg_setting/training_head/training'); ?>">বাজেট হেড</a> </li>
+                              <li class="start <?= backend_activate_menu_method('training') ?>"> <a href="<?= base_url('nilg_setting/training_sub_head/training'); ?>">বাজেট সাব হেড</a> </li>
+                              <li class="start <?= backend_activate_menu_method('gpf_entry') ?>">
                                  <a href="<?= base_url('journal_entry/gpf_entry'); ?>"> জিপিএফ এন্ট্রি</a>
                               </li>
-                              <li class="start <?= backend_activate_menu_method('pension_emp') ?>">
+                              <li class="start <?= backend_activate_menu_method('gpf_form') ?>">
+                                 <a href="<?= base_url('journal_entry/gpf_form'); ?>"> জিপিএফ রিপোর্ট</a>
+                              </li>
+                              <li class="start <?= backend_activate_menu_method('gpf_emp') ?>">
                                  <a href="<?= base_url('journal_entry/gpf_emp'); ?>"> জিপিএফ কর্মকর্তা/কর্মচারী তালিকা</a>
+                              </li>
+                              <li class="start <?= backend_activate_menu_method('pension_from') ?>">
+                                 <a href="<?= base_url('journal_entry/pension_from'); ?>"> পেনশন </a>
                               </li>
                               <li class="start <?= backend_activate_menu_method('pension_emp') ?>">
                                  <a href="<?= base_url('journal_entry/pension_emp'); ?>"> পেনশন কর্মকর্তা/কর্মচারী তালিকা </a>
@@ -443,7 +451,7 @@ input[type="search"] {
                            <?php } ?>
 
                            <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg'))) { ?>
-                              <li class="start <?= backend_activate_menu_method('budget_entry') ?>"> <a href="<?= base_url('budgets/budget_entry'); ?>">এন্ট্রি </a> </li>
+                              <!-- <li class="start <?= backend_activate_menu_method('budget_entry') ?>"> <a href="<?= base_url('budgets/budget_entry'); ?>">এন্ট্রি </a> </li> -->
                            <?php } ?>
 
                            <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'acc'))) { ?>
@@ -510,7 +518,7 @@ input[type="search"] {
                      } ?>
                      <span class="arrow"></span> </a>
                      <ul class="sub-menu">
-                     <?php if($this->ion_auth->in_group(array('admin', 'leave_admin'))){ ?>
+                     <?php if($this->ion_auth->in_group(array('admin','dg','ld','lj'))){ ?>
                         <li> <a href="<?= base_url('leave'); ?>"> ছুটির তালিকা </a> </li>
                         <li class="start <?= backend_activate_menu_method('pending_list') ?>"><a href="<?= base_url('leave/pending_list') ?>">অপেক্ষমাণ তালিকা
                            <?php if ($leave_notify > 0) {
@@ -518,7 +526,7 @@ input[type="search"] {
                            } ?>
                         </a></li>
 
-                        <?php if($this->ion_auth->in_group(array('leave_admin'))){ ?>
+                        <?php if($this->ion_auth->in_group(array('admin','dg','ld','lj'))){ ?>
                         <li> <a href="<?= base_url('leave/approved_list'); ?>"> অনুমোদিত তালিকা </a> </li>
                         <?php } else { ?>
                            <li> <a href="<?= base_url('leave/index/4'); ?>"> অনুমোদিত তালিকা </a> </li>
@@ -744,19 +752,19 @@ input[type="search"] {
                   <li class="start <?= backend_activate_menu_class('general_setting') ?>"> <a href="javascript:;"> <i class="fa fa-user"></i> <span class="title"><?= lang('setting_general') ?></span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
 
-                        <?php if ($this->ion_auth->in_group(array('admin','leave_admin'))) { ?>
-                        <li class="start <?= backend_activate_menu_method('role') ?>">
-                           <a href="<?= base_url('general_setting/festival_day'); ?>">ছুটির ক্যালেন্ডার </a>
-                        </li>
-                        <?php } ?>
-
                         <?php if ($this->ion_auth->is_admin()) { ?>
                         <li class="start <?= backend_activate_menu_method('role') ?>">
                            <a href="<?= base_url('general_setting/role'); ?>"> রোলের তালিকা </a>
                         </li>
                         <?php } ?>
 
-                        <?php if ($this->ion_auth->in_group(array('admin','leave_admin'))) { ?>
+                        <?php if ($this->ion_auth->in_group(array('admin','lj','ld'))) { ?>
+                        <li class="start <?= backend_activate_menu_method('role') ?>">
+                           <a href="<?= base_url('general_setting/festival_day'); ?>">ছুটির ক্যালেন্ডার </a>
+                        </li>
+                        <?php } ?>
+
+                        <?php if ($this->ion_auth->in_group(array('admin','lg','ld'))) { ?>
                         <li> <a href="<?= base_url('general_setting/leave_type'); ?>"> ছুটির টাইপ </a></li>
                         <!-- <li> <a href="<?= base_url('general_setting/manage_designation'); ?>"> পদবী ব্যবস্থাপনা </a></li> -->
                         <?php } ?>

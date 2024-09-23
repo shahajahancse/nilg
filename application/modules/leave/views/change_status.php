@@ -77,7 +77,7 @@
                   <label style="font-family: sutonnymj" class="form-label"><span style="font-size:16px">gÄyi / bvgÄyi Kiæb</span> <span class="required">*</span></label>
                   <select name="status" class="form-control input-sm" style="height: 20px !important; font-family:sutonnymj; font-size:16px">
                     <option style="font-family: sutonnymj; font-size:16px" value="">-- wbe©vPb Kiæb --</option>
-                    <?php if ($this->ion_auth->in_group(array('leave_admin'))) { ?>
+                    <?php if ($this->ion_auth->in_group(array('dg','ld','lj'))) { ?>
                       <option style="font-family: sutonnymj; font-size:16px" value="4">gÄyi Kiæb</option>
                     <?php } else { ?>
                       <option style="font-family: sutonnymj; font-size:16px" value="3">gÄyi Kiæb</option>

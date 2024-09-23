@@ -498,11 +498,12 @@ class Common_model extends CI_Model
     }
 
 
-    public function get_employee_leave_count($status = array())
+    public function get_employee_leave_count($type, $status = array())
     {
         // count query
         $q = $this->db->select('COUNT(*) as count');
         $this->db->from('leave_employee as el');
+        $this->db->where_in('el.employee_type', $type);
         // Filter
         if(!empty($status)){
             $this->db->where_in('el.status', $status);

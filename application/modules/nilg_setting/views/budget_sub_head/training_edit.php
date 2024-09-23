@@ -1,8 +1,18 @@
+<style>
+    .chosen-single {
+        height: 30px !important;
+        border: 1px solid #00a59a !important;
+    }
+    input[type=number]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+</style>
+
 <div class="page-content">
   <div class="content">
     <ul class="breadcrumb" style="margin-bottom: 20px;">
       <li> <a href="<?=base_url('dashboard')?>" class="active"> ড্যাশবোর্ড </a> </li>
-      <li> <a href="<?=base_url('nilg_setting/budget_head/training')?>" class="active"> <?=$module_title?> </a></li>
+      <li> <a href="<?=base_url('nilg_setting/training_sub_head/training')?>" class="active"> <?=$module_title?> </a></li>
       <li><?=$meta_title; ?> </li>
     </ul>
 
@@ -12,25 +22,29 @@
           <div class="grid-title">
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
             <div class="pull-right">
-              <a href="<?=base_url('nilg_setting/budget_head/training')?>" class="btn btn-primary btn-xs btn-mini"> তালিকা</a>
+              <a href="<?=base_url('nilg_setting/training_sub_head/training')?>" class="btn btn-primary btn-xs btn-mini"> তালিকা</a>
             </div>
           </div>
           <div class="grid-body">
             <?php $attributes = array('id' => 'validate'); echo form_open(current_url(), $attributes); ?>
             <div class="row form-row">
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <label class="form-label">নাম (বাংলা) <span class="required">*</span></label>
                 <?php echo form_error('name_bn'); ?>
                 <input name="name_bn" type="text" class="form-control input-sm" placeholder="" value="<?=$info->name_bn?>" />
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <label class="form-label">নাম (ইংলিশ) <span class="required">*</span></label>
                 <?php echo form_error('name_en'); ?>
                 <input name="name_en"  type="text" class="form-control input-sm" placeholder="" value="<?=$info->name_en?>" />
               </div>
               <div class="col-md-2">
                 <label class="form-label">ভ্যাট <span class="required">*</span></label>
-                <input name="vat" type="" class="form-control input-sm" placeholder="ভ্যাট" value="<?=$info->vat_head?>">
+                <input name="vat" type="number" class="form-control input-sm" placeholder="ভ্যাট" value="<?=$info->vat_head?>">
+              </div>
+              <div class="col-md-2">
+                <label class="form-label">আইটি কার <span class="required">*</span></label>
+                <input name="it_kar" type="number" class="form-control input-sm" placeholder="আইটি কার" value="<?=$info->it_kar?>">
               </div>
               <div class="col-md-2">
                 <label class="form-label">স্ট্যাটাস <span class="required">*</span></label>

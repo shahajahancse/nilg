@@ -139,7 +139,15 @@
                               <li><a href="<?= base_url('leave/edit/' . encrypt_url($row->id)); ?>">সংশোধন করুন</a></li>
                             <?php } ?>
 
-                            <?php if ($this->ion_auth->in_group(array('leave_admin')) && $row->status == 1) {  ?>
+                            <?php if ($row->status == 2) { ?>
+                              <li><a href="<?= base_url('leave/forward_change/' . encrypt_url($row->id) . '/1'); ?>">ফরওয়ার্ড টু ড্রাফট </a></li>
+                            <?php } else if ($row->status == 3 && empty($row->control_person)) {  ?>
+                              <li><a href="<?= base_url('leave/forward_change/' . encrypt_url($row->id) . '/1'); ?>">ফরওয়ার্ড টু ড্রাফট </a></li>
+                            <?php } ?>
+
+                            <?php if (!empty($row->control_person) && $row->status == 1) { ?>
+                              <li><a href="<?= base_url('leave/forward_change/' . encrypt_url($row->id) . '/2'); ?>">ফরওয়ার্ড নিয়ন্ত্রণকারি কর্মকর্তা</a></li>
+                            <?php } else if (empty($row->control_person) && $row->status == 1) {  ?>
                               <li><a href="<?= base_url('leave/forward_change/' . encrypt_url($row->id) . '/3'); ?>">ফরওয়ার্ড টু অনুমোদন</a></li>
                             <?php } ?>
 
