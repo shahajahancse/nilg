@@ -56,7 +56,6 @@
                                         <th>অগ্রীম আদায়</th>
                                         <th>অগ্রীম উত্তোলন</th>
                                         <th>মাসিক জের</th>
-                                        <th>তারিখ</th>
                                         <th style="text-align: right;">অ্যাকশন</th>
                                     </tr>
                                 </thead>
@@ -71,7 +70,6 @@
                                             <td class="v-align-middle"><?= eng2bng($row->adv_amt); ?></td>
                                             <td class="v-align-middle"><?= eng2bng($row->adv_withdraw); ?></td>
                                             <td class="v-align-middle"><?= eng2bng($row->balance); ?></td>
-                                            <td class="v-align-middle"><?= date_bangla_calender_format($row->date); ?></td>
                                             <td align="right">
                                                 <div class="btn-group">
                                                     <button class="btn btn-mini btn-primary">অ্যাকশন</button>

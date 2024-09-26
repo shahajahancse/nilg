@@ -55,14 +55,14 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="input-group">
-                                            <label for="title" class="control-label">তারিখ <span style="color:red">*</span></label>
-                                            <input id="date" class="dateyear form-control input-sm" name="date" style="min-height: 33px;">
-                                            <?php echo form_error('date'); ?>
-                                            <!-- <span class="input-group-btn">
-                                                <label style="color: transparent">.</label>
-                                                <a class="btn btn-primary" onclick="pension_process()" >Process</a>
-                                                <a class="btn btn-primary" onclick="pension_lock()" >Lock</a>
-                                            </span> -->
+                                        <?php $session_year=$this->db->order_by('id','desc')->get('session_year')->result();?>
+                                            <label for="fcl_year" class="control-label">অর্থবছর <span class="required">*</span></label>
+                                            <select name="fcl_year" id="fcl_year" class="form-control input-sm" style="width: 100%; height: 28px !important;" required>
+                                                <option value='' selected>নির্বাচন করুন</option>
+                                                <?php foreach ($session_year as $key => $value) {
+                                                        echo '<option '.($value->id == $row->fcl_year ? 'selected' : '').'  value="'.$value->id.'">'.$value->session_name.'</option>';
+                                                    } ?>
+                                            </select>
                                         </div>
                                     </div>
                                 </div>
@@ -126,10 +126,7 @@
             return false;
         }
 
-        if (date == '' || date <= 0) {
-            $("#date").css("border", "1px solid red");
-            submitOK = "false";
-        }
+
 
         if (submitOK == "false") {
             $("#error").show();

@@ -58,17 +58,17 @@
                                             <label for="title" class="control-label">নাম (ইংরেজী): <span class="required">*</span></label>
                                             <input required class="form-control input-sm" name="name_en" style="min-height: 33px;">
                                         </div>
-                                        <div class="col-md-2">
+                                        <!-- <div class="col-md-2">
                                             <label for="title" class="control-label">পরিমাণ: <span class="required">*</span></label>
                                             <input required type="text" name="amount" class="form-control input-sm">
-                                        </div>
-                                        <div class="col-md-2">
+                                        </div> -->
+                                        <!-- <div class="col-md-2">
                                             <label for="title" class="control-label">টাইপ:</label>
                                             <select name="type" class="form-control input-sm" >
                                                 <option value="1">Officer</option>
                                                 <option value="2">Staff</option>
                                             </select>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </fieldset>
                                 <div class="pull-right">

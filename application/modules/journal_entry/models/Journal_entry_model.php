@@ -151,7 +151,7 @@ class Journal_entry_model extends CI_Model {
         return $data;
     }
 
-    function pension_process($process_date, $emp_id) {
+    function ($process_date, $emp_id, $festival, $bvata) {
 
         $lock = $this->db->where('status', 1)->where('month', $process_date)->get('budget_j_pension_lock')->row();
         if (!empty($lock)) {
@@ -163,6 +163,15 @@ class Journal_entry_model extends CI_Model {
         if (empty($pp)) {
             echo "Please lock previous month first";
             exit();
+        }
+
+        if (empty($bvata)) {
+            $bvata = 0;
+        }
+        if (empty($festival)) {
+            $festival = 0;
+        } else {
+            $festival = $value->nit_amt;
         }
 
         $this->db->select('emp.*, m.amount');
@@ -178,12 +187,11 @@ class Journal_entry_model extends CI_Model {
             $data = array(
                 'user_id' => $value->user_id,
                 'month' => $process_date,
-                'basic_salary' => $value->basic_salary,
-                'percent' => $value->percent,
+                'salary' => $value->nit_amt,
                 'medical_amt' => $value->amount,
-                'festival' => 0,
-                'nit_amt' => $value->nit_amt,
-                'total_amt' => $value->total_amt,
+                'festival' => $festival,
+                'bvata' => $bvata,
+                'total_amt' => $value->amount + $value->nit_amt,
                 'created_by' => $this->data['userDetails']->id,
             );
 

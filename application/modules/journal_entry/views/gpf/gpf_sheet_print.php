@@ -161,18 +161,8 @@
 
     <div class="priview-body content-div">
         <div class="col-8">
-            <span style="padding: 0px 0px 0px 0px; margin: 0px;">নাম : <abbr><?php echo $info->name_bn; ?></abbr></span> <br>
-            <span style="padding: 0px; margin: 1px 0px;">পদবী : <abbr> <?php echo $info->desig_name; ?></abbr></span>
-        </div>
-        <div class="col-3" style="float: right;">
-            <div>
-                <span>তারিখ : </span>
-                <span style="font-size: 13px"><?php echo date_bangla_calender_format(date("Y-m-d")); ?></span>
-            </div>
-            <div>
-                <span>হিসাব নাঃ </span>
-                <span style="font-size: 10px"><?php echo $info->account_no; ?></span>
-            </div>
+            <span style="padding: 0px 0px 0px 0px; margin: 0px;">নাম : <abbr><?php echo $row->name_bn; ?></abbr></span> <br>
+            <span style="padding: 0px; margin: 1px 0px;">পদবী : <abbr> <?php echo $row->desig_name; ?></abbr></span>
         </div>
     </div>
 
@@ -181,33 +171,51 @@
             <table class="table table-hover table-bordered report">
                 <thead class="headding">
                     <tr>
-                        <th> ক্রম </th>
-                        <th>তারিখ</th>
-                        <th>সামগ্রিক চাঁদা</th>
-                        <th>অগ্রীম আদায়</th>
-                        <th>অগ্রীম উত্তোলন</th>
-                        <th>মাসিক জের</th>
+                    <th >মাসের নাম<span class="required"> * </span></th>
+                    <th width="">সামগ্রিক চাঁদা <span class="required"> * </span></th>
+                    <th width="">অগ্রীম আদায়<span class="required"> * </span></th>
+                    <th width="">মোট </th>
+                    <th width="">অগ্রীম উত্তোলন<span class="required"> * </span></th>
+                    <th width="">মাসিক জের</th>
+                    <th width="">মন্তব্য </th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php $sum = 0; foreach ($results as $key => $r) { ?>
+                <tbody id="tbody">
+                    <?php foreach ($details as $key => $value) {
+                        ?>
                         <tr>
-                            <td><?php echo eng2bng($key + 1); ?></td>
-                            <td><?php echo date('m-Y', strtotime($r->date)) ?></td>
-                            <td><?php echo eng2bng($r->curr_amt); ?></td>
-                            <td><?php echo eng2bng($r->adv_amt); ?></td>
-                            <td><?php echo eng2bng($r->adv_withdraw); ?></td>
-                            <td><?php echo eng2bng($r->balance); ?></td>
+                            <td width="10%"><?= $value->month_bn ?>
+                            </td>
+                            <td><?= $value->curr_amt?></td>
+                            <td> <?= $value->adv_amt?></td>
+                            <td width="8%"><?= $value->curr_amt + $value->adv_amt?></td>
+                            <td><?= $value->adv_withdraw?></td>
+                            <td width="10%"><?= $value->balance?></td>
+                            <td width="30%" ><?= $value->description?></td>
                         </tr>
-                        <?php $sum += $r->balance; ?>
                     <?php } ?>
-                    <?php $obj = new BanglaNumberToWord(); ?>
                     <tr>
-                        <!-- <td colspan="6" style="text-align: left; padding-right: 10px"> &nbsp;&nbsp; সর্বমোট : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span> <abbr> <?php echo $obj->numToWord((int)$sum); ?></abbr> টাকা মাত্র</span></td> -->
+                        <td width="10%">মোট : </td>
+
+                        <td><?= $row->curr_amt ?></td>
+
+                        <td><?= $row->adv_amt ?></td>
+
+                        <td width="10%"><?= $row->curr_amt + $row->adv_amt ?></td>
+
+                        <td><?= $row->adv_withdraw ?></td>
+
+                        <td width="10%"><?= $row->balance ?></td>
+
+                        <td width="30%" ></td>
                     </tr>
                 </tbody>
             </table>
         </div>
+        <div class="col-md-12">
+        <span>নোট</span><br>
+        <?= $row->description ?>
+    </div>
     </div>
 
     <style>

@@ -12,12 +12,19 @@
                 padding-right: 10px !important;
             }
             .input-group-btn:last-child>.btn, .input-group-btn:last-child>.btn-group {
-                margin-left: 4px !important;
-                padding: 5px 10px !important;;
+                margin-left: 2px !important;
+                padding: 5px !important;
+                font-size: 12px !important;
             }
             .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td {
                 padding: 5px !important;
             }
+            .input-group-btn:last-child>.btn:not(:last-child):not(.dropdown-toggle) {
+                border-bottom-right-radius: 0;
+                border-top-right-radius: 0;
+                font-size: 12px !important;
+            }
+
             .table td {
                 padding: 5px !important;
             }
@@ -53,11 +60,32 @@
                                 </div>
                                 <?=validation_errors()?>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-2" style="padding:0 6px !important;">
+                                        <label for="title" class="control-label">শুরুর তারিখ <span style="color:red">*</span></label>
+                                        <input id="fdate" class="yearMonth form-control input-sm" style="min-height: 33px;">
+                                        <?php echo form_error('fdate'); ?>
+                                    </div>
+                                    <div class="col-md-2" style="padding:0 6px !important;">
+                                        <label for="title" class="control-label">শেষের তারিখ</label>
+                                        <input id="sdate" class="yearMonth form-control input-sm" style="min-height: 33px;">
+                                        <?php echo form_error('sdate'); ?>
+                                    </div>
+                                    <?php $pension = $this->db->where('status', 1)->get('budget_festival')->result(); ?>
+                                    <div class="col-md-3" style="padding:0 6px !important;" >
+                                        <label class="control-label">উৎসব ভাতা</label>
+                                        <select id="festival" class="form-control input-sm" style="height: 27px !important;">
+                                            <option value="">সিলেক্ট করুন</option>
+                                            <?php foreach ($pension as $row): ?>
+                                            <option value="<?= $row->id ?>"><?= $row->name_bn ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                        <?php echo form_error('festival'); ?>
+                                    </div>
+                                    <div class="col-md-4" style="padding:0 6px !important;">
                                         <div class="input-group">
-                                            <label for="title" class="control-label">তারিখ <span style="color:red">*</span></label>
-                                            <input type="month" id="date" class="form-control input-sm" name="date" style="min-height: 33px;">
-                                            <?php echo form_error('date'); ?>
+                                            <label for="title" class="control-label">বিশেষ ভাতা</label>
+                                            <input class="form-control input-sm" id="bvata" style="min-height: 33px;" value="0" >
+                                            <?php echo form_error('bvata'); ?>
                                             <span class="input-group-btn">
                                                 <label style="color: transparent">.</label>
                                                 <a class="btn btn-primary" onclick="pension_process()" >Process</a>
@@ -77,26 +105,24 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-8" style="margin-top: 20px;">
-                                        <?php $rs = $this->db->where('status', 1)->limit(12)->get('budget_j_pension_lock')->result(); ?>
+                                        <?php $r=$this->db->where('status', 1)->order_by('month','desc')->get('budget_j_pension_lock')->row();?>
                                         <table class="table table-striped table-hover table-bordered">
                                             <tr>
                                                 <th>ক্রম</th>
                                                 <th>মাস</th>
                                                 <th>অ্যাকশান</th>
                                             </tr>
-                                            <?php foreach ($rs as $key => $r): ?>
-                                                <tr>
-                                                    <td><?= eng2bng($key + 1) ?></td>
-                                                    <td><?= date('m-Y', strtotime($r->month)) ?></td>
-                                                    <td>
-                                                        <?php if (date('Y-m-01', strtotime('-1 month')) === $r->month) { ?>
-                                                            <a style="padding: 3px 8px !important;" class="btn btn-danger" onclick="pension_delete(<?= $r->id ?>)">Delete</a>
-                                                        <?php } else { ?>
-                                                            ...
-                                                        <?php } ?>
-                                                    </td>
-                                                </tr>
-                                            <?php endforeach; ?>
+                                            <tr>
+                                                <td><?= eng2bng(1) ?></td>
+                                                <td><?= date('m-Y', strtotime($r->month)) ?></td>
+                                                <td>
+                                                    <?php if (date('Y-m-01', strtotime('-1 month')) === $r->month) { ?>
+                                                        <a style="padding: 3px 8px !important;" class="btn btn-danger" onclick="pension_delete(<?= $r->id ?>)">Delete</a>
+                                                    <?php } else { ?>
+                                                        ...
+                                                    <?php } ?>
+                                                </td>
+                                            </tr>
                                     </table>
                                     </div>
                                 </div>
@@ -133,11 +159,11 @@
         var sql = get_checked_value(checkboxes);
         $("#user_id").val(sql);
 
-        var date = document.getElementById("date").value;
+        var date = document.getElementById("fdate").value;
         submitOK = "true";
 
         if (date == '' || date <= 0) {
-            $("#date").css("border", "1px solid red");
+            $("#fdate").css("border", "1px solid red");
             submitOK = "false";
         }
 
@@ -171,11 +197,13 @@
       // alert(csrf_token); return;
       var ajaxRequest;  // The variable that makes Ajax possible!
       ajaxRequest = new XMLHttpRequest();
-      process_date = document.getElementById('date').value;
+      process_date = document.getElementById('fdate').value;
+      festival = document.getElementById('festival').value;
+      bvata = document.getElementById('bvata').value;
 
       if(process_date =='')
       {
-        alert('Please select process date');
+        alert('অনুগ্রহ করে, শুরুর তারিখ নির্বাচন করুন');
         return ;
       }
 
@@ -187,7 +215,7 @@
       if(okyes==false) return;
 
       $("#loader").show();
-       var data = "process_date="+process_date+'&sql='+sql;
+       var data = "process_date="+process_date+'&sql='+sql+'&festival='+festival+'&bvata='+bvata;
 
       // console.log(data); return;
       var url = "<?php echo base_url('journal_entry/pension_process'); ?>";
@@ -211,7 +239,7 @@
         // alert(csrf_token); return;
         var ajaxRequest;  // The variable that makes Ajax possible!
         ajaxRequest = new XMLHttpRequest();
-        process_date = document.getElementById('date').value;
+        process_date = document.getElementById('fdate').value;
 
         if(process_date =='')
         {

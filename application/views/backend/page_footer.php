@@ -179,6 +179,13 @@ $(document).ready(function() {
         autoclose: true
     });
 
+    $('.yearMonth').datepicker({
+        format: "yyyy-mm",
+        viewMode: "months",
+        minViewMode: "months",
+        autoclose: true
+    });
+
     // Datatable
     $('#example').DataTable({
         paging: false,
@@ -265,7 +272,7 @@ function processDoc(doc) {
         color: white !important;
     }
     .holiday {
-        background-color: green !important;
+        background-color: red !important;
         color: white !important;
     }
 </style>

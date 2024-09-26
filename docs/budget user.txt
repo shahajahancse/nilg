@@ -25,16 +25,17 @@ ddlg@maulvibazar
 
 
 //leave
-মনোজ কুমার রায়	1907514077  (leave dg)
-মো: সবুর হোসেন     5519584386307     (ছুটি)
-মোঃ  ইসরাত হোসেন খান    6411189258     (dd পরিচালক (ছুটি))
-মো: নাজিম উদ্দিন	3273133821  (user)
-মো. আবদুল খালেক        1923605853002    (jd ছুটি)
-মোহাম্মদ সাইফুল্লা ভূঁঞা    6424158712   (assign, staff)
-মোতাছিম বিল্লাহ	2611038723696  (user)
+সালেহ আহমদ মোজাফফর     8667809811  (leave dg)
+মো: সবুর হোসেন        	  5519584386307     (ছুটি)
+মোঃ  ইসরাত হোসেন খান  	  6411189258     (dd পরিচালক (ছুটি))
+মো: নাজিম উদ্দিন	  3273133821  (user)
+মো. আবদুল খালেক      	  1923605853002    (jd ছুটি)
+মোহাম্মদ সাইফুল্লা ভূঁঞা  	  6424158712   (assign, staff)
+মোতাছিম বিল্লাহ	  2611038723696  (user)
 
-ALTER TABLE `leave_employee` ADD `employee_type` TINYINT NOT NULL DEFAULT '2' COMMENT '1=dd, 2=কর্মকর্তা, 3=কর্মচারী' AFTER `user_id`;
+ALTER TABLE `leave_employee` ADD `employee_type` TINYINT NOT NULL DEFAULT '2' COMMENT '1=পরিচালক, 2=কর্মকর্তা, 3=কর্মচারী' AFTER `user_id`;
 ALTER TABLE `budget_bank_name` CHANGE `account_no` `account_no` VARCHAR(32) NULL DEFAULT NULL;
+ALTER TABLE `users` CHANGE `status` `status` TINYINT(2) NULL DEFAULT NULL COMMENT '1=কর্মরত, 2=নির্বাচিত, 3=অনির্বাচিত, 4=অবসরপ্রাপ্ত, 5=স্থগিত, 6=বহিষ্কৃত, 7=মৃত, 8=আর্কাইভtable';
 
 
 

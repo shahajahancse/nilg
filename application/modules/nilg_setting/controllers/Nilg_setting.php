@@ -95,7 +95,7 @@ class Nilg_setting extends Backend_Controller {
     }
     //  bank account
     // medical start
-        public function medical($offset = 0)
+    public function medical($offset = 0)
     {
         $limit = 15;
         $results = $this->Nilg_setting_model->lists($limit, $offset, 'budget_medical');
@@ -178,13 +178,13 @@ class Nilg_setting extends Backend_Controller {
     {
         $this->form_validation->set_rules('name_bn', 'ব্যাংক নাম (বাংলা)', 'required|trim');
         $this->form_validation->set_rules('name_en', 'ব্যাংক নাম (ইংরেজী)', 'required|trim');
-        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
+        // $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
         if ($this->form_validation->run() == true) {
             $form_data = array(
                 'name_bn'     => $this->input->post('name_bn'),
                 'name_en'     => $this->input->post('name_en'),
-                'amount'      => $this->input->post('amount'),
-                'type'        => $this->input->post('type'),
+                // 'amount'      => $this->input->post('amount'),
+                // 'type'        => $this->input->post('type'),
             );
             if ($this->Common_model->save('budget_festival', $form_data)) {
                 $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
@@ -201,14 +201,14 @@ class Nilg_setting extends Backend_Controller {
     {
         $this->form_validation->set_rules('name_bn', 'ব্যাংক নাম (বাংলা)', 'required|trim');
         $this->form_validation->set_rules('name_en', 'ব্যাংক নাম (ইংরেজী)', 'required|trim');
-        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
+        // $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
         $id = (int) decrypt_url($encid);
         if ($this->form_validation->run() == true) {
             $form_data = array(
                 'name_bn'     => $this->input->post('name_bn'),
                 'name_en'     => $this->input->post('name_en'),
-                'amount'      => $this->input->post('amount'),
-                'type'        => $this->input->post('type'),
+                // 'amount'      => $this->input->post('amount'),
+                // 'type'        => $this->input->post('type'),
                 'status'      => $this->input->post('status'),
             );
            $this->db->where('id', $id);

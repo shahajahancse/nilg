@@ -65,29 +65,25 @@
                                             <label for="title" class="control-label">কর্মকর্তা/কর্মচারী নাম <span style="color:red">*</span> </label>
                                             <select required name="user_id" class="form-control input-sm" style="width: 100%; height: 28px !important;">
                                                 <?php foreach ($users as $key => $value) { ?>
-                                                <option value="<?= $key ?>"><?= $value ?></option>
+                                                <option value="<?= $value->id ?>"><?= $value->name_bn ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
                                         <div class="col-md-4">
-                                            <label for="title" class="control-label">গ্রহীতার নাম <span style="color:red">*</span></label>
-                                            <input class="form-control input-sm" name="receiver" style="min-height: 33px;" required>
+                                            <label for="title" class="control-label">গ্রহীতার নাম</label>
+                                            <input class="form-control input-sm" name="receiver" style="min-height: 33px;" >
                                         </div>
                                         <div class="col-md-2">
-                                            <label for="title" class="control-label">মূল বেতন <span style="color:red">*</span> </label>
-                                            <input onkeyup="csl_sal()" id="basic_sal" type="number" class="form-control input-sm" name="basic_salary" style="min-height: 33px;" required>
+                                            <label for="title" class="control-label"> সর্বশেষ মূল বেতন <span style="color:red">*</span> </label>
+                                            <input type="number" class="form-control input-sm" name="basic_salary" style="min-height: 33px;" required>
                                         </div>
                                         <div class="col-md-2">
-                                            <label for="title" class="control-label">বেতন বৃদ্ধি % <span style="color:red">*</span> </label>
-                                            <input onkeyup="csl_sal()" id="basic_ins" type="number" class="form-control input-sm" name="percent" style="min-height: 33px;" required>
+                                            <label for="title" class="control-label">নীট পেনশন <span style="color:red">*</span> </label>
+                                            <input value="0" onkeyup="csl_sal()" id="nit_salary" type="number" class="form-control input-sm" name="nit_amt" style="min-height: 33px;" required>
                                         </div>
                                     </div>
 
                                     <div class="row form-row" style="margin-top: 10px !important;" >
-                                        <div class="col-md-3">
-                                            <label for="title" class="control-label">নীট পেনশন <span style="color:red">*</span> </label>
-                                            <input id="nit_salary" type="number" class="form-control input-sm" name="nit_amt" style="min-height: 33px;" required readonly>
-                                        </div>
                                         <?php $mtc = $this->db->where('status', 1)->get('budget_medical')->result(); ?>
                                         <div class="col-md-3">
                                             <label class="control-label">চিকিৎসা <span style="color:red">*</span> </label>
@@ -101,7 +97,11 @@
                                             <label for="title" class="control-label">মোট পেনশন <span style="color:red">*</span> </label>
                                             <input id="total" type="number" class="form-control input-sm" name="total_amt" style="min-height: 33px;" required readonly>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
+                                            <label for="title" class="control-label">বেতন বৃদ্ধি % <span style="color:red">*</span> </label>
+                                            <input id="basic_ins" type="number" class="form-control input-sm" name="percent" style="min-height: 33px;" required>
+                                        </div>
+                                        <div class="col-md-4">
                                             <label class="control-label">ব্যাংক একাউন্ট নং <span style="color:red">*</span> </label>
                                             <input class="form-control input-sm" name="account" style="min-height: 33px;" required>
                                         </div>
@@ -111,10 +111,6 @@
                                         <div class="col-md-4">
                                             <label class="control-label">ব্যাংক একাউন্ট ঠিকানা বাংলা <span style="color:red">*</span> </label>
                                             <textarea name="acc_address" style="width: 100%; height: 50px;"></textarea>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label class="control-label">ব্যাংক একাউন্ট ঠিকানা ইংলিশ <span style="color:red">*</span> </label>
-                                            <textarea name="acc_address_en" style="width: 100%; height: 50px;"></textarea>
                                         </div>
                                         <div class="col-md-4">
                                             <label for="title" class="control-label">বিবরণ:</label>
@@ -138,25 +134,19 @@
 
 <script>
     function csl_sal() {
-        var basic_sal = $("#basic_sal").val();
-        var basic_ins = $("#basic_ins").val();
+        var nit_salary = $("#nit_salary").val();
         var medical = $("#medical").val();
 
-        if (basic_sal == "") {
+        if (total == "") {
             return
         }
-        if (basic_ins == "") {
-            return
-        }
-        var balance = ((parseFloat(basic_sal) * parseFloat(basic_ins)) / 100) + parseFloat(basic_sal);
-        $("#nit_salary").val(balance);
 
         explodedArray = medical.split(",");
         // Get the last index
         lastIndex = explodedArray.length - 1;
         lastElement = explodedArray[lastIndex]
 
-        var total = parseFloat(balance) + parseFloat(lastElement);
+        var total = parseFloat(nit_salary) + parseFloat(lastElement);
         $("#total").val(total);
     }
 </script>
