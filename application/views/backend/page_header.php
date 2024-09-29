@@ -675,7 +675,10 @@ input[type="search"] {
                   <!-- pension registration -->
                   <li class="start <?= backend_activate_menu_class('journal_entry') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
-                        <li class="start <?= backend_activate_menu_method('gpf_entry') ?>">
+                        <li class="start <?= backend_activate_menu_method('cheque_entry') ?>">
+                           <a href="<?= base_url('journal_entry/cheque_entry'); ?>"> চেক রেজিস্টার</a>
+                        </li>
+                        <li class="start <?= backend_activate_menu_method('cash_out') ?>">
                            <a href="<?= base_url('journal_entry/cash_out'); ?>"> কাশ আউট রেজিস্টার</a>
                         </li>
                         <li class="start <?= backend_activate_menu_method('gpf_entry') ?>">

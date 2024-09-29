@@ -80,17 +80,11 @@
                             </div>
                         </fieldset>
 
-                          <fieldset class="col-md-12">
+                            <fieldset class="col-md-12">
                                 <legend>কাশ আউট রেজিস্টার রিপোর্ট বাটন</legend>
                                 <button type="submit" name="btnsubmit" onclick="return validFuncR()" value="cash_out_register" class="btn btn-info btn-cons"><i class="fa fa-list"></i> কাশ আউট রেজিস্টার</button>
-                                <!-- <button type="submit" name="btnsubmit" value="all_pending,gpf" class="btn btn-info btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
-                                <button type="submit" name="btnsubmit" value="all_approved,gpf" class="btn btn-info btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
-                                <button type="submit" name="btnsubmit" value="all_entry,gpf"class="btn btn-info btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button> -->
+                                <button type="submit" name="btnsubmit" value="cheque_register" class="btn btn-info btn-cons"><i class="fa fa-list"></i> চেক রেজিস্টার</button>
                             </fieldset>
-
-
-
-
 
                             <fieldset class="col-md-12">
                                 <legend>হোস্টেল রিপোর্ট বাটন</legend>

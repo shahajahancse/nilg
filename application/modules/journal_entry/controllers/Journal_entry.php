@@ -18,6 +18,112 @@ class Journal_entry extends Backend_Controller
         // $this->data['module_title'] = 'Inventory';
     }
 
+    // start cheque
+
+    public function cheque_entry($offset = 0)
+    {
+        $limit = 15;
+        $user_id = $this->data['userDetails']->id;
+        $dept_id = $this->data['userDetails']->crrnt_dept_id;
+        $results = $this->Journal_entry_model->lists(null, $limit, $offset, 'budget_j_cheque_register');
+        $this->data['results'] = $results['rows'];
+        $this->data['total_rows'] = $results['num_rows'];
+        //pagination
+        $this->data['pagination'] = create_pagination('journal_entry/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+        // Load view
+        $this->data['meta_title'] = 'চেক এর তালিকা';
+        $this->data['subview'] = 'cheque/index';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function cheque_entry_create()
+    {
+        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
+        $user = $this->ion_auth->user()->row();
+
+        if ($this->form_validation->run() == true) {
+            $user = $this->ion_auth->user()->row();
+
+            $form_data = array(
+                'cheque_no' => $this->input->post('cheque_no'),
+                'amount' => $this->input->post('amount'),
+                'type' => $this->input->post('type'),
+                'reference' => $this->input->post('reference'),
+                'description' => $this->input->post('description'),
+                'issue_date' => $this->input->post('issue_date'),
+                'create_by' => $user->id,
+            );
+            if ($this->Common_model->save('budget_j_cheque_register', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('journal_entry/cheque_entry');
+            }
+        }
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'চেক তৈরি করুন';
+        $this->data['subview'] = 'cheque/entry';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function cheque_entry_details($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->select('q.*,u.name_bn as create_by');
+        $this->db->from('budget_j_cheque_register as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['budget_j_cheque_register'] = $this->db->get()->row();
+        //Dropdown
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'চেক বিস্তারিত';
+        $this->data['subview'] = 'cheque/details';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function cheque_entry_edit($encid=null){
+        if ($encid==null) {
+            $id = $this->input->post('id');
+        }else{
+            $id = (int) decrypt_url($encid);
+        }
+        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
+        $user = $this->ion_auth->user()->row();
+        if ($this->form_validation->run() == true) {
+            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
+            $form_data = array(
+                'amount' => $this->input->post('amount'),
+                'reference' => $this->input->post('reference'),
+                'description' => $this->input->post('description'),
+                'issue_date' => $this->input->post('issue_date'),
+            );
+        $this->db->where('id', $id);
+            if ($this->db->update('budget_j_cheque_register', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
+                redirect('journal_entry/cheque_entry');
+            }
+        }
+        $this->db->select('q.*,u.name_bn as create_by');
+        $this->db->from('budget_j_cheque_register as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['budget_j_cheque_register'] = $this->db->get()->row();
+        //Dropdown
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'চেক বিস্তারিত';
+        $this->data['subview'] = 'cheque/edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function cheque_entry_delete($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->where('id', $id);
+        if ($this->db->delete('budget_j_cheque_register')) {
+            $this->session->set_flashdata('success', 'তথ্য মুছে ফেলা হয়েছে');
+            redirect('journal_entry/cheque_entry');
+        }else{
+            $this->session->set_flashdata('error', 'তথ্য মুছে ফেলা হয়নি');
+            redirect('journal_entry/cheque_entry');
+        }
+    }
+    // end cheque
+
     // start budget_j_cash_out_register
     public function cash_out($offset = 0)
     {
@@ -85,7 +191,6 @@ class Journal_entry extends Backend_Controller
         $this->data['subview'] = 'cash_out/cash_out_create';
         $this->load->view('backend/_layout_main', $this->data);
     }
-
     public function cash_out_edit($encid)
     {
         $id = (int) decrypt_url($encid);
@@ -735,111 +840,6 @@ class Journal_entry extends Backend_Controller
         }
     }
     // end revenew
-    // start cheque
-
-    public function cheque_entry($offset = 0)
-    {
-        $limit = 15;
-        $user_id = $this->data['userDetails']->id;
-        $dept_id = $this->data['userDetails']->crrnt_dept_id;
-        $results = $this->Journal_entry_model->lists($limit, $offset, 'budget_j_cheque_register');
-        $this->data['results'] = $results['rows'];
-        $this->data['total_rows'] = $results['num_rows'];
-        //pagination
-        $this->data['pagination'] = create_pagination('journal_entry/index/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
-        // Load view
-        $this->data['meta_title'] = 'চেক এর তালিকা';
-        $this->data['subview'] = 'cheque/index';
-        $this->load->view('backend/_layout_main', $this->data);
-    }
-    public function cheque_entry_create()
-    {
-        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
-        $user = $this->ion_auth->user()->row();
-
-        if ($this->form_validation->run() == true) {
-            $user = $this->ion_auth->user()->row();
-
-            $form_data = array(
-                'cheque_no' => $this->input->post('cheque_no'),
-                'amount' => $this->input->post('amount'),
-                'type' => $this->input->post('type'),
-                'reference' => $this->input->post('reference'),
-                'description' => $this->input->post('description'),
-                'issue_date' => $this->input->post('issue_date'),
-                'create_by' => $user->id,
-            );
-            if ($this->Common_model->save('budget_j_cheque_register', $form_data)) {
-                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
-                redirect('journal_entry/cheque_entry');
-            }
-        }
-        $this->data['info'] = $this->Common_model->get_user_details();
-        //Load view
-        $this->data['meta_title'] = 'চেক তৈরি করুন';
-        $this->data['subview'] = 'cheque/entry';
-        $this->load->view('backend/_layout_main', $this->data);
-    }
-    public function cheque_entry_details($encid){
-        $id = (int) decrypt_url($encid);
-        $this->db->select('q.*,u.name_bn as create_by');
-        $this->db->from('budget_j_cheque_register as q');
-        $this->db->join('users as u', 'u.id = q.create_by', 'left');
-        $this->db->where('q.id', $id);
-        $this->data['budget_j_cheque_register'] = $this->db->get()->row();
-        //Dropdown
-        $this->data['info'] = $this->Common_model->get_user_details();
-        //Load view
-        $this->data['meta_title'] = 'চেক বিস্তারিত';
-        $this->data['subview'] = 'cheque/details';
-        $this->load->view('backend/_layout_main', $this->data);
-    }
-    public function cheque_entry_edit($encid=null){
-        if ($encid==null) {
-            $id = $this->input->post('id');
-        }else{
-            $id = (int) decrypt_url($encid);
-        }
-        $this->form_validation->set_rules('amount', 'পরিমাণ', 'required|trim');
-        $user = $this->ion_auth->user()->row();
-        if ($this->form_validation->run() == true) {
-            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
-            $form_data = array(
-                'amount' => $this->input->post('amount'),
-                'reference' => $this->input->post('reference'),
-                'description' => $this->input->post('description'),
-                'issue_date' => $this->input->post('issue_date'),
-            );
-        $this->db->where('id', $id);
-            if ($this->db->update('budget_j_cheque_register', $form_data)) {
-                $this->session->set_flashdata('success', 'তথ্য সংশোধন  করা হয়েছে');
-                redirect('journal_entry/cheque_entry');
-            }
-        }
-        $this->db->select('q.*,u.name_bn as create_by');
-        $this->db->from('budget_j_cheque_register as q');
-        $this->db->join('users as u', 'u.id = q.create_by', 'left');
-        $this->db->where('q.id', $id);
-        $this->data['budget_j_cheque_register'] = $this->db->get()->row();
-        //Dropdown
-        $this->data['info'] = $this->Common_model->get_user_details();
-        //Load view
-        $this->data['meta_title'] = 'চেক বিস্তারিত';
-        $this->data['subview'] = 'cheque/edit';
-        $this->load->view('backend/_layout_main', $this->data);
-    }
-    public function cheque_entry_delete($encid){
-        $id = (int) decrypt_url($encid);
-        $this->db->where('id', $id);
-        if ($this->db->delete('budget_j_cheque_register')) {
-            $this->session->set_flashdata('success', 'তথ্য মুছে ফেলা হয়েছে');
-            redirect('journal_entry/cheque_entry');
-        }else{
-            $this->session->set_flashdata('error', 'তথ্য মুছে ফেলা হয়নি');
-            redirect('journal_entry/cheque_entry');
-        }
-    }
-    // end cheque
 
     // start bank
     public function bank_entry($offset = 0)
@@ -1908,6 +1908,18 @@ class Journal_entry extends Backend_Controller
             // Generate PDF
             $this->data['headding'] = 'কাশ আউট রেজিস্টার';
             $html = $this->load->view('cash_out/cash_out_register_print', $this->data, true);
+
+            $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+            $mpdf->WriteHtml($html);
+            $mpdf->output();
+        }
+
+        if($btn == 'cheque_register') {
+            $this->data['results'] = $this->db->get('budget_j_cheque_register')->result();
+
+            // Generate PDF
+            $this->data['headding'] = 'চেক রেজিস্টার';
+            $html = $this->load->view('cash_out/cheque_register_print', $this->data, true);
 
             $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
             $mpdf->WriteHtml($html);
