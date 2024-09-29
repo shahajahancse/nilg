@@ -172,9 +172,11 @@
                         <th>পদবী</th>
                         <th>তারিখ</th>
                         <th>মূল বেতন</th>
-                        <th>বৃদ্ধি% </th>
-                        <th>চিকিৎসা</th>
+                        <th>৫% বৃদ্ধি </th>
                         <th>নীট পেনশন</th>
+                        <th>চিকিৎসা</th>
+                        <th>উৎসব ভাতা</th>
+                        <th>বিশেষ ভাতা</th>
                         <th>মোট পেনশন</th>
                     </tr>
                 </thead>
@@ -183,20 +185,22 @@
                     <?php $sum = 0; foreach ($results as $key => $r) { ?>
                         <tr>
                             <td><?php echo eng2bng($key + 1); ?></td>
-                            <td style="text-align: left; width: 25%; padding: 5px" ><?php echo $r->name_bn; ?></td>
-                            <td style="text-align: left; width: 25%; padding: 5px" ><?php echo $r->desig_name; ?></td>
+                            <td style="text-align: left; width: 20%; padding: 5px" ><?php echo $r->name_bn; ?></td>
+                            <td style="text-align: left; width: 20%; padding: 5px" ><?php echo $r->desig_name; ?></td>
                             <td><?php echo date('m-Y', strtotime($r->month)) ?></td>
                             <td><?php echo eng2bng($r->basic_salary); ?></td>
-                            <td><?php echo eng2bng($r->percent); ?></td>
+                            <td><?php echo eng2bng($r->nit_salary - $r->basic_salary); ?></td>
+                            <td><?php echo eng2bng($r->nit_salary); ?></td>
                             <td><?php echo eng2bng($r->medical_amt); ?></td>
-                            <td><?php echo eng2bng($r->nit_amt); ?></td>
+                            <td><?php echo eng2bng($r->festival); ?></td>
+                            <td><?php echo eng2bng($r->bvata); ?></td>
                             <td><?php echo eng2bng($r->total_amt); ?></td>
                         </tr>
                         <?php $sum += $r->total_amt; ?>
                     <?php } ?>
                     <?php $obj = new BanglaNumberToWord(); ?>
                     <tr>
-                        <td colspan="8" style="text-align: left; padding-right: 10px"> &nbsp;&nbsp; সর্বমোট : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span> <abbr> <?php echo $obj->numToWord((int)$sum); ?></abbr> টাকা মাত্র</span></td>
+                        <td colspan="10" style="text-align: left; padding-right: 10px"> &nbsp;&nbsp; সর্বমোট : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span> <abbr> <?php echo $obj->numToWord((int)$sum); ?></abbr> টাকা মাত্র</span></td>
                         <td><?php echo eng2bng($sum); ?></td>
                     </tr>
                 </tbody>

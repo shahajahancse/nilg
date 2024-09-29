@@ -669,7 +669,7 @@ input[type="search"] {
 
                <!-- হিসাব বিভাগ Account entry start -->
                <!-- //  not live the module yet -->
-               <?php if ($this->ion_auth->in_group(array('demo'))) { ?>
+               <?php //if ($this->ion_auth->in_group(array('demo'))) { ?>
                <?php if ($this->ion_auth->in_group(array('acc'))) { ?>
 
                   <!-- pension registration -->
@@ -697,11 +697,11 @@ input[type="search"] {
                   </li>
                   <!-- pension registration -->
                <?php }  ?>
-               <?php }  ?>
+               <?php //}  ?>
                <!-- হিসাব বিভাগ Account entry end -->
 
                <!-- হিসাব সেটিংস -->
-               <?php if ($this->ion_auth->in_group(array('demo'))) { ?>
+               <?php //if ($this->ion_auth->in_group(array('demo'))) { ?>
                <?php if ($this->ion_auth->in_group(array('admin','nilg','acc', 'bli', 'bho'))) { ?>
                   <li class="start <?= backend_activate_menu_class('nilg_setting') ?> <?= backend_activate_menu_class('budget_head') ?> <?= backend_activate_menu_class('budget_sub_head') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব সেটিংস</span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
@@ -730,7 +730,7 @@ input[type="search"] {
                      </ul>
                   </li>
                <?php } ?>
-               <?php } ?>
+               <?php //} ?>
                <!-- হিসাব সেটিংস -->
 
                <!-- এনআইএলজি সেটিংস -->

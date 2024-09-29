@@ -160,10 +160,11 @@
                                             </table>
 
                                         </div>
-                                        <div class="col-md-12">
+                                        <input type="hidden" name="description" >
+                                        <!-- <div class="col-md-12">
                                             <span>নোট</span>
                                             <textarea name="description" id="" class="form-control input-sm"> </textarea>
-                                        </div>
+                                        </div> -->
                                     </div>
 
                                     <br>

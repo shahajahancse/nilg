@@ -61,12 +61,12 @@
                                 <?=validation_errors()?>
                                 <div class="row">
                                     <div class="col-md-2" style="padding:0 6px !important;">
-                                        <label for="title" class="control-label">শুরুর তারিখ <span style="color:red">*</span></label>
+                                        <label class="control-label">শুরুর তারিখ <span style="color:red">*</span></label>
                                         <input id="fdate" class="yearMonth form-control input-sm" style="min-height: 33px;">
                                         <?php echo form_error('fdate'); ?>
                                     </div>
                                     <div class="col-md-2" style="padding:0 6px !important;">
-                                        <label for="title" class="control-label">শেষের তারিখ</label>
+                                        <label class="control-label">শেষের তারিখ</label>
                                         <input id="sdate" class="yearMonth form-control input-sm" style="min-height: 33px;">
                                         <?php echo form_error('sdate'); ?>
                                     </div>
@@ -96,10 +96,13 @@
                                 </div>
                                 <div class="row">
                                     <input id="user_id" type="hidden" name="user_id">
+                                    <input id="datef" type="hidden" name="fdate">
+                                    <input id="dates" type="hidden" name="sdate">
                                     <div class="col-md-12">
                                         <fieldset class="col-md-12" style="background: #fff !important; top:30px;">
                                             <legend style="margin-bottom: 10px;">রিপোর্ট বাটন</legend>
                                             <button type="submit" name="pension" value="pension_sheet" onclick="return validFunc()" style="padding: 5px 8px !important;" class="btn btn-info"> পেনশন শিট </button>
+                                            <button type="submit" name="pension" value="single_pension" onclick="return validFunc1()" style="padding: 5px 8px !important;" class="btn btn-info">একজন এর পেনশন </button>
                                         </fieldset>
                                     </div>
                                 </div>
@@ -142,6 +145,7 @@
                                         <tbody id="fileDiv">
 
                                         </tbody>
+                                        <?php echo form_error('fileDiv'); ?>
                                     </table>
                                 </div>
                             </div>
@@ -156,8 +160,14 @@
 <script>
     function validFunc() {
         var checkboxes = document.getElementsByName('select_emp_id[]');
+        var fdate = $('#fdate').val();
+        var sdate = $('#sdate').val();
+
         var sql = get_checked_value(checkboxes);
+
         $("#user_id").val(sql);
+        $("#datef").val(fdate);
+        $("#dates").val(sdate);
 
         var date = document.getElementById("fdate").value;
         submitOK = "true";
@@ -171,6 +181,38 @@
             $("#error").show();
             return false;
         }
+    }
+
+    function validFunc1() {
+        var checkboxes = document.getElementsByName('select_emp_id[]');
+        var fdate = $('#fdate').val();
+        var sdate = $('#sdate').val();
+
+        var sql = get_checked_value(checkboxes);
+        $("#user_id").val(sql);
+        $("#datef").val(fdate);
+        $("#dates").val(sdate);
+
+        var date = document.getElementById("fdate").value;
+        submitOK = "true";
+
+        if (date == '' || date <= 0) {
+            $("#fdate").css("border", "1px solid red");
+            submitOK = "false";
+        }
+
+        if (submitOK == "false") {
+            $("#error").show();
+            return false;
+        }
+
+        sql = sql.split(",");
+        if (sql.length > 1 && fdate != '' && sdate != '') {
+            alert('Please select max one ID');
+            $("#error").show();
+            return false;
+        }
+
     }
 </script>
 

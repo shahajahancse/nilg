@@ -56,13 +56,14 @@
                                     <div class="col-md-6">
                                         <div class="input-group">
                                         <?php $session_year=$this->db->order_by('id','desc')->get('session_year')->result();?>
-                                            <label for="fcl_year" class="control-label">অর্থবছর <span class="required">*</span></label>
+                                            <label class="control-label">অর্থবছর <span class="required">*</span></label>
                                             <select name="fcl_year" id="fcl_year" class="form-control input-sm" style="width: 100%; height: 28px !important;" required>
                                                 <option value='' selected>নির্বাচন করুন</option>
                                                 <?php foreach ($session_year as $key => $value) {
                                                         echo '<option '.($value->id == $row->fcl_year ? 'selected' : '').'  value="'.$value->id.'">'.$value->session_name.'</option>';
                                                     } ?>
                                             </select>
+                                            <?php echo form_error('fcl_year'); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -88,7 +89,7 @@
                                                 <th class=" text-center" style="background:#0aa699;color:white">Name</th>
                                             </tr>
                                         </thead>
-                                        <?php echo form_error('date'); ?>
+                                        <?php echo form_error('fileDiv'); ?>
                                         <tbody id="fileDiv">
 
                                         </tbody>
@@ -105,28 +106,27 @@
 
 <script>
     function validFunc() {
-
-        var checkboxes = document.getElementsByName('emp_id[]');
+        submitOK = "true";
+        var checkboxes = document.getElementsByName('select_emp_id[]');
         var sql = get_checked_value(checkboxes);
         $("#user_id").val(sql);
 
-        var date = document.getElementById("date").value;
-        submitOK = "true";
-
-        let numbersArray = sql.split(",");
-        if (sql == '' || sql <= 0) {
-            alert('Please select ID');
+        ln = sql.split(",");
+        if (ln.length > 1) {
+            alert('Please select max one ID');
             $("#fileDiv").css("border", "1px solid red");
             submitOK = "false";
-            return false;
+        }
+        if (ln.length == 1 && ln[0] == '') {
+            $("#fileDiv").css("border", "1px solid red");
+            submitOK = "false";
         }
 
-        if (numbersArray.length > 1) {
-            alert('Please select max one ID');
-            return false;
+        var date = document.getElementById("fcl_year").value;
+        if (date == '' || date <= 0) {
+            $("#fcl_year").css("border", "1px solid red");
+            submitOK = "false";
         }
-
-
 
         if (submitOK == "false") {
             $("#error").show();
@@ -186,7 +186,7 @@
                     var items = '';
                     $.each(arr, function (index, value) {
                     items += '<tr class="removeTr">';
-                    items += '<td><input type="checkbox" class="checkbox" id="emp_id" name="emp_id[]" value="' + value.user_id + '" ></td>';
+                    items += '<td><input type="checkbox" class="checkbox" id="select_emp_id" name="select_emp_id[]" value="' + value.user_id + '" ></td>';
                     items += '<td class="success">' + (i++) + '</td>';
                     items += '<td class="warning ">' + value.name_bn + " (" + value.user_id + ")" + '</td>';
                     items += '</tr>';

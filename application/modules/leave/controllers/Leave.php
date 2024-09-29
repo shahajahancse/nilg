@@ -542,7 +542,6 @@ class Leave extends Backend_Controller {
 
         if (!empty($dept_id) && !empty($this->data['userDetails']->crrnt_desig_id) || $this->ion_auth->is_admin()) {
 			if ($this->ion_auth->in_group(array('dg'))) {
-
                 $results = $this->Leave_model->get_list($limit, $offset, array(2,3), 1);
 			} else if ($this->ion_auth->in_group(array('ld'))) {
                 $results = $this->Leave_model->get_list($limit, $offset, array(3), 2);

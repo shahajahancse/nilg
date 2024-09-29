@@ -159,64 +159,136 @@
         </div>
     </div>
 
-    <div class="priview-body content-div">
-        <div class="col-8">
-            <span style="padding: 0px 0px 0px 0px; margin: 0px;">নাম : <abbr><?php echo $row->name_bn; ?></abbr></span> <br>
-            <span style="padding: 0px; margin: 1px 0px;">পদবী : <abbr> <?php echo $row->desig_name; ?></abbr></span>
+    <?php if (!empty($row)) { ?>
+        <div class="priview-body content-div">
+            <div  style="width: 100%;display: flex; flex-direction: row; justify-content: space-between">
+                <div class="col-8">
+                    <span style="padding: 0px 0px 0px 0px; margin: 0px;">নাম : <abbr><?php echo $row->name_bn; ?></abbr></span> <br>
+                    <span style="padding: 0px; margin: 1px 0px;">পদবী : <abbr> <?php echo $row->desig_name; ?></abbr></span><br>
+                </div>
+                <div class="col-4">
+                    <span style="padding: 0px; margin: 1px 0px;"> অর্থ বছর : <abbr> <?php echo $row->session_name; ?></abbr></span><br>
+                    <span style="padding: 0px; margin: 1px 0px;">আগের বালান্স : <abbr> <?php echo eng2bng($row->pbalance); ?></abbr></span>
+                </div>
+            </div>
         </div>
-    </div>
+    <?php } else { ?>
+        <div class="priview-body content-div">
+            <p class="text-center" >Sorry Data Not Found</p>
+        </div>
+    <?php } ?>
 
-    <div class="priview-body">
-        <div class="priview-demand">
-            <table class="table table-hover table-bordered report">
-                <thead class="headding">
-                    <tr>
-                    <th >মাসের নাম<span class="required"> * </span></th>
-                    <th width="">সামগ্রিক চাঁদা <span class="required"> * </span></th>
-                    <th width="">অগ্রীম আদায়<span class="required"> * </span></th>
-                    <th width="">মোট </th>
-                    <th width="">অগ্রীম উত্তোলন<span class="required"> * </span></th>
-                    <th width="">মাসিক জের</th>
-                    <th width="">মন্তব্য </th>
-                    </tr>
-                </thead>
-                <tbody id="tbody">
-                    <?php foreach ($details as $key => $value) {
-                        ?>
+    <?php if (!empty($details)) { ?>
+        <div class="priview-body">
+            <div class="priview-demand">
+                <table class="table table-hover table-bordered report">
+                    <thead class="headding">
                         <tr>
-                            <td width="10%"><?= $value->month_bn ?>
-                            </td>
-                            <td><?= $value->curr_amt?></td>
-                            <td> <?= $value->adv_amt?></td>
-                            <td width="8%"><?= $value->curr_amt + $value->adv_amt?></td>
-                            <td><?= $value->adv_withdraw?></td>
-                            <td width="10%"><?= $value->balance?></td>
-                            <td width="30%" ><?= $value->description?></td>
+                        <th >মাসের নাম<span class="required"> * </span></th>
+                        <th width="">সামগ্রিক চাঁদা <span class="required"> * </span></th>
+                        <th width="">অগ্রীম আদায়<span class="required"> * </span></th>
+                        <th width="">মোট </th>
+                        <th width="">অগ্রীম উত্তোলন<span class="required"> * </span></th>
+                        <th width="">মাসিক জের</th>
+                        <th width="">মন্তব্য </th>
                         </tr>
-                    <?php } ?>
-                    <tr>
-                        <td width="10%">মোট : </td>
+                    </thead>
+                    <tbody id="tbody">
+                        <?php foreach ($details as $key => $value) {
+                            ?>
+                            <tr>
+                                <td width="10%"><?= $value->month_bn ?>
+                                </td>
+                                <td><?= eng2bng($value->curr_amt)?></td>
+                                <td> <?=  eng2bng($value->adv_amt)?></td>
+                                <td width="8%"><?=  eng2bng($value->curr_amt + $value->adv_amt)?></td>
+                                <td><?=  eng2bng($value->adv_withdraw)?></td>
+                                <td width="10%"><?=  eng2bng($value->balance)?></td>
+                                <td width="30%" ><?= $value->description?></td>
+                            </tr>
+                        <?php } ?>
+                        <tr>
+                            <td width="10%">জুন (চূড়ান্ত) : </td>
 
-                        <td><?= $row->curr_amt ?></td>
+                            <td><?=  eng2bng($row->curr_amt) ?></td>
 
-                        <td><?= $row->adv_amt ?></td>
+                            <td><?=  eng2bng($row->adv_amt)  ?></td>
 
-                        <td width="10%"><?= $row->curr_amt + $row->adv_amt ?></td>
+                            <td width="10%"><?=  eng2bng($row->curr_amt + $row->adv_amt)  ?></td>
 
-                        <td><?= $row->adv_withdraw ?></td>
+                            <td><?=  eng2bng($row->adv_withdraw ) ?></td>
 
-                        <td width="10%"><?= $row->balance ?></td>
+                            <td width="10%"><?=  eng2bng($row->balance)  ?></td>
 
-                        <td width="30%" ></td>
-                    </tr>
-                </tbody>
-            </table>
+                            <td width="30%" ></td>
+                        </tr>
+                        <tr>
+                            <td width="10%">জুন (সম্পূরক) : </td>
+
+                            <td><?=  eng2bng($row->curr_amt) ?></td>
+
+                            <td><?=  eng2bng($row->adv_amt)  ?></td>
+
+                            <td width="10%"><?=  eng2bng($row->curr_amt + $row->adv_amt)  ?></td>
+
+                            <td><?=  eng2bng($row->adv_withdraw ) ?></td>
+
+                            <td width="10%"><?=  eng2bng($row->balance)  ?></td>
+
+                            <td width="30%" ></td>
+                        </tr>
+                        <tr>
+                            <td width="10%">মোট : </td>
+
+                            <td><?=  eng2bng($row->curr_amt) ?></td>
+
+                            <td><?=  eng2bng($row->adv_amt)  ?></td>
+
+                            <td width="10%"><?=  eng2bng($row->curr_amt + $row->adv_amt)  ?></td>
+
+                            <td><?=  eng2bng($row->adv_withdraw ) ?></td>
+
+                            <td width="10%"><?=  eng2bng($row->balance)  ?></td>
+
+                            <td width="30%" ></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-7">
+                <table class="table table-hover table-bordered report">
+                    <tbody>
+                        <tr>
+                            <td align="right"> <?= eng2bng(2022) ?> হইতে <?= eng2bng(2022) ?> সালের জের: &nbsp;</td>
+                            <td width="">০০০ টাকা</td>
+                        </tr>
+                        <tr>
+                            <td align="right">উপরোল্লিখিত জমা এবং প্রত্যাপিত টাকা &nbsp;</td>
+                            <td width="">০০০ টাকা</td>
+                        </tr>
+                        <tr>
+                            <td align="right">মোট টাকা &nbsp;</td>
+                            <td width="">০০০ টাকা </td>
+                        </tr>
+                        <tr>
+                            <td align="right">বা-উপরোল্লিখিত প্রত্যাহিত টাকা &nbsp;</td>
+                            <td width="">০০০ টাকা </td>
+                        </tr>
+                        <tr>
+                            <td align="right"><?= eng2bng(2022) ?> সালের ৩০শে জুন তারিখে জের &nbsp;</td>
+                            <td width="">০০০ টাকা </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="clear:both"> </div>
+            <br>
+            <!-- <div class="col-12">
+                <span>নোট</span><br>
+                <?= $row->description ?>
+            </div> -->
         </div>
-        <div class="col-md-12">
-        <span>নোট</span><br>
-        <?= $row->description ?>
-    </div>
-    </div>
+    <?php } ?>
 
     <style>
         .footer {

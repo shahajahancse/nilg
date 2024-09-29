@@ -151,7 +151,7 @@ class Journal_entry_model extends CI_Model {
         return $data;
     }
 
-    function ($process_date, $emp_id, $festival, $bvata) {
+    function pension_process($process_date, $emp_id, $festival, $bvata) {
 
         $lock = $this->db->where('status', 1)->where('month', $process_date)->get('budget_j_pension_lock')->row();
         if (!empty($lock)) {
@@ -187,7 +187,9 @@ class Journal_entry_model extends CI_Model {
             $data = array(
                 'user_id' => $value->user_id,
                 'month' => $process_date,
-                'salary' => $value->nit_amt,
+                'basic_salary' => $value->basic_salary,
+                'percent' => $value->percent,
+                'nit_salary' => $value->nit_amt,
                 'medical_amt' => $value->amount,
                 'festival' => $festival,
                 'bvata' => $bvata,
@@ -201,9 +203,38 @@ class Journal_entry_model extends CI_Model {
             } else {
                 $this->db->insert('budget_j_pension_register', $data);
             }
+
+            // check for new year salary
+            if ($process_date == date('Y-06-01')) {
+                $this->new_salary_check($value->user_id, $process_date);
+            }
         }
         return true;
     }
 
+    function new_salary_check($value, $process_date) {
+        $effect_month = date('Y-m-01', strtotime('+1 month', strtotime($process_date)));
+        $new_nit = (($value->nit_amt * $value->percent) / 100) + $value->nit_amt;
+        $data = array(
+            'user_id' => $value->user_id,
+            'old_basic_salary' => $value->basic_salary,
+            'old_medical_amt' => $value->amount,
+            'old_nit_amt' => $value->nit_amt,
+            'new_basic_salary' => $value->nit_amt,
+            'percent' => $value->percent,
+            'new_medical_amt' => $value->amount,
+            'new_nit_amt' => $new_nit,
+            'effect_month' => $effect_month,
+        );
+
+        $check = $this->db->where('user_id', $value->user_id)->where('effect_month', $effect_month)->get('budget_j_pension_incre')->row();
+        if (empty($check)) {
+            $this->db->insert('budget_j_pension_incre', $data);
+        } else {
+            $this->db->where('id', $check->id)->update('budget_j_pension_incre', $data);
+        }
+        $this->db->where('user_id', $value->user_id)->update('budget_j_pension_emp', array('nit_amt' => $new_nit));
+        return true;
+    }
 
 }

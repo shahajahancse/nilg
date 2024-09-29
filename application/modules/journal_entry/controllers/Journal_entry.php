@@ -139,7 +139,6 @@ class Journal_entry extends Backend_Controller
         echo json_encode($data);
     }
     function pension_process() {
-        dd($_POST);
         $process_date = date("Y-m-01", strtotime($this->input->post('process_date')));
         $emp_id = array();
         if (!empty($this->input->post('sql'))) {
@@ -179,7 +178,8 @@ class Journal_entry extends Backend_Controller
     public function pension_report_view()
     {
         $this->load->helper('bangla_converter');
-        $date = date("Y-m-01", strtotime($this->input->post('date')));
+        $date = date("Y-m-01", strtotime($this->input->post('fdate')));
+        $sdate = date("Y-m-01", strtotime($this->input->post('sdate')));
         $btn = $this->input->post('pension');
         $user_id = array();
         if (!empty($this->input->post('user_id'))) {
@@ -187,6 +187,27 @@ class Journal_entry extends Backend_Controller
         }
 
         if($btn == 'pension_sheet') {
+            $this->db->select('r.*, u.name_bn, d.desig_name');
+            $this->db->from('budget_j_pension_register as r');
+            $this->db->join('users as u', 'u.id = r.user_id', 'left');
+            $this->db->join('designations as d', 'd.id = u.crrnt_desig_id', 'left');
+            $this->db->where('r.month', $date);
+            if (!empty($user_id)) {
+                $this->db->where_in('r.user_id', $user_id);
+            }
+            $this->data['results'] = $this->db->get()->result();
+            // dd($this->data['results']);
+
+            // Generate PDF
+            $this->data['headding'] = 'পেনশন শিট';
+            $html = $this->load->view('pension/pension_sheet_print', $this->data, true);
+
+            $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+            $mpdf->WriteHtml($html);
+            $mpdf->output();
+        }
+
+        if($btn == 'single_pension') {
             $this->db->select('r.*, u.name_bn, d.desig_name');
             $this->db->from('budget_j_pension_register as r');
             $this->db->join('users as u', 'u.id = r.user_id', 'left');
@@ -298,7 +319,6 @@ class Journal_entry extends Backend_Controller
         $this->data['subview'] = 'gpf/gpf_emp_edit';
         $this->load->view('backend/_layout_main', $this->data);
     }
-
     public function gpf_entry($offset = 0)
     {
         $limit = 25;
@@ -327,11 +347,10 @@ class Journal_entry extends Backend_Controller
     }
     public function gpf_create()
     {
-        $this->form_validation->set_rules('user_id', 'নাম', 'required|trim');
+        $this->form_validation->set_rules('user_id', 'নাম', 'required|trim|callback_check_unique');
 
          $user = $this->ion_auth->user()->row();
         if ($this->form_validation->run() == true) {
-
             $form_data = array(
                 'user_id' => $this->input->post('user_id'),
                 'fcl_year' => $this->input->post('fcl_year'),
@@ -454,14 +473,14 @@ class Journal_entry extends Backend_Controller
         $fcl_year = $this->input->post('fcl_year');
         $btn = $this->input->post('gpf');
         if($btn == 'gpf_sheet') {
-            $this->db->select('r.*, u.name_bn, d.desig_name');
+            $this->db->select('r.*, u.name_bn, d.desig_name,session_year.session_name');
             $this->db->from('budget_j_gpf_register as r');
             $this->db->join('users as u', 'u.id = r.user_id', 'left');
             $this->db->join('designations as d', 'd.id = u.crrnt_desig_id', 'left');
+            $this->db->join('session_year', 'r.fcl_year = session_year.id', 'left');
             $this->db->where('r.user_id', $user_id);
             $this->db->where('r.fcl_year', $fcl_year);
             $this->data['row'] = $this->db->get()->row();
-
 
             $this->db->select('budget_j_gpf_register_details.*,session_month.month_bn');
             $this->db->from('budget_j_gpf_register_details');
@@ -479,6 +498,23 @@ class Journal_entry extends Backend_Controller
             $mpdf->output();
         }
     }
+
+    public function check_unique($str = null) {
+        $user_id = $this->input->post('user_id'); // Assuming user ID is passed in the form
+        $fcl_year = $this->input->post('fcl_year'); // Assuming fci year is passed in the form
+
+        $this->db->where('user_id', $user_id);
+        $this->db->where('fcl_year', $fcl_year); // Exclude the current user from the check
+        $query = $this->db->get('budget_j_gpf_register');
+
+        if ($query->num_rows() > 0) {
+            $this->form_validation->set_message('check_unique', 'The value already exists.');
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
     // end budget_j_gpf_register
 
 
