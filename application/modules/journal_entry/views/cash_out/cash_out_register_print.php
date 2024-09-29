@@ -120,7 +120,8 @@
         td,
         th {
             border: 1px solid black;
-            text-align: center;
+            text-align: left;
+            padding: 3px;
         }
 
         .text-center {
@@ -159,54 +160,58 @@
         </div>
     </div>
 
-    <div class="priview-body content-div">
-    </div>
-
-    <div class="priview-body">
-        <div class="priview-demand">
-            <table class="table table-hover table-bordered report">
-                <thead class="headding">
-                    <tr>
-                        <th> ক্রম </th>
-                        <th>নাম (বাংলা)</th>
-                        <th>পদবী</th>
-                        <th>তারিখ</th>
-                        <th>মূল বেতন</th>
-                        <th>৫% বৃদ্ধি </th>
-                        <th>নীট পেনশন</th>
-                        <th>চিকিৎসা</th>
-                        <th>উৎসব ভাতা</th>
-                        <th>বিশেষ ভাতা</th>
-                        <th>মোট পেনশন</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <?php $sum = 0; foreach ($results as $key => $r) { ?>
-                        <tr>
-                            <td><?php echo eng2bng($key + 1); ?></td>
-                            <td style="text-align: left; width: 20%; padding: 5px" ><?php echo $r->name_bn; ?></td>
-                            <td style="text-align: left; width: 20%; padding: 5px" ><?php echo $r->desig_name; ?></td>
-                            <td><?php echo eng2bng(date('m-Y', strtotime($r->month))) ?></td>
-                            <td><?php echo eng2bng($r->basic_salary); ?></td>
-                            <td><?php echo eng2bng($r->nit_salary - $r->basic_salary); ?></td>
-                            <td><?php echo eng2bng($r->nit_salary); ?></td>
-                            <td><?php echo eng2bng($r->medical_amt); ?></td>
-                            <td><?php echo eng2bng($r->festival); ?></td>
-                            <td><?php echo eng2bng($r->bvata); ?></td>
-                            <td><?php echo eng2bng($r->total_amt); ?></td>
-                        </tr>
-                        <?php $sum += $r->total_amt; ?>
-                    <?php } ?>
-                    <?php $obj = new BanglaNumberToWord(); ?>
-                    <tr>
-                        <td colspan="10" style="text-align: left; padding-right: 10px"> &nbsp;&nbsp; সর্বমোট : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span> <abbr> <?php echo $obj->numToWord((int)$sum); ?></abbr> টাকা মাত্র</span></td>
-                        <td><?php echo eng2bng($sum); ?></td>
-                    </tr>
-                </tbody>
-            </table>
+    <?php if (!empty($row)) { ?>
+        <div class="priview-body content-div">
+            <div  style="width: 100%;display: flex; flex-direction: row; justify-content: space-between">
+                <div class="col-8">
+                    <span style="padding: 0px 0px 0px 0px; margin: 0px;"> খাতের নাম : <abbr><?php echo $row->name_bn; ?></abbr></span> <br>
+                </div>
+                <div class="col-4">
+                    <span style="padding: 0px; margin: 1px 0px;"> পরিমাণ : <abbr> <?php echo eng2bng($row->amount); ?></abbr></span><br>
+                </div>
+            </div>
         </div>
-    </div>
+    <?php } else { ?>
+        <div class="priview-body content-div">
+            <p class="text-center" >Sorry Data Not Found</p>
+        </div>
+    <?php } ?>
+
+    <?php if (!empty($results)) { ?>
+        <div class="priview-body">
+            <div class="priview-demand">
+                <table class="table table-hover table-bordered report">
+                    <thead class="headding">
+                        <tr>
+                        <th width="">বিবরণ </th>
+                        <th width="">বিল নং </th>
+                        <th width="">বিল তারিখ </th>
+                        <th width="">টোকেন নং </th>
+                        <th width="">টোকেন তারিখ  </th>
+                        <th width="">আমাউন্ট </th>
+                        <th width="">মোট ব্যয় </th>
+                        <th width="">মন্তব্য </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        <?php foreach ($results as $key => $value) { ?>
+                            <tr>
+                                <td width=""><?= $value->biboron ?> </td>
+                                <td width=""><?= $value->bill_no ?> </td>
+                                <td width=""><?= $value->bill_date ?> </td>
+                                <td width=""><?= $value->token_no ?> </td>
+                                <td width=""><?= $value->token_date ?> </td>
+
+                                <td><?= eng2bng($value->amount)?></td>
+                                <td> <?=  eng2bng($value->total_amt)?></td>
+                                <td width="" ><?= $value->description?></td>
+                            </tr>
+                        <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <?php } ?>
 
     <style>
         .footer {

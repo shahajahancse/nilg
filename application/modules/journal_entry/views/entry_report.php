@@ -36,6 +36,17 @@
                                         $pgroups = $this->db->get('budget_j_publication_group')->result();
                                     ?>
                                     <div class="form-group col-md-4">
+                                        <label class="form-label">খাত নির্বাচন করুন</label>
+                                        <?php echo form_error('head_id'); ?>
+                                        <?php $results = $this->db->get('budget_head_sub')->result(); ?>
+                                        <select name="head_id" id="head_id" class="form-control input-sm" onchange="block('group_name')">
+                                            <option value="">নির্বাচন করুন</option>
+                                            <?php foreach ($results as $key => $value) {
+                                                    echo '<option value="' . $value->id . '">' . $value->name_bn . ' (' . $value->bd_code . ')' . '</option>';
+                                                } ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-md-4">
                                         <label class="form-label">বুক নির্বাচন করুন</label>
                                         <?php echo form_error('book_name'); ?>
                                         <select name="book_name" id="book_name" class="form-control input-sm" onchange="block('group_name')">
@@ -69,10 +80,9 @@
                             </div>
                         </fieldset>
 
-                        <?php if ($this->ion_auth->in_group(array('admin','nilg','acc'))) { ?>
-                            <fieldset class="col-md-12">
-                                <legend>GPF রিপোর্ট বাটন</legend>
-                                <button type="submit" name="btnsubmit" value="all_pending,gpf" class="btn btn-info btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
+                          <fieldset class="col-md-12">
+                                <legend>কাশ আউট রেজিস্টার রিপোর্ট বাটন</legend>
+                                <button type="submit" name="btnsubmit" onclick="return validFuncR()" value="cash_out_register" class="btn btn-info btn-cons"><i class="fa fa-list"></i> কাশ আউট রেজিস্টার</button>
                                 <!-- <button type="submit" name="btnsubmit" value="all_pending,gpf" class="btn btn-info btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
                                 <button type="submit" name="btnsubmit" value="all_approved,gpf" class="btn btn-info btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
                                 <button type="submit" name="btnsubmit" value="all_entry,gpf"class="btn btn-info btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button> -->
@@ -80,26 +90,29 @@
 
 
 
+
+
                             <fieldset class="col-md-12">
                                 <legend>হোস্টেল রিপোর্ট বাটন</legend>
                                 <!-- <button type="submit" name="btnsubmit" value="all_pending,hostel"
-                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
+                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
                                 <button type="submit" name="btnsubmit" value="all_approved,hostel"
-                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button> -->
+                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button> -->
                                 <button type="submit" name="btnsubmit" value="hostel_entry_report"
-                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
+                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
                             </fieldset>
 
                             <fieldset class="col-md-12">
                                 <legend>প্রকাশনা রিপোর্ট বাটন</legend>
                                 <button type="submit" name="btnsubmit" value="all_pending,publication"
-                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
+                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট পেন্ডিং</button>
                                 <button type="submit" name="btnsubmit" value="all_approved,publication"
-                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
+                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট অনুমোদিত </button>
                                 <button type="submit" name="btnsubmit" value="all_entry,publication"
-                                    class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
+                                class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
                             </fieldset>
 
+                            <?php if ($this->ion_auth->in_group(array('nadmin','nnilg','nacc'))) { ?>
                             <fieldset class="col-md-12">
                                 <legend>রাজস্ব রিপোর্ট বাটন</legend>
                                 <button type="submit" name="btnsubmit" value="all_pending,revenue"
@@ -130,7 +143,7 @@
                                     class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> মোট এন্ট্রি </button>
                             </fieldset>
                         <?php  }else{ ?>
-                            <?php if($this->ion_auth->in_group(array('bli'))){?>
+                            <?php if($this->ion_auth->in_group(array('nbli'))){?>
                             <fieldset class="col-md-12">
                                 <legend>প্রকাশনা রিপোর্ট বাটন</legend>
                                 <button type="submit" name="btnsubmit" value="all_book,total" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> বইয়ের মজুদ</button>
@@ -146,7 +159,7 @@
                             </fieldset>
                             <?php } ?>
 
-                            <?php if($this->ion_auth->in_group(array('bho'))){?>
+                            <?php if($this->ion_auth->in_group(array('nbho'))){?>
                             <fieldset class="col-md-12">
                                 <legend>হোস্টেল রিপোর্ট বাটন</legend>
                                 <!-- <button type="submit" name="btnsubmit" value="all_pending,hostel"
@@ -169,6 +182,23 @@
 
     </div> <!-- /content -->
 </div> <!-- /page-content -->
+
+<script>
+    function validFuncR() {
+      var division = document.getElementById("head_id").value;
+      submitOK = "true";
+
+      if (division == '' || division <= 0) {
+        $("#head_id").css("border", "1px solid red");
+        submitOK = "false";
+      }
+
+      if (submitOK == "false") {
+        $("#error").show();
+        return false;
+      }
+    }
+</script>
 
 <script>
     function validFunc() {

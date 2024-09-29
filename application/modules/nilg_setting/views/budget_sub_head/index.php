@@ -59,10 +59,11 @@
               <thead class="cf">
                 <tr>
                   <th width="20">ক্রম</th>
-                  <th>নাম ইংলিশ</th>
+                  <!-- <th>নাম ইংলিশ</th> -->
                   <th>নাম বাংলা</th>
                   <th>হেড নাম</th>
                   <th>বিঃডিঃ কোড </th>
+                  <th>পরিমাণ</th>
                   <th>ভ্যাট</th>
                   <th>স্ট্যাটাস</th>
                   <th width="60">অ্যাকশন</th>
@@ -76,11 +77,11 @@
                 ?>
                   <tr>
                     <td><?= eng2bng($sl) . '.' ?></td>
-                    <td><?= $row->name_en ?></td>
                     <td><?= $row->name_bn ?></td>
                     <td><?= $row->budget_head_name_bn ?></td>
                     <td><?= $row->bd_code ?></td>
-                    <td><?= $row->vat_head ?></td>
+                    <td><?= eng2bng($row->amount) ?></td>
+                    <td><?= eng2bng($row->vat_head) ?></td>
                     <td><?= ($row->status) ? 'সক্রিয়' : 'অসক্রিয়' ?></td>
                     <td>
                       <div class="btn-group">

@@ -129,139 +129,139 @@ var hostname = '<?php echo base_url();?>';
 
 <script type="text/javascript">
 
-$(document).ready(function() {
-    // select2Organization();
-    select2NationalID();
-    select2Coordinator();
-    select2Trainee();
-    select2Trainer();
-    datetime();
-    timepicker();
-    organization_suggestions();
-    designation_suggestions();
-    nilg_course_suggestions();
-    local_course_suggestions();
-    other_course_suggestions();
-    foreign_course_suggestions();
+    $(document).ready(function() {
+        // select2Organization();
+        select2NationalID();
+        select2Coordinator();
+        select2Trainee();
+        select2Trainer();
+        datetime();
+        timepicker();
+        organization_suggestions();
+        designation_suggestions();
+        nilg_course_suggestions();
+        local_course_suggestions();
+        other_course_suggestions();
+        foreign_course_suggestions();
 
-    select2Office();
-    select2Union();
-    select2Course();
-    select2Designation();
-    select2DesignationPR();
-    select2DesignationEmployee();
-    select2NIDTrainee();
-    select2NIDTrainer();
+        select2Office();
+        select2Union();
+        select2Course();
+        select2Designation();
+        select2DesignationPR();
+        select2DesignationEmployee();
+        select2NIDTrainee();
+        select2NIDTrainer();
 
-    // Post Office
-    $("#po_sugg").autocomplete("<?php echo site_url('common/suggest_post_office');?>", {
-        max: 100,
-        minChars: 0,
-        delay: 10
+        // Post Office
+        $("#po_sugg").autocomplete("<?php echo site_url('common/suggest_post_office');?>", {
+            max: 100,
+            minChars: 0,
+            delay: 10
+        });
+        $("#po_sugg").result(function(event, data, formatted) {});
+        $("#po_sugg").search();
+
+        //National ID
+        $(".nid_sugg").autocomplete("<?php echo site_url('common/suggest_nid');?>", {
+            max: 100,
+            minChars: 0,
+            delay: 10
+        });
+        $(".nid_sugg").result(function(event, data, formatted) {});
+        $(".nid_sugg").search();
+
+
+        $('.dateyear').datepicker({
+            format: "yyyy",
+            viewMode: "years",
+            minViewMode: "years",
+            autoclose: true
+        });
+
+        $('.yearMonth').datepicker({
+            format: "yyyy-mm",
+            viewMode: "months",
+            minViewMode: "months",
+            autoclose: true
+        });
+
+        // Datatable
+        $('#example').DataTable({
+            paging: false,
+            bFilter: false,
+            ordering: false,
+            searching: false,
+            // dom: 't',         // This shows just the table
+            dom: 'Bfrtip',
+            buttons: [
+                // 'copy', 'csv', 'excel', 'print', 'pdf',
+                'excel',
+                /*{
+                extend: 'print',
+                text: 'Print/PDF',
+                customize: function(win) {
+                    $(win.document.body)
+                                .css( 'font-size', '100pt' )
+                }
+
+                },*/
+                /*{
+                extend: 'alert',
+                text: 'My button 1'
+                }*/
+                /*{
+                extend: 'pdf',
+                customize: function(doc) {
+                    doc.defaultStyle.font = "nikosh";
+                }
+                }*/
+            ]
+        });
     });
-    $("#po_sugg").result(function(event, data, formatted) {});
-    $("#po_sugg").search();
-
-    //National ID
-    $(".nid_sugg").autocomplete("<?php echo site_url('common/suggest_nid');?>", {
-        max: 100,
-        minChars: 0,
-        delay: 10
-    });
-    $(".nid_sugg").result(function(event, data, formatted) {});
-    $(".nid_sugg").search();
 
 
-    $('.dateyear').datepicker({
-        format: "yyyy",
-        viewMode: "years",
-        minViewMode: "years",
-        autoclose: true
-    });
-
-    $('.yearMonth').datepicker({
-        format: "yyyy-mm",
-        viewMode: "months",
-        minViewMode: "months",
-        autoclose: true
-    });
-
-    // Datatable
-    $('#example').DataTable({
-        paging: false,
-        bFilter: false,
-        ordering: false,
-        searching: false,
-        // dom: 't',         // This shows just the table
-        dom: 'Bfrtip',
-        buttons: [
-            // 'copy', 'csv', 'excel', 'print', 'pdf',
-            'excel',
-            /*{
-              extend: 'print',
-              text: 'Print/PDF',
-              customize: function(win) {
-                $(win.document.body)
-                            .css( 'font-size', '100pt' )
-              }
-
-            },*/
-            /*{
-              extend: 'alert',
-              text: 'My button 1'
-            }*/
-            /*{
-              extend: 'pdf',
-              customize: function(doc) {
-                  doc.defaultStyle.font = "nikosh";
-              }
-            }*/
-        ]
-    });
-});
-
-
-function confirmSubmit() {
-    return confirm('আপনি কি নিশ্চিত? সবগুলো ফিল্ড সঠিকভাবে পূরণ করেছেন?');
-}
-
-function confirmAnswerSubmit() {
-    return confirm('আপনি কি সবগুলো প্রশ্নের উত্তর প্রদান করেছেন?');
-}
-
-// Custome Button Datatable
-$.fn.dataTable.ext.buttons.alert = {
-    className: 'buttons-alert',
-
-    action: function(e, dt, node, config) {
-        alert(this.text());
+    function confirmSubmit() {
+        return confirm('আপনি কি নিশ্চিত? সবগুলো ফিল্ড সঠিকভাবে পূরণ করেছেন?');
     }
-};
 
-// Bangla Fornt for Datatable PDF
-function processDoc(doc) {
-    // https://pdfmake.github.io/docs/fonts/custom-fonts-client-side/
-    //
-    // Update pdfmake's global font list, using the fonts available in
-    // the customized vfs_fonts.js file (do NOT remove the Roboto default):
-    pdfMake.fonts = {
-        Roboto: {
-            normal: 'Roboto-Regular.ttf',
-            bold: 'Roboto-Medium.ttf',
-            italics: 'Roboto-Italic.ttf',
-            bolditalics: 'Roboto-MediumItalic.ttf'
-        },
-        nikosh: {
-            normal: "NikoshBAN.ttf",
-            bold: "NikoshBAN.ttf",
-            italics: "NikoshBAN.ttf",
-            bolditalics: "NikoshBAN.ttf"
+    function confirmAnswerSubmit() {
+        return confirm('আপনি কি সবগুলো প্রশ্নের উত্তর প্রদান করেছেন?');
+    }
+
+    // Custome Button Datatable
+    $.fn.dataTable.ext.buttons.alert = {
+        className: 'buttons-alert',
+
+        action: function(e, dt, node, config) {
+            alert(this.text());
         }
     };
-    // modify the PDF to use a different default font:
-    doc.defaultStyle.font = "nikosh";
-    var i = 1;
-}
+
+    // Bangla Fornt for Datatable PDF
+    function processDoc(doc) {
+        // https://pdfmake.github.io/docs/fonts/custom-fonts-client-side/
+        //
+        // Update pdfmake's global font list, using the fonts available in
+        // the customized vfs_fonts.js file (do NOT remove the Roboto default):
+        pdfMake.fonts = {
+            Roboto: {
+                normal: 'Roboto-Regular.ttf',
+                bold: 'Roboto-Medium.ttf',
+                italics: 'Roboto-Italic.ttf',
+                bolditalics: 'Roboto-MediumItalic.ttf'
+            },
+            nikosh: {
+                normal: "NikoshBAN.ttf",
+                bold: "NikoshBAN.ttf",
+                italics: "NikoshBAN.ttf",
+                bolditalics: "NikoshBAN.ttf"
+            }
+        };
+        // modify the PDF to use a different default font:
+        doc.defaultStyle.font = "nikosh";
+        var i = 1;
+    }
 
 </script>
 
@@ -315,367 +315,366 @@ function processDoc(doc) {
             }
         });
     }
+    function timepicker() {
+        $('.timepicker').datetimepicker({
+            format: 'LT'
+        });
+    }
 </script>
 <!-- //datetime functions -->
 
 <script>
-function timepicker() {
-    $('.timepicker').datetimepicker({
-        format: 'LT'
-    });
-}
+    // Promotion Organization Suggestions
+    function promotion_organization_suggestions() {
+        $(".promo_org_sugg").autocomplete("<?php echo site_url('common/suggest_promotion_organization');?>", {
+            max: 100,
+            minChars: 0,
+            delay: 10
+        });
+        $(".promo_org_sugg").result(function(event, data, formatted) {});
+        $(".promo_org_sugg").search();
+    }
 
-// Promotion Organization Suggestions
-function promotion_organization_suggestions() {
-    $(".promo_org_sugg").autocomplete("<?php echo site_url('common/suggest_promotion_organization');?>", {
-        max: 100,
-        minChars: 0,
-        delay: 10
-    });
-    $(".promo_org_sugg").result(function(event, data, formatted) {});
-    $(".promo_org_sugg").search();
-}
+    // Promotion Designation suggestions
+    function promotion_designation_suggestions() {
+        $(".promo_desig_sugg").autocomplete("<?php echo site_url('common/suggest_promotion_designation');?>", {
+            max: 100,
+            minChars: 0,
+            delay: 10
+        });
+        $(".promo_desig_sugg").result(function(event, data, formatted) {});
+        $(".promo_desig_sugg").search();
+    }
 
-// Promotion Designation suggestions
-function promotion_designation_suggestions() {
-    $(".promo_desig_sugg").autocomplete("<?php echo site_url('common/suggest_promotion_designation');?>", {
-        max: 100,
-        minChars: 0,
-        delay: 10
-    });
-    $(".promo_desig_sugg").result(function(event, data, formatted) {});
-    $(".promo_desig_sugg").search();
-}
+    // Organization suggestions
+    function organization_suggestions() {
+        $(".org_sugg").autocomplete("<?php echo site_url('common/suggest_organization');?>", {
+            max: 100,
+            minChars: 0,
+            delay: 10
+        });
+        $(".org_sugg").result(function(event, data, formatted) {});
+        $(".org_sugg").search();
+    }
 
-// Organization suggestions
-function organization_suggestions() {
-    $(".org_sugg").autocomplete("<?php echo site_url('common/suggest_organization');?>", {
-        max: 100,
-        minChars: 0,
-        delay: 10
-    });
-    $(".org_sugg").result(function(event, data, formatted) {});
-    $(".org_sugg").search();
-}
+    // Designation suggestions
+    function designation_suggestions() {
+        $(".desig_sugg").autocomplete("<?php echo site_url('common/suggest_designation');?>", {
+            max: 100,
+            minChars: 0,
+            delay: 10
+        });
+        $(".desig_sugg").result(function(event, data, formatted) {});
+        $(".desig_sugg").search();
+    }
 
-// Designation suggestions
-function designation_suggestions() {
-    $(".desig_sugg").autocomplete("<?php echo site_url('common/suggest_designation');?>", {
-        max: 100,
-        minChars: 0,
-        delay: 10
-    });
-    $(".desig_sugg").result(function(event, data, formatted) {});
-    $(".desig_sugg").search();
-}
+    // NILG Training
+    function nilg_course_suggestions() {
+        $(".nilg_course_sugg").autocomplete("<?php echo site_url('common/suggest_nilg_course');?>", {
+            max: 100,
+            minChars: 0,
+            delay: 10
+        });
+        $(".nilg_course_sugg").result(function(event, data, formatted) {});
+        $(".nilg_course_sugg").search();
+    }
 
-// NILG Training
-function nilg_course_suggestions() {
-    $(".nilg_course_sugg").autocomplete("<?php echo site_url('common/suggest_nilg_course');?>", {
-        max: 100,
-        minChars: 0,
-        delay: 10
-    });
-    $(".nilg_course_sugg").result(function(event, data, formatted) {});
-    $(".nilg_course_sugg").search();
-}
+    // Local Training
+    function local_course_suggestions() {
+        $(".local_course_sugg").autocomplete("<?php echo site_url('common/suggest_local_course');?>", {
+            max: 100,
+            minChars: 0,
+            delay: 10
+        });
+        $(".local_course_sugg").result(function(event, data, formatted) {});
+        $(".local_course_sugg").search();
+    }
 
-// Local Training
-function local_course_suggestions() {
-    $(".local_course_sugg").autocomplete("<?php echo site_url('common/suggest_local_course');?>", {
-        max: 100,
-        minChars: 0,
-        delay: 10
-    });
-    $(".local_course_sugg").result(function(event, data, formatted) {});
-    $(".local_course_sugg").search();
-}
+    // Other Course suggestion from `local_course_name` field of `per_local_org_training` table
+    function other_course_suggestions() {
+        $(".other_course_sugg").autocomplete("<?php echo site_url('common/suggest_other_course');?>", {
+            max: 100,
+            minChars: 0,
+            delay: 10
+        });
+        $(".other_course_sugg").result(function(event, data, formatted) {});
+        $(".other_course_sugg").search();
+    }
 
-// Other Course suggestion from `local_course_name` field of `per_local_org_training` table
-function other_course_suggestions() {
-    $(".other_course_sugg").autocomplete("<?php echo site_url('common/suggest_other_course');?>", {
-        max: 100,
-        minChars: 0,
-        delay: 10
-    });
-    $(".other_course_sugg").result(function(event, data, formatted) {});
-    $(".other_course_sugg").search();
-}
-
-// Foreign Course suggestion from `foreign_course_name` field of `per_foreign_org_training` table
-function foreign_course_suggestions() {
-    $(".foreign_course_sugg").autocomplete("<?php echo site_url('common/suggest_foreign_course');?>", {
-        max: 100,
-        minChars: 0,
-        delay: 10
-    });
-    $(".foreign_course_sugg").result(function(event, data, formatted) {});
-    $(".foreign_course_sugg").search();
-}
+    // Foreign Course suggestion from `foreign_course_name` field of `per_foreign_org_training` table
+    function foreign_course_suggestions() {
+        $(".foreign_course_sugg").autocomplete("<?php echo site_url('common/suggest_foreign_course');?>", {
+            max: 100,
+            minChars: 0,
+            delay: 10
+        });
+        $(".foreign_course_sugg").result(function(event, data, formatted) {});
+        $(".foreign_course_sugg").search();
+    }
 
 
-// Select2 AJAX autocomplete for National ID and Name
-function select2NationalID() {
-    $('.nationalIDselect2').select2({
-        placeholder: '-- ন্যাশনাল আইডি নির্বাচন করুন --',
-        ajax: {
-            url: '<?php echo base_url()?>common/select2_natioanl_id_name',
-            dataType: 'json',
-            delay: 250,
-            processResults: function(data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-    });
-}
+    // Select2 AJAX autocomplete for National ID and Name
+    function select2NationalID() {
+        $('.nationalIDselect2').select2({
+            placeholder: '-- ন্যাশনাল আইডি নির্বাচন করুন --',
+            ajax: {
+                url: '<?php echo base_url()?>common/select2_natioanl_id_name',
+                dataType: 'json',
+                delay: 250,
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            }
+        });
+    }
 
-// Select2 AJAX autocomplete for Organization
-function select2Coordinator() {
-    $('.coordinatorSelect2').select2({
-        placeholder: '-- অনুসন্ধান করুন --',
-        ajax: {
-            url: '<?php echo base_url()?>common/select2_coordinator',
-            dataType: 'json',
-            delay: 250,
-            processResults: function(data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-    });
-}
+    // Select2 AJAX autocomplete for Organization
+    function select2Coordinator() {
+        $('.coordinatorSelect2').select2({
+            placeholder: '-- অনুসন্ধান করুন --',
+            ajax: {
+                url: '<?php echo base_url()?>common/select2_coordinator',
+                dataType: 'json',
+                delay: 250,
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            }
+        });
+    }
 
-// Select2 AJAX autocomplete for Organization
-function select2Organization() {
-    $('.organizationSelect2').select2({
-        placeholder: '-- প্রতিষ্ঠানের নাম অনুসন্ধান করুন --',
-        ajax: {
-            url: '<?php echo base_url()?>common/select2_organization_name',
-            dataType: 'json',
-            delay: 250,
-            processResults: function(data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-    });
-}
+    // Select2 AJAX autocomplete for Organization
+    function select2Organization() {
+        $('.organizationSelect2').select2({
+            placeholder: '-- প্রতিষ্ঠানের নাম অনুসন্ধান করুন --',
+            ajax: {
+                url: '<?php echo base_url()?>common/select2_organization_name',
+                dataType: 'json',
+                delay: 250,
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            }
+        });
+    }
 
-// Select2 AJAX autocomplete for Organization
-function select2Trainee() {
-    $('.traineeSelect2').select2({
-        placeholder: '-- প্রশিক্ষক নির্বাচন করুন --',
-        ajax: {
-            url: '<?php echo base_url()?>common/select2_trainee',
-            dataType: 'json',
-            delay: 250,
-            processResults: function(data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-    });
-}
+    // Select2 AJAX autocomplete for Organization
+    function select2Trainee() {
+        $('.traineeSelect2').select2({
+            placeholder: '-- প্রশিক্ষক নির্বাচন করুন --',
+            ajax: {
+                url: '<?php echo base_url()?>common/select2_trainee',
+                dataType: 'json',
+                delay: 250,
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            }
+        });
+    }
 
 
 
-// Select2 AJAX autocomplete for Office
-function select2Office() {
-    $('.officeSelect2').select2({
-        placeholder: '-- অফিস অনুসন্ধান করুন --',
-        ajax: {
-            url: '<?php echo base_url()?>common/select2_office',
-            dataType: 'json',
-            delay: 250,
-            processResults: function(data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-    });
-}
+    // Select2 AJAX autocomplete for Office
+    function select2Office() {
+        $('.officeSelect2').select2({
+            placeholder: '-- অফিস অনুসন্ধান করুন --',
+            ajax: {
+                url: '<?php echo base_url()?>common/select2_office',
+                dataType: 'json',
+                delay: 250,
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            }
+        });
+    }
 
-// Select2 AJAX autocomplete for Union
-function select2Union() {
-    $('.unionSelect2').select2({
-        placeholder: '-- ইউনিয়ন অনুসন্ধান করুন --',
-        ajax: {
-            url: '<?php echo base_url()?>common/select2_union',
-            dataType: 'json',
-            delay: 250,
-            processResults: function(data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-    });
-}
+    // Select2 AJAX autocomplete for Union
+    function select2Union() {
+        $('.unionSelect2').select2({
+            placeholder: '-- ইউনিয়ন অনুসন্ধান করুন --',
+            ajax: {
+                url: '<?php echo base_url()?>common/select2_union',
+                dataType: 'json',
+                delay: 250,
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            }
+        });
+    }
 
-// Select2 AJAX autocomplete for Course
-function select2Course() {
-    $('.courseSelect2').select2({
-        placeholder: '-- কোর্স অনুসন্ধান করুন --',
-        ajax: {
-            url: '<?php echo base_url()?>common/select2_course',
-            dataType: 'json',
-            delay: 250,
-            processResults: function(data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-    });
-}
+    // Select2 AJAX autocomplete for Course
+    function select2Course() {
+        $('.courseSelect2').select2({
+            placeholder: '-- কোর্স অনুসন্ধান করুন --',
+            ajax: {
+                url: '<?php echo base_url()?>common/select2_course',
+                dataType: 'json',
+                delay: 250,
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            }
+        });
+    }
 
-// Select2 AJAX autocomplete for Designation
-function select2Designation() {
-    $('.designationSelect2').select2({
-        placeholder: '-- পদবি অনুসন্ধান করুন --',
-        ajax: {
-            url: '<?php echo base_url()?>common/select2_designation',
-            dataType: 'json',
-            delay: 250,
-            processResults: function(data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-    });
-}
+    // Select2 AJAX autocomplete for Designation
+    function select2Designation() {
+        $('.designationSelect2').select2({
+            placeholder: '-- পদবি অনুসন্ধান করুন --',
+            ajax: {
+                url: '<?php echo base_url()?>common/select2_designation',
+                dataType: 'json',
+                delay: 250,
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            }
+        });
+    }
 
-// Select2 AJAX autocomplete for Course
-function select2DesignationPR() {
-    $('.prDesignationSelect2').select2({
-        placeholder: '-- জনপ্রতিনিধির পদবি অনুসন্ধান করুন --',
-        ajax: {
-            url: '<?php echo base_url()?>common/select2_designation_pr',
-            dataType: 'json',
-            delay: 250,
-            processResults: function(data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-    });
-}
+    // Select2 AJAX autocomplete for Course
+    function select2DesignationPR() {
+        $('.prDesignationSelect2').select2({
+            placeholder: '-- জনপ্রতিনিধির পদবি অনুসন্ধান করুন --',
+            ajax: {
+                url: '<?php echo base_url()?>common/select2_designation_pr',
+                dataType: 'json',
+                delay: 250,
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            }
+        });
+    }
 
-// Select2 AJAX autocomplete for Course
-function select2DesignationEmployee() {
-    $('.empDesignationSelect2').select2({
-        placeholder: '-- কর্মচারী পদবি অনুসন্ধান করুন --',
-        ajax: {
-            url: '<?php echo base_url()?>common/select2_designation_employee',
-            dataType: 'json',
-            delay: 250,
-            processResults: function(data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-    });
-}
+    // Select2 AJAX autocomplete for Course
+    function select2DesignationEmployee() {
+        $('.empDesignationSelect2').select2({
+            placeholder: '-- কর্মচারী পদবি অনুসন্ধান করুন --',
+            ajax: {
+                url: '<?php echo base_url()?>common/select2_designation_employee',
+                dataType: 'json',
+                delay: 250,
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            }
+        });
+    }
 
-// Select2 AJAX autocomplete for National ID, Name BN, Mobile No from Users table
-function select2NIDTrainee() {
-    $('.NIDTraineeselect2').select2({
-        placeholder: '-- ন্যাশনাল আইডি নির্বাচন করুন --',
-        ajax: {
-            url: '<?php echo base_url()?>common/select2_nid_trainee_verified',
-            dataType: 'json',
-            delay: 250,
-            processResults: function(data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-    });
-}
+    // Select2 AJAX autocomplete for National ID, Name BN, Mobile No from Users table
+    function select2NIDTrainee() {
+        $('.NIDTraineeselect2').select2({
+            placeholder: '-- ন্যাশনাল আইডি নির্বাচন করুন --',
+            ajax: {
+                url: '<?php echo base_url()?>common/select2_nid_trainee_verified',
+                dataType: 'json',
+                delay: 250,
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            }
+        });
+    }
 
-function select2Trainer() {
-    $('.trainerSelect2').select2({
-        placeholder: '-- প্রশিক্ষক নির্বাচন করুন --',
-        ajax: {
-            url: '<?php echo base_url()?>common/select2_trainer',
-            dataType: 'json',
-            delay: 250,
-            processResults: function(data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-    });
-}
+    function select2Trainer() {
+        $('.trainerSelect2').select2({
+            placeholder: '-- প্রশিক্ষক নির্বাচন করুন --',
+            ajax: {
+                url: '<?php echo base_url()?>common/select2_trainer',
+                dataType: 'json',
+                delay: 250,
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            }
+        });
+    }
 
-// NIDTrainerselect2
-function select2NIDTrainer() {
-    $('.trainerSelect2').select2({
-        placeholder: '-- প্রশিক্ষক নির্বাচন করুন --',
-        ajax: {
-            url: '<?php echo base_url()?>common/select2_nid_trainer_verified',
-            dataType: 'json',
-            delay: 250,
-            processResults: function(data) {
-                return {
-                    results: data
-                };
-            },
-            cache: true
-        }
-    });
-}
+    // NIDTrainerselect2
+    function select2NIDTrainer() {
+        $('.trainerSelect2').select2({
+            placeholder: '-- প্রশিক্ষক নির্বাচন করুন --',
+            ajax: {
+                url: '<?php echo base_url()?>common/select2_nid_trainer_verified',
+                dataType: 'json',
+                delay: 250,
+                processResults: function(data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+            }
+        });
+    }
 
 
-function printDiv(divName) {
-    var printContents = document.getElementById(divName).innerHTML;
-    var originalContents = document.body.innerHTML;
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
 
-    document.body.innerHTML = printContents;
+        document.body.innerHTML = printContents;
 
-    window.print();
+        window.print();
 
-    document.body.innerHTML = originalContents;
-}
+        document.body.innerHTML = originalContents;
+    }
 </script>
 
 <?php if($this->router->fetch_class('evaluation') == 'evaluation'){ ?>
-<script type="text/javascript">
-    // Evaluation Module (Create Question)
-    Sortable.create(list, {
-        group: 'shared',
-        animation: 100
-    });
+    <script type="text/javascript">
+        // Evaluation Module (Create Question)
+        Sortable.create(list, {
+            group: 'shared',
+            animation: 100
+        });
 
-    Sortable.create(list2, {
-        group: 'shared',
-        animation: 100,
-        emptyInsertThreshold: 0 // emptyInsertThreshold disabled
-    });
-</script>
+        Sortable.create(list2, {
+            group: 'shared',
+            animation: 100,
+            emptyInsertThreshold: 0 // emptyInsertThreshold disabled
+        });
+    </script>
 <?php } ?>
 
 <script>

@@ -18,6 +18,117 @@ class Journal_entry extends Backend_Controller
         // $this->data['module_title'] = 'Inventory';
     }
 
+    // start budget_j_cash_out_register
+    public function cash_out($offset = 0)
+    {
+        $limit = 25;
+        $this->db->select('b.*,budget_head_sub.name_bn');
+        $this->db->from('budget_j_cash_out_register as b');
+        $this->db->join('budget_head_sub', 'budget_head_sub.id = b.sub_head_id', 'left');
+        $this->db->limit($limit);
+        $this->db->offset($offset);
+        $this->db->order_by('b.id', 'DESC');
+        $this->data['results'] = $this->db->get()->result();
+        // count query
+
+        $this->db->select('COUNT(*) as count');
+        $this->db->from('budget_j_pension_emp as q');
+        $tmp = $this->db->get()->result();
+        $this->data['total_rows'] = $tmp[0]->count;
+        //pagination
+        $this->data['pagination'] = create_pagination('journal_entry/pension_emp/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+        // Load view
+        $this->data['meta_title'] = 'কাশ আউট রেজিস্টার';
+        $this->data['subview'] = 'cash_out/cash_out';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function cash_out_create()
+    {
+        $this->form_validation->set_rules('sub_head_id', 'খাতের নাম', 'required|trim');
+        $this->form_validation->set_rules('bill_no', 'বিল নং', 'required|trim');
+        $this->form_validation->set_rules('bill_date', 'বিল তারিখ', 'required|trim');
+        $this->form_validation->set_rules('amount', 'বিল পরিমাণ', 'required|trim');
+
+        // $user = $this->ion_auth->user()->row();
+        if ($this->form_validation->run() == true) {
+            $user = $this->ion_auth->user()->row();
+            $r = $this->db->order_by('id', 'DESC')->get('budget_j_cash_out_register')->row();
+            $h_id = $this->input->post('sub_head_id');
+            $amt = $this->input->post('amount');
+            $form_data = array(
+                'sub_head_id' => $h_id,
+                'date' => date('Y-m-d'),
+                'biboron' => $this->input->post('biboron'),
+                'bill_no' => $this->input->post('bill_no'),
+                'bill_date' => $this->input->post('bill_date'),
+                'token_no' =>  $this->input->post('token_no'),
+                'token_date' =>  $this->input->post('token_date'),
+
+                'amount' => $amt,
+                'total_amt' => $r->total_amt + $amt,
+                'description' => $this->input->post('description'),
+                'create_by' => $user->id,
+            );
+
+            if ($this->Common_model->save('budget_j_cash_out_register', $form_data)) {
+                $h = $this->db->where('id', $h_id)->get('budget_head_sub')->row();
+                $this->db->where('id', $h_id)->update('budget_head_sub', array('amount' => $h->amount - $amt));
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('journal_entry/cash_out');
+            }
+        }
+        $this->data['info'] = $this->Common_model->get_user_details();
+        $this->data['users'] = $this->db->where('status', 4)->get('users')->result();
+        // dd($this->data['users']);
+        //Load view
+        $this->data['meta_title'] = 'কাশ আউট রেজিস্টার';
+        $this->data['subview'] = 'cash_out/cash_out_create';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function cash_out_edit($encid)
+    {
+        $id = (int) decrypt_url($encid);
+        $this->form_validation->set_rules('user_id', 'নাম', 'required|trim');
+        $this->form_validation->set_rules('basic_salary', 'মূল বেতন', 'required|trim');
+        $this->form_validation->set_rules('percent', 'বেতন বৃদ্ধি %', 'required|trim');
+        $this->form_validation->set_rules('medical_amt', 'চিকিৎসা', 'required|trim');
+        $this->form_validation->set_rules('account', 'একাউন্ট নং', 'required|trim');
+        $this->form_validation->set_rules('acc_address', 'একাউন্ট ঠিকানা বাংলা', 'required|trim');
+        // $user = $this->ion_auth->user()->row();
+        if ($this->form_validation->run() == true) {
+            $ex = explode(',', trim($this->input->post('medical_amt')));
+            // dd($ex);
+            $form_data = array(
+                'user_id' => $this->input->post('user_id'),
+                'receiver' => $this->input->post('receiver'),
+                'basic_salary' => $this->input->post('basic_salary'),
+                'nit_amt' =>  $this->input->post('nit_amt'),
+                'medical_amt' => $ex[0],
+                'total_amt' => $this->input->post('total_amt'),
+                'percent' => $this->input->post('percent'),
+                'account' => $this->input->post('account'),
+                'acc_address' => $this->input->post('acc_address'),
+                'remark' => $this->input->post('remark'),
+            );
+
+            if ($this->db->where('id', $id)->update('budget_j_pension_emp', $form_data)) {
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('journal_entry/pension_emp');
+            }
+        }
+
+        $this->data['row'] = $this->db->where('id', $id)->get('budget_j_pension_emp')->row();
+        $this->data['info'] = $this->Common_model->get_user_details();
+        $this->data['users'] = $this->Common_model->get_nilg_employee();
+        // dd($this->data['users']);
+        //Load view
+        $this->data['meta_title'] = 'পেনশন কর্মকর্তা/কর্মচারী তৈরি';
+        $this->data['subview'] = 'pension/pension_emp_edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    // end budget_j_cash_out_register
+
     // start budget_j_pension_register
     public function pension_emp($offset = 0)
     {
@@ -1789,6 +1900,20 @@ class Journal_entry extends Backend_Controller
             $type=null;
         }
 
+        if($btn == 'cash_out_register') {
+            $head_id = $this->input->post('head_id');
+            $this->data['row'] = $this->db->where('id', $head_id)->get('budget_head_sub')->row();
+            $this->data['results'] = $this->db->where('sub_head_id', $head_id)->get('budget_j_cash_out_register')->result();
+
+            // Generate PDF
+            $this->data['headding'] = 'কাশ আউট রেজিস্টার';
+            $html = $this->load->view('cash_out/cash_out_register_print', $this->data, true);
+
+            $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+            $mpdf->WriteHtml($html);
+            $mpdf->output();
+        }
+
         // dd($_POST);
 
         // publication start
@@ -1866,7 +1991,6 @@ class Journal_entry extends Backend_Controller
             $mpdf->WriteHtml($html);
             $mpdf->output();
         }
-
 
         if($btn == 'all_pending') {
             $this->data['results']= $this->Journal_entry_model->all_journal($type,$from_date, $to_date,1);

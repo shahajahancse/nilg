@@ -676,6 +676,9 @@ input[type="search"] {
                   <li class="start <?= backend_activate_menu_class('journal_entry') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
                         <li class="start <?= backend_activate_menu_method('gpf_entry') ?>">
+                           <a href="<?= base_url('journal_entry/cash_out'); ?>"> কাশ আউট রেজিস্টার</a>
+                        </li>
+                        <li class="start <?= backend_activate_menu_method('gpf_entry') ?>">
                            <a href="<?= base_url('journal_entry/gpf_entry'); ?>"> জিপিএফ এন্ট্রি</a>
                         </li>
                         <li class="start <?= backend_activate_menu_method('gpf_form') ?>">

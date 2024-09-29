@@ -171,7 +171,8 @@ class Journal_entry_model extends CI_Model {
         if (empty($festival)) {
             $festival = 0;
         } else {
-            $festival = $value->nit_amt;
+            $value = $this->db->where('id', $festival)->get('budget_festival')->row();
+            $festival = $value->amount;
         }
 
         $this->db->select('emp.*, m.amount');

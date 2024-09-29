@@ -115,6 +115,7 @@
                                                 <th>মাস</th>
                                                 <th>অ্যাকশান</th>
                                             </tr>
+                                            <?php if (!empty($r)):  ?>
                                             <tr>
                                                 <td><?= eng2bng(1) ?></td>
                                                 <td><?= date('m-Y', strtotime($r->month)) ?></td>
@@ -126,6 +127,7 @@
                                                     <?php } ?>
                                                 </td>
                                             </tr>
+                                            <?php endif; ?>
                                     </table>
                                     </div>
                                 </div>

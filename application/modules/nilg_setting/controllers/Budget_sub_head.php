@@ -226,7 +226,8 @@ class Budget_sub_head extends Backend_Controller {
                 'name_bn'    => $this->input->post('name_bn'),
                 'head_id'    => $this->input->post('head_id'),
                 'bd_code'    => $this->input->post('bd_code'),
-                'vat_head'    => $this->input->post('vat'),
+                'amount'     => $this->input->post('amount'),
+                'vat_head'   => $this->input->post('vat'),
                 'status'     => $this->input->post('status'),
             );
             // print_r($form_data); exit;

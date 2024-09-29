@@ -111,6 +111,7 @@ class Budgets extends Backend_Controller
                 budget_head_sub.id,
                 budget_head_sub.name_bn,
                 budget_head_sub.bd_code,
+                budget_head_sub.amount,
                 budget_head.name_bn as budget_head_name,
                 budget_head.id as budget_head_id
             ');

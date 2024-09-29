@@ -1,5 +1,5 @@
-<div class="page-content">     
-  <div class="content">  
+<div class="page-content">
+  <div class="content">
     <ul class="breadcrumb" style="margin-bottom: 20px;">
       <li> <a href="<?=base_url('dashboard')?>" class="active"> ড্যাশবোর্ড </a> </li>
       <li> <a href="<?=base_url('nilg_setting/budget_head')?>" class="active"> <?=$module_title?> </a></li>
@@ -16,12 +16,12 @@
             </div>
           </div>
           <div class="grid-body">
-            <?php 
+            <?php
             //echo validation_errors();
             $attributes = array('id' => 'validate');
             echo form_open(current_url(), $attributes);
             ?>
-             <div class="row form-row">  
+             <div class="row form-row">
               <div class="col-md-3">
                   <label class="form-label"> বাজেট হেড <span class="required">*</span></label>
                   <?php echo form_error('head_id'); ?>
@@ -31,25 +31,29 @@
                       <option <?php if($info->head_id == $value->id){ echo 'selected'; } ?> value="<?=$value->id?>"><?=$value->name_en?></option>
                       <?php } ?>
                   </select>
-              </div>          
+              </div>
               <div class="col-md-4">
                 <label class="form-label">নাম (ইংলিশ) <span class="required">*</span></label>
-                <?php echo form_error('name_en'); 
+                <?php echo form_error('name_en');
                 ?>
                 <input name="name_en"  type="text" class="form-control input-sm" placeholder="" value="<?=$info->name_en?>" />
               </div>
               <div class="col-md-4">
                 <label class="form-label">নাম (বাংলা) <span class="required">*</span></label>
-                <?php echo form_error('name_bn'); 
+                <?php echo form_error('name_bn');
                 ?>
                 <input name="name_bn" type="text" class="form-control input-sm" placeholder="" value="<?=$info->name_bn?>" />
               </div>
             </div>
             <br>
-            <div class="row form-row">            
+            <div class="row form-row">
               <div class="col-md-3">
                 <label class="form-label">বিঃডিঃ কোড <span class="required">*</span></label>
                 <input name="bd_code" type="number" class="form-control input-sm" placeholder="" value="<?=$info->bd_code?>">
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">বিঃডিঃ কোড <span class="required">*</span></label>
+                <input name="amount" type="number" class="form-control input-sm" value="<?=$info->amount?>">
               </div>
               <div class="col-md-3">
                                 <label class="form-label">ভ্যাট <span class="required">*</span></label>
@@ -65,14 +69,14 @@
               </div>
             </div>
 
-            <div class="form-actions">  
+            <div class="form-actions">
               <div class="pull-right">
                 <?php echo form_submit('submit', lang('common_save'), "class='btn btn-primary btn-cons font-big-bold'"); ?>
               </div>
             </div>
             <?php echo form_close();?>
 
-          </div>  <!-- END GRID BODY -->              
+          </div>  <!-- END GRID BODY -->
         </div> <!-- END GRID -->
       </div>
 
@@ -84,47 +88,47 @@
 <script type="text/javascript">
  $(document).ready(function() {
   $('#validate').validate({
-      // focusInvalid: false, 
+      // focusInvalid: false,
       ignore: "",
       rules: {
         office_type: { required: true},
-        question: { required: true},  
-        qnumber: { required: true},  
+        question: { required: true},
+        qnumber: { required: true},
       },
       invalidHandler: function (event, validator) {
-        //display error alert on form submit    
+        //display error alert on form submit
       },
-      errorPlacement: function (label, element) { 
-        // render error placement for each input type            
+      errorPlacement: function (label, element) {
+        // render error placement for each input type
         $('<span class="error"></span>').insertAfter(element).append(label)
         var parent = $(element).parent('.input-with-icon');
-        parent.removeClass('success-control').addClass('error-control');  
+        parent.removeClass('success-control').addClass('error-control');
       },
       highlight: function (element) { // hightlight error inputs
         var parent = $(element).parent();
-        parent.removeClass('success-control').addClass('error-control'); 
+        parent.removeClass('success-control').addClass('error-control');
       },
-      unhighlight: function (element) { 
+      unhighlight: function (element) {
       // revert the change done by hightlight
     },
 
     success: function (label, element) {
       var parent = $(element).parent('.input-with-icon');
-      parent.removeClass('error-control').addClass('success-control'); 
+      parent.removeClass('error-control').addClass('success-control');
     },
 
     submitHandler: function (form) {
-      form.submit(); 
+      form.submit();
     }
 
   });
 });
 
-// Radio Question Option 
+// Radio Question Option
 $("#addRadioRowOption").click(function(e) {
   var items = '';
 
-  items+= '<tr>';              
+  items+= '<tr>';
   items+= '<td><input name="option_name[]" type="text" class="form-control input-sm"></td>';
   items+= '<td> <a href="javascript:void();" class="label label-important" onclick="removeRadioRowOption(this)"> <i class="fa fa-minus-circle"></i> মুছে ফেলুন </a></td>';
   items+= '</tr>';
@@ -133,13 +137,13 @@ $("#addRadioRowOption").click(function(e) {
   // JS Function
   // select2Office();
   // select2DesignationPR();
-}); 
+});
 
-function removeRadioRowOption(id){ 
+function removeRadioRowOption(id){
   $(id).closest("tr").remove();
 }
 
-function removeRadioRowFunc(id){ 
+function removeRadioRowFunc(id){
   var dataId = $(id).attr("data-id");
     // alert(dataId);
 
@@ -160,11 +164,11 @@ function removeRadioRowFunc(id){
   }
 
 
-// Checkbox Question Option 
+// Checkbox Question Option
 $("#addCheckRowOption").click(function(e) {
   var items = '';
 
-  items+= '<tr>';              
+  items+= '<tr>';
   items+= '<td><input name="option_name[]" type="text" class="form-control input-sm"></td>';
   items+= '<td> <a href="javascript:void();" class="label label-important" onclick="removeCheckRowOption(this)"> <i class="fa fa-minus-circle"></i> মুছে ফেলুন </a></td>';
   items+= '</tr>';
@@ -173,13 +177,13 @@ $("#addCheckRowOption").click(function(e) {
   // JS Function
   // select2Office();
   // select2DesignationPR();
-}); 
+});
 
-function removeCheckRowOption(id){ 
+function removeCheckRowOption(id){
   $(id).closest("tr").remove();
 }
 
-function removeCheckRowFunc(id){ 
+function removeCheckRowFunc(id){
   var dataId = $(id).attr("data-id");
     // alert(dataId);
 
