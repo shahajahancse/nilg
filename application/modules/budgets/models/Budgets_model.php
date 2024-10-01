@@ -7,6 +7,29 @@ class Budgets_model extends CI_Model {
         parent::__construct();
     }
     // Manage Budget nilg list
+    public function dpt_summary($limit, $offset, $arr = array(), $dept_id = null, $type = null,  $user_id = null) {
+        $this->db->select('bd.*, bhs.session_name, d.dept_name');
+        $this->db->from('budget_revenue_summary bd');
+        $this->db->join('session_year as bhs', 'bhs.id = bd.fcl_year', 'left');
+        $this->db->join('department as d', 'd.id = bd.dept_id', 'left');
+        $this->db->where('bd.soft_delete', 1);
+        $this->db->limit($limit);
+        $this->db->offset($offset);
+        if (!empty($arr)) {
+            $this->db->where_in('bd.status', $arr);
+        }
+        if (!empty($dept_id)) {
+            $this->db->where('bd.dept_id', $dept_id);
+        }
+        if (!empty($user_id)) {
+            $this->db->where('bd.created_by', $user_id);
+        }
+        if (!empty($type)) {
+            $this->db->where_in('bd.type', $type);
+        }
+        return $this->db->order_by('bd.id','desc')->get()->result();
+    }
+
     public function get_budget($limit, $offset, $arr = array(), $dept_id = null, $user_id = null, $type = null) {
         //$dept_id=$_POST['department_id'];
 

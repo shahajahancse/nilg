@@ -183,7 +183,7 @@ class Nilg_setting extends Backend_Controller {
             $form_data = array(
                 'name_bn'     => $this->input->post('name_bn'),
                 'name_en'     => $this->input->post('name_en'),
-                // 'amount'      => $this->input->post('amount'),
+                'amount'      => $this->input->post('amount'),
                 // 'type'        => $this->input->post('type'),
             );
             if ($this->Common_model->save('budget_festival', $form_data)) {
@@ -207,7 +207,7 @@ class Nilg_setting extends Backend_Controller {
             $form_data = array(
                 'name_bn'     => $this->input->post('name_bn'),
                 'name_en'     => $this->input->post('name_en'),
-                // 'amount'      => $this->input->post('amount'),
+                'amount'      => $this->input->post('amount'),
                 // 'type'        => $this->input->post('type'),
                 'status'      => $this->input->post('status'),
             );

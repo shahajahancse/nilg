@@ -98,7 +98,7 @@
                                         <th>ডেস্ক</th>
                                         <!-- <th>ডেস্কিপশন</th> -->
                                         <th>স্ট্যাটাস</th>
-                                        <th>আপডেট তারিখ</th>
+                                        <!-- <th>আপডেট তারিখ</th> -->
                                         <th style="text-align: right;">অ্যাকশন</th>
                                     </tr>
                                 </thead>
@@ -112,61 +112,73 @@
                                             <td class="v-align-middle"><?= $row->session_name; ?></td>
                                             <td class="v-align-middle"><?= $row->amount; ?></td>
                                             <td class="v-align-middle">
-                                                <!-- // 1=current, 2=forward dpt, 3=forward acc., 4=dg, 5=back acc, 6=complete, -->
-                                                <?php
-                                                if ($row->desk == 1) {
-                                                    echo 'Current';
-                                                } elseif ($row->desk == 2) {
-                                                    echo 'AD Sir';
-                                                } elseif ($row->desk == 3) {
-                                                    echo 'DD Sir';
-                                                } elseif ($row->desk == 4) {
-                                                    echo 'DG Sir';
-                                                } elseif ($row->desk == 5) {
-                                                    echo 'Account';
-                                                } elseif ($row->desk == 6) {
-                                                    echo 'Complete';
-                                                }
-                                                ?>
-                                            </td>
-                                            <!-- <td class="v-align-middle" style="width: 200px; white-space: normal;overflow: hidden" title="<?= $row->description; ?>"><?= $row->description; ?></td> -->
-                                            <td class="v-align-middle">
-                                                <!-- 1=pending,2=dpt. app., 3=reject, 4=acc., 5=dg, 6=draft, 7=revenue received -->
                                                 <?php if ($row->status == 1) {
                                                     echo '<span class="label label-info">Draft </span>';
                                                 } elseif ($row->status == 2) {
                                                     echo '<span class="label label-warning">On Precess</span>';
-                                                } elseif ($row->status == 3) {
-                                                    echo '<span class="label label-primary">Department Approve </span>';
+                                                }elseif ($row->status == 3) {
+                                                    echo '<span class="label label-primary">DD Approve </span>';
                                                 } elseif ($row->status == 4) {
-                                                    echo '<span class="label label-info">Account. Approve </span>';
+                                                    echo '<span class="label label-primary">JD Approve </span>';
+                                                }elseif ($row->status == 5) {
+                                                    echo '<span class="label label-primary">Director Approve </span>';
+                                                }elseif ($row->status == 6) {
+                                                    echo '<span class="label label-primary">DG Approve </span>';
+                                                }elseif ($row->status == 7) {
+                                                    echo '<span class="label label-primary">AC Approve </span>';
+                                                } elseif ($row->status == 8) {
+                                                    echo '<span class="label label-primary">Complete </span>';
+                                                } elseif ($row->status == 9) {
+                                                    echo '<span class="label label-primary">Reject </span>';
+                                                } ?>
+                                            </td>
+                                            <!-- <td class="v-align-middle" style="width: 200px; white-space: normal;overflow: hidden" title="<?= $row->description; ?>"><?= $row->description; ?></td> -->
+                                            <td class="v-align-middle">
+                                                <?php if ($row->status == 1) {
+                                                    echo '<span class="label label-info">Draft </span>';
+                                                } elseif ($row->status == 2) {
+                                                    echo '<span class="label label-info"> On Precess </span>';
+                                                } elseif ($row->status == 3) {
+                                                    echo '<span class="label label-primary"> DD Sir </span>';
+                                                } elseif ($row->status == 4) {
+                                                    echo '<span class="label label-primary"> JD Sir </span>';
                                                 } elseif ($row->status == 5) {
-                                                    echo '<span class="label label-success">DG. Approve </span>';
-                                                } elseif ($row->status == 6) {
-                                                    echo '<span class="label label-success">Revenue Received </span>';
-                                                } elseif ($row->status == 7) {
-                                                    echo '<span class="label label-important">Rejected </span>';
-                                                }
-                                                ?>
+                                                    echo '<span class="label label-primary"> Director Sir </span>';
+                                                }elseif ($row->status == 6) {
+                                                    echo '<span class="label label-primary"> DG Sir </span>';
+                                                }elseif ($row->status == 7) {
+                                                    echo '<span class="label label-primary"> AC Sir </span>';
+                                                }elseif ($row->status == 8) {
+                                                    echo '<span class="label label-primary">Complete </span>';
+                                                } else {
+                                                    echo '<span class="label label-primary">Reject </span>';
+                                                } ?>
                                             </td>
 
-                                            <td class="v-align-middle"><?= date_bangla_calender_format($row->update_at); ?>
-                                            </td>
+                                            <!-- <td class="v-align-middle"><?= date_bangla_calender_format($row->update_at); ?>
+                                            </td> -->
                                             <td align="right">
                                                 <div class="btn-group">
                                                     <button class="btn btn-mini btn-primary">অ্যাকশন</button>
                                                     <button class="btn btn-mini btn-primary dropdown-toggle"
                                                         data-toggle="dropdown"> <span class="caret"></span> </button>
                                                     <ul class="dropdown-menu pull-right">
-                                                        <li><a
-                                                                href="<?php echo base_url('budgets/budget_nilg_details/' . encrypt_url($row->id)) ?>"><i
-                                                                    class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
-                                                        <li><a
-                                                                href="<?php echo base_url('budgets/budget_nilg_details/' . encrypt_url($row->id)) ?>"><i
-                                                                    class="fa fa-pencil-square"></i> সংশোধন করুন </a></li>
+                                                        <?php if (in_array($row->status,[1]) && $this->ion_auth->in_group(array('ad'))) { ?>
+                                                        <li>
+                                                            <a href="<?php echo base_url('budgets/budget_nilg_details/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> সংশোধন করুন </a>
+                                                        </li>
                                                         <li>
                                                             <a onclick='reviews(<?= $row->id ?>)' data-toggle="modal" data-target="#myModal" href=""><i  class="fa fa-user"></i> রিভিও</a>
                                                         </li>
+
+                                                        <li> <a href="<?php echo base_url('budgets/other_dpt_forward/2/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু ডি.ডি </a> </li>
+                                                        <li> <a href="<?php echo base_url('budgets/other_dpt_forward/3/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু জে.ডি </a> </li>
+                                                        <li> <a href="<?php echo base_url('budgets/other_dpt_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু ডিরেক্টর </a> </li>
+                                                        <?php } ?>
+                                                        <?php if (in_array($row->status,[2]) && $this->ion_auth->in_group(array('ad'))) { ?>
+                                                        <li> <a href="<?php echo base_url('budgets/other_dpt_forward/1/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক </a> </li>
+                                                        <?php } ?>
+
                                                         <li>
                                                             <a href="<?php echo base_url('budgets/budget_nilg_print/' . encrypt_url($row->id)) ?>"
                                                                 target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট করুন

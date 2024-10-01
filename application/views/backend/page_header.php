@@ -377,7 +377,7 @@ input[type="search"] {
 
                <!-- বাজেট entry start -->
                <!-- //  not live the module yet -->
-               <?php $aar = array('admin', 'dg', 'nilg', 'dd', 'ad', 'ad', 'tdo', 'uz', 'ddlg','bod','bho','bli'); ?>
+               <?php $aar = array('admin','dd','jd','director','dg', 'ad', 'tdo', 'uz', 'ddlg','bod','bho','bli'); ?>
                <?php //if ($this->ion_auth->in_group('demo')) { ?>
                <?php if ($this->ion_auth->in_group($aar)) { ?>
                   <?php if ($this->ion_auth->in_group(array('uz', 'ddlg'))) { ?>
@@ -412,9 +412,9 @@ input[type="search"] {
                               </li>
                            <?php } ?>
 
-                           <?php if ($this->ion_auth->in_group(array('dd','dg'))) { ?>
+                           <?php if ($this->ion_auth->in_group(array('dd','jd','director','dg'))) { ?>
                               <li class="start <?= backend_activate_menu_method('dpt_summary') ?>">
-                              <a href="<?= base_url('budgets/dpt_summary'); ?>">বাজেট তালিকা </a>
+                              <a href="<?= base_url('budgets/dpt_summary'); ?>">বাজেট তালিকা </a></li>
                            <?php } ?>
 
                            <?php if ($this->ion_auth->in_group(array('tdo'))) { ?>
@@ -674,6 +674,8 @@ input[type="search"] {
                   <!-- pension registration -->
                   <li class="start <?= backend_activate_menu_class('journal_entry') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
+                        <li class="start <?= backend_activate_menu_method('dpt_summary') ?>">
+                              <a href="<?= base_url('budgets/dpt_summary'); ?>">বাজেট তালিকা </a></li>
                         <li class="start <?= backend_activate_menu_method('cheque_entry') ?>">
                            <a href="<?= base_url('journal_entry/cheque_entry'); ?>"> চেক রেজিস্টার</a>
                         </li>

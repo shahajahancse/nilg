@@ -64,7 +64,7 @@
                                     <th> ক্রম </th>
                                     <th> নাম বাংলা</th>
                                     <th>নাম ইংরেজী</th>
-                                    <!-- <th>পরিমাণ</th> -->
+                                    <th>পরিমাণ</th>
                                     <!-- <th>টাইপ</th> -->
                                     <th>স্ট্যাটাস</th>
                                     <th style="text-align: right;">অ্যাকশন</th>
@@ -77,7 +77,7 @@
                                         <td class="v-align-middle"><?= $sl . '.' ?></td>
                                         <td class="v-align-middle"><?= $row->name_bn; ?></td>
                                         <td class="v-align-middle"><?= $row->name_en; ?></td>
-                                        <!-- <td class="v-align-middle"><?= $row->amount; ?></td> -->
+                                        <td class="v-align-middle"><?= $row->amount; ?></td>
                                         <?php if ($row->type == 1) {
                                             $type = 'officer';
                                         } else {

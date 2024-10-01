@@ -18,9 +18,9 @@
         </h4>
     </div>
     <div class="col-md-3">
-        <div style="margin-top: 15px; padding: 4px; border: 2px solid; font-size: 15px; float: right;">
+        <!-- <div style="margin-top: 15px; padding: 4px; border: 2px solid; font-size: 15px; float: right;">
             <span> শেখ হাসিনার মূলনীতি </span> <br>
             <span> গ্রাম শহরের উন্নতি </span>
-        </div>
+        </div> -->
     </div>
 </div>

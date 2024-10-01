@@ -3,7 +3,7 @@ passs :  N12908049
 
 মুক্তাদির হোসেন	8680992065     (training user)
 মোঃ এরশাদ-ই-ইসলাম	2695041731312  (training user)
-এ জেহাদ সরকার	1479302182     (ad  dept head  training)
+এ জেহাদ সরকার	1479302182     (ad dept head  training)
 
 মো: নাজিম উদ্দিন	3273133821     (evaluation user)
 মোতাছিম বিল্লাহ	2611038723696  (evaluation user)

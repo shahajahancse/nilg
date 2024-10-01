@@ -52,7 +52,7 @@
                 <input name="bd_code" type="number" class="form-control input-sm" placeholder="" value="<?=$info->bd_code?>">
               </div>
               <div class="col-md-3">
-                <label class="form-label">বিঃডিঃ কোড <span class="required">*</span></label>
+                <label class="form-label">পরিমান <span class="required">*</span></label>
                 <input name="amount" type="number" class="form-control input-sm" value="<?=$info->amount?>">
               </div>
               <div class="col-md-3">

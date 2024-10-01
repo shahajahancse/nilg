@@ -247,6 +247,22 @@ class Budgets extends Backend_Controller
 
         }
     }
+    public function other_dpt_forward($status,$encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->trans_start();
+        $this->db->where('id', $id);
+        $data =  array('status' => $status);
+        if ($this->db->update('budget_revenue_summary', $data)) {
+            $this->db->trans_complete();
+            if($status==7){
+                $this->update_acc($id);
+            }
+            $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+            redirect("budgets/budget_nilg");
+        } else {
+            $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়নি');
+        }
+    }
     public function budget_nilg_dept_edit()
     {
         $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
@@ -1368,21 +1384,46 @@ class Budgets extends Backend_Controller
     // Training Budget end
     // training office budget end
 
-
-
-    function dpt_summary() {
-        $user = $this->ion_auth->user()->row();
-        if ($user->crrnt_dept_id == '') {
+    function dpt_summary($offset = 0) {
+        $limit = 15;
+        $user_id = $this->data['userDetails']->id;
+        $dept_id = $this->data['userDetails']->crrnt_dept_id;
+        // $user = $this->ion_auth->user()->row();
+        if ($dept_id == '') {
             $this->session->set_flashdata('error', 'Please update your profile first');
             redirect("my_profile");
         }
-        $this->db->select('bd.*, bhs.session_name, d.dept_name');
-        $this->db->from('budget_revenue_summary bd');
-        $this->db->join('session_year as bhs', 'bhs.id = bd.fcl_year', 'left');
-        $this->db->join('department as d', 'd.id = bd.dept_id', 'left');
-        $this->db->where_in('bd.type', array(1,3));
-        $this->db->where('bd.soft_delete', 1);
-        $this->data['summary'] = $this->db->order_by('bd.id','desc')->get()->result();
+
+        if ($this->ion_auth->in_group(array('ad')) && $dept_id == 2 ) {
+            $type = array(3);
+            $results = $this->Budgets_model->dpt_summary($limit, $offset, null, $dept_id, $type, null);
+        } else if ($this->ion_auth->in_group(array('ad'))) {
+            $type = array(1);
+            $results = $this->Budgets_model->dpt_summary($limit, $offset, null, $dept_id, $type, null);
+        } else if ($this->ion_auth->in_group(array('dd'))) {
+            $type = array(1,3);
+            $arr = array(2,3,4,5,6,7,8,9);
+            $results = $this->Budgets_model->dpt_summary($limit, $offset, $arr, null, $type, null);
+        } else if ($this->ion_auth->in_group(array('jd'))) {
+            $type = array(1,3);
+            $arr = array(3,4,5,6,7,8,9);
+            $results = $this->Budgets_model->dpt_summary($limit, $offset, $arr, null, null);
+        } else if ($this->ion_auth->in_group(array('director'))) {
+            $type = array(1,3);
+            $arr = array(4,5,6,7,8,9);
+            $results = $this->Budgets_model->dpt_summary($limit, $offset, $arr, null, null);
+        } else if ($this->ion_auth->in_group(array('dg'))) {
+            $type = array(1,3);
+            $arr = array(5,6,7,8,9);
+            $results = $this->Budgets_model->dpt_summary($limit, $offset, $arr, null, null);
+        } else if ($this->ion_auth->in_group(array('acc'))) {
+            $type = array(1,3);
+            $arr = array(6,7,8,9);
+            $results = $this->Budgets_model->dpt_summary($limit, $offset, $arr, null, null);
+        } else if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
+            $results = $this->Budgets_model->dpt_summary($limit, $offset);
+        }
+        $this->data['summary'] = $results;
         // dd($this->data['summary']);
 
         //Load view

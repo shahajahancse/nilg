@@ -50,13 +50,17 @@
                                     <legend>উৎসব ভাতা তথ্য</legend>
                                     <div class="row form-row" style="font-size: 16px; color: black;">
 
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <label for="title" class="control-label">নাম (বাংলা): <span class="required">*</span></label>
                                             <input value="<?=$row->name_bn?>" required class="form-control input-sm" name="name_bn" style="min-height: 33px;">
                                         </div>
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <label for="title" class="control-label">নাম (ইংরেজী): <span class="required">*</span></label>
                                             <input value="<?=$row->name_en?>" required class="form-control input-sm" name="name_en" style="min-height: 33px;">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label for="title" class="control-label">পরিমাণ <span class="required">*</span></label>
+                                            <input value="<?=$row->amount?>" required class="form-control input-sm" name="amount" style="min-height: 33px;">
                                         </div>
 
                                         <!-- <div class="col-md-2">
