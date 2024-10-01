@@ -167,22 +167,22 @@
                     <thead class="headding">
                         <tr>
                             <th width="">ক্রম </th>
+                            <th width="">বিবরণ </th>
                             <th width="">চেক নং </th>
-                            <th width="">রেফারেন্স </th>
-                            <th width="">পরিমাণ </th>
                             <th width="">তারিখ  </th>
-                            <th width="">মন্তব্য </th>
+                            <th width="">পরিমাণ </th>
+                            <!-- <th width="">মন্তব্য </th> -->
                         </tr>
                     </thead>
                     <tbody id="tbody">
                         <?php foreach ($results as $key => $value) { ?>
                             <tr>
-                                <td><?= eng2bng($key + 1); ?></td>
-                                <td width=""><?= $value->cheque_no ?> </td>
-                                <td width=""><?= $value->reference ?> </td>
-                                <td><?= eng2bng($value->amount)?></td>
-                                <td> <?= eng2bng($value->issue_date)?></td>
+                                <td>&nbsp; <?= eng2bng($key + 1); ?></td>
                                 <td> <?= $value->description ?></td>
+                                <td> <?= $value->cheque_no ?> </td>
+                                <td>&nbsp; <?= eng2bng($value->issue_date)?></td>
+                                <td>&nbsp; <?= eng2bng($value->amount)?></td>
+                                <!-- <td> <?= $value->description ?> </td> -->
                             </tr>
                         <?php } ?>
                     </tbody>

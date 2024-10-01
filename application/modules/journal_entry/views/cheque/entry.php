@@ -56,7 +56,7 @@
                                                 style="font-size: 22px;font-weight: bold;text-decoration: underline;">চেক তথ্য এন্ট্রি ফর্ম </span>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                         <br>
                                         <div class="col-md-2">
@@ -89,7 +89,7 @@
                                             </select>
                                         </div>
                                         <div class="col-md-12">
-                                            <label for="title" class="control-label">বর্ণনা:</label>
+                                            <label for="title" class="control-label">বিবরণ:</label>
                                             <textarea name="description" id="" style="width: 100%; height: 85px;"></textarea>
                                         </div>
 

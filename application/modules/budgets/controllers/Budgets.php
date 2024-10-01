@@ -26,19 +26,24 @@ class Budgets extends Backend_Controller
         $limit = 15;
         $user_id = $this->data['userDetails']->id;
         $dept_id = $this->data['userDetails']->crrnt_dept_id;
-        if ($this->ion_auth->in_group(array('bdh'))) {
-            $arr = array(2,3,4,5,6,7,8);
-            $results = $this->Budgets_model->get_budget($limit, $offset, array(), $dept_id);
-        } else if ($this->ion_auth->in_group(array('acc'))) {
-            $arr = array(3,4,5,6,7,8);
+        if ($this->ion_auth->in_group(array('ad')) && $dept_id == 2 ) {
+            $results = $this->Budgets_model->get_budget($limit, $offset, null, $dept_id, null, 3);
+        } else if ($this->ion_auth->in_group(array('ad'))) {
+            $results = $this->Budgets_model->get_budget($limit, $offset, null, $dept_id, null, 1);
+        } else if ($this->ion_auth->in_group(array('dd'))) {
+            $arr = array(3);
             $results = $this->Budgets_model->get_budget($limit, $offset, $arr, null, null);
-        } else if ($this->ion_auth->in_group(array('bdg'))) {
-            $arr = array(4,5,6,7,8);
+        } else if ($this->ion_auth->in_group(array('jd'))) {
+            $arr = array(4);
+            $results = $this->Budgets_model->get_budget($limit, $offset, $arr, null, null);
+        } else if ($this->ion_auth->in_group(array('dg'))) {
+            $arr = array(5,6,7,8,9);
+            $results = $this->Budgets_model->get_budget($limit, $offset, $arr, null, null);
+        } else if ($this->ion_auth->in_group(array('acc'))) {
+            $arr = array(6,7,8,9);
             $results = $this->Budgets_model->get_budget($limit, $offset, $arr, null, null);
         } else if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
             $results = $this->Budgets_model->get_budget($limit, $offset);
-        } else {
-            $results = $this->Budgets_model->get_budget($limit, $offset, array(), $dept_id, $user_id);
         }
 
         $this->data['results'] = $results['rows'];
@@ -148,14 +153,14 @@ class Budgets extends Backend_Controller
         $this->data['info'] = $this->Common_model->get_user_details($this->data['budget_nilg']->created_by);
 
         $this->data['meta_title'] = 'বাজেট বিস্তারিত';
-        if ($this->ion_auth->in_group(array('bdh'))) {
+        if ($this->ion_auth->in_group(array('ad'))) {
             // dd('rrrddd');
             $this->data['subview'] = 'budget_nilg/details_dept_head';
         } else if ($this->ion_auth->in_group(array('acc')) &&  in_array($this->data['budget_nilg']->desk, array(5,6))) {
             $this->data['subview'] = 'budget_nilg/details_acc_final';
         } else if ($this->ion_auth->in_group(array('acc'))) {
             $this->data['subview'] = 'budget_nilg/details_acc';
-        } else if ($this->ion_auth->in_group(array('bdg'))) {
+        } else if ($this->ion_auth->in_group(array('dg'))) {
             $this->data['subview'] = 'budget_nilg/details_dg';
         } else {
             $this->data['subview'] = 'budget_nilg/details';
@@ -352,13 +357,13 @@ class Budgets extends Backend_Controller
         $limit = 15;
         $user_id = $this->data['userDetails']->id;
         $dept_id = $this->data['userDetails']->crrnt_dept_id;
-        if ($this->ion_auth->in_group(array('bdh'))) {
+        if ($this->ion_auth->in_group(array('ad'))) {
             $arr = array(2,3,4,5,6,7,8);
             $results = $this->Budgets_model->get_budget($limit, $offset, $arr, null, null, 2);
         } else if ($this->ion_auth->in_group(array('acc'))) {
             $arr = array(3,4,5,6,7,8);
             $results = $this->Budgets_model->get_budget($limit, $offset, $arr, null, null);
-        } else if ($this->ion_auth->in_group(array('bdg'))) {
+        } else if ($this->ion_auth->in_group(array('dg'))) {
             $arr = array(4,5,6,7,8);
             $results = $this->Budgets_model->get_budget($limit, $offset, $arr, null, null);
         } else if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
@@ -404,8 +409,8 @@ class Budgets extends Backend_Controller
                 'fcl_year' => $this->input->post('fcl_year'),
                 'dept_id' => $user->crrnt_dept_id,
                 'type' => 2,  // training dpt create
-                'status' => $this->ion_auth->in_group(array('bdh')) ? 2 : 1,
-                'desk' => $this->ion_auth->in_group(array('bdh')) ? 2 : 1,
+                'status' => $this->ion_auth->in_group(array('ad')) ? 2 : 1,
+                'desk' => $this->ion_auth->in_group(array('ad')) ? 2 : 1,
                 'office_type' => $this->input->post('office_type'),
                 'course_id' => $this->input->post('course_id'),
                 'trainee_type' => $this->input->post('trainee_type'),
@@ -725,8 +730,8 @@ class Budgets extends Backend_Controller
                 'fcl_year' => $this->input->post('fcl_year'),
                 'dept_id' => $user->crrnt_dept_id,
                 'type' => 2,  // training dpt create
-                'status' => $this->ion_auth->in_group(array('bdh')) ? 2 : 1,
-                'desk' => $this->ion_auth->in_group(array('bdh')) ? 2 : 1,
+                'status' => $this->ion_auth->in_group(array('ad')) ? 2 : 1,
+                'desk' => $this->ion_auth->in_group(array('ad')) ? 2 : 1,
                 'office_type' => $this->input->post('office_type'),
                 'course_id' => $this->input->post('course_id'),
                 'trainee_type' => $this->input->post('trainee_type'),
@@ -850,8 +855,8 @@ class Budgets extends Backend_Controller
                 'amount' => $this->input->post('total_amount'),
                 'dept_id' => $user->crrnt_dept_id,
                 'type' => 2,  // training dpt create
-                'status' => $this->ion_auth->in_group(array('bdh')) ? 2 : 1,
-                'desk' => $this->ion_auth->in_group(array('bdh')) ? 2 : 1,
+                'status' => $this->ion_auth->in_group(array('ad')) ? 2 : 1,
+                'desk' => $this->ion_auth->in_group(array('ad')) ? 2 : 1,
                 'description' => $this->input->post('description'),
                 'created_by' => $user->id,
             );
@@ -935,7 +940,7 @@ class Budgets extends Backend_Controller
         $dept_id = $this->data['userDetails']->crrnt_dept_id;
         $office_type = $this->data['userDetails']->office_type;
 
-        if ($office_type == 7 && $this->ion_auth->in_group(array('bdh'))) {
+        if ($office_type == 7 && $this->ion_auth->in_group(array('ad'))) {
             $results = $this->Budgets_model->get_budget_field($limit, $offset, null, $user_id, $dept_id);
         } else if ($office_type == 7 && $this->ion_auth->in_group(array('bho'))) {
             $results = $this->Budgets_model->get_budget_field($limit, $offset, null, $user_id, $dept_id);
@@ -995,8 +1000,8 @@ class Budgets extends Backend_Controller
                 'amount' => $this->input->post('total_amount'),
                 'dept_id' => $user->crrnt_dept_id,
                 'type' => 2,  // training dpt create
-                'status' => $this->ion_auth->in_group(array('bdh')) ? 2 : 1,
-                'desk' => $this->ion_auth->in_group(array('bdh')) ? 2 : 1,
+                'status' => $this->ion_auth->in_group(array('ad')) ? 2 : 1,
+                'desk' => $this->ion_auth->in_group(array('ad')) ? 2 : 1,
                 'description' => $this->input->post('description'),
                 'created_by' => $user->id,
             );
@@ -1360,18 +1365,8 @@ class Budgets extends Backend_Controller
         $mpdf->WriteHtml($html);
         $mpdf->output();
     }
-
-
-
-
     // Training Budget end
     // training office budget end
-
-
-
-
-
-
 
 
 
@@ -1385,7 +1380,7 @@ class Budgets extends Backend_Controller
         $this->db->from('budget_revenue_summary bd');
         $this->db->join('session_year as bhs', 'bhs.id = bd.fcl_year', 'left');
         $this->db->join('department as d', 'd.id = bd.dept_id', 'left');
-        $this->db->where('bd.type', 3);
+        $this->db->where_in('bd.type', array(1,3));
         $this->db->where('bd.soft_delete', 1);
         $this->data['summary'] = $this->db->order_by('bd.id','desc')->get()->result();
         // dd($this->data['summary']);
@@ -1395,6 +1390,7 @@ class Budgets extends Backend_Controller
         $this->data['subview'] = 'budget_nilg/dpt_summary';
         $this->load->view('backend/_layout_main', $this->data);
     }
+
     public function dpt_summary_create()
     {
         $user = $this->ion_auth->user()->row();
@@ -1415,7 +1411,7 @@ class Budgets extends Backend_Controller
                     'dpt_head_id' => $user->crrnt_dept_id,
                     'dept_id' => $user->crrnt_dept_id,
                     'type' => 3, // training dpt marge
-                    'status' => 2, // pending
+                    'status' => 1, // pending
                     'created_by' => $user->id,
                 );
 
@@ -2100,13 +2096,13 @@ class Budgets extends Backend_Controller
         $limit = 15;
         $user_id = $this->data['userDetails']->id;
         $dept_id = $this->data['userDetails']->crrnt_dept_id;
-        if ($this->ion_auth->in_group(array('bdh'))) {
+        if ($this->ion_auth->in_group(array('ad'))) {
             $arr = array(2,3,4,5,6,7,8);
             $results = $this->Budgets_model->get_budget($limit, $offset, $arr, $dept_id);
         } else if ($this->ion_auth->in_group(array('acc'))) {
             $arr = array(3,4,5,6,7,8);
             $results = $this->Budgets_model->get_budget($limit, $offset, $arr, null, null);
-        } else if ($this->ion_auth->in_group(array('bdg'))) {
+        } else if ($this->ion_auth->in_group(array('dg'))) {
             $arr = array(4,5,6,7,8);
             $results = $this->Budgets_model->get_budget($limit, $offset, $arr, null, null);
         } else if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
@@ -2137,8 +2133,8 @@ class Budgets extends Backend_Controller
                 'amount' => $this->input->post('total_amount'),
                 'fcl_year' => $this->input->post('fcl_year'),
                 'dept_id' => $user->crrnt_dept_id,
-                'status' => $this->ion_auth->in_group(array('bdh')) ? 2 : 1,
-                'desk' => $this->ion_auth->in_group(array('bdh')) ? 2 : 1,
+                'status' => $this->ion_auth->in_group(array('ad')) ? 2 : 1,
+                'desk' => $this->ion_auth->in_group(array('ad')) ? 2 : 1,
                 'description' => $this->input->post('description'),
                 'created_by' => $user->id,
             );

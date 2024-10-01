@@ -32,7 +32,7 @@
                                     href="<?php echo base_url('budgets/nilg_revenue_summary') ?>" target="_blank"><i
                                         class="fa fa-book"></i> রিভিনিও সামারী </a>
                             <?php }  ?>
-                            <?php if ($this->ion_auth->in_group(array('admin', 'bdh'))) { ?>
+                            <?php if ($this->ion_auth->in_group(array('admin', 'ad'))) { ?>
                                 <a href="<?= base_url('budgets/dpt_summary') ?>" class="btn btn-blueviolet btn-xs btn-mini"> সামারী তালিকা </a>
                                 <a class="btn btn-success btn-xs btn-mini" target="_blank" onclick="dpt_summary()"><i class="fa fa-book"></i> সামারী করুন </a>
                             <?php }  ?>

@@ -12,7 +12,7 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?= $meta_title; ?></span></h4>
                         <div class="pull-right" style="display: flex;align-content: center;justify-content: center;flex-wrap: wrap;gap: 8px;">
-                            <?php if ($this->ion_auth->in_group(array('admin', 'bdh'))) { ?>
+                            <?php if ($this->ion_auth->in_group(array('admin', 'ad'))) { ?>
                                 <a href="<?= base_url('budgets/training_budgets') ?>" class="btn btn-blueviolet btn-xs btn-mini">সামারী তৈরি করুণ</a>
                                 <!-- <a href="<?= base_url('budgets/acc_summary') ?>" class="btn btn-blueviolet btn-xs btn-mini">ডিপার্টমেন্ট সামারী তালিকা </a> -->
                             <?php }  ?>
@@ -90,17 +90,20 @@
                                                 } elseif ($row->status == 2) {
                                                     echo '<span class="label label-warning">On Precess</span>';
                                                 }elseif ($row->status == 3) {
-                                                    echo '<span class="label label-primary">Dept Approve </span>';
-                                                } elseif ($row->status == 4) {
-                                                    echo '<span class="label label-primary">AD Approve </span>';
-                                                }elseif ($row->status == 5) {
                                                     echo '<span class="label label-primary">DD Approve </span>';
+                                                } elseif ($row->status == 4) {
+                                                    echo '<span class="label label-primary">JD Approve </span>';
+                                                }elseif ($row->status == 5) {
+                                                    echo '<span class="label label-primary">Director Approve </span>';
                                                 }elseif ($row->status == 6) {
                                                     echo '<span class="label label-primary">DG Approve </span>';
                                                 }elseif ($row->status == 7) {
                                                     echo '<span class="label label-primary">AC Approve </span>';
-                                                }
-                                                ?>
+                                                } elseif ($row->status == 8) {
+                                                    echo '<span class="label label-primary">Complete </span>';
+                                                } elseif ($row->status == 9) {
+                                                    echo '<span class="label label-primary">Reject </span>';
+                                                } ?>
                                             </td>
 
                                             <td align="right">
@@ -109,18 +112,18 @@
                                                     <button class="btn btn-mini btn-primary dropdown-toggle"
                                                         data-toggle="dropdown"> <span class="caret"></span> </button>
                                                     <ul class="dropdown-menu pull-right">
-                                                        <?php if (in_array($row->status,[1,2]) && $this->ion_auth->in_group(array('bdh'))) {?>
+                                                        <?php if (in_array($row->status,[1]) && $this->ion_auth->in_group(array('ad'))) { ?>
                                                         <li><a href="<?php echo base_url('budgets/dpt_summary_details/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> সংশোধন করুন </a></li>
-                                                        <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/3/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i>অনুমোদন এবং ফরওয়ার্ড টু এ.ডি  </a> </li>
-                                                        <?php }?>
+                                                        <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/2/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু ডি.ডি </a> </li>
+                                                        <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/3/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু জে.ডি </a> </li>
+                                                        <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু ডিরেক্টর </a> </li>
+                                                        <?php } ?>
 
-                                                        <?php if (in_array($row->status,[3]) && $this->ion_auth->in_group(array('ad'))) {?>
-                                                        <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i>অনুমোদন এবং ফরওয়ার্ড টু ডি.ডি  </a> </li>
-                                                        <?php }?>
+                                                        <?php if (in_array($row->status,[2]) && $this->ion_auth->in_group(array('ad'))) { ?>
+                                                        <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/1/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক </a> </li>
+                                                        <?php } ?>
 
-                                                        <?php if (in_array($row->status,[4]) && $this->ion_auth->in_group(array('dd','acc'))) {?>
-                                                        <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i>অনুমোদন এবং ফরওয়ার্ড টু ডি.জি </a> </li>
-                                                        <?php }?>
+
 
                                                         <?php if (in_array($row->status,[5]) && $this->ion_auth->in_group(array('bdg'))) {?>
                                                         <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/6/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i>অনুমোদন এবং ফরওয়ার্ড টু এ.সি   </a> </li>
@@ -237,8 +240,6 @@
     }
 </style>
 
-
-
 <script type="text/javascript">
     function acc_summary() {
         var form = document.createElement('form');
@@ -268,7 +269,6 @@
         form.submit();
     }
 </script>
-
 
 <script type="text/javascript">
     $(document).ready(function() {

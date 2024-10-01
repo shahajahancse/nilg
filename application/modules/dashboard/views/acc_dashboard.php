@@ -1,6 +1,6 @@
 <div class="page-content">
     <div class="content">
-        <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg', 'bdh', 'acc'))) { ?>
+        <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg', 'ad', 'acc'))) { ?>
             <div class="row">
                 <!-- raw start -->
                 <?php if ($this->ion_auth->in_group(array('bdg', 'acc', 'nilg', 'admin'))) { ?>

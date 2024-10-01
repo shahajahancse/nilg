@@ -2365,9 +2365,9 @@ class Trainee extends Backend_Controller
         $allUserGroup = $this->ion_auth->groups()->result_array();
         // dd($allUserGroup);
         if($this->ion_auth->in_group('admin')){
-            $this->data['groups'] = func_array_except($allUserGroup, [0,1,2,3,4,5,6,7,11,12,13,14,18]);
+            $this->data['groups'] = func_array_except($allUserGroup, [0,1,2,3,4,5,6,7,11,12,13,14]);
         } else {
-            $this->data['groups'] = func_array_except($allUserGroup, [0,1,2,3,4,5,6,7,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30]);
+            $this->data['groups'] = func_array_except($allUserGroup, [0,1,2,3,4,5,6,7,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]);
         }
         // dd($this->data['groups']);
         // $this->data['groups'] = $this->ion_auth->groups()->result_array();

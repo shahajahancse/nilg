@@ -98,7 +98,7 @@
                                         </div>
                                         <div class="col-md-2">
                                             <label for="title" class="control-label">পরিমাণ </label>
-                                            <input class="form-control input-sm" name="amount" style="min-height: 33px;">
+                                            <input onkeyup="checkAmt()" class="form-control input-sm" id="amount" name="amount" style="min-height: 33px;">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="title" class="control-label">বিবরণ:</label>
@@ -127,12 +127,9 @@
 <script>
     function addNewRow(id) {
         var head_id = id;
-
         if (head_id == "") {
             return false;
         }
-
-        $("#loading").show();
         $.ajax({
             type: "POST",
             url: "<?= base_url('budgets/add_new_row') ?>",
@@ -147,7 +144,21 @@
                 } else {
                     $("#submit_btn").prop('disabled', false);
                 }
+                checkAmt();
             }
         })
+    }
+</script>
+
+<script>
+    function checkAmt() {
+        var amount = parseInt($('#amount').val());
+        var balance = parseInt($('#balance').val());
+
+        if(amount > balance){
+            $("#submit_btn").prop('disabled', true);
+        } else {
+            $("#submit_btn").prop('disabled', false);
+        }
     }
 </script>

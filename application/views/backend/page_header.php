@@ -377,8 +377,8 @@ input[type="search"] {
 
                <!-- বাজেট entry start -->
                <!-- //  not live the module yet -->
-               <?php $aar = array('admin', 'dg', 'nilg', 'dd', 'ad', 'bdh', 'tdo', 'uz', 'ddlg','bod','bho','bli'); ?>
-               <?php if ($this->ion_auth->in_group('demo')) { ?>
+               <?php $aar = array('admin', 'dg', 'nilg', 'dd', 'ad', 'ad', 'tdo', 'uz', 'ddlg','bod','bho','bli'); ?>
+               <?php //if ($this->ion_auth->in_group('demo')) { ?>
                <?php if ($this->ion_auth->in_group($aar)) { ?>
                   <?php if ($this->ion_auth->in_group(array('uz', 'ddlg'))) { ?>
                      <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span> <span class="arrow"></span> </a>
@@ -387,12 +387,11 @@ input[type="search"] {
                         </ul>
                      </li>
                   <?php } else { ?>
-
                      <li class="start <?= backend_activate_menu_class('training_head') ?> <?= backend_activate_menu_class('budgets') ?> <?= backend_activate_menu_class('training_sub_head') ?>" >
                         <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব বিভাগ</span> <span class="selected"></span> <span class="arrow"></span> </a>
                         <ul class="sub-menu">
 
-                           <?php if ($this->ion_auth->is_admin() || ($this->ion_auth->in_group(array('bdh')) && $userDetails->crrnt_dept_id == 2 )) { ?>
+                           <?php if ($this->ion_auth->is_admin() || ($this->ion_auth->in_group(array('ad')) && $userDetails->crrnt_dept_id == 2 )) { ?>
                               <li class="start <?= backend_activate_menu_method('training_budgets') ?>">
                                  <a href="<?= base_url('budgets/training_budgets'); ?>">বাজেট তৈরি করুন </a>
                               </li>
@@ -402,7 +401,7 @@ input[type="search"] {
                               <li class="start <?= backend_activate_menu_method('budget_field') ?>">
                                  <a href="<?= base_url('budgets/budget_field'); ?>">প্রশিক্ষণ বাজেট তৈরি</a>
                               </li>
-                           <?php } elseif ($this->ion_auth->is_admin() || $this->ion_auth->in_group(array('bdh'))) { ?>
+                           <?php } elseif ($this->ion_auth->is_admin() || $this->ion_auth->in_group(array('ad'))) { ?>
                               <li class="start <?= backend_activate_menu_method('budget_nilg') ?>">
                                  <a href="<?= base_url('budgets/budget_nilg'); ?>">বাজেট তৈরি করুন
                                  <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'acc'))) { ?>
@@ -413,7 +412,7 @@ input[type="search"] {
                               </li>
                            <?php } ?>
 
-                           <?php if ($this->ion_auth->in_group(array('ad','dd','bdg'))) { ?>
+                           <?php if ($this->ion_auth->in_group(array('dd','dg'))) { ?>
                               <li class="start <?= backend_activate_menu_method('dpt_summary') ?>">
                               <a href="<?= base_url('budgets/dpt_summary'); ?>">বাজেট তালিকা </a>
                            <?php } ?>
@@ -450,11 +449,11 @@ input[type="search"] {
                               <!-- <li class="start <?= backend_activate_menu_method('entry_report') ?>"> <a href="<?= base_url('journal_entry/entry_report'); ?>"> রিপোর্ট </a> </li> -->
                            <?php } ?>
 
-                           <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'nilg'))) { ?>
+                           <?php if ($this->ion_auth->in_group(array('admin', 'dg', 'nilg'))) { ?>
                               <!-- <li class="start <?= backend_activate_menu_method('budget_entry') ?>"> <a href="<?= base_url('budgets/budget_entry'); ?>">এন্ট্রি </a> </li> -->
                            <?php } ?>
 
-                           <?php if ($this->ion_auth->in_group(array('admin', 'bdg', 'acc'))) { ?>
+                           <?php if ($this->ion_auth->in_group(array('admin', 'dg', 'acc'))) { ?>
                            <li class="start <?= backend_activate_menu_method('budget_entry') ?>"> <a href="<?= base_url('budgets/budget_report'); ?>">রিপোর্ট</a> </li>
                            <?php } ?>
                         </ul>
@@ -497,7 +496,7 @@ input[type="search"] {
                      <!-- hostel registration -->
                   <?php }  ?>
                <?php }  ?>
-               <?php } ?>
+               <?php //} ?>
                <!-- বাজেট entry end -->
 
                <!-- এনআইএলজি সেটিংস cc-->
