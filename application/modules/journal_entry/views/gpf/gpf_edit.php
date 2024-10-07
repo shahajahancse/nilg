@@ -123,19 +123,7 @@
                                                 </thead>
                                                 <?php //$session_month=$this->db->get('session_month')->result();?>
                                                 <tbody id="tbody">
-                                                    <?php foreach ($details as $key => $value) {
-
-                                                        // [id] => 1
-                                                        // [gpf_reg_id] => 1
-                                                        // [month] => 1
-                                                        // [curr_amt] => 9.00
-                                                        // [adv_amt] => 0.00
-                                                        // [adv_withdraw] => 6.00
-                                                        // [balance] => 3.00
-                                                        // [description] => gfh
-                                                        // [status] => 1
-                                                        // [month_bn] => জুলাই
-                                                        ?>
+                                                    <?php foreach ($details as $key => $value) { ?>
                                                         <tr>
                                                             <td width="10%"><?= $value->month_bn ?>
                                                                 <input type="hidden" name="month[]" value="<?= $value->month ?>">
@@ -147,7 +135,7 @@
 
                                                             <td width="8%"><input type="number"  value="<?= $value->curr_amt + $value->adv_amt?>" min="0"  name="mot_amt[]" class="form-control input-sm mot_amt" style="min-height: 33px;" readonly></td>
 
-                                                            <td><input type="number" min="0"  value="<?= $value->adv_withdraw?>"  name="adv_withdraw[]" class="form-control input-sm adv_withdraw" style="min-height: 33px;" required onkeyup="getBalance(this)"></td>
+                                                            <td><input type="number" min="0"  value="<?= $value->adv_withdraw?>"  name="adv_withdraw[]" class="form-control input-sm adv_withdraw" style="min-height: 33px;" required onkeyup="getAdvance(this)"></td>
 
                                                             <td width="10%"><input type="number"  value="<?= $value->balance?>" min="0" name="balance[]" class="form-control input-sm balance" style="min-height: 33px;" readonly></td>
 
@@ -156,19 +144,6 @@
                                                     <?php } ?>
                                                     <tr>
                                                         <td width="10%">মোট : </td>
-                                                        <!-- [id] => 1
-                                                        [user_id] => 194
-                                                        [fcl_year] => 5
-                                                        [pbalance] => 998.00
-                                                        [curr_amt] => 9.00
-                                                        [adv_amt] => 0.00
-                                                        [adv_withdraw] => 6.00
-                                                        [balance] => 3.00
-                                                        [description] =>  fghfgh
-                                                        [status] => 1
-                                                        [created_at] => 2024-09-24 00:00:00
-                                                        [create_by] => 1285 -->
-
                                                         <td><input type="number" min="0" value="<?= $row->curr_amt ?>" id="total_curr_amt" name="total_curr_amt" class="form-control input-sm" style="min-height: 33px;" readonly></td>
 
                                                         <td><input type="number" min="0" id="total_adv_amt" value="<?= $row->adv_amt ?>" name="total_adv_amt" class="form-control input-sm" style="min-height: 33px;" readonly ></td>
@@ -177,7 +152,7 @@
 
                                                         <td><input type="number" min="0" id="total_adv_withdraw" value="<?= $row->adv_withdraw ?>" name="total_adv_withdraw" class="form-control input-sm" style="min-height: 33px;"  readonly></td>
 
-                                                        <td width="10%"><input type="number" min="0" id="total_balance" value="<?= $row->balance ?>" name="total_balance" class="form-control input-sm" style="min-height: 33px;" readonly></td>
+                                                        <td width="10%"><input type="number" min="0" id="total_balance" value="<?= $row->adv_amt + $row->curr_amt ?>" name="total_balance" class="form-control input-sm" style="min-height: 33px;" readonly></td>
 
                                                         <td width="30%" ></td>
                                                     </tr>
@@ -185,10 +160,10 @@
                                             </table>
 
                                         </div>
-                                        <div class="col-md-12">
+                                        <!-- <div class="col-md-12">
                                             <span>নোট</span>
                                             <textarea name="description" id="" class="form-control input-sm"><?= $row->description ?></textarea>
-                                        </div>
+                                        </div> -->
                                     </div>
 
                                     <br>
@@ -207,20 +182,38 @@
 </div>
 
 <script>
+    function getAdvance(el) {
+        //get all input
+        pbalance = parseInt($('#pbalance').val());
+        var total_adv_withdraw = 0;
+        $('.adv_withdraw').each(function() {
+           total_adv_withdraw += parseInt($(this).val());
+        })
+        // console.log(pbalance + " " + total_adv_withdraw);
+
+        if (pbalance < total_adv_withdraw) {
+            alert("পূর্ববর্তী পরিমান এর বেশী ঋণ নিতে পারবেন না");
+            $(el).closest('tr').find('.adv_withdraw').val(0);
+            $('#total_adv_withdraw').val(0);
+            return false;
+        }
+        $('#total_adv_withdraw').val(total_adv_withdraw);
+    }
+</script>
+
+<script>
     function getBalance(el) {
         //get all input
         var curr_amt_el = $(el).closest('tr').find('.curr_amt');
         var adv_amt_el = $(el).closest('tr').find('.adv_amt');
         var mot_amt_el = $(el).closest('tr').find('.mot_amt');
-        var adv_withdraw_el = $(el).closest('tr').find('.adv_withdraw');
         var balance_el = $(el).closest('tr').find('.balance');
 
         // calculate balance
         var mot_amt = parseInt(curr_amt_el.val()) + parseInt(adv_amt_el.val());
-        var balance=parseInt(mot_amt) - parseInt(adv_withdraw_el.val());
         // insert only input
         mot_amt_el.val(mot_amt);
-        balance_el.val(balance);
+        balance_el.val(mot_amt);
 
         cal_table_footer();
     }
@@ -228,7 +221,6 @@
 
 <script>
     function cal_table_footer(){
-
         var total_curr_amt = 0;
         $('.curr_amt').each(function() {
            total_curr_amt += parseInt($(this).val());
@@ -247,19 +239,10 @@
         })
         $('#total_mot_amt').val(total_mot_amt);
 
-        var total_adv_withdraw = 0;
-        $('.adv_withdraw').each(function() {
-           total_adv_withdraw += parseInt($(this).val());
-        })
-        $('#total_adv_withdraw').val(total_adv_withdraw);
-
         var total_balance = 0;
         $('.balance').each(function() {
            total_balance += parseInt($(this).val());
         })
         $('#total_balance').val(total_balance);
-
-
-
     }
 </script>

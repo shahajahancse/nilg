@@ -86,7 +86,7 @@
                                                     <th width="">ব্যাচ সংখ্যা</th>
                                                     <th width="">মোট প্রশিক্ষণার্থী</th>
                                                     <th width="">প্রকল্পিত বায়</th>
-                                                    <!-- <th width="">স্থান</th> -->
+                                                    <th width="">স্থান</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="tbody">
@@ -105,8 +105,9 @@
                                                     $this->db->join('course_type ct','ct.id=q.trainee_type','left');
                                                     $this->db->where_in('q.id', $ids)->where('q.office_type', $data->office_type);
                                                     $subs = $this->db->get()->result();
+                                                    // dd($subs);
                                                 ?>
-                                                <?php foreach ($subs as $r => $sub) { ?>
+                                                <?php foreach ($subs as $r => $sub) {  ?>
                                                 <tr>
                                                     <td style=""><?= eng2bng($key + 1) .'.'. eng2bng($r + 1) ?></td>
                                                     <input type="hidden" name="<?= $data->office_type ?>_course_id[]" value="<?= $sub->course_id ?>">
@@ -116,8 +117,12 @@
                                                     <td><input type="number" readonly class="form-control input-sm" name="<?= $data->office_type ?>_course_day[]" value="<?= $sub->course_day ?>"></td>
                                                     <td><input type="number" readonly class="form-control input-sm" name="<?= $data->office_type ?>_participants[]" value="<?= $sub->trainee_number ?>"></td>
                                                     <td><input type="number" readonly class="form-control input-sm" name="<?= $data->office_type ?>_batch_number[]" value="<?= $sub->batch_number ?>"></td>
+
                                                     <td><input type="number" readonly class="form-control input-sm" name="<?= $data->office_type ?>_total_participants[]" value="<?= $sub->total_trainee ?>"></td>
                                                     <td><input onchange="calculateTotal(this, <?= $data->office_type ?>)" type="number" readonly class="form-control input-sm sub_<?= $data->office_type ?> amount" name="<?= $data->office_type ?>_amount[]" value="<?= $sub->amount ?>"></td>
+
+                                                    <td><input readonly class="form-control input-sm" name="<?= $data->office_type ?>_location[]" value="<?= $sub->title ?>"></td>
+
                                                    <?php $total = $total + $sub->amount; ?>
                                                 </tr>
                                                 <?php } ?>

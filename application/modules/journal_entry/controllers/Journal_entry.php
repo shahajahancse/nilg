@@ -194,42 +194,46 @@ class Journal_entry extends Backend_Controller
     public function cash_out_edit($encid)
     {
         $id = (int) decrypt_url($encid);
-        $this->form_validation->set_rules('user_id', 'নাম', 'required|trim');
-        $this->form_validation->set_rules('basic_salary', 'মূল বেতন', 'required|trim');
-        $this->form_validation->set_rules('percent', 'বেতন বৃদ্ধি %', 'required|trim');
-        $this->form_validation->set_rules('medical_amt', 'চিকিৎসা', 'required|trim');
-        $this->form_validation->set_rules('account', 'একাউন্ট নং', 'required|trim');
-        $this->form_validation->set_rules('acc_address', 'একাউন্ট ঠিকানা বাংলা', 'required|trim');
-        // $user = $this->ion_auth->user()->row();
+        $this->form_validation->set_rules('sub_head_id', 'খাতের নাম', 'required|trim');
+        $this->form_validation->set_rules('bill_no', 'বিল নং', 'required|trim');
+        $this->form_validation->set_rules('bill_date', 'বিল তারিখ', 'required|trim');
+        $this->form_validation->set_rules('amount', 'বিল পরিমাণ', 'required|trim');
+
         if ($this->form_validation->run() == true) {
-            $ex = explode(',', trim($this->input->post('medical_amt')));
-            // dd($ex);
+            $user = $this->ion_auth->user()->row();
+            $r = $this->db->order_by('id', 'DESC')->get('budget_j_cash_out_register')->row();
+            $h_id = $this->input->post('sub_head_id');
+            $amt = $this->input->post('amount');
             $form_data = array(
-                'user_id' => $this->input->post('user_id'),
-                'receiver' => $this->input->post('receiver'),
-                'basic_salary' => $this->input->post('basic_salary'),
-                'nit_amt' =>  $this->input->post('nit_amt'),
-                'medical_amt' => $ex[0],
-                'total_amt' => $this->input->post('total_amt'),
-                'percent' => $this->input->post('percent'),
-                'account' => $this->input->post('account'),
-                'acc_address' => $this->input->post('acc_address'),
-                'remark' => $this->input->post('remark'),
+                'sub_head_id' => $h_id,
+                'date' => date('Y-m-d'),
+                'biboron' => $this->input->post('biboron'),
+                'bill_no' => $this->input->post('bill_no'),
+                'bill_date' => $this->input->post('bill_date'),
+                'token_no' =>  $this->input->post('token_no'),
+                'token_date' =>  $this->input->post('token_date'),
+
+                'amount' => $amt,
+                'total_amt' => $r->total_amt + $amt,
+                'description' => $this->input->post('description'),
+                'create_by' => $user->id,
             );
 
-            if ($this->db->where('id', $id)->update('budget_j_pension_emp', $form_data)) {
+            if ($this->Common_model->save('budget_j_cash_out_register', $form_data)) {
+                $h = $this->db->where('id', $h_id)->get('budget_head_sub')->row();
+                $this->db->where('id', $h_id)->update('budget_head_sub', array('amount' => $h->amount - $amt));
                 $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
-                redirect('journal_entry/pension_emp');
+                redirect('journal_entry/cash_out');
             }
         }
 
-        $this->data['row'] = $this->db->where('id', $id)->get('budget_j_pension_emp')->row();
+        $this->data['row'] = $this->db->where('id', $id)->get('budget_j_cash_out_register')->row();
         $this->data['info'] = $this->Common_model->get_user_details();
-        $this->data['users'] = $this->Common_model->get_nilg_employee();
+        $this->data['users'] = $this->db->where('status', 4)->get('users')->result();
         // dd($this->data['users']);
         //Load view
         $this->data['meta_title'] = 'পেনশন কর্মকর্তা/কর্মচারী তৈরি';
-        $this->data['subview'] = 'pension/pension_emp_edit';
+        $this->data['subview'] = 'cash_out/cash_out_edit';
         $this->load->view('backend/_layout_main', $this->data);
     }
     // end budget_j_cash_out_register
@@ -269,6 +273,7 @@ class Journal_entry extends Backend_Controller
         $this->form_validation->set_rules('medical_amt', 'চিকিৎসা', 'required|trim');
         $this->form_validation->set_rules('account', 'একাউন্ট নং', 'required|trim');
         $this->form_validation->set_rules('acc_address', 'একাউন্ট ঠিকানা বাংলা', 'required|trim');
+        $this->form_validation->set_rules('bank_type', 'ব্যাংক ধরণ', 'required|trim');
         // $user = $this->ion_auth->user()->row();
         if ($this->form_validation->run() == true) {
             $ex = explode(',', trim($this->input->post('medical_amt')));
@@ -281,6 +286,7 @@ class Journal_entry extends Backend_Controller
                 'total_amt' => $this->input->post('total_amt'),
                 'percent' => $this->input->post('percent'),
                 'account' => $this->input->post('account'),
+                'bank_type' => $this->input->post('bank_type'),
                 'acc_address' => $this->input->post('acc_address'),
                 'remark' => $this->input->post('remark'),
             );
@@ -306,6 +312,8 @@ class Journal_entry extends Backend_Controller
         $this->form_validation->set_rules('medical_amt', 'চিকিৎসা', 'required|trim');
         $this->form_validation->set_rules('account', 'একাউন্ট নং', 'required|trim');
         $this->form_validation->set_rules('acc_address', 'একাউন্ট ঠিকানা বাংলা', 'required|trim');
+        $this->form_validation->set_rules('bank_type', 'ব্যাংক ধরণ', 'required|trim');
+
         // $user = $this->ion_auth->user()->row();
         if ($this->form_validation->run() == true) {
             $ex = explode(',', trim($this->input->post('medical_amt')));
@@ -319,6 +327,8 @@ class Journal_entry extends Backend_Controller
                 'total_amt' => $this->input->post('total_amt'),
                 'percent' => $this->input->post('percent'),
                 'account' => $this->input->post('account'),
+                'bank_type' => $this->input->post('bank_type'),
+
                 'acc_address' => $this->input->post('acc_address'),
                 'remark' => $this->input->post('remark'),
             );
@@ -347,10 +357,15 @@ class Journal_entry extends Backend_Controller
         $this->load->view('backend/_layout_main', $this->data);
     }
     function get_pension_ajax() {
+        $bank_type = $this->input->get('bank_type');
 		$this->db->select('e.user_id, u.name_bn');
         $this->db->from('budget_j_pension_emp as e');
         $this->db->join('users as u', 'u.id = e.user_id', 'left');
         $this->db->where('e.status', 1);
+
+        if ($bank_type != '') {
+            $this->db->where('e.bank_type', $bank_type);
+        }
         $data = $this->db->get()->result();
         echo json_encode($data);
     }
@@ -397,6 +412,7 @@ class Journal_entry extends Backend_Controller
         $date = date("Y-m-01", strtotime($this->input->post('fdate')));
         $sdate = date("Y-m-01", strtotime($this->input->post('sdate')));
         $btn = $this->input->post('pension');
+
         $user_id = array();
         if (!empty($this->input->post('user_id'))) {
             $user_id = explode(',', trim($this->input->post('user_id')));
@@ -416,6 +432,8 @@ class Journal_entry extends Backend_Controller
 
             // Generate PDF
             $this->data['headding'] = 'পেনশন শিট';
+            $this->data['year'] = $date = date("Y", strtotime($date));
+            $this->data['month'] = $date = date("M", strtotime($date));
             $html = $this->load->view('pension/pension_sheet_print', $this->data, true);
 
             $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
@@ -442,6 +460,190 @@ class Journal_entry extends Backend_Controller
             $mpdf->WriteHtml($html);
             $mpdf->output();
         }
+        if($btn == 'bank_deposit') {
+            $this->db->select('r.*, u.name_bn, emp.*,budget_bank_name.name_bn as bank_name');
+            $this->db->from('budget_j_pension_register as r');
+            $this->db->join('users as u', 'u.id = r.user_id', 'left');
+            $this->db->join('budget_j_pension_emp as emp', 'emp.user_id = u.id', 'left');
+            $this->db->join('budget_bank_name', 'budget_bank_name.id = emp.bank_type', 'left');
+            $this->db->where('r.month', $date);
+            if (!empty($user_id)) {
+                $this->db->where_in('r.user_id', $user_id);
+            }
+            $this->data['results'] = $this->db->get()->result();
+
+            $this->db->select('SUM(r.nit_salary) as nit_salary')->where('r.month', $date);
+            if (!empty($user_id)) {
+                $this->db->where_in('r.user_id', $user_id);
+            }
+            $this->data['nit_salary'] = $this->db->get('budget_j_pension_register as r')->row()->nit_salary;
+            $this->data['check_no'] = $this->input->post('check_no');
+            $this->data['year'] = $date = date("Y", strtotime($date));
+            $this->data['month'] = $date = date("M", strtotime($date));
+            $this->data['bank_acc'] = $this->db->where('status',1)->where('type',1)->get('budget_bank_name')->row()->account_no;
+
+            $form_data = array(
+                'bank_id' => $this->input->post('bank_type'),
+                'check_no' => $this->input->post('check_no'),
+                'user_id' => $this->input->post('user_id'),
+                'month' => $date,
+                'status' => 1,
+            );
+
+            $this->db->where('month', $date)->where('check_no', $this->input->post('check_no'));
+            $row = $this->db->get('budget_j_pension_check')->row();
+            if (!empty($row)) {
+                $this->db->insert('budget_j_pension_check', $form_data);
+            }
+
+            // Generate PDF
+            $this->data['headding'] = 'পেনশন শিট';
+            $html = $this->load->view('pension/bank_deposit_print', $this->data, true);
+
+            $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+            $mpdf->WriteHtml($html);
+            $mpdf->output();
+        }
+        if($btn == 'festival_bonus') {
+            $this->db->select('r.*, u.name_bn, emp.*,budget_bank_name.name_bn as bank_name');
+            $this->db->from('budget_j_pension_register as r');
+            $this->db->join('users as u', 'u.id = r.user_id', 'left');
+            $this->db->join('budget_j_pension_emp as emp', 'emp.user_id = u.id', 'left');
+            $this->db->join('budget_bank_name', 'budget_bank_name.id = emp.bank_type', 'left');
+            $this->db->where('r.month', $date);
+            if (!empty($user_id)) {
+                $this->db->where_in('r.user_id', $user_id);
+            }
+            $this->data['results'] = $this->db->get()->result();
+
+            $this->db->select('SUM(r.festival) as festival')->where('r.month', $date);
+            if (!empty($user_id)) {
+                $this->db->where_in('r.user_id', $user_id);
+            }
+            $this->data['festival'] = $this->db->get('budget_j_pension_register as r')->row()->festival;
+            $this->data['check_no'] = $this->input->post('check_no');
+            $this->data['year'] = $date = date("Y", strtotime($date));
+            $this->data['month'] = $date = date("M", strtotime($date));
+            $this->data['bank_acc'] = $this->db->where('status',1)->where('type',1)->get('budget_bank_name')->row()->account_no;
+
+            $form_data = array(
+                'bank_id' => $this->input->post('bank_type'),
+                'check_no' => $this->input->post('check_no'),
+                'user_id' => $this->input->post('user_id'),
+                'month' => $date,
+                'status' => 1,
+            );
+
+            $this->db->where('month', $date)->where('check_no', $this->input->post('check_no'));
+            $row = $this->db->get('budget_j_pension_check')->row();
+            if (!empty($row)) {
+                $this->db->insert('budget_j_pension_check', $form_data);
+            }
+
+            // Generate PDF
+            $this->data['headding'] = 'পেনশন শিট';
+            $html = $this->load->view('pension/festival_print', $this->data, true);
+
+            $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+            $mpdf->WriteHtml($html);
+            $mpdf->output();
+        }
+
+        if($btn == 'additional_bonus') {
+
+            $this->db->select('r.*, u.name_bn, emp.*,budget_bank_name.name_bn as bank_name');
+            $this->db->from('budget_j_pension_register as r');
+            $this->db->join('users as u', 'u.id = r.user_id', 'left');
+            $this->db->join('budget_j_pension_emp as emp', 'emp.user_id = u.id', 'left');
+            $this->db->join('budget_bank_name', 'budget_bank_name.id = emp.bank_type', 'left');
+            $this->db->where('r.month', $date);
+            if (!empty($user_id)) {
+                $this->db->where_in('r.user_id', $user_id);
+            }
+            $this->data['results'] = $this->db->get()->result();
+
+            $this->db->select('SUM(r.bvata) as bvata')->where('r.month', $date);
+            if (!empty($user_id)) {
+                $this->db->where_in('r.user_id', $user_id);
+            }
+            $this->data['bvata'] = $this->db->get('budget_j_pension_register as r')->row()->bvata;
+            $this->data['check_no'] = $this->input->post('check_no');
+            $this->data['year'] = $date = date("Y", strtotime($date));
+            $this->data['month'] = $date = date("M", strtotime($date));
+            $this->data['bank_acc'] = $this->db->where('status',1)->where('type',1)->get('budget_bank_name')->row()->account_no;
+
+            $form_data = array(
+                'bank_id' => $this->input->post('bank_type'),
+                'check_no' => $this->input->post('check_no'),
+                'user_id' => $this->input->post('user_id'),
+                'month' => $date,
+                'status' => 1,
+            );
+
+            $this->db->where('month', $date)->where('check_no', $this->input->post('check_no'));
+            $row = $this->db->get('budget_j_pension_check')->row();
+            if (!empty($row)) {
+                $this->db->insert('budget_j_pension_check', $form_data);
+            }
+
+            // Generate PDF
+            $this->data['headding'] = 'পেনশন শিট';
+            $html = $this->load->view('pension/additional_bonus_print', $this->data, true);
+
+            $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+            $mpdf->WriteHtml($html);
+            $mpdf->output();
+        }
+        if($btn == 'medical_allowance') {
+            $this->db->select('r.*,r.medical_amt as medical_amtb, u.name_bn, emp.*,budget_bank_name.name_bn as bank_name');
+            $this->db->from('budget_j_pension_register as r');
+            $this->db->join('users as u', 'u.id = r.user_id', 'left');
+            $this->db->join('budget_j_pension_emp as emp', 'emp.user_id = u.id', 'left');
+            $this->db->join('budget_bank_name', 'budget_bank_name.id = emp.bank_type', 'left');
+            $this->db->where('r.month', $date);
+            if (!empty($user_id)) {
+                $this->db->where_in('r.user_id', $user_id);
+            }
+            $this->data['results'] = $this->db->get()->result();
+
+            $this->db->select('SUM(r.medical_amt) as medical_amt')->where('r.month', $date);
+            if (!empty($user_id)) {
+                $this->db->where_in('r.user_id', $user_id);
+            }
+            $this->data['medical_amt'] = $this->db->get('budget_j_pension_register as r')->row()->medical_amt;
+            // dd($this->data['medical_amt']);
+            $this->data['check_no'] = $this->input->post('check_no');
+            $this->data['year'] = $date = date("Y", strtotime($date));
+            $this->data['month'] = $date = date("M", strtotime($date));
+            $this->data['bank_acc'] = $this->db->where('status',1)->where('type',1)->get('budget_bank_name')->row()->account_no;
+
+            $form_data = array(
+                'bank_id' => $this->input->post('bank_type'),
+                'check_no' => $this->input->post('check_no'),
+                'user_id' => $this->input->post('user_id'),
+                'month' => $date,
+                'status' => 1,
+            );
+
+            $this->db->where('month', $date)->where('check_no', $this->input->post('check_no'));
+            $row = $this->db->get('budget_j_pension_check')->row();
+            if (!empty($row)) {
+                $this->db->insert('budget_j_pension_check', $form_data);
+            }
+
+            // Generate PDF
+            $this->data['headding'] = 'পেনশন শিট';
+            $html = $this->load->view('pension/medical_amt_print', $this->data, true);
+
+            $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+            $mpdf->WriteHtml($html);
+            $mpdf->output();
+
+        }
+
+
+
+
     }
     // end budget_j_pension_register
 
@@ -475,21 +677,34 @@ class Journal_entry extends Backend_Controller
     }
     public function gpf_emp_create()
     {
-        $this->form_validation->set_rules('user_id', 'নাম', 'required|trim');
+        $this->form_validation->set_rules('user_id', 'নাম', 'required|trim|callback_check_unique_emp');
         $this->form_validation->set_rules('account_no', 'একাউন্ট নং', 'required|trim');
-        $this->form_validation->set_rules('pre_year_amt', 'পূর্ববর্তী পরিমাণ', 'required|trim');
-        $this->form_validation->set_rules('loan_amt', 'ঋণের পরিমাণ', 'required|trim');
-        $this->form_validation->set_rules('balance', 'অবশিষ্ট পরিমাণ', 'required|trim');
+        $this->form_validation->set_rules('start_amt', 'পূর্ববর্তী পরিমাণ', 'required|trim');
+
         // $user = $this->ion_auth->user()->row();
         if ($this->form_validation->run() == true) {
             $form_data = array(
                 'user_id' => $this->input->post('user_id'),
                 'account_no' => $this->input->post('account_no'),
-                'pre_year_amt' => $this->input->post('pre_year_amt'),
-                'loan_amt' => $this->input->post('loan_amt'),
-                'balance' => $this->input->post('balance'),
+                'start_amt' => $this->input->post('start_amt'),
+                // 'loan_amt' => $this->input->post('loan_amt'),
+                'balance' => $this->input->post('start_amt'),
             );
             if ($this->Common_model->save('budget_j_gpf_emp', $form_data)) {
+                $data2 = array(
+                    'user_id' => $this->input->post('user_id'),
+                    'fcl_year' => 3,  // 3 = old financial year
+                    'pbalance' => $this->input->post('start_amt'),
+                    'curr_amt' => 0,
+                    'adv_amt' => 0,
+                    'adv_withdraw' => 0,
+                    'interest' => 0,
+                    'balance' => $this->input->post('start_amt'),
+                    'status' => 3,
+                    'created_at' => date('Y-m-d'),
+                    'create_by' => $user->id,
+                );
+                $this->db->insert('budget_j_gpf_register', $data2);
                 $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
                 redirect('journal_entry/gpf_emp');
             }
@@ -507,20 +722,34 @@ class Journal_entry extends Backend_Controller
         $id = (int) decrypt_url($encid);
         $this->form_validation->set_rules('user_id', 'নাম', 'required|trim');
         $this->form_validation->set_rules('account_no', 'একাউন্ট নং', 'required|trim');
-        $this->form_validation->set_rules('pre_year_amt', 'পূর্ববর্তী পরিমাণ', 'required|trim');
-        $this->form_validation->set_rules('loan_amt', 'ঋণের পরিমাণ', 'required|trim');
-        $this->form_validation->set_rules('balance', 'অবশিষ্ট পরিমাণ', 'required|trim');
-
+        $this->form_validation->set_rules('start_amt', 'পূর্ববর্তী পরিমাণ', 'required|trim');
         if ($this->form_validation->run() == true) {
             $form_data = array(
                 'user_id' => $this->input->post('user_id'),
                 'account_no' => $this->input->post('account_no'),
-                'pre_year_amt' => $this->input->post('pre_year_amt'),
-                'loan_amt' => $this->input->post('loan_amt'),
-                'balance' => $this->input->post('balance'),
+                'start_amt' => $this->input->post('start_amt'),
+                // 'loan_amt' => $this->input->post('loan_amt'),
+                'balance' => $this->input->post('start_amt'),
             );
             $this->db->where('id', $id);
             if ($this->db->update('budget_j_gpf_emp', $form_data)) {
+                $data2 = array(
+                    'user_id' => $this->input->post('user_id'),
+                    'fcl_year' => 3,  // 3 = old financial year
+                    'pbalance' => $this->input->post('start_amt'),
+                    'curr_amt' => 0,
+                    'adv_amt' => 0,
+                    'adv_withdraw' => 0,
+                    'interest' => 0,
+                    'balance' => $this->input->post('start_amt'),
+                    'status' => 3,
+                    'created_at' => date('Y-m-d'),
+                    'create_by' => $user->id,
+                );
+                $this->db->where('user_id', $this->input->post('user_id'));
+                $this->db->update('budget_j_gpf_register', array('status' => 2)); // soft delete
+
+                $this->db->insert('budget_j_gpf_register', $data2);
                 $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
                 redirect('journal_entry/gpf_emp');
             }
@@ -543,7 +772,7 @@ class Journal_entry extends Backend_Controller
         $this->db->join('users as u', 'u.id = b.user_id', 'left');
         $this->db->join('designations as m', 'm.id = u.crrnt_desig_id', 'left');
 
-        // $this->db->where('b.status', 1);
+        $this->db->where('b.status', 1);
         $this->db->limit($limit);
         $this->db->offset($offset);
         $this->db->order_by('b.id', 'DESC');
@@ -552,6 +781,7 @@ class Journal_entry extends Backend_Controller
 
         $this->db->select('COUNT(*) as count');
         $this->db->from('budget_j_gpf_register as q');
+        $this->db->where('q.status', 1);
         $tmp = $this->db->get()->result();
         $this->data['total_rows'] = $tmp[0]->count;
         //pagination
@@ -565,16 +795,24 @@ class Journal_entry extends Backend_Controller
     {
         $this->form_validation->set_rules('user_id', 'নাম', 'required|trim|callback_check_unique');
 
-         $user = $this->ion_auth->user()->row();
+        $user = $this->ion_auth->user()->row();
         if ($this->form_validation->run() == true) {
+            $curr_amt = $this->input->post('total_curr_amt');
+            $adv_amt = $this->input->post('total_adv_amt');
+            $month = $this->input->post('adv_amt');
+            $adv_withdraw = $this->input->post('total_adv_withdraw');
+            $adv_month = $this->input->post('adv_withdraw');
+            $pbalance = $this->input->post('pbalance');
+            $interest = $this->cal_interst($pbalance, $curr_amt, $adv_amt, $month, $adv_withdraw, $adv_month);
             $form_data = array(
                 'user_id' => $this->input->post('user_id'),
                 'fcl_year' => $this->input->post('fcl_year'),
-                'pbalance' => $this->input->post('pbalance'),
-                'curr_amt' => $this->input->post('total_curr_amt'),
-                'adv_amt' => $this->input->post('total_adv_amt'),
-                'adv_withdraw' => $this->input->post('total_adv_withdraw'),
-                'balance' => $this->input->post('total_balance'),
+                'pbalance' => $pbalance,
+                'curr_amt' => $curr_amt,
+                'adv_amt' => $adv_amt,
+                'adv_withdraw' => $adv_withdraw,
+                'interest' => $interest,
+                'balance' => $pbalance + $curr_amt + $adv_amt - $adv_withdraw + $interest,
                 'description' => $this->input->post('description'),
                 'status' => 1,
                 'created_at' => date('Y-m-d'),
@@ -619,16 +857,26 @@ class Journal_entry extends Backend_Controller
 
         $user = $this->ion_auth->user()->row();
         if ($this->form_validation->run() == true) {
-
+            $curr_amt = $this->input->post('total_curr_amt');
+            $adv_amt = $this->input->post('total_adv_amt');
+            $month = $this->input->post('adv_amt');
+            $adv_withdraw = $this->input->post('total_adv_withdraw');
+            $adv_month = $this->input->post('adv_withdraw');
+            $pbalance = $this->input->post('pbalance');
+            $interest = $this->cal_interst($pbalance, $curr_amt, $adv_amt, $month, $adv_withdraw, $adv_month);
             $form_data = array(
                 'user_id' => $this->input->post('user_id'),
                 'fcl_year' => $this->input->post('fcl_year'),
-                'pbalance' => $this->input->post('pbalance'),
-                'curr_amt' => $this->input->post('total_curr_amt'),
-                'adv_amt' => $this->input->post('total_adv_amt'),
-                'adv_withdraw' => $this->input->post('total_adv_withdraw'),
-                'balance' => $this->input->post('total_balance'),
+                'pbalance' => $pbalance,
+                'curr_amt' => $curr_amt,
+                'adv_amt' => $adv_amt,
+                'adv_withdraw' => $adv_withdraw,
+                'interest' => $interest,
+                'balance' => $pbalance + $curr_amt + $adv_amt - $adv_withdraw + $interest,
                 'description' => $this->input->post('description'),
+                'status' => 1,
+                'created_at' => date('Y-m-d'),
+                'create_by' => $user->id,
             );
             $this->db->where('id', $id);
             if ($this->db->update('budget_j_gpf_register', $form_data)) {
@@ -666,6 +914,64 @@ class Journal_entry extends Backend_Controller
         $this->data['subview'] = 'gpf/gpf_edit';
         $this->load->view('backend/_layout_main', $this->data);
     }
+    public function cal_interst($pbalance, $curr_amt, $adv_amt, $month, $adv_withdraw, $adv_month){
+        $prev_bal_interest = 0;
+        $curr_interest = 0;
+        $adv_interest = 0;
+        if (!empty($adv_withdraw)) {
+            $prev_month = 0;
+            foreach ($adv_month as $key => $value) {
+                if ($value != 0) {
+                    $prev_month = $key;
+                }
+            }
+            // cal interest of previus balance
+            if ($prev_month == 0) {
+                $prev_bal_interest = (($pbalance - $adv_withdraw) *  13) / 100;
+            } else {
+                // cal interest of previus month to take advance loan
+                $prev_one_month_int = (($pbalance *  13) / 100) / 12;
+                $prev_interest = $prev_one_month_int * $prev_month;
+                // cal interest of after month to take advance loan
+                $after_one_month_int = ((($pbalance - $adv_withdraw) *  13) / 100) / 12;
+                $after_interest = $after_one_month_int * (12 - $prev_month);
+                $prev_bal_interest = $prev_interest + $after_interest;
+            }
+        } else {
+            $prev_bal_interest = ($pbalance *  13) / 100;
+        }
+
+        // cal interest of collection value
+        if (!empty($curr_amt)) {
+            $curr_interest = (((($curr_amt / 12) * 78) * 13) / 100) / 12;
+        }
+        // cal interest of advance value
+        if (!empty($adv_amt)) {
+            $start_month = 0;
+            $adv_vlue = 0;
+            $check = true;
+            foreach ($month as $key => $value) {
+                if ($value != 0 && $check == true) {
+                    $check = false;
+                    $start_month = $key;
+                    $adv_vlue = $value;
+                    break;
+                }
+            }
+            if ($start_month == 0 && $adv_vlue != 0) {
+                $adv_interest = ((($adv_vlue * 78) * 13) / 100) / 12;
+            } else {
+                $adv_start_month = 12 - $start_month;
+                $value = 0;
+                for ($i = $adv_start_month; $i <= 12; $i++) {
+                    $value = $value + $i;
+                }
+                $adv_interest = ((($adv_vlue * $value) * 13) / 100) / 12;
+            }
+        }
+        return $prev_bal_interest + $curr_interest + $adv_interest;
+    }
+
     public function gpf_form(){
         //Dropdown
         $this->data['info'] = $this->Common_model->get_user_details();
@@ -681,6 +987,12 @@ class Journal_entry extends Backend_Controller
         $this->db->where('e.status', 1);
         $data = $this->db->get()->result();
         echo json_encode($data);
+    }
+    function gpf_getBalance() {
+        $id = $this->input->post('id');
+        $this->db->where('user_id', $id)->order_by('id', 'desc')->limit(1);
+        $data = $this->db->get('budget_j_gpf_register')->row()->balance;
+        echo $data;
     }
     public function gpf_report_view()
     {
@@ -714,7 +1026,18 @@ class Journal_entry extends Backend_Controller
             $mpdf->output();
         }
     }
+    public function check_unique_emp($str = null) {
+        $user_id = $this->input->post('user_id'); // Assuming user ID is passed in the form
+        $this->db->where('user_id', $user_id);
+        $query = $this->db->get('budget_j_gpf_emp');
 
+        if ($query->num_rows() > 0) {
+            $this->form_validation->set_message('check_unique', 'This Officer already exists.');
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
     public function check_unique($str = null) {
         $user_id = $this->input->post('user_id'); // Assuming user ID is passed in the form
         $fcl_year = $this->input->post('fcl_year'); // Assuming fci year is passed in the form
@@ -730,9 +1053,7 @@ class Journal_entry extends Backend_Controller
             return TRUE;
         }
     }
-
     // end budget_j_gpf_register
-
 
 
 

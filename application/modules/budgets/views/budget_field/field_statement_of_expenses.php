@@ -267,7 +267,6 @@
         var obosistho = $(el).closest("tr").find('.obosistho');
 
         if (prokritoBay.val() > 0) {
-
             var vatTaka = 0;
             if(vat.val() > 0){
                 var vatTaka = parseFloat(prokritoBay.val()) * (vat.val() / 100);
@@ -275,7 +274,12 @@
                 var vatTaka = 0;
             }
 
-            const itTaka = itKor.val() > 0 ? parseFloat(prokritoBay.val()) * (itKor.val() / 100) : 0;
+            var itTaka = 0;
+            if(itKor.val() > 0){
+                var itTaka = parseFloat(prokritoBay.val()) * (itKor.val() / 100);
+            }else{
+                var itTaka = 0;
+            }
             const motBayTaka = parseFloat(prokritoBay.val()) + vatTaka + itTaka;
             if ((boraddo.val() - motBayTaka).toFixed(2) < 0) {
                 prokritoBay.val(0);
@@ -286,11 +290,11 @@
             }
             motBay.val(motBayTaka.toFixed(2));
             obosistho.val((boraddo.val() - motBayTaka).toFixed(2));
-
         } else {
             motBay.val(0);
             obosistho.val(boraddo.val());
         }
+
         var total_obosistho=0;
         $('.all_obosistho').each(function() {
             $(this).val(0);

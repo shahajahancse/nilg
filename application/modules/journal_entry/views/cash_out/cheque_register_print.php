@@ -171,7 +171,8 @@
                             <th width="">চেক নং </th>
                             <th width="">তারিখ  </th>
                             <th width="">পরিমাণ </th>
-                            <!-- <th width="">মন্তব্য </th> -->
+                            <th width="">একাউন্ট স্বাক্ষর </th>
+                            <th width="">পরিচালক স্বাক্ষর </th>
                         </tr>
                     </thead>
                     <tbody id="tbody">
@@ -179,10 +180,11 @@
                             <tr>
                                 <td>&nbsp; <?= eng2bng($key + 1); ?></td>
                                 <td> <?= $value->description ?></td>
-                                <td> <?= $value->cheque_no ?> </td>
+                                <td> <?= eng2bng($value->cheque_no) ?> </td>
                                 <td>&nbsp; <?= eng2bng($value->issue_date)?></td>
                                 <td>&nbsp; <?= eng2bng($value->amount)?></td>
-                                <!-- <td> <?= $value->description ?> </td> -->
+                                <td style="padding: 13px" >  </td>
+                                <td style="padding: 13px" >  </td>
                             </tr>
                         <?php } ?>
                     </tbody>

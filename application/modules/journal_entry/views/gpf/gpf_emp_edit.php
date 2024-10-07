@@ -60,7 +60,7 @@
                                     </div>
                                     <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                         <br>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <label for="title" class="control-label">কর্মকর্তা/কর্মচারী নাম <span style="color:red">*</span> </label>
                                             <select required name="user_id" class="form-control input-sm" style="width: 100%; height: 28px !important;">
                                                 <?php foreach ($users as $key => $value) { ?>
@@ -68,22 +68,22 @@
                                                 <?php } ?>
                                             </select>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <label class="control-label">হিসাব নং <span style="color:red">*</span> </label>
                                             <input class="form-control input-sm" value="<?=$row->account_no?>" name="account_no" style="min-height: 33px;" required>
                                         </div>
-                                        <div class="col-md-2">
+                                        <div class="col-md-3">
                                             <label class="control-label">পূর্ববর্তী পরিমাণ <span style="color:red">*</span> </label>
-                                            <input value="<?= $row->pre_year_amt ?>" min="0" id="pre_year_amt" type="number" class="form-control input-sm" name="pre_year_amt" style="min-height: 33px;" required onkeyup="getBalance()" >
+                                            <input value="<?= $row->start_amt ?>" min="0" id="start_amt" type="number" class="form-control input-sm" name="start_amt" style="min-height: 33px;" >
                                         </div>
-                                        <div class="col-md-2">
+                                        <!-- <div class="col-md-2">
                                             <label class="control-label">ঋণের পরিমাণ <span style="color:red">*</span> </label>
                                             <input value="<?= $row->loan_amt ?>" min="0" id="loan_amt" type="number" class="form-control input-sm" name="loan_amt" style="min-height: 33px;" required onkeyup="getBalance()">
                                         </div>
                                         <div class="col-md-2">
                                             <label class="control-label">অবশিষ্ট পরিমাণ <span style="color:red">*</span> </label>
                                             <input value="<?= $row->balance ?>" id="balance" class="form-control input-sm" name="balance" style="min-height: 33px;" readonly>
-                                        </div>
+                                        </div> -->
                                     </div>
                                     <br>
                                     <div class="pull-right">
@@ -102,9 +102,9 @@
 
 <script>
     function getBalance() {
-        var pre_year_amt = $("#pre_year_amt").val();
+        var start_amt = $("#start_amt").val();
         var loan_amt = $("#loan_amt").val();
-        var balance = pre_year_amt - loan_amt;
+        var balance = start_amt - loan_amt;
         $("#balance").val(balance);
     }
 </script>

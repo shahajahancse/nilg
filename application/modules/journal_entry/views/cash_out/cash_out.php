@@ -51,12 +51,13 @@
                                     <tr>
                                         <th> ক্রম </th>
                                         <th>বিবরণ</th>
-                                        <th>হেডের নাম</th>
+                                        <th>খাতের নাম</th>
                                         <th>বিল নং</th>
                                         <th>টোকেন নং</th>
                                         <th>টোকেন তারিখ</th>
                                         <th>আমাউন্ট</th>
                                         <th>মোট আমাউন্ট</th>
+                                        <!-- <th style="text-align: right;">অ্যাকশন</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -71,6 +72,16 @@
                                             <td class="v-align-middle"><?= $row->token_date; ?></td>
                                             <td class="v-align-middle"><?= $row->amount; ?></td>
                                             <td class="v-align-middle"><?= $row->total_amt; ?></td>
+                                            <!-- <td align="right">
+                                                <div class="btn-group">
+                                                    <button class="btn btn-mini btn-primary">অ্যাকশন</button>
+                                                    <button class="btn btn-mini btn-primary dropdown-toggle"
+                                                        data-toggle="dropdown"> <span class="caret"></span> </button>
+                                                    <ul class="dropdown-menu pull-right">
+                                                        <li><a href="<?php echo base_url('journal_entry/cash_out_edit/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> সংশোধন করুন </a></li>
+                                                    </ul>
+                                                </div>
+                                            </td> -->
                                         </tr>
                                     <?php endforeach; ?>
                                 </tbody>

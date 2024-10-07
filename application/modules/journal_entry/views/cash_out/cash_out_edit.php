@@ -67,9 +67,9 @@
                                             <label for=""> খ্যাতের নাম <span style="color:red">*</span> </label>
                                             <select onchange="addNewRow(this.value)" name="sub_head_id" id="sub_head_id" class="form-control" required>
                                                 <option value=""> নির্বাচন করুন </option>
-                                                <?php foreach ($results as $key => $value) {
-                                                    echo '<option value="' . $value->id . '">' . $value->name_bn . ' (' . $value->bd_code . ')' . '</option>';
-                                                } ?>
+                                                <?php foreach ($results as $key => $value) { ?>
+                                                    <option value="<?= $value->id ?>" <?= $value->id == $row->sub_head_id ? 'selected' : '' ?> > <?= $value->name_bn . ' (' . $value->bd_code . ')' ?> </option>
+                                                <?php } ?>
                                             </select>
                                         </div>
                                         <div class="col-md-2">

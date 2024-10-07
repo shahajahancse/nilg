@@ -53,7 +53,7 @@
                                 <strong>নাম : <span><?= $row->name ?></span></strong>
                             </div>
                             <div class="col-md-3">
-                                <strong>রেফারেন্স: <span><?= $row->reference ?></span></strong>
+                                <strong>ঠিকানা: <span><?= $row->reference ?></span></strong>
                             </div>
                             <div class="col-md-2">
                                 <strong>তারিখ: <span><?= date_bangla_calender_format($row->date) ?></span></strong>

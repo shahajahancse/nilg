@@ -8,7 +8,7 @@
         .priview-body {
             font-size: 16px;
             color: #000;
-            margin: 15px;
+            margin: 0px 15px;
         }
 
         .priview-header div {
@@ -137,7 +137,7 @@
             // $url = $_SERVER['DOCUMENT_ROOT'].'/awedget/assets/img/nilg-logo.png';
             $url = base_url('awedget/assets/img/nilg-logo.png');
             ?>
-            <div style="float: left;"><img src="<?= $url ?>" style="width:60; height: 80px; display: block;"></div>
+            <div style="float: left;"><img src="<?= $url ?>" style="width:60; height: 60px; display: block;"></div>
         </div>
 
         <div class="col-6">
@@ -148,7 +148,7 @@
                 <span style="font-size:11px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
                 <span style="font-size:11px; text-decoration: underline;">www.nilg.gov.bd </span>
             </h4>
-            <h3 style="margin-bottom: -5px;" class="text-center"><?= $headding ?></h3>
+            <!-- <h3 style="margin-bottom: -5px;" class="text-center"><?= $headding ?></h3> -->
         </div>
 
         <div class="col-2" style="float: right;">
@@ -160,83 +160,58 @@
     </div>
 
     <div class="priview-body content-div">
-        <div class="col-8">
-            <span style="padding: 0px 0px 0px 0px; margin: 0px;">নাম : <abbr><?php echo $info->name; ?></abbr></span> &nbsp;&nbsp;&nbsp;
-            <span style="padding: 0px; margin: 1px 0px;">এনআইডি : <abbr> <?php echo eng2bng($details[0]->nid); ?></abbr></span>
-            <br>
-            <span style="padding: 0px; margin: 1px 0px;">মোবাইল : <abbr> <?php echo eng2bng($details[0]->mobile); ?></abbr></span>&nbsp;&nbsp;&nbsp;
-            <span style="padding: 0px; margin: 1px 0px;">ঠিকানা : <abbr> <?php echo $info->reference; ?></abbr></span>
+        <div class="col-9">
+            <span>ব্যবস্থাপক</span> <br>
+            <span>জনতা ব্যাংক</span> <br>
+            <span>বিশ্ববিদ্যালয় মঞ্জুরী কমিশন ভবন শাখা</span><br>
+            <span>আগারগাঁও, ঢাকা- ১২০৭।</span><br>
         </div>
-        <div class="col-3" style="float: right;">
-            <div>
-                <span>তারিখ : </span>
-                <span style="font-size: 13px"><?php echo date_bangla_calender_format($info->created_at); ?></span>
-            </div>
-            <div>
-                <span>সিরিয়াল নাঃ </span>
-                <span style="font-size: 13px"><?= eng2bng($info->session_year) .'-'. eng2bng($info->id); ?></span>
-            </div>
+        <div class="col-3">
+            <br>
+            <span>তারিখ</span> <?= date_bangla_calender_format(date('d-m-Y')) ?>
         </div>
     </div>
 
     <div class="priview-body">
-        <div class="priview-demand">
+        <!-- <div class="priview-demand"> -->
+            <?php $obj = new BanglaNumberToWord(); ?>
+            <p>বিষয়ঃ প্রতিষ্ঠানের সঞ্চয়ী হিসাব নং (<?= eng2bng($bank_acc) ?>) হতে নিম্নোক্ত <?= eng2bng(count($results)) ?> জন অবসরপ্রাপ্ত কর্মকর্তা ও কর্মচারীর <?= number_bangla_format($month) .'/'. eng2bng($year) ?> ইং মাসের মাসিক পেনশন বাবদ চেক নং- <?= eng2bng($check_no) ?> তারিখঃ <?= eng2bng(date('d/m/Y')) ?> ইং, মোট= <?= eng2bng($nit_salary) ?>/-( <?= $obj->numToWord($nit_salary) ?> ) টাকা সরাসরি তাঁর ব্যাংক হিসাব নম্বরে জমাকরণের নির্দেশ পত্র।</p>
             <table class="table table-hover table-bordered report">
                 <thead class="headding">
                     <tr>
-                        <td rowspan="1" style="">ক্রমিক নং</td>
-                        <td rowspan="1" style="">আসন</td>
-                        <td rowspan="1" style="">শুরুর তারিখ</td>
-                        <td rowspan="1" style="">শেষ তারিখ</td>
-                        <td colspan="1" style="">পরিমাণ</td>
+                        <th> ক্রম </th>
+                        <th>নাম (বাংলা)</th>
+                        <th>ব্যাংকের নাম ও ঠিকানা </th>
+                        <th>ব্যাংক নং</th>
+                        <th>মোট পেনশন</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <?php foreach ($details as $key => $r) { ?>
+                    <?php  foreach ($results as $key => $r) {
+                        ?>
                         <tr>
-                            <td><?php echo eng2bng($key + 1); ?></td>
-                            <td><?php echo $r->seat; ?></td>
-                            <td><?php echo date_bangla_calender_format($r->start_date); ?></td>
-                            <td><?php echo date_bangla_calender_format($r->end_date); ?></td>
-                            <td><?php echo eng2bng($r->amount); ?></td>
+                            <td  style="text-align: left; width: 5%; padding: 5px"><?php echo eng2bng($key + 1); ?></td>
+                            <td style="text-align: left; width: 20%; padding: 5px" ><?php echo $r->name_bn; ?></td>
+                            <td  style="text-align: left; width: 20%; padding: 5px"><?php echo $r->bank_name.' '.$r->acc_address; ?></td>
+                            <td  style="text-align: left; width: 20%; padding: 5px" ><?php echo $r->account; ?></td>
+                            <td><?php echo eng2bng($r->nit_salary); ?></td>
                         </tr>
                     <?php } ?>
+                    <?php $obj = new BanglaNumberToWord(); ?>
                     <tr>
-                        <td colspan="4" style="text-align: right; padding-right: 10px"> সর্বমোট পরিমাণ </td>
-                        <td><?php echo eng2bng($info->amount); ?></td>
+                        <td colspan="4" style="text-align: left; padding-right: 10px"> &nbsp;&nbsp; সর্বমোট : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span> <abbr> <?php echo $obj->numToWord((int)$nit_salary); ?></abbr> টাকা মাত্র</span></td>
+                        <td><?php echo eng2bng($nit_salary); ?></td>
                     </tr>
                 </tbody>
             </table>
-            <div style=" margin-top: 5px;">
-                <?php $obj = new BanglaNumberToWord(); ?>
-                <span>কথায় : <abbr> <?php echo $obj->numToWord($info->amount); ?></abbr> টাকা মাত্র</span>
-            </div>
-        </div>
+        <!-- </div> -->
     </div>
-
-    <!-- <div class="priview-body">
-        <div class="col-12">
-            <span>মন্তব্য :</span>
-            <span><?= $info->description ?></span>
-        </div>
-    </div> -->
-
-    <div class="footer">
-        <div class="col-6"></div>
-        <div class="col-6-right">
-            <?php if ($info->signature != NULL) {
-                $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/' . $info->signature;
-            } else {
-                $url = $_SERVER['DOCUMENT_ROOT'] . '/uploads/signature/blank.jpg';
-            }
-            ?>
-            <div><span style="width:160; height: 50px; display: block;"></span> </div>
-            <div><span class="border-top">স্বাক্ষর ও সীল</span></div>
-        </div>
-        <br>
+    <div class="footer" >
+        <div class="text-center col-4">উচ্চমান সহঃ কাম ক্যাশিয়ার </div>
+        <div class="text-center col-4">হিসাব রক্ষণ কর্মকর্তা</div>
+        <div class="text-center col-4">পরিচালক (প্রশাসন ও সমন্বয়)</div>
     </div>
-
     <style>
         .footer {
             position: fixed;

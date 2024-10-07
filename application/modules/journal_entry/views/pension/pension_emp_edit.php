@@ -85,7 +85,7 @@
                                     <div class="row form-row" style="margin-top: 10px !important;" >
 
                                         <?php $mtc = $this->db->where('status', 1)->get('budget_medical')->result(); ?>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <label class="control-label">চিকিৎসা <span style="color:red">*</span> </label>
                                             <select onchange="csl_sal()" id="medical" required name="medical_amt" class="form-control input-sm" style="width: 100%; height: 28px !important;">
                                                 <?php foreach ($mtc as $key => $r) { ?>
@@ -103,11 +103,22 @@
                                             <input value="<?= $row->percent ?>" type="number" class="form-control input-sm" name="percent" style="min-height: 33px;" required>
                                         </div>
 
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <label class="control-label">ব্যাংক একাউন্ট নং <span style="color:red">*</span> </label>
                                             <input value="<?= $row->account ?>" class="form-control input-sm" name="account" style="min-height: 33px;" required>
                                         </div>
+                                        <div class="col-md-2">
+                                            <label class="control-label">ব্যাংক টাইপ <span style="color:red">*</span> </label>
+                                            <select id="bank_type" required name="bank_type" class="form-control input-sm" style="width: 100%; height: 28px !important;">
+                                                    <option value="">নির্বাচন করুন</option>
+                                                <?php
+                                                $bank_typs=$this->db->get('budget_bank_name')->result();
 
+                                                foreach ($bank_typs as $key => $r) { ?>
+                                                <option <?= $row->bank_type == $r->id ? 'selected' : '' ?> value="<?= $r->id ?>"> <?= $r->name_bn?> </option>
+                                                <?php } ?>
+                                            </select>
+                                        </div>
                                         <div class="col-md-2">
                                             <label class="control-label"> স্ট্যাটাস <span style="color:red">*</span> </label>
                                             <select required name="status" class="form-control input-sm" style="width: 100%; height: 28px !important;">
@@ -118,6 +129,7 @@
                                     </div>
 
                                     <div class="row form-row" style="margin-top: 10px !important;" >
+
                                         <div class="col-md-4">
                                             <label class="control-label">ব্যাংক একাউন্ট ঠিকানা বাংলা <span style="color:red">*</span> </label>
                                             <textarea name="acc_address" style="width: 100%; height: 50px;"> <?= $row->acc_address ?> </textarea>

@@ -161,6 +161,10 @@
                                                         <?php if (in_array($row->status,[6,7,8]) && $this->ion_auth->in_group(array('acc'))) {?>
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/7/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন </a> </li>
 
+                                                            <?php if (in_array($row->status,[7])) {?>
+                                                            <li> <a href="<?php echo base_url('budgets/dpt_summary_revenue_amt/8/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> রাজস্ব পরিমাণ </a> </li>
+                                                            <?php } ?>
+
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক ডি.জি </a> </li>
                                                         <?php }?>
 

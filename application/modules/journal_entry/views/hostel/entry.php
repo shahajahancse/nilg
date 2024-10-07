@@ -88,7 +88,7 @@
                                             <input type="text" class="form-control input-sm" name="mobile" style="min-height: 33px;"  required>
                                         </div>
                                         <div class="col-md-3">
-                                            <label class="control-label">রেফারেন্স </label>
+                                            <label class="control-label">ঠিকানা : </label>
                                             <input type="text" class="form-control input-sm" name="reference" style="min-height: 33px;" >
                                         </div>
                                         <div class="col-md-2">

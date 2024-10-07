@@ -20,7 +20,7 @@ passs :  N12908049
 মোঃ আবদুল কাইয়ুম          8682538007         ( হোস্টেলিয়ান )
 শেখ মোঃ বাহার উদ্দিন      7778867478          ( অডিটোরিয়াম )
    
-
+uz@raozan            (office)
 uz@kotwali_jessore   (office)
 ddlg@maulvibazar 
 
@@ -35,7 +35,6 @@ ddlg@maulvibazar
 মোতাছিম বিল্লাহ	  2611038723696  (user)
 
 ALTER TABLE `leave_employee` ADD `employee_type` TINYINT NOT NULL DEFAULT '2' COMMENT '1=পরিচালক, 2=কর্মকর্তা, 3=কর্মচারী' AFTER `user_id`;
-ALTER TABLE `budget_bank_name` CHANGE `account_no` `account_no` VARCHAR(32) NULL DEFAULT NULL;
 ALTER TABLE `users` CHANGE `status` `status` TINYINT(2) NULL DEFAULT NULL COMMENT '1=কর্মরত, 2=নির্বাচিত, 3=অনির্বাচিত, 4=অবসরপ্রাপ্ত, 5=স্থগিত, 6=বহিষ্কৃত, 7=মৃত, 8=আর্কাইভtable';
 
 

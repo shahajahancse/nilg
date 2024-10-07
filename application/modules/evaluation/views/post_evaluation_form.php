@@ -41,11 +41,9 @@
 
             <div class="row">
               <div class="col-md-12">
-                <?php
-                $sl = 0;
-                foreach ($questions as $value) {
-                  $sl++;
-                ?>
+                <?php if (!empty($questions['qs'])) { ?>
+                <?php  $sl = 0;
+                foreach ($questions['qs'] as $value) { $sl++; ?>
                   <div>
                     <h5 class="semi-bold"><?= eng2bng($sl) ?>। <?= $value->question_title ?></h5>
                     <input type="hidden" name="hideid[]" value="<?= $value->id ?>">
@@ -70,7 +68,7 @@
                       <?php } ?>
                     <?php } ?>
                   </div>
-                <?php } ?>
+                <?php } } ?>
               </div>
             </div>
 

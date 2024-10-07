@@ -1508,7 +1508,7 @@ class Evaluation extends Backend_Controller {
       $this->data['info'] = $this->Evaluation_model->get_evaluation_details($id);
       // dd($this->data['info']);
       $this->data['questions'] = $this->Evaluation_model->get_question_by_evaluation($id);
-      // dd($this->data['info']);
+      // dd($this->data['questions']);
 
       //Load Page
       $this->data['meta_title'] = 'প্রশিক্ষণ পরবর্তী মূল্যায়ন ফরম';

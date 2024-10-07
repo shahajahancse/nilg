@@ -55,7 +55,7 @@
                                         <th>হিসাব নং</th>
                                         <th>পূর্ববর্তী পরিমাণ</th>
                                         <th>বর্তমান পরিমাণ</th>
-                                        <th>ঋণ</th>
+                                        <!-- <th>ঋণ</th> -->
                                         <th>মোট পরিমাণ</th>
                                         <th style="text-align: right;">অ্যাকশন</th>
                                     </tr>
@@ -68,11 +68,17 @@
                                             <td class="v-align-middle"><?= $row->name_bn; ?></td>
                                             <td class="v-align-middle"><?= $row->desig_name; ?></td>
                                             <td class="v-align-middle"><?= $row->account_no; ?></td>
-                                            <td class="v-align-middle"><?= eng2bng($row->pre_year_amt); ?></td>
-                                            <td class="v-align-middle"><?= eng2bng($row->curr_year_amt); ?></td>
-                                            <td class="v-align-middle"><?= eng2bng($row->loan_amt); ?></td>
+                                            <td class="v-align-middle"><?= eng2bng($row->start_amt); ?></td>
+                                            <td class="v-align-middle"><?= eng2bng($row->balance - $row->start_amt); ?></td>
                                             <td class="v-align-middle"><?= eng2bng($row->balance); ?></td>
                                             <td align="right">
+                                                <?php
+                                                    // Get the current date
+                                                    $currentDate = new DateTime();
+                                                    // Subtract 3 months
+                                                    $currentDate->modify('-3 months');
+                                                ?>
+                                                <?php if ($currentDate->format('Y-m-d') < date('Y-m-d', strtotime($row->created_at))): ?>
                                                 <div class="btn-group">
                                                     <button class="btn btn-mini btn-primary">অ্যাকশন</button>
                                                     <button class="btn btn-mini btn-primary dropdown-toggle"
@@ -85,6 +91,7 @@
                                                         <!-- <li><a href="<?php echo base_url('journal_entry/print_singal/gpf/' . encrypt_url($row->id)) ?>" target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট করুন</a></li> -->
                                                     </ul>
                                                 </div>
+                                                <?php endif; ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

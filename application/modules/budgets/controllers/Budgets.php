@@ -116,6 +116,7 @@ class Budgets extends Backend_Controller
                 budget_head_sub.id,
                 budget_head_sub.name_bn,
                 budget_head_sub.bd_code,
+                budget_head_sub.ini_revenue_amt,
                 budget_head_sub.amount,
                 budget_head.name_bn as budget_head_name,
                 budget_head.id as budget_head_id
@@ -1431,7 +1432,6 @@ class Budgets extends Backend_Controller
         $this->data['subview'] = 'budget_nilg/dpt_summary';
         $this->load->view('backend/_layout_main', $this->data);
     }
-
     public function dpt_summary_create()
     {
         $user = $this->ion_auth->user()->row();
@@ -1481,8 +1481,9 @@ class Budgets extends Backend_Controller
                         $tot_p = $_POST[$head_id.'_total_participants'];
                         $sub_amt = $_POST[$head_id.'_amount'];
                         $type = $_POST[$head_id.'_trainee_type'];
+                        $loc = $_POST[$head_id.'_location'];  // training location
                         $fy = $this->input->post('fcl_year');
-                        $this->dpt_marge_insert($sub_it_id, $head_id, $sub_ids, $sub_d, $sub_p, $base, $tot_p, $sub_amt, $type, $fy, $user);
+                        $this->dpt_marge_insert($sub_it_id, $head_id, $sub_ids, $sub_d, $sub_p, $base, $tot_p, $sub_amt, $type, $fy, $user, $loc);
                     }
 
                     $this->db->trans_complete();
@@ -1506,7 +1507,7 @@ class Budgets extends Backend_Controller
         $this->data['subview'] = 'budget_nilg/dpt_summary_create';
         $this->load->view('backend/_layout_main', $this->data);
     }
-    public function dpt_marge_insert($sub_it_id, $head_id, $sub_ids, $sub_d, $sub_p, $base, $tot_p, $sub_amt, $type, $fy, $user)
+    public function dpt_marge_insert($sub_it_id, $head_id, $sub_ids, $sub_d, $sub_p, $base, $tot_p, $sub_amt, $type, $fy, $user, $loc = null)
     {
         for ($i=0; $i < sizeof($sub_ids); $i++) {
             $sub_form[] = array(
@@ -1522,6 +1523,7 @@ class Budgets extends Backend_Controller
                 'total_amt' => $sub_amt[$i],
                 'trainee_type' => $type[$i],  // training dpt marge
                 'fcl_year' => $fy,
+                'training_area' => $loc[$i],
                 'status' => 1,
                 'dept_id' => $user->crrnt_dept_id,
                 'created_by' => $user->id,
@@ -1609,7 +1611,6 @@ class Budgets extends Backend_Controller
         $this->data['subview'] = 'budget_nilg/dpt_summary_details';
         $this->load->view('backend/_layout_main', $this->data);
     }
-
     public function dpt_marge_update($details_id, $sub_ids, $sub_d, $sub_p, $base, $tot_p, $sub_amt)
     {
         for ($i=0; $i < sizeof($details_id); $i++) {
@@ -1632,14 +1633,25 @@ class Budgets extends Backend_Controller
     }
     public function dpt_summary_forward($status,$encid){
         $id = (int) decrypt_url($encid);
+        $data =  array('status' => $status);
         $this->db->trans_start();
         $this->db->where('id', $id);
-        $data =  array('status' => $status);
         if ($this->db->update('budget_revenue_summary', $data)) {
             $this->db->trans_complete();
-            if($status==7){
-                $this->update_acc($id);
-            }
+            $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+            redirect("budgets/dpt_summary");
+        } else {
+            $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়নি');
+        }
+    }
+    public function dpt_summary_revenue_amt($status,$encid){
+        $id = (int) decrypt_url($encid);
+        $data =  array('status' => $status);
+        $this->db->trans_start();
+        $this->db->where('id', $id);
+        if ($this->db->update('budget_revenue_summary', $data)) {
+            $this->db->trans_complete();
+            $this->update_acc($id);
             $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
             redirect("budgets/dpt_summary");
         } else {
@@ -1648,8 +1660,9 @@ class Budgets extends Backend_Controller
     }
     public function update_acc($id){
         $this->db->where('id', $id);
-        $data=$this->db->get('budget_revenue_summary')->row();
-        $b_data= array(
+        $data = $this->db->get('budget_revenue_summary')->row();
+        // dd($data);
+        $b_data = array(
             'summary_id' => $id,
             'amount' => $data->amount,
             'fcl_year' => $data->fcl_year,
@@ -1660,8 +1673,16 @@ class Budgets extends Backend_Controller
             'created_at' => $data->created_at,
             'updated_at' => date('Y-m-d H:i:s'),
         );
-        $this->db->insert('budgets', $b_data);
-        $this->db->where('dept_id', $data->dpt_head_id);
+
+        $check = $this->db->where('summary_id', $id)->get('budgets')->row();
+        if (!empty($check)) {
+            $this->db->where('summary_id', $id)->update('budgets', $b_data);
+        } else {
+            $this->db->insert('budgets', $b_data);
+        }
+         $this->sub_head_amount_update($data);
+
+        $this->db->where('dept_id', $data->dept_id);
         $budgets_dept_account = $this->db->get('budgets_dept_account')->row();
         if (!empty($budgets_dept_account)) {
             $data= array(
@@ -1674,10 +1695,17 @@ class Budgets extends Backend_Controller
             $data= array(
                 'amount_in' => $data->amount,
                 'balance' => $data->amount,
-                'dept_id' => $data->dpt_head_id
+                'dept_id' => $data->dept_id
             );
             $this->db->insert('budgets_dept_account', $data);
         }
+    }
+    function sub_head_amount_update($data) {
+        if ($data->type == 3) {
+            $data = array('amount' => $data->amount, 'status' => 1, 'updated_at' => date('Y-m-d H:i:s'));
+            $this->db->where('id', 35)->update('budgets', $data);
+        }
+        dd($data);
     }
     public function dpt_summary_print($encid)
     {

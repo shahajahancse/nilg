@@ -71,6 +71,7 @@
                                             <td class="v-align-middle"><?= eng2bng($row->adv_withdraw); ?></td>
                                             <td class="v-align-middle"><?= eng2bng($row->balance); ?></td>
                                             <td align="right">
+                                                <?php if ($row->fcl_year != 3) { ?>
                                                 <div class="btn-group">
                                                     <button class="btn btn-mini btn-primary">অ্যাকশন</button>
                                                     <button class="btn btn-mini btn-primary dropdown-toggle"
@@ -83,6 +84,9 @@
                                                         <!-- <li><a href="<?php echo base_url('journal_entry/print_singal/gpf/' . encrypt_url($row->id)) ?>" target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট করুন</a></li> -->
                                                     </ul>
                                                 </div>
+                                                <?php } else { ?>
+                                                    ...
+                                                <?php } ?>
                                             </td>
                                         </tr>
                                     <?php endforeach; ?>

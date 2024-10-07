@@ -60,18 +60,18 @@
                                     </div>
                                     <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                         <br>
+                                        <?php
+                                            $this->db->select('emp.*, users.name_bn');
+                                            $this->db->from('budget_j_gpf_emp emp');
+                                            $this->db->join('users', 'emp.user_id = users.id');
+                                            $users = $this->db->where('emp.status', 1)->get()->result();
+                                        ?>
                                         <div class="col-md-4">
                                             <label for="title" class="control-label">কর্মকর্তা/কর্মচারী নাম <span style="color:red">*</span> </label>
-                                            <select required name="user_id" class="form-control input-sm" style="width: 100%; height: 28px !important;">
-                                                <?php
-                                                    $this->db->select('emp.*, users.name_bn');
-                                                    $this->db->from('budget_j_gpf_emp emp');
-                                                    $this->db->join('users', 'emp.user_id = users.id');
-                                                    $users = $this->db->where('emp.status', 1)->get()->result();
-                                                ?>
+                                            <select onchange="preBalance(this.value)" name="user_id" class="form-control input-sm" style="width: 100%; height: 28px !important;" required>
                                                 <option value="">নির্বাচন করুন</option>
                                                 <?php foreach ($users as $key => $value) { ?>
-                                                    <option value="<?= $value->user_id ?>"><?= $value->name_bn ?></option>
+                                                    <option value="<?php echo $value->user_id ?>"><?php echo $value->name_bn ?></option>
                                                 <?php } ?>
                                             </select>
                                         </div>
@@ -86,9 +86,8 @@
                                             </select>
                                         </div>
                                         <div class="col-md-3" >
-                                            <label for="fcl_year" class="control-label">আগের বালান্স <span class="required">*</span></label>
-                                            <input type="number" min="0"  name="pbalance" class="form-control input-sm">
-
+                                            <label class="control-label">পূর্ববর্তী পরিমাণ </label>
+                                            <input id="pbalance" name="pbalance" value="0" class="form-control input-sm" readonly>
                                         </div>
                                     </div>
                                     <br>
@@ -134,7 +133,7 @@
 
                                                             <td width="8%"><input type="number"  value="0" min="0"  name="mot_amt[]" class="form-control input-sm mot_amt" style="min-height: 33px;" readonly></td>
 
-                                                            <td><input type="number" min="0"  value="0"  name="adv_withdraw[]" class="form-control input-sm adv_withdraw" style="min-height: 33px;" required onkeyup="getBalance(this)"></td>
+                                                            <td><input type="number" min="0"  value="0"  name="adv_withdraw[]" class="form-control input-sm adv_withdraw" style="min-height: 33px;" required onkeyup="getAdvance(this)"></td>
 
                                                             <td width="10%"><input type="number"  value="0" min="0" name="balance[]" class="form-control input-sm balance" style="min-height: 33px;" readonly></td>
 
@@ -183,20 +182,38 @@
 </div>
 
 <script>
+    function getAdvance(el) {
+        //get all input
+        pbalance = parseInt($('#pbalance').val());
+        var total_adv_withdraw = 0;
+        $('.adv_withdraw').each(function() {
+           total_adv_withdraw += parseInt($(this).val());
+        })
+        // console.log(pbalance + " " + total_adv_withdraw);
+
+        if (pbalance < total_adv_withdraw) {
+            alert("পূর্ববর্তী পরিমান এর বেশী ঋণ নিতে পারবেন না");
+            $(el).closest('tr').find('.adv_withdraw').val(0);
+            $('#total_adv_withdraw').val(0);
+            return false;
+        }
+        $('#total_adv_withdraw').val(total_adv_withdraw);
+    }
+</script>
+
+<script>
     function getBalance(el) {
         //get all input
         var curr_amt_el = $(el).closest('tr').find('.curr_amt');
         var adv_amt_el = $(el).closest('tr').find('.adv_amt');
         var mot_amt_el = $(el).closest('tr').find('.mot_amt');
-        var adv_withdraw_el = $(el).closest('tr').find('.adv_withdraw');
         var balance_el = $(el).closest('tr').find('.balance');
 
         // calculate balance
         var mot_amt = parseInt(curr_amt_el.val()) + parseInt(adv_amt_el.val());
-        var balance=parseInt(mot_amt) - parseInt(adv_withdraw_el.val());
         // insert only input
         mot_amt_el.val(mot_amt);
-        balance_el.val(balance);
+        balance_el.val(mot_amt);
 
         cal_table_footer();
     }
@@ -204,7 +221,6 @@
 
 <script>
     function cal_table_footer(){
-
         var total_curr_amt = 0;
         $('.curr_amt').each(function() {
            total_curr_amt += parseInt($(this).val());
@@ -223,19 +239,34 @@
         })
         $('#total_mot_amt').val(total_mot_amt);
 
-        var total_adv_withdraw = 0;
-        $('.adv_withdraw').each(function() {
-           total_adv_withdraw += parseInt($(this).val());
-        })
-        $('#total_adv_withdraw').val(total_adv_withdraw);
-
         var total_balance = 0;
         $('.balance').each(function() {
            total_balance += parseInt($(this).val());
         })
         $('#total_balance').val(total_balance);
+    }
+</script>
 
-
-
+<script>
+    function preBalance(id) {
+        if (id === "") {
+            $('#pbalance').val(0); // Reset the value if nothing is selected
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "<?php echo base_url('journal_entry/gpf_getBalance'); ?>",
+            data: {id: id},
+            success: function(response) {
+                if (response != "" && response != null) {
+                    $('#pbalance').val(response); // Update the balance input field
+                } else {
+                    $('#pbalance').val(0); // Reset the value if nothing is selected
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log("AJAX Error: " + status + error); // Error handling
+            }
+        });
     }
 </script>

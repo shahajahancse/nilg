@@ -160,6 +160,17 @@
     </div>
 
     <div class="priview-body content-div">
+    <p>
+        [৭২] বিষয়টি প্রতিষ্ঠানের অবসরপ্রাপ্ত কর্মকর্তা ও কর্মচারীগণের <?= number_bangla_format($month) .'/'. eng2bng($year) ?> মাসের মাসিক পেনশন পরিশোধ সংক্রান্ত।
+    </p>
+    <p>
+        [৭৩] উল্লেখ্য অর্থ মন্ত্রণালয়ের অর্থ বিভাগের প্রজ্ঞাপন নং- ০৭.০০.০০০০.১৬১.৯৯.০১০.২৩-১৩২ তাং <?=eng2bng(date('d'))?> <?= number_bangla_format(date('M'))?>, <?= eng2bng(date('Y')) ?> খ্রিঃ অনুযায়ী "বিশেষ সুবিধা" বাবদ ভাদা প্রদান করা হয় যা <?=eng2bng(date('d', strtotime(date('Y-m-1')) ))?> <?= number_bangla_format(date('M'))?>, <?= eng2bng(date('Y')) ?>  খ্রিঃ তারিখ হতে কার্যকর হয়েছে (সদয় দেখা যেতে পারে পত্র পৃষ্ঠা ০৪)।
+    </p>
+
+    <p>
+        [৭৪] প্রতিষ্ঠানের অবসরপ্রাপ্ত কর্মকর্তা ও কর্মচারীগনের <?= number_bangla_format($month) .'/'. eng2bng($year) ?> মাসের মাসিক পেনশন। <?= number_bangla_format($month) .'/'. eng2bng($year) ?> মাসের মাসিক পেনশনের বিবরণ নিম্নরূপঃ
+    </p>
+
     </div>
 
     <div class="priview-body">

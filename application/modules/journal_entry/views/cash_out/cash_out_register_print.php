@@ -197,10 +197,10 @@
                         <?php foreach ($results as $key => $value) { ?>
                             <tr>
                                 <td width=""><?= $value->biboron ?> </td>
-                                <td width=""><?= $value->bill_no ?> </td>
-                                <td width=""><?= $value->bill_date ?> </td>
-                                <td width=""><?= $value->token_no ?> </td>
-                                <td width=""><?= $value->token_date ?> </td>
+                                <td width=""><?= eng2bng($value->bill_no) ?> </td>
+                                <td width=""><?= eng2bng($value->bill_date) ?> </td>
+                                <td width=""><?= eng2bng($value->token_no) ?> </td>
+                                <td width=""><?= eng2bng($value->token_date) ?> </td>
 
                                 <td><?= eng2bng($value->amount)?></td>
                                 <td> <?=  eng2bng($value->total_amt)?></td>

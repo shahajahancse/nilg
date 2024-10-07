@@ -93,7 +93,7 @@
                                                 <?php } ?>
                                             </select>
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-2">
                                             <label for="title" class="control-label">মোট পেনশন <span style="color:red">*</span> </label>
                                             <input id="total" type="number" class="form-control input-sm" name="total_amt" style="min-height: 33px;" required readonly>
                                         </div>
@@ -101,9 +101,22 @@
                                             <label for="title" class="control-label">বেতন বৃদ্ধি % <span style="color:red">*</span> </label>
                                             <input id="basic_ins" type="number" class="form-control input-sm" name="percent" style="min-height: 33px;" required>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <label class="control-label">ব্যাংক একাউন্ট নং <span style="color:red">*</span> </label>
                                             <input class="form-control input-sm" name="account" style="min-height: 33px;" required>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label class="control-label">ব্যাংক টাইপ <span style="color:red">*</span> </label>
+                                            <select id="bank_type" required name="bank_type" class="form-control input-sm" style="width: 100%; height: 28px !important;">
+                                            <option value="">নির্বাচন করুন</option>
+
+                                                <?php
+                                                $bank_typs=$this->db->get('budget_bank_name')->result();
+
+                                                foreach ($bank_typs as $key => $r) { ?>
+                                                <option value="<?= $r->id ?>"> <?= $r->name_bn?> </option>
+                                                <?php } ?>
+                                            </select>
                                         </div>
                                     </div>
 
