@@ -1461,7 +1461,20 @@ class Journal_entry extends Backend_Controller
         $mpdf->WriteHtml($html);
         $mpdf->output();
     }
-
+    public function hostel_forword($status,$id)
+    {
+        $id = (int) decrypt_url($id);
+        $this->db->trans_start();
+        $data = array('status' => $status);
+        if ($this->db->where('id', $id)->update('budget_j_hostel_register', $data)) {
+            $this->db->trans_complete();
+            $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+            redirect("journal_entry/hostel_entry");
+        } else {
+            $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়নি');
+            redirect("journal_entry/hostel_entry");
+        }
+    }
     public function hostel_removeItem($id){
         $this->db->where('id', $id);
         $prd = $this->db->get('budget_j_hostel_register_details')->row();
@@ -1585,7 +1598,6 @@ class Journal_entry extends Backend_Controller
         $this->db->trans_start();
         $this->db->where('id', $id);
         if ($this->db->delete('budget_j_publication_register')) {
-
             $this->db->where('publication_register_id', $id);
             $rows = $this->db->get('budget_j_publication_register_details')->result();
             foreach ($rows as $key => $row) {
@@ -1606,6 +1618,20 @@ class Journal_entry extends Backend_Controller
         }else{
             $this->session->set_flashdata('error', 'তথ্য মুছে ফেলা হয়নি');
             redirect('journal_entry/publication_entry_list');
+        }
+    }
+    public function publication_forword($status,$id)
+    {
+        $id = (int) decrypt_url($id);
+        $this->db->trans_start();
+        $data = array('status' => $status);
+        if ($this->db->where('id', $id)->update('budget_j_publication_register', $data)) {
+            $this->db->trans_complete();
+            $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+            redirect("journal_entry/publication_bikri_list");
+        } else {
+            $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়নি');
+            redirect("journal_entry/hostel_entry");
         }
     }
     // publication entry end

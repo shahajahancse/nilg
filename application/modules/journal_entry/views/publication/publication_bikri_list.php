@@ -87,11 +87,15 @@
                                             <td class="v-align-middle"><?= eng2bng($row->commission); ?></td>
                                             <td class="v-align-middle"><?= eng2bng($row->pay_amount); ?></td>
                                             <?php if ($row->status == 1) {
-                                                $type = '<span class="label label-success">পেন্ডিং</span>';
+                                                $status = '<span class="label label-success">ড্রাফট</span>';
+                                            } else if ($row->status == 2) {
+                                                $status = '<span class="label label-success">প্রসেস</span>';
+                                            } else if ($row->status == 3) {
+                                                $status = '<span class="label label-danger">বাতিল</span>';
                                             } else {
-                                                $type = '<span class="label label-success">অনুমোদিত</span>';
+                                                $status = '<span class="label label-success">অনুমোদিত</span>';
                                             } ?>
-                                            <td class="v-align-middle"><?= $type; ?></td>
+                                            <td class="v-align-middle"><?= $status; ?></td>
                                             <td class="v-align-middle"><?= date_bangla_calender_format($row->issue_date); ?></td>
                                             <td align="right">
                                                 <div class="btn-group">
@@ -99,19 +103,21 @@
                                                     <button class="btn btn-mini btn-primary dropdown-toggle"
                                                         data-toggle="dropdown"> <span class="caret"></span> </button>
                                                     <ul class="dropdown-menu pull-right">
-                                                        <li><a
-                                                                href="<?php echo base_url('journal_entry/publication_bikri_details/' . encrypt_url($row->id)) ?>"><i
-                                                                    class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
-                                                        <!-- <li><a
-                                                            href="<?php echo base_url('journal_entry/publication_entry_edit/' . encrypt_url($row->id)) ?>"><i
-                                                                class="fa fa-pencil-square"></i> সংশোধন করুন </a></li> -->
-                                                        <li><a href="<?php echo base_url('journal_entry/publication_entry_delete/' . encrypt_url($row->id)) ?>"><i
-                                                                    class="fa fa-pencil-square"></i>ডিলিট করুন</a></li>
-                                                        <li><a href="<?php echo base_url('journal_entry/publication_print/' . encrypt_url($row->id)) ?>" target="_blank"><i
-                                                                    class="fa fa-pencil-square" target="_blank"></i> প্রিন্ট করুন</a></li>
-                                                        <?php if ($row->status == 1 && $this->ion_auth->in_group(array('admin', 'nilg', 'acc'))) { ?>
-                                                            <li><a href="<?php echo base_url('journal_entry/chenge_status/publication/' . encrypt_url($row->id)) ?>"><i
-                                                                        class="fa fa-pencil-square"></i> অ্যাপ্রুভ করুন</a></li>
+                                                        <li><a href="<?php echo base_url('journal_entry/publication_bikri_details/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
+
+                                                        <!-- <li><a href="<?php echo base_url('journal_entry/publication_entry_edit/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> সংশোধন করুন </a></li> -->
+
+                                                        <!-- <li><a href="<?php echo base_url('journal_entry/publication_entry_delete/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i>ডিলিট করুন</a></li> -->
+
+                                                        <li><a href="<?php echo base_url('journal_entry/publication_print/' . encrypt_url($row->id)) ?>" target="_blank"><i class="fa fa-pencil-square" target="_blank"></i> প্রিন্ট করুন</a></li>
+
+                                                        <?php if ($row->status == 1 ) { ?>
+                                                            <li><a href="<?php echo base_url('journal_entry/publication_forword/2/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> ফরওয়ার্ড </a> </li>
+                                                        <?php } ?>
+
+                                                        <?php if ($row->status == 2 && $this->ion_auth->in_group(array('admin', 'nilg', 'acc'))) { ?>
+                                                            <li><a href="<?php echo base_url('journal_entry/publication_forword/4/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> অ্যাপ্রুভ</a></li>
+                                                            <li><a href="<?php echo base_url('journal_entry/publication_forword/3/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> বাতিল</a></li>
                                                         <?php } ?>
                                                     </ul>
                                                 </div>

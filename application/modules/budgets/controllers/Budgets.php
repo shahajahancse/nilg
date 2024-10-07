@@ -1642,6 +1642,7 @@ class Budgets extends Backend_Controller
             redirect("budgets/dpt_summary");
         } else {
             $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়নি');
+            redirect("budgets/dpt_summary");
         }
     }
     public function dpt_summary_revenue_amt($status,$encid){
