@@ -165,7 +165,8 @@
                               <?php foreach ($subjects as $val): ?>
                                 <td class="tg-031e font-opensans">
                                   <?php
-                                  echo $getMark = $this->Training_model->get_mark_by_subject($trainingID, $userID, $val->subject_id)->answer_mark;
+                                    $gggg = $this->Training_model->get_mark_by_subject($trainingID, $userID, $val->subject_id);
+                                    echo $getMark = empty($gggg) ? 0 : $gggg->answer_mark;
                                   $getTotalMark += $getMark;
                                   ?>
                                 </td>
