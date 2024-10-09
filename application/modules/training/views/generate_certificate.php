@@ -154,7 +154,7 @@
                             $getTotalMark = $resultPercent = $point = 0;
                             $trainingID = $row->training_id;
                             $userID = $row->app_user_id;
-                            // $mark = $this->Training_model->get_user_mark($trainingID, $userID); 
+                            // $mark = $this->Training_model->get_user_mark($trainingID, $userID);
                             // dd($mark);
                           ?>
                             <tr>
@@ -165,7 +165,7 @@
                               <?php foreach ($subjects as $val): ?>
                                 <td class="tg-031e font-opensans">
                                   <?php
-                                  echo $getMark = $this->Training_model->get_mark_by_subject($trainingID, $userID, $val->subject_id);
+                                  echo $getMark = $this->Training_model->get_mark_by_subject($trainingID, $userID, $val->subject_id)->answer_mark;
                                   $getTotalMark += $getMark;
                                   ?>
                                 </td>
@@ -313,7 +313,7 @@
     func_participant_list();
 
     $('#training_participant_list').validate({
-      // focusInvalid: false, 
+      // focusInvalid: false,
       ignore: "",
       rules: {
         national_id: {
@@ -322,10 +322,10 @@
       },
 
       invalidHandler: function(event, validator) {
-        //display error alert on form submit    
+        //display error alert on form submit
       },
 
-      errorPlacement: function(label, element) { // render error placement for each input type   
+      errorPlacement: function(label, element) { // render error placement for each input type
         if (element.attr("name") == "national_id") {
           label.insertAfter("#typeerror");
         } else {

@@ -8,15 +8,17 @@
         -webkit-appearance: none;
     }
 </style>
-<?php $am = $this->db->where('dept_id', 2)->get('budgets_dept_account')->row(); ?>
+<?php $am = $this->db->where('dept_id', 2)->get('budgets_dept_account')->row();
+    $smt = isset($am->balance) ? $am->balance : 0;
+?>
 <div class="page-content">
     <div class="content">
         <ul class="breadcrumb">
             <li><a href="<?=base_url('dashboard')?>" class="active"> Dashboard </a></li>
             <li><a href="<?=base_url('budget/training_budgets_create')?>" class="active"><?=$module_name?></a></li>
             <li><?=$meta_title; ?> </li>
-            <a style="float: right; color: #000; font-weight: bold;"> পরিমাণ : <?= eng2bng($am->balance); ?> </a>
-            <input type="hidden" id="have_amt" value=<?= $am->balance ?> >
+            <a style="float: right; color: #000; font-weight: bold;"> পরিমাণ : <?= eng2bng($smt); ?> </a>
+            <input type="hidden" id="have_amt" value=<?= $smt ?> >
         </ul>
 
         <div class="row">
@@ -69,6 +71,7 @@
                                         <div class="col-md-4">
                                             <?php $types=$this->db->get('office_type')->result();?>
                                             <label class="control-label">অফিস ধরণ <span class="required">*</span></label>
+                                            <?php echo form_error('office_type');?>
                                             <select onchange="getofficeid(this.value)" name="office_type" id="office_type" class="form-control input-sm" required>
                                                 <option value='' selected>নির্বাচন করুন</option>
                                                 <?php foreach ($types as $key => $value) { ?>
@@ -78,12 +81,14 @@
                                         </div>
                                         <div class="col-md-4">
                                             <label for="office_id" class="control-label">অফিস <span class="required">*</span></label>
+                                            <?php echo form_error('office_id');?>
                                             <select name="office_id" id="office_id" class="form-control input-sm" required>
                                             </select>
                                         </div>
                                         <div class="col-md-4">
                                             <?php $cources=$this->db->where('status', 1)->get('course')->result();; ?>
                                             <label class="control-label">কোর্স নাম <span class="required">*</span></label>
+                                            <?php echo form_error('course_id');?>
                                             <select name="course_id" id="course_id" class="form-control input-sm" required>
                                                 <option value='' selected>নির্বাচন করুন</option>
                                                 <?php foreach ($cources as $key => $value) { ?>
@@ -97,6 +102,7 @@
                                         <div class="col-md-4">
                                             <?php $cources=$this->db->where('status', 1)->get('budget_trainee_type')->result();; ?>
                                             <label class="control-label">প্রশিক্ষণার্থীর ধরন <span class="required">*</span></label>
+                                            <?php echo form_error('trainee_type');?>
                                             <select name="trainee_type" id="trainee_type" class="form-control input-sm" required>
                                                 <option value='' selected>নির্বাচন করুন</option>
                                                 <?php foreach ($cources as $key => $value) { ?>
@@ -106,15 +112,18 @@
                                         </div>
                                         <div class="col-md-4">
                                             <label for="">স্থান <span class="required">*</span></label>
-                                            <input value='' class="form-control input-sm" name="title" id="title">
+                                            <?php echo form_error('title');?>
+                                            <input value='' class="form-control input-sm" name="title" id="title" required>
                                         </div>
                                         <div class="col-md-2">
                                             <label for="">ব্যাচ <span class="required">*</span></label>
-                                            <input value='' type="number" class="form-control input-sm" name="batch_number" id="batch_number">
+                                            <?php echo form_error('batch_number');?>
+                                            <input value='' type="number" class="form-control input-sm" name="batch_number" id="batch_number" required>
                                         </div>
                                         <div class="col-md-2" >
                                             <?php $session_year=$this->db->order_by('id','desc')->get('session_year')->result();?>
                                             <label for="fcl_year" class="control-label">অর্থবছর <span class="required">*</span></label>
+                                            <?php echo form_error('fcl_year');?>
                                             <select name="fcl_year" id="fcl_year" class="form-control input-sm" required>
                                                 <option value='' selected>নির্বাচন করুন</option>
                                                 <?php foreach ($session_year as $key => $value) { ?>
@@ -138,11 +147,13 @@
                                         </div>
                                         <div class="col-md-2">
                                             <label for="">প্রশিক্ষণার্থীর সংখ্যা <span class="required">*</span></label>
-                                            <input onkeyup="setPts()" value='1' type="number" class="form-control input-sm" name="trainee_number" id="trainee_number">
+                                            <?php echo form_error('trainee_number');?>
+                                            <input onkeyup="setPts()" value='1' type="number" class="form-control input-sm" name="trainee_number" id="trainee_number" required>
                                         </div>
                                         <div class="col-md-2">
                                             <label for="">দিন <span class="required">*</span></label>
-                                            <input onkeyup="setDay()" type="number" class="form-control input-sm" name="course_day" id="course_day">
+                                            <?php echo form_error('course_day');?>
+                                            <input onkeyup="setDay()" type="number" class="form-control input-sm" name="course_day" id="course_day" required>
                                         </div>
                                         <div class="col-md-2">
                                         </div>
@@ -556,3 +567,70 @@
     }
 </script>
 
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#jsvalidate').validate({
+            ignore: "",
+            rules: {
+                office_type: {
+                    required: true
+                },
+                office_id: {
+                    required: true
+                },
+                course_id: {
+                    required: true,
+                    minlength: 8
+                },
+                trainee_type: {
+                    required: true,
+                    minlength: 8
+                },
+                title: {
+                    required: true,
+                    minlength: 8
+                },
+                batch_number: {
+                    required: true,
+                    minlength: 8
+                },
+                fcl_year: {
+                    required: true,
+                    minlength: 8
+                },
+                course_day: {
+                    required: true,
+                    minlength: 8
+                },
+                trainee_number: {
+                    required: true,
+                    minlength: 8
+                },
+            },
+
+            invalidHandler: function (event, validator) {
+                //display error alert on form submit
+            },
+            errorPlacement: function (label, element) {
+                // render error placement for each input type
+                $('<span class="error"></span>').insertAfter(element).append(label)
+                var parent = $(element).parent('.input-with-icon');
+                parent.removeClass('success-control').addClass('error-control');
+            },
+            highlight: function (element) { // hightlight error inputs
+                var parent = $(element).parent();
+                parent.removeClass('success-control').addClass('error-control');
+            },
+            unhighlight: function (element) {
+                // revert the change done by hightlight
+            },
+            success: function (label, element) {
+                var parent = $(element).parent('.input-with-icon');
+                parent.removeClass('error-control').addClass('success-control');
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+    });
+</script>

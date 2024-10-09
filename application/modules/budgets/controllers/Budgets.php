@@ -1645,20 +1645,28 @@ class Budgets extends Backend_Controller
             redirect("budgets/dpt_summary");
         }
     }
-    public function dpt_summary_revenue_amt($status,$encid){
+
+    public function dpt_summary_revenue_amt($encid){
         $id = (int) decrypt_url($encid);
-        $data =  array('status' => $status);
         $this->db->trans_start();
-        $this->db->where('id', $id);
-        if ($this->db->update('budget_revenue_summary', $data)) {
-            $this->db->trans_complete();
-            $this->update_acc($id);
-            $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
-            redirect("budgets/dpt_summary");
-        } else {
-            $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়নি');
+        $this->form_validation->set_rules('fcl_year', 'অর্থ বছর', 'required|trim');
+        if ($this->form_validation->run() == true) {
+            $this->db->where('id', $id);
+            if ($this->db->update('budget_revenue_summary', $data)) {
+                $this->db->trans_complete();
+                $this->update_acc($id);
+                $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+                redirect("budgets/dpt_summary");
+            } else {
+                $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়নি');
+            }
         }
+        //Load view
+        $this->data['meta_title'] = 'বাজেট সামারী ';
+        $this->data['subview'] = 'budget_nilg/dpt_summary_create';
+        $this->load->view('backend/_layout_main', $this->data);
     }
+
     public function update_acc($id){
         $this->db->where('id', $id);
         $data = $this->db->get('budget_revenue_summary')->row();

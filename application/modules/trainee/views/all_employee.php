@@ -1,5 +1,11 @@
 <!-- < ?php dd($results)?> -->
-
+<style>
+  .page-content .content {
+      padding-left: 15px !important;
+      padding-right: 15px !important;
+      padding-top: 83px;
+  }
+</style>
 
 <div class="page-content">
   <div class="content">
@@ -29,7 +35,7 @@
               </div>
             <?php endif; ?>
 
-            <?php //dd($userDetails); 
+            <?php //dd($userDetails);
             ?>
             <?php $this->load->view('search_employee'); ?>
 
