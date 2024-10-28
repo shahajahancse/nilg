@@ -11,7 +11,6 @@
     <div class="content">
         <ul class="breadcrumb">
             <li><a href="<?=base_url('dashboard')?>" class="active" > Dashboard </a></li>
-            <li><a href="<?=base_url('budget/budget_nilg_create')?>" class="active"><?=$module_name?></a></li>
             <li><?=$meta_title; ?></li>
 
         </ul>
@@ -56,7 +55,7 @@
                                                 style="font-size: 22px;font-weight: bold;text-decoration: underline;">ব্যাংক  তথ্য এন্ট্রি ফর্ম </span>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                         <br>
                                         <div class="col-md-2">

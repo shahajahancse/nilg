@@ -8,8 +8,9 @@
         -webkit-appearance: none;
     }
 </style>
-
-<?php $am = $this->db->where('dept_id', 2)->get('budgets_dept_account')->row(); ?>
+<?php $am = $this->db->where('dept_id', 2)->get('budgets_dept_account')->row();
+    $smt = isset($am->balance) ? $am->balance : 1000000;
+?>
 
 <div class="page-content">
     <div class="content">
@@ -17,8 +18,8 @@
             <li><a href="<?=base_url('dashboard')?>" class="active"> Dashboard </a></li>
             <li><a href="<?=base_url('budget/training_budgets_create')?>" class="active"><?=$module_name?></a></li>
             <li><?=$meta_title; ?></li>
-            <a style="float: right; color: #000; font-weight: bold;"> পরিমাণ : <?= eng2bng($am->balance); ?> </a>
-                        <input type="hidden" id="have_amt" value=<?= $am->balance ?> >
+            <a style="float: right; color: #000; font-weight: bold;"> পরিমাণ : <?= eng2bng($smt); ?> </a>
+                        <input type="hidden" id="have_amt" value=<?= $smt ?> >
         </ul>
 
         <div class="row">
@@ -110,23 +111,13 @@
                                     </div>
 
                                     <div class="col-md-12" style='margin-bottom:10px'>
-                                        <div class="col-md-4">
-                                            <?php $cources=$this->db->where('status', 1)->get('budget_trainee_type')->result();; ?>
-                                            <label class="control-label">প্রশিক্ষণার্থীর ধরন <span class="required">*</span></label>
-                                            <select name="trainee_type" id="trainee_type" class="form-control input-sm" required>
-                                                <option value='' selected>নির্বাচন করুন</option>
-                                                <?php foreach ($cources as $key => $value) { ?>
-                                                    <option <?= $budget_nilg->trainee_type == $value->id ? 'selected' : '' ?> value="<?=$value->id?>"><?=$value->name?></option>
-                                                <?php } ?>
-                                            </select>
+                                        <div class="col-md-5">
+                                            <label class="control-label">অংশগ্রহণকারী <span class="required">*</span></label>
+                                            <input name="trainee_type" value='<?=$budget_nilg->trainee_type?>' class="form-control input-sm">
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <label for="">স্থান <span class="required">*</span></label>
                                             <input value='<?=$budget_nilg->title?>' class="form-control input-sm" name="title" id="title">
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label for="">ব্যাচ <span class="required">*</span></label>
-                                            <input value='<?=$budget_nilg->batch_number?>' type="number" class="form-control input-sm" name="batch_number" id="batch_number">
                                         </div>
                                         <div class="col-md-2" >
                                             <?php $session_year=$this->db->order_by('id','desc')->get('session_year')->result();?>
@@ -138,10 +129,14 @@
                                                 <?php  } ?>
                                             </select>
                                         </div>
+                                        <div class="col-md-2">
+                                            <label for="">দিন <span class="required">*</span></label>
+                                            <input value='<?=$budget_nilg->course_day?>' type="number" class="form-control input-sm" name="course_day" id="course_day">
+                                        </div>
                                     </div>
 
                                     <div class="col-md-12" style='margin-bottom:10px'>
-                                        <div class="col-md-4">
+                                        <div class="col-md-3">
                                             <?php $budget_head = $this->db->get('budget_head_training')->result();?>
                                             <label for="">বাজেট হেড নির্বাচন করুন</label>
                                             <select id="head_id" class="form-control"
@@ -156,18 +151,30 @@
                                             <label for="">প্রশিক্ষণার্থীর সংখ্যা <span class="required">*</span></label>
                                             <input value='<?=$budget_nilg->trainee_number?>' type="number" class="form-control input-sm" name="trainee_number" id="trainee_number">
                                         </div>
-                                        <div class="col-md-2">
-                                            <label for="">দিন <span class="required">*</span></label>
-                                            <input value='<?=$budget_nilg->course_day?>' type="number" class="form-control input-sm" name="course_day" id="course_day">
+
+                                        <div class="col-md-1">
+                                            <label for="">ব্যাচ <span class="required">*</span></label>
+                                            <input value='<?=$budget_nilg->batch_number?>' type="number" class="form-control input-sm" name="batch_number" id="batch_number">
                                         </div>
                                         <div class="col-md-2">
-                                            <!-- <label for="">সর্বমোট প্রশিক্ষণার্থী</label>
-                                            <input value='<?=$budget_nilg->total_trainee?>' class="form-control input-sm" name="total_trainee" id="total_trainee" readonly> -->
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label for="">সর্বমোট পরিমান</label>
+                                            <label for="">পরিমান</label>
                                             <input value='<?=$budget_nilg->amount?>' class="form-control input-sm" name="total_amount" id="total_amount" readonly>
                                         </div>
+
+                                        <div class="col-md-2">
+                                            <label for="">মোট প্রশিক্ষণার্থীর <span class="required">*</span></label>
+                                            <?php echo form_error('trainee_number');?>
+                                            <input onkeyup="setPts()" value='1' type="number" class="form-control input-sm" name="mot_trainee_number" id="mot_trainee_number" readonly>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <label for="">সর্বমোট পরিমান</label>
+                                            <input value='' class="form-control input-sm" name="mot_total_amount" id="mot_total_amount" readonly>
+                                        </div>
+
+
+
+
                                     </div>
                                 </div>
 
@@ -234,7 +241,13 @@
                                                             <tr class="head_<?=$value->head_id?> side_css">
                                                                 <input type="hidden" name="<?=$value->id?>_sub_de_id[]" value="<?=$head->id?>">
                                                                 <input type="hidden" name="<?=$value->id?>_head_sub_id[]" value="<?=$head->head_sub_id?>">
-                                                                <td colspan=""><?=$head->name_bn?></td>
+
+                                                                <td colspan="">
+                                                                    <div style="display: flex; gap: 5px; align-items: center;" >
+                                                                        <?=$head->name_bn?>
+                                                                        <input value="<?=$head->head_modify?>" name="<?=$value->id?>_cmd[]" class="form-control input-sm" >
+                                                                    </div>
+                                                                </td>
 
                                                                 <td><input type="number" value="<?= $head->participants ?>" min="1" name="<?=$value->id?>_participants[]" onkeyup="calculateSubTotal(this, <?=$head->head_id?>)" class="form-control input-sm subParticipant_<?=$head->head_id?>"></td>
 
@@ -261,7 +274,7 @@
                                             </div>
                                             <div class="">
                                                 <div class="pull-right">
-                        <span id="message_dep" style="color: red;"></span>
+                                                    <span id="message_dep" style="color: red;"></span>
                                                     <input id="submit_btn_b" type="submit" name="submit" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
                                                 </div>
                                             </div>
@@ -406,8 +419,13 @@
 
                     <input type="hidden" name="${sub_id}_sub_de_id[]" value="new">
                     <input type="hidden" name="${sub_id}_head_sub_id[]" value="${data.id}">
-                    <td colspan="">${data.name_bn}</td>
 
+                    <td colspan="">
+                        <div style="display: flex; gap: 5px; align-items: center;">
+                            ${data.name_bn}
+                            <input name="${id}_cmd[]" class="form-control input-sm" >
+                        </div>
+                    </td>
 
                     <td><input type="number" value="1" min="1" name="${sub_id}_participants[]" onkeyup="calculateSubTotal(this, ${id})" class="pts form-control input-sm subParticipant_${id}"></td>
 
@@ -488,11 +506,36 @@
 
 <script>
     function calculateTotal() {
+        var trainee_number=$("#trainee_number").val();
+        var batch_number=$("#batch_number").val();
         var total = 0;
         $(".amount").each(function() {
             total += parseInt($(this).val());
         })
         $("#total_amount").val(total);
+
+        var mot_trainee_number=trainee_number*batch_number
+        var mot_total_amount= total * mot_trainee_number;
+
+        $("#mot_trainee_number").val(mot_trainee_number);
+        $("#mot_total_amount").val(mot_total_amount);
+
+
+        var founds = "<?= $smt ?>";
+        if(founds <= 0){
+            $('#message_dep').html('Total amount not allowed to be less than 0');
+            $('#submit_btn_b').prop('disabled', true);
+            return false;
+        }
+
+        if($('#have_amt').val() < total){
+            $('#message_dep').html('Total amount should be less than or equal to <?=eng2bng($smt)?>');
+            $('#submit_btn_b').prop('disabled', true);
+            return false;
+        }else{
+            $('#message_dep').html('');
+            $('#submit_btn_b').prop('disabled', false);
+        }
     }
 </script>
 <script>

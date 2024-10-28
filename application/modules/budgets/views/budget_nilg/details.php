@@ -146,10 +146,15 @@
                                                 <table class="table table-hover " border="1" style="border:1px solid #a09e9e;" id="appRowDiv">
                                                     <thead>
                                                         <tr>
-                                                            <th width="30%">বাজেট শিরোনাম<span class="required">*</span></th>
-                                                            <th width="30%">বাজেট কোড<span class="required">*</span></th>
-                                                            <th width="30%">বাজেট পরিমাণ</th>
-                                                            <th width="10%">অ্যাকশন </th>
+                                                                <th width="20%">বাজেট শিরোনাম<span class="required">*</span>
+                                                                </th>
+                                                                <th width="10%">বাজেট কোড<span class="required">*</span>
+                                                                </th>
+                                                                <th width="15%">পূর্ববর্তী বরাদ্দ</th>
+                                                                <th width="15%">চলমান বরাদ্দ</th>
+                                                                <th width="15%">বাজেট পরিমাণ</th>
+                                                                <th width="15%">প্রাক্কলন পরিমাণ</th>
+                                                                <th width="10%">অ্যাকশন </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="tbody">
@@ -157,12 +162,15 @@
                                                             <tr>
                                                                 <td><?= $value->name_bn ?></td>
                                                                 <td><?= $value->bd_code ?></td>
+                                                                <td style="padding:0px 10px;width: 15%"><input type="number" value="<?= $value->prev_amt ?>" class="form-control prev_amt input-sm" onkeyup="calculateTotal(this)" name="prev_amt[]" ></td>
+                                                                <td style="padding:0px 10px;width: 15%"><input type="number" value="<?= $value->running_amt ?>" class="form-control running_amt input-sm" onkeyup="calculateTotal(this)" name="running_amt[]"></td>
                                                                 <td>
                                                                     <input type="hidden" name="budget_nilg_details_id[]" value="<?= $value->budget_nilg_details_id ?>">
                                                                     <input type="hidden" name="head_id[]" value="<?= $value->head_id ?>">
                                                                     <input type="hidden" name="head_sub_id[]" value="<?= $value->head_sub_id ?>">
                                                                     <input value="<?= $value->amount ?>" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm">
                                                                 </td>
+                                                                <td style="padding:0px 10px;width: 15%"><input type="number" value="<?= $value->prokolpito_amt ?>" class="prokolpito_amt form-control  input-sm" readonly name="prokolpito_amt[]"></td>
                                                                 <td><a href="javascript:void(0)" onclick="removeRow(this,<?= $value->budget_nilg_details_id ?>)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
                                                             </tr>
                                                         <?php } ?>
@@ -235,15 +243,17 @@
             success: function(data) {
                 var data = JSON.parse(data);
                 var tr = `<tr>
-                        <td>${data.name_bn}</td>
-                        <td>${data.bd_code}</td>
-                        <td>
-                        <input type="hidden" name="budget_nilg_details_id[]" value="new" >
+                        <td style="padding:0px 10px;width: 20%">${data.name_bn}</td>
+                        <td style="padding:0px 10px;width: 10%">${data.bd_code}</td>
+                        <td style="padding:0px 10px;width: 15%"><input type="number" value=0 class="form-control prev_amt input-sm" onkeyup="calculateTotal(this)" name="prev_amt[]" ></td>
+                        <td style="padding:0px 10px;width: 15%"><input type="number" value=0 class="form-control running_amt input-sm" onkeyup="calculateTotal(this)" name="running_amt[]"></td>
+                        <td style="padding:0px 10px;width: 15%">
                         <input type="hidden" name="head_id[]" value="${data.budget_head_id}" >
                         <input type="hidden" name="head_sub_id[]" value="${data.id}" >
-                        <input value="0" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm">
+                        <input value="0" min="0" type="number" onkeyup="calculateTotal(this)"  name="amount[]" class="form-control amount input-sm">
                         </td>
-                        <td><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
+                        <td style="padding:0px 10px;width: 15%"><input type="number" value=0 class="prokolpito_amt form-control  input-sm" readonly name="prokolpito_amt[]"></td>
+                        <td style="padding:0px 10px;width: 10%"><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
                      </tr>`
                 $("#tbody").append(tr);
                 $("#loading").hide();

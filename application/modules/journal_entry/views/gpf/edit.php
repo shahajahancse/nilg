@@ -12,7 +12,7 @@
     <div class="content">
         <ul class="breadcrumb">
             <li><a href="<?=base_url('dashboard')?>" class="active" > Dashboard </a></li>
-            <li><a href="<?=base_url('budget/budget_nilg_create')?>" class="active"><?=$module_name?></a></li>
+
             <li><?=$meta_title; ?></li>
 
         </ul>
@@ -47,7 +47,7 @@
                             echo form_open_multipart("journal_entry/gpf_entry_edit",$attributes);
                             echo validation_errors();
                         ?>
-                       
+
                         <input type="hidden" name="id" value="<?=$budget_j_gpf_register->id?>">
                         <div class="row">
                             <div class="col-md-12">

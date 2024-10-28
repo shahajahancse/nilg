@@ -14,7 +14,6 @@
     <div class="content">
         <ul class="breadcrumb">
             <li><a href="<?=base_url('dashboard')?>" class="active" > Dashboard </a></li>
-            <li><a href="<?=base_url('journal_entry/gpf_entry')?>" class="active"><?=$module_name?></a></li>
             <li><?=$meta_title; ?></li>
 
         </ul>

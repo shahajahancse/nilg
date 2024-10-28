@@ -142,13 +142,7 @@
         </div>
 
         <div class="col-6">
-            <h4 class="text-center">
-                <span style="font-size:14px;">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</span><br>
-                <span style="font-size:14px;">স্থানীয় সরকার, পল্লী উন্নয়ন ও সমবায় মন্ত্রণালয়</span><br>
-                <span style="font-size:16px;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি )</span><br>
-                <span style="font-size:11px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
-                <span style="font-size:11px; text-decoration: underline;">www.nilg.gov.bd </span>
-            </h4>
+            <?php $this->load->view('print_header'); ?>
             <h3 style="margin-bottom: -5px;" class="text-center"><?= $headding ?></h3>
         </div>
 

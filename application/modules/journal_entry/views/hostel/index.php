@@ -15,7 +15,7 @@
     <div class="content">
         <ul class="breadcrumb" style="margin-bottom: 20px;">
             <li> <a href="<?= base_url('dashboard') ?>" class="active"> ড্যাশবোর্ড </a> </li>
-            <li> <a href="javascript:void()" class="active"> <?= $module_name ?> </a></li>
+
             <li> <?= $meta_title; ?> </li>
         </ul>
 

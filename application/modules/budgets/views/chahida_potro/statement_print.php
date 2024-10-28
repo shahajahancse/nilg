@@ -81,14 +81,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <h5 class="text-center" style="padding: 0;margin-bottom: 0;">
-                        <span style="font-size:13px;">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</span><br>
-                        <span style="font-size:13px;">স্থানীয় সরকার, পল্লী উন্নয়ন ও সমবায় মন্ত্রণালয়</span><br>
-                        <span style="font-size:14px; font-weight: bold;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি
-                            )</span><br>
-                        <span style="font-size:12px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
-                        <span style="font-size:12px;text-decoration: underline;color: #2246ff;">www.nilg.gov.bd </span>
-                    </h5>
+                    <?php $this->load->view('print_header'); ?>
                 </div>
                 <div class="col-md-3"
                     style="display: flex;align-content: center;flex-wrap: wrap;right: 0;position: relative;justify-content: flex-end;">
@@ -119,8 +112,8 @@
                 </thead>
                 <tbody id="tbody">
                     <?php $boraddo=0;$bay=0;   foreach($budget_field_details as $key => $data):
-                        $boraddo+=$data->amount; 
-                        $bay+=$data->overall_expense; 
+                        $boraddo+=$data->amount;
+                        $bay+=$data->overall_expense;
                         ?>
                     <tr>
                         <td style="text-align: center;width:fit-content;"><?=++$key?>
@@ -130,7 +123,7 @@
                             <?=$data->amount?>
                         </td>
                         <td style="text-align: center;width:fit-content;"><?=$data->overall_expense ?></td>
-                        
+
                     </tr>
                     <?php endforeach;?>
                 </tbody>

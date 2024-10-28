@@ -145,12 +145,8 @@
         </div>
 
         <div class="col-6">
-            <h4 class="text-center">
+            <?php $this->load->view('print_header'); ?>
 
-                <span style="font-size:16px;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি )</span><br>
-                <span style="font-size:11px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
-                <span style="font-size:11px; text-decoration: underline;">www.nilg.gov.bd </span>
-            </h4>
         </div>
 
         <div class="col-2" style="float: right;">

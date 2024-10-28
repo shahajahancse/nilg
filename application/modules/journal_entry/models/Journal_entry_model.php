@@ -88,6 +88,30 @@ class Journal_entry_model extends CI_Model {
         return $data;
     }
 
+    public function bikroy_book($pay_type = null, $from_date = null, $to_date = null){
+        $this->db->select('pb.id, pb.name_bn, pb.name_en, prd.price,
+                SUM(CASE WHEN prd.type = 2 THEN prd.amount ELSE 0 END) as book_sale_amt,
+                SUM(CASE WHEN prd.type = 2 THEN prd.commission ELSE 0 END) as commission_amt,
+                SUM(CASE WHEN prd.type = 2 THEN prd.pay_amount ELSE 0 END) as pay_amount,
+                SUM(CASE WHEN prd.type = 3 THEN prd.amount ELSE 0 END) as book_give_amt,
+                SUM(CASE WHEN prd.type = 4 THEN prd.amount ELSE 0 END) as sell_by_kg_amt,
+            ');
+        $this->db->from('budget_j_publication_register_details as prd');
+        $this->db->join('budget_j_publication_book as pb', 'pb.id=prd.book_id', 'left');
+        $this->db->join('budget_j_publication_register as pr', 'prd.publication_register_id=pr.id', 'left');
+        if (!empty($pay_type)) {
+            $this->db->where('pr.pay_type', $pay_type);
+        }
+        if (!empty($from_date) && !empty($to_date)) {
+            $this->db->where('pr.issue_date BETWEEN "' . $from_date . '" and "' . $to_date . '"');
+        }
+
+        $this->db->where('pb.status', 1);
+        $this->db->group_by('prd.book_id');
+        $data = $this->db->get()->result();
+        // dd($data);
+        return $data;
+    }
     public function group_book_info($from_date, $to_date, $group_id=null){
         $this->db->select('pb.id, pg.name_bn, pg.name_en, prd.price,
                 SUM(CASE WHEN prd.type = 1 THEN prd.quantity ELSE 0 END) as book_in,

@@ -33,7 +33,7 @@
                             <div class="col-md-3">
                                 <label class="form-label"> বাজেট হেড <span class="required">*</span></label>
                                 <?php echo form_error('head_id'); ?>
-                                <select name="head_id" class="form-control input-sm" required>
+                                <select name="head_id" class="form-control input-sm" required >
                                     <option value="">বাজেট হেড নির্বাচন করুন</option>
                                     <?php foreach ($budget_heads['rows'] as $key => $value) {  ?>
                                     <option value="<?=$value->id?>"><?=$value->name_en?></option>
@@ -45,30 +45,46 @@
                                 <label class="form-label">নাম (ইংলিশ) <span class="required">*</span></label>
                                 <?php echo form_error('name_en'); ?>
                                 <input name="name_en" type="text" class="form-control input-sm" placeholder=""
-                                    value="<?=set_value('name_en')?>" />
+                                    value="<?=set_value('name_en')?>" required />
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <label class="form-label">নাম (বাংলা) <span class="required">*</span></label>
                                 <?php echo form_error('name_bn'); ?>
                                 <input name="name_bn" type="text" class="form-control input-sm" placeholder=""
-                                    value="<?=set_value('name_en')?>" />
+                                    value="<?=set_value('name_en')?>" required />
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">বিঃডিঃ কোড <span class="required">*</span></label>
+                                <input name="bd_code" type="number" class="form-control input-sm" placeholder=""
+                                    value="<?=set_value('bd_code')?>" required />
                             </div>
                         </div>
                         <br>
                         <div class="row form-row">
-                            <div class="col-md-3">
-                                <label class="form-label">বিঃডিঃ কোড <span class="required">*</span></label>
-                                <input name="bd_code" type="number" class="form-control input-sm" placeholder=""
-                                    value="<?=set_value('bd_code')?>">
+                            <div class="col-md-2">
+                                <label class="form-label">পূর্ববর্তী বরাদ্দ <span class="required">*</span></label>
+                                <input name="prev_amt" type="number" class="form-control input-sm" required >
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
+                                <label class="form-label">বরাদ্দ পরিমান <span class="required">*</span></label>
+                                <input name="budget_amt" type="number" class="form-control input-sm" required >
+                            </div>
+                            <div class="col-md-2">
+                                <label class="form-label">পরিমান <span class="required">*</span></label>
+                                <input name="amount" type="number" class="form-control input-sm" required >
+                            </div>
+                            <div class="col-md-2">
                                 <label class="form-label">ভ্যাট <span class="required">*</span></label>
                                 <input name="vat" type="" class="form-control input-sm" placeholder="ভ্যাট"
-                                    value="<?=set_value('vat')?>">
+                                    value="<?=set_value('vat')?>" >
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
+                                <label class="form-label">আইটি কর</label>
+                                <input name="it_kor" type="number" class="form-control input-sm">
+                            </div>
+                            <div class="col-md-2">
                                 <label class="form-label">স্ট্যাটাস <span class="required">*</span></label>
-                                <select name="status" id="">
+                                <select class="form-control input-sm">
                                     <option value="1">সক্রিয়</option>
                                     <option value="0">অসক্রিয়</option>
                                 </select>

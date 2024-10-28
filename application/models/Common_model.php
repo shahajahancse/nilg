@@ -9,6 +9,77 @@ class Common_model extends CI_Model
         $this->userSessID = $this->session->userdata('user_id');
     }
 
+    public function office_ntfy()
+    {
+        $row = $this->db->select("
+            COUNT(CASE WHEN status = 2 THEN 1 END) AS ad,
+            COUNT(CASE WHEN status = 3 THEN 1 END) AS dd,
+            COUNT(CASE WHEN status = 4 THEN 1 END) AS jd,
+            COUNT(CASE WHEN status = 5 THEN 1 END) AS director,
+            COUNT(CASE WHEN status = 6 THEN 1 END) AS dg,
+            COUNT(CASE WHEN status = 7 THEN 1 END) AS acc,
+            COUNT(CASE WHEN status = 8 THEN 1 END) AS office,
+            COUNT(CASE WHEN status = 9 THEN 1 END) AS acc2,
+        ")->where('status !=', 1)->get('budget_field')->row();
+        if ($this->ion_auth->in_group(array('ad'))) {
+            $nt = $row->ad;
+        } elseif ($this->ion_auth->in_group(array('dd'))) {
+            $nt = $row->dd;
+        } elseif ($this->ion_auth->in_group(array('jd'))) {
+            $nt = $row->jd;
+        } elseif ($this->ion_auth->in_group(array('director'))) {
+            $nt = $row->director;
+        } elseif ($this->ion_auth->in_group(array('dg'))) {
+            $nt = $row->dg;
+        } elseif ($this->ion_auth->in_group(array('acc'))) {
+            $nt = $row->acc + $row->acc2;
+        } elseif (!$this->ion_auth->in_group(array('tdo','ad','dd','jd','director','dg','acc'))) {
+            $nt = $row->office;
+        } else {
+            $nt = 0;
+        }
+        return $nt;
+    }
+
+    public function rev_notify()
+    {
+        $row = $this->db->select("
+            COUNT(CASE WHEN status = 2 THEN 1 END) AS dd,
+            COUNT(CASE WHEN status = 3 THEN 1 END) AS jd,
+            COUNT(CASE WHEN status = 4 THEN 1 END) AS director,
+            COUNT(CASE WHEN status = 5 THEN 1 END) AS dg,
+            COUNT(CASE WHEN status = 6 THEN 1 END) AS acc,
+            COUNT(CASE WHEN status = 7 THEN 1 END) AS acc2,
+        ")->where('type !=', 2)->where('status !=', 1)->get('budget_revenue_summary')->row();
+        if ($this->ion_auth->in_group(array('dd'))) {
+            $nt = $row->dd;
+        } elseif ($this->ion_auth->in_group(array('jd'))) {
+            $nt = $row->jd;
+        } elseif ($this->ion_auth->in_group(array('director'))) {
+            $nt = $row->director;
+        } elseif ($this->ion_auth->in_group(array('dg'))) {
+            $nt = $row->dg;
+        } elseif ($this->ion_auth->in_group(array('acc'))) {
+            $nt = $row->acc + $row->acc2;
+        } else {
+            $nt = 0;
+        }
+        return $nt;
+    }
+
+    public function rev_notify_add()
+    {
+        $row = $this->db->select("
+            COUNT(CASE WHEN status = 8 THEN 1 END) AS acc,
+        ")->where('type !=', 2)->where('status !=', 1)->get('budget_revenue_summary')->row();
+        if ($this->ion_auth->in_group(array('acc'))) {
+            $nt = $row->acc;
+        } else {
+            $nt = 0;
+        }
+        return $nt;
+    }
+
     public function save($table, $data)
     {
         if ($this->db->insert($table, $data)) {

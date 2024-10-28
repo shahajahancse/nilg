@@ -2,7 +2,7 @@
     <div class="content">
         <ul class="breadcrumb" style="margin-bottom: 20px;">
             <li> <a href="<?= base_url('dashboard') ?>" class="active"> ড্যাশবোর্ড </a> </li>
-            <li> <a href="javascript:void()" class="active"> <?= $module_name ?> </a></li>
+
             <li> <?= $meta_title; ?> </li>
         </ul>
 
@@ -98,12 +98,12 @@
                                                                     class="fa fa-pencil-square"></i>ডিলিট করুন</a></li>
                                                         <li><a href="<?php echo base_url('journal_entry/print_singal/revenue/' . encrypt_url($row->id)) ?>" target="_blank"><i
                                                                     class="fa fa-pencil-square" target="_blank"></i> প্রিন্ট করুন</a></li>
-    
+
                                                         <?php if ($row->status == 1 && $this->ion_auth->in_group(array('admin', 'nilg', 'acc'))) { ?>
                                                             <li><a href="<?php echo base_url('journal_entry/chenge_status/revenue/' . encrypt_url($row->id)) ?>"><i
                                                                         class="fa fa-pencil-square"></i> অ্যাপ্রুভ করুন</a></li>
                                                         <?php } ?>
-    
+
                                                     </ul>
                                                 </div>
                                             </td>

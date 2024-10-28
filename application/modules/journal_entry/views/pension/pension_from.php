@@ -2,7 +2,7 @@
     <div class="content">
         <ul class="breadcrumb" style="margin-bottom: 20px;">
             <li> <a href="<?= base_url('dashboard') ?>" class="active"> ড্যাশবোর্ড </a> </li>
-            <li> <a href="javascript:void()" class="active"> <?= $module_name ?> </a></li>
+
             <li> <?= $meta_title; ?> </li>
         </ul>
 
@@ -65,11 +65,11 @@
                                         <input id="fdate" class="yearMonth form-control input-sm" style="min-height: 33px;">
                                         <?php echo form_error('fdate'); ?>
                                     </div>
-                                    <div class="col-md-4" style="padding:0 6px !important;">
+                                    <!-- <div class="col-md-4" style="padding:0 6px !important;">
                                         <label class="control-label">শেষের তারিখ</label>
                                         <input id="sdate" class="yearMonth form-control input-sm" style="min-height: 33px;">
                                         <?php echo form_error('sdate'); ?>
-                                    </div>
+                                    </div> -->
                                     <div class="col-md-4">
                                         <label class="control-label">ব্যাংক টাইপ <span style="color:red">*</span> </label>
                                         <select id="bank_type" onchange="get_user()" name="bank_type" class="form-control input-sm" style="width: 100%; height: 28px !important;">
@@ -125,7 +125,7 @@
                                             <legend style="margin-bottom: 10px;">রিপোর্ট বাটন</legend>
                                             <div style="display: flex;flex-wrap: wrap;gap: 10px;">
                                                 <button type="submit" name="pension" value="pension_sheet" onclick="return validFunc()" style="padding: 5px 8px !important;" class="btn btn-info"> পেনশন শিট </button>
-                                                <button type="submit" name="pension" value="single_pension" onclick="return validFunc1()" style="padding: 5px 8px !important;" class="btn btn-info">একজন এর পেনশন </button>
+                                                <!-- <button type="submit" name="pension" value="single_pension" onclick="return validFunc1()" style="padding: 5px 8px !important;" class="btn btn-info">একজন এর পেনশন </button> -->
                                                 <button type="submit" name="pension" value="bank_deposit" onclick="return validFunc1()" style="padding: 5px 8px !important;" class="btn btn-info">Bank Deposit </button>
                                                 <button type="submit" name="pension" value="festival_bonus" onclick="return validFunc1()" style="padding: 5px 8px !important;" class="btn btn-info">Festival Bonus </button>
                                                 <button type="submit" name="pension" value="additional_bonus" onclick="return validFunc1()" style="padding: 5px 8px !important;" class="btn btn-info">Additional Bonus </button>

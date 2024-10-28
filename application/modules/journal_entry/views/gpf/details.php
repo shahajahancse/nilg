@@ -11,7 +11,7 @@
     <div class="content">
         <ul class="breadcrumb">
             <li><a href="<?=base_url('dashboard')?>" class="active" > Dashboard </a></li>
-            <li><a href="<?=base_url('budget/budget_nilg_create')?>" class="active"><?=$module_name?></a></li>
+
             <li><?=$meta_title; ?></li>
 
         </ul>
@@ -47,10 +47,10 @@
                                             <strong>তারিখ: <span><?= $budget_j_gpf_register->issue_date ?></span></strong>
                                         </div>
                                         <div class="col-md-3">
-                                           <strong>পরিমান: <span><?= $budget_j_gpf_register->amount ?></span></strong> 
+                                           <strong>পরিমান: <span><?= $budget_j_gpf_register->amount ?></span></strong>
                                         </div>
                                         <div class="col-md-12">
-                                           <strong>তৈরি কারক: <span><?= $budget_j_gpf_register->create_by ?></span></strong> 
+                                           <strong>তৈরি কারক: <span><?= $budget_j_gpf_register->create_by ?></span></strong>
                                         </div>
                                         <div class="col-md-12">
                                             <label for="title" class="control-label">বর্ণনা:</label>

@@ -491,9 +491,9 @@ class Journal_entry extends Backend_Controller
             );
 
             $this->db->where('month', $date)->where('check_no', $this->input->post('check_no'));
-            $row = $this->db->get('budget_j_pension_check')->row();
+            $row = $this->db->get('budget_j_pension_cheque')->row();
             if (!empty($row)) {
-                $this->db->insert('budget_j_pension_check', $form_data);
+                $this->db->insert('budget_j_pension_cheque', $form_data);
             }
 
             // Generate PDF
@@ -535,9 +535,9 @@ class Journal_entry extends Backend_Controller
             );
 
             $this->db->where('month', $date)->where('check_no', $this->input->post('check_no'));
-            $row = $this->db->get('budget_j_pension_check')->row();
+            $row = $this->db->get('budget_j_pension_cheque')->row();
             if (!empty($row)) {
-                $this->db->insert('budget_j_pension_check', $form_data);
+                $this->db->insert('budget_j_pension_cheque', $form_data);
             }
 
             // Generate PDF
@@ -581,9 +581,9 @@ class Journal_entry extends Backend_Controller
             );
 
             $this->db->where('month', $date)->where('check_no', $this->input->post('check_no'));
-            $row = $this->db->get('budget_j_pension_check')->row();
+            $row = $this->db->get('budget_j_pension_cheque')->row();
             if (!empty($row)) {
-                $this->db->insert('budget_j_pension_check', $form_data);
+                $this->db->insert('budget_j_pension_cheque', $form_data);
             }
 
             // Generate PDF
@@ -626,9 +626,9 @@ class Journal_entry extends Backend_Controller
             );
 
             $this->db->where('month', $date)->where('check_no', $this->input->post('check_no'));
-            $row = $this->db->get('budget_j_pension_check')->row();
+            $row = $this->db->get('budget_j_pension_cheque')->row();
             if (!empty($row)) {
-                $this->db->insert('budget_j_pension_check', $form_data);
+                $this->db->insert('budget_j_pension_cheque', $form_data);
             }
 
             // Generate PDF
@@ -1658,9 +1658,9 @@ class Journal_entry extends Backend_Controller
         $this->form_validation->set_rules('name', 'নাম', 'required|trim');
         $this->form_validation->set_rules('mobile', 'মোবাইল', 'required|trim');
         $this->form_validation->set_rules('address', 'ঠিকানা', 'required|trim');
+        $this->form_validation->set_rules('pay_type', 'বিক্রয় ধরণ', 'required|trim');
         $user = $this->ion_auth->user()->row();
         if ($this->form_validation->run() == true) {
-
             $this->db->trans_start();
             $form_data = array(
                 'voucher_no' => $this->input->post('voucher_no'),
@@ -1668,6 +1668,7 @@ class Journal_entry extends Backend_Controller
                 'commission' => $this->input->post('total') - $this->input->post('pay_total'),
                 'pay_amount' => $this->input->post('pay_total'),
                 'type' => $this->input->post('type'),
+                'pay_type' => $this->input->post('pay_type'),
                 'name' => $this->input->post('name'),
                 'mobile' => $this->input->post('mobile'),
                 'address' => $this->input->post('address'),
@@ -1816,6 +1817,110 @@ class Journal_entry extends Backend_Controller
     }
     // End publication bikri
 
+    // publication account forward start
+    public function publication_bikri_acc_list($offset = 0)
+    {
+        $limit = 15;
+        $this->db->select('q.*');
+        $this->db->from('budget_j_publication_register_acc as q');
+        $this->db->limit($limit, $offset);
+        $this->db->order_by('q.id', 'desc');
+        $results = $this->db->get()->result();
+
+        $this->db->select('COUNT(*) as count');
+        $this->db->from('budget_j_publication_register_acc as q');
+        $num_rows = $this->db->get()->row()->count;
+        //Results
+        $this->data['results'] = $results;
+        $this->data['total_rows'] = $num_rows;
+        //pagination
+        $this->data['pagination'] = create_pagination('journal_entry/publication_bikri_acc_list/', $num_rows, $limit, 3, $full_tag_wrap = true);
+        // Load view
+        $this->data['meta_title'] = 'প্রকাশনা বিক্রি তালিকা';
+        $this->data['subview'] = 'publication/publication_bikri_acc_list';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function publication_bikri_acc_create($type = null)
+    {
+        $this->form_validation->set_rules('from_date', 'শুরুর তারিখ', 'required|trim');
+        $this->form_validation->set_rules('to_date', 'শেসের তারিখ', 'required|trim');
+        $this->form_validation->set_rules('pay_type', 'বিক্রয় ধরণ', 'required|trim');
+        $this->form_validation->set_rules('amount', 'প্রদেয় পরিমাণ', 'required|trim');
+        $this->form_validation->set_rules('description', 'চিঠি', 'required|trim');
+        $user = $this->ion_auth->user()->row();
+
+        if ($this->form_validation->run() == true) {
+            $this->db->trans_start();
+            $form_data = array(
+                'voucher_no' => $this->input->post('voucher_no'),
+                'from_date' => $this->input->post('from_date'),
+                'to_date' => $this->input->post('to_date'),
+                'issue_date' => date('Y-m-d'),
+                'pay_type' => $this->input->post('pay_type'),
+                'amount' => $this->input->post('amount'),
+                'description' => $this->input->post('description'),
+                'create_by' => $user->id,
+            );
+
+            if ($this->Common_model->save('budget_j_publication_register_acc', $form_data)) {
+                $this->db->trans_complete();
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('journal_entry/publication_bikri_acc_list');
+            }
+        }
+
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'প্রকাশনা এন্ট্রি ফর্ম';
+        $this->data['subview'] = 'publication/publication_bikri_acc_create';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function publication_bikri_acc_details($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->select('q.*, u.name_bn as create_by');
+        $this->db->from('budget_j_publication_register_acc as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['row'] = $this->db->get()->row();
+
+        //Dropdown
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'প্রকাশনা বিক্রয় বিস্তারিত';
+        $this->data['subview'] = 'publication/publication_bikri_acc_details';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function publication_bikri_acc_print($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->select('q.*, u.name_bn as create_by');
+        $this->db->from('budget_j_publication_register_acc as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['row'] = $this->db->get()->row();
+        // dd($this->data['row']);
+        // Generate PDF
+        $this->data['headding'] = 'প্রকাশনা বিক্রয় ভাউচার';
+        $html = $this->load->view('publication/publication_bikri_acc_print', $this->data, true);
+
+        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+        $mpdf->WriteHtml($html);
+        $mpdf->output();
+    }
+    public function publication_bikri_forword($status,$id)
+    {
+        $id = (int) decrypt_url($id);
+        $this->db->trans_start();
+        $data = array('status' => $status);
+        if ($this->db->where('id', $id)->update('budget_j_publication_register_acc', $data)) {
+            $this->db->trans_complete();
+            $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+            redirect("journal_entry/publication_bikri_acc_list");
+        } else {
+            $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়নি');
+            redirect("journal_entry/publication_bikri_acc_list");
+        }
+    }
+    // publication account forward end
 
     public function publication_entry($offset = 0)
     {
@@ -1921,6 +2026,7 @@ class Journal_entry extends Backend_Controller
         }
     }
     // end budget_j_publication_register
+
 
     // start budget_j_gpf_register
     public function gpf_entry2($offset = 0)
@@ -2235,6 +2341,7 @@ class Journal_entry extends Backend_Controller
     public function entry_report_view()
     {
         $this->load->helper('bangla_converter');
+        $pay_type = $this->input->post('pay_type');
         $from_date = $this->input->post('from_date');
         $to_date = $this->input->post('to_date');
         $book_name = $this->input->post('book_name');
@@ -2250,6 +2357,11 @@ class Journal_entry extends Backend_Controller
         if($btn == 'cash_out_register') {
             $head_id = $this->input->post('head_id');
             $this->data['row'] = $this->db->where('id', $head_id)->get('budget_head_sub')->row();
+
+            if (!empty($from_date) && !empty($to_date)) {
+                $this->db->where('token_date >=', $from_date);
+                $this->db->where('token_date <=', $to_date);
+            }
             $this->data['results'] = $this->db->where('sub_head_id', $head_id)->get('budget_j_cash_out_register')->result();
 
             // Generate PDF
@@ -2262,6 +2374,10 @@ class Journal_entry extends Backend_Controller
         }
 
         if($btn == 'cheque_register') {
+            if (!empty($from_date) && !empty($to_date)) {
+                $this->db->where('issue_date >=', $from_date);
+                $this->db->where('issue_date <=', $to_date);
+            }
             $this->data['results'] = $this->db->get('budget_j_cheque_register')->result();
 
             // Generate PDF
@@ -2273,9 +2389,17 @@ class Journal_entry extends Backend_Controller
             $mpdf->output();
         }
 
-        // dd($_POST);
-
         // publication start
+        if ($btn == 'all_book' && $type == 'bikroy_amt') {
+            $this->data['results']= $this->Journal_entry_model->bikroy_book($pay_type, $from_date, $to_date);
+            $this->data['headding'] = 'প্রকাশনা বিক্রয় রিপোর্ট';
+            $html = $this->load->view('publication/publication_bikroy_amt_print', $this->data, true);
+
+            $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+            $mpdf->WriteHtml($html);
+            $mpdf->output();
+            exit;
+        }
         if($btn == 'single_book' && !empty($book_name)) {
             $this->data['results'] = $this->Journal_entry_model->single_book_info($from_date, $to_date, $book_name);
             // dd($this->data['results']);

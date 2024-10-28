@@ -66,7 +66,9 @@
                                     <tr>
                                         <th style="width: 10% !important"> ক্রম </th>
                                         <th>তারিখ</th>
-                                        <!-- <th>বিভাগ</th> -->
+                                        <?php if (!$this->ion_auth->in_group(array('ad'))) { ?>
+                                        <th>বিভাগ</th>
+                                        <?php } ?>
                                         <th>অর্থবছর</th>
                                         <th>পরিমাণ</th>
                                         <!-- <th>রাজস্ব পরিমাণ</th> -->
@@ -76,11 +78,26 @@
                                 </thead>
                                 <tbody>
                                     <?php foreach ($summary as $sl => $row): ?>
-                                        <tr>
+                                        <?php if ($row->status == 2 && $this->ion_auth->in_group(array('dd'))) {
+                                            $bg = "background: #f1e7e7";
+                                        } elseif ($row->status == 3 && $this->ion_auth->in_group(array('jd'))) {
+                                            $bg = "background: #f1e7e7";
+                                        } elseif ($row->status == 4 && $this->ion_auth->in_group(array('director'))) {
+                                            $bg = "background: #f1e7e7";
+                                        } elseif ($row->status == 5 && $this->ion_auth->in_group(array('dg'))) {
+                                            $bg = "background: #f1e7e7";
+                                        } elseif (in_array($row->status,[6,7]) && $this->ion_auth->in_group(array('acc'))) {
+                                            $bg = "background: #f1e7e7";
+                                        } else {
+                                            $bg = "background: #fff";
+                                        } ?>
+
+                                        <tr style="<?= $bg ?>">
                                             <td style=""><?= eng2bng($sl + 1); ?></td>
                                             <td class="v-align-middle"><?= date_bangla_calender_format($row->created_at); ?></td>
-
-                                            <!-- <td class="v-align-middle"><?= $row->dept_name; ?></td> -->
+                                            <?php if (!$this->ion_auth->in_group(array('ad'))) { ?>
+                                            <td class="v-align-middle"><?= $row->dept_name; ?></td>
+                                            <?php } ?>
                                             <td class="v-align-middle"><?= $row->session_name; ?></td>
                                             <td class="v-align-middle"><?= eng2bng($row->amount); ?></td>
                                             <!-- <td class="v-align-middle"><?= eng2bng($row->revenue_amt); ?></td> -->
@@ -95,11 +112,11 @@
                                                     echo '<span class="label label-primary"> JD Approve </span>';
                                                 } elseif ($row->status == 5) {
                                                     echo '<span class="label label-primary"> Director Approve </span>';
-                                                }elseif ($row->status == 6) {
+                                                } elseif ($row->status == 6) {
                                                     echo '<span class="label label-primary"> DG Approve </span>';
-                                                }elseif ($row->status == 7) {
+                                                } elseif ($row->status == 7) {
                                                     echo '<span class="label label-primary"> AC Approve </span>';
-                                                }elseif ($row->status == 8) {
+                                                } elseif ($row->status == 8) {
                                                     echo '<span class="label label-primary">Complete </span>';
                                                 } else {
                                                     echo '<span class="label label-primary">Reject </span>';
@@ -158,14 +175,13 @@
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক </a> </li>
                                                         <?php } ?>
 
-                                                        <?php if (in_array($row->status,[6,7,8]) && $this->ion_auth->in_group(array('acc'))) {?>
+                                                        <?php if (in_array($row->status,[6]) && $this->ion_auth->in_group(array('acc'))) {?>
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/7/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন </a> </li>
+                                                        <?php }?>
 
-                                                            <?php if (in_array($row->status,[7])) {?>
-                                                            <!-- <li> <a href="<?php echo base_url('budgets/dpt_summary_revenue_amt/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> রাজস্ব পরিমাণ </a> </li> -->
-                                                            <?php } ?>
-
+                                                        <?php if (in_array($row->status,[7]) && $this->ion_auth->in_group(array('acc'))) {?>
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক ডি.জি </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/8/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন টু সমাপ্ত </a> </li>
                                                         <?php }?>
 
                                                         <?php if ($row->type == 1) { ?>
@@ -173,7 +189,7 @@
                                                         <?php } else if($row->type == 3) { ?>
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_print/' . encrypt_url($row->id)) ?>"   target="_blank"> <i class="fa fa-pencil-square"></i> প্রিন্ট করুন </a> </li>
                                                         <?php } ?>
-                                                        </ul>
+                                                    </ul>
                                                 </div>
                                             </td>
                                         </tr>

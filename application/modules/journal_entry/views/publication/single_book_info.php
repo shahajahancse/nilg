@@ -121,6 +121,16 @@
         .text-center {
             text-align: center;
         }
+
+        .text-right {
+            text-align: right;
+            padding-right: 5px;
+        }
+
+        .text-left {
+            text-align: left;
+            padding-left: 5px;
+        }
     </style>
 </head>
 
@@ -133,13 +143,8 @@
         </div>
 
         <div class="col-6">
-            <h4 class="text-center">
-                <span style="font-size:14px;">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</span><br>
-                <span style="font-size:14px;">স্থানীয় সরকার, পল্লী উন্নয়ন ও সমবায় মন্ত্রণালয়</span><br>
-                <span style="font-size:16px;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি )</span><br>
-                <span style="font-size:11px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
-                <span style="font-size:11px; text-decoration: underline;">www.nilg.gov.bd </span>
-            </h4>
+            <?php $this->load->view('print_header'); ?>
+
             <h3 style="margin-bottom: -5px;" class="text-center"><?= $headding ?></h3>
         </div>
 
@@ -164,7 +169,7 @@
                         <td rowspan="1" colspan="3" style="">প্রদান </td>
                         <td rowspan="2" style="">মজুত </td>
                         <!-- <td rowspan="2" style="">মন্তব্য </td> -->
-                        <td rowspan="2" style="">মজুত মূল্য </td>
+                        <td class="text-right" rowspan="2" style="">মজুত মূল্য </td>
                     </tr>
                     <tr>
                         <td rowspan="1" style="">বিক্রয়</td>
@@ -178,7 +183,7 @@
                         <?php $total_entry = $total_book_give = $total_book_sale = $total_sell_by_kg = $total_rest_qty = $total_rest_amt = 0; ?>
                         <?php foreach ($results as $key => $r) { ?>
                             <tr>
-                                <?php //$sale = $r->book_sale_amt + $r->book_give_amt + $r->sell_by_kg_amt; 
+                                <?php //$sale = $r->book_sale_amt + $r->book_give_amt + $r->sell_by_kg_amt;
                                 ?>
                                 <td><?php echo date_bangla_calender_format($r->issue_date); ?></td>
                                 <?php if ($r->type == 1) { ?>
@@ -212,18 +217,18 @@
 
                                 <td><?php echo eng2bng($r->rest_qty); ?></td>
                                 <?php $total_rest_qty += $r->rest_qty; ?>
-                                <td><?php echo eng2bng($r->rest_amt); ?></td>
+                                <td class="text-right"><?php echo eng2bng($r->rest_amt); ?></td>
                                 <?php $total_rest_amt += $r->rest_amt; ?>
                             </tr>
                         <?php } ?>
                         <tr>
-                            <td colspan="" style="text-align: right; font-weight: bold;">মোট</td>
+                            <td colspan="" style="text-align: right; font-weight: bold;">মোট  &nbsp;&nbsp;</td>
                             <td><?= eng2bng($total_entry) ?></td>
                             <td><?= eng2bng($total_book_sale) ?></td>
                             <td><?= eng2bng($total_book_give) ?></td>
                             <td><?= eng2bng($total_sell_by_kg) ?></td>
                             <td><?= eng2bng($total_rest_qty) ?></td>
-                            <td><?= eng2bng($total_rest_amt) ?></td>
+                            <td class="text-right"><?= eng2bng($total_rest_amt) ?></td>
                         </tr>
                     <?php } else {
                         echo '<tr><td colspan="8" class="text-center">কোন তথ্য পাওয়া যায়নি</td></tr>';

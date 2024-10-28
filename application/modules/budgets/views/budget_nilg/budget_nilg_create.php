@@ -125,7 +125,7 @@
                                                     <div class="col-md-4">
                                                         <label for="">সর্বমোট পরিমান</label>
                                                         <input type="number" class="form-control input-sm"
-                                                            name="total_amount" id="total_amount" readonly>
+                                                            name="total_amount" id="total_amount" value="0" readonly>
                                                     </div>
                                                 </div>
 
@@ -135,42 +135,43 @@
                                                         <thead>
                                                             <tr>
                                                                 <!-- <th width="30%">বাজেট হেড<span class="required">*</span></th> -->
-                                                                <th width="30%">বাজেট শিরোনাম<span class="required">*</span>
+                                                                <th width="20%">বাজেট শিরোনাম<span class="required">*</span>
                                                                 </th>
-                                                                <th width="30%">বাজেট কোড<span class="required">*</span>
+                                                                <th width="10%">বাজেট কোড<span class="required">*</span>
                                                                 </th>
-                                                                <th width="30%">বাজেট পরিমাণ</th>
+                                                                <th width="15%">পূর্ববর্তী বরাদ্দ</th>
+                                                                <th width="15%">চলমান বরাদ্দ</th>
+                                                                <th width="15%">বাজেট পরিমাণ</th>
+                                                                <th width="15%">প্রাক্কলন পরিমাণ</th>
                                                                 <th width="10%">অ্যাকশন </th>
                                                             </tr>
                                                         </thead>
                                                         <tbody id="tbody">
                                                             <?php foreach ($budget_head_sub as $key => $data) { ?>
-
-
                                                                 <tr>
-                                                                    <td style="padding:0px 10px"><?= $data->name_bn ?></td>
-                                                                    <td style="padding:0px 10px"><?= $data->bd_code ?></td>
-                                                                    <td style="padding:0px 10px">
+                                                                    <td style="padding:0px 10px;width: 20%"><?= $data->name_bn ?></td>
+                                                                    <td style="padding:0px 10px;width: 10%"><?= $data->bd_code ?></td>
+                                                                    <td style="padding:0px 10px;width: 15%"><input type="number" value=0 class="form-control prev_amt input-sm" onkeyup="calculateTotal(this)" name="prev_amt[]" ></td>
+                                                                    <td style="padding:0px 10px;width: 15%"><input type="number" value=0 class="form-control running_amt input-sm" onkeyup="calculateTotal(this)" name="running_amt[]"></td>
+                                                                    <td style="padding:0px 10px;width: 15%">
                                                                         <input type="hidden" name="head_id[]"
                                                                             value="<?= $data->budget_head_id ?>">
                                                                         <input type="hidden" name="head_sub_id[]"
                                                                             value="<?= $data->id ?>">
-                                                                        <input value="0" min="0" type="number"
-                                                                            onkeyup="calculateTotal()" name="amount[]"
+                                                                        <input value="0" min="0" type="number" onkeyup="calculateTotal(this)" name="amount[]"
                                                                             class="form-control amount input-sm">
                                                                     </td>
-                                                                    <td style="padding:0px 10px"><a href="javascript:void(0)"
+                                                                    <td style="padding:0px 10px;width: 15%"><input type="number" value=0 class="prokolpito_amt form-control  input-sm" readonly name="prokolpito_amt[]"></td>
+                                                                    <td style="padding:0px 10px;width: 10%"><a href="javascript:void(0)"
                                                                             onclick="removeRow(this)"
                                                                             class="btn btn-danger btn-sm"
                                                                             style="padding: 3px;"><i class="fa fa-times"></i>
                                                                             Remove</a></td>
                                                                 </tr>
-                                                            <?php   } ?>
-
+                                                            <?php } ?>
                                                         </tbody>
                                                     </table>
                                                 </div>
-
                                                 <div class="col-md-12" style="margin-top: 0px;">
                                                     <div class="form-group margin_top_10">
                                                         <label for=""> বিবরণ:</label>
@@ -201,9 +202,32 @@
 <script>
     function removeRow(id) {
         $(id).closest("tr").remove();
-        calculateTotal()
+        calculateTotal_amount()
     }
 </script>
+
+
+<script>
+function calculateTotal_amount(){
+    var total = 0;
+        $(".prokolpito_amt").each(function() {
+            total += parseInt($(this).val());
+        })
+        $("#total_amount").val(total);
+}
+</script>
+
+<script>
+    function calculateTotal(el) {
+        var prev_amt=$(el).closest("tr").find(".prev_amt").val()
+        var running_amt=$(el).closest("tr").find(".running_amt").val()
+        var amount=$(el).closest("tr").find(".amount").val()
+        var total = parseInt(prev_amt) + parseInt(running_amt) + parseInt(amount);
+        $(el).closest("tr").find(".prokolpito_amt").val(total);
+        calculateTotal_amount()
+    }
+</script>
+
 
 <script>
     function addNewRow(id) {
@@ -223,14 +247,17 @@
             success: function(data) {
                 var data = JSON.parse(data);
                 var tr = `<tr>
-                        <td style="padding:0px 10px">${data.name_bn}</td>
-                        <td style="padding:0px 10px">${data.bd_code}</td>
-                        <td style="padding:0px 10px">
+                        <td style="padding:0px 10px;width: 20%">${data.name_bn}</td>
+                        <td style="padding:0px 10px;width: 10%">${data.bd_code}</td>
+                        <td style="padding:0px 10px;width: 15%"><input type="number" value=0 class="form-control prev_amt input-sm" onkeyup="calculateTotal(this)" name="prev_amt[]" ></td>
+                        <td style="padding:0px 10px;width: 15%"><input type="number" value=0 class="form-control running_amt input-sm" onkeyup="calculateTotal(this)" name="running_amt[]"></td>
+                        <td style="padding:0px 10px;width: 15%">
                         <input type="hidden" name="head_id[]" value="${data.budget_head_id}" >
                         <input type="hidden" name="head_sub_id[]" value="${data.id}" >
-                        <input value="0" min="0" type="number" onkeyup="calculateTotal()" name="amount[]" class="form-control amount input-sm">
+                        <input value="0" min="0" type="number" onkeyup="calculateTotal(this)"  name="amount[]" class="form-control amount input-sm">
                         </td>
-                        <td style="padding:0px 10px"><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
+                        <td style="padding:0px 10px;width: 15%"><input type="number" value=0 class="prokolpito_amt form-control  input-sm" readonly name="prokolpito_amt[]"></td>
+                        <td style="padding:0px 10px;width: 10%"><a href="javascript:void(0)" onclick="removeRow(this)" class="btn btn-danger btn-sm" style="padding: 3px;"><i class="fa fa-times"></i> Remove</a></td>
                      </tr>`
                 $("#tbody").append(tr);
                 $("#loading").hide();
@@ -239,19 +266,15 @@
 
     }
 </script>
-<script>
-    function calculateTotal() {
-        var total = 0;
-        $(".amount").each(function() {
-            total += parseInt($(this).val());
-        })
-        $("#total_amount").val(total);
-    }
-</script>
+
 <script>
     $(document).ready(function() {
-        calculateTotal()
-    })
+        $('input[type="number"]').each(function() {
+            $(this).on('keyup', function() {
+                calculateTotal(this);
+            });
+        });
+    });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
 <script>

@@ -142,13 +142,7 @@
         </div>
 
         <div class="col-6">
-            <h4 class="text-center">
-                <span style="font-size:14px;">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</span><br>
-                <span style="font-size:14px;">স্থানীয় সরকার, পল্লী উন্নয়ন ও সমবায় মন্ত্রণালয়</span><br>
-                <span style="font-size:16px;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি )</span><br>
-                <span style="font-size:11px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
-                <span style="font-size:11px; text-decoration: underline;">www.nilg.gov.bd </span>
-            </h4>
+            <?php $this->load->view('print_header'); ?>
             <h3 style="margin-bottom: -5px;" class="text-center"><?= $headding ?></h3>
         </div>
 
@@ -166,9 +160,9 @@
                 <div class="col-8">
                     <span style="padding: 0px 0px 0px 0px; margin: 0px;"> খাতের নাম : <abbr><?php echo $row->name_bn; ?></abbr></span> <br>
                 </div>
-                <div class="col-4">
+                <!-- <div class="col-4">
                     <span style="padding: 0px; margin: 1px 0px;"> পরিমাণ : <abbr> <?php echo eng2bng($row->amount); ?></abbr></span><br>
-                </div>
+                </div> -->
             </div>
         </div>
     <?php } else { ?>
@@ -194,6 +188,7 @@
                         </tr>
                     </thead>
                     <tbody id="tbody">
+                        <?php $total_amt = 0; $amount = 0; ?>
                         <?php foreach ($results as $key => $value) { ?>
                             <tr>
                                 <td width=""><?= $value->biboron ?> </td>
@@ -205,8 +200,18 @@
                                 <td><?= eng2bng($value->amount)?></td>
                                 <td> <?=  eng2bng($value->total_amt)?></td>
                                 <td width="" ><?= $value->description?></td>
+                                <?php
+                                    $total_amt += $value->total_amt;
+                                    $amount += $value->amount;
+                                ?>
                             </tr>
                         <?php } ?>
+                            <tr>
+                                <td colspan="5"> সর্বমোট </td>
+                                <td><?= eng2bng($total_amt)?></td>
+                                <td> <?=  eng2bng($amount)?></td>
+                                <td></td>
+                            </tr>
                     </tbody>
                 </table>
             </div>

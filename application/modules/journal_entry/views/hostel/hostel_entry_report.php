@@ -133,13 +133,7 @@
         </div>
 
         <div class="col-6">
-            <h4 class="text-center">
-                <span style="font-size:14px;">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</span><br>
-                <span style="font-size:14px;">স্থানীয় সরকার, পল্লী উন্নয়ন ও সমবায় মন্ত্রণালয়</span><br>
-                <span style="font-size:16px;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি )</span><br>
-                <span style="font-size:11px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
-                <span style="font-size:11px; text-decoration: underline;">www.nilg.gov.bd </span>
-            </h4>
+            <?php $this->load->view('print_header'); ?>
             <h3 style="text-decoration: underline; padding-bottom: -10px;" class="text-center"><?= $headding ?></h3>
             <?php if (!empty($from_date) && !empty($to_date)) { ?>
                 <p class="text-center">তারিখ : <?= date_bangla_calender_format($from_date) ?> হইতে <?= date_bangla_calender_format($to_date) ?></p>

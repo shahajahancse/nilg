@@ -14,7 +14,6 @@
     <div class="content">
         <ul class="breadcrumb">
             <li><a href="<?=base_url('dashboard')?>" class="active" > Dashboard </a></li>
-            <li><a href="<?=base_url('budget/cash_out')?>" class="active"><?=$module_name?></a></li>
             <li><?=$meta_title; ?></li>
 
         </ul>
@@ -74,7 +73,7 @@
                                         </div>
                                         <div class="col-md-2">
                                             <label for="title" class="control-label"> বরাদ্দকৃত পরিমাণ </label>
-                                            <input value="0" id="ini_revenue_amt" class="form-control input-sm" name="ini_revenue_amt" style="min-height: 33px;" readonly >
+                                            <input value="0" id="budget_amt" class="form-control input-sm" name="budget_amt" style="min-height: 33px;" readonly >
                                         </div>
                                         <div class="col-md-2">
                                             <label for="title" class="control-label"> অবশিষ্ট পরিমাণ </label>
@@ -93,7 +92,7 @@
                                     <div class="row form-row" style="font-size: 16px; color: black; margin-top: -20px !important;">
                                         <br>
                                         <div class="col-md-2">
-                                            <label for="title" class="control-label">টটোকেন নং <</label>
+                                            <label for="title" class="control-label">টোকেন নং </label>
                                             <input class="form-control input-sm" name="token_no" style="min-height: 33px;">
                                         </div>
                                         <div class="col-md-2">
@@ -142,7 +141,7 @@
             },
             success: function(data) {
                 var data = JSON.parse(data);
-                $("#ini_revenue_amt").val(data.ini_revenue_amt);
+                $("#budget_amt").val(data.budget_amt);
                 $("#balance").val(data.amount);
                 if(data.amount == '0.00'){
                     $("#submit_btn").prop('disabled', true);

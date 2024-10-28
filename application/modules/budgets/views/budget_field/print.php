@@ -10,7 +10,6 @@
         .priview-body {
             font-size: 12px;
             color: #000;
-            margin: 15px;
         }
 
         .priview-header div {
@@ -118,9 +117,9 @@
         td,
         th {
             border: 1px solid black;
-            text-align: center;
+            text-align: left;
             font-size: 12px;
-
+            padding-left: 5px;
         }
 
         .text-center {
@@ -128,29 +127,22 @@
             font-size: 12px;
 
         }
-        .text-shadow{
-            background: #c7c7c7;
-        }
     </style>
 </head>
 
 <body>
-
+<div style="margin: 0px 20px">
     <div class="priview-body">
         <div class="col-3">
             <?php
             $url = base_url('awedget/assets/img/nilg-logo.png');
             ?>
-            <div style="float: left;"><img src="<?= $url ?>" style="width:60px; height: 60px; display: block;"></div>
+            <!-- <div style="float: left;"><img src="<?= $url ?>" style="width:60px; height: 60px; display: block;"></div> -->
+            &nbsp;
         </div>
 
         <div class="col-6">
-            <h4 class="text-center">
-
-                <span style="font-size:16px;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি )</span><br>
-                <span style="font-size:11px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
-                <span style="font-size:11px; text-decoration: underline;">www.nilg.gov.bd </span>
-            </h4>
+            <?php $this->load->view('print_header'); ?>
         </div>
 
         <div class="col-2" style="float: right;">
@@ -159,80 +151,94 @@
     </div>
 
     <div class="priview-body content-div">
+        <?php
+            $training_data=$this->db->get_where('course',array('id'=>$info->course_id))->row();
+            $office=$this->db->get_where('office',array('id'=>$info->office_id))->row();
+            // dd($info)
+        ?>
 
-
-            <style type="text/css">
-                #appRowDiv td {
-                    padding: 5px !important;
-                    border-color: #ccc;
-                }
-                .form-row input, .form-row select, .form-row textarea, .form-row select2 {
-                    margin-bottom: 0px !important;
-                }
-
-                #appRowDiv th {
-                    padding: 5px;
-                    text-align: left;
-                    border-color: #ccc;
-                    color: black;
-                }
-            </style>
-
-            <div class="table-responsive">
-                <table class="table"  border="1" cellspacing="0"  id="appRowDiv">
-                    <thead>
-                        <tr class="text-shadow">
-                            <th width="">নং</th>
-                            <th width="">কোর্স নাম</th>
-                            <th width="">প্রশিক্ষণার্থীর ধরন</th>
-                            <th width="">মেয়াদ</th>
-                            <th width="">প্রশিক্ষণার্থী</th>
-                            <!-- <th width="">ব্যাচ সংখ্যা</th> -->
-                            <th width="">মোট প্রশিক্ষণার্থী</th>
-                            <th width="">প্রকল্পিত বায়</th>
-                            <!-- <th width="">স্থান</th> -->
-                        </tr>
-                    </thead>
-                    <tbody id="tbody">
-                    <?php $total = 0; foreach ($summary as $key => $data) { ?>
-                        <tr class="text-shadow">
-                            <th style="text-align:center"><?= eng2bng($key + 1) ?></th>
-                            <th colspan="6"><?= $data->office ?></th>
-                        </tr>
-                        <?php
-                            $this->db->select('q.*,course.course_title,ct.ct_name');
-                            $this->db->from('budget_field_sub_details as q');
-                            $this->db->join('course', 'q.head_sub_id = course.id', 'left');
-                            $this->db->join('course_type ct','ct.id=q.type','left');
-                            $this->db->where('q.details_id', $data->id);
-                            $subs = $this->db->get()->result();
-                            // dd($subs);
-                        ?>
-                        <?php foreach ($subs as $r => $sub) { ?>
-                        <tr>
-                            <td style="text-align:center"><?= eng2bng($key + 1) .'.'. eng2bng($r + 1) ?></td>
-                            <td style="font-size:12px; width:25%"><?= $sub->course_title ?></td>
-                            <td style="font-size:12px; width:15%"><?= $sub->ct_name ?></td>
-                            <td><?= eng2bng($sub->days) ?></td>
-                            <td><?= eng2bng($sub->participants) ?></td>
-                            <!-- <td><?= eng2bng($sub->batch) ?></td> -->
-                            <td><?= eng2bng($sub->participants) ?></td>
-                            <td><?= eng2bng($sub->amount) ?></td>
-                            <!-- <td><?= $sub->title ?></td> -->
-                        </tr>
-                        <?php } ?>
-                    <?php } ?>
-
-                    </tbody>
-                </table>
-            </div>
-    <div style="float: right;margin-top: 10px">
-        <span>নোট:</span>
-        <?= $info->description?>
+        <div style="display: flex;flex-direction: column;">
+            <span><span>কোর্সের শিরোনাম :</span><?= $training_data->course_title ?> </span><br>
+            <span><span> অংশগ্রহণকারী :</span> <?= $info->trainee_type ?></span><br>
+            <span><span>কোর্সের মেয়াদ :</span> <?= eng2bng($info->course_day) ?></span><br>
+            <span><span>প্রশিক্ষণের স্থান:</span> <?= $info->title ?></span><br>
+            <span><span>ব্যাচ সংখ্যা:</span> <?= eng2bng($info->batch_number) ?></span><br>
+            <span><span>প্রতি ব্যাচ এ অংশগ্রহণকারীর সংখ্যা :</span> <?= eng2bng($info->trainee_number) ?></span><br>
+            <span><span> অফিস নাম :</span> <?= $office->office_name ?></span><br>
+        </div>
     </div>
+
+    <div class="priview-body">
+        <div class="priview-demand table-responsive">
+        <table style="border-collapse: collapse; border: 1px solid #a09e9e; margin-top: 12px; width: 100%; border-spacing: 0;" >
+            <tr>
+                <th width="5%">নং</th>
+                <th width="30%">শিরোনাম</th>
+                <th width="10%">অংশগ্রহণকারী</th>
+                <th width="10%">বার</th>
+                <th width="10%">পরিমাণ</th>
+                <th width="10%">মোট পরিমাণ</th>
+            </tr>
+            <?php foreach ($results as $key => $value) { ?>
+                <tr class="head_<?=$value->head_id?> classThis" style="background: #c7c7c7a3" >
+                    <td> <?= eng2bng($key+1) ?>.</td>
+                    <td colspan="5" style="text-align: left;">
+                        <div style="text-align: left;">
+                        <?=$value->name_bn?>
+                        </div>
+                    </td>
+                </tr>
+                <?php
+                $heads = [];
+                if (isset($value->id) && isset($value->head_id)) {
+                    $this->db->select('r.*, b.name_bn');
+                    $this->db->from('budget_field_sub_details as r');
+                    $this->db->join('budget_head_sub_training as b', 'b.id = r.head_sub_id', 'left');
+                    $this->db->where('r.details_id', $value->id)->where('r.head_id', $value->head_id)->where('r.modify_soft_d', 1);
+                    $heads = $this->db->get()->result();
+                }
+                ?>
+                <?php foreach ($heads as $key => $head) { ?>
+                    <tr class="head_<?=$value->head_id?> side_css">
+                        <td></td>
+                        <td colspan="" style="text-align: left;"> <?=$head->name_bn?> <?= !empty($head->head_modify) ? ' ( '.$head->head_modify .' )': '' ?> </td>
+                        <td><?= eng2bng($head->participants) ?></td>
+                        <td><?= eng2bng($head->days) ?></td>
+                        <td><?= eng2bng($head->amount) ?></td>
+                        <td><?= eng2bng($head->total_amt) ?></td>
+                    </tr>
+                <?php } ?>
+            <?php } ?>
+            <tr>
+                <td colspan="5" style="text-align: right; font-weight: bold"> সর্বমোট : </td>
+                <td colspan="1"><?= eng2bng($info->amount) ?></td>
+            </tr>
+            </table>
+        </div>
     </div>
+
+    <table border="1" cellpadding="0" cellspacing="0" style="width: 60%; margin: 4px 15px">
+        <tr>
+            <th style="text-align: left;padding-left: 5px">১ টি কোর্সের ব্যয় (<?php echo $obj->numToWord(sprintf("%.2f", $info->amount)); ?>)</th>
+            <td style="text-align: right;padding-right: 5px"> <?= eng2bng($info->amount) ?></td>
+        </tr>
+        <tr>
+            <th style="text-align: left;padding-left: 5px"> <?= eng2bng($info->batch_number) ?> টি কোর্সের ব্যয় (<?php echo $obj->numToWord(sprintf("%.2f", $info->batch_number*$info->amount)); ?>)</th>
+            <td style="text-align: right;padding-right: 5px"> <?= eng2bng($info->batch_number*$info->amount) ?></td>
+        </tr>
+        <tr>
+            <th style="text-align: left;padding-left: 5px">মোট অংশগ্রহণকারীর সংখ্যা</th>
+            <td style="text-align: right; padding-right: 5px"> <?= eng2bng($info->trainee_number*$info->batch_number) ?></td>
+        </tr>
+    </table>
+
+    <div class="priview-body" >
+        <div class="col-12">
+            <span>নোট :</span>
+            <span><?= $info->description ?></span>
+        </div>
+    </div>
+</div>
 </body>
 
 </html>
-
-

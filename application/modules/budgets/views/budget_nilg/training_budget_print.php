@@ -142,12 +142,7 @@
         </div>
 
         <div class="col-6">
-            <h4 class="text-center">
-
-                <span style="font-size:16px;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি )</span><br>
-                <span style="font-size:11px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
-                <span style="font-size:11px; text-decoration: underline;">www.nilg.gov.bd </span>
-            </h4>
+            <?php $this->load->view('print_header'); ?>
         </div>
 
         <div class="col-2" style="float: right;">
@@ -158,17 +153,16 @@
     <div class="priview-body content-div">
         <?php
             $training_data=$this->db->get_where('course',array('id'=>$info->course_id))->row();
-            $cources=$this->db->where('id',$info->trainee_type)->get('budget_trainee_type')->row();
             // dd($info)
         ?>
 
         <div style="display: flex;flex-direction: column;">
             <span><span>কোর্সের শিরোনাম :</span><?= $training_data->course_title ?> </span><br>
-            <span><span> অংশগ্রহণকারী :</span> <?= $cources->name ?></span><br>
-            <span><span>কোর্সের মেয়াদ :</span> <?= $info->course_day ?></span><br>
+            <span><span> অংশগ্রহণকারী :</span> <?= $info->trainee_type?></span><br>
+            <span><span>কোর্সের মেয়াদ :</span> <?= eng2bng($info->course_day) ?></span><br>
             <span><span>প্রশিক্ষণের স্থান:</span> <?= $info->title ?></span><br>
-            <span><span>ব্যাচ সংখ্যা:</span> <?= $info->batch_number ?></span><br>
-            <span><span>প্রতি ব্যাচ এ অংশগ্রহণকারীর সংখ্যা :</span> <?= $info->trainee_number ?></span><br>
+            <span><span>ব্যাচ সংখ্যা:</span> <?= eng2bng($info->batch_number) ?></span><br>
+            <span><span>প্রতি ব্যাচ এ অংশগ্রহণকারীর সংখ্যা :</span> <?= eng2bng($info->trainee_number) ?></span><br>
         </div>
     </div>
 

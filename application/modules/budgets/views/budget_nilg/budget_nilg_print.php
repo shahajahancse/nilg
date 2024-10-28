@@ -136,13 +136,7 @@
         </div>
 
         <div class="col-6">
-            <h4 class="text-center">
-                <span style="font-size:14px;">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</span><br>
-                <span style="font-size:14px;">স্থানীয় সরকার, পল্লী উন্নয়ন ও সমবায় মন্ত্রণালয়</span><br>
-                <span style="font-size:16px;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি )</span><br>
-                <span style="font-size:11px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
-                <span style="font-size:11px; text-decoration: underline;">www.nilg.gov.bd </span>
-            </h4>
+            <?php $this->load->view('print_header'); ?>
         </div>
 
         <div class="col-2" style="float: right;">
@@ -161,7 +155,7 @@
         <div class="col-3" style="float: right;">
             <div>
                 <span>পোস্টিং তারিখ : </span>
-                <span style="font-size: 13px"><?php echo date("d/m/Y", strtotime($info->created_at)); ?></span>
+                <span style="font-size: 13px"><?php echo eng2bng(date("d/m/Y", strtotime($info->created_at))); ?></span>
             </div>
         </div>
     </div>
@@ -172,28 +166,48 @@
                 <thead class="headding">
                     <tr>
                         <td rowspan="1" style="">ক্রমিক নং</td>
-                        <td rowspan="1" style="text-align:left">বিষয়</td>
-                        <td rowspan="1" style="">পরিমাণ</td>
-                        <td colspan="1" style="">ডিপার্টমেন্ট পরিমাণ</td>
-                        <td colspan="1" style="">আক্কাউন্ট পরিমাণ</td>
-                        <td colspan="1" style="">ডিজি পরিমাণ</td>
+                        <td style="text-align:left; padding-left: 5px;">বিষয়</td>
+                        <td style="text-align:right; padding-right: 5px;">পূর্ববর্তী বরাদ্দ</td>
+                        <td style="text-align:right; padding-right: 5px;">চলমান বরাদ্দ</td>
+                        <td style="text-align:right; padding-right: 5px;">বরাদ্দ পরিমাণ</td>
+                        <td style="text-align:right; padding-right: 5px;">প্রাক্কলন পরিমাণ</td>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($items as $key => $row) { ?>
+                    <?php
+                        $total_prev_amt = 0;
+                        $total_running_amt = 0;
+                        $total_amount = 0;
+                        $total_prokolpito_amt = 0;
+                    foreach ($items as $key => $row) {
+                        $total_prev_amt += $row->prev_amt;
+                        $total_running_amt += $row->running_amt;
+                        $total_amount += $row->amount;
+                        $total_prokolpito_amt += $row->prokolpito_amt;
+                        ?>
                         <tr>
-                            <td><?php echo $key + 1; ?></td>
-                            <td  style="text-align:left"><?php echo $row->name_bn; ?></td>
-                            <td><?php echo $row->amount; ?></td>
-                            <td><?php echo $row->dpt_amt; ?></td>
-                            <td><?php echo $row->acc_amt; ?></td>
-                            <td><?php echo $row->dg_amt; ?></td>
+                            <td><?php echo eng2bng($key + 1); ?></td>
+                            <td style="text-align:left; padding-left: 5px;"><?php echo $row->name_bn; ?></td>
+                            <td style="text-align:right; padding-right: 5px;"><?php echo eng2bng($row->prev_amt); ?></td>
+                            <td style="text-align:right; padding-right: 5px;"><?php echo eng2bng($row->running_amt); ?></td>
+                            <td style="text-align:right; padding-right: 5px;"><?php echo eng2bng($row->amount); ?></td>
+                            <td style="text-align:right; padding-right: 5px;"><?= eng2bng($row->prokolpito_amt); ?></td>
                         </tr>
                     <?php } ?>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">মোট</td>
+                        <td style="text-align:right; padding-right: 5px;"><?= eng2bng($total_prev_amt); ?></td>
+                        <td style="text-align:right; padding-right: 5px;"><?= eng2bng($total_running_amt); ?></td>
+                        <td style="text-align:right; padding-right: 5px;"><?= eng2bng($total_amount); ?></td>
+                        <td style="text-align:right; padding-right: 5px;"><?= eng2bng($total_prokolpito_amt); ?></td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>
+
 
     <div class="priview-body">
         <div class="col-12">

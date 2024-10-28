@@ -106,23 +106,13 @@
                                     </div>
 
                                     <div class="col-md-12" style='margin-bottom:10px'>
-                                        <div class="col-md-4">
-                                            <?php $cources=$this->db->where('status', 1)->get('budget_trainee_type')->result();; ?>
+                                        <div class="col-md-6">
                                             <label class="control-label">প্রশিক্ষণার্থীর ধরন <span class="required">*</span></label>
-                                            <select name="trainee_type" id="trainee_type" class="form-control input-sm" required>
-                                                <option value='' selected>নির্বাচন করুন</option>
-                                                <?php foreach ($cources as $key => $value) { ?>
-                                                    <option <?= $budget_nilg->trainee_type == $value->id ? 'selected' : '' ?> value="<?=$value->id?>"><?=$value->name?></option>
-                                                <?php } ?>
-                                            </select>
+                                            <input value='<?=$budget_nilg->trainee_type?>' class="form-control input-sm" name="trainee_type">
                                         </div>
                                         <div class="col-md-4">
                                             <label for="">স্থান <span class="required">*</span></label>
                                             <input value='<?=$budget_nilg->title?>' class="form-control input-sm" name="title" id="title">
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label for="">ব্যাচ <span class="required">*</span></label>
-                                            <input value='<?=$budget_nilg->batch_number?>' type="number" class="form-control input-sm" name="batch_number" id="batch_number">
                                         </div>
                                         <div class="col-md-2" >
                                             <?php $session_year=$this->db->order_by('id','desc')->get('session_year')->result();?>
@@ -157,8 +147,8 @@
                                             <input value='<?=$budget_nilg->course_day?>' type="number" class="form-control input-sm" name="course_day" id="course_day">
                                         </div>
                                         <div class="col-md-2">
-                                            <!-- <label for="">সর্বমোট প্রশিক্ষণার্থী</label>
-                                            <input value='<?=$budget_nilg->total_trainee?>' class="form-control input-sm" name="total_trainee" id="total_trainee" readonly> -->
+                                            <label for="">ব্যাচ <span class="required">*</span></label>
+                                            <input value='<?=$budget_nilg->batch_number?>' type="number" class="form-control input-sm" name="batch_number" id="batch_number">
                                         </div>
                                         <div class="col-md-2">
                                             <label for="">সর্বমোট পরিমান</label>

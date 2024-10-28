@@ -32,7 +32,7 @@
             .text-center {
                 text-align: center;
             }
-            
+
             table {
                 border-collapse: collapse;
                 width: 100%;
@@ -69,13 +69,8 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <h5 class="text-center" style="padding: 0;margin-bottom: 0;">
-                            <span style="font-size:13px;">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</span><br>
-                            <span style="font-size:13px;">স্থানীয় সরকার, পল্লী উন্নয়ন ও সমবায় মন্ত্রণালয়</span><br>
-                            <span style="font-size:14px; font-weight: bold;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি )</span><br>
-                            <span style="font-size:12px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
-                            <span style="font-size:12px;text-decoration: underline;color: #2246ff;">www.nilg.gov.bd </span>
-                        </h5>
+                    <?php $this->load->view('print_header'); ?>
+
                     </div>
                     <div class="col-md-3"style="display: flex;align-content: center;flex-wrap: wrap;right: 0;position: relative;justify-content: flex-end;">
                         <div style="padding: 4px; border: 2px solid; font-size: 13px; float: right;">
@@ -107,22 +102,22 @@
                         </tr>
                     </thead>
                     <tbody id="tbody">
-                        <?php $boraddo=0; $total_real_expense=0; $total_vat=0; $total_it_kor=0; $total_overall_expense=0; $total_rest_amt=0;  
-                        foreach($budget_field_details as $key => $data): 
+                        <?php $boraddo=0; $total_real_expense=0; $total_vat=0; $total_it_kor=0; $total_overall_expense=0; $total_rest_amt=0;
+                        foreach($budget_field_details as $key => $data):
                             if($data->head_sub_id==2147483647){
                             $detail_id=$data->budget_field_details_id;
                             $this->db->select('*');
                             $this->db->from('budget_custom_sub_head');
                             $this->db->where('details_id', $detail_id);
                             $query =  $this->db->get()->row();
-                            
+
                             $name_bn=$query->name;
                         }else{
                             $name_bn=$data->name_bn;
                         }
-                        
-                        
-                   
+
+
+
 
                             $boraddo+=$data->total_amt;
                             $total_real_expense+=$data->real_expense;
@@ -177,6 +172,6 @@
                 });
             }
         </script>
-        
+
     </body>
 </html>

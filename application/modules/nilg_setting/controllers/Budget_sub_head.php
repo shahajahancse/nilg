@@ -190,6 +190,9 @@ class Budget_sub_head extends Backend_Controller {
         $this->form_validation->set_rules('name_bn', 'নাম (বাংলা)', 'required|trim');
         $this->form_validation->set_rules('bd_code', 'বিঃডিঃ কোড', 'required|trim');
         $this->form_validation->set_rules('head_id', 'বাজেট হেড', 'required|trim');
+        $this->form_validation->set_rules('prev_amt', 'পূর্ববর্তী বরাদ্দ', 'required|trim');
+        $this->form_validation->set_rules('budget_amt', 'বরাদ্দ পরিমান', 'required|trim');
+        $this->form_validation->set_rules('amount', 'পরিমান', 'required|trim');
         $this->form_validation->set_rules('vat', 'ভ্যাট', 'required');
 
         // Insert Data
@@ -199,7 +202,11 @@ class Budget_sub_head extends Backend_Controller {
                 'name_bn'    => $this->input->post('name_bn'),
                 'head_id'    => $this->input->post('head_id'),
                 'bd_code'    => $this->input->post('bd_code'),
+                'prev_amt'   => $this->input->post('prev_amt'),
+                'budget_amt' => $this->input->post('budget_amt'),
+                'amount'     => $this->input->post('amount'),
                 'vat_head'    => $this->input->post('vat'),
+                'it_kor'     => $this->input->post('it_kor'),
                 'status'     => $this->input->post('status'),
             );
             // print_r($form_data); exit;
@@ -219,6 +226,9 @@ class Budget_sub_head extends Backend_Controller {
         $this->form_validation->set_rules('name_bn', 'নাম (বাংলা)', 'required|trim');
         $this->form_validation->set_rules('bd_code', 'বিঃডিঃ কোড', 'required|trim');
         $this->form_validation->set_rules('head_id', 'বাজেট হেড', 'required|trim');
+        $this->form_validation->set_rules('prev_amt', 'পূর্ববর্তী বরাদ্দ', 'required|trim');
+        $this->form_validation->set_rules('budget_amt', 'বরাদ্দ পরিমান', 'required|trim');
+        $this->form_validation->set_rules('amount', 'পরিমান', 'required|trim');
         // Insert Data
         if ($this->form_validation->run() == true){
             $form_data = array(
@@ -226,16 +236,17 @@ class Budget_sub_head extends Backend_Controller {
                 'name_bn'    => $this->input->post('name_bn'),
                 'head_id'    => $this->input->post('head_id'),
                 'bd_code'    => $this->input->post('bd_code'),
+                'prev_amt'   => $this->input->post('prev_amt'),
+                'budget_amt' => $this->input->post('budget_amt'),
                 'amount'     => $this->input->post('amount'),
                 'vat_head'   => $this->input->post('vat'),
+                'it_kor'     => $this->input->post('it_kor'),
                 'status'     => $this->input->post('status'),
             );
             // print_r($form_data); exit;
             if($this->Common_model->edit('budget_head_sub', $id, 'id', $form_data)){
                 $this->session->set_flashdata('success', 'বাজেট সাব হেড সংশোধন করা হয়েছে');
                 redirect('nilg_setting/budget_sub_head');
-
-
             }
         }
 

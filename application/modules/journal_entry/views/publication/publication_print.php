@@ -77,11 +77,6 @@
             float: left;
         }
 
-        .col-6-right {
-            width: 50%;
-            float: right;
-        }
-
         .col-7 {
             width: 58.33%;
             float: left;
@@ -127,6 +122,16 @@
         .text-center {
             text-align: center;
         }
+
+        .text-right {
+            text-align: right;
+            padding-right: 5px;
+        }
+
+        .text-left {
+            text-align: left;
+            padding-left: 5px;
+        }
     </style>
 </head>
 
@@ -142,13 +147,8 @@
         </div>
 
         <div class="col-6">
-            <h4 class="text-center">
-                <span style="font-size:14px;">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</span><br>
-                <span style="font-size:14px;">স্থানীয় সরকার, পল্লী উন্নয়ন ও সমবায় মন্ত্রণালয়</span><br>
-                <span style="font-size:16px;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি )</span><br>
-                <span style="font-size:11px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
-                <span style="font-size:11px; text-decoration: underline;">www.nilg.gov.bd </span>
-            </h4>
+        <?php $this->load->view('print_header'); ?>
+
             <h3 style="margin-bottom: -5px;" class="text-center"><?= $headding ?></h3>
         </div>
 
@@ -185,13 +185,13 @@
                 <thead class="headding">
                     <tr>
                         <td style="">ক্রমিক নং</td>
-                        <td style="">বই নাম</td>
-                        <td style="">আইএসবিএন/আইএসএসএন</td>
-                        <td style="">মূল্য</td>
-                        <td style="">পরিমাণ</td>
-                        <td style="">মোট পরিমাণ</td>
-                        <td style="">কমিশন</td>
-                        <td style="">প্রদেয় টাকা</td>
+                        <td class="text-left">বই নাম</td>
+                        <td class="text-left">আইএসবিএন/আইএসএসএন</td>
+                        <td class="text-right">মূল্য</td>
+                        <td class="text-right">পরিমাণ</td>
+                        <td class="text-right">মোট পরিমাণ</td>
+                        <td class="text-right">কমিশন</td>
+                        <td class="text-right">প্রদেয় টাকা</td>
                     </tr>
                 </thead>
 
@@ -199,24 +199,24 @@
                     <?php foreach ($details as $key => $r) { ?>
                         <tr>
                             <td><?php echo eng2bng($key + 1); ?></td>
-                            <td><?php echo $r->name_bn; ?></td>
-                            <td><?php echo $r->isbn_number; ?></td>
-                            <td><?php echo eng2bng($r->price); ?></td>
-                            <td><?php echo eng2bng($r->quantity); ?></td>
-                            <td><?php echo eng2bng($r->amount); ?></td>
+                            <td class="text-left"><?php echo $r->name_bn; ?></td>
+                            <td class="text-left"><?php echo $r->isbn_number; ?></td>
+                            <td class="text-right"><?php echo eng2bng($r->price); ?></td>
+                            <td class="text-right"><?php echo eng2bng($r->quantity); ?></td>
+                            <td class="text-right"><?php echo eng2bng($r->amount); ?></td>
                             <?php if ($r->commission != 0) {
                                 $commission = $r->commission  / 100 * $r->amount;
                             } else {
                                 $commission = 0;
                             } ?>
-                            <td><?php echo eng2bng($commission); ?></td>
-                            <td><?php echo eng2bng($r->pay_amount); ?></td>
+                            <td class="text-right"><?php echo eng2bng($commission); ?></td>
+                            <td class="text-right"><?php echo eng2bng($r->pay_amount); ?></td>
                         </tr>
                     <?php } ?>
                     <tr>
                         <?php $obj = new BanglaNumberToWord(); ?>
                         <td colspan="7" style="text-align: left; padding-right: 10px"> &nbsp; সর্বমোট :  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <span><abbr> <?php echo $obj->numToWord($info->pay_amount); ?></abbr> টাকা মাত্র</span></td>
-                        <td><?php echo eng2bng($info->pay_amount); ?></td>
+                        <td class="text-right"><?php echo eng2bng($info->pay_amount); ?></td>
                     </tr>
                 </tbody>
             </table>

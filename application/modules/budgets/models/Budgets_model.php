@@ -7,6 +7,29 @@ class Budgets_model extends CI_Model {
         parent::__construct();
     }
     // Manage Budget nilg list
+    public function dpt_summary_training($limit, $offset, $arr = array(), $dept_id = null, $type = null,  $user_id = null) {
+        $this->db->select('bd.*, bhs.session_name, d.dept_name');
+        $this->db->from('budget_nilg bd');
+        $this->db->join('session_year as bhs', 'bhs.id = bd.fcl_year', 'left');
+        $this->db->join('department as d', 'd.id = bd.dept_id', 'left');
+        $this->db->where('bd.soft_delete', 1);
+        $this->db->limit($limit);
+        $this->db->offset($offset);
+        if (!empty($arr)) {
+            $this->db->where_in('bd.status', $arr);
+        }
+        if (!empty($dept_id)) {
+            $this->db->where('bd.dept_id', $dept_id);
+        }
+        if (!empty($user_id)) {
+            $this->db->where('bd.created_by', $user_id);
+        }
+        if (!empty($type)) {
+            $this->db->where_in('bd.type', $type);
+        }
+        return $this->db->order_by('bd.id','desc')->get()->result();
+    }
+
     public function dpt_summary($limit, $offset, $arr = array(), $dept_id = null, $type = null,  $user_id = null) {
         $this->db->select('bd.*, bhs.session_name, d.dept_name');
         $this->db->from('budget_revenue_summary bd');
@@ -40,7 +63,6 @@ class Budgets_model extends CI_Model {
                   dpt.name_en,
                   dpt.dept_name,
                   course.course_title as course_type,
-                  btt.name as trainee_type,
                   office_type.office_type_name as office_type,
                 ');
       $this->db->from('budget_revenue_summary as q');
@@ -48,7 +70,6 @@ class Budgets_model extends CI_Model {
       $this->db->join('department dpt', 'q.dept_id = dpt.id', 'left');
       $this->db->join('course', 'q.course_id = course.id', 'left');
       $this->db->join('office_type', 'q.office_type = office_type.id', 'left');
-      $this->db->join('budget_trainee_type btt', 'q.trainee_type = btt.id', 'left');
 
       if (!empty($arr)) {
           $this->db->where_in('q.status', $arr);
@@ -129,10 +150,24 @@ class Budgets_model extends CI_Model {
     // End Budget nilg info
 
     // Manage Budget nilg data
+    public function temp_get_budget_details_nilg($id) {
+        $this->db->select('
+                budget_revenue_summary_details.*,
+                budget_head_sub.name_bn,
+                budget_head.name_bn as budget_head_name,
+            ');
+        $this->db->from('budget_revenue_summary_details');
+        $this->db->join('budget_head_sub', 'budget_revenue_summary_details.head_sub_id = budget_head_sub.id');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->db->where('budget_revenue_summary_details.revenue_summary_id', $id);
+        $this->db->where('budget_revenue_summary_details.modify_soft_d', 1);
+        return $this->db->get()->result();
+    }
     public function get_budget_details_nilg($id) {
         $this->db->select('
                 budget_revenue_summary_details.*,
                 budget_head_sub.name_bn,
+                budget_head_sub.prev_amt,
                 budget_head.name_bn as budget_head_name,
             ');
         $this->db->from('budget_revenue_summary_details');
@@ -146,23 +181,23 @@ class Budgets_model extends CI_Model {
 
 
     // Manage Budget office list
-    public function get_budget_field($limit, $offset, $office_id = null, $user_id = null, $dept_id = null) {
-       /*  if (isset($_POST['department_id'])) {
-            $dept_id = $_POST['department_id'];
-        } */
-
-      $this->db->select('b.*, o.office_name');
+    public function get_budget_field($limit,$offset,$arr=array(),$office_id=null,$user_id=null,$dept_id=null) {
+      $this->db->select('b.*, o.office_name, c.course_title');
       $this->db->from('budget_field as b');
       $this->db->join('office as o','o.id=b.office_id', 'left');
+      $this->db->join('course as c','c.id = b.course_id', 'left');
 
+      if (!empty($arr)) {
+          $this->db->where_in('b.status', $arr);
+      }
       if (!empty($office_id)) {
           $this->db->where('b.office_id', $office_id);
       }
       if (!empty($user_id)) {
           $this->db->where('b.created_by', $user_id);
       }
-      if (isset($dept_id) && !empty($dept_id)) {
-          $this->db->where_in('b.dept_id', $dept_id);
+      if (!empty($dept_id)) {
+          $this->db->where('b.dept_id', $dept_id);
       }
 
       $this->db->limit($limit);
@@ -173,14 +208,17 @@ class Budgets_model extends CI_Model {
       // count query
       $this->db->select('COUNT(*) as count');
       $this->db->from('budget_field as q');
+      if (!empty($arr)) {
+          $this->db->where_in('q.status', $arr);
+      }
       if (!empty($office_id)) {
           $this->db->where('q.office_id', $office_id);
       }
       if (!empty($user_id)) {
           $this->db->where('q.created_by', $user_id);
       }
-      if (isset($dept_id) && !empty($dept_id)) {
-          $this->db->where_in('q.dept_id', $dept_id);
+      if (!empty($dept_id)) {
+          $this->db->where('q.dept_id', $dept_id);
       }
       $tmp = $this->db->get()->result();
       $result['num_rows'] = $tmp[0]->count;

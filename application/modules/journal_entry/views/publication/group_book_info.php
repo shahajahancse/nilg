@@ -121,6 +121,16 @@
         .text-center {
             text-align: center;
         }
+
+        .text-right {
+            text-align: right;
+            padding-right: 5px;
+        }
+
+        .text-left {
+            text-align: left;
+            padding-left: 5px;
+        }
     </style>
 </head>
 
@@ -157,7 +167,7 @@
                 <thead class="headding">
                     <tr>
                         <td rowspan="1" style="">ক্রমিক নং</td>
-                        <td rowspan="1" style="width: 20%;">গ্রুপ নাম</td>
+                        <td class="text-left" rowspan="1" style="width: 20%;">গ্রুপ নাম</td>
                         <td rowspan="1" style="width: 10%;">মোট ক্রয় </td>
                         <td rowspan="1" style="width: 10%;">বিক্রয়</td>
                         <td rowspan="1" style="width: 10%;">সৌজন্যমূলক</td>
@@ -185,7 +195,7 @@
                                 $total_rest+=$r->book_in - $sale;
                                 ?>
                                 <td><?php echo eng2bng($key + 1); ?></td>
-                                <td><?php echo $r->name_bn; ?></td>
+                                <td class="text-left"><?php echo $r->name_bn; ?></td>
                                 <td><?php echo eng2bng($r->book_in); ?></td>
                                 <td><?php echo eng2bng($r->book_sale); ?></td>
                                 <td><?php echo eng2bng($r->book_give); ?></td>
@@ -200,7 +210,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="2" class="text-center">সর্বমোটঃ</th>
+                        <th colspan="2" class="text-right">সর্বমোটঃ</th>
                         <th class="text-right"><?php echo eng2bng($total_book_in); ?></th>
                         <th class="text-right"><?php echo eng2bng($total_book_sale); ?></th>
                         <th class="text-right"><?php echo eng2bng($total_book_give); ?></th>

@@ -142,12 +142,7 @@
         </div>
 
         <div class="col-6">
-            <h4 class="text-center">
-
-                <span style="font-size:16px;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি )</span><br>
-                <span style="font-size:11px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
-                <span style="font-size:11px; text-decoration: underline;">www.nilg.gov.bd </span>
-            </h4>
+            <?php $this->load->view('print_header'); ?>
         </div>
 
         <div class="col-2" style="float: right;">
@@ -195,7 +190,8 @@
                         <?php foreach ($heads as $r => $sub) { ?>
                             <tr>
                                 <td style="width:4%"><?= eng2bng($key + 1) .'.'. eng2bng($r + 1) ?></td>
-                                <td style="font-size:12px; width:25%; text-align:left"><?= $sub->name_bn ?></td>
+                                <td colspan="" style="text-align: left;"> <?=$sub->name_bn?> <?= !empty($sub->head_modify) ? ' ( '.$sub->head_modify .' )': '' ?> </td>
+                                <!-- <td style="font-size:12px; width:25%; text-align:left"><?= $sub->name_bn ?></td> -->
                                 <td style="text-align: right;"><?= eng2bng($sub->amount) ?>  &nbsp;&nbsp;</td>
                                 <td style="text-align: right;"><?= eng2bng($sub->expense_amt) ?>  &nbsp;&nbsp;</td>
                                 <td style="text-align: right;"><?= eng2bng($sub->vat) ?>  &nbsp;&nbsp;</td>

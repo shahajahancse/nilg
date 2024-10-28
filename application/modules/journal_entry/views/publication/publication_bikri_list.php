@@ -15,7 +15,7 @@
     <div class="content">
         <ul class="breadcrumb" style="margin-bottom: 20px;">
             <li> <a href="<?= base_url('dashboard') ?>" class="active"> ড্যাশবোর্ড </a> </li>
-            <li> <a href="javascript:void()" class="active"> <?= $module_name ?> </a></li>
+
             <li> <?= $meta_title; ?> </li>
         </ul>
 
@@ -69,7 +69,7 @@
                                         <th>পরিমাণ</th>
                                         <th>কমিশন</th>
                                         <th>প্রদেয় টাকা</th>
-                                        <th>স্ট্যাটাস</th>
+                                        <th>বিক্রয় ধরণ</th>
                                         <th>প্রদানের তারিখ</th>
                                         <th style="text-align: right;">অ্যাকশন</th>
                                     </tr>
@@ -86,14 +86,12 @@
                                             <td class="v-align-middle"><?= eng2bng($row->amount); ?></td>
                                             <td class="v-align-middle"><?= eng2bng($row->commission); ?></td>
                                             <td class="v-align-middle"><?= eng2bng($row->pay_amount); ?></td>
-                                            <?php if ($row->status == 1) {
-                                                $status = '<span class="label label-success">ড্রাফট</span>';
-                                            } else if ($row->status == 2) {
-                                                $status = '<span class="label label-success">প্রসেস</span>';
-                                            } else if ($row->status == 3) {
-                                                $status = '<span class="label label-danger">বাতিল</span>';
-                                            } else {
-                                                $status = '<span class="label label-success">অনুমোদিত</span>';
+                                            <?php if ($row->pay_type == 1) {
+                                                $status = '<span class="label label-success">নগদ</span>';
+                                            } else if ($row->pay_type == 2) {
+                                                $status = '<span class="label label-success">চেকের মাধ্যমে</span>';
+                                            } else if ($row->pay_type == 3) {
+                                                $status = '<span class="label label-danger">অর্থ স্থানান্তর</span>';
                                             } ?>
                                             <td class="v-align-middle"><?= $status; ?></td>
                                             <td class="v-align-middle"><?= date_bangla_calender_format($row->issue_date); ?></td>
@@ -111,11 +109,11 @@
 
                                                         <li><a href="<?php echo base_url('journal_entry/publication_print/' . encrypt_url($row->id)) ?>" target="_blank"><i class="fa fa-pencil-square" target="_blank"></i> প্রিন্ট করুন</a></li>
 
+                                                        <?php if ($row->status == 2 && $this->ion_auth->in_group(array('not allow'))) { ?>
                                                         <?php if ($row->status == 1 ) { ?>
                                                             <li><a href="<?php echo base_url('journal_entry/publication_forword/2/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> ফরওয়ার্ড </a> </li>
                                                         <?php } ?>
 
-                                                        <?php if ($row->status == 2 && $this->ion_auth->in_group(array('admin', 'nilg', 'acc'))) { ?>
                                                             <li><a href="<?php echo base_url('journal_entry/publication_forword/4/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> অ্যাপ্রুভ</a></li>
                                                             <li><a href="<?php echo base_url('journal_entry/publication_forword/3/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> বাতিল</a></li>
                                                         <?php } ?>

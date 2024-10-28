@@ -80,13 +80,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <h5 class="text-center" style="padding: 0;margin-bottom: 0;">
-                        <span style="font-size:13px;">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</span><br>
-                        <span style="font-size:13px;">স্থানীয় সরকার, পল্লী উন্নয়ন ও সমবায় মন্ত্রণালয়</span><br>
-                        <span style="font-size:14px; font-weight: bold;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি )</span><br>
-                        <span style="font-size:12px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
-                        <span style="font-size:12px;text-decoration: underline;color: #2246ff;">www.nilg.gov.bd </span>
-                    </h5>
+                <?php $this->load->view('print_header'); ?>
                 </div>
                 <div class="col-md-3" style="display: flex;align-content: center;flex-wrap: wrap;right: 0;position: relative;justify-content: flex-end;">
                     <div style="padding: 4px; border: 2px solid; font-size: 13px; float: right;">

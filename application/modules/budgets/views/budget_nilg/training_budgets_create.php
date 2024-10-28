@@ -85,21 +85,14 @@
                                             </select>
                                         </div>
                                         <div class="col-md-4">
-                                            <?php $cources=$this->db->where('status', 1)->get('budget_trainee_type')->result();; ?>
-                                            <label class="control-label">প্রশিক্ষণার্থীর ধরন <span class="required">*</span></label>
-                                            <select name="trainee_type" id="trainee_type" class="form-control input-sm" required>
-                                                <option value='' selected>নির্বাচন করুন</option>
-                                                <?php foreach ($cources as $key => $value) {
-                                                    echo '<option value="'.$value->id.'">'.$value->name.'</option>';
-                                                } ?>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-12" style='margin-bottom:10px'>
-                                        <div class="col-md-7">
                                             <label for="">স্থান <span class="required">*</span></label>
                                             <input class="form-control input-sm" name="title" id="title">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" style='margin-bottom:10px'>
+                                        <div class="col-md-7">
+                                            <label class="control-label">অংশগ্রহণকারী <span class="required">*</span></label>
+                                            <input class="form-control input-sm" name="trainee_type">
                                         </div>
                                         <div class="col-md-2">
                                             <label for="">মেয়াদ (দিন) <span class="required">*</span></label>

@@ -2,7 +2,7 @@
   <div class="content">
     <ul class="breadcrumb" style="margin-bottom: 20px;">
       <li> <a href="<?=base_url('dashboard')?>" class="active"> ড্যাশবোর্ড </a> </li>
-      <li> <a href="<?=base_url('nilg_setting/budget_head')?>" class="active"> <?=$module_title?> </a></li>
+      <li> <a href="<?=base_url('nilg_setting/budget_sub_head')?>" class="active"> <?=$module_title?> </a></li>
       <li><?=$meta_title; ?> </li>
     </ul>
 
@@ -12,7 +12,7 @@
           <div class="grid-title">
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
             <div class="pull-right">
-              <a href="<?=base_url('nilg_setting/budget_head')?>" class="btn btn-primary btn-xs btn-mini"> তালিকা</a>
+              <a href="<?=base_url('nilg_setting/budget_sub_head')?>" class="btn btn-primary btn-xs btn-mini"> তালিকা</a>
             </div>
           </div>
           <div class="grid-body">
@@ -36,33 +36,45 @@
                 <label class="form-label">নাম (ইংলিশ) <span class="required">*</span></label>
                 <?php echo form_error('name_en');
                 ?>
-                <input name="name_en"  type="text" class="form-control input-sm" placeholder="" value="<?=$info->name_en?>" />
+                <input name="name_en"  type="text" class="form-control input-sm" value="<?=$info->name_en?>" required />
               </div>
-              <div class="col-md-4">
+              <div class="col-md-3">
                 <label class="form-label">নাম (বাংলা) <span class="required">*</span></label>
                 <?php echo form_error('name_bn');
                 ?>
-                <input name="name_bn" type="text" class="form-control input-sm" placeholder="" value="<?=$info->name_bn?>" />
+                <input name="name_bn" type="text" class="form-control input-sm" value="<?=$info->name_bn?>" required />
               </div>
-            </div>
-            <br>
-            <div class="row form-row">
-              <div class="col-md-3">
+              <div class="col-md-2">
                 <label class="form-label">বিঃডিঃ কোড <span class="required">*</span></label>
-                <input name="bd_code" type="number" class="form-control input-sm" placeholder="" value="<?=$info->bd_code?>">
+                <input name="bd_code" type="number" class="form-control input-sm" value="<?=$info->bd_code?>" required >
               </div>
-              <div class="col-md-3">
+              <br>
+            </div>
+            <div class="row form-row">
+              <div class="col-md-2">
+                <label class="form-label">পূর্ববর্তী বরাদ্দ <span class="required">*</span></label>
+                <input name="prev_amt" type="number" class="form-control input-sm" value="<?=$info->prev_amt?>" required >
+              </div>
+              <div class="col-md-2">
+                <label class="form-label">বরাদ্দ পরিমান <span class="required">*</span></label>
+                <input name="budget_amt" type="number" class="form-control input-sm" value="<?=$info->budget_amt?>" required >
+              </div>
+              <div class="col-md-2">
                 <label class="form-label">পরিমান <span class="required">*</span></label>
-                <input name="amount" type="number" class="form-control input-sm" value="<?=$info->amount?>">
+                <input name="amount" type="number" class="form-control input-sm" value="<?=$info->amount?>" required >
               </div>
-              <div class="col-md-3">
-                                <label class="form-label">ভ্যাট <span class="required">*</span></label>
-                                <input name="vat" type="" class="form-control input-sm" placeholder="ভ্যাট"
-                                value="<?=$info->vat_head?>">
-                            </div>
-              <div class="col-md-3">
+              <div class="col-md-2">
+                  <label class="form-label">ভ্যাট <span class="required">*</span></label>
+                  <input name="vat" type="number" class="form-control input-sm" placeholder="ভ্যাট"
+                  value="<?=$info->vat_head?>" >
+              </div>
+              <div class="col-md-2">
+                <label class="form-label">আইটি কর</label>
+                <input name="it_kor" type="number" class="form-control input-sm" value="<?=$info->it_kor?>">
+              </div>
+              <div class="col-md-2">
                 <label class="form-label">স্ট্যাটাস <span class="required">*</span></label>
-                <select name="status" id="">
+                <select name="status" class="form-control input-sm">
                   <option <?= ($info->status == 1) ? 'selected' : ''?> value="1">সক্রিয়</option>
                   <option <?= ($info->status == 0) ? 'selected' : ''?> value="0">অসক্রিয়</option>
                 </select>

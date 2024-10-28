@@ -121,6 +121,16 @@
         .text-center {
             text-align: center;
         }
+
+        .text-right {
+            text-align: right;
+            padding-right: 5px;
+        }
+
+        .text-left {
+            text-align: left;
+            padding-left: 5px;
+        }
     </style>
 </head>
 
@@ -133,13 +143,8 @@
         </div>
 
         <div class="col-6">
-            <h4 class="text-center">
-                <span style="font-size:14px;">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার</span><br>
-                <span style="font-size:14px;">স্থানীয় সরকার, পল্লী উন্নয়ন ও সমবায় মন্ত্রণালয়</span><br>
-                <span style="font-size:16px;">জাতীয় স্থানীয় সরকার ইনস্টিটিউট (এনআইএলজি )</span><br>
-                <span style="font-size:11px;">২৯, আগারগাঁও, শেরে বাংলা নগর, ঢাকা - ১২০৭ </span><br>
-                <span style="font-size:11px; text-decoration: underline;">www.nilg.gov.bd </span>
-            </h4>
+            <?php $this->load->view('print_header'); ?>
+
             <h3 style="margin-bottom: -5px;" class="text-center"><?= $headding ?></h3>
         </div>
 
@@ -157,7 +162,7 @@
                 <thead class="headding">
                     <tr class="text-right">
                         <td  rowspan="1" style="">ক্রমিক নং</td>
-                        <td rowspan="1">বই নাম</td>
+                        <td class="text-left">বই নাম</td>
                         <td class="text-right" rowspan="1">বইয়ের সংখ্যা</td>
                     </tr>
                 </thead>
@@ -170,7 +175,7 @@
                             $sale = $r->book_sale + $r->book_give + $r->sell_by_kg; ?>
                             <tr>
                                 <td><?php echo eng2bng($key + 1); ?></td>
-                                <td><?php echo $r->name_bn; ?></td>
+                                <td class="text-left"><?php echo $r->name_bn; ?></td>
                                 <td class="text-right"><?php echo eng2bng($r->book_in - $sale); ?></td>
                             </tr>
                         <?php } ?>
