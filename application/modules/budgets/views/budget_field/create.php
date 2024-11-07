@@ -281,7 +281,7 @@
                                                             <td>
                                                                 <input type="hidden" name="head_id[]"
                                                                     value="<?= $data->budget_head_id ?>" >
-    
+
                                                                 <input type="hidden" class="group_name" name="group_name[]"
                                                                     value="xnone" >
                                                                 <input type="hidden" name="head_sub_id[]"

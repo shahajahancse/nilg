@@ -75,16 +75,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php foreach ($summary as $sl => $row): ?>
-                                        <?php if ($row->status == 2 && $this->ion_auth->in_group(array('dd'))) {
+                                    <?php foreach ($summary as $sl => $row):
+                                        if (in_array($row->status,[7,9,10,11,12]) && $this->ion_auth->in_group(array('ad'))) {
                                             $bg = "background: #f1e7e7";
-                                        } elseif ($row->status == 3 && $this->ion_auth->in_group(array('jd'))) {
+                                        } elseif (in_array($row->status,[2,13,14,15]) && $this->ion_auth->in_group(array('dd'))) {
                                             $bg = "background: #f1e7e7";
-                                        } elseif ($row->status == 4 && $this->ion_auth->in_group(array('director'))) {
+                                        } elseif (in_array($row->status,[3,16,17]) && $this->ion_auth->in_group(array('jd'))) {
+                                            $bg = "background: #f1e7e7";
+                                        } elseif (in_array($row->status,[4,18])&& $this->ion_auth->in_group(array('director'))) {
                                             $bg = "background: #f1e7e7";
                                         } elseif ($row->status == 5 && $this->ion_auth->in_group(array('dg'))) {
                                             $bg = "background: #f1e7e7";
-                                        } elseif (in_array($row->status,[6,7]) && $this->ion_auth->in_group(array('acc'))) {
+                                        } elseif ($row->status == 6 && $this->ion_auth->in_group(array('acc'))) {
                                             $bg = "background: #f1e7e7";
                                         } else {
                                             $bg = "background: #fff";
@@ -100,24 +102,64 @@
                                             <td class="v-align-middle"><?= eng2bng($row->amount); ?></td>
                                             <!-- <td class="v-align-middle"><?= eng2bng($row->revenue_amt); ?></td> -->
                                             <td class="v-align-middle">
-                                                <?php if ($row->status == 1) {
-                                                    echo '<span class="label label-info">Draft </span>';
-                                                } elseif ($row->status == 2) {
-                                                    echo '<span class="label label-info"> On Precess </span>';
-                                                } elseif ($row->status == 3) {
-                                                    echo '<span class="label label-primary"> DD Approve </span>';
-                                                } elseif ($row->status == 4) {
-                                                    echo '<span class="label label-primary"> JD Approve </span>';
-                                                } elseif ($row->status == 5) {
-                                                    echo '<span class="label label-primary"> Director Approve </span>';
-                                                } elseif ($row->status == 6) {
-                                                    echo '<span class="label label-primary"> DG Approve </span>';
-                                                } elseif ($row->status == 7) {
-                                                    echo '<span class="label label-primary"> AC Approve </span>';
-                                                } elseif ($row->status == 8) {
-                                                    echo '<span class="label label-primary">Complete </span>';
-                                                } else {
-                                                    echo '<span class="label label-primary">Reject </span>';
+                                                <?php switch ($row->status) {
+                                                    case 1:
+                                                        echo '<span class="label label-info">Draft </span>';
+                                                        break;
+                                                    case 2:
+                                                        echo '<span class="label label-info"> On Precess </span>';
+                                                        break;
+                                                    case 3:
+                                                        echo '<span class="label label-primary"> DD Approve </span>';
+                                                        break;
+                                                    case 4:
+                                                        echo '<span class="label label-primary"> JD Approve </span>';
+                                                        break;
+                                                    case 5:
+                                                        echo '<span class="label label-primary"> Director Approve </span>';
+                                                        break;
+                                                    case 6:
+                                                        echo '<span class="label label-primary"> DG Approve </span>';
+                                                        break;
+                                                    case 7:
+                                                        echo '<span class="label label-primary"> AC Approve </span>';
+                                                        break;
+                                                    case 8:
+                                                        echo '<span class="label label-primary"> Complete </span>';
+                                                        break;
+                                                    case 9:
+                                                        echo '<span class="label label-primary"> Back AD from DD </span>';
+                                                        break;
+                                                    case 10:
+                                                        echo '<span class="label label-primary"> Back AD from JD </span>';
+                                                        break;
+                                                    case 11:
+                                                        echo '<span class="label label-primary"> Back AD from Director </span>';
+                                                        break;
+                                                    case 12:
+                                                        echo '<span class="label label-primary"> Back AD from DG </span>';
+                                                        break;
+                                                    case 13:
+                                                        echo '<span class="label label-primary"> Back DD from JD </span>';
+                                                        break;
+                                                    case 14:
+                                                        echo '<span class="label label-primary"> Back DD from Director </span>';
+                                                        break;
+                                                    case 15:
+                                                        echo '<span class="label label-primary"> Back DD from DG </span>';
+                                                        break;
+                                                    case 16:
+                                                        echo '<span class="label label-primary"> Back JD from Director </span>';
+                                                        break;
+                                                    case 17:
+                                                        echo '<span class="label label-primary"> Back JD from DG </span>';
+                                                        break;
+                                                    case 18:
+                                                        echo '<span class="label label-primary"> Back Director from DG </span>';
+                                                        break;
+                                                    default:
+                                                        echo '<span class="label label-primary"> </span>';
+                                                        break;
                                                 } ?>
                                             </td>
 
@@ -127,8 +169,12 @@
                                                     <button class="btn btn-mini btn-primary dropdown-toggle"
                                                         data-toggle="dropdown"> <span class="caret"></span> </button>
                                                     <ul class="dropdown-menu pull-right">
-                                                        <?php if (in_array($row->status,[1]) && $this->ion_auth->in_group(array('ad'))) { ?>
-                                                            <!-- <li><a href="<?php echo base_url('budgets/dpt_summary_details/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> সংশোধন করুন </a></li> -->
+                                                         <?php if (!$this->ion_auth->in_group(array('acc'))) { ?>
+                                                        <li><a href="<?php echo base_url('budgets/dpt_training_summary_edit/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> সংশোধন করুন </a></li>
+                                                        <?php } ?>
+
+                                                        <!-- ad -->
+                                                        <?php if (in_array($row->status,[1,9,10,11,12]) && $this->ion_auth->in_group(array('ad'))) { ?>
                                                             <li> <a href="<?php echo base_url('budgets/training_summary_forward/2/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু ডি.ডি </a> </li>
                                                             <li> <a href="<?php echo base_url('budgets/training_summary_forward/3/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু জে.ডি </a> </li>
                                                             <li> <a href="<?php echo base_url('budgets/training_summary_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু ডিরেক্টর </a> </li>
@@ -137,56 +183,60 @@
                                                             <li> <a href="<?php echo base_url('budgets/training_summary_forward/1/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক </a> </li>
                                                         <?php } ?>
 
-                                                        <?php if (in_array($row->status,[2]) && $this->ion_auth->in_group(array('dd'))) {?>
+                                                        <!-- dd -->
+                                                        <?php if (in_array($row->status,[2,13,14,15]) && $this->ion_auth->in_group(array('dd'))) {?>
                                                             <li> <a href="<?php echo base_url('budgets/training_summary_forward/3/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড জে.ডি </a> </li>
                                                             <li> <a href="<?php echo base_url('budgets/training_summary_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড ডিরেক্টর </a> </li>
                                                             <li> <a href="<?php echo base_url('budgets/training_summary_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড ডি.জি </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/9/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক এ.ডি </a> </li>
                                                         <?php }?>
                                                         <?php if (in_array($row->status,[3]) && $this->ion_auth->in_group(array('dd'))) { ?>
                                                             <li> <a href="<?php echo base_url('budgets/training_summary_forward/2/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক </a> </li>
                                                         <?php } ?>
 
-                                                        <?php if (in_array($row->status,[3]) && $this->ion_auth->in_group(array('jd'))) {?>
+                                                        <!-- jd -->
+                                                        <?php if (in_array($row->status,[3,16,17]) && $this->ion_auth->in_group(array('jd'))) {?>
                                                             <li> <a href="<?php echo base_url('budgets/training_summary_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড ডিরেক্টর </a> </li>
                                                             <li> <a href="<?php echo base_url('budgets/training_summary_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড ডি.জি </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/10/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক এ.ডি </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/13/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক ডি.ডি </a> </li>
                                                         <?php }?>
                                                         <?php if (in_array($row->status,[4]) && $this->ion_auth->in_group(array('jd'))) { ?>
                                                             <li> <a href="<?php echo base_url('budgets/training_summary_forward/3/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক </a> </li>
                                                         <?php } ?>
 
-                                                        <?php if (in_array($row->status,[4]) && $this->ion_auth->in_group(array('director'))) {?>
+                                                        <!-- director -->
+                                                        <?php if (in_array($row->status,[4,18]) && $this->ion_auth->in_group(array('director'))) {?>
                                                             <li> <a href="<?php echo base_url('budgets/training_summary_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড ডি.জি </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/11/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক এ.ডি </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/14/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক ডি.ডি </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/16/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক জে.ডি </a> </li>
                                                         <?php }?>
                                                         <?php if (in_array($row->status,[5]) && $this->ion_auth->in_group(array('director'))) { ?>
                                                             <li> <a href="<?php echo base_url('budgets/training_summary_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক </a> </li>
                                                         <?php } ?>
 
+                                                        <!-- dg -->
                                                         <?php if (in_array($row->status,[5]) && $this->ion_auth->in_group(array('dg'))) {?>
-                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/6/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড একাউন্ট </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/6/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড </a> </li>
 
-                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/1/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক এ.ডি </a> </li>
-                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/2/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক ডি.ডি </a> </li>
-                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/3/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক জে.ডি </a> </li>
-                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক ডিরেক্টর </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/12/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক এ.ডি </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/15/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক ডি.ডি </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/17/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক জে.ডি </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/18/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক ডিরেক্টর </a> </li>
                                                         <?php }?>
-                                                        <?php if (in_array($row->status,[6,7,8]) && $this->ion_auth->in_group(array('dg'))) { ?>
-                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক </a> </li>
-                                                        <?php } ?>
 
+                                                        <!-- acc -->
                                                         <?php if (in_array($row->status,[6]) && $this->ion_auth->in_group(array('acc'))) {?>
-                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/7/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/7/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড </a> </li>
                                                         <?php }?>
 
-                                                        <?php if (in_array($row->status,[7]) && $this->ion_auth->in_group(array('acc'))) {?>
-                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক ডি.জি </a> </li>
-                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/8/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন টু সমাপ্ত </a> </li>
-                                                        <?php }?>
-
-                                                        <?php if ($row->type == 1) { ?>
-                                                            <li> <a href="<?php echo base_url('budgets/budget_nilg_print/' . encrypt_url($row->id)) ?>"   target="_blank"> <i class="fa fa-pencil-square"></i> প্রিন্ট করুন </a> </li>
-                                                        <?php } else if($row->type == 3) { ?>
-                                                            <li> <a href="<?php echo base_url('budgets/dpt_training_summary_print/' . encrypt_url($row->id)) ?>"   target="_blank"> <i class="fa fa-pencil-square"></i> প্রিন্ট করুন </a> </li>
+                                                        <?php if (in_array($row->status,[7]) && $this->ion_auth->in_group(array('ad'))) { ?>
+                                                            <li> <a href="<?php echo base_url('budgets/training_summary_forward/8/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> পাবলিশ </a> </li>
                                                         <?php } ?>
+
+                                                        <li> <a href="<?php echo base_url('budgets/dpt_training_summary_print/' . encrypt_url($row->id)) ?>"   target="_blank"> <i class="fa fa-pencil-square"></i> প্রিন্ট করুন </a> </li>
+
                                                     </ul>
                                                 </div>
                                             </td>
@@ -204,189 +254,3 @@
 
 
 
-<!-- The Modal -->
-<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog modal-lg">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header priview-body" style="padding: 15px 15px 0px 15px !important;">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <?php $this->load->view('nilg_head'); ?>
-                <div class="heading-main">
-                    <div class="headding-title" id="heading_title"> </div>
-                </div>
-            </div>
-
-            <div class="modal-body body-modal">
-                <table class="table table-hover table-condensed" border="0" id="addRow">
-                    <tr>
-                        <th>ক্রম</th>
-                        <th>বিষয়</th>
-                        <th>পরিমাণ</th>
-                        <th>ডিপার্টমেন্ট পরিমাণ</th>
-                        <th>আক্কাউন্ট পরিমাণ</th>
-                        <th>ডিজি পরিমাণ</th>
-                    </tr>
-                </table>
-
-                <div class="budget-main">
-                    <div class="budget-text" id="budget_text"> </div>
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <!-- <button type="button" id="smSend" class="btn btn-info">প্রিন্ট করুন</button> -->
-                <button type="button" class="btn btn-default" data-dismiss="modal">বন্ধ করুন</button>
-                <!-- <button type="submit" id="smSend" class="btn btn-primary">সংরক্ষণ করুন</button> -->
-            </div>
-        </div>
-    </div>
-</div>
-
-<style type="text/css">
-    .priview-body {
-        font-size: 16px;
-        color: #000;
-        border-bottom: 0px !important;
-    }
-
-    .priview-header div {
-        font-size: 18px;
-        text-align: center;
-    }
-
-    .priview-demand {
-        padding-bottom: 20px;
-        margin-top: 10px;
-    }
-
-    .heading-main {
-        text-align: center;
-    }
-
-    .headding-title {
-        font-size: 18px;
-        padding: 1px 5px !important;
-        display: initial;
-    }
-
-    .body-modal {
-        background: #fff !important;
-    }
-
-    #addRow {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    #addRow>tbody>tr>th,
-    #addRow>tbody>tr>td,
-    #addRow>tfoot>tr>td {
-        border: 1px solid #448dc7 !important;
-    }
-
-    .text-center {
-        text-align: center;
-    }
-</style>
-
-<script type="text/javascript">
-    function acc_summary() {
-        var form = document.createElement('form');
-        form.action = "<?= base_url('budgets/acc_summary_create') ?>";
-        form.method = "POST";
-        var checkboxes = $('.check:checked');
-        var vals = "";
-        for (var i = 0, n = checkboxes.length; i < n; i++) {
-            var field = document.createElement('input');
-            field.type = "hidden";
-            field.name = "id[]";
-            field.value = checkboxes[i].value;
-            form.appendChild(field);
-
-            if (checkboxes[i].checked) {
-                vals += "," + checkboxes[i].value;
-            }
-        }
-
-        if (vals) vals = vals.substring(1);
-        if (vals == "") {
-            alert('অনুগ্রহ করে অন্তত একটি আইটেম নির্বাচন করুন');
-            return false;
-        }
-
-        document.body.appendChild(form);
-        form.submit();
-    }
-</script>
-
-<script type="text/javascript">
-    $(document).ready(function() {
-        // requisition item delete
-        $(document).on("click", "#smSend", function() {
-            var id = $(this).attr('data-id');
-            var url = "<?php echo base_url('budgets/nilg_change_status'); ?>";
-            $.ajax({
-                type: "POST",
-                url: url,
-                data: {
-                    type: 1,
-                    id: id
-                },
-                dataType: 'json',
-                success: function(response) {
-                    if (response.status == 1) {
-                        $('#myModal').modal('hide');
-                    }
-                }
-            });
-        });
-
-        $(document).on("click", "#modalId", function() {
-            var data_id = $(this).attr('data-id');
-
-            var sendData = {
-                type: 2,
-                id: data_id
-            };
-            var url = "<?php echo base_url('budgets/ajax_get_budget_details_nilg'); ?>";
-            $.ajax({
-                url: url,
-                data: sendData,
-                type: "POST",
-                success: function(response) {
-                    var sl = 0;
-                    $('.adds').remove();
-                    $('#heading_title').empty().text('শিরোনাম : ' + response.budget_info.title);
-
-                    $.each(response.budget_dtails, function(id, res) {
-                        sl = sl + 1;
-                        var items = '';
-                        items += '<tr class="adds">';
-                        items += '<td>' + sl + '</td>';
-                        items += '<td>' + res.name_bn + '</td>';
-                        items += '<td>' + res.amount + '</td>';
-                        items += '<td>' + res.dpt_amt + '</td>';
-                        items += '<td>' + res.acc_amt + '</td>';
-                        items += '<td>' + res.dg_amt + '</td>';
-                        items += '</tr>';
-                        $('#addRow tr:last').after(items);
-                    });
-                    var item = '';
-                    item += '<tr class="adds">';
-                    item += '<td colspan="2">Total</td>';
-                    item += '<td>' + response.budget_info.amount + '</td>';
-                    item += '<td>' + response.budget_info.dpt_amt + '</td>';
-                    item += '<td>' + response.budget_info.acc_amt + '</td>';
-                    item += '<td>' + response.budget_info.dg_amt + '</td>';
-                    item += '</tr>';
-
-                    $('#addRow tr:last').after(item);
-                    $('#budget_text').empty().html(response.budget_info.description);
-
-                    $('#smSend').attr('data-id', data_id);
-                }
-            });
-        });
-    });
-</script>

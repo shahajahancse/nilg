@@ -82,6 +82,8 @@
                                     </th>
                                     <th>কোর্স নাম</th>
                                     <th>অফিস নাম</th>
+                                    <th>মেয়াদ</th>
+                                    <th>ব্যাচ</th>
                                     <th>পরিমাণ</th>
                                     <th>স্ট্যাটাস</th>
                                     <th>তারিখ</th>
@@ -104,6 +106,8 @@
 
                                         <td class="v-align-middle"><?=$row->course_title; ?></td>
                                         <td class="v-align-middle"><?=$row->office_name; ?></td>
+                                        <td class="v-align-middle"><?= eng2bng($row->course_day); ?></td>
+                                        <td class="v-align-middle"><?= eng2bng($row->batch_number); ?></td>
                                         <td class="v-align-middle"><?=eng2bng($row->amount); ?></td>
                                         <td class="v-align-middle"><?=eng2bng(date('Y-m-d', strtotime($row->created_at))); ?></td>
                                         <td class="v-align-middle">

@@ -43,7 +43,7 @@
                         <?php endif; ?>
 
                         <?php $attributes = array('id' => 'jsvalidate');
-                        echo form_open_multipart("budgets/dpt_summary_details", $attributes);
+                        echo form_open_multipart(current_url(), $attributes);
                         echo validation_errors(); ?>
                         <div class="row">
                             <div class="col-md-12">
@@ -136,9 +136,7 @@
                                         <div class="col-md-12" style="padding: 0px;">
                                             <div class="form-group margin_top_10">
                                                 <label for=""> নোট:</label>
-                                                <textarea class="form-control" name="description"
-                                                    style="height: 300px;"
-                                                    id="description"><p></p><p></p></textarea>
+                                                <textarea class="form-control" name="description" style="height: 300px;" id="description"><?= $info->description ?></textarea>
                                             </div>
                                         </div>
                                     </div>

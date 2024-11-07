@@ -26,7 +26,7 @@ class Backend_Controller extends MY_Controller
 		$this->data['module_exam_notify'] = 0;
 		$this->data['leave_notify'] = 0;
 		$this->data['un_available_item_notify'] = 0;
-		$this->data['rev_ntfy_add'] = 0;
+		$this->data['train_notify'] = 0;
 		$this->data['rev_ntfy'] = 0;
 		$this->data['office_ntfy'] = 0;
 
@@ -35,7 +35,10 @@ class Backend_Controller extends MY_Controller
 			$this->data['userDetails'] = $this->Common_model->get_office_info_by_session();
 			$userDetails = $this->data['userDetails'];
 			// dd($this->data['userDetails']);
-			// dd($this->session->all_userdata());
+			// budget notification
+			$this->data['rev_ntfy'] = $this->Common_model->rev_notify($userDetails->crrnt_dept_id);
+			$this->data['train_notify'] = $this->Common_model->train_notify($userDetails->crrnt_dept_id);
+			$this->data['office_ntfy'] = $this->Common_model->office_ntfy($userDetails->crrnt_dept_id);
 
 			// Get Groups
 			$users_groups = $this->ion_auth_model->get_users_groups()->result();
@@ -45,6 +48,7 @@ class Backend_Controller extends MY_Controller
 				$groups_array[$group->id] = $group->description;
 			}
 			$this->data['userGroups'] = implode(',', $groups_array);
+
 			// Count Request
 			if ($this->ion_auth->in_group('up')) {
 				$office = $this->Common_model->get_office_info_by_session();
@@ -200,10 +204,6 @@ class Backend_Controller extends MY_Controller
 				$this->data['leave_notify'] =  $this->Common_model->get_employee_leave_count_assign($userDetails->id, 2);
 			}
 	        // leave notification count end
-
-			$this->data['rev_ntfy'] = $this->Common_model->rev_notify();
-			$this->data['rev_ntfy_add'] = $this->Common_model->rev_notify_add();
-			$this->data['office_ntfy'] = $this->Common_model->office_ntfy();
 		}
 		// exit('10');
 

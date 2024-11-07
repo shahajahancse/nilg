@@ -11,8 +11,8 @@
 white-space: nowrap;
     }
 </style>
-<?php $am = $this->db->where('dept_id', 2)->get('budgets_dept_account')->row();
-    $smt = isset($am->balance) ? $am->balance : 1000000;
+<?php $am = $this->db->where('id', 35)->get('budget_head_sub')->row();
+    $smt = 0;
 ?>
 <div class="page-content">
     <div class="content">
@@ -20,8 +20,7 @@ white-space: nowrap;
             <li><a href="<?=base_url('dashboard')?>" class="active"> Dashboard </a></li>
             <li><a href="<?=base_url('budget/training_budgets_create')?>" class="active"><?=$module_name?></a></li>
             <li><?=$meta_title; ?> </li>
-            <a style="float: right; color: #000; font-weight: bold;"> পরিমাণ : <?= eng2bng($smt); ?> </a>
-            <input type="hidden" id="have_amt" value=<?= $smt ?> >
+            <a id="have_show_amount" style="float: right; color: #000; font-weight: bold;"> পরিমাণ : <?= eng2bng($smt); ?> </a>
         </ul>
 
         <div class="row">
@@ -52,9 +51,7 @@ white-space: nowrap;
                                 <div class="col-md-12"
                                     style="padding: 10px;display: flex;flex-direction: row;justify-content: center;align-items: center;">
                                     <div>
-                                        <span
-                                            style="font-size: 22px;font-weight: bold;text-decoration: underline;">বাজেট
-                                            তৈরি করুন</span>
+                                        <span style="font-size: 22px;font-weight: bold;text-decoration: underline;">বাজেট তৈরি করুন</span>
                                     </div>
                                 </div>
                                 <div class="row form-row" style="font-size: 16px; color: black;">
@@ -116,7 +113,7 @@ white-space: nowrap;
                                             <?php $session_year=$this->db->order_by('id','desc')->get('session_year')->result();?>
                                             <label for="fcl_year" class="control-label">অর্থবছর <span class="required">*</span></label>
                                             <?php echo form_error('fcl_year');?>
-                                            <select name="fcl_year" id="fcl_year" class="form-control input-sm" required>
+                                            <select onchange="check_rev_balance()" name="fcl_year" id="fcl_year" class="form-control input-sm" required>
                                                 <option value='' selected>নির্বাচন করুন</option>
                                                 <?php foreach ($session_year as $key => $value) { ?>
                                                     <option value="<?=$value->id?>"><?=$value->session_name?></option>
@@ -128,7 +125,6 @@ white-space: nowrap;
                                             <?php echo form_error('course_day');?>
                                             <input onkeyup="setDay()" type="number" class="form-control input-sm" name="course_day" id="course_day" required>
                                         </div>
-
                                     </div>
 
                                     <div class="col-md-12" style='margin-bottom:10px'>
@@ -157,7 +153,7 @@ white-space: nowrap;
 
                                         <div class="col-md-2">
                                             <label for="">পরিমান</label>
-                                            <input value='' class="form-control input-sm" name="total_amount" id="total_amount" readonly>
+                                            <input value='1' class="form-control input-sm" name="total_amount" id="total_amount" readonly>
                                         </div>
 
                                         <div class="col-md-2">
@@ -168,10 +164,12 @@ white-space: nowrap;
 
                                         <div class="col-md-2">
                                             <label for="">সর্বমোট পরিমান</label>
-                                            <input value='' class="form-control input-sm" name="mot_total_amount" id="mot_total_amount" readonly>
+                                            <input value='1' class="form-control input-sm" name="mot_total_amount" id="mot_total_amount" readonly>
                                         </div>
                                     </div>
                                 </div>
+
+                                <input name="have_amt" type="hidden" id="have_amt" value=<?= $smt ?> >
 
                                 <div class="row form-row">
                                     <div class="col-md-12">
@@ -193,7 +191,6 @@ white-space: nowrap;
                                                 style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
                                                 <thead>
                                                     <tr>
-                                                        <!-- <th width="30%">বাজেট হেড<span class="required">*</span></th> -->
                                                         <th width="30%">বাজেট শিরোনাম<span class="required"> * </span></th>
                                                         <th width="10%">অংশগ্রহণকারী<span class="required"> * </span></th>
                                                         <th width="10%">দিন/বার<span class="required"> * </span></th>
@@ -248,7 +245,7 @@ white-space: nowrap;
                                             </table>
 
                                             <div class="col-md-12" style="margin-top: 20px; padding: 0px;">
-                                                <div class="form-group margin_top_10">
+                                                <div class="form-group margin_top_10" id='hide_des'>
                                                     <label for=""> বিবরণ:</label>
                                                     <textarea class="form-control" name="description" style="height: 300px;" id="description"> </textarea>
                                                 </div>
@@ -457,14 +454,14 @@ white-space: nowrap;
         })
         $("#total_amount").val(total);
 
-        var mot_trainee_number=trainee_number*batch_number
-        var mot_total_amount= total * mot_trainee_number;
+        var mot_trainee_number = trainee_number * batch_number
+        var mot_total_amount = total * batch_number;
 
         $("#mot_trainee_number").val(mot_trainee_number);
         $("#mot_total_amount").val(mot_total_amount);
 
 
-        var founds = "<?= $smt ?>";
+        var founds = $('have_amt').val();
         if(founds <= 0){
             $('#message_dep').html('Total amount not allowed to be less than 0');
             $('#submit_btn_b').prop('disabled', true);
@@ -479,6 +476,11 @@ white-space: nowrap;
             $('#message_dep').html('');
             $('#submit_btn_b').prop('disabled', false);
         }
+        var atrval = parseInt($('#have_amt').val());
+        var have_amt = $('#mot_total_amount').val();
+        hasv = parseInt(atrval - have_amt);
+        $('#have_show_amount').html('পরিমাণ : ' + hasv);
+        $('#have_amt').val(hasv);
     }
 </script>
 <script>
@@ -514,7 +516,10 @@ white-space: nowrap;
 <script>
     function setPts() {
         var trainee_number = $("#trainee_number").val()
+        var batch_number = $("#batch_number").val();
         $(".pts").val(trainee_number);
+        var mot_trainee = trainee_number * batch_number
+        $("#mot_trainee_number").val(mot_trainee);
     }
     function setDay() {
         var day = $("#course_day").val()
@@ -573,6 +578,7 @@ white-space: nowrap;
         $('#trainee_type').chosen();
         $('.add_sub_row').chosen();
         get_sub_row();
+        check_rev_balance();
     });
 </script>
 
@@ -662,4 +668,35 @@ white-space: nowrap;
             }
         });
     });
+</script>
+
+<script>
+    function check_rev_balance(){
+        var fcl_year = $("#fcl_year").val();
+        if(fcl_year <= 0){
+            $("#appRowDiv").hide();
+            $("#hide_des").hide();
+            return false;
+        } else if (fcl_year == '') {
+            $("#appRowDiv").hide();
+            $("#hide_des").hide();
+            return false;
+        } else {
+            $("#appRowDiv").show();
+            $("#hide_des").show();
+        }
+
+        var have_show_amount = $("#have_show_amount");
+        $.ajax({
+            type: "POST",
+            url: "<?=base_url('budgets/check_rev_balance') ?>",
+            data: { fcl_year: fcl_year },
+            success: function(val) {
+                var data = JSON.parse(val);
+                $("#have_amt").val(val);
+                $("#have_show_amount").text("পরিমাণ : "+val);
+                calculateTotal();
+            }
+        });
+    }
 </script>

@@ -93,8 +93,12 @@
                                 </div>
                                 <div class="col-md-3">
                                     <label for="title" class="control-label">আসন নির্বাচন করুন <span class="required">*</span></label>
+                                    <?php $seats = $this->db->get('budget_j_hostel_seat')->result(); ?>
                                     <select onchange="getAmount()" id="seat_id" class="form-control input-sm" name="seat_id" required>
                                         <option value="" >আসন নির্বাচন করুন</option>
+                                        <?php foreach ($seats as $key => $s) { ?>
+                                            <option <?php if($details[0]->seat_id == $s->id) echo 'selected'; ?> value="<?=$s->id?>"><?=$s->name?></option>
+                                        <?php } ?>
                                     </select>
                                 </div>
                                 <div class="col-md-2">

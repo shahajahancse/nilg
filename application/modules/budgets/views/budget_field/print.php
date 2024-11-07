@@ -134,9 +134,7 @@
 <div style="margin: 0px 20px">
     <div class="priview-body">
         <div class="col-3">
-            <?php
-            $url = base_url('awedget/assets/img/nilg-logo.png');
-            ?>
+            <?php $url = base_url('awedget/assets/img/nilg-logo.png'); ?>
             <!-- <div style="float: left;"><img src="<?= $url ?>" style="width:60px; height: 60px; display: block;"></div> -->
             &nbsp;
         </div>
@@ -145,7 +143,7 @@
             <?php $this->load->view('print_header'); ?>
         </div>
 
-        <div class="col-2" style="float: right;">
+        <div class="col-3" style="float: right;">
 
         </div>
     </div>

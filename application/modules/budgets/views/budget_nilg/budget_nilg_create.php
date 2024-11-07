@@ -9,7 +9,19 @@
         -webkit-appearance: none;
     }
 </style>
+<style type="text/css">
+    #appRowDiv td {
+        padding: 5px;
+        border-color: #ccc;
+    }
 
+    #appRowDiv th {
+        padding: 5px;
+        text-align: center;
+        border-color: #ccc;
+        color: black;
+    }
+</style>
 <div class="page-content">
     <div class="content">
         <ul class="breadcrumb">
@@ -51,140 +63,121 @@
                                     <div class="col-md-12"
                                         style="padding: 20px;display: flex;flex-direction: row;justify-content: center;align-items: center;">
                                         <div>
-                                            <span
-                                                style="font-size: 22px;font-weight: bold;text-decoration: underline;">বাজেট
-                                                তৈরি করুন</span>
+                                            <span style="font-size: 22px;font-weight: bold;text-decoration: underline;">বাজেট তৈরি করুন</span>
                                         </div>
                                     </div>
                                     <div class="row form-row" style="font-size: 16px; color: black;">
-
-                                        <div class="col-md-12"
-                                            style="display: flex;gap: 74px;padding-bottom: 7px;justify-content: space-between;">
-                                            <div class="col-md-4">
-                                                আবেদনকারীর নাম: <strong><?= $info->name_bn ?></strong>
-                                            </div>
-
-                                            <div class="col-md-4">
-                                                পদবীর নাম: <strong><?= $info->current_desig_name ?></strong>
-                                            </div>
-                                            <div class="col-md-4">
-                                                ডিপার্টমেন্ট নাম: <strong><?= $info->current_dept_name ?></strong>
-                                            </div>
+                                        <div class="col-md-6">
+                                            আবেদনকারীর নাম: <strong><?= $info->name_bn ?></strong>
                                         </div>
-                                        <br>
-                                        <div class="col-md-4" style="margin-left: 15px;">
-                                            <label for="title" class="control-label">শিরোনাম : <span class="required">*</span> </label>
-                                            <input type="text" class="form-control input-sm" name="title"
-                                                style="min-height: 33px;" value="" required>
+                                        <div class="col-md-6">
+                                            পদবীর নাম: <strong><?= $info->current_desig_name ?></strong>
                                         </div>
-                                        <div class="col-md-4" style="margin-left: 15px;">
-                                            <?php $session_year = $this->db->order_by('id', 'desc')->get('session_year')->result(); ?>
+                                    </div>
+                                    <br>
+                                    <div class="row form-row" style="font-size: 16px; color: black;">
+                                        <div class="col-md-6" >
+                                            <input type="text" class="form-control input-sm" name="title" style="min-height: 33px;" placeholder="শিরোনাম লিখুন" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            ডিপার্টমেন্ট নাম: <strong><?= $info->current_dept_name ?></strong>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row form-row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-4 margin_top_10 " style="margin:0px;padding:0px">
+                                                <label for="">বাজেট হেড নির্বাচন করুন</label>
+                                                <select name="head" id="head_id" class="form-control"
+                                                    onchange="addNewRow(this.value)">
+                                                    <option value="">বাজেট হেড নির্বাচন করুন</option>
+                                                    <?php foreach ($budget_head_sub as $key => $value) {
+                                                        echo '<option value="' . $value->id . '">' . $value->budget_head_name . '>>' . $value->name_bn . ' (' . $value->bd_code . ')' . '</option>';
+                                                    } ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4" >
+                                                <?php $session_year = $this->db->order_by('id', 'desc')->get('session_year')->result(); ?>
 
-                                            <label for="fcl_year" class="control-label">অর্থবছর <span class="required">*</span></label>
-                                            <select name="fcl_year" id="fcl_year" class="form-control input-sm" required>
-                                                <option value='' selected>নির্বাচন করুন</option>
-                                                <?php foreach ($session_year as $key => $value) {
-                                                    echo '<option value="' . $value->id . '">' . $value->session_name . '</option>';
-                                                } ?>
-                                            </select>
+                                                <label for="fcl_year" class="control-label">অর্থবছর <span class="required">*</span></label>
+                                                <select name="fcl_year" id="fcl_year" class="form-control input-sm" required>
+                                                    <option value='' selected>নির্বাচন করুন</option>
+                                                    <?php foreach ($session_year as $key => $value) {
+                                                        echo '<option value="' . $value->id . '">' . $value->session_name . '</option>';
+                                                    } ?>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="">সর্বমোট পরিমান</label>
+                                                <input type="number" class="form-control input-sm"
+                                                    name="total_amount" id="total_amount" value="0" readonly>
+                                            </div>
                                         </div>
                                     </div>
 
                                     <div class="row form-row">
-                                        <div class="col-md-12">
-                                            <h4 class="semi-bold margin_left_15" style="margin-left: 15px;">বাজেট তালিকা </h4>
-                                            <style type="text/css">
-                                                #appRowDiv td {
-                                                    padding: 5px;
-                                                    border-color: #ccc;
-                                                }
+                                        <div class="col-md-12 table-responsive">
+                                            <table class="table table-hover table-bordered" border="1"
+                                                style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
+                                                <thead>
+                                                <tr>
+                                                    <!-- <th width="30%">বাজেট হেড<span class="required">*</span></th> -->
+                                                    <th width="20%">বাজেট শিরোনাম<span class="required">*</span>
+                                                    </th>
+                                                    <th width="10%">বাজেট কোড<span class="required">*</span>
+                                                    </th>
+                                                    <th width="15%">পূর্ববর্তী বরাদ্দ</th>
+                                                    <th width="15%">চলমান বরাদ্দ</th>
+                                                    <th width="15%">বাজেট পরিমাণ</th>
+                                                    <th width="15%">প্রাক্কলন পরিমাণ</th>
+                                                    <th width="10%">অ্যাকশন </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody id="tbody">
+                                                <?php foreach ($budget_head_sub as $key => $data) { ?>
+                                                    <tr>
+                                                        <td style="padding:0px 10px;width: 20%"><?= $data->name_bn ?></td>
+                                                        <td style="padding:0px 10px;width: 10%"><?= $data->bd_code ?></td>
+                                                        <td style="padding:0px 10px;width: 15%"><input type="number" value="<?=$data->prev_amt ?>" class="form-control prev_amt input-sm" onkeyup="calculateTotal(this)" name="prev_amt[]" ></td>
 
-                                                #appRowDiv th {
-                                                    padding: 5px;
-                                                    text-align: center;
-                                                    border-color: #ccc;
-                                                    color: black;
-                                                }
-                                            </style>
-                                            <!-- <div class="col-md-12"> -->
-                                                <div class="col-md-12" >
-                                                    <div class="col-md-4 margin_top_10 " style="margin:0px;padding:0px">
-                                                        <label for="">বাজেট হেড নির্বাচন করুন</label>
-                                                        <select name="head" id="head_id" class="form-control"
-                                                            onchange="addNewRow(this.value)">
-                                                            <option value="">বাজেট হেড নির্বাচন করুন</option>
-                                                            <?php foreach ($budget_head_sub as $key => $value) {
-                                                                echo '<option value="' . $value->id . '">' . $value->budget_head_name . '>>' . $value->name_bn . ' (' . $value->bd_code . ')' . '</option>';
-                                                            } ?>
-                                                        </select>
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <img id="loading" src="<?= base_url('img/loading.gif') ?>"
-                                                            style="height: 47px;margin-top: 14px;display: none;">
-                                                    </div>
-                                                    <div class="col-md-4">
-                                                        <label for="">সর্বমোট পরিমান</label>
-                                                        <input type="number" class="form-control input-sm"
-                                                            name="total_amount" id="total_amount" value="0" readonly>
-                                                    </div>
-                                                </div>
+                                                        <td style="padding:0px 10px;width: 15%"><input type="number" value="<?=$data->budget_amt ?>" class="form-control running_amt input-sm" onkeyup="calculateTotal(this)" name="running_amt[]"></td>
 
-                                                <div class="col-md-12 table-responsive">
-                                                    <table class="table table-hover table-bordered" border="1"
-                                                        style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
-                                                        <thead>
-                                                            <tr>
-                                                                <!-- <th width="30%">বাজেট হেড<span class="required">*</span></th> -->
-                                                                <th width="20%">বাজেট শিরোনাম<span class="required">*</span>
-                                                                </th>
-                                                                <th width="10%">বাজেট কোড<span class="required">*</span>
-                                                                </th>
-                                                                <th width="15%">পূর্ববর্তী বরাদ্দ</th>
-                                                                <th width="15%">চলমান বরাদ্দ</th>
-                                                                <th width="15%">বাজেট পরিমাণ</th>
-                                                                <th width="15%">প্রাক্কলন পরিমাণ</th>
-                                                                <th width="10%">অ্যাকশন </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody id="tbody">
-                                                            <?php foreach ($budget_head_sub as $key => $data) { ?>
-                                                                <tr>
-                                                                    <td style="padding:0px 10px;width: 20%"><?= $data->name_bn ?></td>
-                                                                    <td style="padding:0px 10px;width: 10%"><?= $data->bd_code ?></td>
-                                                                    <td style="padding:0px 10px;width: 15%"><input type="number" value=0 class="form-control prev_amt input-sm" onkeyup="calculateTotal(this)" name="prev_amt[]" ></td>
-                                                                    <td style="padding:0px 10px;width: 15%"><input type="number" value=0 class="form-control running_amt input-sm" onkeyup="calculateTotal(this)" name="running_amt[]"></td>
-                                                                    <td style="padding:0px 10px;width: 15%">
-                                                                        <input type="hidden" name="head_id[]"
-                                                                            value="<?= $data->budget_head_id ?>">
-                                                                        <input type="hidden" name="head_sub_id[]"
-                                                                            value="<?= $data->id ?>">
-                                                                        <input value="0" min="0" type="number" onkeyup="calculateTotal(this)" name="amount[]"
-                                                                            class="form-control amount input-sm">
-                                                                    </td>
-                                                                    <td style="padding:0px 10px;width: 15%"><input type="number" value=0 class="prokolpito_amt form-control  input-sm" readonly name="prokolpito_amt[]"></td>
-                                                                    <td style="padding:0px 10px;width: 10%"><a href="javascript:void(0)"
-                                                                            onclick="removeRow(this)"
-                                                                            class="btn btn-danger btn-sm"
-                                                                            style="padding: 3px;"><i class="fa fa-times"></i>
-                                                                            Remove</a></td>
-                                                                </tr>
-                                                            <?php } ?>
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                                <div class="col-md-12" style="margin-top: 0px;">
-                                                    <div class="form-group margin_top_10">
-                                                        <label for=""> বিবরণ:</label>
-                                                        <textarea class="form-control" name="description"
-                                                            style="height: 300px;"
-                                                            id="description"><p></p><p></p></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="pull-right" style="padding-right: 15px;">
-                                                    <input type="submit" name="submit" value="সংরক্ষণ করুন"
-                                                            class="btn btn-primary btn-cons">
-                                                </div>
-                                            <!-- </div> -->
+                                                        <td style="padding:0px 10px;width: 15%">
+                                                            <input type="hidden" name="head_id[]"
+                                                                value="<?= $data->budget_head_id ?>">
+                                                            <input type="hidden" name="head_sub_id[]"
+                                                                value="<?= $data->id ?>">
+                                                            <input value="0" min="0" type="number" onkeyup="calculateTotal(this)" name="amount[]"
+                                                                class="form-control amount input-sm">
+                                                        </td>
+
+                                                        <td style="padding:0px 10px;width: 15%"><input type="number" value=0 class="prokolpito_amt form-control  input-sm" readonly name="prokolpito_amt[]"></td>
+                                                        <td style="padding:0px 10px;width: 10%"><a href="javascript:void(0)"
+                                                                onclick="removeRow(this)"
+                                                                class="btn btn-danger btn-sm"
+                                                                style="padding: 3px;"><i class="fa fa-times"></i>
+                                                                Remove</a></td>
+                                                    </tr>
+                                                <?php } ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row form-row">
+                                        <div class="col-md-12" style="margin-top: 0px;">
+                                            <div class="form-group margin_top_10">
+                                                <label for=""> বিবরণ:</label>
+                                                <textarea class="form-control" name="description"
+                                                    style="height: 300px;"
+                                                    id="description"><p></p><p></p></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-row">
+                                        <div class="pull-right" style="padding-right: 15px;">
+                                            <input type="submit" name="submit" value="সংরক্ষণ করুন"
+                                                    class="btn btn-primary btn-cons">
                                         </div>
                                     </div>
                                 </fieldset>
@@ -249,8 +242,8 @@ function calculateTotal_amount(){
                 var tr = `<tr>
                         <td style="padding:0px 10px;width: 20%">${data.name_bn}</td>
                         <td style="padding:0px 10px;width: 10%">${data.bd_code}</td>
-                        <td style="padding:0px 10px;width: 15%"><input type="number" value=0 class="form-control prev_amt input-sm" onkeyup="calculateTotal(this)" name="prev_amt[]" ></td>
-                        <td style="padding:0px 10px;width: 15%"><input type="number" value=0 class="form-control running_amt input-sm" onkeyup="calculateTotal(this)" name="running_amt[]"></td>
+                        <td style="padding:0px 10px;width: 15%"><input type="number" value="${data.prev_amt}" class="form-control prev_amt input-sm" onkeyup="calculateTotal(this)" name="prev_amt[]" ></td>
+                        <td style="padding:0px 10px;width: 15%"><input type="number" value="${data.budget_amt}" class="form-control running_amt input-sm" onkeyup="calculateTotal(this)" name="running_amt[]"></td>
                         <td style="padding:0px 10px;width: 15%">
                         <input type="hidden" name="head_id[]" value="${data.budget_head_id}" >
                         <input type="hidden" name="head_sub_id[]" value="${data.id}" >

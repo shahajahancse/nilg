@@ -126,10 +126,10 @@
                                             <div style="display: flex;flex-wrap: wrap;gap: 10px;">
                                                 <button type="submit" name="pension" value="pension_sheet" onclick="return validFunc()" style="padding: 5px 8px !important;" class="btn btn-info"> পেনশন শিট </button>
                                                 <!-- <button type="submit" name="pension" value="single_pension" onclick="return validFunc1()" style="padding: 5px 8px !important;" class="btn btn-info">একজন এর পেনশন </button> -->
-                                                <button type="submit" name="pension" value="bank_deposit" onclick="return validFunc1()" style="padding: 5px 8px !important;" class="btn btn-info">Bank Deposit </button>
-                                                <button type="submit" name="pension" value="festival_bonus" onclick="return validFunc1()" style="padding: 5px 8px !important;" class="btn btn-info">Festival Bonus </button>
-                                                <button type="submit" name="pension" value="additional_bonus" onclick="return validFunc1()" style="padding: 5px 8px !important;" class="btn btn-info">Additional Bonus </button>
-                                                <button type="submit" name="pension" value="medical_allowance" onclick="return validFunc1()" style="padding: 5px 8px !important;" class="btn btn-info">Medical Allowance </button>
+                                                <button type="submit" name="pension" value="bank_deposit" onclick="return validFunc()" style="padding: 5px 8px !important;" class="btn btn-info">Bank Deposit </button>
+                                                <button type="submit" name="pension" value="festival_bonus" onclick="return validFunc()" style="padding: 5px 8px !important;" class="btn btn-info">Festival Bonus </button>
+                                                <button type="submit" name="pension" value="additional_bonus" onclick="return validFunc()" style="padding: 5px 8px !important;" class="btn btn-info">Additional Bonus </button>
+                                                <button type="submit" name="pension" value="medical_allowance" onclick="return validFunc()" style="padding: 5px 8px !important;" class="btn btn-info">Medical Allowance </button>
                                             </div>
                                         </fieldset>
                                     </div>
@@ -242,7 +242,6 @@
             $("#error").show();
             return false;
         }
-
     }
 </script>
 

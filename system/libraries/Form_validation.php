@@ -790,7 +790,7 @@ class CI_Form_validation {
 				// Callable rules might not have named error messages
 				if ( ! is_string($rule))
 				{
-					$line = $this->CI->lang->line('form_validation_error_message_not_set').'(Anonymous function)';
+					$line = $this->CI->lang->line('form_validation_error_message_not_set');
 				}
 				else
 				{
@@ -851,7 +851,7 @@ class CI_Form_validation {
 			return $line;
 		}
 
-		return $this->CI->lang->line('form_validation_error_message_not_set').'('.$rule.')';
+		return $this->CI->lang->line('form_validation_error_message_not_set');
 	}
 
 	// --------------------------------------------------------------------

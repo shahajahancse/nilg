@@ -149,7 +149,8 @@
 
     <div class="priview-body content-div">
         <div class="col-9">
-            <span style="padding: 0px 0px 0px 0px; margin: 0px;">চাহিদাকারীর নাম : <abbr><?php echo $info->crt_by_name_bn; ?></abbr></span> <br>
+            <span style="padding: 0px 0px 0px 0px; margin: 0px;">শিরোনাম  : <abbr><?php echo $info->title; ?></abbr></span> <br>
+            <span style="padding: 0px; margin: 1px 0px;">চাহিদাকারীর নাম : <abbr><?php echo $info->crt_by_name_bn; ?></abbr></span> <br>
             <span style="padding: 0px; margin: 1px 0px;">বিভাগের নাম : <abbr> <?php echo $info->dept_name; ?></abbr></span>
         </div>
         <div class="col-3" style="float: right;">

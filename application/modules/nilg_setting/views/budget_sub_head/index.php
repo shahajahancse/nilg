@@ -63,8 +63,8 @@
                   <th>নাম বাংলা</th>
                   <th>হেড নাম</th>
                   <th>বিঃডিঃ কোড </th>
-                  <th>পূর্ববর্তী বরাদ্দ</th>
-                  <th>বরাদ্দ পরিমাণ</th>
+                  <!-- <th>পূর্ববর্তী বরাদ্দ</th> -->
+                  <!-- <th>বরাদ্দ পরিমাণ</th> -->
                   <th>পরিমাণ</th>
                   <th>ভ্যাট</th>
                   <th>স্ট্যাটাস</th>
@@ -82,8 +82,8 @@
                     <td><?= $row->name_bn ?></td>
                     <td><?= $row->budget_head_name_bn ?></td>
                     <td><?= $row->bd_code ?></td>
-                    <td><?= eng2bng($row->prev_amt) ?></td>
-                    <td><?= eng2bng($row->budget_amt) ?></td>
+                    <!-- <td><?= eng2bng($row->prev_amt) ?></td> -->
+                    <!-- <td><?= eng2bng($row->budget_amt) ?></td> -->
                     <td><?= eng2bng($row->amount) ?></td>
                     <td><?= eng2bng($row->vat_head) ?></td>
                     <td><?= ($row->status) ? 'সক্রিয়' : 'অসক্রিয়' ?></td>

@@ -123,7 +123,7 @@
                                             <label class="control-label"> স্ট্যাটাস <span style="color:red">*</span> </label>
                                             <select required name="status" class="form-control input-sm" style="width: 100%; height: 28px !important;">
                                                 <option <?= $row->status == 1 ? 'selected' : '' ?> value="1">Active</option>
-                                                <option <?= $row->status == 2 ? 'selected' : '' ?> value="1">Inactive</option>
+                                                <option <?= $row->status == 2 ? 'selected' : '' ?> value="2">Inactive</option>
                                             </select>
                                         </div>
                                     </div>

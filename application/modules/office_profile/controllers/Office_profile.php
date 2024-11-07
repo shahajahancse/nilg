@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Office_profile extends Backend_Controller {
-	
+
     // var $img_path;
 
     public function __construct(){
@@ -18,22 +18,22 @@ class Office_profile extends Backend_Controller {
         // $this->img_path = realpath(APPPATH . '../profile_img');
     }
 
-    public function index(){		
+    public function index(){
         // dd($this->userSessionID);
         $this->data['info'] = $this->Office_profile_model->get_info($this->userSessionID);
         dd($this->data['info']);
-        // echo $this->db->last_query(); 
+        // echo $this->db->last_query();
         // echo '<pre>';
         // print_r($this->data['info']); exit;
 
-        //Load page       
+        //Load page
         $this->data['meta_title'] = 'অফিসের বিস্তারিত তথ্য';
         $this->data['subview'] = 'index';
         $this->load->view('backend/_layout_main', $this->data);
     }
 
     // change password
-    public function change_password(){        
+    public function change_password(){
         $this->form_validation->set_rules('old', $this->lang->line('change_password_validation_old_password_label'), 'required');
         $this->form_validation->set_rules('new', $this->lang->line('change_password_validation_new_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[new_confirm]');
         $this->form_validation->set_rules('new_confirm', $this->lang->line('change_password_validation_new_password_confirm_label'), 'required');
@@ -76,7 +76,7 @@ class Office_profile extends Backend_Controller {
                 'value' => $user->id,
             );
 
-            //Load page       
+            //Load page
             $this->data['meta_title'] = 'পাসোর্য়াড পরিবর্তন';
             $this->data['subview'] = 'change_password';
             $this->load->view('backend/_layout_main', $this->data);
@@ -105,7 +105,7 @@ class Office_profile extends Backend_Controller {
         $this->form_validation->set_rules('first_name', 'first name', 'required');
         $this->form_validation->set_rules('phone', 'mobile number', 'trim|required');
         $this->form_validation->set_rules('dob', 'date of birth', 'trim|required');
-        $this->form_validation->set_rules('gender', 'gender', 'trim|required');        
+        $this->form_validation->set_rules('gender', 'gender', 'trim|required');
         $this->form_validation->set_rules('present_add', 'present address', 'trim|required');
         $this->form_validation->set_rules('permanent_add', 'permanent address', 'trim|required');
 
@@ -188,7 +188,7 @@ class Office_profile extends Backend_Controller {
             }else{
                 $this->data['message'] = $this->upload->display_errors();
             }
-        }          
+        }
     }
 
     $this->data['meta_title'] = lang('change_image');
@@ -201,11 +201,11 @@ public function file_check($str){
     $this->load->helper('file');
     $allowed_mime_type_arr = array('image/gif','image/jpeg','image/png','image/x-png');
     $mime = get_mime_by_extension($_FILES['userfile']['name']);
-    $file_size = 1050000; 
+    $file_size = 1050000;
     $size_kb = '1 MB';
 
     if(isset($_FILES['userfile']['name']) && $_FILES['userfile']['name']!=""){
-        if(!in_array($mime, $allowed_mime_type_arr)){                
+        if(!in_array($mime, $allowed_mime_type_arr)){
             $this->form_validation->set_message('file_check', 'Please select only jpg, jpeg, png, gif file.');
             return false;
         }elseif($_FILES["userfile"]["size"] > $file_size){

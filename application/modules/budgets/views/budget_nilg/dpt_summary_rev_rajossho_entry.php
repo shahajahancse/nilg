@@ -146,7 +146,7 @@
                                                                 <!-- <th width="15%">পূর্ববর্তী বরাদ্দ</th>
                                                                 <th width="15%">চলমান বরাদ্দ</th> -->
                                                                 <th width="15%">বাজেট পরিমাণ</th>
-                                                                <th width="15%">প্রাক্কলন পরিমাণ</th>
+                                                                <!-- <th width="15%">প্রাক্কলন পরিমাণ</th> -->
                                                                 <th width="15%"> পরিমাণ</th>
                                                         </tr>
                                                     </thead>
@@ -162,7 +162,9 @@
                                                                     <input type="hidden" name="head_sub_id[]" value="<?= $value->head_sub_id ?>">
                                                                     <input value="<?= $value->amount ?>" min="0" type="number"  name="bujet_amount[]" readonly class="form-control bujet_amount input-sm">
                                                                 </td>
-                                                                <td style="padding:0px 10px;width: 15%"><input type="number" value="<?= $value->prokolpito_amt ?>" class="prokolpito_amt form-control  input-sm" readonly name="prokolpito_amt[]"></td>
+
+                                                                <!-- <td style="padding:0px 10px;width: 15%"><input type="number" value="<?= $value->prokolpito_amt ?>" class="prokolpito_amt form-control  input-sm" readonly name="prokolpito_amt[]"></td> -->
+
                                                                 <td style="padding:0px 10px;width: 15%"><input type="number" onkeyup="calculateTotal_amount(this)" value="0" class="amount form-control  input-sm"  name="amount[]"></td>
 
                                                             </tr>

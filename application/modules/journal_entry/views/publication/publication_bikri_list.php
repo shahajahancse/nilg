@@ -103,17 +103,14 @@
                                                     <ul class="dropdown-menu pull-right">
                                                         <li><a href="<?php echo base_url('journal_entry/publication_bikri_details/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> বিস্তারিত </a></li>
 
-                                                        <!-- <li><a href="<?php echo base_url('journal_entry/publication_entry_edit/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> সংশোধন করুন </a></li> -->
+                                                        <!-- <li><a href="<?php echo base_url('journal_entry/publication_bikri_edit/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> সংশোধন করুন </a></li> -->
 
                                                         <!-- <li><a href="<?php echo base_url('journal_entry/publication_entry_delete/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i>ডিলিট করুন</a></li> -->
 
                                                         <li><a href="<?php echo base_url('journal_entry/publication_print/' . encrypt_url($row->id)) ?>" target="_blank"><i class="fa fa-pencil-square" target="_blank"></i> প্রিন্ট করুন</a></li>
 
                                                         <?php if ($row->status == 2 && $this->ion_auth->in_group(array('not allow'))) { ?>
-                                                        <?php if ($row->status == 1 ) { ?>
                                                             <li><a href="<?php echo base_url('journal_entry/publication_forword/2/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> ফরওয়ার্ড </a> </li>
-                                                        <?php } ?>
-
                                                             <li><a href="<?php echo base_url('journal_entry/publication_forword/4/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> অ্যাপ্রুভ</a></li>
                                                             <li><a href="<?php echo base_url('journal_entry/publication_forword/3/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> বাতিল</a></li>
                                                         <?php } ?>

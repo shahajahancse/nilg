@@ -514,8 +514,8 @@
         })
         $("#total_amount").val(total);
 
-        var mot_trainee_number=trainee_number*batch_number
-        var mot_total_amount= total * mot_trainee_number;
+        var mot_trainee_number = trainee_number * batch_number
+        var mot_total_amount = total * batch_number;
 
         $("#mot_trainee_number").val(mot_trainee_number);
         $("#mot_total_amount").val(mot_total_amount);

@@ -100,11 +100,11 @@
                                                     <input type="hidden" name="office_amt[]" value="<?= $data->office_amt ?>" class="office_amt_<?= $data->office_type ?>">
                                                 </tr>
                                                 <?php
-                                                    $this->db->select('q.*,SUM(q.amount) as amount,course.course_title');
+                                                    $this->db->select('q.*, SUM(q.amount) as amount, SUM(q.batch_number) as batch_number, course.course_title');
                                                     $this->db->from('budget_field as q');
                                                     $this->db->join('course', 'q.course_id = course.id', 'left');
                                                     $this->db->where_in('q.id', $ids)->where('q.office_type', $data->office_type);
-                                                    $this->db->group_by('q.course_id');
+                                                    $this->db->group_by('q.course_id')->group_by('q.course_day');
                                                     $subs = $this->db->get()->result();
                                                     // dd($subs);
                                                 ?>

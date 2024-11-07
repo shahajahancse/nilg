@@ -10,6 +10,28 @@
         }
     }
 </style>
+<style type="text/css">
+    .btt-m,
+    .btt-m:focus,
+    .btt-m:active:focus,
+    .btt-m.active:focus {
+        outline: none !important;
+        padding: 5px 25px !important;
+        margin-top: 0px;
+    }
+
+    .btt-t,
+    .btt-t:focus,
+    .btt-t:active:focus,
+    .btt-t.active:focus,
+    .btt-t:hover {
+        outline: none !important;
+        padding: 5px 25px !important;
+        margin-top: 0px !important;
+        width: 40px !important;
+        background: #ddb90a;
+    }
+</style>
 
 <div class="page-content">
     <div class="content">
@@ -35,28 +57,6 @@
                             </div>
                         <?php endif; ?>
 
-                        <style type="text/css">
-                            .btt-m,
-                            .btt-m:focus,
-                            .btt-m:active:focus,
-                            .btt-m.active:focus {
-                                outline: none !important;
-                                padding: 5px 25px !important;
-                                margin-top: 0px;
-                            }
-
-                            .btt-t,
-                            .btt-t:focus,
-                            .btt-t:active:focus,
-                            .btt-t.active:focus,
-                            .btt-t:hover {
-                                outline: none !important;
-                                padding: 5px 25px !important;
-                                margin-top: 0px !important;
-                                width: 40px !important;
-                                background: #ddb90a;
-                            }
-                        </style>
                         <table class="table table-hover table-condensed data_table" border="0">
                             <thead style="background: #d2dee9;">
                                 <tr>

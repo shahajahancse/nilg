@@ -95,11 +95,11 @@
    <script src="<?= base_url('assets/js/loader.js'); ?>"></script>
 
 
-<style>
-   .required{
-      color: red;
-   }
-</style>
+   <style>
+      .required{
+         color: red;
+      }
+   </style>
    <!-- <script src="https://code.highcharts.com/modules/exporting.js"></script> -->
 </head> <!-- END HEAD -->
 
@@ -378,54 +378,89 @@
                <!-- বাজেট entry start -->
                <!-- //  not live the module yet -->
                <?php $aar = array('admin','dd','jd','director','dg', 'ad', 'tdo', 'uz', 'ddlg','bod'); ?>
-               <?php //if ($this->ion_auth->in_group('demo')) { ?>
+               <?php if ($this->ion_auth->in_group('demo')) { ?>
                <?php if ($this->ion_auth->in_group($aar)) { ?>
                   <?php if ($this->ion_auth->in_group(array('uz', 'ddlg'))) { ?>
-                     <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব মডিউল</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                     <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব মডিউল</span>
+                        <span class="selected"></span>
+                        <?php if ($office_ntfy > 0) {
+                           echo '<span class="badge badge-danger pull-right">' . eng2bng($office_ntfy) . '</span>';
+                        } ?>
+                        <span class="badge badge-danger pull-right"></span>
+                        <span class="arrow"></span> </a>
                         <ul class="sub-menu">
-                           <li class="start <?= backend_activate_menu_method('budget_field') ?>"> <a href="<?= base_url('budgets/budget_field'); ?>">বাজেট</a> </li>
+                           <li class="start <?= backend_activate_menu_method('budget_field') ?>">
+                              <a href="<?= base_url('budgets/budget_field'); ?>">বাজেট
+                              <?php if ($office_ntfy > 0) {
+                                 echo '<span class="badge badge-danger pull-right" style="margin-right:15px;">' . eng2bng($office_ntfy) . '</span>';
+                              } ?>
+                              </a>
+                           </li>
                         </ul>
                      </li>
                   <?php } else { ?>
                      <li class="start <?= backend_activate_menu_class('training_head') ?> <?= backend_activate_menu_class('budgets') ?> <?= backend_activate_menu_class('training_sub_head') ?>" >
                         <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব মডিউল</span> <span class="selected"></span>
-                        <?php echo '<span class="badge badge-danger pull-right">' . eng2bng($rev_ntfy + $office_ntfy) . '</span>';?>
+                        <?php $bd_ntfy = $rev_ntfy + $train_notify + $office_ntfy;
+                        if (!empty($bd_ntfy)) {
+                           echo '<span class="badge badge-danger pull-right">' . eng2bng($bd_ntfy) . '</span>';
+                        } ?>
                         <span class="badge badge-danger pull-right"></span>
                         <span class="arrow"></span> </a>
-
                         <ul class="sub-menu">
                            <?php if ($this->ion_auth->is_admin() || ($this->ion_auth->in_group(array('ad')) && $userDetails->crrnt_dept_id == 2 )) { ?>
                               <li class="start <?= backend_activate_menu_method('training_budgets') ?>">
                                  <a href="<?= base_url('budgets/training_budgets'); ?>">বাজেট চাহিদাপত্র </a>
                               </li>
                               <li class="start <?= backend_activate_menu_method('dpt_summary') ?>">
-                                 <a href="<?= base_url('budgets/dpt_summary'); ?>">বাজেট সামারী তৈরি</a>
+                                 <a href="<?= base_url('budgets/dpt_summary'); ?>">বাজেট সামারী তৈরি
+                                    <?php if ($rev_ntfy > 0) {
+                                       echo '<span class="badge badge-danger pull-right" style="margin-right:15px;">' . eng2bng($rev_ntfy) . '</span>';
+                                    } ?>
+                                 </a>
                               </li>
                               <li class="start <?= backend_activate_menu_method('budget_field') ?>">
-                                 <a href="<?= base_url('budgets/budget_field'); ?>">প্রশিক্ষণ বাজেট তৈরি</a>
+                                 <a href="<?= base_url('budgets/budget_field'); ?>">প্রশিক্ষণ বাজেট তৈরি
+                                 <?php if ($office_ntfy > 0) {
+                                    echo '<span class="badge badge-danger pull-right" style="margin-right:15px;">' . eng2bng($office_ntfy) . '</span>';
+                                 } ?>
+                                 </a>
                               </li>
                               <li class="start <?= backend_activate_menu_method('dpt_summary_training') ?>">
-                                 <a href="<?= base_url('budgets/dpt_summary_training'); ?>">প্রশিক্ষণ সামারী তৈরি</a>
+                                 <a href="<?= base_url('budgets/dpt_summary_training'); ?>">প্রশিক্ষণ সারসংক্ষেপ তৈরি
+                                    <?php if ($train_notify > 0) {
+                                       echo '<span class="badge badge-danger pull-right" style="margin-right:15px;">' . eng2bng($train_notify) . '</span>';
+                                    } ?>
+                                 </a>
                               </li>
+                              <!-- Other dept role -->
                            <?php } elseif ($this->ion_auth->is_admin() || $this->ion_auth->in_group(array('ad'))) { ?>
                               <li class="start <?= backend_activate_menu_method('budget_nilg') ?>">
                                  <a href="<?= base_url('budgets/budget_nilg'); ?>">বাজেট চাহিদাপত্র </a>
                               </li>
                            <?php } ?>
-
+                           <!-- DD, JD, Director, DG role -->
                            <?php if ($this->ion_auth->in_group(array('dd','jd','director','dg'))) { ?>
                               <li class="start <?= backend_activate_menu_method('dpt_summary') ?>">
-                              <a href="<?= base_url('budgets/dpt_summary'); ?>">বাজেট সারসংক্ষেপ
+                              <a href="<?= base_url('budgets/dpt_summary'); ?>">বাজেট চাহিদা সারসংক্ষেপ
                                  <?php if ($rev_ntfy > 0) {
                                     echo '<span class="badge badge-danger pull-right" style="margin-right:15px;">' . eng2bng($rev_ntfy) . '</span>';
                                  } ?>
                               </a></li>
                               <li class="start <?= backend_activate_menu_method('budget_field') ?>">
-                                 <a href="<?= base_url('budgets/budget_field'); ?>">প্রশিক্ষণ বাজেট তৈরি
-                                    <?php if ($office_ntfy > 0) {
-                                       echo '<span class="badge badge-danger pull-right" style="margin-right:15px;">' . eng2bng($office_ntfy) . '</span>';
-                                    } ?>
-                                 </a> </li>
+                                 <a href="<?= base_url('budgets/budget_field'); ?>">প্রশিক্ষণ বাজেট
+                                 <?php if ($office_ntfy > 0) {
+                                    echo '<span class="badge badge-danger pull-right" style="margin-right:15px;">' . eng2bng($office_ntfy) . '</span>';
+                                 } ?>
+                                 </a>
+                              </li>
+                              <li class="start <?= backend_activate_menu_method('dpt_summary_training') ?>">
+                                 <a href="<?= base_url('budgets/dpt_summary_training'); ?>">প্রশিক্ষণ বাজেট  সারসংক্ষেপ
+                                 <?php if ($train_notify > 0) {
+                                    echo '<span class="badge badge-danger pull-right" style="margin-right:15px;">' . eng2bng($train_notify) . '</span>';
+                                 } ?>
+                                 </a>
+                              </li>
                            <?php } ?>
 
                            <?php if ($this->ion_auth->in_group(array('tdo'))) { ?>
@@ -482,7 +517,7 @@
                            <a href="<?= base_url('journal_entry/publication_bikri_list'); ?>"> প্রকাশনা বিক্রি </a>
                         </li>
                         <li class="start <?= backend_activate_menu_method('publication_bikri_acc_list') ?>">
-                           <a href="<?= base_url('journal_entry/publication_bikri_acc_list'); ?>"> অ্যাকাউন্ট তালিকা </a>
+                           <a href="<?= base_url('journal_entry/publication_bikri_acc_list'); ?>"> হিসাব শাখা স্থানান্তর </a>
                         </li>
                         <li class="start <?= backend_activate_menu_method('publication_entry') ?>">
                            <a href="<?= base_url('journal_entry/publication_entry'); ?>"> প্রকাশনা ডিজপোজাল </a>
@@ -508,7 +543,7 @@
                   </li>
                <?php } ?>
                <!-- hostel registration -->
-               <?php //} ?>
+               <?php } ?>
                <!-- বাজেট entry end -->
 
                <!-- এনআইএলজি সেটিংস cc-->
@@ -678,37 +713,43 @@
                <?php } ?>
                <!-- all / general report -->
 
-               <!-- হিসাব বিভাগ Account entry start -->
-               <!-- //  not live the module yet -->
-               <?php //if ($this->ion_auth->in_group(array('demo'))) { ?>
+               <!-- হিসাব বিভাগ Acc start -->
+               <?php if ($this->ion_auth->in_group(array('demo'))) { ?>  <!-- //  not live the module yet -->
                <?php if ($this->ion_auth->in_group(array('acc'))) { ?>
                   <!-- pension registration -->
                   <li class="start <?= backend_activate_menu_class('journal_entry') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব মডিউল</span> <span class="selected"></span>
-                  <?php echo '<span class="badge badge-danger pull-right">' . eng2bng($rev_ntfy + $office_ntfy + $rev_ntfy_add) . '</span>'; ?>
+                  <?php $acd = $rev_ntfy + $train_notify + $office_ntfy;
+                  if ($acd > 0) {
+                     echo '<span class="badge badge-danger pull-right">' . eng2bng($acd) . '</span>';
+                  } ?>
 
                   <span class="badge badge-danger pull-right"></span>
                   <span class="arrow"></span> </a>
                      <ul class="sub-menu">
+                        <li class="start <?= backend_activate_menu_method('dpt_summary_rev') ?>">
+                           <a href="<?= base_url('budgets/dpt_summary_rev'); ?>">বাজেট চাহিদাপত্র </a>
+                        </li>
                         <li class="start <?= backend_activate_menu_method('dpt_summary') ?>">
-                           <a href="<?= base_url('budgets/dpt_summary'); ?>">বাজেট সারসংক্ষেপ
+                           <a href="<?= base_url('budgets/dpt_summary'); ?>">বাজেট চাহিদাপত্র সারসংক্ষেপ
                               <?php if ($rev_ntfy > 0) {
                                  echo '<span class="badge badge-danger pull-right" style="margin-right:15px;">' . eng2bng($rev_ntfy) . '</span>';
                               } ?>
                            </a>
                         </li>
-                        <li class="start <?= backend_activate_menu_method('dpt_summary_rev') ?>">
-                           <a href="<?= base_url('budgets/dpt_summary_rev'); ?>">রাজস্ব বাজেট এন্ট্রি
-                              <?php if ($rev_ntfy_add > 0) {
-                                 echo '<span class="badge badge-danger pull-right" style="margin-right:15px;">' . eng2bng($rev_ntfy_add) . '</span>';
-                              } ?>
+                        <li class="start <?= backend_activate_menu_method('budget_field') ?>">
+                           <a href="<?= base_url('budgets/budget_field'); ?>">প্রশিক্ষন বাজেট
+                           <?php if ($office_ntfy > 0) {
+                              echo '<span class="badge badge-danger pull-right" style="margin-right:15px;">' . eng2bng($office_ntfy) . '</span>';
+                           } ?>
                            </a>
                         </li>
-                        <li class="start <?= backend_activate_menu_method('budget_field') ?>">
-                           <a href="<?= base_url('budgets/budget_field'); ?>">প্রশিক্ষণ বাজেট তৈরি
-                              <?php if ($office_ntfy > 0) {
-                                 echo '<span class="badge badge-danger pull-right" style="margin-right:15px;">' . eng2bng($office_ntfy) . '</span>';
-                              } ?>
-                           </a> </li>
+                        <li class="start <?= backend_activate_menu_method('dpt_summary_training') ?>">
+                           <a href="<?= base_url('budgets/dpt_summary_training'); ?>">প্রশিক্ষণ বাজেট সারসংক্ষেপ
+                           <?php if ($train_notify > 0) {
+                              echo '<span class="badge badge-danger pull-right" style="margin-right:15px;">' . eng2bng($train_notify) . '</span>';
+                           } ?>
+                           </a>
+                        </li>
                         <li class="start <?= backend_activate_menu_method('cheque_entry') ?>">
                            <a href="<?= base_url('journal_entry/cheque_entry'); ?>"> চেক রেজিস্টার</a>
                         </li>
@@ -730,9 +771,6 @@
                         <li class="start <?= backend_activate_menu_method('pension_emp') ?>">
                            <a href="<?= base_url('journal_entry/pension_emp'); ?>"> পেনশন কর্মকর্তা/কর্মচারী তালিকা </a>
                         </li>
-                        <!-- <li class="start <?= backend_activate_menu_method('hostel_entry') ?>">
-                           <a href="<?= base_url('journal_entry/hostel_entry'); ?>"> হোস্টেল তালিকা </a>
-                        </li> -->
                         <li class="start <?= backend_activate_menu_method('publication_bikri_list') ?>">
                            <a href="<?= base_url('journal_entry/publication_bikri_acc_list'); ?>"> প্রকাশনা তালিকা </a>
                         </li>
@@ -743,11 +781,11 @@
                   </li>
                   <!-- pension registration -->
                <?php }  ?>
-               <?php //}  ?>
+               <?php }  ?>
                <!-- হিসাব বিভাগ Account entry end -->
 
                <!-- হিসাব সেটিংস -->
-               <?php //if ($this->ion_auth->in_group(array('demo'))) { ?>
+               <?php if ($this->ion_auth->in_group(array('demo'))) { ?>
                <?php if ($this->ion_auth->in_group(array('admin','nilg','acc', 'bli', 'bho'))) { ?>
                   <li class="start <?= backend_activate_menu_class('nilg_setting') ?> <?= backend_activate_menu_class('budget_head') ?> <?= backend_activate_menu_class('budget_sub_head') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব সেটিংস</span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
@@ -776,7 +814,7 @@
                      </ul>
                   </li>
                <?php } ?>
-               <?php //} ?>
+               <?php } ?>
                <!-- হিসাব সেটিংস -->
 
                <!-- এনআইএলজি সেটিংস -->

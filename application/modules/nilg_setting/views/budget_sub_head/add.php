@@ -12,7 +12,7 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right">
-                            <a href="<?=base_url('nilg_setting/budget_head')?>" class="btn btn-primary btn-xs btn-mini">
+                            <a href="<?=base_url('nilg_setting/budget_sub_head')?>" class="btn btn-primary btn-xs btn-mini">
                                 তালিকা</a>
                         </div>
                     </div>
@@ -61,32 +61,33 @@
                         </div>
                         <br>
                         <div class="row form-row">
-                            <div class="col-md-2">
+                            <!-- <div class="col-md-2">
                                 <label class="form-label">পূর্ববর্তী বরাদ্দ <span class="required">*</span></label>
-                                <input name="prev_amt" type="number" class="form-control input-sm" required >
-                            </div>
-                            <div class="col-md-2">
+                            </div> -->
+                            <input value="0" name="prev_amt" type="hidden" class="form-control input-sm" required >
+                            <!-- <div class="col-md-2">
                                 <label class="form-label">বরাদ্দ পরিমান <span class="required">*</span></label>
                                 <input name="budget_amt" type="number" class="form-control input-sm" required >
-                            </div>
-                            <div class="col-md-2">
+                            </div> -->
+                            <input value="0" name="budget_amt" type="hidden" class="form-control input-sm" required >
+                            <div class="col-md-3">
                                 <label class="form-label">পরিমান <span class="required">*</span></label>
                                 <input name="amount" type="number" class="form-control input-sm" required >
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <label class="form-label">ভ্যাট <span class="required">*</span></label>
                                 <input name="vat" type="" class="form-control input-sm" placeholder="ভ্যাট"
                                     value="<?=set_value('vat')?>" >
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <label class="form-label">আইটি কর</label>
                                 <input name="it_kor" type="number" class="form-control input-sm">
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                                 <label class="form-label">স্ট্যাটাস <span class="required">*</span></label>
-                                <select class="form-control input-sm">
+                                <select name="status" class="form-control input-sm">
                                     <option value="1">সক্রিয়</option>
-                                    <option value="0">অসক্রিয়</option>
+                                    <option value="2">অসক্রিয়</option>
                                 </select>
                             </div>
                         </div>

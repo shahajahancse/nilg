@@ -195,7 +195,7 @@
 
                                             <div class="pull-right" style='padding: 0px 15px'>
                                                 <input type="submit" name="save" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
-                                                <input type="submit" name="submit" value="ফরওয়ার্ড করুন" class="btn btn-primary btn-cons">
+                                                <!-- <input type="submit" name="submit" value="ফরওয়ার্ড করুন" class="btn btn-primary btn-cons"> -->
                                             </div>
                                         </div>
                                     </div>

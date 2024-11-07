@@ -121,7 +121,7 @@
                                             <?php if($row->status==1){
                                                 echo '<span class="label label-info">Draft </span>';
                                             }elseif($row->status==2){
-                                                echo '<span class="label label-warning">ডিপার্টমেন্ট স্যার </span>';
+                                                echo '<span class="label label-warning">on process </span>';
                                             }elseif($row->status==3){
                                                 echo '<span class="label label-primary">Department Approve </span>';
                                             }elseif($row->status==4){
@@ -150,9 +150,7 @@
                                                     <li>
                                                         <a href="<?php echo base_url('budgets/training_budgets_clone/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> ক্লোন করুন </a>
                                                     </li>
-                                                            <!-- <li><a id="modalId" data-toggle="modal" data-target="#myModal"
-                                                            data-id="<?=encrypt_url($row->id) ?>" href=""><i
-                                                                class="fa fa-user"></i> রিভিও</a></li> -->
+
                                                     <?php if ($row->status == 1) { ?>
                                                     <li>
                                                         <a href="<?php echo base_url('budgets/training_budget_forward/'.encrypt_url($row->id))?>"><i class="fa fa-pencil-square"></i> ফরওয়ার্ড করুন
@@ -164,6 +162,11 @@
                                                             target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট করুন
                                                         </a>
                                                     </li>
+                                                    <?php if (in_array($row->status,[1,2]) && $this->ion_auth->in_group(array('admin','ad'))) { ?>
+                                                        <li><a href="<?php echo base_url('budgets/training_budget_delete/' . encrypt_url($row->id)) ?>"><i class="fa fa-hand-o-right"></i> ডিলিট করুন </a></li>
+                                                    <?php } ?>
+
+
                                                 </ul>
                                             </div>
                                         </td>

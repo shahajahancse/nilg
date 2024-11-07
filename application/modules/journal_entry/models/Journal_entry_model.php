@@ -218,6 +218,7 @@ class Journal_entry_model extends CI_Model {
                 'medical_amt' => $value->amount,
                 'festival' => $festival,
                 'bvata' => $bvata,
+                'bank_type' => $value->bank_type,
                 'total_amt' => $value->amount + $value->nit_amt,
                 'created_by' => $this->data['userDetails']->id,
             );

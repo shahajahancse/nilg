@@ -129,7 +129,7 @@
 
         }
         .text-shadow{
-            background: #c7c7c7;
+            background: #e4e7e9;
         }
     </style>
 </head>
@@ -156,80 +156,83 @@
 
     <div class="priview-body content-div">
 
+        <style type="text/css">
+            #appRowDiv td {
+                padding: 5px !important;
+                border-color: #ccc;
+            }
+            .form-row input, .form-row select, .form-row textarea, .form-row select2 {
+                margin-bottom: 0px !important;
+            }
 
-            <style type="text/css">
-                #appRowDiv td {
-                    padding: 5px !important;
-                    border-color: #ccc;
-                }
-                .form-row input, .form-row select, .form-row textarea, .form-row select2 {
-                    margin-bottom: 0px !important;
-                }
+            #appRowDiv th {
+                padding: 5px;
+                text-align: left;
+                border-color: #ccc;
+                color: black;
+            }
+        </style>
 
-                #appRowDiv th {
-                    padding: 5px;
-                    text-align: left;
-                    border-color: #ccc;
-                    color: black;
-                }
-            </style>
-
-            <div class=" table-responsive">
-                <table class="table"  border="1" cellspacing="0"  id="appRowDiv">
-                    <thead>
-                        <tr class="text-shadow">
-                            <th width="">নং</th>
-                            <th width="">কোর্স নাম</th>
-                            <th width="">প্রশিক্ষণার্থীর ধরন</th>
-                            <th width="">মেয়াদ</th>
-                            <th width="">প্রশিক্ষণার্থী</th>
-                            <th width="">ব্যাচ সংখ্যা</th>
-                            <th width="">মোট প্রশিক্ষণার্থী</th>
-                            <th width="">প্রকল্পিত বায়</th>
-                            <th width="">স্থান</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody">
-                    <?php $total = 0; foreach ($summary as $key => $data) { ?>
-                        <tr class="text-shadow">
-                            <th style="text-align:center"><?= eng2bng($key + 1) ?></th>
-                            <th colspan="8"><?= $data->office ?></th>
-                        </tr>
-                        <?php
-                            $this->db->select('q.*, course.course_title');
-                            $this->db->from('budget_nilg_sub_details as q');
-                            $this->db->join('course', 'q.head_sub_id = course.id', 'left');
-                            $this->db->where('q.rev_sum_details', $data->id);
-                            $subs = $this->db->get()->result();
-                            // dd($subs);
-                        ?>
-                        <?php foreach ($subs as $r => $sub) { ?>
-                        <tr>
-                            <td style="text-align:center"><?= eng2bng($key + 1) .'.'. eng2bng($r + 1) ?></td>
-                            <td style="font-size:12px; text-align:left"><?= $sub->course_title ?></td>
-                            <td style="font-size:12px; text-align:left"><?= $sub->trainee_type ?></td>
-                            <td><?= eng2bng($sub->days) ?></td>
-                            <td><?= eng2bng($sub->participants) ?></td>
-                            <td><?= eng2bng($sub->batch) ?></td>
-                            <td><?= eng2bng($sub->total_participants) ?></td>
-                            <td style="text-align:right"><?= eng2bng($sub->amount) ?></td>
-                            <td><?= $sub->training_area ? $sub->training_area : '-' ?></td>
-                        </tr>
-                        <?php
-                            $total += $sub->amount;
-                    } ?>
-                    <?php } ?>
-
-                    </tbody>
-                    <tfoot>
-                        <tr class="text-shadow">
-                            <th colspan="7" style="text-align:right">সর্বমোটঃ</th>
-                            <th colspan="1" style="text-align:right"><?= eng2bng($total) ?></th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                </table>
+        <div class=" table-responsive">
+            <table class="table"  border="1" cellspacing="0"  id="appRowDiv">
+                <thead>
+                    <tr class="text-shadow">
+                        <th width="">নং</th>
+                        <th width="">কোর্স নাম</th>
+                        <th width="">প্রশিক্ষণার্থীর ধরন</th>
+                        <th width="">মেয়াদ</th>
+                        <th width="">প্রশিক্ষণার্থী</th>
+                        <th width="">ব্যাচ সংখ্যা</th>
+                        <th width="">মোট প্রশিক্ষণার্থী</th>
+                        <th width="">প্রকল্পিত বায়</th>
+                        <th width="">স্থান</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                <?php $total = 0; foreach ($summary as $key => $data) { ?>
+                    <tr class="text-shadow">
+                        <th style="text-align:center"><?= eng2bng($key + 1) ?></th>
+                        <th colspan="8"><?= $data->office ?></th>
+                    </tr>
+                    <?php
+                        $this->db->select('q.*, course.course_title');
+                        $this->db->from('budget_nilg_sub_details as q');
+                        $this->db->join('course', 'q.head_sub_id = course.id', 'left');
+                        $this->db->where('q.rev_sum_details', $data->id);
+                        $subs = $this->db->get()->result();
+                        // dd($subs);
+                    ?>
+                    <?php foreach ($subs as $r => $sub) { ?>
+                    <tr>
+                        <td style="text-align:center"><?= eng2bng($key + 1) .'.'. eng2bng($r + 1) ?></td>
+                        <td style="font-size:12px; text-align:left"><?= $sub->course_title ?></td>
+                        <td style="font-size:12px; text-align:left"><?= $sub->trainee_type ?></td>
+                        <td><?= eng2bng($sub->days) ?></td>
+                        <td><?= eng2bng($sub->participants) ?></td>
+                        <td><?= eng2bng($sub->batch) ?></td>
+                        <td><?= eng2bng($sub->total_participants) ?></td>
+                        <td style="text-align:right"><?= eng2bng($sub->amount) ?></td>
+                        <td><?= $sub->training_area ? $sub->training_area : '-' ?></td>
+                    </tr>
+                    <?php
+                        $total += $sub->amount;
+                } ?>
+                <?php } ?>
+                </tbody>
+                <tfoot>
+                    <tr class="text-shadow">
+                        <th colspan="7" style="text-align:right">সর্বমোটঃ</th>
+                        <th colspan="1" style="text-align:right"><?= eng2bng($total) ?></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+            <br><br>
+            <div>
+                <p><strong>নোট</strong></p>
+                <span><?= $info->description ?></span>
             </div>
+        </div>
     </div>
 </body>
 

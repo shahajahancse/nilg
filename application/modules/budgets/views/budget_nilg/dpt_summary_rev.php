@@ -64,42 +64,28 @@
                             <table class="table table-hover table-condensed data_table mddd" border="0">
                                 <thead>
                                     <tr>
-                                        <th style="width: 10% !important"> ক্রম </th>
-                                        <th>তারিখ</th>
-                                        <?php if (!$this->ion_auth->in_group(array('ad'))) { ?>
+                                        <th style=""> ক্রম </th>
+                                        <th>নাম</th>
                                         <th>বিভাগ</th>
-                                        <?php } ?>
+                                        <th>তারিখ</th>
                                         <th>অর্থবছর</th>
                                         <th>পরিমাণ</th>
                                         <!-- <th>রাজস্ব পরিমাণ</th> -->
                                         <th>স্ট্যাটাস</th>
-                                        <th style="text-align: right;">অ্যাকশন</th>
+                                        <th style="">অ্যাকশন</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php
-
-                                    $sl=0;
-
-                                    foreach ($summary as $row): ?>
-                                        <?php if ($row->status ==8) {
-                                        }else{
-                                            continue;
-                                        }
-                                        $sl=$sl+1;
-
-                                        ?>
-
+                                    <?php foreach ($summary as $key => $row): ?>
                                         <tr >
-                                            <td style=""><?= eng2bng($sl); ?></td>
-                                            <td class="v-align-middle"><?= date_bangla_calender_format($row->created_at); ?></td>
-                                            <?php if (!$this->ion_auth->in_group(array('ad'))) { ?>
-                                            <td class="v-align-middle"><?= $row->dept_name; ?></td>
-                                            <?php } ?>
-                                            <td class="v-align-middle"><?= $row->session_name; ?></td>
-                                            <td class="v-align-middle"><?= eng2bng($row->amount); ?></td>
-                                            <!-- <td class="v-align-middle"><?= eng2bng($row->revenue_amt); ?></td> -->
-                                            <td class="v-align-middle">
+                                            <td style=""><?= eng2bng($key + 1); ?></td>
+                                            <td class=""><?= $row->name_bn; ?></td>
+                                            <td class=""><?= $row->dept_name; ?></td>
+                                            <td class=""><?= date_bangla_calender_format($row->created_at); ?></td>
+                                            <td class=""><?= eng2bng($row->session_name); ?></td>
+                                            <td class=""><?= eng2bng($row->amount); ?></td>
+                                            <!-- <td class=""><?= eng2bng($row->revenue_amt); ?></td> -->
+                                            <td class="">
                                                 <?php if ($row->status == 1) {
                                                     echo '<span class="label label-info">Draft </span>';
                                                 } elseif ($row->status == 2) {

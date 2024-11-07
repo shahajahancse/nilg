@@ -27,15 +27,19 @@ class Budgets_model extends CI_Model {
         if (!empty($type)) {
             $this->db->where_in('bd.type', $type);
         }
-        return $this->db->order_by('bd.id','desc')->get()->result();
+        $data = $this->db->order_by('bd.id','desc')->get()->result();
+        // dd($this->db->last_query());
+        return $data;
     }
 
     public function dpt_summary($limit, $offset, $arr = array(), $dept_id = null, $type = null,  $user_id = null) {
-        $this->db->select('bd.*, bhs.session_name, d.dept_name');
+        // dd($arr);
+        $this->db->select('bd.*, bhs.session_name, d.dept_name, u.name_bn');
         $this->db->from('budget_revenue_summary bd');
         $this->db->join('session_year as bhs', 'bhs.id = bd.fcl_year', 'left');
         $this->db->join('department as d', 'd.id = bd.dept_id', 'left');
-        $this->db->where('bd.soft_delete', 1);
+        $this->db->join('users as u', 'u.id = bd.created_by', 'left');
+        // $this->db->where('bd.soft_delete', 1);
         $this->db->limit($limit);
         $this->db->offset($offset);
         if (!empty($arr)) {
@@ -90,7 +94,7 @@ class Budgets_model extends CI_Model {
       $result['rows'] = $this->db->get()->result();
       // count query
       $this->db->select('COUNT(*) as count');
-      $this->db->from('budget_nilg');
+      $this->db->from('budget_revenue_summary');
       if (!empty($arr)) {
           $this->db->where_in('status', $arr);
       }

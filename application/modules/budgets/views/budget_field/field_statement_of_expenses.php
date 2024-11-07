@@ -61,7 +61,7 @@
                                         <div class="col-md-6">
                                             অফিস নাম: <strong><?=$budget_field->office_name?></strong>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             কোর্স নাম: <strong><?=$budget_field->course_title?></strong>
                                         </div>
                                     </div>
@@ -77,9 +77,9 @@
                                         </div>
                                         <div class="col-md-4">
                                             <input type="hidden" value='<?=$budget_field->amount?>' name="amount">
-                                            সর্বমোট পরিমান: <strong><?=$budget_field->amount?></strong>
+                                            ব্যাচ সংখ্যা: <strong><?=$budget_field->batch_number ?></strong>
                                         </div>
-                                        <input type="hidden" value='<?=$budget_field->amount?>' name="total_obosistho" id="total_obosistho">
+                                        <input type="hidden" value='0' name="total_obosistho" id="total_obosistho">
                                     </div>
                                 </div>
 
@@ -102,64 +102,148 @@
                                         <div class="col-md-12">
                                             <table class="col-md-12" width="100%" border="1"
                                                 style="border:1px solid #a09e9e; margin-top: 10px;" id="appRowDiv">
-                                                <thead>
-                                                    <tr>
-                                                        <th width="3%" >ক্রম</th>
-                                                        <th style="text-align: left;" width="25%">শিরোনাম</th>
-                                                        <th width="10%">বরাদ্দ</th>
-                                                        <th width="12%">প্রকৃত ব্যয় (ভ্যাট, আইটি/উৎস কর ব্যতিত)</th>
-                                                        <th width="10%">*ভ্যাট</th>
-                                                        <th width="10%">*আইটি/উৎস কর</th>
-                                                        <th width="10%">মোট ব্যয়</th>
-                                                        <th width="10%">অবশিষ্ট বরাদ্দ</th>
-                                                        <th width="10%">ভাউচার</th>
+                                                <tr>
+                                                    <th  >ক্রম</th>
+                                                    <th style="text-align: left;">শিরোনাম</th>
+                                                    <th >বরাদ্দ</th>
+                                                    <th >মোট ব্যয়</th>
+                                                    <th colspan="2" >ভ্যাট</th>
+                                                    <th colspan="2" >আইটি/উৎস কর</th>
+                                                    <th >প্রকৃত ব্যয় (ভ্যাট, আইটি/উৎস কর ব্যতিত)</th>
+                                                    <th >অবশিষ্ট বরাদ্দ</th>
+                                                    <th >ভাউচার</th>
+                                                </tr>
+                                                <?php foreach ($results as $key => $value) { ?>
+                                                    <tr class="classThis">
+                                                        <input type="hidden" name="details_id[]" value="<?=$value->id?>" >
+                                                        <input type="hidden" name="head_id[]" value="<?=$value->head_id?>" >
+                                                        <input type="hidden" name="head_obosistho[]" class ="all_obosistho oboshistho_<?=$value->head_id?>" value="0">
+                                                        <input class="head_amt_<?=$value->head_id?>" type="hidden" name="head_amt[]" value="<?=$value->amount?>" >
+                                                        <td colspan=""><?=eng2bng($key + 1)?> </td>
+                                                        <td colspan="8"><?=$value->name_bn?> </td>
                                                     </tr>
-                                                </thead>
-                                                <tbody id="tbody">
-                                                    <?php foreach ($results as $key => $value) { ?>
-                                                        <tr class="classThis">
-                                                            <input type="hidden" name="details_id[]" value="<?=$value->id?>" >
-                                                            <input type="hidden" name="head_id[]" value="<?=$value->head_id?>" >
-                                                            <input type="hidden" name="head_obosistho[]" class ="all_obosistho oboshistho_<?=$value->head_id?>" value="0">
-                                                            <input class="head_amt_<?=$value->head_id?>" type="hidden" name="head_amt[]" value="<?=$value->amount?>" >
-                                                            <td colspan=""><?=eng2bng($key + 1)?> </td>
-                                                            <td colspan="8"><?=$value->name_bn?> </td>
+                                                    <?php
+                                                    $heads = [];
+                                                    if (isset($value->id) && isset($value->head_id)) {
+                                                        $this->db->select('r.*, b.name_bn, b.vat_head, b.it_kar');
+                                                        $this->db->from('budget_field_sub_details as r');
+                                                        $this->db->join('budget_head_sub_training as b', 'b.id = r.head_sub_id');
+                                                        $this->db->where('r.details_id', $value->id)->where('r.head_id', $value->head_id)->where('r.modify_soft_d', 1);
+                                                        $heads = $this->db->get()->result();
+                                                    }
+                                                    ?>
+                                                    <?php foreach ($heads as $r => $head) { ?>
+                                                        <tr class="side_css">
+                                                            <input type="hidden" name="<?=$value->id?>_sub_de_id[]" value="<?=$head->id?>">
+                                                            <td colspan=""><?=eng2bng($key + 1) .'.'. eng2bng($r + 1)?> </td>
+                                                            <td width="fit-content"><?=$head->name_bn?></td>
+
+                                                            <td ><input style="text-align: right; padding-right: 10px !important" class="form-control boraddo" readonly value="<?=$head->total_amt * $budget_field->batch_number ?>" ></td>
+
+                                                            <td><input type="number" value="0"  name="<?=$value->id?>_sub_sp_amt[]" class="form-control sub_sp_amt" onkeyup="calculateAll(this)" ></td>
+
+                                                            <td><input type="number" value="<?=$head->vat_head?>" name="<?=$value->id?>_vat[]" class="vat form-control" readonly ></td>
+                                                            <td><input type="number" value="0" name="<?=$value->id?>_vat_amt[]" class="vat_amt form-control" readonly></td>
+
+                                                            <td><input type="number" value="<?= $head->it_kar ?>" name="<?=$value->id?>_it_kor[]" class="form-control it_kor" readonly></td>
+                                                            <td><input type="number" value="0" name="<?=$value->id?>_it_kor_amt[]" class="form-control it_kor_amt" readonly></td>
+
+                                                            <td><input type="number" value="0" name="<?=$value->id?>_prokrito_bay[]" class="form-control prokrito_bay"  readonly></td>
+
+                                                            <td><input type="number" value="0" name="<?=$value->id?>_balance[]" class="form-control obosistho" data-head_id="<?=$value->head_id?>"  readonly></td>
+                                                            <td><input type="file" value="" class="form-control"></td>
                                                         </tr>
-                                                        <?php
-                                                        $heads = [];
-                                                        if (isset($value->id) && isset($value->head_id)) {
-                                                            $this->db->select('r.*, b.name_bn, b.vat_head, b.it_kar');
-                                                            $this->db->from('budget_field_sub_details as r');
-                                                            $this->db->join('budget_head_sub_training as b', 'b.id = r.head_sub_id');
-                                                            $this->db->where('r.details_id', $value->id)->where('r.head_id', $value->head_id)->where('r.modify_soft_d', 1);
-                                                            $heads = $this->db->get()->result();
-                                                        }
-                                                        ?>
-                                                        <?php foreach ($heads as $r => $head) {
-                                                            ?>
-                                                            <tr class="side_css">
-                                                                <input type="hidden" name="<?=$value->id?>_sub_de_id[]" value="<?=$head->id?>">
-                                                                <input type="hidden" name="<?=$value->id?>_head_sub_amt[]" value="<?=$head->amount?>">
-                                                                <td colspan=""><?=eng2bng($key + 1) .'.'. eng2bng($r + 1)?> </td>
-                                                                <td width="fit-content"><?=$head->name_bn?></td>
-
-                                                                <td><input class="form-control boraddo" readonly value="<?=$head->amount?>" ></td>
-
-                                                                <td><input type="number" name="<?=$value->id?>_sub_sp_amt[]" class="form-control prokrito_bay" max="<?=$head->amount?>" onkeyup=calculateAll(this) ></td>
-
-                                                                <td><input type="number" value="<?=$head->vat_head?>" name="<?=$value->id?>_vat[]" class="vat_p form-control" onkeyup=calculateAll(this)></td>
-
-                                                                <td><input type="number" value="<?= $head->it_kar ?>" name="<?=$value->id?>_it_kor[]" class="form-control it_kor" onkeyup=calculateAll(this)></td>
-
-                                                                <td><input type="number" value="0" name="<?=$value->id?>_subTotal[]" class="form-control mot_bay"  readonly></td>
-                                                                <td><input type="number" value="0" name="<?=$value->id?>_balance[]" class="form-control obosistho" data-head_id="<?=$value->head_id?>"  readonly></td>
-                                                                <td><input type="file" value="" class="form-control"></td>
-                                                            </tr>
-                                                        <?php } ?>
                                                     <?php } ?>
-                                                </tbody>
+                                                <?php } ?>
+                                                <tr class="side_css">
+                                                    <th colspan="3" style="text-align: right;"><?=$budget_field->amount * $budget_field->batch_number ?></th>
+
+                                                    <th> <input type="number" id="sub_sp_amt_total_amt" class="form-control" readonly name="sp_total_amt" value="0" ></th>
+
+                                                    <th></th>
+
+                                                    <th> <input type="number" id="vat_amt_total_amt" class="form-control" readonly name="vat_total_amt" value="0" ></th>
+
+                                                    <th></th>
+
+                                                    <th> <input type="number" id="it_kor_amt_total_amt" class="form-control" readonly name="it_total_amt" value="0" ></th>
+
+                                                    <th> <input type="number" id="prokrito_bay_total_amt" class="form-control" readonly name="prokrito_bay_total" value="0" ></th>
+
+                                                    <th> <input type="number" id="obosistho_total_amt" class="form-control" readonly name="obosistho_total_amt" value="0" ></th>
+                                                    <th></th>
+                                                </tr>
                                             </table>
 
+                                            <div style="clear:both"></div>
+                                            <div class="col-md-12" style="margin-top: 20px; padding: 0px;">
+                                                <div class="row form-row">
+                                                    <div class="col-md-2">
+                                                        <label for=""> ভ্যাট </label>
+                                                        <input type="number" class="form-control" readonly id="final_vat" >
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label for=""> চালান নং </label>
+                                                        <input type="text" class="form-control" name="vat_chalan_no">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label for=""> তারিখ </label>
+                                                        <input type="text" class="datetime form-control" name="vat_chalan_date">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for=""> ব্যাংক </label>
+                                                        <input type="text" class="form-control" name="vat_chalan_bank">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label for=""> সংযুক্তি </label>
+                                                        <input type="file" class="form-control" name="vat_chalan_attach">
+                                                    </div>
+                                                </div>
+                                                <div class="row form-row" style="margin-top: 10px; margin-bottom: 10px;">
+                                                    <div class="col-md-2">
+                                                        <label for=""> আইটি </label>
+                                                        <input type="number" class="form-control" readonly id="final_it_kar" >
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label for=""> চালান নং </label>
+                                                        <input type="text" class="form-control" name="it_chalan_no">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label for=""> তারিখ </label>
+                                                        <input type="text" class="datetime form-control" name="it_chalan_date">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for=""> ব্যাংক </label>
+                                                        <input type="text" class="form-control" name="it_chalan_bank">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label for=""> সংযুক্তি </label>
+                                                        <input type="file" class="form-control" name="it_chalan_attach">
+                                                    </div>
+                                                </div>
+                                                <div class="row form-row">
+                                                    <div class="col-md-2">
+                                                        <label for=""> অব্যয়িত অর্থ </label>
+                                                        <input type="number" class="form-control" readonly id="final_obosisto" >
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label for=""> চালান নং </label>
+                                                        <input type="text" class="form-control" name="obs_chalan_no">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label for=""> তারিখ </label>
+                                                        <input type="text" class="datetime form-control" name="obs_chalan_date">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label for=""> ব্যাংক </label>
+                                                        <input type="text" class="form-control" name="obs_chalan_bank">
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <label for=""> সংযুক্তি </label>
+                                                        <input type="file" class="form-control" name="obs_chalan_attach">
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="col-md-12" style="margin-top: 20px; padding: 0px;">
                                                 <div class="form-group margin_top_10">
                                                     <label for=""> বিবরণ:</label>
@@ -217,6 +301,19 @@
             total += parseInt($(this).val());
         })
         $("#total_amount").val(total);
+
+        $id_data=['sub_sp_amt','vat_amt','it_kor_amt','prokrito_bay','obosistho'];
+        $.each($id_data, function(key, value) {
+            var total = 0;
+            $("."+value).each(function() {
+                total += parseInt($(this).val());
+            })
+            $("#"+value+"_total_amt").val(total);
+        })
+
+        $('#final_vat').val($('#vat_amt_total_amt').val())
+        $('#final_it_kar').val($('#it_kor_amt_total_amt').val())
+        $('#final_obosisto').val($('#obosistho_total_amt').val())
     }
 </script>
 <script>
@@ -260,38 +357,49 @@
 <script>
     function calculateAll(el) {
         var boraddo =$(el).closest("tr").find('.boraddo');
-        var prokritoBay = $(el).closest("tr").find('.prokrito_bay');
-        var vat = $(el).closest("tr").find('.vat_p');
+        var sub_sp_amt = $(el).closest("tr").find('.sub_sp_amt');
+        var vat = $(el).closest("tr").find('.vat');
+        var vat_amt = $(el).closest("tr").find('.vat_amt');
         var itKor = $(el).closest("tr").find('.it_kor');
-        var motBay = $(el).closest("tr").find('.mot_bay');
+        var itKor_amt = $(el).closest("tr").find('.it_kor_amt');
+        var prokritoBay = $(el).closest("tr").find('.prokrito_bay');
         var obosistho = $(el).closest("tr").find('.obosistho');
 
-        if (prokritoBay.val() > 0) {
+        if (sub_sp_amt.val() > 0) {
             var vatTaka = 0;
             if(vat.val() > 0){
-                var vatTaka = parseFloat(prokritoBay.val()) * (vat.val() / 100);
+                var vatTaka = parseFloat(sub_sp_amt.val()) * (vat.val() / 100);
+                vat_amt.val(vatTaka);
             }else{
+                vat_amt.val(0);
                 var vatTaka = 0;
             }
 
             var itTaka = 0;
             if(itKor.val() > 0){
-                var itTaka = parseFloat(prokritoBay.val()) * (itKor.val() / 100);
+                var itTaka = parseFloat(sub_sp_amt.val()) * (itKor.val() / 100);
+                itKor_amt.val(itTaka);
             }else{
+                itKor_amt.val(0);
                 var itTaka = 0;
             }
-            const motBayTaka = parseFloat(prokritoBay.val()) + vatTaka + itTaka;
+            const motBayTaka = parseFloat(sub_sp_amt.val());
             if ((boraddo.val() - motBayTaka).toFixed(2) < 0) {
+                sub_sp_amt.val('');
+                vat_amt.val(0);
+                itKor_amt.val(0);
                 prokritoBay.val(0);
                 alert('আপনি বরাদ্দ টাকার বেশি এন্ট্রি দিতে পারবেন না');
-                 motBay.val(0);
                 obosistho.val(boraddo.val());
                 return false;
+            } else {
+                obosistho.val((boraddo.val() - parseFloat(sub_sp_amt.val())).toFixed(2));
+                const p_vay = parseFloat(sub_sp_amt.val() - vatTaka - itTaka);
+                prokritoBay.val(p_vay.toFixed(2));
             }
-            motBay.val(motBayTaka.toFixed(2));
-            obosistho.val((boraddo.val() - motBayTaka).toFixed(2));
         } else {
-            motBay.val(0);
+            sub_sp_amt.val('');
+            prokritoBay.val(0);
             obosistho.val(boraddo.val());
         }
 
@@ -317,7 +425,7 @@
             $('.oboshistho_'+head_id).val(notun_taka)
         })
         $('#total_obosistho').val(total_obosistho);
-
+        calculateTotal()
     }
 </script>
 

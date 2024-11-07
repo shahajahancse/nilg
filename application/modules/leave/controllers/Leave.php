@@ -257,14 +257,16 @@ class Leave extends Backend_Controller {
         $this->data['leave_type'] = $this->Leave_model->get_leave_type();
         $this->data['info'] = $this->Leave_model->get_user('users',$this->session->userdata('user_id'));
         $results = $this->Leave_model->get_yearly_leave_count($userDetails->id);
-        $this->data['users'] = $this->Common_model->get_nilg_employee($this->data['info']->crrnt_dept_id, $this->data['info']->employee_type);
+        $this->data['users'] = $this->Common_model->get_nilg_employee($this->data['info']->crrnt_dept_id, 2);
         $this->data['bikolpo'] = $this->Common_model->get_nilg_employee(null, $this->data['info']->employee_type);
+
         if ($this->data['info']->employee_type == 3) {
             $rs = $this->db->select('id, name_bn')->where('office_type', 7)->where_in('crrnt_desig_id', array(116,244))->get('users')->result();
             foreach ($rs as $key => $r) {
                 $this->data['users'][$r->id] = $r->name_bn;
             }
         }
+
         // View
         $this->data['meta_title'] = 'ছুটি যুক্ত করুন';
         $this->data['total_leave'] = $results['total_leave'];

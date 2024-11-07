@@ -73,6 +73,7 @@
                                         <fieldset class="col-md-12" style="background: #fff !important; top:30px;">
                                             <legend style="margin-bottom: 10px;">রিপোর্ট বাটন</legend>
                                             <button type="submit" name="gpf" value="gpf_sheet" onclick="return validFunc()" style="padding: 5px 8px !important;" class="btn btn-info"> রিপোর্ট </button>
+                                            <button type="submit" name="gpf" value="gpf_summary" onclick="return validFunc()" style="padding: 5px 8px !important;" class="btn btn-info">সামারি রিপোর্ট </button>
                                         </fieldset>
                                     </div>
                                 </div>

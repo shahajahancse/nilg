@@ -190,29 +190,30 @@ class Budget_sub_head extends Backend_Controller {
         $this->form_validation->set_rules('name_bn', 'নাম (বাংলা)', 'required|trim');
         $this->form_validation->set_rules('bd_code', 'বিঃডিঃ কোড', 'required|trim');
         $this->form_validation->set_rules('head_id', 'বাজেট হেড', 'required|trim');
-        $this->form_validation->set_rules('prev_amt', 'পূর্ববর্তী বরাদ্দ', 'required|trim');
-        $this->form_validation->set_rules('budget_amt', 'বরাদ্দ পরিমান', 'required|trim');
+        /* $this->form_validation->set_rules('prev_amt', 'পূর্ববর্তী বরাদ্দ', 'required|trim');
+        $this->form_validation->set_rules('budget_amt', 'বরাদ্দ পরিমান', 'required|trim'); */
         $this->form_validation->set_rules('amount', 'পরিমান', 'required|trim');
         $this->form_validation->set_rules('vat', 'ভ্যাট', 'required');
 
         // Insert Data
         if ($this->form_validation->run() == true){
             $form_data = array(
-                'name_en'    => $this->input->post('name_en'),
-                'name_bn'    => $this->input->post('name_bn'),
-                'head_id'    => $this->input->post('head_id'),
-                'bd_code'    => $this->input->post('bd_code'),
-                'prev_amt'   => $this->input->post('prev_amt'),
-                'budget_amt' => $this->input->post('budget_amt'),
-                'amount'     => $this->input->post('amount'),
-                'vat_head'    => $this->input->post('vat'),
-                'it_kor'     => $this->input->post('it_kor'),
-                'status'     => $this->input->post('status'),
+                'name_en'    => $this->input->post('name_en') ?: '',
+                'name_bn'    => $this->input->post('name_bn') ?: '',
+                'head_id'    => $this->input->post('head_id') ?: '',
+                'bd_code'    => $this->input->post('bd_code') ?: '',
+                'amount'     => $this->input->post('amount') ?: 0,
+                'vat_head'    => $this->input->post('vat') ?: 0,
+                'it_kor'     => $this->input->post('it_kor') ?: 0,
+                'status'     => $this->input->post('status') ?: 1,
             );
-            // print_r($form_data); exit;
-            if($this->Common_model->save('budget_head_sub', $form_data)){
+
+            try {
+                $this->Common_model->save('budget_head_sub', $form_data);
                 $this->session->set_flashdata('success', 'বাজেট সাব হেড সংরক্ষণ করা হয়েছে');
                 redirect('nilg_setting/budget_sub_head');
+            } catch (Exception $e) {
+                log_message('error', 'Error saving budget head sub: '. $e->getMessage());
             }
         }
         $this->data['budget_heads'] = $this->Budget_head_model->get_data();
@@ -226,8 +227,8 @@ class Budget_sub_head extends Backend_Controller {
         $this->form_validation->set_rules('name_bn', 'নাম (বাংলা)', 'required|trim');
         $this->form_validation->set_rules('bd_code', 'বিঃডিঃ কোড', 'required|trim');
         $this->form_validation->set_rules('head_id', 'বাজেট হেড', 'required|trim');
-        $this->form_validation->set_rules('prev_amt', 'পূর্ববর্তী বরাদ্দ', 'required|trim');
-        $this->form_validation->set_rules('budget_amt', 'বরাদ্দ পরিমান', 'required|trim');
+        /* $this->form_validation->set_rules('prev_amt', 'পূর্ববর্তী বরাদ্দ', 'required|trim');
+        $this->form_validation->set_rules('budget_amt', 'বরাদ্দ পরিমান', 'required|trim'); */
         $this->form_validation->set_rules('amount', 'পরিমান', 'required|trim');
         // Insert Data
         if ($this->form_validation->run() == true){
@@ -236,8 +237,6 @@ class Budget_sub_head extends Backend_Controller {
                 'name_bn'    => $this->input->post('name_bn'),
                 'head_id'    => $this->input->post('head_id'),
                 'bd_code'    => $this->input->post('bd_code'),
-                'prev_amt'   => $this->input->post('prev_amt'),
-                'budget_amt' => $this->input->post('budget_amt'),
                 'amount'     => $this->input->post('amount'),
                 'vat_head'   => $this->input->post('vat'),
                 'it_kor'     => $this->input->post('it_kor'),

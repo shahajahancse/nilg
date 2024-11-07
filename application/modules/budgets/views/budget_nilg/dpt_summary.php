@@ -66,9 +66,7 @@
                                     <tr>
                                         <th style="width: 10% !important"> ক্রম </th>
                                         <th>তারিখ</th>
-                                        <?php if (!$this->ion_auth->in_group(array('ad'))) { ?>
                                         <th>বিভাগ</th>
-                                        <?php } ?>
                                         <th>অর্থবছর</th>
                                         <th>পরিমাণ</th>
                                         <!-- <th>রাজস্ব পরিমাণ</th> -->
@@ -78,11 +76,13 @@
                                 </thead>
                                 <tbody>
                                     <?php foreach ($summary as $sl => $row): ?>
-                                        <?php if ($row->status == 2 && $this->ion_auth->in_group(array('dd'))) {
+                                        <?php if (in_array($row->status,[9,10,11,12]) && $this->ion_auth->in_group(array('ad'))) {
                                             $bg = "background: #f1e7e7";
-                                        } elseif ($row->status == 3 && $this->ion_auth->in_group(array('jd'))) {
+                                        } elseif (in_array($row->status,[2,13,14,15]) && $this->ion_auth->in_group(array('dd'))) {
                                             $bg = "background: #f1e7e7";
-                                        } elseif ($row->status == 4 && $this->ion_auth->in_group(array('director'))) {
+                                        } elseif (in_array($row->status,[3,16,17]) && $this->ion_auth->in_group(array('jd'))) {
+                                            $bg = "background: #f1e7e7";
+                                        } elseif (in_array($row->status,[4,18]) && $this->ion_auth->in_group(array('director'))) {
                                             $bg = "background: #f1e7e7";
                                         } elseif ($row->status == 5 && $this->ion_auth->in_group(array('dg'))) {
                                             $bg = "background: #f1e7e7";
@@ -95,31 +95,69 @@
                                         <tr style="<?= $bg ?>">
                                             <td style=""><?= eng2bng($sl + 1); ?></td>
                                             <td class="v-align-middle"><?= date_bangla_calender_format($row->created_at); ?></td>
-                                            <?php if (!$this->ion_auth->in_group(array('ad'))) { ?>
                                             <td class="v-align-middle"><?= $row->dept_name; ?></td>
-                                            <?php } ?>
                                             <td class="v-align-middle"><?= $row->session_name; ?></td>
                                             <td class="v-align-middle"><?= eng2bng($row->amount); ?></td>
-                                            <!-- <td class="v-align-middle"><?= eng2bng($row->revenue_amt); ?></td> -->
+
                                             <td class="v-align-middle">
-                                                <?php if ($row->status == 1) {
-                                                    echo '<span class="label label-info">Draft </span>';
-                                                } elseif ($row->status == 2) {
-                                                    echo '<span class="label label-info"> On Precess </span>';
-                                                } elseif ($row->status == 3) {
-                                                    echo '<span class="label label-primary"> DD Approve </span>';
-                                                } elseif ($row->status == 4) {
-                                                    echo '<span class="label label-primary"> JD Approve </span>';
-                                                } elseif ($row->status == 5) {
-                                                    echo '<span class="label label-primary"> Director Approve </span>';
-                                                } elseif ($row->status == 6) {
-                                                    echo '<span class="label label-primary"> DG Approve </span>';
-                                                } elseif ($row->status == 7) {
-                                                    echo '<span class="label label-primary"> AC Approve </span>';
-                                                } elseif ($row->status == 8) {
-                                                    echo '<span class="label label-primary">Complete </span>';
-                                                } else {
-                                                    echo '<span class="label label-primary">Reject </span>';
+                                                <?php switch ($row->status) {
+                                                    case 1:
+                                                        echo '<span class="label label-info">Draft </span>';
+                                                        break;
+                                                    case 2:
+                                                        echo '<span class="label label-info"> On Precess </span>';
+                                                        break;
+                                                    case 3:
+                                                        echo '<span class="label label-primary"> DD Approve </span>';
+                                                        break;
+                                                    case 4:
+                                                        echo '<span class="label label-primary"> JD Approve </span>';
+                                                        break;
+                                                    case 5:
+                                                        echo '<span class="label label-primary"> Director Approve </span>';
+                                                        break;
+                                                    case 6:
+                                                        echo '<span class="label label-primary"> DG Approve </span>';
+                                                        break;
+                                                    case 7:
+                                                        echo '<span class="label label-primary"> AC Approve </span>';
+                                                        break;
+                                                    case 8:
+                                                        echo '<span class="label label-primary"> Complete </span>';
+                                                        break;
+                                                    case 9:
+                                                        echo '<span class="label label-primary"> Back AD from DD </span>';
+                                                        break;
+                                                    case 10:
+                                                        echo '<span class="label label-primary"> Back AD from JD </span>';
+                                                        break;
+                                                    case 11:
+                                                        echo '<span class="label label-primary"> Back AD from Director </span>';
+                                                        break;
+                                                    case 12:
+                                                        echo '<span class="label label-primary"> Back AD from DG </span>';
+                                                        break;
+                                                    case 13:
+                                                        echo '<span class="label label-primary"> Back DD from JD </span>';
+                                                        break;
+                                                    case 14:
+                                                        echo '<span class="label label-primary"> Back DD from Director </span>';
+                                                        break;
+                                                    case 15:
+                                                        echo '<span class="label label-primary"> Back DD from DG </span>';
+                                                        break;
+                                                    case 16:
+                                                        echo '<span class="label label-primary"> Back JD from Director </span>';
+                                                        break;
+                                                    case 17:
+                                                        echo '<span class="label label-primary"> Back JD from DG </span>';
+                                                        break;
+                                                    case 18:
+                                                        echo '<span class="label label-primary"> Back Director from DG </span>';
+                                                        break;
+                                                    default:
+                                                        echo '<span class="label label-primary"> </span>';
+                                                        break;
                                                 } ?>
                                             </td>
 
@@ -129,8 +167,12 @@
                                                     <button class="btn btn-mini btn-primary dropdown-toggle"
                                                         data-toggle="dropdown"> <span class="caret"></span> </button>
                                                     <ul class="dropdown-menu pull-right">
-                                                        <?php if (in_array($row->status,[1]) && $this->ion_auth->in_group(array('ad'))) { ?>
-                                                            <li><a href="<?php echo base_url('budgets/dpt_summary_details/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> সংশোধন করুন </a></li>
+                                                        <?php if (!$this->ion_auth->in_group(array('acc'))) { ?>
+                                                        <li><a href="<?php echo base_url('budgets/dpt_summary_details/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> সংশোধন করুন </a></li>
+                                                        <?php } ?>
+
+                                                        <!-- ad -->
+                                                        <?php if (in_array($row->status,[1,9,10,11,12]) && $this->ion_auth->in_group(array('ad'))) { ?>
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/2/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু ডি.ডি </a> </li>
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/3/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু জে.ডি </a> </li>
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড টু ডিরেক্টর </a> </li>
@@ -139,48 +181,54 @@
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/1/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক </a> </li>
                                                         <?php } ?>
 
-                                                        <?php if (in_array($row->status,[2]) && $this->ion_auth->in_group(array('dd'))) {?>
+                                                        <!-- dd -->
+                                                        <?php if (in_array($row->status,[2,13,14,15]) && $this->ion_auth->in_group(array('dd'))) {?>
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/3/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড জে.ডি </a> </li>
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড ডিরেক্টর </a> </li>
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড ডি.জি </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/9/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক এ.ডি </a> </li>
                                                         <?php }?>
                                                         <?php if (in_array($row->status,[3]) && $this->ion_auth->in_group(array('dd'))) { ?>
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/2/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক </a> </li>
                                                         <?php } ?>
 
-                                                        <?php if (in_array($row->status,[3]) && $this->ion_auth->in_group(array('jd'))) {?>
+                                                        <!-- jd -->
+                                                        <?php if (in_array($row->status,[3,16,17]) && $this->ion_auth->in_group(array('jd'))) {?>
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড ডিরেক্টর </a> </li>
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড ডি.জি </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/10/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক এ.ডি </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/13/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক ডি.ডি </a> </li>
                                                         <?php }?>
                                                         <?php if (in_array($row->status,[4]) && $this->ion_auth->in_group(array('jd'))) { ?>
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/3/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক </a> </li>
                                                         <?php } ?>
 
-                                                        <?php if (in_array($row->status,[4]) && $this->ion_auth->in_group(array('director'))) {?>
+                                                        <!-- director -->
+                                                        <?php if (in_array($row->status,[4,18]) && $this->ion_auth->in_group(array('director'))) {?>
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড ডি.জি </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/11/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক এ.ডি </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/14/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক ডি.ডি </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/16/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক জে.ডি </a> </li>
                                                         <?php }?>
                                                         <?php if (in_array($row->status,[5]) && $this->ion_auth->in_group(array('director'))) { ?>
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক </a> </li>
                                                         <?php } ?>
 
+                                                        <!-- dg -->
                                                         <?php if (in_array($row->status,[5]) && $this->ion_auth->in_group(array('dg'))) {?>
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/6/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড একাউন্ট </a> </li>
 
-                                                            <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/1/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক এ.ডি </a> </li>
-                                                            <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/2/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক ডি.ডি </a> </li>
-                                                            <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/3/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক জে.ডি </a> </li>
-                                                            <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক ডিরেক্টর </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/12/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক এ.ডি </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/15/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক ডি.ডি </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/17/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক জে.ডি </a> </li>
+                                                            <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/18/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক ডিরেক্টর </a> </li>
                                                         <?php }?>
-                                                        <?php if (in_array($row->status,[6,7,8]) && $this->ion_auth->in_group(array('dg'))) { ?>
+                                                        <?php if (in_array($row->status,[6]) && $this->ion_auth->in_group(array('dg'))) { ?>
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক </a> </li>
                                                         <?php } ?>
 
-                                                        <?php if (in_array($row->status,[6]) && $this->ion_auth->in_group(array('acc'))) {?>
+                                                        <?php if (in_array($row->status,[6,7]) && $this->ion_auth->in_group(array('acc'))) {?>
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/7/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন </a> </li>
-                                                        <?php }?>
-
-                                                        <?php if (in_array($row->status,[7]) && $this->ion_auth->in_group(array('acc'))) {?>
-                                                            <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক ডি.জি </a> </li>
                                                             <li> <a href="<?php echo base_url('budgets/dpt_summary_forward/8/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন টু সমাপ্ত </a> </li>
                                                         <?php }?>
 

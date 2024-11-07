@@ -267,7 +267,7 @@ class Journal_entry extends Backend_Controller
     }
     public function pension_emp_create()
     {
-        $this->form_validation->set_rules('user_id', 'নাম', 'required|trim');
+        $this->form_validation->set_rules('user_id', 'নাম', 'required|trim|callback_check_unique_pen');
         $this->form_validation->set_rules('basic_salary', 'মূল বেতন', 'required|trim');
         $this->form_validation->set_rules('percent', 'বেতন বৃদ্ধি %', 'required|trim');
         $this->form_validation->set_rules('medical_amt', 'চিকিৎসা', 'required|trim');
@@ -303,6 +303,18 @@ class Journal_entry extends Backend_Controller
         $this->data['subview'] = 'pension/pension_emp_create';
         $this->load->view('backend/_layout_main', $this->data);
     }
+    public function check_unique_pen($str = null) {
+        $user_id = $this->input->post('user_id'); // Assuming user ID is passed in the form
+        $this->db->where('user_id', $user_id);
+        $query = $this->db->get('budget_j_pension_emp');
+
+        if ($query->num_rows() > 0) {
+            $this->form_validation->set_message('user_id', 'This Officer already exists.');
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
     public function pension_emp_edit($encid)
     {
         $id = (int) decrypt_url($encid);
@@ -317,7 +329,6 @@ class Journal_entry extends Backend_Controller
         // $user = $this->ion_auth->user()->row();
         if ($this->form_validation->run() == true) {
             $ex = explode(',', trim($this->input->post('medical_amt')));
-            // dd($ex);
             $form_data = array(
                 'user_id' => $this->input->post('user_id'),
                 'receiver' => $this->input->post('receiver'),
@@ -328,7 +339,7 @@ class Journal_entry extends Backend_Controller
                 'percent' => $this->input->post('percent'),
                 'account' => $this->input->post('account'),
                 'bank_type' => $this->input->post('bank_type'),
-
+                'status' => $this->input->post('status'),
                 'acc_address' => $this->input->post('acc_address'),
                 'remark' => $this->input->post('remark'),
             );
@@ -409,6 +420,7 @@ class Journal_entry extends Backend_Controller
     public function pension_report_view()
     {
         $this->load->helper('bangla_converter');
+        $bank_type = $this->input->post('bank_type');
         $date = date("Y-m-01", strtotime($this->input->post('fdate')));
         $sdate = date("Y-m-01", strtotime($this->input->post('sdate')));
         $btn = $this->input->post('pension');
@@ -424,8 +436,12 @@ class Journal_entry extends Backend_Controller
             $this->db->join('users as u', 'u.id = r.user_id', 'left');
             $this->db->join('designations as d', 'd.id = u.crrnt_desig_id', 'left');
             $this->db->where('r.month', $date);
+            $this->db->where('r.status', 1);
             if (!empty($user_id)) {
                 $this->db->where_in('r.user_id', $user_id);
+            }
+            if (!empty($bank_type)) {
+                $this->db->where('r.bank_type', $bank_type);
             }
             $this->data['results'] = $this->db->get()->result();
             // dd($this->data['results']);
@@ -470,6 +486,9 @@ class Journal_entry extends Backend_Controller
             if (!empty($user_id)) {
                 $this->db->where_in('r.user_id', $user_id);
             }
+            if (!empty($bank_type)) {
+                $this->db->where('r.bank_type', $bank_type);
+            }
             $this->data['results'] = $this->db->get()->result();
 
             $this->db->select('SUM(r.nit_salary) as nit_salary')->where('r.month', $date);
@@ -513,6 +532,9 @@ class Journal_entry extends Backend_Controller
             $this->db->where('r.month', $date);
             if (!empty($user_id)) {
                 $this->db->where_in('r.user_id', $user_id);
+            }
+            if (!empty($bank_type)) {
+                $this->db->where('r.bank_type', $bank_type);
             }
             $this->data['results'] = $this->db->get()->result();
 
@@ -560,6 +582,9 @@ class Journal_entry extends Backend_Controller
             if (!empty($user_id)) {
                 $this->db->where_in('r.user_id', $user_id);
             }
+            if (!empty($bank_type)) {
+                $this->db->where('r.bank_type', $bank_type);
+            }
             $this->data['results'] = $this->db->get()->result();
 
             $this->db->select('SUM(r.bvata) as bvata')->where('r.month', $date);
@@ -604,6 +629,9 @@ class Journal_entry extends Backend_Controller
             if (!empty($user_id)) {
                 $this->db->where_in('r.user_id', $user_id);
             }
+            if (!empty($bank_type)) {
+                $this->db->where('r.bank_type', $bank_type);
+            }
             $this->data['results'] = $this->db->get()->result();
 
             $this->db->select('SUM(r.medical_amt) as medical_amt')->where('r.month', $date);
@@ -638,12 +666,7 @@ class Journal_entry extends Backend_Controller
             $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
             $mpdf->WriteHtml($html);
             $mpdf->output();
-
         }
-
-
-
-
     }
     // end budget_j_pension_register
 
@@ -971,7 +994,6 @@ class Journal_entry extends Backend_Controller
         }
         return $prev_bal_interest + $curr_interest + $adv_interest;
     }
-
     public function gpf_form(){
         //Dropdown
         $this->data['info'] = $this->Common_model->get_user_details();
@@ -1020,6 +1042,23 @@ class Journal_entry extends Backend_Controller
             $this->data['headding'] = 'জিপিএফ শিট';
             $html = $this->load->view('gpf/gpf_sheet_print', $this->data, true);
 
+            $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+            $mpdf->WriteHtml($html);
+            $mpdf->output();
+        }
+        if($btn == 'gpf_summary') {
+            $this->db->select('r.*, u.name_bn, d.desig_name,session_year.session_name');
+            $this->db->from('budget_j_gpf_register as r');
+            $this->db->join('users as u', 'u.id = r.user_id', 'left');
+            $this->db->join('designations as d', 'd.id = u.crrnt_desig_id', 'left');
+            $this->db->join('session_year', 'r.fcl_year = session_year.id', 'left');
+            $this->db->where('r.user_id', $user_id);
+            $this->db->where('r.fcl_year', $fcl_year);
+            $this->data['row'] = $this->db->get()->row();
+            // dd($this->data['row']);
+            // Generate PDF
+            $this->data['headding'] = 'জিপিএফ শিট';
+            $html = $this->load->view('gpf/gpf_summary_print', $this->data, true);
 
             $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
             $mpdf->WriteHtml($html);
@@ -1292,6 +1331,7 @@ class Journal_entry extends Backend_Controller
             $session_year = $this->db->order_by('id', 'desc')->get('session_year')->row()->session_name;
             $this->db->trans_start();
             $form_data = array(
+                'name' => $this->input->post('name'),
                 'voucher_no' => $this->input->post('voucher_no'),
                 'amount' => $this->input->post('amount'),
                 'type' => 1,
@@ -1786,7 +1826,85 @@ class Journal_entry extends Backend_Controller
         $html = $this->load->view('publication/publication_preview', $this->data, true);
         echo $html;
     }
+    public function publication_bikri_edit($encid=null){
+        $id = (int) decrypt_url($encid);
+        $this->form_validation->set_rules('book_id[]', 'বই নাম', 'required|trim');
+        $this->form_validation->set_rules('name', 'নাম', 'required|trim');
+        $this->form_validation->set_rules('mobile', 'মোবাইল', 'required|trim');
+        $this->form_validation->set_rules('address', 'ঠিকানা', 'required|trim');
+        $this->form_validation->set_rules('pay_type', 'বিক্রয় ধরণ', 'required|trim');
+        $user = $this->ion_auth->user()->row();
+        if ($this->form_validation->run() == true) {
+            $this->db->trans_start();
+            $form_data = array(
+                'amount' => $this->input->post('total'),
+                'commission' => $this->input->post('total') - $this->input->post('pay_total'),
+                'pay_amount' => $this->input->post('pay_total'),
+                'type' => $this->input->post('type'),
+                'pay_type' => $this->input->post('pay_type'),
+                'name' => $this->input->post('name'),
+                'mobile' => $this->input->post('mobile'),
+                'address' => $this->input->post('address'),
+                'reference' => $this->input->post('reference'),
+                'description' => $this->input->post('description'),
+            );
 
+            if ($this->Common_model->save('budget_j_publication_register', $form_data)) {
+                $insert_id = $this->db->insert_id();
+                $code='BS-PUB-'.$insert_id.''.$key.'-'.$_POST['book_id'][$key].''.time();
+                foreach ($_POST['price'] as $key => $row) {
+                    $type = $_POST['sell_type'][$key];
+
+                    $last_data=$this->db->where('book_id', $_POST['book_id'][$key])->limit(1)->order_by('id', 'desc')->get('budget_j_publication_register_details')->last_row();
+
+                    if (!empty($last_data)) {
+                        $rest_qty = $last_data->rest_qty - $_POST['quantity'][$key];
+                    } else {
+                        $rest_qty = $_POST['quantity'][$key];
+                    }
+
+                    $data_details = array(
+                        'publication_register_id' => $insert_id,
+                        'book_id' => $_POST['book_id'][$key],
+                        'code' => $code,
+                        'type' => $type,
+                        'price' => $_POST['price'][$key],
+                        'quantity' => $_POST['quantity'][$key],
+                        'amount' => $_POST['amount'][$key],
+                        'commission' => $_POST['commission'][$key],
+                        'pay_amount' => $_POST['pay_amount'][$key],
+                        'rest_qty' => $rest_qty,
+                        'rest_amt' => $rest_qty * $_POST['price'][$key],
+                    );
+                    $this->db->insert('budget_j_publication_register_details', $data_details);
+
+                    $this->db->where('id', $_POST['book_id'][$key]);
+                    $this->db->update('budget_j_publication_book', array('quantity' => $rest_qty));
+                }
+                $this->db->trans_complete();
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('journal_entry/publication_bikri_list');
+            }
+        }
+        $this->db->select('q.*,u.name_bn as create_by');
+        $this->db->from('budget_j_publication_register as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['row'] = $this->db->get()->row();
+
+        $this->db->select('q.*, b.name_bn, b.isbn_number');
+        $this->db->from('budget_j_publication_register_details as q');
+        $this->db->join('budget_j_publication_book as b', 'b.id = q.book_id', 'left');
+        $this->db->where('q.publication_register_id', $id);
+        $this->data['details'] = $this->db->get()->result();
+        // dd($this->data['row']);
+        $this->data['info'] = $this->Common_model->get_user_details();
+        $this->data['type'] = 2;
+        //Load view
+        $this->data['meta_title'] = 'প্রকাশনা তথ্য';
+        $this->data['subview'] = 'publication/bikri_edit';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
     public function publication_print($id)
     {
         $this->load->helper('bangla_converter');
@@ -1823,12 +1941,19 @@ class Journal_entry extends Backend_Controller
         $limit = 15;
         $this->db->select('q.*');
         $this->db->from('budget_j_publication_register_acc as q');
+        if ($this->ion_auth->in_group(array('acc'))) {
+            $this->db->where('status !=', 1);
+        }
+
         $this->db->limit($limit, $offset);
         $this->db->order_by('q.id', 'desc');
         $results = $this->db->get()->result();
 
         $this->db->select('COUNT(*) as count');
         $this->db->from('budget_j_publication_register_acc as q');
+        if ($this->ion_auth->in_group(array('acc'))) {
+            $this->db->where('status !=', 1);
+        }
         $num_rows = $this->db->get()->row()->count;
         //Results
         $this->data['results'] = $results;
@@ -1871,7 +1996,7 @@ class Journal_entry extends Backend_Controller
 
         $this->data['info'] = $this->Common_model->get_user_details();
         //Load view
-        $this->data['meta_title'] = 'প্রকাশনা এন্ট্রি ফর্ম';
+        $this->data['meta_title'] = 'হিসাব শাখা স্থানান্তর';
         $this->data['subview'] = 'publication/publication_bikri_acc_create';
         $this->load->view('backend/_layout_main', $this->data);
     }
@@ -1935,64 +2060,6 @@ class Journal_entry extends Backend_Controller
         // Load view
         $this->data['meta_title'] = 'প্রকাশনা ডিজপোজাল এর তালিকা';
         $this->data['subview'] = 'publication/index';
-        $this->load->view('backend/_layout_main', $this->data);
-    }
-    public function publication_entry_edit($encid=null){
-        $id = (int) decrypt_url($encid);
-        $this->form_validation->set_rules('book_name[]', 'বই নাম', 'required|trim');
-        $this->form_validation->set_rules('sbn_no[]', 'এসবিএন নং', 'required|trim');
-        $this->form_validation->set_rules('price[]', 'বইয়ের মূল্য', 'required|trim');
-        $this->form_validation->set_rules('quantity[]', 'পরিমাণ', 'required|trim');
-        $user = $this->ion_auth->user()->row();
-        if ($this->form_validation->run() == true) {
-            // id	voucher_no	amount	type 1=cash in, 2=cash out	status	reference	description	issue_date	created_at
-            $this->db->trans_start();
-            $form_data = array(
-                'amount' => $this->input->post('total'),
-                'type' => $this->input->post('type'),
-                'reference' => $this->input->post('reference'),
-                'description' => $this->input->post('description'),
-                'issue_date' => date('Y-m-d', strtotime($this->input->post('issue_date'))),
-                'create_by' => $user->id,
-            );
-
-            $this->db->where('id', $id);
-            if ($this->db->update('budget_j_publication_register', $form_data)) {
-                foreach ($_POST['price'] as $key => $row) {
-                    $data_details = array(
-                        'publication_register_id' => $id,
-                        'book_name' => $_POST['book_name'][$key],
-                        'sbn_no' => $_POST['sbn_no'][$key],
-                        'price' => $_POST['price'][$key],
-                        'quantity' => $_POST['quantity'][$key],
-                        'amount' => $_POST['amount'][$key],
-                    );
-                    if (!empty($_POST['detail_id'][$key])) {
-                        $this->db->where('id', $_POST['detail_id'][$key]);
-                        $this->db->update('budget_j_publication_register_details', $data_details);
-                    } else {
-                        $this->db->insert('budget_j_publication_register_details', $data_details);
-                    }
-                }
-                $this->db->trans_complete();
-                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
-                redirect('journal_entry/publication_entry');
-            }
-        }
-
-        $this->db->select('q.*,u.name_bn as create_by');
-        $this->db->from('budget_j_publication_register as q');
-        $this->db->join('users as u', 'u.id = q.create_by', 'left');
-        $this->data['row'] = $this->db->where('q.id', $id)->get()->row();
-
-        $this->db->where('publication_register_id', $id);
-        $this->data['details'] = $this->db->get('budget_j_publication_register_details')->result();
-
-            //Dropdown
-        $this->data['info'] = $this->Common_model->get_user_details();
-        //Load view
-        $this->data['meta_title'] = 'প্রকাশনা তথ্য';
-        $this->data['subview'] = 'publication/edit';
         $this->load->view('backend/_layout_main', $this->data);
     }
     public function publication_removeItem($id){

@@ -138,99 +138,98 @@
 
     <div class="priview-body">
         <div class="col-3">
-            <?php
-            $url = base_url('awedget/assets/img/nilg-logo.png');
-            ?>
+            <?php $url = base_url('awedget/assets/img/nilg-logo.png'); ?>
             <div style="float: left;"><img src="<?= $url ?>" style="width:60px; height: 60px; display: block;"></div>
         </div>
 
         <div class="col-6">
             <?php $this->load->view('print_header'); ?>
-
         </div>
-
-        <div class="col-2" style="float: right;">
-
-        </div>
+        <div class="col-2" style="float: right;"></div>
     </div>
 
     <div class="priview-body content-div">
+        <style type="text/css">
+            #appRowDiv td {
+                padding: 5px !important;
+                border-color: #ccc;
+            }
+            .form-row input, .form-row select, .form-row textarea, .form-row select2 {
+                margin-bottom: 0px !important;
+            }
 
+            #appRowDiv th {
+                padding: 5px;
+                text-align: left;
+                border-color: #ccc;
+                color: black;
+            }
+        </style>
+        <div class=" table-responsive">
+            <table class="table"  border="1" cellspacing="0"  id="appRowDiv">
+                <thead>
+                    <tr class="text-shadow">
+                        <th width="">নং</th>
+                        <th width="">কোর্স নাম</th>
+                        <th width="">প্রশিক্ষণার্থীর ধরন</th>
+                        <th width="">মেয়াদ</th>
+                        <th width="">প্রশিক্ষণার্থী</th>
+                        <th width="">ব্যাচ সংখ্যা</th>
+                        <th width="">মোট প্রশিক্ষণার্থী</th>
+                        <th width="">প্রকল্পিত বায়</th>
+                        <th width="">স্থান</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                <?php $total = 0; foreach ($summary as $key => $data) { ?>
+                    <tr class="text-shadow">
+                        <th style="text-align:center"><?= eng2bng($key + 1) ?></th>
+                        <th colspan="8"><?= $data->office ?></th>
+                    </tr>
+                    <?php
+                        $this->db->select('q.*,course.course_title,ct.ct_name');
+                        $this->db->from('budget_revenue_sub_details as q');
+                        $this->db->join('course', 'q.head_sub_id = course.id', 'left');
+                        $this->db->join('course_type ct','ct.id=q.trainee_type','left');
+                        $this->db->where('q.rev_sum_details', $data->id);
+                        $subs = $this->db->get()->result();
+                        // dd($subs);
+                    ?>
+                    <?php foreach ($subs as $r => $sub) { ?>
+                    <tr>
+                        <td style="text-align:center"><?= eng2bng($key + 1) .'.'. eng2bng($r + 1) ?></td>
+                        <td style="font-size:12px; width:25%;"><?= $sub->course_title ?></td>
+                        <td style="font-size:12px; width:15%;"><?= $sub->ct_name ?></td>
+                        <td><?= eng2bng($sub->days) ?></td>
+                        <td><?= eng2bng($sub->participants) ?></td>
+                        <td><?= eng2bng($sub->batch) ?></td>
+                        <td><?= eng2bng($sub->total_participants) ?></td>
+                        <td style="text-align:right"><?= eng2bng($sub->amount) ?></td>
+                        <td><?= $sub->training_area ? $sub->training_area : '-' ?></td>
+                    </tr>
+                    <?php
+                        $total += $sub->amount;
+                } ?>
+                <?php } ?>
 
-            <style type="text/css">
-                #appRowDiv td {
-                    padding: 5px !important;
-                    border-color: #ccc;
-                }
-                .form-row input, .form-row select, .form-row textarea, .form-row select2 {
-                    margin-bottom: 0px !important;
-                }
+                </tbody>
+                <tfoot>
+                    <tr class="text-shadow">
+                        <th colspan="7" style="text-align:right">সর্বমোটঃ</th>
+                        <th colspan="1" style="text-align:right"><?= eng2bng($total) ?></th>
+                        <th></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
 
-                #appRowDiv th {
-                    padding: 5px;
-                    text-align: left;
-                    border-color: #ccc;
-                    color: black;
-                }
-            </style>
-
-            <div class=" table-responsive">
-                <table class="table"  border="1" cellspacing="0"  id="appRowDiv">
-                    <thead>
-                        <tr class="text-shadow">
-                            <th width="">নং</th>
-                            <th width="">কোর্স নাম</th>
-                            <th width="">প্রশিক্ষণার্থীর ধরন</th>
-                            <th width="">মেয়াদ</th>
-                            <th width="">প্রশিক্ষণার্থী</th>
-                            <th width="">ব্যাচ সংখ্যা</th>
-                            <th width="">মোট প্রশিক্ষণার্থী</th>
-                            <th width="">প্রকল্পিত বায়</th>
-                            <th width="">স্থান</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tbody">
-                    <?php $total = 0; foreach ($summary as $key => $data) { ?>
-                        <tr class="text-shadow">
-                            <th style="text-align:center"><?= eng2bng($key + 1) ?></th>
-                            <th colspan="8"><?= $data->office ?></th>
-                        </tr>
-                        <?php
-                            $this->db->select('q.*,course.course_title,ct.ct_name');
-                            $this->db->from('budget_revenue_sub_details as q');
-                            $this->db->join('course', 'q.head_sub_id = course.id', 'left');
-                            $this->db->join('course_type ct','ct.id=q.trainee_type','left');
-                            $this->db->where('q.rev_sum_details', $data->id);
-                            $subs = $this->db->get()->result();
-                            // dd($subs);
-                        ?>
-                        <?php foreach ($subs as $r => $sub) { ?>
-                        <tr>
-                            <td style="text-align:center"><?= eng2bng($key + 1) .'.'. eng2bng($r + 1) ?></td>
-                            <td style="font-size:12px; width:25%;"><?= $sub->course_title ?></td>
-                            <td style="font-size:12px; width:15%;"><?= $sub->ct_name ?></td>
-                            <td><?= eng2bng($sub->days) ?></td>
-                            <td><?= eng2bng($sub->participants) ?></td>
-                            <td><?= eng2bng($sub->batch) ?></td>
-                            <td><?= eng2bng($sub->total_participants) ?></td>
-                            <td style="text-align:right"><?= eng2bng($sub->amount) ?></td>
-                            <td><?= $sub->training_area ? $sub->training_area : '-' ?></td>
-                        </tr>
-                        <?php
-                            $total += $sub->amount;
-                    } ?>
-                    <?php } ?>
-
-                    </tbody>
-                    <tfoot>
-                        <tr class="text-shadow">
-                            <th colspan="7" style="text-align:right">সর্বমোটঃ</th>
-                            <th colspan="1" style="text-align:right"><?= eng2bng($total) ?></th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
+        <?php if (!empty($info->description)) { ?>
+        <div>
+            <br><br>
+            <span><strong>নোট :</strong></span> <br>
+            <span><?= $info->description ?></span>
+        </div>
+        <?php } ?>
     </div>
 </body>
 

@@ -9,30 +9,51 @@ class Common_model extends CI_Model
         $this->userSessID = $this->session->userdata('user_id');
     }
 
-    public function office_ntfy()
+    public function office_ntfy($dept_id = null)
     {
-        $row = $this->db->select("
-            COUNT(CASE WHEN status = 2 THEN 1 END) AS ad,
+        $trues = $this->ion_auth->in_group(array('ad'));
+        $this->db->select("
             COUNT(CASE WHEN status = 3 THEN 1 END) AS dd,
+            COUNT(CASE WHEN status = 16 THEN 1 END) AS dd1,
+            COUNT(CASE WHEN status = 17 THEN 1 END) AS dd2,
+            COUNT(CASE WHEN status = 18 THEN 1 END) AS dd3,
+
             COUNT(CASE WHEN status = 4 THEN 1 END) AS jd,
+            COUNT(CASE WHEN status = 19 THEN 1 END) AS jd1,
+            COUNT(CASE WHEN status = 20 THEN 1 END) AS jd2,
+
             COUNT(CASE WHEN status = 5 THEN 1 END) AS director,
+            COUNT(CASE WHEN status = 21 THEN 1 END) AS director1,
+
             COUNT(CASE WHEN status = 6 THEN 1 END) AS dg,
             COUNT(CASE WHEN status = 7 THEN 1 END) AS acc,
-            COUNT(CASE WHEN status = 8 THEN 1 END) AS office,
-            COUNT(CASE WHEN status = 9 THEN 1 END) AS acc2,
-        ")->where('status !=', 1)->get('budget_field')->row();
+            COUNT(CASE WHEN status = 22 THEN 1 END) AS acc1,
+
+            COUNT(CASE WHEN status = 8 THEN 1 END) AS ad,
+            COUNT(CASE WHEN status = 12 THEN 1 END) AS ad1,
+            COUNT(CASE WHEN status = 13 THEN 1 END) AS ad2,
+            COUNT(CASE WHEN status = 14 THEN 1 END) AS ad3,
+            COUNT(CASE WHEN status = 15 THEN 1 END) AS ad4,
+            COUNT(CASE WHEN status = 10 THEN 1 END) AS ad5,
+
+            COUNT(CASE WHEN status = 9 THEN 1 END) AS office,
+        ");
+        if ($trues) {
+            $this->db->where('dept_id', $dept_id);
+        }
+        $row = $this->db->where('status !=', 1)->get('budget_field')->row();
         if ($this->ion_auth->in_group(array('ad'))) {
-            $nt = $row->ad;
+            $nt = $row->ad + $row->ad1 + $row->ad2 + $row->ad3 + $row->ad4 + $row->ad5;
         } elseif ($this->ion_auth->in_group(array('dd'))) {
-            $nt = $row->dd;
+            $nt = $row->dd + $row->dd1 + $row->dd2 + $row->dd3;
         } elseif ($this->ion_auth->in_group(array('jd'))) {
-            $nt = $row->jd;
+            $nt = $row->jd + $row->jd1 + $row->jd2;
         } elseif ($this->ion_auth->in_group(array('director'))) {
-            $nt = $row->director;
+            $nt = $row->director + $row->director1;
         } elseif ($this->ion_auth->in_group(array('dg'))) {
             $nt = $row->dg;
         } elseif ($this->ion_auth->in_group(array('acc'))) {
-            $nt = $row->acc + $row->acc2;
+            $nt = $row->acc + $row->acc1;
         } elseif (!$this->ion_auth->in_group(array('tdo','ad','dd','jd','director','dg','acc'))) {
             $nt = $row->office;
         } else {
@@ -41,38 +62,86 @@ class Common_model extends CI_Model
         return $nt;
     }
 
-    public function rev_notify()
+    public function rev_notify($dept_id = null)
     {
-        $row = $this->db->select("
+        $trues = $this->ion_auth->in_group(array('ad'));
+        $this->db->select("
             COUNT(CASE WHEN status = 2 THEN 1 END) AS dd,
             COUNT(CASE WHEN status = 3 THEN 1 END) AS jd,
             COUNT(CASE WHEN status = 4 THEN 1 END) AS director,
             COUNT(CASE WHEN status = 5 THEN 1 END) AS dg,
             COUNT(CASE WHEN status = 6 THEN 1 END) AS acc,
-            COUNT(CASE WHEN status = 7 THEN 1 END) AS acc2,
-        ")->where('type !=', 2)->where('status !=', 1)->get('budget_revenue_summary')->row();
-        if ($this->ion_auth->in_group(array('dd'))) {
-            $nt = $row->dd;
+            COUNT(CASE WHEN status = 9 THEN 1 END) AS ad1,
+            COUNT(CASE WHEN status = 10 THEN 1 END) AS ad2,
+            COUNT(CASE WHEN status = 11 THEN 1 END) AS ad3,
+            COUNT(CASE WHEN status = 12 THEN 1 END) AS ad4,
+            COUNT(CASE WHEN status = 13 THEN 1 END) AS dd1,
+            COUNT(CASE WHEN status = 14 THEN 1 END) AS dd2,
+            COUNT(CASE WHEN status = 15 THEN 1 END) AS dd3,
+            COUNT(CASE WHEN status = 16 THEN 1 END) AS jd1,
+            COUNT(CASE WHEN status = 17 THEN 1 END) AS jd2,
+            COUNT(CASE WHEN status = 18 THEN 1 END) AS director1,
+        ");
+        if ($trues) {
+            $this->db->where('dept_id', $dept_id);
+        }
+        $row = $this->db->where('type !=', 2)->where('status !=', 1)->get('budget_revenue_summary')->row();
+
+        if ($this->ion_auth->in_group(array('ad'))) {
+            $nt = $row->ad1 + $row->ad2 + $row->ad3 + $row->ad4;
+        } elseif ($this->ion_auth->in_group(array('dd'))) {
+            $nt = $row->dd + $row->dd1 + $row->dd2 + $row->dd3;
         } elseif ($this->ion_auth->in_group(array('jd'))) {
-            $nt = $row->jd;
+            $nt = $row->jd + $row->jd1 + $row->jd2;
         } elseif ($this->ion_auth->in_group(array('director'))) {
-            $nt = $row->director;
+            $nt = $row->director + $row->director1;
         } elseif ($this->ion_auth->in_group(array('dg'))) {
             $nt = $row->dg;
-        } elseif ($this->ion_auth->in_group(array('acc'))) {
-            $nt = $row->acc + $row->acc2;
+        } else if ($this->ion_auth->in_group(array('acc'))) {
+            $nt = $row->acc;
         } else {
             $nt = 0;
         }
         return $nt;
     }
 
-    public function rev_notify_add()
+    public function train_notify($dept_id = null)
     {
-        $row = $this->db->select("
-            COUNT(CASE WHEN status = 8 THEN 1 END) AS acc,
-        ")->where('type !=', 2)->where('status !=', 1)->get('budget_revenue_summary')->row();
-        if ($this->ion_auth->in_group(array('acc'))) {
+        $trues = $this->ion_auth->in_group(array('ad'));
+        $this->db->select("
+            COUNT(CASE WHEN status = 2 THEN 1 END) AS dd,
+            COUNT(CASE WHEN status = 3 THEN 1 END) AS jd,
+            COUNT(CASE WHEN status = 4 THEN 1 END) AS director,
+            COUNT(CASE WHEN status = 5 THEN 1 END) AS dg,
+            COUNT(CASE WHEN status = 6 THEN 1 END) AS acc,
+            COUNT(CASE WHEN status = 7 THEN 1 END) AS ad,
+            COUNT(CASE WHEN status = 9 THEN 1 END) AS ad1,
+            COUNT(CASE WHEN status = 10 THEN 1 END) AS ad2,
+            COUNT(CASE WHEN status = 11 THEN 1 END) AS ad3,
+            COUNT(CASE WHEN status = 12 THEN 1 END) AS ad4,
+            COUNT(CASE WHEN status = 13 THEN 1 END) AS dd1,
+            COUNT(CASE WHEN status = 14 THEN 1 END) AS dd2,
+            COUNT(CASE WHEN status = 15 THEN 1 END) AS dd3,
+            COUNT(CASE WHEN status = 16 THEN 1 END) AS jd1,
+            COUNT(CASE WHEN status = 17 THEN 1 END) AS jd2,
+            COUNT(CASE WHEN status = 18 THEN 1 END) AS director1,
+        ");
+        if ($trues) {
+            $this->db->where('dept_id', $dept_id);
+        }
+        $row = $this->db->where('type !=', 2)->where('status !=', 1)->get('budget_nilg')->row();
+
+        if ($this->ion_auth->in_group(array('ad'))) {
+            $nt = $row->ad + $row->ad1 + $row->ad2 + $row->ad3 + $row->ad4;
+        } elseif ($this->ion_auth->in_group(array('dd'))) {
+            $nt = $row->dd + $row->dd1 + $row->dd2 + $row->dd3;
+        } elseif ($this->ion_auth->in_group(array('jd'))) {
+            $nt = $row->jd + $row->jd1 + $row->jd2;
+        } elseif ($this->ion_auth->in_group(array('director'))) {
+            $nt = $row->director + $row->director1;
+        } elseif ($this->ion_auth->in_group(array('dg'))) {
+            $nt = $row->dg;
+        } else if ($this->ion_auth->in_group(array('acc'))) {
             $nt = $row->acc;
         } else {
             $nt = 0;

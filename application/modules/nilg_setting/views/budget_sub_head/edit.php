@@ -51,28 +51,20 @@
               <br>
             </div>
             <div class="row form-row">
-              <div class="col-md-2">
-                <label class="form-label">পূর্ববর্তী বরাদ্দ <span class="required">*</span></label>
-                <input name="prev_amt" type="number" class="form-control input-sm" value="<?=$info->prev_amt?>" required >
-              </div>
-              <div class="col-md-2">
-                <label class="form-label">বরাদ্দ পরিমান <span class="required">*</span></label>
-                <input name="budget_amt" type="number" class="form-control input-sm" value="<?=$info->budget_amt?>" required >
-              </div>
-              <div class="col-md-2">
+              <div class="col-md-3">
                 <label class="form-label">পরিমান <span class="required">*</span></label>
                 <input name="amount" type="number" class="form-control input-sm" value="<?=$info->amount?>" required >
               </div>
-              <div class="col-md-2">
+              <div class="col-md-3">
                   <label class="form-label">ভ্যাট <span class="required">*</span></label>
                   <input name="vat" type="number" class="form-control input-sm" placeholder="ভ্যাট"
                   value="<?=$info->vat_head?>" >
               </div>
-              <div class="col-md-2">
+              <div class="col-md-3">
                 <label class="form-label">আইটি কর</label>
                 <input name="it_kor" type="number" class="form-control input-sm" value="<?=$info->it_kor?>">
               </div>
-              <div class="col-md-2">
+              <div class="col-md-3">
                 <label class="form-label">স্ট্যাটাস <span class="required">*</span></label>
                 <select name="status" class="form-control input-sm">
                   <option <?= ($info->status == 1) ? 'selected' : ''?> value="1">সক্রিয়</option>
