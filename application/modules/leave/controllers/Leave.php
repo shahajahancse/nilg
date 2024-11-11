@@ -257,11 +257,11 @@ class Leave extends Backend_Controller {
         $this->data['leave_type'] = $this->Leave_model->get_leave_type();
         $this->data['info'] = $this->Leave_model->get_user('users',$this->session->userdata('user_id'));
         $results = $this->Leave_model->get_yearly_leave_count($userDetails->id);
-        $this->data['users'] = $this->Common_model->get_nilg_employee($this->data['info']->crrnt_dept_id, 2);
-        $this->data['bikolpo'] = $this->Common_model->get_nilg_employee(null, $this->data['info']->employee_type);
+        $this->data['users'] = $this->Common_model->get_nilg_employee($this->data['info']->crrnt_dept_id, 2,1);
+        $this->data['bikolpo'] = $this->Common_model->get_nilg_employee(null, $this->data['info']->employee_type,1);
 
         if ($this->data['info']->employee_type == 3) {
-            $rs = $this->db->select('id, name_bn')->where('office_type', 7)->where_in('crrnt_desig_id', array(116,244))->get('users')->result();
+            $rs = $this->db->select('id, name_bn')->where('office_type', 7)->where('status', 1)->where_in('crrnt_desig_id', array(116,244))->get('users')->result();
             foreach ($rs as $key => $r) {
                 $this->data['users'][$r->id] = $r->name_bn;
             }
@@ -362,10 +362,10 @@ class Leave extends Backend_Controller {
 
         // Dropdown List
         $this->data['row'] = $this->Leave_model->get_info($id);
-        $this->data['users'] = $this->Common_model->get_nilg_employee($this->data['row']->dept_id, $this->data['row']->employee_type);
-        $this->data['bikolpo'] = $this->Common_model->get_nilg_employee(null, $this->data['row']->employee_type);
+        $this->data['users'] = $this->Common_model->get_nilg_employee($this->data['row']->dept_id, $this->data['row']->employee_type, 1);
+        $this->data['bikolpo'] = $this->Common_model->get_nilg_employee(null, $this->data['row']->employee_type,1);
         if ($this->data['row']->employee_type == 3) {
-            $rs = $this->db->select('id, name_bn')->where('office_type', 7)->where_in('crrnt_desig_id', array(116,244))->get('users')->result();
+            $rs = $this->db->select('id, name_bn')->where('office_type', 7)->where('status', 1)->where_in('crrnt_desig_id', array(116,244))->get('users')->result();
             foreach ($rs as $key => $r) {
                 $this->data['users'][$r->id] = $r->name_bn;
             }

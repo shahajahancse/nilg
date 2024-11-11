@@ -24,7 +24,7 @@
                         <h4><span class="semi-bold"><?= $meta_title; ?></span></h4>
                         <div class="pull-right">
                             <a class="btn btn-info btn-xs btn-mini" href="<?php echo base_url('budgets/budget_nilg_print/' . encrypt_url($budget_nilg->id)) ?>" target="_blank"><i class="fa fa-pencil-square"></i> প্রিন্ট করুন </a>
-                            <a href="<?= base_url('budgets/budget_nilg') ?>" class="btn btn-blueviolet btn-xs btn-mini">বাজেট তাকিকা</a>
+                            <a href="<?= base_url('budgets/budget_nilg') ?>" class="btn btn-blueviolet btn-xs btn-mini">বাজেট তালিকা</a>
                         </div>
                     </div>
                     <div class="grid-body">

@@ -8,9 +8,7 @@
         -webkit-appearance: none;
     }
 </style>
-<?php $am = $this->db->where('dept_id', 2)->get('budgets_dept_account')->row();
-    $smt = isset($am->balance) ? $am->balance : 1000000;
-?>
+<?php $smt = isset($rev_amt) ? $rev_amt : 0; ?>
 
 <div class="page-content">
     <div class="content">
@@ -19,7 +17,7 @@
             <li><a href="<?=base_url('budget/training_budgets_create')?>" class="active"><?=$module_name?></a></li>
             <li><?=$meta_title; ?></li>
             <a style="float: right; color: #000; font-weight: bold;"> পরিমাণ : <?= eng2bng($smt); ?> </a>
-                        <input type="hidden" id="have_amt" value=<?= $smt ?> >
+            <input type="hidden" id="have_amt" value=<?= $smt ?> >
         </ul>
 
         <div class="row">
@@ -29,7 +27,7 @@
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right">
                             <a href="<?=base_url('budgets/budget_field')?>"
-                                class="btn btn-blueviolet btn-xs btn-mini">বাজেট তাকিকা</a>
+                                class="btn btn-blueviolet btn-xs btn-mini">বাজেট তালিকা</a>
                         </div>
                     </div>
                     <div class="grid-body">

@@ -949,7 +949,7 @@ class Budgets extends Backend_Controller
     public function check_rev_balance(){
         $fcl_year = $this->input->post('fcl_year');
         $rb = $this->db->where('id',35)->get('budget_head_sub')->row();
-        $eb = $this->db->select('SUM(amount) as amount')->where('fcl_year',$fcl_year)->get('budget_field')->row();
+        $eb = $this->db->select('SUM(total_amt) as amount')->where('fcl_year',$fcl_year)->get('budget_field')->row();
         $val = $rb->budget_amt - $eb->amount;
         $cval = $val <= 0 ? 0 : $val;
         echo json_encode($val);
@@ -987,7 +987,7 @@ class Budgets extends Backend_Controller
         } else if ($this->ion_auth->in_group(array('dg'))) {
             $arr = array(5,6,7,8,9,10,11,22);
             $results = $this->Budgets_model->get_budget_field($limit, $offset, $arr, null, null, null);
-        } else if ($this->ion_auth->in_group(array('uz', 'ddlg'))) {
+        } else if ($this->ion_auth->in_group(array('up','paura','uz','ddlg','zp','city'))) {
             $arr = array(9,10,11,22);
             $results = $this->Budgets_model->get_budget_field($limit, $offset, $arr, $office_id, null, null);
         } else if ($this->ion_auth->in_group(array('acc'))) {
@@ -1088,7 +1088,6 @@ class Budgets extends Backend_Controller
         $this->data['subview'] = 'budget_field/budget_field_create';
         $this->load->view('backend/_layout_main', $this->data);
     }
-
     public function budget_field_delete($encid)
     {
         $user = $this->ion_auth->user()->row();
@@ -1113,7 +1112,6 @@ class Budgets extends Backend_Controller
                 redirect($_SERVER['HTTP_REFERER']);
             }
     }
-
     public function training_sub_clone($details_id, $head_id, $sub_ids, $sub_cmd, $sub_p, $sub_d, $sub_a, $sub_amt, $fy, $user)
     {
         for ($i=0; $i < sizeof($sub_ids); $i++) {
@@ -1145,7 +1143,7 @@ class Budgets extends Backend_Controller
             redirect("budgets/budget_field");
         }
         $id = (int) decrypt_url($encid);
-        $this->data['budget_nilg'] = $this->Common_model->get_single_data('budget_field', $id);
+        $row = $this->Common_model->get_single_data('budget_field', $id);
         $this->form_validation->set_rules('office_type', 'অফিস ধরণ', 'required|trim');
         $this->form_validation->set_rules('office_id', 'অফিস নাম', 'required|trim');
         $this->form_validation->set_rules('course_id', 'কোর্স নাম', 'required|trim');
@@ -1164,6 +1162,7 @@ class Budgets extends Backend_Controller
                 'office_type' => $this->input->post('office_type'),
                 'office_id' => $this->input->post('office_id'),
                 'amount' => $this->input->post('total_amount'),
+                'total_amt' => ($this->input->post('total_amount') * $this->input->post('trainee_number')),
                 'fcl_year' => $this->input->post('fcl_year'),
                 'course_id' => $this->input->post('course_id'),
                 'trainee_type' => $this->input->post('trainee_type'),
@@ -1226,7 +1225,13 @@ class Budgets extends Backend_Controller
         $this->db->where('dd.budget_field_id', $id);
         $this->db->where('dd.modify_soft_d', 1);
         $this->data['results'] = $this->db->get()->result();
-        // dd($this->data['results']);
+        $this->data['budget_nilg'] = $row;
+
+        $rb = $this->db->where('id',35)->get('budget_head_sub')->row();
+        $eb=$this->db->select('SUM(total_amt) amt')->where('fcl_year',$row->fcl_year)->get('budget_field')->row();
+        $val = $rb->budget_amt - $eb->amt + $row->total_amt;
+        $cval = $val <= 0 ? 0 : $val;
+        $this->data['rev_amt'] = $cval;
 
         //Dropdown
         $this->data['info'] = $this->Common_model->get_user_details($this->data['budget_nilg']->created_by);
@@ -1547,7 +1552,6 @@ class Budgets extends Backend_Controller
         $this->data['subview'] = 'budget_field/field_statement_of_expenses';
         $this->load->view('backend/_layout_main', $this->data);
     }
-
     public function file_upload_function($id, $path, $file_name, $shot_name) {
         $this->load->library('upload');
         $ex = explode('.', $_FILES[$file_name]['name']);
@@ -1569,7 +1573,6 @@ class Budgets extends Backend_Controller
             return false;
         }
     }
-
     public function statement_sub_update($de_id, $exp_tot, $vat, $vat_amt, $it, $it_kor_amt, $exp_amt, $bal)
     {
         for ($i=0; $i < sizeof($de_id); $i++) {
@@ -1590,7 +1593,6 @@ class Budgets extends Backend_Controller
         }
         return 1;
     }
-
     public function budget_field_statement_of_expenses_print($encid)
     {
         $id = (int) decrypt_url($encid);
@@ -1602,7 +1604,7 @@ class Budgets extends Backend_Controller
         $this->db->where('dd.budget_field_id', $id);
         $this->db->where('dd.modify_soft_d', 1);
         $this->data['results'] = $this->db->get()->result();
-        // dd($this->data['results']);
+        // dd($this->data['info']);
 
         //Load view
         $this->data['headding'] = 'বাজেট ';
@@ -1702,7 +1704,7 @@ class Budgets extends Backend_Controller
         } else if ($this->ion_auth->in_group(array('dg'))) {
             $arr = array(6,7,8,9,10,11);
             $results = $this->Budgets_model->get_budget_field($limit, $offset, $arr, null, null, null);
-        } else if ($this->ion_auth->in_group(array('uz', 'ddlg'))) {
+        } else if ($this->ion_auth->in_group(array('up','paura','uz','ddlg','zp','city'))) {
             $arr = array(7,8,9,10,11);
             $results = $this->Budgets_model->get_budget_field($limit, $offset, $arr, $office_id, null, null);
         } else if ($this->ion_auth->in_group(array('acc'))) {

@@ -8,10 +8,11 @@ class Budgets_model extends CI_Model {
     }
     // Manage Budget nilg list
     public function dpt_summary_training($limit, $offset, $arr = array(), $dept_id = null, $type = null,  $user_id = null) {
-        $this->db->select('bd.*, bhs.session_name, d.dept_name');
+        $this->db->select('bd.*, bhs.session_name, d.dept_name, u.name_bn');
         $this->db->from('budget_nilg bd');
         $this->db->join('session_year as bhs', 'bhs.id = bd.fcl_year', 'left');
         $this->db->join('department as d', 'd.id = bd.dept_id', 'left');
+        $this->db->join('users as u', 'u.id = bd.created_by', 'left');
         $this->db->where('bd.soft_delete', 1);
         $this->db->limit($limit);
         $this->db->offset($offset);

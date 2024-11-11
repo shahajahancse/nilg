@@ -1534,6 +1534,115 @@ class Journal_entry extends Backend_Controller
         return true;
         exit();
     }
+    public function hostel_booking_acc_list($offset = 0)
+    {
+        $limit = 15;
+        $this->db->select('q.*');
+        $this->db->from('budget_j_hostel_register_acc as q');
+        if ($this->ion_auth->in_group(array('acc'))) {
+            $this->db->where('status !=', 1);
+        }
+
+        $this->db->limit($limit, $offset);
+        $this->db->order_by('q.id', 'desc');
+        $results = $this->db->get()->result();
+
+        $this->db->select('COUNT(*) as count');
+        $this->db->from('budget_j_hostel_register_acc as q');
+        if ($this->ion_auth->in_group(array('acc'))) {
+            $this->db->where('status !=', 1);
+        }
+        $num_rows = $this->db->get()->row()->count;
+        //Results
+        $this->data['results'] = $results;
+        $this->data['total_rows'] = $num_rows;
+        //pagination
+        $this->data['pagination'] = create_pagination('journal_entry/hostel_booking_acc_list/', $num_rows, $limit, 3, $full_tag_wrap = true);
+        // Load view
+        $this->data['meta_title'] = 'হিসাব শাখা স্থানান্তর';
+        $this->data['subview'] = 'hostel/hostel_booking_acc_list';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function hostel_booking_acc_create($type = null)
+    {
+        $this->form_validation->set_rules('from_date', 'শুরুর তারিখ', 'required|trim');
+        $this->form_validation->set_rules('to_date', 'শেসের তারিখ', 'required|trim');
+        $this->form_validation->set_rules('pay_type', 'প্রদেয় ধরণ', 'required|trim');
+        $this->form_validation->set_rules('amount', 'প্রদেয় পরিমাণ', 'required|trim');
+        $this->form_validation->set_rules('description', 'চিঠি', 'required|trim');
+        $user = $this->ion_auth->user()->row();
+
+        if ($this->form_validation->run() == true) {
+            $this->db->trans_start();
+            $form_data = array(
+                'voucher_no' => $this->input->post('voucher_no'),
+                'from_date' => $this->input->post('from_date'),
+                'to_date' => $this->input->post('to_date'),
+                'issue_date' => date('Y-m-d'),
+                'pay_type' => $this->input->post('pay_type'),
+                'amount' => $this->input->post('amount'),
+                'description' => $this->input->post('description'),
+                'create_by' => $user->id,
+            );
+
+            if ($this->Common_model->save('budget_j_hostel_register_acc', $form_data)) {
+                $this->db->trans_complete();
+                $this->session->set_flashdata('success', 'তথ্য সংরক্ষণ করা হয়েছে');
+                redirect('journal_entry/hostel_booking_acc_list');
+            }
+        }
+
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'হিসাব শাখা স্থানান্তর';
+        $this->data['subview'] = 'hostel/hostel_booking_acc_create';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function hostel_booking_acc_details($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->select('q.*, u.name_bn as create_by');
+        $this->db->from('budget_j_hostel_register_acc as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['row'] = $this->db->get()->row();
+
+        //Dropdown
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'বিস্তারিত';
+        $this->data['subview'] = 'hostel/hostel_booking_acc_details';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function hostel_booking_acc_print($encid){
+        $id = (int) decrypt_url($encid);
+        $this->db->select('q.*, u.name_bn as create_by');
+        $this->db->from('budget_j_hostel_register_acc as q');
+        $this->db->join('users as u', 'u.id = q.create_by', 'left');
+        $this->db->where('q.id', $id);
+        $this->data['row'] = $this->db->get()->row();
+        // dd($this->data['row']);
+        // Generate PDF
+        $this->data['headding'] = 'হোস্টেল ভাউচার';
+        $html = $this->load->view('hostel/hostel_booking_acc_print', $this->data, true);
+
+        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+        $mpdf->WriteHtml($html);
+        $mpdf->output();
+    }
+    public function hostel_booking_forword($status,$id)
+    {
+        $id = (int) decrypt_url($id);
+        $this->db->trans_start();
+        $data = array('status' => $status);
+        if ($this->db->where('id', $id)->update('budget_j_hostel_register_acc', $data)) {
+            $this->db->trans_complete();
+            $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+            redirect("journal_entry/hostel_booking_acc_list");
+        } else {
+            $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়নি');
+            redirect("journal_entry/hostel_booking_acc_list");
+        }
+    }
     // end hostel register entry
 
     // start budget_j_publication_register

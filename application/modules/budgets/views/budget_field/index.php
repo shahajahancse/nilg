@@ -183,7 +183,7 @@
                                        <?php if (in_array($row->status,[1,2,8,10,12,13,14,15]) && $this->ion_auth->in_group(array('ad'))) {?>
                                           <li><a href="<?php echo base_url('budgets/budget_field_details/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> সম্পাদনা করুন </a></li>
                                           <li> <a href="<?php echo base_url('budgets/budget_field_forward/3/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড টু ডি.ডি  </a> </li>
-                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড টু যে.ডি  </a> </li>
+                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড টু জে.ডি  </a> </li>
                                           <li> <a href="<?php echo base_url('budgets/budget_field_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড টু ডিরেক্টর</a> </li>
                                        <?php }?>
                                        <?php if (in_array($row->status,[3]) && $this->ion_auth->in_group(array('ad'))) {?>
@@ -194,7 +194,7 @@
                                        <?php if (in_array($row->status,[3,16,17,18]) && $this->ion_auth->in_group(array('dd'))) {?>
                                           <li><a href="<?php echo base_url('budgets/budget_field_details/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> সম্পাদনা করুন </a></li>
                                           <li> <a href="<?php echo base_url('budgets/budget_field_forward/12/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক টু এ.ডি </a> </li>
-                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড টু যে.ডি  </a> </li>
+                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড টু জে.ডি  </a> </li>
                                           <li> <a href="<?php echo base_url('budgets/budget_field_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড টু ডিরেক্টর</a> </li>
                                           <li> <a href="<?php echo base_url('budgets/budget_field_forward/6/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড টু ডি.জি </a> </li>
                                        <?php }?>
@@ -278,7 +278,11 @@
                                        <?php if (in_array($row->status,[1,2]) && $this->ion_auth->in_group(array('admin','ad'))) { ?>
                                           <li><a href="<?php echo base_url('budgets/budget_field_delete/' . encrypt_url($row->id)) ?>"><i class="fa fa-hand-o-right"></i> ডিলিট করুন </a></li>
                                        <?php } ?>
-                                       <li><a href="<?php echo base_url('budgets/download_files_as_zip/' . encrypt_url($row->id)) ?>" target="_blank"><i class="fa fa-hand-o-right"></i> ডাউনলোড ফাইল </a></li>
+
+                                       <?php if (in_array($row->status,[9,10,11])) { ?>
+                                          <li><a href="<?php echo base_url('budgets/download_files_as_zip/' . encrypt_url($row->id)) ?>" target="_blank"><i class="fa fa-hand-o-right"></i> ডাউনলোড ফাইল </a></li>
+                                       <?php } ?>
+
                                        <?php  // } ?>
                                     </ul>
                                  </div>

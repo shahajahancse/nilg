@@ -39,7 +39,7 @@
                         <h4><span class="semi-bold"><?= $meta_title; ?></span></h4>
                         <div class="pull-right">
                             <a href="<?= base_url('budgets/budget_field') ?>"
-                                class="btn btn-blueviolet btn-xs btn-mini">বাজেট তাকিকা</a>
+                                class="btn btn-blueviolet btn-xs btn-mini">বাজেট তালিকা</a>
                         </div>
                     </div>
                     <div class="grid-body">
@@ -394,7 +394,7 @@
                         <td>
                             <input type="number" value="1" min="1" name="token_day[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_day"></td>
                         <td>
-                            <input type="number" value="1" min="1" name="token_amount[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_amount"></td>                                    
+                            <input type="number" value="1" min="1" name="token_amount[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_amount"></td>
                         <td>
                         <input type="hidden" class="group_name" name="group_name[]"
                                                                 value="xnone" >
@@ -416,7 +416,7 @@
                         <td>
                             <input type="number" value="1" min="1" name="token_day[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_day"></td>
                         <td>
-                            <input type="number" value="1" min="1" name="token_amount[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_amount"></td>                                    
+                            <input type="number" value="1" min="1" name="token_amount[]" onkeyup="calculateTotal_tokens(this)" class="form-control input-sm token_amount"></td>
                         <td>
                         <input type="hidden" class="group_name" name="group_name[]"
                                                                 value="xnone" >

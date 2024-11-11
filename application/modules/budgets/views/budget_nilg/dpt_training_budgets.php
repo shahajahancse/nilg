@@ -85,8 +85,8 @@
                                     <th>মেয়াদ</th>
                                     <th>ব্যাচ</th>
                                     <th>পরিমাণ</th>
-                                    <th>স্ট্যাটাস</th>
                                     <th>তারিখ</th>
+                                    <th>স্ট্যাটাস</th>
                                     <th style="text-align: right;">অ্যাকশন</th>
                                 </tr>
                             </thead>
@@ -96,7 +96,6 @@
                                     <tr>
                                         <td class="v-align-middle" style="display: flex;gap: 5px;">
                                                 <div style="display: flex;gap: 5px;">
-
                                                     <?php if( $this->ion_auth->in_group(array('admin', 'ad'))){ ?>
                                                         <input type="checkbox" class="check" name="check[]" value="<?=$row->id; ?>">
                                                         <?php }  ?>

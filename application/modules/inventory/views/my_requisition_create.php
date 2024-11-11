@@ -29,7 +29,7 @@
                <div class="grid-title">
                   <h4><span class="semi-bold"><?= $meta_title; ?></span></h4>
                   <div class="pull-right">
-                     <a href="<?= base_url('inventory/my_requisition') ?>" class="btn btn-blueviolet btn-xs btn-mini">রিকুইজিশন তাকিকা</a>
+                     <a href="<?= base_url('inventory/my_requisition') ?>" class="btn btn-blueviolet btn-xs btn-mini">রিকুইজিশন তালিকা</a>
                   </div>
                </div>
                <div class="grid-body">
@@ -140,7 +140,7 @@ foreach ($categories as $key => $value) {
 
       // JS Validation
       $('#jsvalidate').validate({
-         // focusInvalid: false, 
+         // focusInvalid: false,
          ignore: "",
          rules: {
             title: {
@@ -161,10 +161,10 @@ foreach ($categories as $key => $value) {
          },
 
          invalidHandler: function(event, validator) {
-            //display error alert on form submit    
+            //display error alert on form submit
          },
 
-         errorPlacement: function(label, element) { // render error placement for each input type   
+         errorPlacement: function(label, element) { // render error placement for each input type
             $('<span class="error"></span>').insertAfter(element).append(label)
             var parent = $(element).parent('.input-with-icon');
             parent.removeClass('success-control').addClass('error-control');

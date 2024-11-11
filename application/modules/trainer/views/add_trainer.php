@@ -11,8 +11,8 @@
 }
 </style>
 
-<div class="page-content">     
-   <div class="content">  
+<div class="page-content">
+   <div class="content">
       <ul class="breadcrumb">
          <li><a href="<?=base_url('dashboard')?>" class="active"> ড্যাশবোর্ড </a></li>
          <li><a href="<?=base_url('trainer/all')?>" class="active"><?=$module_title?></a></li>
@@ -24,8 +24,8 @@
             <div class="grid simple horizontal red">
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
-                  <div class="pull-right">                
-                     <a href="<?=base_url('trainer/all')?>" class="btn btn-blueviolet btn-xs btn-mini"> প্রশিক্ষকের তাকিকা</a>  
+                  <div class="pull-right">
+                     <a href="<?=base_url('trainer/all')?>" class="btn btn-blueviolet btn-xs btn-mini"> প্রশিক্ষকের তালিকা</a>
                   </div>
                </div>
                <div class="grid-body tableresponsive">
@@ -35,7 +35,7 @@
                      </div>
                   <?php endif; ?>
 
-                  <?php 
+                  <?php
                   $attributes = array('id' => 'trainer');
                   echo form_open_multipart("",$attributes);
                   echo validation_errors();
@@ -43,7 +43,7 @@
 
                   <div class="row">
                      <div class="col-md-12">
-                        <fieldset >      
+                        <fieldset >
                            <legend>প্রশিক্ষকের তথ্য</legend>
 
                            <div class="row form-row">
@@ -65,7 +65,7 @@
                               <div class="col-md-3">
                                  <div class="form-group">
                                     <label class="form-label">জন্ম তারিখ <span class="required">*</span></label>
-                                    <input type="text" name="dob" value="<?=set_value('dob')?>" class="datetime form-control input-sm font-opensans" placeholder="DD-MM-YYYY" autocomplete="off">   
+                                    <input type="text" name="dob" value="<?=set_value('dob')?>" class="datetime form-control input-sm font-opensans" placeholder="DD-MM-YYYY" autocomplete="off">
                                  </div>
                               </div>
                               <div class="col-md-3">
@@ -81,19 +81,19 @@
                               <div class="col-md-3">
                                  <div class="form-group" >
                                     <label class="form-label">মোবাইল নম্বর <span class="required">*</span></label>
-                                    <input type="number" name="mobile_no" value="<?=set_value('mobile_no')?>" class="form-control input-sm font-opensans" placeholder="01000000000" autocomplete="off">   
+                                    <input type="number" name="mobile_no" value="<?=set_value('mobile_no')?>" class="form-control input-sm font-opensans" placeholder="01000000000" autocomplete="off">
                                  </div>
                               </div>
                               <div class="col-md-3">
                                  <div class="form-group" >
                                     <label class="form-label">ইমেইল এড্রেস </label>
-                                    <input type="text" name="email" value="<?=set_value('email')?>" class="form-control input-sm font-opensans" placeholder="example@domain.com" autocomplete="off">   
+                                    <input type="text" name="email" value="<?=set_value('email')?>" class="form-control input-sm font-opensans" placeholder="example@domain.com" autocomplete="off">
                                  </div>
                               </div>
                               <div class="col-md-3">
                                  <div class="form-group">
                                     <label class="form-label">পাসওয়ার্ড <span class="required">*</span></label>
-                                    <input type="text" name="password" value="<?=set_value('password')?>" class="form-control input-sm font-opensans" placeholder="সর্বনিন্ম ৮ টি অক্ষর দিতে হবে" autocomplete="off">   
+                                    <input type="text" name="password" value="<?=set_value('password')?>" class="form-control input-sm font-opensans" placeholder="সর্বনিন্ম ৮ টি অক্ষর দিতে হবে" autocomplete="off">
                                  </div>
                               </div>
                            </div>
@@ -105,7 +105,7 @@
                      <div class="col-md-12">
                         <fieldset>
                            <legend>বর্তমান অফিসের/প্রতিষ্ঠানের তথ্য</legend>
-                           <div class="row form-row">                  
+                           <div class="row form-row">
                               <div class="col-md-4">
                                  <div class="form-group">
                                     <label class="form-label">বর্তমান অফিস/প্রতিষ্ঠান <span class="required">*</span></label>
@@ -148,13 +148,13 @@
                      <div class="col-md-12">
                         <div class="pull-right">
                            <input type="submit" name="save" value="সংরক্ষণ করুন" class="btn btn-primary btn-cons">
-                        </div> 
+                        </div>
                      </div>
                   </div>
 
                   <?php echo form_close();?>
 
-               </div>  <!-- END GRID BODY -->              
+               </div>  <!-- END GRID BODY -->
             </div> <!-- END GRID -->
          </div>
 
@@ -169,7 +169,7 @@
    $(document).ready(function() {
 
    // Jquery custome validate
-   $.validator.addMethod("nidlength", function(value, element) { 
+   $.validator.addMethod("nidlength", function(value, element) {
       var nid = $('#nid').val().length;
       if(nid == 10 || nid == 13 || nid == 17){
          return true;
@@ -178,7 +178,7 @@
 
    // Validate User Registration
    $('#trainer').validate({
-      focusInvalid: false, 
+      focusInvalid: false,
       ignore: "",
       rules: {
          name_bn: { required: true },
@@ -207,8 +207,8 @@
 
       messages: {
          nid: {
-            required: "ন্যাশনাল আইডি প্রদান করুন",      
-            minlength: jQuery.format("সর্বনিন্ম {0} টি সংখ্যা প্রদান করুন"),      
+            required: "ন্যাশনাল আইডি প্রদান করুন",
+            minlength: jQuery.format("সর্বনিন্ম {0} টি সংখ্যা প্রদান করুন"),
             remote: jQuery.format("এই ন্যাশনাল আইডি আগে প্রদান করা হয়েছে")
          },
          // mobile_no: {
@@ -220,14 +220,14 @@
       },
 
       invalidHandler: function (event, validator) {
-         //display error alert on form submit    
+         //display error alert on form submit
       },
 
-      errorPlacement: function (label, element) { // render error placement for each input type  
+      errorPlacement: function (label, element) { // render error placement for each input type
          $('<span class="error" style="position: absolute; top:60px;"></span>').insertAfter(element).append(label)
          // $('<span class="error"></span>').insertAfter(element).append(label)
          var parent = $(element).parent('.input-with-icon');
-         parent.removeClass('success-control').addClass('error-control');         
+         parent.removeClass('success-control').addClass('error-control');
       },
 
       highlight: function (element) { // hightlight error inputs
@@ -239,13 +239,13 @@
 
       success: function (label, element) {
          var parent = $(element).parent('.input-with-icon');
-         parent.removeClass('error-control').addClass('success-control'); 
+         parent.removeClass('error-control').addClass('success-control');
       },
 
       submitHandler: function(form) {
          form.submit();
       }
-   });   
+   });
 
 });
 

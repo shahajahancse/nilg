@@ -65,8 +65,9 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 10% !important"> ক্রম </th>
-                                        <th>তারিখ</th>
+                                        <th>নাম</th>
                                         <th>বিভাগ</th>
+                                        <th>তারিখ</th>
                                         <th>অর্থবছর</th>
                                         <th>পরিমাণ</th>
                                         <!-- <th>রাজস্ব পরিমাণ</th> -->
@@ -94,8 +95,9 @@
 
                                         <tr style="<?= $bg ?>">
                                             <td style=""><?= eng2bng($sl + 1); ?></td>
-                                            <td class="v-align-middle"><?= date_bangla_calender_format($row->created_at); ?></td>
+                                            <td class="v-align-middle"><?= $row->name_bn; ?></td>
                                             <td class="v-align-middle"><?= $row->dept_name; ?></td>
+                                            <td class="v-align-middle"><?= date_bangla_calender_format($row->created_at); ?></td>
                                             <td class="v-align-middle"><?= $row->session_name; ?></td>
                                             <td class="v-align-middle"><?= eng2bng($row->amount); ?></td>
 

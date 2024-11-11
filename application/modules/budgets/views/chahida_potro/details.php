@@ -38,7 +38,7 @@
                         <h4><span class="semi-bold"><?= $meta_title; ?></span></h4>
                         <div class="pull-right">
                             <a href="<?= base_url('budgets/budget_nilg') ?>"
-                                class="btn btn-blueviolet btn-xs btn-mini">চাহিদাপত্র তাকিকা</a>
+                                class="btn btn-blueviolet btn-xs btn-mini">চাহিদাপত্র তালিকা</a>
                         </div>
                     </div>
                     <div class="grid-body ">

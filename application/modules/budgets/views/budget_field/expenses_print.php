@@ -175,9 +175,9 @@
                         <th style="text-align: left;" width="">শিরোনাম</th>
                         <th width="">বরাদ্দ</th>
                         <th width="">প্রকৃত ব্যয় (ভ্যাট,কর ব্যতিত)</th>
-                        <th width="">ভ্যাট (%)</th>
+                        <!-- <th width="">ভ্যাট (%)</th> -->
                         <th width="">ভ্যাট পরিমাণ</th>
-                        <th width="">আইটি কর {%}</th>
+                        <!-- <th width="">আইটি কর {%}</th> -->
                         <th width="">আইটি পরিমাণ</th>
                         <th width="">মোট ব্যয়</th>
                         <th width="">অবশিষ্ট বরাদ্দ</th>
@@ -208,9 +208,9 @@
                                 <td colspan="" style="text-align: left;"> <?=$sub->name_bn?> <?= !empty($sub->head_modify) ? ' ( '.$sub->head_modify .' )': '' ?> </td>
                                 <td style="text-align: right;"><?= eng2bng($sub->total_amt * $info->batch_number) ?>  &nbsp;&nbsp;</td>
                                 <td style="text-align: right;"><?= eng2bng($sub->prokito_bay) ?>  &nbsp;&nbsp;</td>
-                                <td style="text-align: right;"><?= eng2bng($sub->vat) ?>  &nbsp;&nbsp;</td>
+                                <!-- <td style="text-align: right;"><?= eng2bng($sub->vat) ?>  &nbsp;&nbsp;</td> -->
                                 <td style="text-align: right;"><?= eng2bng($sub->vat_amt) ?>  &nbsp;&nbsp;</td>
-                                <td style="text-align: right;"><?= eng2bng($sub->it_kor) ?>  &nbsp;&nbsp;</td>
+                                <!-- <td style="text-align: right;"><?= eng2bng($sub->it_kor) ?>  &nbsp;&nbsp;</td> -->
                                 <td style="text-align: right;"><?= eng2bng($sub->it_kor_amt) ?>  &nbsp;&nbsp;</td>
                                 <td style="text-align: right;"><?= eng2bng($sub->expense_amt) ?>  &nbsp;&nbsp;</td>
                                 <td style="text-align: right;"><?= eng2bng($sub->balance) ?>  &nbsp;&nbsp;</td>
@@ -221,9 +221,9 @@
                         <td colspan="2" style="text-align: right;">মোট : &nbsp;&nbsp;</td>
                         <td style="text-align: right;">&nbsp;&nbsp; <?= eng2bng($info->amount * $info->batch_number) ?> &nbsp;&nbsp;</td>
                         <td style="text-align: right;"> <?= eng2bng($info->prokrito_bay_total) ?> &nbsp;&nbsp;</td>
-                        <td></td>
+                        <!-- <td></td> -->
                         <td style="text-align: right;"> <?= eng2bng($info->vat_total_amt) ?> &nbsp;&nbsp;</td>
-                        <td></td>
+                        <!-- <td></td> -->
                         <td style="text-align: right;"> <?= eng2bng($info->it_total_amt) ?> &nbsp;&nbsp;</td>
                         <td style="text-align: right;"> &nbsp;&nbsp; <?= eng2bng($info->sp_total_amt) ?> &nbsp;&nbsp;</td>
                         <td style="text-align: right;"> <?= eng2bng($info->balance) ?> &nbsp;&nbsp;</td>
@@ -234,21 +234,25 @@
             <table border="1" cellpadding="0" cellspacing="0" style="width: 60%; margin: 4px 15px">
                 <tr>
                     <th style="text-align: left;">&nbsp;&nbsp; শিরোনাম</th>
+                    <td style="text-align: center">চালান নং</td>
                     <td style="text-align: center">পরিমাণ</td>
                     <td style="text-align: center">তারিখ</td>
                 </tr>
                 <tr>
                     <th style="text-align: left;">&nbsp;&nbsp; ভ্যাট </th>
+                    <td style=""> <?= eng2bng($info->vat_chalan_no) ?></td>
                     <td style=""> <?= eng2bng($info->vat_total_amt) ?></td>
                     <td style=""> <?= eng2bng($info->vat_chalan_date) ?></td>
                 </tr>
                 <tr>
                     <th style="text-align: left;">&nbsp;&nbsp; আইটি </th>
+                    <td style=""> <?= eng2bng($info->it_chalan_no) ?></td>
                     <td style=""> <?= eng2bng($info->it_total_amt) ?></td>
                     <td style=""> <?= eng2bng($info->it_chalan_date) ?></td>
                 </tr>
                 <tr>
                     <th style="text-align: left;">&nbsp;&nbsp; অব্যয়িত অর্থ </th>
+                    <td style=""> <?= eng2bng($info->obs_chalan_no) ?></td>
                     <td style=""> <?= eng2bng($info->balance) ?></td>
                     <td style=""> <?= eng2bng($info->obs_chalan_date) ?></td>
                 </tr>

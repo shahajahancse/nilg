@@ -9,7 +9,7 @@ class Common_model extends CI_Model
         $this->userSessID = $this->session->userdata('user_id');
     }
 
-    public function office_ntfy($dept_id = null)
+    public function office_ntfy($dept_id = null, $office_id = null)
     {
         $trues = $this->ion_auth->in_group(array('ad'));
         $this->db->select("
@@ -40,6 +40,9 @@ class Common_model extends CI_Model
         ");
         if ($trues) {
             $this->db->where('dept_id', $dept_id);
+        }
+        if (!empty($office_id)) {
+            $this->db->where('office_id', $office_id);
         }
         $row = $this->db->where('status !=', 1)->get('budget_field')->row();
         if ($this->ion_auth->in_group(array('ad'))) {
@@ -275,7 +278,7 @@ class Common_model extends CI_Model
 
 
     // get nilg employee
-    public function get_nilg_employee($crrnt_dept_id = null, $employee_type = null)
+    public function get_nilg_employee($crrnt_dept_id = null, $employee_type = null, $status = null)
     {
         $data[''] = '-- নির্বাচন করুন --';
         $this->db->select('id, name_bn');
@@ -286,6 +289,9 @@ class Common_model extends CI_Model
         }
         if ($employee_type != null) {
             $this->db->where('employee_type', $employee_type);
+        }
+        if ($status != null) {
+            $this->db->where('status', $status);
         }
         $this->db->where('office_type', 7);
         $query = $this->db->get();

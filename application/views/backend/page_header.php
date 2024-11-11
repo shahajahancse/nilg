@@ -377,10 +377,10 @@
 
                <!-- বাজেট entry start -->
                <!-- //  not live the module yet -->
-               <?php $aar = array('admin','dd','jd','director','dg', 'ad', 'tdo', 'uz', 'ddlg','bod'); ?>
+               <?php $aar = array('admin','dd','jd','director','dg', 'ad', 'tdo', 'up', 'paura', 'uz', 'ddlg', 'zp', 'city', 'bod'); ?>
                <?php if ($this->ion_auth->in_group('demo')) { ?>
                <?php if ($this->ion_auth->in_group($aar)) { ?>
-                  <?php if ($this->ion_auth->in_group(array('uz', 'ddlg'))) { ?>
+                  <?php if ($this->ion_auth->in_group(array('up', 'paura', 'uz', 'ddlg', 'zp', 'city'))) { ?>
                      <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব মডিউল</span>
                         <span class="selected"></span>
                         <?php if ($office_ntfy > 0) {
@@ -535,6 +535,9 @@
                      <ul class="sub-menu">
                         <li class="start <?= backend_activate_menu_method('hostel_entry') ?>">
                            <a href="<?= base_url('journal_entry/hostel_entry'); ?>"> হোস্টেল তালিকা </a>
+                        </li>
+                        <li class="start <?= backend_activate_menu_method('hostel_booking_acc_list') ?>">
+                           <a href="<?= base_url('journal_entry/hostel_booking_acc_list'); ?>"> হিসাব শাখা স্থানান্তর </a>
                         </li>
                         <li class="start <?= backend_activate_menu_method('entry_report') ?>">
                            <a href="<?= base_url('journal_entry/entry_report'); ?>"> রিপোর্ট </a>
@@ -722,7 +725,6 @@
                   if ($acd > 0) {
                      echo '<span class="badge badge-danger pull-right">' . eng2bng($acd) . '</span>';
                   } ?>
-
                   <span class="badge badge-danger pull-right"></span>
                   <span class="arrow"></span> </a>
                      <ul class="sub-menu">
@@ -773,6 +775,9 @@
                         </li>
                         <li class="start <?= backend_activate_menu_method('publication_bikri_list') ?>">
                            <a href="<?= base_url('journal_entry/publication_bikri_acc_list'); ?>"> প্রকাশনা তালিকা </a>
+                        </li>
+                        <li class="start <?= backend_activate_menu_method('hostel_booking_acc_list') ?>">
+                           <a href="<?= base_url('journal_entry/hostel_booking_acc_list'); ?>"> হোস্টেল তালিকা </a>
                         </li>
                         <li class="start <?= backend_activate_menu_method('entry_report') ?>">
                            <a href="<?= base_url('journal_entry/entry_report'); ?>"> রিপোর্ট </a>

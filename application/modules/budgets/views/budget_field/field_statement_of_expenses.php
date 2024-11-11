@@ -32,7 +32,7 @@
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right">
                             <a href="<?=base_url('budgets/budget_field')?>"
-                                class="btn btn-blueviolet btn-xs btn-mini">বাজেট তাকিকা</a>
+                                class="btn btn-blueviolet btn-xs btn-mini">বাজেট তালিকা</a>
                         </div>
                     </div>
                     <div class="grid-body">

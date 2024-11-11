@@ -34,11 +34,11 @@ class Backend_Controller extends MY_Controller
 			// Get User Details
 			$this->data['userDetails'] = $this->Common_model->get_office_info_by_session();
 			$userDetails = $this->data['userDetails'];
-			// dd($this->data['userDetails']);
+			// dd($userDetails);
 			// budget notification
 			$this->data['rev_ntfy'] = $this->Common_model->rev_notify($userDetails->crrnt_dept_id);
 			$this->data['train_notify'] = $this->Common_model->train_notify($userDetails->crrnt_dept_id);
-			$this->data['office_ntfy'] = $this->Common_model->office_ntfy($userDetails->crrnt_dept_id);
+			$this->data['office_ntfy'] = $this->Common_model->office_ntfy($userDetails->crrnt_dept_id, $userDetails->crrnt_office_id);
 
 			// Get Groups
 			$users_groups = $this->ion_auth_model->get_users_groups()->result();
