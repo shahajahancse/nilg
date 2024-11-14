@@ -1665,7 +1665,6 @@ class Training extends Backend_Controller
         /*if(@$_FILES['userfile']['size'] > 0){
             $this->form_validation->set_rules('userfile', '', 'callback_file_check');
         } */
-
         // Validata and Insert Data
         if ($this->form_validation->run() == true) {
 
@@ -1687,6 +1686,11 @@ class Training extends Backend_Controller
                 redirect('login');
             }
 
+            // this code short time 14-10-2024
+            // Redirect and success message
+            $this->session->set_flashdata('success', 'প্রশিক্ষণটি ডাটাবেজে সংরক্ষণ করা হয়েছে');
+            redirect('training');
+            // this code short time
 
             $form_data = array(
                 'participant_name'    => $this->input->post('participant_name'),

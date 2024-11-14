@@ -343,6 +343,113 @@ class Budgets extends Backend_Controller
         $mpdf->WriteHtml($html);
         $mpdf->output();
     }
+    public function budget_chahida($offset = 0)
+    {
+        $limit = 15;
+        $user_id = $this->data['userDetails']->id;
+        $dept_id = $this->data['userDetails']->crrnt_dept_id;
+        if (empty($this->data['userDetails']->crrnt_dept_id)) {
+            $this->session->set_flashdata('error', 'Please update your profile first');
+            redirect("my_profile");
+        }
+
+        if ($this->ion_auth->in_group(array('ad'))) {
+            $results = $this->Budgets_model->get_budget_chahida($limit, $offset, null, $dept_id, null, 1);
+        } else if ($this->ion_auth->in_group(array('dd'))) {
+            $arr = array(3);
+            $results = $this->Budgets_model->get_budget_chahida($limit, $offset, $arr, null, null);
+        } else if ($this->ion_auth->in_group(array('jd'))) {
+            $arr = array(4);
+            $results = $this->Budgets_model->get_budget_chahida($limit, $offset, $arr, null, null);
+        } else if ($this->ion_auth->in_group(array('dg'))) {
+            $arr = array(5,6,7,8,9);
+            $results = $this->Budgets_model->get_budget_chahida($limit, $offset, $arr, null, null);
+        } else if ($this->ion_auth->in_group(array('acc'))) {
+            $arr = array(6,7,8,9);
+            $results = $this->Budgets_model->get_budget_chahida($limit, $offset, $arr, null, null);
+        } else if ($this->ion_auth->in_group(array('admin', 'nilg'))) {
+            $results = $this->Budgets_model->get_budget_chahida($limit, $offset);
+        }
+
+        $this->data['results'] = $results['rows'];
+        $this->data['total_rows'] = $results['num_rows'];
+        //pagination
+        $this->data['pagination'] = create_pagination('budget/budget_chahida/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+
+        // Load view
+        $this->data['meta_title'] = 'বাজেট এর তালিকা';
+        $this->data['subview'] = 'budget_nilg/budget_chahida';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function budget_chahida_create()
+    {
+        // dd($_POST);
+        $this->form_validation->set_rules('title', 'বাজেট নাম', 'required|trim');
+        $this->form_validation->set_rules('fcl_year', 'অর্থ বছর', 'required|trim');
+        if ($this->form_validation->run() == true) {
+            $user = $this->ion_auth->user()->row();
+            $form_data = array(
+                'title' => $this->input->post('title'),
+                'amount' => $this->input->post('total_amount'),
+                'fcl_year' => $this->input->post('fcl_year'),
+                'dept_id' => $user->crrnt_dept_id,
+                'description' => $this->input->post('description'),
+                'created_by' => $user->id,
+            );
+            $this->db->trans_start();
+            if ($this->Common_model->save('budget_nilg', $form_data)) {
+                $insert_id = $this->db->insert_id();
+                for ($i = 0; $i < sizeof($_POST['head_id']); $i++) {
+                    $form_data2 = array(
+                        'nilg_id' => $insert_id,
+                        'head_id' => $_POST['head_id'][$i],
+                        'head_sub_id' => $_POST['head_sub_id'][$i],
+                        'amount' => $_POST['amount'][$i],
+                        'fcl_year' => $_POST['fcl_year'],
+                        'created_by' => $user->id,
+                    );
+                    $this->Common_model->save('budget_nilg_details', $form_data2);
+                }
+                $this->db->trans_complete();
+                $this->session->set_flashdata('success', 'তথ্যটি সফলভাবে ডাটাবেসে সংরক্ষণ করা হয়েছে.');
+                redirect("budgets/budget_chahida");
+            }
+        }
+
+        $this->db->select('
+                            budget_head_sub.id,
+                            budget_head_sub.bd_code,
+                            budget_head_sub.name_bn,
+                            budget_head_sub.prev_amt,
+                            budget_head_sub.budget_amt,
+                            budget_head.name_bn as budget_head_name,
+                            budget_head.id as budget_head_id
+                            ');
+        $this->db->from('budget_head_sub');
+        $this->db->join('budget_head', 'budget_head_sub.head_id = budget_head.id');
+        $this->data['budget_head_sub'] = $this->db->get()->result();
+        //Dropdown
+        $this->data['info'] = $this->Common_model->get_user_details();
+        //Load view
+        $this->data['meta_title'] = 'বাজেট তৈরি করুন';
+        $this->data['subview'] = 'budget_nilg/budget_chahida_create';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    public function budget_chahida_print($id)
+    {
+        $id = (int) decrypt_url($id);
+        //Results
+        $this->data['info'] = $this->Budgets_model->get_budget_chahida_info($id);
+        $this->data['items'] = $this->Budgets_model->get_budget_chahida_details($id);
+
+        // Generate PDF
+        $this->data['headding'] = 'বাজেট';
+        $html = $this->load->view('budget_nilg/budget_nilg_print', $this->data, true);
+
+        $mpdf = new mPDF('', 'A4', 10, 'nikosh', 10, 10, 10, 5);
+        $mpdf->WriteHtml($html);
+        $mpdf->output();
+    }
     // other department budget end
 
     // training department budget

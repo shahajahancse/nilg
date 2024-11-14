@@ -438,6 +438,9 @@
                               <li class="start <?= backend_activate_menu_method('budget_nilg') ?>">
                                  <a href="<?= base_url('budgets/budget_nilg'); ?>">বাজেট চাহিদাপত্র </a>
                               </li>
+                              <!-- <li class="start <?= backend_activate_menu_method('budget_chahida') ?>">
+                                 <a href="<?= base_url('budgets/budget_chahida'); ?>">চাহিদাপত্র </a>
+                              </li> -->
                            <?php } ?>
                            <!-- DD, JD, Director, DG role -->
                            <?php if ($this->ion_auth->in_group(array('dd','jd','director','dg'))) { ?>
