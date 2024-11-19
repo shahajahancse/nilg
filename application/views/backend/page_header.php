@@ -378,7 +378,7 @@
                <!-- বাজেট entry start -->
                <!-- //  not live the module yet -->
                <?php $aar = array('admin','dd','jd','director','dg', 'ad', 'tdo', 'up', 'paura', 'uz', 'ddlg', 'zp', 'city', 'bod'); ?>
-               <?php if ($this->ion_auth->in_group('demo')) { ?>
+               <?php //if ($this->ion_auth->in_group('demo')) { ?>
                <?php if ($this->ion_auth->in_group($aar)) { ?>
                   <?php if ($this->ion_auth->in_group(array('up', 'paura', 'uz', 'ddlg', 'zp', 'city'))) { ?>
                      <li class="start <?= backend_activate_menu_class('budgets') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব মডিউল</span>
@@ -549,8 +549,9 @@
                   </li>
                <?php } ?>
                <!-- hostel registration -->
-               <?php } ?>
+               <?php //} ?>
                <!-- বাজেট entry end -->
+
 
                <!-- এনআইএলজি সেটিংস cc-->
                <?php if ($this->ion_auth->in_group('cc')) { ?>
@@ -720,7 +721,7 @@
                <!-- all / general report -->
 
                <!-- হিসাব বিভাগ Acc start -->
-               <?php if ($this->ion_auth->in_group(array('demo'))) { ?>  <!-- //  not live the module yet -->
+               <?php //if ($this->ion_auth->in_group(array('demo'))) { ?>  <!-- //  not live the module yet -->
                <?php if ($this->ion_auth->in_group(array('acc'))) { ?>
                   <!-- pension registration -->
                   <li class="start <?= backend_activate_menu_class('journal_entry') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব মডিউল</span> <span class="selected"></span>
@@ -789,11 +790,12 @@
                   </li>
                   <!-- pension registration -->
                <?php }  ?>
-               <?php }  ?>
+               <?php //}  ?>
                <!-- হিসাব বিভাগ Account entry end -->
 
+
                <!-- হিসাব সেটিংস -->
-               <?php if ($this->ion_auth->in_group(array('demo'))) { ?>
+               <?php //if ($this->ion_auth->in_group(array('demo'))) { ?>
                <?php if ($this->ion_auth->in_group(array('admin','nilg','acc', 'bli', 'bho'))) { ?>
                   <li class="start <?= backend_activate_menu_class('nilg_setting') ?> <?= backend_activate_menu_class('budget_head') ?> <?= backend_activate_menu_class('budget_sub_head') ?>"> <a href=" javascript:;"> <i class="fa fa-user"></i> <span class="title">হিসাব সেটিংস</span> <span class="selected"></span> <span class="arrow"></span> </a>
                      <ul class="sub-menu">
@@ -822,8 +824,9 @@
                      </ul>
                   </li>
                <?php } ?>
-               <?php } ?>
+               <?php //} ?>
                <!-- হিসাব সেটিংস -->
+                
 
                <!-- এনআইএলজি সেটিংস -->
                <?php if ($this->ion_auth->is_admin() || $this->ion_auth->in_group('nilg')) { ?>

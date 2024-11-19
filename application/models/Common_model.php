@@ -41,10 +41,10 @@ class Common_model extends CI_Model
         if ($trues) {
             $this->db->where('dept_id', $dept_id);
         }
-        if (!empty($office_id)) {
+        if (!empty($office_id) && $office_id != 125) {
             $this->db->where('office_id', $office_id);
         }
-        $row = $this->db->where('status !=', 1)->get('budget_field')->row();
+        $row = $this->db->get('budget_field')->row();
         if ($this->ion_auth->in_group(array('ad'))) {
             $nt = $row->ad + $row->ad1 + $row->ad2 + $row->ad3 + $row->ad4 + $row->ad5;
         } elseif ($this->ion_auth->in_group(array('dd'))) {
@@ -62,6 +62,7 @@ class Common_model extends CI_Model
         } else {
             $nt = 0;
         }
+        // dd($nt);
         return $nt;
     }
 
