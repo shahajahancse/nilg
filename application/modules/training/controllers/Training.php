@@ -1686,12 +1686,6 @@ class Training extends Backend_Controller
                 redirect('login');
             }
 
-            // this code short time 14-10-2024
-            // Redirect and success message
-            $this->session->set_flashdata('success', 'প্রশিক্ষণটি ডাটাবেজে সংরক্ষণ করা হয়েছে');
-            redirect('training');
-            // this code short time
-
             $form_data = array(
                 'participant_name'    => $this->input->post('participant_name'),
                 'course_id'         => $this->input->post('course_id'),
@@ -1719,7 +1713,6 @@ class Training extends Backend_Controller
                 'upazila_id'        => $upazilaID != NULL ? $upazilaID : NULL,
                 'created'           => date('Y-m-d H:i:s')
             );
-            // dd($form_data);
 
             // Insert to DB
             if ($this->Common_model->save('training', $form_data)) {
