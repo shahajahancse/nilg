@@ -165,8 +165,6 @@
                                                     <?php if (in_array($row->status,[1,2]) && $this->ion_auth->in_group(array('admin','ad'))) { ?>
                                                         <li><a href="<?php echo base_url('budgets/training_budget_delete/' . encrypt_url($row->id)) ?>"><i class="fa fa-hand-o-right"></i> ডিলিট করুন </a></li>
                                                     <?php } ?>
-
-
                                                 </ul>
                                             </div>
                                         </td>

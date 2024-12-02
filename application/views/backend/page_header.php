@@ -471,7 +471,11 @@
                                  <a href="<?= base_url('budgets/training_budgets'); ?>">বাজেট চাহিদাপত্র </a>
                               </li>
                               <li class="start <?= backend_activate_menu_method('budget_field') ?>">
-                                 <a href="<?= base_url('budgets/budget_field'); ?>">প্রশিক্ষণ বাজেট তৈরি</a>
+                                 <a href="<?= base_url('budgets/budget_field'); ?>">প্রশিক্ষণ বাজেট তৈরি
+                                 <?php if ($office_ntfy > 0) {
+                                    echo '<span class="badge badge-danger pull-right" style="margin-right:15px;">' . eng2bng($office_ntfy) . '</span>';
+                                 } ?>
+                                 </a>
                               </li>
                               <li class="start <?= backend_activate_menu_method('training') ?>"> <a href="<?= base_url('nilg_setting/training_head/training'); ?>">বাজেট হেড</a> </li>
                               <li class="start <?= backend_activate_menu_method('training') ?>"> <a href="<?= base_url('nilg_setting/training_sub_head/training'); ?>">বাজেট সাব হেড</a> </li>
@@ -826,7 +830,7 @@
                <?php } ?>
                <?php //} ?>
                <!-- হিসাব সেটিংস -->
-                
+
 
                <!-- এনআইএলজি সেটিংস -->
                <?php if ($this->ion_auth->is_admin() || $this->ion_auth->in_group('nilg')) { ?>

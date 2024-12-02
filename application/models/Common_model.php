@@ -35,7 +35,9 @@ class Common_model extends CI_Model
             COUNT(CASE WHEN status = 14 THEN 1 END) AS ad3,
             COUNT(CASE WHEN status = 15 THEN 1 END) AS ad4,
             COUNT(CASE WHEN status = 10 THEN 1 END) AS ad5,
+            COUNT(CASE WHEN status = 25 THEN 1 END) AS ad6,
 
+            COUNT(CASE WHEN status = 24 THEN 1 END) AS tdo,
             COUNT(CASE WHEN status = 9 THEN 1 END) AS office,
         ");
         if ($trues) {
@@ -46,7 +48,9 @@ class Common_model extends CI_Model
         }
         $row = $this->db->get('budget_field')->row();
         if ($this->ion_auth->in_group(array('ad'))) {
-            $nt = $row->ad + $row->ad1 + $row->ad2 + $row->ad3 + $row->ad4 + $row->ad5;
+            $nt = $row->ad + $row->ad1 + $row->ad2 + $row->ad3 + $row->ad4 + $row->ad5 + $row->ad6;
+        } elseif ($this->ion_auth->in_group(array('tdo'))) {
+            $nt = $row->tdo;
         } elseif ($this->ion_auth->in_group(array('dd'))) {
             $nt = $row->dd + $row->dd1 + $row->dd2 + $row->dd3;
         } elseif ($this->ion_auth->in_group(array('jd'))) {

@@ -1077,10 +1077,10 @@ class Budgets extends Backend_Controller
         }
 
         if ($this->ion_auth->in_group(array('tdo'))) {
-            $arr = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22);
+            $arr = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25);
             $results = $this->Budgets_model->get_budget_field($limit, $offset, $arr, null, $user_id, $dept_id);
         } else if ($this->ion_auth->in_group(array('ad'))) {
-            $arr = array(2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22);
+            $arr = array(2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25);
             $results = $this->Budgets_model->get_budget_field($limit, $offset, $arr, null, null, null);
         } else if ($this->ion_auth->in_group(array('dd'))) {
             $arr = array(3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22);

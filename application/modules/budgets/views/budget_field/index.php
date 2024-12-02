@@ -59,7 +59,7 @@
                         <?php $sl = $pagination['current_page'];
                         foreach ($results as $row): $sl++; ?>
                            <?php
-                              if (in_array($row->status,[2,8,10,12,13,14,15]) && $this->ion_auth->in_group(array('ad'))) {
+                              if (in_array($row->status,[2,8,10,12,13,14,15,25]) && $this->ion_auth->in_group(array('ad'))) {
                                  $bg = "background: #f1e7e7";
                               } elseif (in_array($row->status,[3,16,17,18]) && $this->ion_auth->in_group(array('dd'))) {
                                  $bg = "background: #f1e7e7";
@@ -72,6 +72,8 @@
                               } elseif ($row->status == in_array($row->status,[7,22]) && $this->ion_auth->in_group(array('acc'))) {
                                  $bg = "background: #f1e7e7";
                               } elseif ($row->status == 9 && !$this->ion_auth->in_group(array('ad','dd','jd','director','dg','acc'))) {
+                                 $bg = "background: #f1e7e7";
+                              } elseif ($row->status == 24 && $this->ion_auth->in_group(array('tdo'))) {
                                  $bg = "background: #f1e7e7";
                               } else {
                                  $bg = "background: #fff";
@@ -155,6 +157,12 @@
                                     case 23:
                                         echo '<span class="label label-primary"> Reject </span>';
                                         break;
+                                    case 24:
+                                        echo '<span class="label label-primary"> Back TDO from AD </span>';
+                                        break;
+                                    case 25:
+                                        echo '<span class="label label-primary"> TDO Forward to AD </span>';
+                                        break;
                                     default:
                                         echo '';
                                         break;
@@ -169,19 +177,22 @@
                                     <button class="btn btn-mini btn-primary dropdown-toggle" data-toggle="dropdown"> <span class="caret"></span> </button>
                                     <ul class="dropdown-menu pull-right">
                                        <li><a href="<?php echo base_url('budgets/budget_field_print/' . encrypt_url($row->id)) ?>" target="_blank"><i class="fa fa-hand-o-right"></i> প্রিন্ট </a></li>
+
                                        <!-- <li><a href="<?php echo base_url('budgets/field_statement_of_expenses/' . encrypt_url($row->id)) ?>" target="_blank"><i class="fa fa-pencil"></i> ব্যয় বিবরণী </a></li> -->
+
                                        <!-- tdo -->
-                                       <?php if (in_array($row->status,[1]) && $this->ion_auth->in_group(array('tdo'))) {?>
+                                       <?php if (in_array($row->status,[1,24]) && $this->ion_auth->in_group(array('tdo'))) {?>
                                           <li><a href="<?php echo base_url('budgets/budget_field_details/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> সম্পাদনা করুন </a></li>
-                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/2/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড </a> </li>
+                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/25/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ফরওয়ার্ড </a> </li>
                                        <?php }?>
-                                       <?php if (in_array($row->status,[2]) && $this->ion_auth->in_group(array('tdo'))) {?>
-                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/21/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক </a> </li>
+                                       <?php if (in_array($row->status,[2,25]) && $this->ion_auth->in_group(array('tdo'))) {?>
+                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/1/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক </a> </li>
                                        <?php } ?>
 
                                        <!-- ad -->
-                                       <?php if (in_array($row->status,[1,2,8,10,12,13,14,15]) && $this->ion_auth->in_group(array('ad'))) {?>
+                                       <?php if (in_array($row->status,[1,2,8,10,12,13,14,15,25]) && $this->ion_auth->in_group(array('ad'))) {?>
                                           <li><a href="<?php echo base_url('budgets/budget_field_details/' . encrypt_url($row->id)) ?>"><i class="fa fa-pencil-square"></i> সম্পাদনা করুন </a></li>
+                                          <li> <a href="<?php echo base_url('budgets/budget_field_forward/24/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> ব্যাক টু TDO </a> </li>
                                           <li> <a href="<?php echo base_url('budgets/budget_field_forward/3/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড টু ডি.ডি  </a> </li>
                                           <li> <a href="<?php echo base_url('budgets/budget_field_forward/4/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড টু জে.ডি  </a> </li>
                                           <li> <a href="<?php echo base_url('budgets/budget_field_forward/5/' . encrypt_url($row->id)) ?>"> <i class="fa fa-pencil-square"></i> অনুমোদন এবং ফরওয়ার্ড টু ডিরেক্টর</a> </li>
