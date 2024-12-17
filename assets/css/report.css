@@ -1,0 +1,25 @@
+/* CSS Document */
+.reportTable {
+    border: 2px solid #CCCCCC;
+    border-collapse: collapse;
+}
+.reportTable td, .reportTable th {
+font-size:1em;
+border:1px solid #ACDEA5;
+padding:3px 7px 2px 7px;
+}
+.reportTable tr:nth-of-type(2n + 1) {
+    background-color: #EAF2D3;
+}
+.report_header {
+color: #666;
+text-shadow: 0px 1px 0px #ccc;
+}
+.report_head{
+padding:1px; 
+font-weight:bold; 
+text-align:center; 
+font-size:14px; 
+background: #9BBB59;
+color:#ffffff;
+}

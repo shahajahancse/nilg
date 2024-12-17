@@ -1,0 +1,726 @@
+/* VERSION = $Id$ $Rev: 75975 $ $Date: 2009-11-16 09:40:25 -0800 (Mon, 16 Nov 2009) $ */
+
+@import url("dpcolor.css");
+@import url("dplayout.css");
+@import url("dpprint.css");
+
+/*GLOBALS PEARL SUITE*/
+a, body, div, h1, h2, li, p, span, ul, ol, dd, dt, dl {
+	font-family:Arial;
+	font-size:100%;
+	margin:0;
+	padding:0;
+}
+iframe#djhistory {display:none;}
+table {width:100%; padding:.3em 0;}
+td {vertical-align:top;}
+th {font-weight:normal;}
+li, ul, ol {list-style:none;}
+img {border:none;}
+input:focus {outline: none;}
+a span, a {text-decoration:none;}
+.content {padding: 0 0 1em 0; z-index:10;}
+.theX {font-weight:bold;}
+.boxBody {padding:0 .6em .6em .5em;}
+.boxBody table{padding:0;}
+.boxHeader {font-size:1.2em; padding:.4em 0 0 .4em;}
+#introPage .corner1a, .corner1 {
+	display:block;
+	margin:0 10% 1em 10%;
+	background-image:url(../images/topLeftCorner.gif); 
+	background-repeat:no-repeat;
+	background-position:top left;
+	_width:80%;
+}
+#introPage .corner2a, .corner2 {background-image:url(../images/bottomLeftCorner.gif); background-repeat:no-repeat; background-position:bottom left;}
+/*The following underscore hack (_width:100% ) is IE6 specific . It is to get the rounded corners to display properly*/
+#introPage .corner3a, .corner3 {background-image:url(../images/bottomRightCorner.gif); background-repeat:no-repeat; background-position:bottom right;}
+#introPage .corner4a, .corner4 {background-image:url(../images/topRightCorner.gif); background-repeat:no-repeat; background-position:top right;}
+
+a.iconText img {vertical-align:middle; position:relative; bottom:2px;}
+a.iconText {font-size:.8em;zoom:1}
+
+/*HEADER*/
+#myAccountHeader {width:auto; padding-left:7px;}
+#myAccountInfo {
+	float:right;
+	font-size:.8em;
+	padding-right:1em; 
+}
+#myAccountDet {font-size:.8em; text-align:left; margin-left: -10px; vertical-align: top;}
+#myAccountDet a {margin-right:5px;}
+#myAccountInfo {float:right; margin-right:10px; margin-left: 30px; }
+
+/*SEARCH*/
+#searchbox {float:left; font-size:.8em; margin:.5em 0 2em 3.5%;}
+* #searchbox {padding-bottom:0;	 margin-left:2em;}
+* #searchbox form {margin-top: 0px;}
+* html #searchbox {margin-left:1em; margin-right: 1em;}
+#searchbox form div {margin-bottom:0;}
+#searchbox #targetAuto, #searchbox #target {font-size:1.5em; padding:.1em;}
+.searchText, .searchContent, .searchSubmit {vertical-align:bottom; display:table-cell; display:inline-block;}
+.searchSubmit {padding:0 0 1em .25em;}
+.searchSubmit input {position:relative; top:15px; *top:17px;}
+.searchText {font-size:1.75em; position:relative;}
+.aboveSearch, .belowSearch {position:relative;}
+.advSearch, .changeLang {position:absolute; right:0; top:0;}
+
+.basicSearchbox {width: 450px; margin-left: auto; margin-right: auto; margin-bottom: 1.5em;}
+.basicSearchbox input {float:left;margin-left:5px;margin-top:5px;}
+.basicSearchbox img {float:left;margin-right:5px;}
+.basicSearchbox img.imageArrow{display:none;}
+.basicSearchbox .searchText {float:left;padding-top:12px;font-size:1.4em;}
+.basicSearchbox .targetInput {font-size:1.1em;height:28px;width:300px;margin-top:12px;}
+
+
+.encoreLogo {float:right; padding:.5em 0 .5em 0;}
+.encoreLogoLinks {font-size:1em; font-weight:bold;  line-height:1.1em;}
+
+/*form error alert*/
+#validationDialog{width:30em;}
+.alertDialog{border-width:3px; border-style:solid; padding:0; -moz-border-radius:10px; text-align:center;}
+.alertContent{padding:.25em; margin:1em; font-weight:bold;}
+.alertButton {width: auto;border-width:1px; border-style:solid; padding: 0.1em; cursor:hand; cursor:pointer;}
+* html #validationDialog{top:0px;width:400px;margin:0px;background-color:transparent;}
+* html .alertDialog {top:0px; margin:0px;}
+
+/*AUTOCOMPLETE*/
+/*need to make the zindex higher than the footer - revisit*/
+ div.autocomplete {
+     position:absolute;
+     width:250px;
+     margin:0px;
+     padding:0px;
+ }
+ div.autocomplete ul {
+     list-style-type:none;
+     border-width:1px;
+	 border-style:solid;
+     margin:0 0 25px 0;
+     padding:0px;
+ }
+ div.autocomplete ul li {
+     list-style-type:none;
+     display:block;
+     margin:0;
+     padding:4px 0 4px 4px;
+     cursor:pointer;
+ }
+ div.autocomplete ul li img { border:none; margin-right: 10px; vertical-align:middle;}
+
+/*HOMEPAGE*/
+#introPage {
+	width:600px; 
+	margin:auto; 
+	overflow:hidden; 
+	padding-top:50px;
+	position:relative;
+	z-index:1;
+}
+#introPage .corner1a {margin:0; width:100%;}
+#introPage .corner4a {padding:2em 3em;}
+.busyText {font-weight:bold; margin:5px; font-size:1.4em; font-family:Helvetica,Geneva,Arial,sans-serif;}
+.busyLink {text-decoration:underline;}
+.introLogo {clear:both;}
+#homePage .footerCustomArea {position:absolute; top:300px; z-index:0;}
+#homePage #copyright, #patronDisabledPage #copyright {position:relative; top:175px; z-index:0; }
+#homePage .encoreLogo {position:absolute; right:2%; top:275px;}
+
+/*SPELLING SUGGESTION*/
+.spellingSuggestion {clear:both; display:block; padding:0 0 0 2em;}
+
+/*TOGGLE CONTAINER*/
+.content {max-width: 100%;}
+* html .content {width:100%;}
+.ToggleContainer #Labels div {margin:0 .2em 0 -.4em;}
+.ThresholdContainer #Labels .bibInfoHeader {margin:0 .2em 0 -.4em;}
+.toggleImage {margin-right: .2em;}
+/*IE only*/
+.ToggleContainer #Labels div {*margin:0;}
+.ThresholdContainer #Labels .bibInfoHeader {*margin:0;}
+.ToggleContainer .bibInfoHeader, .ThresholdContainer .bibInfoHeader  { *margin-right: .2em;}
+*html .recordDisplay .ToggleContainer .bibInfoHeader, *html recordDisplay.ThresholdContainer .bibInfoHeader  { margin-right: .5em;}
+/*IE6 RECORD DISPLAY PAGE PEEKABOO BUG*/
+* html .recordDisplay {height: 1%;}
+/*Give layout for IE6 */
+* html .recordDisplay  .content {zoom: 1; }
+* html .recordDisplay .label {zoom: 1;}
+
+
+/*BROWSE AREA*/
+.browseResult {border-bottom-width:1px; border-bottom-style:solid;}
+.altHoldingsContent {padding-left:5px;}
+.progImageThumb {width:80px;}
+.dpBibTitle {font-size: 15px;}
+.dpBibTitle a {font-size: 15px;}
+.bibInfoData, .dpBibAuthor {font-size:.8em;}
+.dpBibAuthor {padding-bottom:.75em;}
+.dpBibHoldingStatus, .dpBibHoldsMessage {font-weight:bold;}
+.bibInfoHeader {text-decoration:none;}
+#contentColumn .boxBody {padding:0;}
+#Contents table {
+	padding:0;
+	margin-left:.65em;
+	border:0px;
+	font-size:.8em;
+	text-align:left;
+	width:99%;
+}
+
+.contents table {
+	padding:0;
+}
+.itemBookCover {position: relative; float: right; top: 0px;padding-left:.4em;}
+td.itemMediaType {width:50px;}
+td.itemMediaType {text-align:center; font-size:.8em; padding-right:.5em;}
+.browseResource {padding-left:.2em;}
+.browseExternal {padding-bottom:1em;}
+.enrichedContentList {clear:both; font-size:.8em;}
+.enrichedContentList a {
+	display:inline-block;
+	padding-right:.3em;
+	margin-bottom:.25em;
+	border-right-width:1px;
+	border-right-style:solid;
+}
+#tocLinkComponent, #tocInternalLinkComponent {*margin-bottom: .2em}
+
+td.ERMresource {padding-left: 27px; text-indent: -23px;}
+.ERMContainer table td {vertical-align:top;}
+.ERMContainer .content {vertical-align:top; padding: 0 0 1em 0;}
+.ERMholdings, .ERMsubData {font-size:.9em;}
+.ERMresource a {font-weight:bold; text-decoration:none;}
+.ERMresource a img {margin-bottom: -2px; margin-right: 4px;}
+.ERMresource a:hover {text-decoration:underline;}
+.ERMsubData {letter-spacing:.04em; padding-left: 2em; }
+.ERMresource, .ERMholdings, .ERMsubData {width: 60%;}
+
+ul.enrichedContentList, ul.enrichedContentList li {display: inline;}
+
+
+.actions {padding:.2em 0 .2em 0;margin-bottom:.2em;}
+.actions div {display:inline}
+.actions a.iconText {display:inline-block; padding-right:.5em;min-width: 0;}
+.actions a.iconText img {width:30px;height:26px;}
+
+/* GOOGLE MAPS */
+.map {height:500px; width:100%;}
+.mapInfoWindow {width:100% !important; font-size:.9em;}
+
+/*FEDERATED SEARCH*/
+.rproSearch #moreResourcesLink {margin-left: 28px;}
+span.rproSearch {font-size: 1em;}
+.fedSearchContentCell {width:99%;}
+
+/*PAGER, SORTER, and SEARCH STATEMENT*/
+.fedSearchArea .discoveryPath, .fedSearchArea .boxBody {display:inline;}
+.discoveryPath, .browseHeader {font-size:.8em; padding-bottom:.5em; width:100%;}
+.resultsArea {border-bottom-width:1px; border-bottom-style:solid; padding-right:.5em;}
+.searchTerm {font-size:1.5em;}
+.resultNumber {padding:1em 0 0 0; text-align:center;}
+.sortSelector {
+	font-size:.8em;
+	position:relative;
+	display:block;
+	margin:0 1em;
+	padding:.35em 0;
+	border-bottom-width:1px;
+	border-bottom-style:solid;
+}
+.pagination1 {
+	float:right;
+	position:relative;
+	z-index:2;
+	top:.25em;
+	right:1em;
+	font-size:.8em;
+}
+.pagination1 a {
+	border-width:1px;
+	border-style:solid;
+	padding:.1em .25em;
+	margin:0 -.3em;
+	display:inline-block;
+}
+.resultsBottomBorder  {display: none;}
+#bottomPager .resultsBottomBorder { display: block; margin-left: auto; margin-right: auto; margin-top: 29px; width: 100%; height: 1px; background-color: #DCDCDC; border: 0;}
+* html #bottomPager .resultsBottomBorder  {background-color: #FFF; border-top-color: #DCDCDC; border-top-width: 1px; border-top-style: solid;}
+
+/*FACETS*/
+#resultsPreviewComponentWrapperAnyComponent .corner1 {width:80%;}
+.resourceFacets {padding:0 1em 1em 1em; font-size:.8em;}
+.resourceFacets .facetGroupHeader {font-size:1.2em;}
+.facetGroupLink {font-size:.8em;}
+.facetItem {padding-bottom:.3em;}
+a.facetLink {padding-bottom:0;}
+
+/*IMAGES*/
+#imagemenu img {
+	height:50px;
+	width:50px;
+	padding-bottom:.25em;
+}
+#imagemenu ul li a:hover img {position:relative; z-index:2; }
+#imagearea {padding-left:.5em;	padding-right:.5em; _padding-right:.5em;}
+#imagearea #branding {text-align:right; clear:both;}
+#imagemenu ul {padding:0; margin:0;}
+#imagemenu ul li {
+	list-style: none; 
+	float: left; 
+	width:55px; 
+	height:55px;
+	margin:3px;
+	padding:0; 
+}
+
+/*INNREACH*/
+#innreachAreaContainer img {width:75px; vertical-align:middle;}
+#innreachAreaContainer td {text-align:center;}
+
+/*TAGS*/
+#tagcloudarea {text-align:center;}
+.tag9 {font-size:1.6em;}
+.tag8 {font-size:1.5em;}
+.tag7 {font-size:1.4em;}
+.tag6 {font-size:1.3em;}
+.tag5 {font-size:1.2em;}
+.tag4 {font-size:1em;}
+.tag3 {font-size:.9em;}
+.tag2 {font-size:.8em;}
+.tag1 {font-size:.7em;}
+	
+/*POPULAR CHOICES*/
+#bestBetsAnyComponent img {display:none;}
+#bestBetsAnyComponent ul {padding-left:2em;}
+#bestBetsAnyComponent li {list-style:disc; position: relative; vertical-align: top;}
+* html #bestBetsAnyComponent ul {position: relative; top: .5em; } /* IE6 */
+* html #bestBetsAnyComponent ul li a{vertical-align: top; position: relative; top: -.4em; text-align: left;} /* IE6 */
+html>body #bestBetsAnyComponent ul li a{ *vertical-align: top; *position: relative; *top: -.4em; *text-align: left;} /* IE 7 */
+
+.suggestedItems .iconText {white-space:normal;}
+.bestBetsTagline { display:block; padding:5px 0; text-align:center; }
+
+/*RESEARCH PRO*/
+.fedSearchPage #miscColumn {display:none;}
+.fedSearchPage #facetColuman {width:25%}
+.fedSearchArea table {clear:both; border-top-width:1px; border-top-style:solid; margin-top:1em;}
+#fedSearch dd {padding-left:1.2em;}
+#fedSearch .goButton img {margin-left:-1.2em;}
+.rproSearch {font-size:.8em; padding-top:.25em; margin-right:-.4em;}
+
+.resourceFacets  {margin: 4px 0 0 13px;}
+.resultsPreview {margin-left: 13px;}
+.fedPagination{ margin-top: 8px; margin-right: 8px; word-spacing: 4px;}
+#fedResourcesHeader {margin-top: 4px;}
+
+#fedSearchArrowSection { position: relative; margin:0; top: 0px; left: 0px;  display: block;}
+#fedSearchArrowSection ul { margin-left: 35px;  margin-bottom: 5px;}
+#fedSearchArrowImage {position: relative; left:32px; top: -3px; }
+#fedSearchArrowSection li {position:relative;}
+#fedSearchArrowSection li .bullet {position:absolute; left:-10px;}
+.fedSearchLink {margin-left: 34px;}
+
+/*FEDERATED SEARCH PAGE*/
+.fedSearchPage  .suggestedItemsHeader {display: none;}
+.fedSearchPage  #returnToResultsImageAnyComponent {display: none;}
+.fedSearchPage  .browseNavReturn {margin-left: -6px; text-align: center;}
+.fedSearchPage #catalogResultsMessage {width: 120px; display:table-cell; display: inline-block;}
+.federatedResultsTable {width:98%; padding-top: 10px; padding-bottom:10px; border-top-width:1px; border-top-style:solid;}
+.fedSearchPage #bookIcon {position: relative; top: 10px;}
+.fedSearchPage .bestBetsTagline{display:none;}
+.fedSearchPage  #recTitlesHeader {text-align:center;  display: block; padding-top: 17px; *padding-top: 13px; margin-bottom: 10px; font-size: 1em; margin-left: -10px; *margin-left: 0; margin-right: 0; width:100%; }
+html>body .fedSearchPage  #recTitlesHeader  { *width: auto; }
+.fedSearchPage  #suggestedItemsArea {margin-left: -15px;}
+
+.fedSearchResultDatabase {
+	display:block;
+	width:100%;
+	font-size:.9em;
+	margin:10px 5px 0 0;
+	text-align:left;
+}
+
+.fedSearchPage #catalogResultsSection {padding-bottom: 5px; }
+.fedSearchPage #catalogResultsSection  .corner3, .fedSearchPage #catalogResultsSection  .corner2 {background-image: none;}
+.fedSearchPage  .fedSearchResultReturnedCount {padding: 2px; font-size: .8em;}
+.fedSearchPage  #catalogResultsMessage span { padding: 3px; font-weight: bold;margin-bottom:.5em;}
+.fedSearchPage #researchProAsyncAnyComponent {font-size: 1.2em; font-weight: bold; margin-bottom: 10px;}
+.fedSearchPage #moreResourcesLinkComponent {position: relative; left: 35px; margin-top: 5px;}
+.fedSearchPage .resourceFacets {margin: 0;}
+.fedSearchPage .resourceFacets .facetGroupHeader {font-size: 1.5em; }
+.fedSearchPage .fedResourceName {margin: 10px 0 10px 0;}
+.fedSearchPage .boxBody {padding: 0 15px 10px 15px;}
+.fedSearchPage .boxHeader {padding: 10px 8px 0 8px;text-align:center;}
+.fedSearchPage .facetHeader{text-align:left;padding-left:.6em;}
+.fedSearchPage #bestBetsAnyComponent {margin-top:-25px; }
+.fedSearchPage #bestBetsAnyComponent .corner4, .fedSearchPage #bestBetsAnyComponent .corner1  {background-image: none; }
+.fedSearchPage .suggestedItems {padding-bottom: 10px;}
+
+
+
+/*IE6 hack use because IE6 does not siplay the combined catalog results and recommended titles properly */
+*html .fedSearchPage .browseNavReturn {padding-bottom: 10px;}
+*html .fedSearchPage #catalogResultsSection {padding-bottom: 0px; margin-bottom: 0px; }
+*html .fedSearchPage #catalogResultsSection  .corner2 {background-image: url(../images/bottomLeftCorner.gif); background-repeat:no-repeat;	background-position:bottom left;}
+*html .fedSearchPage #catalogResultsSection  .corner3 {background-image: url(../images/bottomRightCorner.gif); background-repeat:no-repeat; background-position:bottom right;}
+*html .fedSearchPage #catalogResultsSection  .corner4 {background-image:url(../images/topRightCorner.gif); background-repeat:no-repeat; background-position:top right;}
+*html .fedSearchPage #bestBetsAnyComponent  .corner4 {background-image:url(../images/topRightCorner.gif); background-repeat:no-repeat; background-position:top right;}
+*html .fedSearchPage #bestBetsAnyComponent  .corner1 {display:block; background-image:url(../images/topLeftCorner.gif); background-repeat:no-repeat; background-position:top left; width:73%;}
+*html .fedSearchPage #bestBetsAnyComponent {margin-top: 0px;}
+
+/*METALIB*/
+
+/*COPYRIGHT*/
+#bannerbottom {padding:2em 0; width:100%; clear:both;}
+#copyright img {display:block; margin:0 auto;}
+
+/*CENTRAL HOLDINGS*/
+#dpCentralHoldingsDetails {width:75%;}
+
+/*RECORD DISPLAY*/
+.recordDisplayLeftLinks{margin-top:2%;}
+.recordDisplayLeftLinks .requestItem {display:block;}
+.return {font-size:1.25em; clear:both; padding:0 1em 1.1em 1em;}
+.recordDisplay #bibInfoDetails {display:block;}
+.programRegister img, .recordDisplayLeftLinks img {vertical-align:middle; position:relative; bottom:2px;}
+
+.recordDisplay .title, .itemTitle, .itemTitle .highlight {font-size:1.1em;}
+.itemMetaData {font-size:.8em;}
+.itemHeaderInfo {float:left; margin-right:1em;width:85%;}
+.matTypeReserves {text-align:right; font-size:.8em;}
+.communityNoticeArea {clear:both; padding:1em 0;}
+.communityNoticeArea a {font-size:.8em; font-weight:bold;}
+.recordDisplay #Contents table {padding:0; margin:0;}
+.recordDisplay #Contents {padding-bottom:1em; padding-left:1em;}
+.recordDisplay .bibInfoData {font-size:1em;}
+.bibInfoLabel {text-align:left; padding-right:.3em;}
+.recordDisplay #contentColumn .bookcartItem {display:none;}
+.highlight {font-weight:bold;}
+.externalLink {position:relative;}
+.myTagsLabel {font-size:.8em; font-weight:bold;}
+.singleMyTag, #communityTags {font-size:.8em;}
+#communityTags {padding-bottom:.5em;}
+#communityTags a {display:inline-block; padding-right:1em;}
+.taggingForm form, .taggingForm input {margin:0;}
+.singleMyTag {display:inline-block; padding-right:1em;}
+.reportAbuseSection {display:none;}
+.recordDisplay .communityNoticeArea  .tagsLink {margin-right: 8px;}
+#tagAddSection .errorList {display: inline;}
+.validationError {margin: 0; padding:0;}
+/*This is a special class used to hide a span element inserted as a workaround for an IE bug fixed in c1124031 */
+.noTags { display:none;}
+.itemTable {width:75%;}
+.programTable {padding:10px; width:85%;}
+
+/*GBN*/
+table.gbnList {font-size:.8em; border-collapse:collapse; margin:0 -.5em;  width: auto;}
+.gbnList td {border-bottom-width:1px; border-bottom-style:solid; padding-bottom:1em;}
+td.gbnImage {width:40%; padding:.25em;}
+td.gbnTitle {width:60%;}
+.gbnImageHolder {width:50px; height:75px;}
+.gbnPrevious, .gbnNext {font-size:.8em; padding:.5em 0;}
+.gbnPrevious img, .gbnNext img {vertical-align:middle; position:relative; bottom:2px;}
+
+/*TABLE OF CONTENTS*/
+table.tocTable{margin:0 1em; border-collapse:collapse;}
+table.tocTable td {
+	border-width:1px; 
+	border-style:solid;
+	padding-bottom:.3em;
+}
+th.labelColumnHeader {width:10%; display:none;}
+th.levelColumnHeader {width:5%; display:none;}
+th.displayColumnHeader {display:none;}
+/*the border styles won't display in FF if all the th cells are set to display none*/
+th.pageColumnHeader {visibility:hidden; }
+td.labelColumnValue {width:10%; font-weight:bold;}
+td.levelColumnValue {width:5%; display:none;}
+
+/*RATINGS - all pixel values are needed for spriting*/
+.ratingComponent {position:relative;}
+.ratingComponent form {margin:0; padding:0;}
+.ratingForm, .communityRating {
+	font-size:.8em; 
+	position:absolute; 
+	left:-9999px; 
+	top:20px; 
+	z-index:900; 
+	border-width:1px;
+	border-style:solid;
+	padding:2px; 
+	text-align:left;
+}
+.starArea {width:80px; height:14px; background-image:url(../images/stars.gif); background-repeat:no-repeat; position:relative; overflow:hidden;}
+.communityNoticeArea .starArea {float:left; top:5px;}
+.recordDisplay .communityNotice .starArea {margin-right: 8px;}
+
+.starArea a {height:14px; width:15px; position:absolute; z-index:500;}
+a.star1  {left:4px;}
+a.star2  {left:16px;}
+a.star3  {left:32px;}
+a.star4  {left:48px;}
+a.star5  {left:64px;}
+
+.starArea a:hover{position:absolute; left:0; width:80px; background-image:url(../images/stars.gif); background-repeat:no-repeat; z-index:250}
+div.mystar1, .mystar a.star1:hover {background-position:0px -77px;}
+div.mystar2, .mystar a.star2:hover {background-position:0px -62px;}
+div.mystar3, .mystar a.star3:hover {background-position:0px -47px;}
+div.mystar4, .mystar a.star4:hover {background-position:0px -32px;}
+div.mystar5, .mystar a.star5:hover {background-position:0px -16px;}
+div.communitystar1, .communitystar a.star1:hover {background-position:0px -152px;}
+div.communitystar2, .communitystar a.star2:hover {background-position:0px -137px;}
+div.communitystar3, .communitystar a.star3:hover {background-position:0px -122px;}
+div.communitystar4, .communitystar a.star4:hover {background-position:0px -107px;}
+div.communitystar5, .communitystar a.star5:hover {background-position:0px -92px;}
+.recordDisplay .communityNotice .reviewsSection {margin-right: 8px;}
+
+/*REVIEWS - styles for accordion*/
+ul.accordion {
+	display: block;
+	list-style-type: none;
+	margin: 0;
+	padding: 2% 0 0 2%;
+	font-size:.8em;
+	position: relative; /* Forces the bottom border of the h2 to display in IE */
+	width:75%;
+}
+ul.accordion li {clear: left; margin: 0; padding: 0;}
+ul.accordion h2 span , ul.accordion h2 {border: 0; margin: 0; margin-bottom: 3px;}
+ul.accordion .reviewDate {font-size: .75em;	font-weight: normal;}
+ul.accordion .reviewContent {font-size: 1em; font-weight: normal; margin:0 0 0 35px;}
+.accordionContent {overflow: hidden; padding: 0; margin: 0;}
+li.collapsed .accordionContent {position: absolute; left: -9999px;}
+.addReviewLink {font-weight:bold;}
+
+/*Bookcart Brief Record Display */
+#bookCartPage #Labels img{display:none;}
+#bookCartPage #Contents table {font-size:1em; margin-left: 0;}
+
+/*Bookcart Full Record Display */
+#bookCartPage .bibInfoHeader {display: none;}
+#bookCartPage .bibInfoData {font-size: .9em;}
+#bookCartPage .bibInfoLabel {text-align: left;}
+
+#bookCartPage #formComponent {font-size: 1.2em;  border-width:1px; border-style:solid; margin:4px; margin-bottom:8px; padding: 4px 4px 4px 10px;} 
+#bookCartPage #toAddressFieldComponent {margin-right: 15px;}
+#bookCartPage dl, #bookCartPage dd, #bookCartPage dt {display:  inline; margin: 0; padding:0;}
+
+#bookCartPage #changeExportFormatForm {font-size: 1em;  font-weight: bold; position: relative;  display: inline;}
+#bookCartPage #exportFormatLabel{vertical-align: top;}
+#bookCartPage #emailSubmit {position: relative; top: -5px;}
+#bookCartPage #bookCartPageIdAnyComponent {margin-left: 20px;}
+#bookCartPage .content {padding: 0;}
+#bookCartPage  #float-wrap { margin-left: 1%; _margin-left:  1.75%; width: 95%;}
+#bookCartPage #contentColumn  { width: 100%}
+#bookCartPage .addReviewLink {display: none;}
+#bookCartPage .dpBibAuthor {font-size: .9em;}
+#bookCartPage .dpBibTitle {font-weight: normal; margin-bottom: 3px;}
+#bookCartPage .dpBibTitle  {font-size: 1.1em; }
+#bookCartPage .dpBibTitle a {font-size: 1em; }
+#bookCartPage .taggingForm {display: none;}
+#bookCartPage .detailLabel {font-weight: bold; font-size: .9em; }
+#bookCartPage .closeIcon {display: none;}
+#bookCartPage .headerLabel {font-weight: bold; font-size:1.3em;}
+#bookCartPage .sectionHeader {font-weight: bold; font-size:1em; text-decoration: underline;}
+#bookCartPage #clearBookcartLinkComponent {margin-left: 10px; float: left; clear: right; }
+#bookCartPage #emailInstructions {font-size: .75em;}
+#bookCartPage #submitComponent {margin-left: 5px;}
+
+#bookcartLinksContainer { display: inline; position: absolute; top: 0px; right: 280px; font-weight: bold;}
+#bookcartLinksContainer #clearBookcartLinkComponent {  margin-left: 10px; float: left; clear: right; }
+#bookcartLinksContainer #bookcartLinkComponent { float: left; margin-right: 5px;}
+#bookcartLinksContainer a:hover {text-decoration: underline;}
+#bookCartPage  td.ERMresource {width: 200px;}
+#bookCartPage  td.ERMholdings {width: 100px;}
+#bookCartPage  td.ERMsubData {display:none;}
+
+#bookCartPage #SectionInfo #Contents table th {border: 0px; padding: 3px; text-align:left; text-decoration: underline;}
+#bookCartPage #SectionInfo #Contents table td, .SectionContainer #Contents table td {padding:3px; padding-right: 25px; text-align: left;}
+#bookCartPage  .content { display: block;}
+#bookCartPage  table { width: 80%; font-size: 1em; padding-top: 3px; padding-bottom: 3px;}
+#bookCartPage .content tbody {font-size:.9em;}
+#bookCartPage hr {display: block;}
+#bookCartPage th {text-align: left; font-weight: bold;}
+#bookCartPage td {vertical-align: baseline;}
+#bookCartPage  .bookCartHeading { padding-top: 10px; display: block; text-decoration: underline; font-size: 1.2em;}
+#bookCartPage  img.toggleImage {display: none;}
+#bookCartPage  hr {margin-bottom: 10px; margin-top: 15px;}
+#bookCartPage  .pageHeader { width: 100%;  font-size: 1em; text-align: center; margin-left: auto; margin-right: auto; padding: 1px;} 
+#bookCartPage  #statusMessageAny {position: absolute; left: 400px; padding: 3px; }
+#bookCartPage   #sentStatus { position: absolute; font-size:  1em;  padding:  2px; text-align: center;}
+#bookCartPage   #emailMessageContainer {position: relative;  width: 20%; font-weight: bold; padding-left: 20px; padding-right: 20px; margin-left: auto; margin-right: auto;  left: 30px; top:-110px; *top:-115px;}
+#bookCartPage   #backDirectLinkComponent {font-weight: bold;  text-decoration: underline; }
+#bookCartPage   #backToResultsImageAnyComponent { position: relative; top: -3px; *top:  1px;}
+#bookCartPage  #backToPreviousPage {clear:both; float:left; padding:1em 0.2em 1em 1.2em;}
+#bookCartPage  #myListFormComponent { display: inline; }
+#bookCartPage  #myListWrapper { font-size: 1em;  font-weight: bold; position:absolute; right: 5px; _right: 37px; _top: 4px; }
+#bookCartPage  #changeExportFormatSubmitComponent { display: none; }
+#bookCartPage  #myListTitle {margin: 0; margin-right:  5px;}
+#bookCartPage  #myListFormSubmitComponent { margin-left: 5px; margin-right: 10px; }
+#bookCartPage  #myListFormPropertySelectionComponent {margin-left: -15px;}
+#bookCartPage  #createNewMyListLinkComponent {margin-left: 10px;}
+#bookCartPage  #secondaryFormsWrapper { padding:  3px 4px 10px; margin: 10px 20px; position: relative;  top:-5px;  border-bottom-width:1px; border-bottom-style:solid;}
+#bookCartPage .dpBibAuthor {padding:0;}
+#bookCartPage #bibInfoDetails {display:block; padding:0; margin:0;}
+#bookCartPage .bibInfoLabel {font-weight:bold; font-size:.9em; margin:0; padding:0;}
+#bookCartPage .loadingMessage { display: none;}
+#bookCartPage .holdingsEmptyRow {display:none;}
+#bookCartPage #licenseToggleAnyComponent td.bibInfoLabel {width: 125px;} 
+
+#innreachRequestPage  { margin-top: 15px;  margin-bottom: 20px; width:  98%; margin-left: auto; margin-right: auto;  border-width:1px; border-style:solid;}
+#innreachRequestPage #requestFormAnyComponent  {font-size: 1.5em;}
+#innreachRequestPage .prompt  {font-size: 1.5em;}
+#innreachRequestPage .pageHeader {  font-size: 1.2em;  font-weight: bold; text-align: left; margin-top: 5px; margin-bottom: 5px; padding: 1px; padding-left: 10px;} 
+#innreachRequestPage  #requestPromptInsertComponent {font-size: 1.2em;  margin: 100px 10px  0  20px;  font-weight: bold; }
+#innreachRequestPage #innreachAreaContainer {  width:  90%; margin-left: auto; margin-top: 20px; margin-right: auto;  margin-bottom: 20px; padding-bottom: 10px; padding-top: 10px;}
+#innreachRequestPage  #requestSelectAnyComponent {margin-top: 15px; margin-right: 10px;}
+#innreachRequestPage  #requestSubmitAnyComponent {display: block; margin:  20px 0px 10px 0px;}
+#innreachRequestPage #requestedTitle {margin: 15px 5px 20px 5px;}
+#innreachCloseWindow  {text-decoration: underline;  position: relative; top:  65px; left: 10px;}
+
+/*OVERLAY*/
+.dialog, .dojoDialog {
+	position:absolute; 
+	z-index:999; 
+	max-height:90%; 
+	overflow:auto !important;
+	width:90%;
+}
+
+/*IE 7only fix for extra white space that sometimes appears in dialog overlay*/
+html > body .dialog, .dojoDialog {*background-image:url(../images/header_gray.gif); background-repeat:no-repeat; background-position:top right; }
+/*Ie 6 */
+.dialog, .dojoDialog {_background-image:url(../images/header_gray_ie6.gif); background-repeat:no-repeat; background-position:top right; }
+#dialogComponent  .content {max-width: 90%;}
+#dialogComponent .content { _width:80%;}
+
+.dialogCloseIcon {float:right;padding-right: 2px;}
+.dojoDialog .boxHeader, .dialog .boxHeader {margin-bottom:.5em; height:1.2em;}
+.dojoDialog .browseHeader, .dialog .browseHeader {width:auto;}
+.dojoDialog .boxBody h2, .dialog .boxBody h2, .dialogMessage {text-align: center;}
+.dialogMessage {font-weight: bold;}
+.closeX {font-weight:bold;}
+.dojoDialog fieldset, .dialog fieldset {border:0;}
+#createMyListFormComponent {font-weight: bold; text-align:left; margin-top: 5px;}
+.confirmDialogForm {text-align: center; font-weight: bold;}
+.yesCancelButtons { margin-top: 10px; }
+
+/*SEARCH RESULTS NONE PAGE*/
+.encoreTryAgain:first-line {font-weight:bold;}
+.encoreTryAgain {padding-top:.5em;}
+.noResults br {display:none;}
+.noResults {font-size:1.2em; text-align:center;}
+.noResults .spellingSuggestion {font-weight:normal;font-size:1.4em;}
+.noResults .spellingSuggestion a{text-decoration:underline;}
+
+/*SUPPRESSED*/
+#bibInfoDetails, hr, .dpRelevanceHeader, .bookCartHeading, .content {display:none;}
+
+/* Volume styles */
+a.volumeTitleLink {width: 70%; display: block; position: relative; margin:  4px 0 4px 0; padding-right: 30px;}
+.recordDisplay a.volumeTitleLink {width: 57%;}
+.recordContentsContainer .volumeDetailsTable { width: 99%;margin: 0; margin-left: 1px;} 
+.volumeDetailsTable .LocationColumnValue {padding-right: 15px;}
+.volumeDetailsTable .LocationColumnHeader {padding-right: 25px;}
+.volumeDetailsTable .VolumeColumnHeader {margin: 0; padding-left: 20px; padding-right: 10px}
+.volumeDetailsTable  .VolumeColumnValue {padding-left: 20px;}
+td.LocationColumnValue +td { padding-right: 5px;}
+.volumeTitle, .volumeTitleNoCopies{ margin-top: 5px; margin-left: 3px; }
+.volumeCount {  position: absolute; right: 1px;}
+.volumeHeader { font-weight: bold; margin-top: 3px; margin-bottom: 0px; }
+.volumeListing {margin-left: 3px;}
+.volumeTitle, .volumeTitleNoCopies { width: 55%; position: static; top: 0;}
+.volumeTitleLink { position: static; top: 0; text-decoration: none;}
+.volumeHeader { width: 63%; _width:45%;}
+.volumeListing br {display: block; }
+.VolumeContainer .Location {padding-right: 20px;}
+.VolumeContainer .Call {padding-right: 20px;}
+.VolumeContainer .MessageColumnHeader {padding-right:  20px;}
+.VolumeContainer .content {padding: 0;}
+.VolumeContainer .toggleImage {position: relative; top: -1px; margin-right: 2px;}
+.noToggleImage{ position: relative; top: 2px; margin-right:0px; }
+.noCopiesWrapper { width: 70%; position:relative; margin: 4px 0 4px 0; padding-right: 30px;}
+.recordDisplay .noCopiesWrapper{width: 57%;}
+.noCopiesWrapper .volumeCount { right: 1px;}
+.volumeHeaderWrapper {width: 80%; position:relative; }
+.recordDisplay .volumeHeaderWrapper {width: 65%; position:relative; }
+.volumeHeader + .volumeHeader {position:absolute; right: 1px; top: -4px; width: 135px;}
+/*IE6 does not support sibling selectors, so the headers have to be spaced using a different method */
+*html  .volumeHeaderWrapper .columnIndex_1 { position:absolute; right: 1px; top: -4px; width: 135px;}
+#Contents  .volumeDetails table {font-size: 1em;}
+a:hover.volumeTitleLink {cursor:pointer;}
+.recordDisplay .VolumeContainer #Contents {padding-bottom:0em; }
+.VolumeContainer .dpBibHoldsMessage {margin: -3px 0 6px 14px;}
+/*End volume styles */
+
+/*Related Searches */
+.noHits #authoritySuggestionColumn {background:none; width:100%; padding-left: 28px; padding-right: 30px;}
+#authoritySuggestionColumn {width: 30%; padding-top: 5px; padding-right: 7px; background-image: url(../images/blackline.gif); background-position: top right; background-repeat: no-repeat;}
+#authoritySuggestions a span.bullet { margin-right: 5px; text-decoration: none;}
+#authoritySuggestions a.iconText { zoom:normal;}
+#authSuggestMoreLink, #authSuggestLessLink  {margin-left: 5px; cursor:pointer;}
+#backToTopImageAnyComponent {padding-right: 3px;}
+#expandTagCloudColumn {padding-right: 15px; padding-left: 15px; text-align: center;}
+#expandTagCloudColumn #tagcloudarea { padding-top: 5px; margin: 0;}
+#expandTagCloudColumn .corner1 {margin: 0; width: 100%;}
+#relatedSearchesTable {margin: 10px; margin-top: 5px;}
+.noHits #relatedSearchesTable { width: 100%;}
+
+#relatedSearchesTable #expandTagCloudColumn .corner1,#relatedSearchesTable #expandTagCloudColumn .corner2,
+	#relatedSearchesTable #expandTagCloudColumn .corner3,#relatedSearchesTable #expandTagCloudColumn .corner4{background-image:none;}
+	
+#relatedSearchesIcon {position: relative; top: 7px;}
+#relatedSearchesTitle {font-size: 1.4em; font-weight: bold;}
+.authorityTermLink {margin-left: 20px; text-indent: -15px; padding-bottom: 5px; display:block; font-weight: bold;}
+#relatedSearchesLink {position:absolute; font-size: 1em; text-decoration:none; cursor:pointer;}
+#relatedSearchesLink img {width:12px; padding-right:3px}
+#launchLinkComponent {display: none;}
+#backToTopLink {text-decoration: none; position: absolute; right: 30px; margin-top: 19px; width: 150px; text-align:right;}
+a#backToTopLink:hover {cursor:pointer;}
+/* Related Searches Shadow */
+td.upperleft {background-image: url(../images/shadow_ul.gif); background-repeat: no-repeat; width: 20px; background-position:top left; padding: 0px; margin:0;}
+td.uppercenter { background-image: url(../images/shadow_um.gif); background-position: top; width: 100%; background-repeat: repeat-x; padding: 8px 0 0 8px; margin:0;}
+.noHits td.uppercenter {padding: 10px 0 0 15px;}
+td.upperright { background-image:url(../images/shadow_ur.gif); background-position: top right; margin:0; background-repeat: no-repeat; padding: 0px;}
+td.middleleft {	background-image: url(../images/shadow_ml.gif); background-position: middle left; margin:0; background-repeat: repeat-y; padding: 0px;}
+td.middleright { background-image: url(../images/shadow_mr.gif); background-position: center right; margin:0; background-repeat: repeat-y; padding: 0px;}
+td.bottomleft { background-image: url(../images/shadow_bl.gif); background-position: bottom left; margin:0; background-repeat: no-repeat; padding: 0px;}
+td.bottomcenter { background-image: url(../images/shadow_bm.gif); background-position: bottom center; margin:0; background-repeat: repeat-x; padding: 0;}
+td.bottomright { background-image: url(../images/shadow_br.gif); background-position: bottom right; margin:0; background-repeat:no-repeat; padding: 0;}
+table#relatedSearchesShadowTable { padding: 0; width: 100%; margin-top: 20px;  *margin-top: 25px; _margin-top: 10px; border:0; border-spacing: 0; border-collapse:collapse; clear:left;}
+.noHits table#relatedSearchesShadowTable {width:270px; margin-left: auto; margin-right: auto; margin-top: 2em;}
+
+/*Patron Disabled Alert Page*/
+#patronDisabledPage .busyText {margin-left:20px; margin-top: 10px;}
+#patronDisabledPage #message {position: relative; top: -3px; left: 8px;}
+#patronDisabledPage #exclamationImageAnyComponent {float: left;}
+
+/*COURSE RESERVES */
+table.courseReserves {
+	width:90%;
+	border-width:1px;
+	border-style:solid;
+	margin:1.5em .5em;
+}
+.courseReserves a {text-decoration:none;}
+.courseReserves td {padding:.5em .5em 1em .5em;}
+tr.courseReserveLabels {font-weight:bold;}
+tr.courseReserveLabels td {padding-bottom:0;}
+td.courseReserveCoursesColumn {width:60%;}
+tr.courseReserveLabels td.courseReserveIconColumn {width:1%; padding:1em;}
+div.courseReserveCourses {padding-left:1em; text-indent:-1em;}
+div.courseReservesBrowse {margin-top:1em;}
+
+/*REQUEST FORM */
+#requestFormComponent table, #ASRSRequestFormComponent table {width: auto;}
+#requestFormComponent table td, #ASRSRequestFormComponent table td {padding-right: 15px;}
+#requestFormComponent table td.radioButtonCell, #ASRSRequestFormComponent  table td.radioButtonCell {padding-right: 0;}
+#pickUpShipRadios {margin:.75em 0 0 .25em}
+#mailSelectArea, #pickupSelectArea {margin:.25em 0 .75em .75em;}
+#notNeeededAfterAnyComponent {margin-left:.75em;}
+.deadlineForMaterial {margin-top:.75em; margin-left:.5em;}
+
+/*BACK TO RESULTS BROWSE JUMP*/
+.browseAnchorWrapper .browseAnchor { position: absolute; top: 1px; left: 1px; visibility: hidden; }
+.browseAnchorWrapper { position:relative; zoom: 1;}
+

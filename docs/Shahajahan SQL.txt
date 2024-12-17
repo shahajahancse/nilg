@@ -1,0 +1,19 @@
+01-04-2024 leave
+ALTER TABLE `leave_employee` ADD `control_person` INT NULL DEFAULT NULL AFTER `assign_person`, ADD INDEX (`control_person`);
+ALTER TABLE `leave_employee` CHANGE `assign_remark` `control_remark` TEXT CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+ALTER TABLE `leave_employee` ADD `approve_person` INT NULL DEFAULT NULL AFTER `status`, ADD INDEX (`approve_person`);
+
+
+
+
+22-02-2024
+ALTER TABLE `training` ADD `budget_field_id` INT NULL DEFAULT NULL COMMENT 'budget_field table id' AFTER `course_id`, ADD INDEX (`budget_field_id`);
+ALTER TABLE `training` ADD INDEX(`course_id`);
+ALTER TABLE `training` ADD INDEX(`office_id`);
+ALTER TABLE `training_participant` ADD `pay_type` TINYINT(1) NOT NULL DEFAULT '1' COMMENT '1=not pay, 2=pay, 3=partial pay' AFTER `is_apply`;
+
+ALTER TABLE `training` ADD `budget_code` VARCHAR(12) NULL DEFAULT NULL AFTER `batch_no`;
+
+
+
+

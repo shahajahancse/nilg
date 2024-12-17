@@ -1,0 +1,59 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2024-08-19 12:20:52 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:19:34 --> Severity: Notice --> Trying to get property of non-object I:\xampp\htdocs\nilg\application\models\Ion_auth_model.php 1013
+ERROR - 2024-08-19 17:19:34 --> Severity: Notice --> Trying to get property of non-object I:\xampp\htdocs\nilg\application\models\Ion_auth_model.php 1014
+ERROR - 2024-08-19 17:19:35 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:19:35 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:19:35 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:19:45 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:19:45 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:20:15 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:20:15 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:20:28 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:20:28 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:21:09 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:21:10 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:21:15 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:21:16 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:21:23 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:21:24 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:21:30 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:21:31 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:22:00 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:22:01 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:22:12 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:22:12 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:22:20 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:22:20 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:22:31 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:22:32 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:23:44 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:23:45 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:23:53 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:23:53 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:23:56 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:23:56 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:25:30 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:25:30 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:25:58 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:25:58 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:26:01 --> Severity: Notice --> Undefined index: head_id I:\xampp\htdocs\nilg\application\modules\budgets\controllers\Budgets.php 289
+ERROR - 2024-08-19 17:26:01 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:26:01 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:26:09 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:26:09 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:26:15 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:26:16 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:26:26 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:26:26 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:26:28 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:26:29 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:26:44 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:26:44 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:26:45 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:26:46 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:27:20 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:27:21 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:27:25 --> 404 Page Not Found: /index
+ERROR - 2024-08-19 17:27:26 --> 404 Page Not Found: /index

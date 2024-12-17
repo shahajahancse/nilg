@@ -1,0 +1,76 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2024-11-12 11:56:50 --> Severity: Notice --> Trying to get property of non-object I:\xampp\htdocs\nilg\application\models\Ion_auth_model.php 1013
+ERROR - 2024-11-12 11:56:50 --> Severity: Notice --> Trying to get property of non-object I:\xampp\htdocs\nilg\application\models\Ion_auth_model.php 1014
+ERROR - 2024-11-12 11:56:52 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 11:56:52 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 11:56:52 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:00:11 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:00:11 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:00:11 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:00:35 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:00:35 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:01:01 --> Severity: Notice --> Trying to get property of non-object I:\xampp\htdocs\nilg\application\models\Ion_auth_model.php 1013
+ERROR - 2024-11-12 12:01:01 --> Severity: Notice --> Trying to get property of non-object I:\xampp\htdocs\nilg\application\models\Ion_auth_model.php 1014
+ERROR - 2024-11-12 12:01:02 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:01:02 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:01:02 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:01:09 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:01:09 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:03:42 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:03:43 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:03:43 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:05:57 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:05:58 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:06:14 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:06:14 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:06:16 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:06:17 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:06:53 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:06:54 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:07:01 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:07:01 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:07:06 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:07:07 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:07:12 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:07:12 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:08:52 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:08:52 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:18:04 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:18:04 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:18:05 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:18:06 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:19:43 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:19:44 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:19:45 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:19:45 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:19:45 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:19:48 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:19:48 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:24:02 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:24:03 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:24:06 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:24:07 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:24:08 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:24:08 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:24:10 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:24:11 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:24:17 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:24:17 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:24:23 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:24:23 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:25:28 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:25:29 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:38:53 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:38:54 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:39:45 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:39:46 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:40:14 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:40:14 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:40:55 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:43:14 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:43:15 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 12:43:15 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 15:52:53 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 15:52:53 --> 404 Page Not Found: /index
+ERROR - 2024-11-12 15:52:53 --> 404 Page Not Found: /index

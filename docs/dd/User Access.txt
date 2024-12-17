@@ -1,0 +1,91 @@
+Superadmin ():
+User: superadmin
+Pass: 11223344
+
+NILG Office:
+User: nilg@admin
+Pass: 12345678
+
+Union Parishad Office:
+User: up@urkirchar
+Pass: 12345678
+
+Paurashava Office:
+User: paura@raozan
+Pass: 12345678
+
+Upazila Parishad Office:
+User: uzp@raozan
+Pass: 12345678
+
+Zila Parishad Office:
+User: zp@chattogram
+Pass: 12345678
+
+City Corporation Office:
+User: city@chattogram
+Pass: 12345678
+
+Development Partner Office:
+User: dp@jica
+Pass: 12345678
+
+Trainee (Public Representative):
+Name: Zuel Ali
+User: 1995111222
+Pass: 12345678
+
+Name: Salim
+User: 1980555666
+Pass: 12345678
+
+Trainee (Employee):
+Name: Imdadul Haque
+User: 1990333444
+Pass: 12345678
+
+Trainer:
+Name: Md. Nazim Uddin
+User: 3273133821
+Pass: 12345678
+
+Name: Monzur Morshed
+User: 1984111222
+Pass: 12345678
+
+NILG Staff:
+Name: সুকণ্যা প্রাচী
+User: 1999111222
+Pass: 12345678
+
+Store manager:
+Name: মোঃ শাহাজাহান আলী
+User: 1996111222
+Pass: 12345678
+
+Joint Director
+Name: মো. রফিকুল ইসলাম
+User: 1973111222
+Pass: 12345678
+
+Director General
+Name: সালেহ আহমদ মোজাফফর
+User: 1971111222
+Pass: 12345678
+
+
+
+// Union Parishad (Group=7) (Office Type=1)
+// Paurashava (Group=6) (Office Type=2)
+// Upazila Parishad  (Group=5) (Office Type=3)
+// Zila Parishad (Group=4) (Office Type=4)
+// City Corporation (Group=3) (Office Type=5)
+// Development Partner (Group=12) (Office Type=6)
+// NILG (Group=2) (Office Type=7)
+// NILG Staff (Group=8) (Office Type=7)
+
+> https://datatables.net/extensions/buttons/examples/
+> https://datatables.net/extensions/buttons/examples/initialisation/export.html
+> https://github.com/PHPOffice/PHPWord
+
+
