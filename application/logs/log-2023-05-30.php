@@ -1,0 +1,29 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2023-05-30 16:05:10 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 16:05:10 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 16:05:10 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 16:05:10 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 16:05:10 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 16:05:10 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 16:05:10 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 16:05:10 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 16:05:10 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 16:34:58 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 16:34:58 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 16:34:58 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 16:34:58 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 16:34:58 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 16:34:58 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 16:34:58 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 16:34:58 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 16:34:58 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 17:31:07 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 17:31:07 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 17:31:07 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 17:31:07 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 17:31:07 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 17:31:07 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 17:31:07 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 17:31:07 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305
+ERROR - 2023-05-30 17:31:07 --> Severity: Notice --> Trying to get property of non-object D:\xampp\htdocs\nilg\application\helpers\site_helper.php 305

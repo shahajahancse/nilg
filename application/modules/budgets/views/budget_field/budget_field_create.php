@@ -8,7 +8,7 @@
         -webkit-appearance: none;
     }
     label{
-white-space: nowrap;
+        white-space: nowrap;
     }
 </style>
 <?php $am = $this->db->where('id', 35)->get('budget_head_sub')->row();
